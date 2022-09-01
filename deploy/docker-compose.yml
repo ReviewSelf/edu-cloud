@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  edu-cloud-gateway:
+    image: edunet:1.0
+    container_name: edu-cloud-gateway
+    ports:
+      - 8080:8080
+    env_file:
+      - app.env
+    volumes:
+      - /work/www/edu-cloud/edu-cloud-gateway.jar:/app/app.jar
+  edu-cloud-system:
+    image: edunet:1.0
+    container_name: edu-cloud-system
+    env_file:
+      - app.env
+    volumes:
+      - /work/www/edu-cloud/edu-cloud-system.jar:/app/app.jar

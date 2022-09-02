@@ -21,6 +21,7 @@
 		<module>edu-cloud-problem</module>
 		<module>edu-cloud-system</module>
         <module>edu-cloud-gateway</module>
+        <module>edu-cloud-wechat</module>
     </modules>
 
     <properties>

@@ -28,6 +28,13 @@ spring:
             - Path=/problem/**
           filters:
             - StripPrefix=1
+        - id: edu-cloud-wechat
+          uri: lb://edu-cloud-wechat
+          order: 101
+          predicates:
+            - Path=/wechat/**
+          filters:
+            - StripPrefix=1
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

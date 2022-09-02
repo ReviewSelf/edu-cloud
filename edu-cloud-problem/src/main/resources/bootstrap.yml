@@ -1,9 +1,9 @@
 server:
-  port: 8099
+  port: 7000
 
 spring:
   application:
-    name: edu-cloud-new
+    name: edu-cloud-problem
   profiles:
     active: dev
   cloud:

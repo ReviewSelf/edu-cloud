@@ -5,16 +5,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * 新增模块演示
+ * 问题模块
  *
- * @author 阿沐 babamu@126.com
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-public class NewApplication {
+public class ProblemApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NewApplication.class, args);
+		SpringApplication.run(ProblemApplication.class, args);
 	}
 
 }

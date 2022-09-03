@@ -35,6 +35,20 @@ spring:
             - Path=/wechat/**
           filters:
             - StripPrefix=1
+        - id: edu-cloud-lessons
+          uri: lb://edu-cloud-lessons
+          order: 102
+          predicates:
+            - Path=/lessons/**
+          filters:
+            - StripPrefix=1
+        - id: edu-cloud-file
+          uri: lb://edu-cloud-file
+          order: 102
+          predicates:
+            - Path=/file/**
+          filters:
+            - StripPrefix=1
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

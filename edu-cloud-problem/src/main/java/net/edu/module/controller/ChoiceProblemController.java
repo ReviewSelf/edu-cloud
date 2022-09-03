@@ -19,7 +19,7 @@ import javax.validation.Valid;
  *
  */
 @RestController
-@RequestMapping("/code")
+@RequestMapping("/choice")
 @Tag(name="问题列表接口")
 @AllArgsConstructor
 public class ChoiceProblemController {

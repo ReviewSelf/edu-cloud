@@ -44,9 +44,16 @@ spring:
             - StripPrefix=1
         - id: edu-cloud-file
           uri: lb://edu-cloud-file
-          order: 102
+          order: 103
           predicates:
             - Path=/file/**
+          filters:
+            - StripPrefix=1
+        - id: edu-cloud-judge
+          uri: lb://edu-cloud-judge
+          order: 104
+          predicates:
+            - Path=/judge/**
           filters:
             - StripPrefix=1
         - id: openapi

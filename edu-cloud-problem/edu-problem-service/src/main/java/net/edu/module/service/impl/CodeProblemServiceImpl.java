@@ -4,7 +4,6 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.query.ProblemQuery;
 import net.edu.module.service.CodeProblemService;
-import net.edu.module.service.ProblemService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

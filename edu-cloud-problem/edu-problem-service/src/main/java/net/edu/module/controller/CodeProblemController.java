@@ -40,5 +40,9 @@ public class CodeProblemController {
         return Result.ok(page);
     }
 
-
+    @GetMapping("test")
+    @Operation(summary = "分页")
+    public Result<String> test(){
+        return Result.ok("ok");
+    }
 }

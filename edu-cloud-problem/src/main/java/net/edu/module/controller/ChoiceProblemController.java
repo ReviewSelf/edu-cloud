@@ -23,16 +23,7 @@ import javax.validation.Valid;
 @Tag(name="问题列表接口")
 @AllArgsConstructor
 public class ChoiceProblemController {
-    @Autowired
-    private CodeProblemService codeProblemServiceImpl;
 
-    @GetMapping("page")
-    @Operation(summary = "分页")
-    public Result<PageResult<CodeProblemEntity>> page(@Valid ProblemQuery query){
-        PageResult<CodeProblemEntity> page = codeProblemServiceImpl.getProblemPage(query);
-
-        return Result.ok(page);
-    }
 
 
 

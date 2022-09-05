@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -8,6 +9,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.CodeProblemConvert;
 import net.edu.module.entity.CodeProblemEntity;
+import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.query.CodeProblemQuery;
 import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.dao.CodeProblemDao;
@@ -36,7 +38,10 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
 
     private LambdaQueryWrapper<CodeProblemEntity> getWrapper(CodeProblemQuery query){
         LambdaQueryWrapper<CodeProblemEntity> wrapper = Wrappers.lambdaQuery();
-
+        wrapper.like(StrUtil.isNotBlank(query.getName()), CodeProblemEntity::getName, query.getName());
+        wrapper.eq(query.getStatus() != null, CodeProblemEntity::getStatus, query.getStatus());
+        wrapper.eq(query.getDifficulty() != null, CodeProblemEntity::getDifficulty, query.getDifficulty());
+        wrapper.orderByAsc(CodeProblemEntity::getUpdateTime);
         return wrapper;
     }
 

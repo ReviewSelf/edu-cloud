@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -7,6 +8,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.FillProblemConvert;
+import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.query.FillProblemQuery;
 import net.edu.module.vo.FillProblemVO;
@@ -30,13 +32,15 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
     @Override
     public PageResult<FillProblemVO> page(FillProblemQuery query) {
         IPage<FillProblemEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-
         return new PageResult<>(FillProblemConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
     }
 
     private LambdaQueryWrapper<FillProblemEntity> getWrapper(FillProblemQuery query){
         LambdaQueryWrapper<FillProblemEntity> wrapper = Wrappers.lambdaQuery();
-
+        wrapper.like(StrUtil.isNotBlank(query.getName()), FillProblemEntity::getName, query.getName());
+        wrapper.eq(query.getStatus() != null, FillProblemEntity::getStatus, query.getStatus());
+        wrapper.eq(query.getDifficulty() != null, FillProblemEntity::getDifficulty, query.getDifficulty());
+        wrapper.orderByAsc(FillProblemEntity::getUpdateTime);
         return wrapper;
     }
 

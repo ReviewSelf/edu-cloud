@@ -24,11 +24,13 @@
         <result property="usedNum" column="used_num"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
-        <result property="operator" column="operator"/>
-        <result property="isDeleted" column="is_deleted"/>
-        <result property="state" column="state"/>
         <result property="memoryLimit" column="memory_limit"/>
         <result property="timeLimit" column="time_limit"/>
+        <result property="updater" column="updater"/>
+        <result property="creator" column="creator"/>
+        <result property="deleted" column="deleted"/>
+        <result property="status" column="status"/>
+        <result property="version" column="version"/>
     </resultMap>
 
 </mapper>

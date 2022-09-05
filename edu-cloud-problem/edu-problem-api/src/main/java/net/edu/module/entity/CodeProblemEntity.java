@@ -105,11 +105,6 @@ public class CodeProblemEntity extends BaseEntity {
 
 
 	/**
-	* 是否删除
-	*/
-	private Integer isDeleted;
-
-	/**
 	* 空间限制(KB)
 	*/
 	private Integer memoryLimit;
@@ -118,5 +113,10 @@ public class CodeProblemEntity extends BaseEntity {
 	* 时间限制
 	*/
 	private Integer timeLimit;
+
+	/**
+	 * 状态
+	 */
+	private Integer status;
 
 }

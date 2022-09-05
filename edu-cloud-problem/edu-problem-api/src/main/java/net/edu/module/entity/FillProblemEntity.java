@@ -86,4 +86,9 @@ public class FillProblemEntity extends BaseEntity {
 	private String answer;
 
 
+	/**
+	 * 状态
+	 */
+	private Integer status;
+
 }

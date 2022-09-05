@@ -17,9 +17,15 @@
         <result property="submitTimes" column="submit_times"/>
         <result property="correctTimes" column="correct_times"/>
         <result property="isTypical" column="is_typical"/>
+        <result property="optionNum" column="option_num"/>
         <result property="usedNum" column="used_num"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
+        <result property="updater" column="updater"/>
+        <result property="creator" column="creator"/>
+        <result property="deleted" column="deleted"/>
+        <result property="status" column="status"/>
+        <result property="version" column="version"/>
 
     </resultMap>
 

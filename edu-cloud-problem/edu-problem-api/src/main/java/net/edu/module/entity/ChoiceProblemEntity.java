@@ -88,5 +88,9 @@ public class ChoiceProblemEntity extends BaseEntity {
 	*/
 	private Integer usedNum;
 
+	/**
+	 * 状态
+	 */
+	private Integer status;
 
 }

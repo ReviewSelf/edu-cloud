@@ -1,61 +1,64 @@
 package net.edu.module.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.AllArgsConstructor;
+
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.module.convert.ChoiceProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
-import net.edu.module.query.ProblemQuery;
+import net.edu.module.query.ChoiceProblemQuery;
+import net.edu.module.vo.ChoiceProblemVO;
+import net.edu.module.dao.ChoiceProblemDao;
 import net.edu.module.service.ChoiceProblemService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
- * @Author: 马佳浩
- * @Date: 2022/9/3 17:35
- * @Version: 1.0
- * @Description:
+ * 选择题库表
+ *
+ * @author 马佳浩 
+ * @since 1.0.0 2022-09-05
  */
 @Service
-public class ChoiceProblemServiceImpl  implements ChoiceProblemService {
+@AllArgsConstructor
+public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, ChoiceProblemEntity> implements ChoiceProblemService {
 
     @Override
-    public void savaProblem(ChoiceProblemEntity object) {
+    public PageResult<ChoiceProblemVO> page(ChoiceProblemQuery query) {
+        IPage<ChoiceProblemEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
 
+        return new PageResult<>(ChoiceProblemConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+    }
+
+    private LambdaQueryWrapper<ChoiceProblemEntity> getWrapper(ChoiceProblemQuery query){
+        LambdaQueryWrapper<ChoiceProblemEntity> wrapper = Wrappers.lambdaQuery();
+
+        return wrapper;
     }
 
     @Override
-    public void delProblem(Integer problemId) {
+    public void save(ChoiceProblemVO vo) {
+        ChoiceProblemEntity entity = ChoiceProblemConvert.INSTANCE.convert(vo);
 
+        baseMapper.insert(entity);
     }
 
     @Override
-    public void delProblemBatch(List<Integer> problemIdList) {
+    public void update(ChoiceProblemVO vo) {
+        ChoiceProblemEntity entity = ChoiceProblemConvert.INSTANCE.convert(vo);
 
+        updateById(entity);
     }
 
     @Override
-    public void updateProblem(ChoiceProblemEntity object) {
-
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(List<Long> idList) {
+        removeByIds(idList);
     }
-
-    @Override
-    public ChoiceProblemEntity getProblemDetail(Integer problemId) {
-        return null;
-    }
-
-    @Override
-    public PageResult<ChoiceProblemEntity> getProblemPage(ProblemQuery query) {
-        return null;
-    }
-
-    @Override
-    public void changeState(Integer problemId, Integer stateCode) {
-
-    }
-
-    @Override
-    public void changeStateBatch(List<Integer> problemIdList, Integer stateCode) {
-
-    }
-
 
 }

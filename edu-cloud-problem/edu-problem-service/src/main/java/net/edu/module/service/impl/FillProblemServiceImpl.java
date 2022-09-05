@@ -1,59 +1,63 @@
 package net.edu.module.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.module.convert.FillProblemConvert;
 import net.edu.module.entity.FillProblemEntity;
-import net.edu.module.query.ProblemQuery;
+import net.edu.module.query.FillProblemQuery;
+import net.edu.module.vo.FillProblemVO;
+import net.edu.module.dao.FillProblemDao;
 import net.edu.module.service.FillProblemService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
- * @Author: 马佳浩
- * @Date: 2022/9/3 18:38
- * @Version: 1.0
- * @Description:
+ * 填空题表
+ *
+ * @author 马佳浩 
+ * @since 1.0.0 2022-09-05
  */
 @Service
-public class FillProblemServiceImpl implements FillProblemService {
+@AllArgsConstructor
+public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, FillProblemEntity> implements FillProblemService {
 
     @Override
-    public void savaProblem(FillProblemEntity object) {
+    public PageResult<FillProblemVO> page(FillProblemQuery query) {
+        IPage<FillProblemEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
 
+        return new PageResult<>(FillProblemConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+    }
+
+    private LambdaQueryWrapper<FillProblemEntity> getWrapper(FillProblemQuery query){
+        LambdaQueryWrapper<FillProblemEntity> wrapper = Wrappers.lambdaQuery();
+
+        return wrapper;
     }
 
     @Override
-    public void delProblem(Integer problemId) {
+    public void save(FillProblemVO vo) {
+        FillProblemEntity entity = FillProblemConvert.INSTANCE.convert(vo);
 
+        baseMapper.insert(entity);
     }
 
     @Override
-    public void delProblemBatch(List<Integer> problemIdList) {
+    public void update(FillProblemVO vo) {
+        FillProblemEntity entity = FillProblemConvert.INSTANCE.convert(vo);
 
+        updateById(entity);
     }
 
     @Override
-    public void updateProblem(FillProblemEntity object) {
-
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(List<Long> idList) {
+        removeByIds(idList);
     }
 
-    @Override
-    public FillProblemEntity getProblemDetail(Integer problemId) {
-        return null;
-    }
-
-    @Override
-    public PageResult<FillProblemEntity> getProblemPage(ProblemQuery query) {
-        return null;
-    }
-
-    @Override
-    public void changeState(Integer problemId, Integer stateCode) {
-
-    }
-
-    @Override
-    public void changeStateBatch(List<Integer> problemIdList, Integer stateCode) {
-
-    }
 }

@@ -1,13 +1,26 @@
 package net.edu.module.service;
 
+import net.edu.framework.common.page.PageResult;
+import net.edu.framework.mybatis.service.BaseService;
+import net.edu.module.vo.ChoiceProblemVO;
+import net.edu.module.query.ChoiceProblemQuery;
 import net.edu.module.entity.ChoiceProblemEntity;
-import net.edu.module.query.ProblemQuery;
+
+import java.util.List;
 
 /**
- * @Author: 马佳浩
- * @Date: 2022/9/3 18:37
- * @Version: 1.0
- * @Description:
+ * 选择题库表
+ *
+ * @author 马佳浩 
+ * @since 1.0.0 2022-09-05
  */
-public interface ChoiceProblemService extends ProblemService<ChoiceProblemEntity, ProblemQuery>{
+public interface ChoiceProblemService extends BaseService<ChoiceProblemEntity> {
+
+    PageResult<ChoiceProblemVO> page(ChoiceProblemQuery query);
+
+    void save(ChoiceProblemVO vo);
+
+    void update(ChoiceProblemVO vo);
+
+    void delete(List<Long> idList);
 }

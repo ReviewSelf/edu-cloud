@@ -1,48 +1,71 @@
 package net.edu.module.controller;
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.module.convert.CodeProblemConvert;
 import net.edu.module.entity.CodeProblemEntity;
-import net.edu.module.query.ProblemQuery;
 import net.edu.module.service.CodeProblemService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import net.edu.module.query.CodeProblemQuery;
+import net.edu.module.vo.CodeProblemVO;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
+import java.util.List;
 
 /**
- * @Author: 马佳浩
- * @Date: 2022/9/3 18:50
- * @Version: 1.0
- * @Description:
- */
+* 代码题库表
+*
+* @author 马佳浩 
+* @since 1.0.0 2022-09-05
+*/
 @RestController
-@RequestMapping("/code")
-@Tag(name="问题列表接口")
+@RequestMapping("code")
+@Tag(name="代码题库表")
 @AllArgsConstructor
 public class CodeProblemController {
-
-    @Autowired
-    private CodeProblemService codeProblemServiceImpl;
+    private final CodeProblemService codeProblemService;
 
     @GetMapping("page")
     @Operation(summary = "分页")
-    public Result<PageResult<CodeProblemEntity>> page(@Valid ProblemQuery query){
-        PageResult<CodeProblemEntity> page = codeProblemServiceImpl.getProblemPage(query);
+    public Result<PageResult<CodeProblemVO>> page(@Valid CodeProblemQuery query){
+        PageResult<CodeProblemVO> page = codeProblemService.page(query);
 
         return Result.ok(page);
     }
 
-    @GetMapping("test")
-    @Operation(summary = "分页")
-    public Result<String> test(){
-        return Result.ok("ok");
+    @GetMapping("{id}")
+    @Operation(summary = "信息")
+    public Result<CodeProblemVO> get(@PathVariable("id") Long id){
+        CodeProblemEntity entity = codeProblemService.getById(id);
+
+        return Result.ok(CodeProblemConvert.INSTANCE.convert(entity));
+    }
+
+    @PostMapping
+    @Operation(summary = "保存")
+    public Result<String> save(@RequestBody CodeProblemVO vo){
+        codeProblemService.save(vo);
+
+        return Result.ok();
+    }
+
+    @PutMapping
+    @Operation(summary = "修改")
+    public Result<String> update(@RequestBody @Valid CodeProblemVO vo){
+        codeProblemService.update(vo);
+
+        return Result.ok();
+    }
+
+    @DeleteMapping
+    @Operation(summary = "删除")
+    public Result<String> delete(@RequestBody List<Long> idList){
+        codeProblemService.delete(idList);
+
+        return Result.ok();
     }
 }

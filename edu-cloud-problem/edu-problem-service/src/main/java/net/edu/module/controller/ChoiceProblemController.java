@@ -38,7 +38,6 @@ public class ChoiceProblemController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    @PreAuthorize("hasAuthority('choiceproblem:info')")
     public Result<ChoiceProblemVO> get(@PathVariable("id") Long id){
         ChoiceProblemEntity entity = choiceProblemService.getById(id);
         return Result.ok(ChoiceProblemConvert.INSTANCE.convert(entity));

@@ -82,6 +82,11 @@ public class ChoiceProblemEntity {
 	private Integer isTypical;
 
 	/**
+	 * 选项数
+	 */
+	private Integer optionNum;
+
+	/**
 	* 引用次数
 	*/
 	private Integer usedNum;

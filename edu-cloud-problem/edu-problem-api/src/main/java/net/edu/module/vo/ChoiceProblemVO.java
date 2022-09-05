@@ -58,6 +58,10 @@ public class ChoiceProblemVO implements Serializable {
 	@Schema(description = "典型问题")
 	private Integer isTypical;
 
+
+	@Schema(description = "选项数")
+	private Integer optionNum;
+
 	@Schema(description = "引用次数")
 	private Integer usedNum;
 

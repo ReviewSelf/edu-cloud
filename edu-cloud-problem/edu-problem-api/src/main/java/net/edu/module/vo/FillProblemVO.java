@@ -57,25 +57,29 @@ public class FillProblemVO implements Serializable {
 	@Schema(description = "引用次数")
 	private Integer usedNum;
 
-	@Schema(description = "创建时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date createTime;
-
-	@Schema(description = "修改时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date updateTime;
-
-	@Schema(description = "操作人")
-	private String operator;
-
-	@Schema(description = "是否删除")
-	private String isDeleted;
 
 	@Schema(description = "参考答案")
 	private String answer;
 
+	@Schema(description = "创建时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date createTime;
+
+	@Schema(description = "更新时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date updateTime;
+
+	@Schema(description = "更新人")
+	private Integer updater;
+
+	@Schema(description = "创建人")
+	private Integer creator;
+
+	@Schema(description = "是否删除")
+	private Integer deleted;
+
 	@Schema(description = "状态")
-	private Integer state;
+	private Integer status;
 
 
 }

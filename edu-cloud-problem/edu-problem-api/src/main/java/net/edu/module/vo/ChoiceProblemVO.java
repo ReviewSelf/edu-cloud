@@ -73,14 +73,17 @@ public class ChoiceProblemVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date updateTime;
 
-	@Schema(description = "操作人")
-	private String operator;
+	@Schema(description = "更新人")
+	private Integer updater;
+
+	@Schema(description = "创建人")
+	private Integer creator;
 
 	@Schema(description = "是否删除")
-	private Integer isDeleted;
+	private Integer deleted;
 
 	@Schema(description = "状态")
-	private Integer state;
+	private Integer status;
 
 
 }

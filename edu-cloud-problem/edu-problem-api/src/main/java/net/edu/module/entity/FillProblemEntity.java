@@ -3,6 +3,8 @@ package net.edu.module.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
+import net.edu.framework.mybatis.entity.BaseEntity;
+
 import java.util.Date;
 
 /**
@@ -14,9 +16,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("problem_fill")
-public class FillProblemEntity {
-	@TableId
-	private Integer id;
+public class FillProblemEntity extends BaseEntity {
 
 	/**
 	* 名称
@@ -78,36 +78,12 @@ public class FillProblemEntity {
 	*/
 	private Integer usedNum;
 
-	/**
-	* 创建时间
-	*/
-	@TableField(fill = FieldFill.INSERT)
-	private Date createTime;
 
-	/**
-	* 修改时间
-	*/
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	private Date updateTime;
-
-	/**
-	* 操作人
-	*/
-	private String operator;
-
-	/**
-	* 是否删除
-	*/
-	private String isDeleted;
 
 	/**
 	* 参考答案
 	*/
 	private String answer;
 
-	/**
-	* 状态
-	*/
-	private Integer state;
 
 }

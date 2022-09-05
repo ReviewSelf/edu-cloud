@@ -31,6 +31,6 @@ public class ChoiceProblemQuery extends Query {
     private Long kpId;
 
     @Schema(description = "状态")
-    private Integer state;
+    private Integer status;
 
 }

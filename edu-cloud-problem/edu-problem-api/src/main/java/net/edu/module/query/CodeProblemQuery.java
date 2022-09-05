@@ -27,6 +27,6 @@ public class CodeProblemQuery extends Query {
     private Integer kpId;
 
     @Schema(description = "状态")
-    private Integer state;
+    private Integer status;
 
 }

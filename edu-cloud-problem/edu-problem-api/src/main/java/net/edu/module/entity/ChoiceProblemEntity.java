@@ -3,6 +3,8 @@ package net.edu.module.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
+import net.edu.framework.mybatis.entity.BaseEntity;
+
 import java.util.Date;
 
 /**
@@ -14,12 +16,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("problem_choice")
-public class ChoiceProblemEntity {
-	/**
-	* 问题ID
-	*/
-	@TableId
-	private Long id;
+public class ChoiceProblemEntity extends BaseEntity {
 
 	/**
 	* 类型
@@ -91,31 +88,5 @@ public class ChoiceProblemEntity {
 	*/
 	private Integer usedNum;
 
-	/**
-	* 创建时间
-	*/
-	@TableField(fill = FieldFill.INSERT)
-	private Date createTime;
-
-	/**
-	* 更新时间
-	*/
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	private Date updateTime;
-
-	/**
-	* 操作人
-	*/
-	private String operator;
-
-	/**
-	* 是否删除
-	*/
-	private Integer isDeleted;
-
-	/**
-	* 状态
-	*/
-	private Integer state;
 
 }

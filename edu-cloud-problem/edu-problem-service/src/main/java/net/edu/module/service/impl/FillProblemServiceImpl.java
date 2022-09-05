@@ -57,6 +57,7 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
+
         removeByIds(idList);
     }
 

@@ -80,14 +80,17 @@ public class CodeProblemVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date updateTime;
 
-	@Schema(description = "最后一次操作人")
-	private Long operator;
+	@Schema(description = "更新人")
+	private Integer updater;
+
+	@Schema(description = "创建人")
+	private Integer creator;
 
 	@Schema(description = "是否删除")
-	private Integer isDeleted;
+	private Integer deleted;
 
 	@Schema(description = "状态")
-	private Integer state;
+	private Integer status;
 
 	@Schema(description = "空间限制(KB)")
 	private Integer memoryLimit;

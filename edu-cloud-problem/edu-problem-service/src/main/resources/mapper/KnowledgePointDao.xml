@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.edu.module.dao.KnowledgePointDao">
+
+    <select id="getKpList" resultType="net.edu.module.entity.KnowledgePointEntity">
+        select id,pid,name,description,sort from knowledge_point where deleted = 0
+        order by sort asc
+    </select>
+
+</mapper>

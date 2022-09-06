@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 
 import net.edu.framework.common.page.PageResult;
@@ -33,9 +34,9 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
 
     @Override
     public PageResult<ChoiceProblemVO> page(ChoiceProblemQuery query) {
-        IPage<ChoiceProblemEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-
-        return new PageResult<>(ChoiceProblemConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        Page queryPage = new Page<>(query.getPage(), query.getLimit());
+        IPage<ChoiceProblemVO> page = baseMapper.selectChoicePage(queryPage, getWrapper(query));
+        return new PageResult<>(page.getRecords(), page.getTotal());
     }
 
     private LambdaQueryWrapper<ChoiceProblemEntity> getWrapper(ChoiceProblemQuery query){

@@ -3,34 +3,6 @@
 
 <mapper namespace="net.edu.module.dao.CodeProblemDao">
 
-    <resultMap type="net.edu.module.entity.CodeProblemEntity" id="codeProblemMap">
-        <result property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="description" column="description"/>
-        <result property="img" column="img"/>
-        <result property="source" column="source"/>
-        <result property="tips" column="tips"/>
-        <result property="adviceTime" column="advice_time"/>
-        <result property="difficulty" column="difficulty"/>
-        <result property="inputExplain" column="input_explain"/>
-        <result property="outputExplain" column="output_explain"/>
-        <result property="sampleInput" column="sample_input"/>
-        <result property="sampleOutput" column="sample_output"/>
-        <result property="isTypical" column="is_typical"/>
-        <result property="sampleNum" column="sample_num"/>
-        <result property="kpId" column="kp_id"/>
-        <result property="submitTimes" column="submit_times"/>
-        <result property="correctTimes" column="correct_times"/>
-        <result property="usedNum" column="used_num"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="memoryLimit" column="memory_limit"/>
-        <result property="timeLimit" column="time_limit"/>
-        <result property="updater" column="updater"/>
-        <result property="creator" column="creator"/>
-        <result property="deleted" column="deleted"/>
-        <result property="status" column="status"/>
-        <result property="version" column="version"/>
-    </resultMap>
+
 
 </mapper>

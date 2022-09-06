@@ -49,6 +49,9 @@ public class ChoiceProblemVO implements Serializable {
 	@Schema(description = "知识点")
 	private Long kpId;
 
+	@Schema(description = "知识点名称")
+	private Integer kpName;
+
 	@Schema(description = "回答次数")
 	private Integer submitTimes;
 
@@ -69,18 +72,10 @@ public class ChoiceProblemVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date createTime;
 
-	@Schema(description = "更新时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date updateTime;
-
-	@Schema(description = "更新人")
-	private Integer updater;
 
 	@Schema(description = "创建人")
 	private Integer creator;
 
-	@Schema(description = "是否删除")
-	private Integer deleted;
 
 	@Schema(description = "状态")
 	private Integer status;

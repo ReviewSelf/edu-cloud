@@ -11,7 +11,6 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ProblemPaperConvert;
 import net.edu.module.dao.ProblemPaperDao;
-import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.entity.ProblemPaperEntity;
 import net.edu.module.query.ProblemPaperQuery;
 import net.edu.module.service.ProblemPaperService;

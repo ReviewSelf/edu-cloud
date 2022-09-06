@@ -63,6 +63,9 @@ public class CodeProblemVO implements Serializable {
 	@Schema(description = "知识点id")
 	private Integer kpId;
 
+	@Schema(description = "知识点名称")
+	private String kpName;
+
 	@Schema(description = "提交次数")
 	private Integer submitTimes;
 
@@ -72,25 +75,6 @@ public class CodeProblemVO implements Serializable {
 	@Schema(description = "引用次数")
 	private Integer usedNum;
 
-	@Schema(description = "创建时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date createTime;
-
-	@Schema(description = "更新时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date updateTime;
-
-	@Schema(description = "更新人")
-	private Integer updater;
-
-	@Schema(description = "创建人")
-	private Integer creator;
-
-	@Schema(description = "是否删除")
-	private Integer deleted;
-
-	@Schema(description = "状态")
-	private Integer status;
 
 	@Schema(description = "空间限制(KB)")
 	private Integer memoryLimit;
@@ -98,5 +82,14 @@ public class CodeProblemVO implements Serializable {
 	@Schema(description = "时间限制")
 	private Integer timeLimit;
 
+	@Schema(description = "创建时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date createTime;
 
+
+	@Schema(description = "创建人")
+	private Integer creator;
+
+	@Schema(description = "状态")
+	private Integer status;
 }

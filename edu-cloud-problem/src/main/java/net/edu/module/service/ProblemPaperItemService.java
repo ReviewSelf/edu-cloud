@@ -18,9 +18,8 @@ public interface ProblemPaperItemService extends BaseService<ProblemPaperItemEnt
 
 
     List<ProblemPaperItemEntity> get(Integer paperId);
-    void save(ProblemPaperItemVO vo);
+    void insert(List<ProblemPaperItemEntity> list);
 
-    void update(ProblemPaperItemVO vo);
 
-    void delete(List<Long> idList);
+    void delete(Integer paperId);
 }

@@ -42,29 +42,16 @@ public class ProblemPaperItemServiceImpl extends BaseServiceImpl<ProblemPaperIte
     }
 
     @Override
-    public void save(ProblemPaperItemVO vo) {
-        ProblemPaperItemEntity entity = ProblemPaperItemConvert.INSTANCE.convert(vo);
-
-        baseMapper.insert(entity);
+    public void insert(List<ProblemPaperItemEntity> list) {
+        baseMapper.insert(list);
     }
 
-    @Override
-    public void update(ProblemPaperItemVO vo) {
-        ProblemPaperItemEntity entity = ProblemPaperItemConvert.INSTANCE.convert(vo);
-
-        updateById(entity);
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        removeByIds(idList);
+    public void delete(Integer paperId) {
+        problemPaperItemDao.delete(paperId);
     }
 
-    private Map<String, Object> getParams(ProblemPaperItemQuery query) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("paperId", query.getPaperId());
-        return params;
-    }
 
 }

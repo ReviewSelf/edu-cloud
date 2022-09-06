@@ -18,4 +18,8 @@ import java.util.Map;
 @Mapper
 public interface ProblemPaperItemDao extends BaseDao<ProblemPaperItemEntity> {
      List<ProblemPaperItemEntity> selectPageRecords(Integer paperId);
+
+     int delete(Integer paperId);
+
+     int insert(List<ProblemPaperItemEntity> list);
 }

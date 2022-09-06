@@ -30,6 +30,7 @@ public class ProblemPaperItemController {
     private final ProblemPaperItemService problemPaperItemService;
 
 
+
     @GetMapping("{paperId}")
     @Operation(summary = "信息")
     public Result<List<ProblemPaperItemEntity>> get(@PathVariable("paperId") Integer paperId){
@@ -40,17 +41,16 @@ public class ProblemPaperItemController {
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody ProblemPaperItemVO vo){
-        problemPaperItemService.save(vo);
+    public Result<String> save(@RequestBody List<ProblemPaperItemEntity> list){
+        problemPaperItemService.insert(list);
 
         return Result.ok();
     }
 
-    @PutMapping
-    @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid ProblemPaperItemVO vo){
-        problemPaperItemService.update(vo);
-
+    @DeleteMapping
+    @Operation(summary = "删除")
+    public Result<String> delete(@RequestParam(value = "paperId") Integer paperId){
+        problemPaperItemService.delete(paperId);
         return Result.ok();
     }
 

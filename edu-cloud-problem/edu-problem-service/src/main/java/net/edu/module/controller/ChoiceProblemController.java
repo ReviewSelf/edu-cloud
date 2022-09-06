@@ -33,7 +33,6 @@ public class ChoiceProblemController {
     @Operation(summary = "分页")
     public Result<PageResult<ChoiceProblemVO>> page(@Valid ChoiceProblemQuery query){
         PageResult<ChoiceProblemVO> page = choiceProblemService.page(query);
-        System.out.println(page.getList());
         return Result.ok(page);
     }
 

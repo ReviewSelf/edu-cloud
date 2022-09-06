@@ -11,6 +11,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ProblemPaperConvert;
 import net.edu.module.dao.ProblemPaperDao;
+import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.entity.ProblemPaperEntity;
 import net.edu.module.query.ProblemPaperQuery;
 import net.edu.module.service.ProblemPaperService;
@@ -40,7 +41,8 @@ public class ProblemPaperServiceImpl extends BaseServiceImpl<ProblemPaperDao, Pr
     private LambdaQueryWrapper<ProblemPaperEntity> getWrapper(ProblemPaperQuery query){
         LambdaQueryWrapper<ProblemPaperEntity> wrapper = Wrappers.lambdaQuery();
         wrapper.like(StrUtil.isNotBlank(query.getName()), ProblemPaperEntity::getName, query.getName());
-        wrapper.like(StrUtil.isNotBlank(query.getStatus()), ProblemPaperEntity::getStatus, query.getStatus());
+        wrapper.eq(query.getStatus() != null, ProblemPaperEntity::getStatus, query.getStatus());
+        wrapper.eq(query.getDifficulty()!= null, ProblemPaperEntity::getDifficulty, query.getDifficulty());
         return wrapper;
     }
 

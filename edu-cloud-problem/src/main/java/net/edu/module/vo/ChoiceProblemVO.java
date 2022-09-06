@@ -50,7 +50,7 @@ public class ChoiceProblemVO implements Serializable {
 	private Long kpId;
 
 	@Schema(description = "知识点名称")
-	private Integer kpName;
+	private String  kpName;
 
 	@Schema(description = "回答次数")
 	private Integer submitTimes;

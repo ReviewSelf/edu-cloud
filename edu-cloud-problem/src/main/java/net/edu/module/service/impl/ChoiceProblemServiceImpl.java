@@ -17,6 +17,7 @@ import net.edu.module.query.ChoiceProblemQuery;
 import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.dao.ChoiceProblemDao;
 import net.edu.module.service.ChoiceProblemService;
+import net.edu.module.vo.CodeProblemVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,11 +33,14 @@ import java.util.List;
 @AllArgsConstructor
 public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, ChoiceProblemEntity> implements ChoiceProblemService {
 
+    private final ChoiceProblemDao choiceProblemDao;
+
     @Override
     public PageResult<ChoiceProblemVO> page(ChoiceProblemQuery query) {
-        Page queryPage = new Page<>(query.getPage(), query.getLimit());
-        IPage<ChoiceProblemVO> page = baseMapper.selectChoicePage(queryPage, getWrapper(query));
-        return new PageResult<>(page.getRecords(), page.getTotal());
+        Page<ChoiceProblemVO> page = new Page<>(query.getPage(),query.getLimit());
+        IPage<ChoiceProblemVO> list = choiceProblemDao.page(page,query);
+
+        return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
     private LambdaQueryWrapper<ChoiceProblemEntity> getWrapper(ChoiceProblemQuery query){
@@ -67,6 +71,12 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+    }
+
+    @Override
+    public boolean updateStatus(Integer id) {
+        choiceProblemDao.updateStatus(id);
+        return true;
     }
 
 }

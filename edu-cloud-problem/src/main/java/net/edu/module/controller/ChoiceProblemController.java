@@ -51,6 +51,16 @@ public class ChoiceProblemController {
         return Result.ok();
     }
 
+
+    @GetMapping("updateStatus/{id}")
+    @Operation(summary = "修改状态")
+    public Result<String> updateStatus(@PathVariable("id")  Integer id){
+        choiceProblemService.updateStatus(id);
+
+        return Result.ok();
+    }
+
+
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ChoiceProblemVO vo){

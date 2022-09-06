@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
@@ -11,6 +12,7 @@ import net.edu.module.convert.FillProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.query.FillProblemQuery;
+import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.vo.FillProblemVO;
 import net.edu.module.dao.FillProblemDao;
 import net.edu.module.service.FillProblemService;
@@ -29,10 +31,14 @@ import java.util.List;
 @AllArgsConstructor
 public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, FillProblemEntity> implements FillProblemService {
 
+    private final FillProblemDao fillProblemDao;
+
     @Override
     public PageResult<FillProblemVO> page(FillProblemQuery query) {
-        IPage<FillProblemEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-        return new PageResult<>(FillProblemConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        Page<FillProblemVO> page = new Page<>(query.getPage(),query.getLimit());
+        IPage<FillProblemVO> list = fillProblemDao.page(page,query);
+
+        return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
     private LambdaQueryWrapper<FillProblemEntity> getWrapper(FillProblemQuery query){
@@ -65,4 +71,9 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
         removeByIds(idList);
     }
 
+    @Override
+    public boolean updateStatus(Integer id) {
+        fillProblemDao.updateStatus(id);
+        return true;
+    }
 }

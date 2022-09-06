@@ -23,4 +23,6 @@ public interface ChoiceProblemService extends BaseService<ChoiceProblemEntity> {
     void update(ChoiceProblemVO vo);
 
     void delete(List<Long> idList);
+
+    boolean updateStatus(Integer id);
 }

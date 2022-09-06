@@ -33,7 +33,6 @@ public class EnrollUserController {
 
     @GetMapping("page")
     @Operation(summary = "分页")
-    @PreAuthorize("hasAuthority('enrolluser:page')")
     public Result<PageResult<EnrollUserVO>> page(@Valid EnrollUserQuery query){
         PageResult<EnrollUserVO> page = enrollUserService.page(query);
 
@@ -42,7 +41,6 @@ public class EnrollUserController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    @PreAuthorize("hasAuthority('enrolluser:info')")
     public Result<EnrollUserVO> get(@PathVariable("id") Long id){
         EnrollUserEntity entity = enrollUserService.getById(id);
 
@@ -51,7 +49,6 @@ public class EnrollUserController {
 
     @PostMapping
     @Operation(summary = "保存")
-    @PreAuthorize("hasAuthority('enrolluser:save')")
     public Result<String> save(@RequestBody EnrollUserVO vo){
         enrollUserService.save(vo);
 
@@ -60,7 +57,6 @@ public class EnrollUserController {
 
     @PutMapping
     @Operation(summary = "修改")
-    @PreAuthorize("hasAuthority('enrolluser:update')")
     public Result<String> update(@RequestBody @Valid EnrollUserVO vo){
         enrollUserService.update(vo);
 
@@ -69,7 +65,6 @@ public class EnrollUserController {
 
     @DeleteMapping
     @Operation(summary = "删除")
-    @PreAuthorize("hasAuthority('enrolluser:delete')")
     public Result<String> delete(@RequestBody List<Long> idList){
         enrollUserService.delete(idList);
 

@@ -41,7 +41,7 @@ public class CodeProblemController {
     @Operation(summary = "信息")
     public Result<CodeProblemVO> get(@PathVariable("id") Long id){
         CodeProblemEntity entity = codeProblemService.getById(id);
-
+        entity.setMemoryLimit(entity.getMemoryLimit()/1024);
         return Result.ok(CodeProblemConvert.INSTANCE.convert(entity));
     }
 
@@ -53,9 +53,18 @@ public class CodeProblemController {
         return Result.ok();
     }
 
+    @GetMapping("updateStatus/{id}")
+    @Operation(summary = "修改状态")
+    public Result<String> updateStatus(@PathVariable("id")  Integer id){
+        codeProblemService.updateStatus(id);
+
+        return Result.ok();
+    }
+
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid CodeProblemVO vo){
+        vo.setMemoryLimit(vo.getMemoryLimit()*1024);
         codeProblemService.update(vo);
 
         return Result.ok();

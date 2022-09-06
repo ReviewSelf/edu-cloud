@@ -3,6 +3,57 @@
 
 <mapper namespace="net.edu.module.dao.CodeProblemDao">
 
+    <resultMap type="net.edu.module.vo.CodeProblemVO" id="codeProblemMap">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="img" column="img"/>
+        <result property="source" column="source"/>
+        <result property="tips" column="tips"/>
+        <result property="adviceTime" column="advice_time"/>
+        <result property="difficulty" column="difficulty"/>
+        <result property="inputExplain" column="input_explain"/>
+        <result property="outputExplain" column="output_explain"/>
+        <result property="sampleInput" column="sample_input"/>
+        <result property="sampleOutput" column="sample_output"/>
+        <result property="isTypical" column="is_typical"/>
+        <result property="sampleNum" column="sample_num"/>
+        <result property="kpId" column="kp_id"/>
+        <result property="kpName" column="kp_name"/>
+        <result property="submitTimes" column="submit_times"/>
+        <result property="correctTimes" column="correct_times"/>
+        <result property="usedNum" column="used_num"/>
+        <result property="memoryLimit" column="memory_limit"/>
+        <result property="timeLimit" column="time_limit"/>
+        <result property="createTime" column="create_time"/>
+        <result property="creator" column="creator"/>
+        <result property="status" column="status"/>
+    </resultMap>
+    <update id="updateStatus" >
+        update problem_code set status=abs(status-1) where id=#{id}
+    </update>
 
 
+    <select id="page" resultMap="codeProblemMap">
+        select a.id,a.name,a.description,img,source,tips,advice_time,difficulty,input_explain,
+               output_explain,sample_input,sample_output,is_typical,sample_num,
+               kp_id,b.name as kp_name, submit_times,correct_times ,used_num,memory_limit,
+                time_limit,a.create_time,a.creator,status
+        from problem_code a left join knowledge_point b on a.kp_id = b.id
+
+        where a.deleted=0
+        <if test="query.getName()!='' and query.getName()!=null">
+            and  a.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getDifficulty!=null">
+            and difficulty=#{query.difficulty}
+        </if>
+        <if test="query.getKpId()!=null">
+            and kp_id=#{query.kpId}
+        </if>
+        <if test="query.getStatus()!=null">
+            and status = #{quey.status}
+        </if>
+        order by status asc,a.update_time desc
+    </select>
 </mapper>

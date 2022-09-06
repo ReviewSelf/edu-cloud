@@ -3,8 +3,8 @@
 
 <mapper namespace="net.edu.module.dao.FillProblemDao">
 
-    <resultMap type="net.edu.module.entity.FillProblemEntity" id="fillProblemMap">
-        <result property="id" column="id"/>
+    <resultMap type="net.edu.module.vo.FillProblemVO" id="fillProblemMap">
+        <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="description" column="description"/>
         <result property="source" column="source"/>
@@ -27,4 +27,32 @@
         <result property="version" column="version"/>
     </resultMap>
 
+    <update id="updateStatus" >
+        update problem_fill set status= abs(status -1) where id=#{id}
+    </update>
+
+<!--    <update id="updateStatus" >-->
+<!--        update problem_fill set status= if(status >= 1, status - 1, status + 1) where id=#{id}-->
+<!--    </update>-->
+
+    <select id="page" resultType="net.edu.module.vo.FillProblemVO">
+        select id,name,description,source,tips,advice_time as adviceTime,img,difficulty,kp_id as kpId
+        ,(select name from knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
+        ,correct_times as correctTimes,is_typical as isTypical,used_num as usedNum,answer,
+        create_time as createTime,creator,status
+        from problem_fill where deleted = 0
+        <if test="query.getName()!='' and query.getName()!=null">
+            and  name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getDifficulty()!=null">
+            and difficulty =#{query.difficulty}
+        </if>
+        <if test="query.getKpId()!=null">
+            and kp_id = #{query.kpId}
+        </if>
+        <if test="query.getStatus()!=null">
+            and status = #{query.status}
+        </if>
+        order by status asc,update_time desc
+    </select>
 </mapper>

@@ -11,11 +11,6 @@
     <dependencies>
         <dependency>
             <groupId>net.edu</groupId>
-            <artifactId>edu-problem-api</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.edu</groupId>
             <artifactId>edu-cloud-starter</artifactId>
             <version>${revision}</version>
         </dependency>

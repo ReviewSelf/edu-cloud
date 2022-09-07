@@ -2,6 +2,7 @@ package net.edu.framework.common.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -10,8 +11,10 @@ import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter;
+import org.springframework.util.unit.DataSize;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import javax.servlet.MultipartConfigElement;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -49,4 +52,14 @@ public class WebConfig implements WebMvcConfigurer {
         return converter;
     }
 
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        //文件最大
+        factory.setMaxFileSize(DataSize.parse("100MB")); //KB,MB
+        /// 设置总上传数据总大小
+        factory.setMaxRequestSize(DataSize.parse("1000MB"));
+        return factory.createMultipartConfig();
+    }
 }

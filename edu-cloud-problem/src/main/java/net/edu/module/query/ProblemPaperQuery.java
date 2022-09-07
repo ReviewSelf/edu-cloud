@@ -24,4 +24,8 @@ public class ProblemPaperQuery extends Query {
 
     @Schema(description = "难度")
     private Integer difficulty;
+
+
+    @Schema(description = "知识点id")
+    private Integer kpId;
 }

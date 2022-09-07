@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 
 import net.edu.framework.common.page.PageResult;
@@ -14,6 +15,7 @@ import net.edu.module.dao.ProblemPaperDao;
 import net.edu.module.entity.ProblemPaperEntity;
 import net.edu.module.query.ProblemPaperQuery;
 import net.edu.module.service.ProblemPaperService;
+import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.vo.ProblemPaperVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,11 +32,12 @@ import java.util.List;
 @AllArgsConstructor
 public class ProblemPaperServiceImpl extends BaseServiceImpl<ProblemPaperDao, ProblemPaperEntity> implements ProblemPaperService {
 
+    private final ProblemPaperDao problemPaperDao;
     @Override
     public PageResult<ProblemPaperVO> page(ProblemPaperQuery query) {
-        IPage<ProblemPaperEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-
-        return new PageResult<>(ProblemPaperConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        Page<ProblemPaperVO> page = new Page<>(query.getPage(),query.getLimit());
+        IPage<ProblemPaperVO> list = problemPaperDao.page(page,query);
+        return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
     private LambdaQueryWrapper<ProblemPaperEntity> getWrapper(ProblemPaperQuery query){

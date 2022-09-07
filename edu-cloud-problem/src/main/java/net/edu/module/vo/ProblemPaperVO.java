@@ -31,27 +31,22 @@ public class ProblemPaperVO implements Serializable {
 
 	@Schema(description = "总分")
 	private Integer score;
-
+	@Schema(description = "说明")
 	private String description;
-
+	@Schema(description = "说明")
+	private Integer kpId;
+	@Schema(description = "知识点名称")
+	private String kpName;
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date createTime;
-
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date updateTime;
 
 	@Schema(description = "状态")
 	private Integer status;
 
-	private Integer deleted;
-
-	@Schema(description = "修改人")
-	private Long updater;
-
 	@Schema(description = "创建人")
 	private Long creator;
 
-	private Integer version;
+
 
 
 }

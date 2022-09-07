@@ -18,6 +18,8 @@ import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.dao.ChoiceProblemDao;
 import net.edu.module.service.ChoiceProblemService;
 import net.edu.module.vo.CodeProblemVO;
+import net.edu.module.vo.FillProblemVO;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,19 +41,10 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     public PageResult<ChoiceProblemVO> page(ChoiceProblemQuery query) {
         Page<ChoiceProblemVO> page = new Page<>(query.getPage(),query.getLimit());
         IPage<ChoiceProblemVO> list = choiceProblemDao.page(page,query);
-
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
-    private LambdaQueryWrapper<ChoiceProblemEntity> getWrapper(ChoiceProblemQuery query){
-        LambdaQueryWrapper<ChoiceProblemEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.like(StrUtil.isNotBlank(query.getName()), ChoiceProblemEntity::getName, query.getName());
-        wrapper.eq(query.getType() != null, ChoiceProblemEntity::getType, query.getType());
-        wrapper.eq(query.getStatus() != null, ChoiceProblemEntity::getStatus, query.getStatus());
-        wrapper.eq(query.getDifficulty() != null, ChoiceProblemEntity::getDifficulty, query.getDifficulty());
-        wrapper.orderByAsc(ChoiceProblemEntity::getUpdateTime);
-        return wrapper;
-    }
+
 
     @Override
     public void save(ChoiceProblemVO vo) {

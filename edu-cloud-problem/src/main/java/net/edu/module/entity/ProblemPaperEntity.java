@@ -35,6 +35,10 @@ public class ProblemPaperEntity extends BaseEntity {
 	private String description;
 
 	/**
+	 * 知识点id
+	 */
+	private Integer kpId;
+	/**
 	* 状态
 	*/
 	private Integer status;

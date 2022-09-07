@@ -13,9 +13,11 @@ import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.query.FillProblemQuery;
 import net.edu.module.vo.ChoiceProblemVO;
+import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.vo.FillProblemVO;
 import net.edu.module.dao.FillProblemDao;
 import net.edu.module.service.FillProblemService;
+import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +38,8 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
     @Override
     public PageResult<FillProblemVO> page(FillProblemQuery query) {
         Page<FillProblemVO> page = new Page<>(query.getPage(),query.getLimit());
-        IPage<FillProblemVO> list = fillProblemDao.page(page,query);
-
-        return new PageResult<>(list.getRecords(), list.getTotal());
+            IPage<FillProblemVO> list = fillProblemDao.page(page,query);
+            return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
     private LambdaQueryWrapper<FillProblemEntity> getWrapper(FillProblemQuery query){

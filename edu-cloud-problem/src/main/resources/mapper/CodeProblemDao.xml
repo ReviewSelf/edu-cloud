@@ -34,16 +34,14 @@
     </update>
 
 
-    <select id="page" resultMap="codeProblemMap">
-        select a.id,a.name,a.description,img,source,tips,advice_time,difficulty,input_explain,
-               output_explain,sample_input,sample_output,is_typical,sample_num,
-               kp_id,b.name as kp_name, submit_times,correct_times ,used_num,memory_limit,
-                time_limit,a.create_time,a.creator,status
-        from problem_code a left join knowledge_point b on a.kp_id = b.id
-
-        where a.deleted=0
+    <select id="page" resultType="net.edu.module.vo.CodeProblemVO" >
+        select id,name,description,img,source,tips,advice_time as adviceTime,difficulty,input_explain as inputExplain
+               ,output_explain as outputExplain,sample_input as sampleInput,sample_output as sampleOutput,is_typical as isTypical,sample_num
+               ,kp_id as kpId,(select name from knowledge_point where id=kp_id limit 1) as kpName, submit_times as submitTimes,correct_times as correctTimes,used_num as usedNum
+               ,memory_limit as memoryLimit,time_limit as timeLimit,create_time as createTime,creator,status
+        from problem_code where deleted=0
         <if test="query.getName()!='' and query.getName()!=null">
-            and  a.name like concat('%',#{query.name},'%')
+            and  name like concat('%',#{query.name},'%')
         </if>
         <if test="query.getDifficulty!=null">
             and difficulty=#{query.difficulty}
@@ -52,11 +50,11 @@
             and kp_id=#{query.kpId}
         </if>
         <if test="query.getStatus()!=null">
-            and status = #{quey.status}
+            and status = #{query.status}
         </if>
         <if test="query.getIsTypical()!=null">
-            and status = #{query.isTypical}
+            and is_typical = #{query.isTypical}
         </if>
-        order by status asc,a.update_time desc
+        order by status asc,update_time desc
     </select>
 </mapper>

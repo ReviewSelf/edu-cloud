@@ -51,7 +51,7 @@
             and status = #{query.status}
         </if>
         <if test="query.getIsTypical()!=null">
-            and status = #{query.isTypical}
+            and is_typical = #{query.isTypical}
         </if>
         order by status asc,update_time desc
     </select>

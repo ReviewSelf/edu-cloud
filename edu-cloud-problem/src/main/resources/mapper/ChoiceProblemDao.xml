@@ -11,13 +11,6 @@
 <!--        order by status asc,update_time desc-->
     </select>
 
-<!--    <select id="selectChoicePage" resultType="net.edu.module.vo.ChoiceProblemVO">-->
-<!--                select pc.id,type,pc.name,pc.description,source,tips,advice_time,img,difficulty,kp_id-->
-<!--                       ,kp.name as kp_name,submit_times-->
-<!--                       ,correct_times ,is_typical ,option_num ,used_num from problem_choice pc-->
-<!--                        left join knowledge_point kp on kp.id =pc.kp_id-->
-
-<!--    </select>-->
 
     <select id="page" resultType="net.edu.module.vo.ChoiceProblemVO">
         select id,type,name,description,source,tips,advice_time as adviceTime,img,difficulty,kp_id as kpId
@@ -41,7 +34,7 @@
             and status = #{query.status}
         </if>
         <if test="query.getIsTypical()!=null">
-            and status = #{query.isTypical}
+            and is_typical = #{query.isTypical}
         </if>
         order by status asc,update_time desc
     </select>

@@ -33,14 +33,22 @@ public class EnrollClassController {
     @Operation(summary = "分页")
     public Object getPage(@RequestParam("pageIndex") Integer pageIndex,
                           @RequestParam("pageSize") Integer pageSize){
-        return Result.ok(enrollClassService.getDailyReports(pageIndex,pageSize));
+        return Result.ok(enrollClassService.getEnrollClass(pageIndex,pageSize));
+    }
+
+    @GetMapping("select")
+    @Operation(summary = "查询")
+    public Object select(@RequestParam("pageIndex") Integer pageIndex,
+                         @RequestParam("pageSize") Integer pageSize,
+                         @RequestParam("className") String className){
+        return Result.ok(enrollClassService.select(pageIndex,pageSize,className));
     }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<EnrollClassVO> get(@PathVariable("id") Long id){
         EnrollClassEntity entity = enrollClassService.getById(id);
-
+        System.out.println(entity);
         return Result.ok(EnrollClassConvert.INSTANCE.convert(entity));
     }
 
@@ -64,6 +72,13 @@ public class EnrollClassController {
     @Operation(summary = "假删除")
     public Result<String> delete(@PathVariable("id") Long id){
         enrollClassService.deleteEnrollClass(id);
+        return Result.ok();
+    }
+
+    @PutMapping("status{id}")
+    @Operation(summary = "更新状态")
+    public Result<String> updateStatus(@PathVariable("id") Long id){
+        enrollClassService.updateStatus(id);
         return Result.ok();
     }
 }

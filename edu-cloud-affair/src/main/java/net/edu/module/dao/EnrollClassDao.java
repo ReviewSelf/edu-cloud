@@ -19,4 +19,8 @@ public interface EnrollClassDao extends BaseDao<EnrollClassEntity> {
     void deleteEnrollClass(long id);
 
     IPage<EnrollClassEntity> getEnrollClassByPage(Page<EnrollClassEntity> page);
+
+    IPage<EnrollClassEntity> select(Page<EnrollClassEntity> page,String className);
+
+    void updateStatus(Long id);
 }

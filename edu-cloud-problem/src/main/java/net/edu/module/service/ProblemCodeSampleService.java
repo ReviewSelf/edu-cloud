@@ -4,6 +4,8 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.ProblemCodeSampleEntity;
 import net.edu.module.query.ProblemCodeSampleQuery;
+import net.edu.module.vo.CodeProblemVO;
+import net.edu.module.vo.FileUploadVO;
 import net.edu.module.vo.ProblemCodeSampleVO;
 
 import java.util.List;
@@ -23,4 +25,8 @@ public interface ProblemCodeSampleService extends BaseService<ProblemCodeSampleE
     void update(ProblemCodeSampleVO vo);
 
     void delete(List<Long> idList);
+
+    CodeProblemVO getProblem(Long id);
+
+    void saveSample(ProblemCodeSampleEntity problemCodeSampleEntity);
 }

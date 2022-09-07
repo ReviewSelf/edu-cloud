@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -76,10 +77,12 @@ public class CodeProblemVO implements Serializable {
 	private Integer usedNum;
 
 
-	@Schema(description = "空间限制(KB)")
+	@Schema(description = "空间限制(MB)")
+	@Min(value = 2, message = "排序值不能小于2MB")
 	private Integer memoryLimit;
 
 	@Schema(description = "时间限制")
+	@Min(value = 15, message = "排序值不能小于15ms")
 	private Integer timeLimit;
 
 	@Schema(description = "创建时间")

@@ -7,10 +7,13 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ProblemCodeSampleConvert;
+import net.edu.module.dao.CodeProblemDao;
 import net.edu.module.dao.ProblemCodeSampleDao;
 import net.edu.module.entity.ProblemCodeSampleEntity;
 import net.edu.module.query.ProblemCodeSampleQuery;
 import net.edu.module.service.ProblemCodeSampleService;
+import net.edu.module.vo.CodeProblemVO;
+import net.edu.module.vo.FileUploadVO;
 import net.edu.module.vo.ProblemCodeSampleVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ProblemCodeSampleServiceImpl extends BaseServiceImpl<ProblemCodeSampleDao, ProblemCodeSampleEntity> implements ProblemCodeSampleService {
+
+    private final ProblemCodeSampleDao problemCodeSampleDao;
+    private final CodeProblemDao codeProblemDao;
 
     @Override
     public PageResult<ProblemCodeSampleVO> page(ProblemCodeSampleQuery query) {
@@ -59,5 +65,19 @@ public class ProblemCodeSampleServiceImpl extends BaseServiceImpl<ProblemCodeSam
     public void delete(List<Long> idList) {
         removeByIds(idList);
     }
+
+    @Override
+    public CodeProblemVO getProblem(Long id) {
+        return problemCodeSampleDao.selectProblem(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void saveSample(ProblemCodeSampleEntity problemCodeSampleEntity) {
+        baseMapper.insert(problemCodeSampleEntity);
+        codeProblemDao.updateSampleNum(problemCodeSampleEntity.getProblemId());
+
+    }
+
 
 }

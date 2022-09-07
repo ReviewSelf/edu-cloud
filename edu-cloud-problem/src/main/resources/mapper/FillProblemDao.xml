@@ -18,13 +18,10 @@
         <result property="isTypical" column="is_typical"/>
         <result property="usedNum" column="used_num"/>
         <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
         <result property="answer" column="answer"/>
-        <result property="updater" column="updater"/>
         <result property="creator" column="creator"/>
-        <result property="deleted" column="deleted"/>
         <result property="status" column="status"/>
-        <result property="version" column="version"/>
+
     </resultMap>
 
     <update id="updateStatus" >
@@ -52,6 +49,9 @@
         </if>
         <if test="query.getStatus()!=null">
             and status = #{query.status}
+        </if>
+        <if test="query.getIsTypical()!=null">
+            and status = #{query.isTypical}
         </if>
         order by status asc,update_time desc
     </select>

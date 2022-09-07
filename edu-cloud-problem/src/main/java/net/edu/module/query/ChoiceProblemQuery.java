@@ -30,4 +30,6 @@ public class ChoiceProblemQuery extends Query {
     @Schema(description = "状态")
     private Integer status;
 
+    @Schema(description = "典型问题")
+    private Integer isTypical;
 }

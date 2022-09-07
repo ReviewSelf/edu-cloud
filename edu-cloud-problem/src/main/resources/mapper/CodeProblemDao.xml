@@ -54,6 +54,9 @@
         <if test="query.getStatus()!=null">
             and status = #{quey.status}
         </if>
+        <if test="query.getIsTypical()!=null">
+            and status = #{query.isTypical}
+        </if>
         order by status asc,a.update_time desc
     </select>
 </mapper>

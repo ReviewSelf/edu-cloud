@@ -3,6 +3,8 @@ package net.edu.module.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
+import net.edu.framework.mybatis.entity.BaseEntity;
+
 import java.util.Date;
 
 /**
@@ -14,12 +16,8 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("enroll_user")
-public class EnrollUserEntity {
-	/**
-	* 用户id
-	*/
-	@TableId
-	private Integer id;
+public class EnrollUserEntity extends BaseEntity {
+
 
 	/**
 	* 微信昵称
@@ -76,22 +74,14 @@ public class EnrollUserEntity {
 	*/
 	private Integer status;
 
-	/**
-	* 注册时间
-	*/
-	@TableField(fill = FieldFill.INSERT)
-	private Date createTime;
 
-	/**
-	* 修改时间
-	*/
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	private Date updateTime;
+
+
 
 	/**
 	* 登录时间
 	*/
-	private Date loginTime;
+	private String loginTime;
 
 	/**
 	* 开始课次
@@ -106,7 +96,7 @@ public class EnrollUserEntity {
 	/**
 	* 备注
 	*/
-	private String bz;
+	private String remark;
 
 	/**
 	* 积分

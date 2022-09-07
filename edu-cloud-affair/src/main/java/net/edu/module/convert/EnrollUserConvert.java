@@ -1,5 +1,7 @@
 package net.edu.module.convert;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import net.edu.module.entity.EnrollClassEntity;
 import net.edu.module.entity.EnrollUserEntity;
 import net.edu.module.vo.EnrollUserVO;
 import org.mapstruct.Mapper;
@@ -22,5 +24,7 @@ public interface EnrollUserConvert {
     EnrollUserVO convert(EnrollUserEntity entity);
 
     List<EnrollUserVO> convertList(List<EnrollUserEntity> list);
+
+
 
 }

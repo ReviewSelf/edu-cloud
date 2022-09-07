@@ -75,7 +75,7 @@ public class EnrollUserVO implements Serializable {
 	private Integer endNumber;
 
 	@Schema(description = "备注")
-	private String bz;
+	private String remark;
 
 	@Schema(description = "积分")
 	private String integral;

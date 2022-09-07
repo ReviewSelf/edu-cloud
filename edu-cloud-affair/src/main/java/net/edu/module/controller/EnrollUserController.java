@@ -25,7 +25,7 @@ import java.util.List;
 * @since 1.0.0 2022-09-05
 */
 @RestController
-@RequestMapping("enrolluser")
+@RequestMapping("enroll/user")
 @Tag(name="XinXiHeShi")
 @AllArgsConstructor
 public class EnrollUserController {
@@ -35,7 +35,6 @@ public class EnrollUserController {
     @Operation(summary = "分页")
     public Result<PageResult<EnrollUserVO>> page(@Valid EnrollUserQuery query){
         PageResult<EnrollUserVO> page = enrollUserService.page(query);
-
         return Result.ok(page);
     }
 
@@ -63,11 +62,11 @@ public class EnrollUserController {
         return Result.ok();
     }
 
-    @DeleteMapping
-    @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
-        enrollUserService.delete(idList);
 
+    @PutMapping("{id}")
+    @Operation(summary = "删除")
+    public Result<String> delete(@PathVariable("id") Long id){
+        enrollUserService.deleteEnrollUser(id);
         return Result.ok();
     }
 }

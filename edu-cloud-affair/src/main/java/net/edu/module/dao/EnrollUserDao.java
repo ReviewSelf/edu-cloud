@@ -21,4 +21,6 @@ public interface EnrollUserDao extends BaseDao<EnrollUserEntity> {
 
 
     void deleteEnrollUser(long id);
+
+    void confirmEnrollUser(Integer id);
 }

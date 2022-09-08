@@ -9,6 +9,7 @@ import net.edu.module.convert.ChoiceProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.service.ChoiceProblemService;
 import net.edu.module.query.ChoiceProblemQuery;
+import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -76,4 +77,21 @@ public class ChoiceProblemController {
 
         return Result.ok();
     }
+
+    @GetMapping("option/{id}")
+    @Operation(summary = "获取选项")
+    public Result<List<ChoiceOptionVO>> getOption(@PathVariable("id")  Integer id){
+        List<ChoiceOptionVO> list =  choiceProblemService.getOption(id);
+
+        return Result.ok(list);
+    }
+
+    @PostMapping("option")
+    @Operation(summary = "更新选项")
+    public Result<String> updateOption(@RequestBody List<ChoiceOptionVO> list){
+        choiceProblemService.updateOption(list);
+
+        return Result.ok();
+    }
+
 }

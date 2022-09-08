@@ -14,6 +14,7 @@ import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.query.ChoiceProblemQuery;
+import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.dao.ChoiceProblemDao;
 import net.edu.module.service.ChoiceProblemService;
@@ -70,6 +71,21 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     public boolean updateStatus(Integer id) {
         choiceProblemDao.updateStatus(id);
         return true;
+    }
+
+    @Override
+    public List<ChoiceOptionVO> getOption(Integer id) {
+        return choiceProblemDao.selectOption(id);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateOption(List<ChoiceOptionVO> list) {
+        choiceProblemDao.deleteOption(list.get(0).getProblemId());
+        for (int i=0;i<list.size();i++) {
+            choiceProblemDao.insertOption(list.get(i));
+        }
+        choiceProblemDao.updateOptionNum(list.get(0).getProblemId());
     }
 
 }

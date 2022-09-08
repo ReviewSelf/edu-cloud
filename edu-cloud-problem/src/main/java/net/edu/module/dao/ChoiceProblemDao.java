@@ -7,9 +7,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.query.ChoiceProblemQuery;
+import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * 选择题库表
@@ -20,11 +23,20 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ChoiceProblemDao extends BaseDao<ChoiceProblemEntity> {
 
+    
 
-	ChoiceProblemVO selectChoiceProblem(Long id);
+    ChoiceProblemVO selectChoiceProblem(Long id);
 
 
 	void updateStatus(Integer id);
 
     IPage<ChoiceProblemVO> page(Page<ChoiceProblemVO> page, @Param("query")ChoiceProblemQuery query);
+
+    List<ChoiceOptionVO> selectOption(@Param("id") Integer id);
+
+    void deleteOption(@Param("id") Long problemId);
+
+    void insertOption(@Param("vo") ChoiceOptionVO choiceOptionVO);
+
+    void updateOptionNum(@Param("id") Long problemId);
 }

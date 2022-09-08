@@ -42,4 +42,23 @@
     <update id="updateStatus" >
         update problem_choice set status=abs(status-1) where id=#{id}
     </update>
+
+
+    <select id="selectOption" resultType="net.edu.module.vo.ChoiceOptionVO">
+        select id,problem_id as problemId,problem_option as problemOption, is_true as isTrue
+        from problem_choice_options where deleted = 0 and problem_id = #{id}
+    </select>
+
+
+    <delete id="deleteOption">
+        delete from problem_choice_options where problem_id = #{id};
+    </delete>
+
+    <insert id="insertOption">
+        insert  into problem_choice_options(problem_id,problem_option,is_true) values(#{vo.problemId},#{vo.problemOption},#{vo.isTrue})
+    </insert>
+
+    <update id="updateOptionNum">
+        update  problem_choice set option_num = (select sum(1) from problem_choice_options where problem_id = #{id} and deleted = 0)  where id = #{id}
+    </update>
 </mapper>

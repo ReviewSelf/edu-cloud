@@ -64,6 +64,8 @@ public class ProblemCodeSampleServiceImpl extends BaseServiceImpl<ProblemCodeSam
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+        ProblemCodeSampleVO vo = problemCodeSampleDao.selectSample(idList.get(0));
+        codeProblemDao.updateSampleNum(vo.getProblemId());
     }
 
     @Override

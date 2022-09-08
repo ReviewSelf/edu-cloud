@@ -21,6 +21,8 @@ public class ProblemCodeSampleVO implements Serializable {
 
 	private Long id;
 
+	private Long problemId;
+
 	@Schema(description = "样例输入文件地址")
 	private String inputPath;
 

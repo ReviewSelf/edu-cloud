@@ -2,6 +2,7 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
+import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.query.ChoiceProblemQuery;
 import net.edu.module.entity.ChoiceProblemEntity;
@@ -25,4 +26,8 @@ public interface ChoiceProblemService extends BaseService<ChoiceProblemEntity> {
     void delete(List<Long> idList);
 
     boolean updateStatus(Integer id);
+
+    List<ChoiceOptionVO> getOption(Integer id);
+
+    void updateOption(List<ChoiceOptionVO> list);
 }

@@ -1,5 +1,6 @@
 package net.edu.module.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.EnrollUserEntity;
@@ -23,4 +24,8 @@ public interface EnrollUserService extends BaseService<EnrollUserEntity> {
     void update(EnrollUserVO vo);
 
     void delete(List<Long> idList);
+
+
+
+    void deleteEnrollUser(long id);
 }

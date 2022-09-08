@@ -21,4 +21,6 @@ public class EnrollUserQuery extends Query {
     @Schema(description = "真实姓名")
     private String name;
 
+    @Schema(description = "状态")
+    private String status;
 }

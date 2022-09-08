@@ -3,27 +3,21 @@
 
 <mapper namespace="net.edu.module.dao.EnrollUserDao">
 
-    <resultMap type="net.edu.module.entity.EnrollUserEntity" id="enrollUserMap">
-        <result property="id" column="id"/>
-        <result property="wxName" column="wx_name"/>
-        <result property="name" column="name"/>
-        <result property="phone" column="phone"/>
-        <result property="unionId" column="union_id"/>
-        <result property="openId" column="open_id"/>
-        <result property="area" column="area"/>
-        <result property="address" column="address"/>
-        <result property="age" column="age"/>
-        <result property="grade" column="grade"/>
-        <result property="purpose" column="purpose"/>
-        <result property="status" column="status"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="loginTime" column="login_time"/>
-        <result property="startNumber" column="start_number"/>
-        <result property="endNumber" column="end_number"/>
-        <result property="bz" column="bz"/>
-        <result property="integral" column="integral"/>
-        <result property="balance" column="balance"/>
-    </resultMap>
+    <select id="getEnrollUserByPage" resultType="net.edu.module.vo.EnrollUserVO">
+        select *
+        from enroll_user
+        where deleted = 0
+        <if test="query.getName() !=null and query.getName()!=''">
+            and name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getStatus() !=null ">
+            and status =#{query.status}
+        </if>
+        order by update_time desc
+    </select>
+
+    <update id="deleteEnrollUser">
+        update enroll_user  set deleted=1 where id = #{id}
+    </update>
 
 </mapper>

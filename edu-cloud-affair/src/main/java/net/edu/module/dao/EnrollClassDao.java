@@ -6,6 +6,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.EnrollClassEntity;
+import net.edu.module.query.EnrollClassQuery;
+import net.edu.module.query.EnrollUserQuery;
+import net.edu.module.vo.EnrollClassVO;
+import net.edu.module.vo.EnrollUserVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -16,11 +20,12 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface EnrollClassDao extends BaseDao<EnrollClassEntity> {
-    void deleteEnrollClass(long id);
 
-    IPage<EnrollClassEntity> getEnrollClassByPage(Page<EnrollClassEntity> page);
 
-    IPage<EnrollClassEntity> select(Page<EnrollClassEntity> page,String className);
+    IPage<EnrollClassVO> getEnrollClassByPage(Page<EnrollClassVO> page, EnrollClassQuery query);
+
+
 
     void updateStatus(Long id);
+    void unUpdateStatus(Long id);
 }

@@ -63,10 +63,19 @@ public class EnrollUserController {
     }
 
 
-    @PutMapping("{id}")
+//    @DeleteMapping("{id}")
+//    @Operation(summary = "删除")
+//    public Result<String> delete(@PathVariable("id") Long id){
+//        enrollUserService.deleteEnrollUser(id);
+//        return Result.ok();
+//    }
+
+    @DeleteMapping
     @Operation(summary = "删除")
-    public Result<String> delete(@PathVariable("id") Long id){
-        enrollUserService.deleteEnrollUser(id);
+    public Result<String> delete(@RequestBody List<Long> idList){
+        enrollUserService.delete(idList);
+
         return Result.ok();
     }
+
 }

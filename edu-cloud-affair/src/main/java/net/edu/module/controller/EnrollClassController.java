@@ -8,8 +8,10 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.EnrollClassConvert;
 import net.edu.module.entity.EnrollClassEntity;
 import net.edu.module.query.EnrollClassQuery;
+import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollClassService;
 import net.edu.module.vo.EnrollClassVO;
+import net.edu.module.vo.EnrollUserVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,18 +33,11 @@ public class EnrollClassController {
 
     @GetMapping("page")
     @Operation(summary = "分页")
-    public Object getPage(@RequestParam("pageIndex") Integer pageIndex,
-                          @RequestParam("pageSize") Integer pageSize){
-        return Result.ok(enrollClassService.getEnrollClass(pageIndex,pageSize));
+    public Result<PageResult<EnrollClassVO>> page(@Valid EnrollClassQuery query){
+        PageResult<EnrollClassVO> page = enrollClassService.page(query);
+        return Result.ok(page);
     }
 
-    @GetMapping("select")
-    @Operation(summary = "查询")
-    public Object select(@RequestParam("pageIndex") Integer pageIndex,
-                         @RequestParam("pageSize") Integer pageSize,
-                         @RequestParam("className") String className){
-        return Result.ok(enrollClassService.select(pageIndex,pageSize,className));
-    }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
@@ -68,10 +63,11 @@ public class EnrollClassController {
         return Result.ok();
     }
 
-    @PutMapping("{id}")
-    @Operation(summary = "假删除")
-    public Result<String> delete(@PathVariable("id") Long id){
-        enrollClassService.deleteEnrollClass(id);
+    @DeleteMapping
+    @Operation(summary = "删除")
+    public Result<String> delete(@RequestBody List<Long> idList){
+        enrollClassService.delete(idList);
+
         return Result.ok();
     }
 
@@ -81,4 +77,12 @@ public class EnrollClassController {
         enrollClassService.updateStatus(id);
         return Result.ok();
     }
+
+    @PutMapping("unstatus{id}")
+    @Operation(summary = "更新状态")
+    public Result<String> unUpdateStatus(@PathVariable("id") Long id){
+        enrollClassService.unUpdateStatus(id);
+        return Result.ok();
+    }
+
 }

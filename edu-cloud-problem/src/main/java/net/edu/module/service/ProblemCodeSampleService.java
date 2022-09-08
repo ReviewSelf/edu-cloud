@@ -7,6 +7,7 @@ import net.edu.module.query.ProblemCodeSampleQuery;
 import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.vo.FileUploadVO;
 import net.edu.module.vo.ProblemCodeSampleVO;
+import net.edu.module.vo.SampleVO;
 
 import java.util.List;
 
@@ -28,5 +29,5 @@ public interface ProblemCodeSampleService extends BaseService<ProblemCodeSampleE
 
     CodeProblemVO getProblem(Long id);
 
-    void saveSample(ProblemCodeSampleEntity problemCodeSampleEntity);
+    void saveSample(List<SampleVO> sampleVOS,Long problemId);
 }

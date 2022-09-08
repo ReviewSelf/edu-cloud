@@ -59,6 +59,7 @@
     </select>
 
     <update id="updateSampleNum">
-        update problem_code set sample_num = (select sum(1) from problem_code_sample where problem_id=#{id})
+        update problem_code set sample_num = (select count(1) from problem_code_sample where problem_id=#{id} and deleted=0)
+        where id=#{id}
     </update>
 </mapper>

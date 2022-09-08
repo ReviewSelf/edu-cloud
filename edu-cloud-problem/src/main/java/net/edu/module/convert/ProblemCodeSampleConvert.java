@@ -2,6 +2,7 @@ package net.edu.module.convert;
 
 import net.edu.module.entity.ProblemCodeSampleEntity;
 import net.edu.module.vo.ProblemCodeSampleVO;
+import net.edu.module.vo.SampleVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -19,7 +20,11 @@ public interface ProblemCodeSampleConvert {
 
     ProblemCodeSampleEntity convert(ProblemCodeSampleVO vo);
 
+    ProblemCodeSampleEntity convert(SampleVO vo);
+
     ProblemCodeSampleVO convert(ProblemCodeSampleEntity entity);
+
+
 
     List<ProblemCodeSampleVO> convertList(List<ProblemCodeSampleEntity> list);
 

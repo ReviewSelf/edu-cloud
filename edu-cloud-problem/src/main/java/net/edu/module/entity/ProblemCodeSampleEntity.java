@@ -36,12 +36,12 @@ public class ProblemCodeSampleEntity extends BaseEntity {
 	/**
 	 * 样例输入文件大小
 	 */
-	private String inputSize;
+	private Long inputSize;
 
 	/**
 	 * 样例输出文件大小
 	 */
-	private String outputSize;
+	private Long outputSize;
 
 
 }

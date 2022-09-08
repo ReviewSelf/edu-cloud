@@ -13,8 +13,8 @@ import net.edu.module.entity.ProblemCodeSampleEntity;
 import net.edu.module.query.ProblemCodeSampleQuery;
 import net.edu.module.service.ProblemCodeSampleService;
 import net.edu.module.vo.CodeProblemVO;
-import net.edu.module.vo.FileUploadVO;
 import net.edu.module.vo.ProblemCodeSampleVO;
+import net.edu.module.vo.SampleVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -73,9 +73,11 @@ public class ProblemCodeSampleServiceImpl extends BaseServiceImpl<ProblemCodeSam
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveSample(ProblemCodeSampleEntity problemCodeSampleEntity) {
-        baseMapper.insert(problemCodeSampleEntity);
-        codeProblemDao.updateSampleNum(problemCodeSampleEntity.getProblemId());
+    public void saveSample(List<SampleVO> sampleVOS,Long problemId) {
+        sampleVOS.forEach((item)->{
+            baseMapper.insert(ProblemCodeSampleConvert.INSTANCE.convert(item));
+        });
+        codeProblemDao.updateSampleNum(problemId);
 
     }
 

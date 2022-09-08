@@ -30,7 +30,13 @@ public class EnrollClassVO implements Serializable {
 	private Date updateTime;
 
 	@Schema(description = "创建人id")
-	private Integer createBy;
+	private Integer creator;
+
+	@Schema(description = "更新人id")
+	private Integer updater;
+
+	@Schema(description = "版本号")
+	private Integer version;
 
 	@Schema(description = "0没有发布，1已经发布")
 	private Integer status;
@@ -40,11 +46,11 @@ public class EnrollClassVO implements Serializable {
 
 	@Schema(description = "开始时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date startTime;
+	private String startTime;
 
 	@Schema(description = "结束时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date endTime;
+	private String endTime;
 
 	@Schema(description = "面向对象")
 	private String object;
@@ -57,7 +63,7 @@ public class EnrollClassVO implements Serializable {
 
 	@Schema(description = "上课日期")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date classDate;
+	private String classDate;
 
 
 }

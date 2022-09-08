@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
 
+import java.math.BigDecimal;
+
 /**
  * 代码题库表
  *
@@ -110,7 +112,7 @@ public class CodeProblemEntity extends BaseEntity {
 	/**
 	* 时间限制
 	*/
-	private Integer timeLimit;
+	private BigDecimal timeLimit;
 
 	/**
 	 * 状态

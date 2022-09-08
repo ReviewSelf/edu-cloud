@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -42,12 +43,15 @@ public class CodeProblemController {
     public Result<CodeProblemVO> get(@PathVariable("id") Long id){
         CodeProblemEntity entity = codeProblemService.getById(id);
         entity.setMemoryLimit(entity.getMemoryLimit()/1024);
+        entity.setTimeLimit(entity.getTimeLimit().divide(new BigDecimal(1000),0));
         return Result.ok(CodeProblemConvert.INSTANCE.convert(entity));
     }
 
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody CodeProblemVO vo){
+        vo.setMemoryLimit(vo.getMemoryLimit()*1024);
+        vo.setTimeLimit(vo.getTimeLimit()*1000);
         codeProblemService.save(vo);
 
         return Result.ok();
@@ -65,6 +69,7 @@ public class CodeProblemController {
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid CodeProblemVO vo){
         vo.setMemoryLimit(vo.getMemoryLimit()*1024);
+        vo.setTimeLimit(vo.getTimeLimit()*1000);
         codeProblemService.update(vo);
 
         return Result.ok();

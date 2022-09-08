@@ -9,7 +9,7 @@ import lombok.Data;
  * @Description:
  */
 @Data
-public class JudgeResultMessageVo {
+public class JudgeResultMessageVO {
 
     public Integer waitNum;
 }

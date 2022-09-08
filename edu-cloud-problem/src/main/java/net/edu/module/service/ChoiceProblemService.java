@@ -29,9 +29,6 @@ public interface ChoiceProblemService extends BaseService<ChoiceProblemEntity> {
 
     void updateStatus(Long problemId);
 
-    List<ChoiceOptionVO> getOption(Long id);
-
-    void updateOption(List<ChoiceOptionVO> list);
 
 
 }

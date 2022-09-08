@@ -78,19 +78,7 @@ public class ChoiceProblemController {
         return Result.ok();
     }
 
-    @GetMapping("option/{problemId}")
-    @Operation(summary = "根据问题id获取选项")
-    public Result<List<ChoiceOptionVO>> getOption(@PathVariable("problemId")  Long problemId){
-        List<ChoiceOptionVO> list =  choiceProblemService.getOption(problemId);
-        return Result.ok(list);
-    }
 
-    @PostMapping("option")
-    @Operation(summary = "更新选项")
-    public Result<String> updateOption(@RequestBody List<ChoiceOptionVO> list){
-        choiceProblemService.updateOption(list);
 
-        return Result.ok();
-    }
 
 }

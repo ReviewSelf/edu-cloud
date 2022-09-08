@@ -43,8 +43,10 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         return choiceProblemDao.selectChoiceProblem(problemId);
     }
     @Override
+    @Transactional
     public void save(ChoiceProblemVO vo) {
         ChoiceProblemEntity entity = ChoiceProblemConvert.INSTANCE.convert(vo);
+        entity.setOptionNum(vo.getOptions().size());
         baseMapper.insert(entity);
         if(vo.getOptions().size()>0){
             choiceProblemDao.insertOption(vo.getOptions(),entity.getId());
@@ -53,9 +55,15 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(ChoiceProblemVO vo) {
         ChoiceProblemEntity entity = ChoiceProblemConvert.INSTANCE.convert(vo);
-
+        entity.setOptionNum(vo.getOptions().size());
+        //删除原先选项
+        choiceProblemDao.deleteOption(entity.getId());
+        if(vo.getOptions().size()>0){
+            choiceProblemDao.insertOption(vo.getOptions(),entity.getId());
+        }
         updateById(entity);
     }
 
@@ -70,22 +78,9 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         choiceProblemDao.updateStatus(problemId);
     }
 
-    @Override
-    public List<ChoiceOptionVO> getOption(Long problemId) {
-        return choiceProblemDao.selectOption(problemId);
-    }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateOption(List<ChoiceOptionVO> list) {
-        Long problemId=list.get(0).getProblemId();
-        //删除原先选项
-        choiceProblemDao.deleteOption(problemId);
-        //插入新选项
-        choiceProblemDao.insertOption(list,problemId);
-        //更新选项数量
-        choiceProblemDao.updateOptionNum(problemId);
-    }
+
+
 
 
 

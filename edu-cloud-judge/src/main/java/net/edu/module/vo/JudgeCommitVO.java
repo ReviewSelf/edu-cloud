@@ -12,11 +12,23 @@ import lombok.Data;
  */
 @Data
 public class JudgeCommitVO {
-    private Integer problemId;
-    private String code;
-    private Double timeLimit;
-    private Integer languageId;
-    private Integer memoryLimit;
+    Float cpu_time_limit;
+    Integer memory_limit;
+    String stdin;
+    String language_id;
+    String expected_output;
+    String source_code;
+
+
+    public String toJsonString() {
+        return "{\"cpu_time_limit\":\""+cpu_time_limit
+                +"\",\"memory_limit\":\""+memory_limit
+                +"\",\"stdin\":\""+stdin
+                +"\",\"language_id\":\""+language_id
+                +"\",\"expected_output\":\""+expected_output
+                +"\",\"source_code\":\""+source_code
+                +"\"}";
+    }
 
 
 }

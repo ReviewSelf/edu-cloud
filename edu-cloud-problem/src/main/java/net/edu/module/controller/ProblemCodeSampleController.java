@@ -11,8 +11,8 @@ import net.edu.module.entity.ProblemCodeSampleEntity;
 import net.edu.module.query.ProblemCodeSampleQuery;
 import net.edu.module.service.ProblemCodeSampleService;
 import net.edu.module.vo.CodeProblemVO;
-import net.edu.module.vo.FileUploadVO;
 import net.edu.module.vo.ProblemCodeSampleVO;
+import net.edu.module.vo.SampleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,16 +63,9 @@ public class ProblemCodeSampleController {
 
     @PostMapping("file")
     @Operation(summary = "保存样例文件")
-    public Result<String> saveSample(@RequestParam("fileIn") MultipartFile fileIn,@RequestParam("fileOut") MultipartFile fileOut,@RequestParam("id") Long id){
-        FileUploadVO fileUploadVOIn = eduFileApi.upload(fileIn,"1");
-        FileUploadVO fileUploadVOOut = eduFileApi.upload(fileOut,"1");
-        ProblemCodeSampleEntity problemCodeSampleEntity = new ProblemCodeSampleEntity();
-        problemCodeSampleEntity.setProblemId(id);
-        problemCodeSampleEntity.setInputPath(fileUploadVOIn.getUrl());
-        problemCodeSampleEntity.setInputSize(fileUploadVOIn.getSize().toString());
-        problemCodeSampleEntity.setOutputPath(fileUploadVOOut.getUrl());
-        problemCodeSampleEntity.setOutputPath(fileUploadVOOut.getSize().toString());
-        problemCodeSampleService.saveSample(problemCodeSampleEntity);
+    public Result<String> saveSample(@RequestParam("input") MultipartFile[] inFiles,@RequestParam("output") MultipartFile[] outFiles,@RequestParam("problemId") Long problemId){
+        List<SampleVO> sampleVOS=eduFileApi.uploadBatch(inFiles,outFiles, problemId);
+        problemCodeSampleService.saveSample(sampleVOS,problemId);
         return Result.ok();
     }
 

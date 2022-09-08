@@ -74,4 +74,10 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
         enrollUserDao.deleteEnrollUser(id);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public  void confirm(Integer id){
+        enrollUserDao.confirmEnrollUser(id);
+    }
+
 }

@@ -40,8 +40,8 @@ public class ChoiceProblemController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<ChoiceProblemVO> get(@PathVariable("id") Long id){
-        ChoiceProblemEntity entity = choiceProblemService.getById(id);
-        return Result.ok(ChoiceProblemConvert.INSTANCE.convert(entity));
+        ChoiceProblemVO vo = choiceProblemService.getChoiceProblem(id);
+        return Result.ok(vo);
     }
 
     @PostMapping
@@ -53,10 +53,10 @@ public class ChoiceProblemController {
     }
 
 
-    @GetMapping("updateStatus/{id}")
+    @GetMapping("updateStatus/{problemId}")
     @Operation(summary = "修改状态")
-    public Result<String> updateStatus(@PathVariable("id")  Integer id){
-        choiceProblemService.updateStatus(id);
+    public Result<String> updateStatus(@PathVariable("problemId")  Long problemId){
+        choiceProblemService.updateStatus(problemId);
 
         return Result.ok();
     }
@@ -78,11 +78,10 @@ public class ChoiceProblemController {
         return Result.ok();
     }
 
-    @GetMapping("option/{id}")
-    @Operation(summary = "获取选项")
-    public Result<List<ChoiceOptionVO>> getOption(@PathVariable("id")  Integer id){
-        List<ChoiceOptionVO> list =  choiceProblemService.getOption(id);
-
+    @GetMapping("option/{problemId}")
+    @Operation(summary = "根据问题id获取选项")
+    public Result<List<ChoiceOptionVO>> getOption(@PathVariable("problemId")  Long problemId){
+        List<ChoiceOptionVO> list =  choiceProblemService.getOption(problemId);
         return Result.ok(list);
     }
 

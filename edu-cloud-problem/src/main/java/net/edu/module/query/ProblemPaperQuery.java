@@ -27,5 +27,5 @@ public class ProblemPaperQuery extends Query {
 
 
     @Schema(description = "知识点id")
-    private Integer kpId;
+    private Long kpId;
 }

@@ -1,8 +1,5 @@
 package net.edu.module.service.impl;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
@@ -11,16 +8,11 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ChoiceProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
-import net.edu.module.entity.CodeProblemEntity;
-import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.query.ChoiceProblemQuery;
 import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.dao.ChoiceProblemDao;
 import net.edu.module.service.ChoiceProblemService;
-import net.edu.module.vo.CodeProblemVO;
-import net.edu.module.vo.FillProblemVO;
-import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,12 +38,18 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     }
 
 
-
+    @Override
+    public ChoiceProblemVO getChoiceProblem(Long problemId) {
+        return choiceProblemDao.selectChoiceProblem(problemId);
+    }
     @Override
     public void save(ChoiceProblemVO vo) {
         ChoiceProblemEntity entity = ChoiceProblemConvert.INSTANCE.convert(vo);
-
         baseMapper.insert(entity);
+        if(vo.getOptions().size()>0){
+            choiceProblemDao.insertOption(vo.getOptions(),entity.getId());
+        }
+        System.out.println(entity.getId());
     }
 
     @Override
@@ -68,24 +66,27 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     }
 
     @Override
-    public boolean updateStatus(Integer id) {
-        choiceProblemDao.updateStatus(id);
-        return true;
+    public void updateStatus(Long problemId) {
+        choiceProblemDao.updateStatus(problemId);
     }
 
     @Override
-    public List<ChoiceOptionVO> getOption(Integer id) {
-        return choiceProblemDao.selectOption(id);
+    public List<ChoiceOptionVO> getOption(Long problemId) {
+        return choiceProblemDao.selectOption(problemId);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateOption(List<ChoiceOptionVO> list) {
-        choiceProblemDao.deleteOption(list.get(0).getProblemId());
-        for (int i=0;i<list.size();i++) {
-            choiceProblemDao.insertOption(list.get(i));
-        }
-        choiceProblemDao.updateOptionNum(list.get(0).getProblemId());
+        Long problemId=list.get(0).getProblemId();
+        //删除原先选项
+        choiceProblemDao.deleteOption(problemId);
+        //插入新选项
+        choiceProblemDao.insertOption(list,problemId);
+        //更新选项数量
+        choiceProblemDao.updateOptionNum(problemId);
     }
+
+
 
 }

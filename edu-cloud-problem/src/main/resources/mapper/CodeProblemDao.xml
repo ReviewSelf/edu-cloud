@@ -30,7 +30,7 @@
         <result property="status" column="status"/>
     </resultMap>
     <update id="updateStatus" >
-        update problem_code set status=abs(status-1) where id=#{id}
+        update problem_code set status=abs(status-1) where id=#{problemId}
     </update>
 
 
@@ -59,7 +59,7 @@
     </select>
 
     <update id="updateSampleNum">
-        update problem_code set sample_num = (select count(1) from problem_code_sample where problem_id=#{id} and deleted=0)
-        where id=#{id}
+        update problem_code set sample_num = (select count(1) from problem_code_sample where problem_id=#{problemId} and deleted=0)
+        where id=#{problemId}
     </update>
 </mapper>

@@ -86,7 +86,7 @@ public class CodeProblemEntity extends BaseEntity {
 	/**
 	* 知识点id
 	*/
-	private Integer kpId;
+	private Long kpId;
 
 	/**
 	* 提交次数

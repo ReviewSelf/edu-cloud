@@ -4,7 +4,7 @@
 
 
 
-   <select id="selectSample" resultType="net.edu.module.vo.ProblemCodeSampleVO">
+   <select id="selectSample" resultType="net.edu.module.vo.CodeSampleVO">
         select id,problem_id as problemId,input_path as inputPath,output_path as outputPath,
                input_size as inputSize,output_size as outputSize,create_time as createTime
         from problem_code_sample where  id = #{id}

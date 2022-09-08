@@ -19,15 +19,19 @@ public interface ChoiceProblemService extends BaseService<ChoiceProblemEntity> {
 
     PageResult<ChoiceProblemVO> page(ChoiceProblemQuery query);
 
+    ChoiceProblemVO getChoiceProblem(Long problemId);
+
     void save(ChoiceProblemVO vo);
 
     void update(ChoiceProblemVO vo);
 
     void delete(List<Long> idList);
 
-    boolean updateStatus(Integer id);
+    void updateStatus(Long problemId);
 
-    List<ChoiceOptionVO> getOption(Integer id);
+    List<ChoiceOptionVO> getOption(Long id);
 
     void updateOption(List<ChoiceOptionVO> list);
+
+
 }

@@ -25,18 +25,18 @@ public interface ChoiceProblemDao extends BaseDao<ChoiceProblemEntity> {
 
     
 
-    ChoiceProblemVO selectChoiceProblem(Long id);
+    ChoiceProblemVO selectChoiceProblem(Long problemId);
 
 
-	void updateStatus(Integer id);
+	void updateStatus(Long problemId);
 
     IPage<ChoiceProblemVO> page(Page<ChoiceProblemVO> page, @Param("query")ChoiceProblemQuery query);
 
-    List<ChoiceOptionVO> selectOption(@Param("id") Integer id);
+    List<ChoiceOptionVO> selectOption(@Param("problemId") Long problemId);
 
     void deleteOption(@Param("id") Long problemId);
 
-    void insertOption(@Param("vo") ChoiceOptionVO choiceOptionVO);
+    void insertOption(@Param("list") List<ChoiceOptionVO> choiceOptionVO,@Param("problemId")Long problemId);
 
     void updateOptionNum(@Param("id") Long problemId);
 }

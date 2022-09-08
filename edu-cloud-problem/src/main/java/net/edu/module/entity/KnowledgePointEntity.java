@@ -13,7 +13,7 @@ import net.edu.framework.mybatis.entity.BaseEntity;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-@TableName("knowledge_point")
+@TableName("teach_knowledge_point")
 public class KnowledgePointEntity extends BaseEntity {
     /**
      * 上级ID，一级菜单为0

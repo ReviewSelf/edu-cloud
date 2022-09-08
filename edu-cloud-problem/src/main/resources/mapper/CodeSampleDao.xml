@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.ProblemCodeSampleDao">
 
-    <resultMap type="net.edu.module.entity.ProblemCodeSampleEntity" id="problemCodeSampleMap">
+    <resultMap type="net.edu.module.entity.CodeSampleEntity" id="problemCodeSampleMap">
         <result property="id" column="id"/>
         <result property="problemId" column="problem_id"/>
         <result property="inputPath" column="input_path"/>

@@ -56,6 +56,13 @@ spring:
             - Path=/judge/**
           filters:
             - StripPrefix=1
+        - id: edu-cloud-affair
+          uri: lb://edu-cloud-affair
+          order: 105
+          predicates:
+            - Path=/affair/**
+          filters:
+            - StripPrefix=1
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

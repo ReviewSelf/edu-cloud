@@ -97,7 +97,7 @@
     </insert>
 
     <update id="updateUsedNum">
-        update problem_choice set used_num= used_num+1 where id = #{id} and deleted=0
+        update problem_choice set used_num= used_num+1 where id = #{id}
     </update>
 
     <update id="updateSubmitTimes" >

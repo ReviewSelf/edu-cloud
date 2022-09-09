@@ -53,11 +53,10 @@ public class FillProblemController {
         return Result.ok();
     }
 
-    @GetMapping("updateStatus/{id}")
+    @GetMapping("updateStatus/{problemId}")
     @Operation(summary = "修改状态")
-    public Result<String> updateStatus(@PathVariable("id")  Integer id){
-        fillProblemService.updateStatus(id);
-
+    public Result<String> updateStatus(@PathVariable("problemId")  Long problemId){
+        fillProblemService.updateStatus(problemId);
         return Result.ok();
     }
 

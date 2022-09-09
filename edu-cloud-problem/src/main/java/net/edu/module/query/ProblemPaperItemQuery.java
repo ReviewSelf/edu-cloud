@@ -19,6 +19,6 @@ import java.util.Date;
 @Schema(description = "问题卷关联问题表查询")
 public class ProblemPaperItemQuery extends Query {
     @Schema(description = "paperId")
-    private Integer paperId;
+    private Long paperId;
 
 }

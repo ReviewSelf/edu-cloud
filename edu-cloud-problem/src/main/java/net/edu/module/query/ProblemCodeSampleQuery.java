@@ -17,5 +17,6 @@ import net.edu.framework.common.query.Query;
 @Schema(description = "测试样例表查询")
 public class ProblemCodeSampleQuery extends Query {
     private Integer problemId;
+    private Long id;
 
 }

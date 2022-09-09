@@ -22,7 +22,7 @@ public class FillProblemQuery extends Query {
     private Integer difficulty;
 
     @Schema(description = "知识点")
-    private Integer kpId;
+    private Long kpId;
 
     @Schema(description = "状态")
     private Integer status;

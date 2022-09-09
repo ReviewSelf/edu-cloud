@@ -9,6 +9,7 @@ import net.edu.module.convert.ChoiceProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.service.ChoiceProblemService;
 import net.edu.module.query.ChoiceProblemQuery;
+import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +40,8 @@ public class ChoiceProblemController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<ChoiceProblemVO> get(@PathVariable("id") Long id){
-        ChoiceProblemEntity entity = choiceProblemService.getById(id);
-        return Result.ok(ChoiceProblemConvert.INSTANCE.convert(entity));
+        ChoiceProblemVO vo = choiceProblemService.getChoiceProblem(id);
+        return Result.ok(vo);
     }
 
     @PostMapping
@@ -52,10 +53,10 @@ public class ChoiceProblemController {
     }
 
 
-    @GetMapping("updateStatus/{id}")
+    @GetMapping("updateStatus/{problemId}")
     @Operation(summary = "修改状态")
-    public Result<String> updateStatus(@PathVariable("id")  Integer id){
-        choiceProblemService.updateStatus(id);
+    public Result<String> updateStatus(@PathVariable("problemId")  Long problemId){
+        choiceProblemService.updateStatus(problemId);
 
         return Result.ok();
     }
@@ -76,4 +77,8 @@ public class ChoiceProblemController {
 
         return Result.ok();
     }
+
+
+
+
 }

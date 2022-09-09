@@ -19,5 +19,5 @@ public interface ProblemPaperDao extends BaseDao<ProblemPaperEntity> {
 
     IPage<ProblemPaperVO> page(Page<ProblemPaperVO> page, ProblemPaperQuery query);
 
-    int updateStatus(Long id);
+    int updateStatus(Long paperId);
 }

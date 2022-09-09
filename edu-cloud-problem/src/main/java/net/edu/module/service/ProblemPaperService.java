@@ -26,5 +26,5 @@ public interface ProblemPaperService extends BaseService<ProblemPaperEntity> {
 
     void delete(List<Long> idList);
 
-    void updateStatus(Long id);
+    void updateStatus(Long paperId);
 }

@@ -69,4 +69,8 @@ public class ProblemPaperServiceImpl extends BaseServiceImpl<ProblemPaperDao, Pr
         removeByIds(idList);
     }
 
+    @Override
+    public void updateStatus(Long paperId) {
+        baseMapper.updateStatus(paperId);
+    }
 }

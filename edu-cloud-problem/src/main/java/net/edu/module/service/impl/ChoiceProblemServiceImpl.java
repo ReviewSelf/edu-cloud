@@ -78,10 +78,19 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         choiceProblemDao.updateStatus(problemId);
     }
 
+    @Override
+    public Boolean updateUsedNum(Long id) {
+        int ans = choiceProblemDao.updateUsedNum(id);
+        if(ans!=0) return true;
+        return false;
+    }
 
-
-
-
+    @Override
+    public Boolean updateSubmitTimes(Long id, Boolean isTrue) {
+        int ans =  choiceProblemDao.updateSubmitTimes(id,isTrue);
+        if(ans!=0) return true;
+        return false;
+    }
 
 
 }

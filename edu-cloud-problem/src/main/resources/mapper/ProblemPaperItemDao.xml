@@ -35,8 +35,8 @@
     <insert id="insert" >
         insert into problem_paper_item(paper_id, sort, problem_id, score, problem_name, problem_type)
             values
-        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
-            (#{item.paperId},#{item.sort},#{item.problemId},#{item.score},#{problemName},#{item.problemType})
+        <foreach collection="list" item="item" index="index" separator=",">
+             (#{item.paperId},#{item.sort},#{item.problemId},#{item.score},#{item.problemName},#{item.problemType})
         </foreach>
 
     </insert>

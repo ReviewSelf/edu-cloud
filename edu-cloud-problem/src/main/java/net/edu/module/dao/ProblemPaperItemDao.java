@@ -5,6 +5,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ProblemPaperItemEntity;
 import net.edu.module.query.ProblemPaperItemQuery;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -21,5 +22,5 @@ public interface ProblemPaperItemDao extends BaseDao<ProblemPaperItemEntity> {
 
      int delete(Integer paperId);
 
-     int insert(List<ProblemPaperItemEntity> list);
+     int insert(@Param("list") List<ProblemPaperItemEntity> list);
 }

@@ -94,6 +94,18 @@
 
     </insert>
 
+    <update id="updateUsedNum">
+        update problem_choice set used_num= used_num+1 where id = #{id} and deleted=0
+    </update>
+
+    <update id="updateSubmitTimes" >
+        update problem_choice set submit_times = submit_times +1
+        <if test="isTrue==true">
+            ,correct_times = correct_times+1
+        </if>
+            where id = #{id} and deleted=0
+    </update>
+
 <!--    <update id="updateOptionNum">-->
 <!--        update problem_choice-->
 <!--        set option_num = (select sum(1) from problem_choice_options where problem_id = #{id} and deleted = 0)-->

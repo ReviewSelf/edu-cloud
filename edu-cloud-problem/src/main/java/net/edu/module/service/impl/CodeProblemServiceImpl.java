@@ -62,4 +62,19 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
         codeProblemDao.updateStatus(problemId);
     }
 
+    @Override
+    public Boolean updateUsedNum(Long id) {
+        int ans = codeProblemDao.updateUsedNum(id);
+        if(ans!=0) return true;
+        return false;
+    }
+
+    @Override
+    public Boolean updateSubmitTimes(Long id, Boolean isTrue) {
+
+        int ans = codeProblemDao.updateSubmitTimes(id,isTrue);
+        if(ans!=0) return true;
+        return false;
+    }
+
 }

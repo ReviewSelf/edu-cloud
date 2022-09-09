@@ -82,4 +82,18 @@ public class CodeProblemController {
 
         return Result.ok();
     }
+
+    @PutMapping("usedNum")
+    @Operation(summary = "修改引用次数")
+    public Result<Boolean> updateUsedNum(@RequestParam Long id ){
+
+
+        return Result.ok(codeProblemService.updateUsedNum(id));
+    }
+
+    @PutMapping("submitTimes")
+    @Operation(summary = "修改提交和正确次数")
+    public Result<Boolean> updateSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue ){
+        return Result.ok( codeProblemService.updateSubmitTimes(id,isTrue));
+    }
 }

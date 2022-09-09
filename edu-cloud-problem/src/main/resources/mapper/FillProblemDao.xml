@@ -55,4 +55,17 @@
         </if>
         order by status asc,id desc
     </select>
+
+
+    <update id="updateUsedNum">
+        update problem_fill set used_num= used_num+1 where id = #{id} and deleted=0
+    </update>
+
+    <update id="updateSubmitTimes">
+        update problem_fill set submit_times = submit_times +1
+        <if test="isTrue==true">
+            ,correct_times = correct_times+1
+        </if>
+        where id = #{id} and deleted=0
+    </update>
 </mapper>

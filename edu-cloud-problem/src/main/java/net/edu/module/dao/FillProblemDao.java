@@ -21,4 +21,8 @@ public interface FillProblemDao extends BaseDao<FillProblemEntity> {
     IPage<FillProblemVO> page(Page<FillProblemVO> page, @Param("query") FillProblemQuery query);
 
     void updateStatus(Long id);
+
+    int updateUsedNum(@Param("id") Long id);
+
+    int updateSubmitTimes(@Param("id") Long id,@Param("isTrue") Boolean isTrue);
 }

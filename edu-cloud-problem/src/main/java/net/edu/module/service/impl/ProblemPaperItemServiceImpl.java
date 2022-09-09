@@ -36,7 +36,7 @@ public class ProblemPaperItemServiceImpl extends BaseServiceImpl<ProblemPaperIte
 
 
     @Override
-    public List<ProblemPaperItemEntity> get(Integer paperId) {
+    public List<ProblemPaperItemEntity> get(Long paperId) {
 
         return problemPaperItemDao.selectPageRecords(paperId);
     }
@@ -50,7 +50,7 @@ public class ProblemPaperItemServiceImpl extends BaseServiceImpl<ProblemPaperIte
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Integer paperId) {
+    public void delete(Long paperId) {
         problemPaperItemDao.delete(paperId);
     }
 

@@ -76,4 +76,17 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
     public void updateStatus(Long problemId) {
         fillProblemDao.updateStatus(problemId);
     }
+
+
+    @Override
+    public void updateUsedNum(Long id) {
+        fillProblemDao.updateUsedNum(id);
+
+    }
+
+    @Override
+    public void updateSubmitTimes(Long id, Boolean isTrue) {
+        fillProblemDao.updateSubmitTimes(id,isTrue);
+
+    }
 }

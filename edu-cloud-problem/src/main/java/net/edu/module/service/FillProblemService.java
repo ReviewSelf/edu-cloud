@@ -25,4 +25,8 @@ public interface FillProblemService extends BaseService<FillProblemEntity> {
     void delete(List<Long> idList);
 
     void updateStatus(Long problemId);
+
+    void updateUsedNum(Long id);
+
+    void updateSubmitTimes(Long id, Boolean isTrue);
 }

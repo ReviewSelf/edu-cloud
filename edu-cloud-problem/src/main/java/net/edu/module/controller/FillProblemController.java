@@ -75,4 +75,20 @@ public class FillProblemController {
 
         return Result.ok();
     }
+
+    @PutMapping("usedNum")
+    @Operation(summary = "修改引用次数")
+    public Result<String> updateUsedNum(@RequestParam Long id ){
+        fillProblemService.updateUsedNum(id);
+
+        return Result.ok();
+    }
+
+    @PutMapping("submitTimes")
+    @Operation(summary = "修改提交和正确次数")
+    public Result<String> updateSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue ){
+        fillProblemService.updateSubmitTimes(id,isTrue);
+
+        return Result.ok( );
+    }
 }

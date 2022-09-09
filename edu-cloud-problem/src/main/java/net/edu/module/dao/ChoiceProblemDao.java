@@ -11,6 +11,7 @@ import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -28,14 +29,18 @@ public interface ChoiceProblemDao extends BaseDao<ChoiceProblemEntity> {
     ChoiceProblemVO selectChoiceProblem(Long problemId);
 
 
-	void updateStatus(Long problemId);
+	int updateStatus(Long problemId);
 
     IPage<ChoiceProblemVO> page(Page<ChoiceProblemVO> page, @Param("query")ChoiceProblemQuery query);
 
 
-    void deleteOption(@Param("problemId") Long problemId);
+    int deleteOption(@Param("problemId") Long problemId);
 
-    void insertOption(@Param("list") List<ChoiceOptionVO> choiceOptionVO,@Param("problemId")Long problemId);
+    int insertOption(@Param("list") List<ChoiceOptionVO> choiceOptionVO,@Param("problemId")Long problemId);
+
+    int updateUsedNum(@Param("id") Long id);
+
+    int updateSubmitTimes(@Param("id") Long id,@Param("isTrue") Boolean isTrue);
 
 //    void updateOptionNum(@Param("id") Long problemId);
 }

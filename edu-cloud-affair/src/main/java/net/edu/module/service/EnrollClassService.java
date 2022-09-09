@@ -18,11 +18,15 @@ import java.util.List;
  */
 public interface EnrollClassService extends BaseService<EnrollClassEntity> {
 
-    IPage<EnrollClassEntity> getDailyReports(Integer pageIndex, Integer pageSize);
+    IPage<EnrollClassEntity> getEnrollClass(Integer pageIndex, Integer pageSize);
 
     void save(EnrollClassVO vo);
 
     void update(EnrollClassVO vo);
 
     void deleteEnrollClass(long id);
+
+    IPage<EnrollClassEntity> select(Integer pageIndex, Integer pageSize,String className);
+
+    void updateStatus(Long id);
 }

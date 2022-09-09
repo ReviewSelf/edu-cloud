@@ -18,7 +18,7 @@ import java.util.Date;
 @Schema(description = "班级发布查询")
 public class EnrollClassQuery extends Query {
     @Schema(description = "假班级id")
-    private Integer id;
+    private Long id;
 
     @Schema(description = "班级名称")
     private String className;

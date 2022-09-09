@@ -18,16 +18,8 @@ import java.util.Date;
 @TableName("enroll_class")
 public class EnrollClassEntity extends BaseEntity {
 
-
-
-
 	/**
-	* 创建人id
-	*/
-	private Integer createBy;
-
-	/**
-	* 0没有发布，1已经发布
+	* 状态,0没有发布，1已经发布
 	*/
 	private Integer status;
 
@@ -39,12 +31,12 @@ public class EnrollClassEntity extends BaseEntity {
 	/**
 	* 开始时间
 	*/
-	private Date startTime;
+	private String startTime;
 
 	/**
 	* 结束时间
 	*/
-	private Date endTime;
+	private String endTime;
 
 	/**
 	* 面向对象
@@ -56,16 +48,10 @@ public class EnrollClassEntity extends BaseEntity {
 	*/
 	private String target;
 
-	/**
-	* 是否删除
-	*/
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	private Integer deleted;
 
 	/**
 	* 上课日期
 	*/
-	private Date classDate;
+	private String classDate;
 
 }

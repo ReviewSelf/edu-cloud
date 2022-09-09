@@ -19,6 +19,6 @@ public class FileUploadVO implements Serializable {
     @Schema(description = "文件地址")
     private String url;
 
-    @Schema(description = "文件大小")
+    @Schema(description = "文件大小(字节/B)")
     private Long size;
 }

@@ -32,7 +32,7 @@ public class EnrollClassServiceImpl extends BaseServiceImpl<EnrollClassDao, Enro
     @Autowired
     private EnrollClassDao enrollClassDao;
     @Override
-    public IPage<EnrollClassEntity> getDailyReports(Integer pageIndex, Integer pageSize) {
+    public IPage<EnrollClassEntity> getEnrollClass(Integer pageIndex, Integer pageSize) {
         Page<EnrollClassEntity> page = new Page<>(pageIndex, pageSize);
         return enrollClassDao.getEnrollClassByPage(page);
     }
@@ -61,6 +61,20 @@ public class EnrollClassServiceImpl extends BaseServiceImpl<EnrollClassDao, Enro
     @Transactional(rollbackFor = Exception.class)
     public void deleteEnrollClass(long id) {
         enrollClassDao.deleteEnrollClass(id);
+    }
+
+    @Override
+    public IPage<EnrollClassEntity> select(Integer pageIndex, Integer pageSize,  String className) {
+        Page<EnrollClassEntity> page = new Page<>(pageIndex, pageSize);
+        if(className == null ){
+            return enrollClassDao.getEnrollClassByPage(page);
+        }
+        return enrollClassDao.select(page,className);
+    }
+
+    @Override
+    public void updateStatus(Long id) {
+        enrollClassDao.updateStatus(id);
     }
 
 }

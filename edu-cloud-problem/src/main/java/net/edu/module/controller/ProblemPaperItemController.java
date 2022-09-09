@@ -42,6 +42,7 @@ public class ProblemPaperItemController {
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody List<ProblemPaperItemEntity> list){
+        System.out.println(list);
         problemPaperItemService.insert(list);
 
         return Result.ok();

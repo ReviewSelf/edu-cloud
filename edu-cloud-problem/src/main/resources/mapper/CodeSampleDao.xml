@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.edu.module.dao.ProblemCodeSampleDao">
+<mapper namespace="net.edu.module.dao.CodeSampleDao">
 
     <resultMap type="net.edu.module.entity.CodeSampleEntity" id="problemCodeSampleMap">
         <result property="id" column="id"/>
@@ -14,17 +14,18 @@
     </resultMap>
 
 
-    <select id="selectProblem" resultType="net.edu.module.vo.CodeProblemVO">
-        select id,name,description,img,source,tips,advice_time as adviceTime,difficulty,input_explain as inputExplain
-             ,output_explain as outputExplain,sample_input as sampleInput,sample_output as sampleOutput,is_typical as isTypical,sample_num
-             ,kp_id as kpId,(select name from teach_knowledge_point where id=kp_id limit 1) as kpName, submit_times as submitTimes,correct_times as correctTimes,used_num as usedNum
-               ,memory_limit as memoryLimit,time_limit as timeLimit,create_time as createTime,creator,status
-        from problem_code where id=#{id}
-    </select>
+<!--    <select id="selectProblem" resultType="net.edu.module.vo.CodeProblemVO">-->
+<!--        select id,name,description,img,source,tips,advice_time as adviceTime,difficulty,input_explain as inputExplain-->
+<!--             ,output_explain as outputExplain,sample_input as sampleInput,sample_output as sampleOutput,is_typical as isTypical,sample_num-->
+<!--             ,kp_id as kpId,(select name from teach_knowledge_point where id=kp_id limit 1) as kpName, submit_times as submitTimes,correct_times as correctTimes,used_num as usedNum-->
+<!--               ,memory_limit as memoryLimit,time_limit as timeLimit,create_time as createTime,creator,status-->
+<!--        from problem_code where id=#{id}-->
+<!--    </select>-->
 
 
-    <insert id="insertSample">
-        insert into problem_code_sample(problem_id,input_path,output_path,input_size,output_size)
-        values(#{id},#{fileUploadVOIn.url},#{fileUploadVOOut.url},#{fileUploadVOIn.size},#{fileUploadVOOut.size})
-    </insert>
+<!--    <insert id="insertSample">-->
+<!--        insert into problem_code_sample(problem_id,input_path,output_path,input_size,output_size)-->
+<!--        values(#{id},#{fileUploadVOIn.url},#{fileUploadVOOut.url},#{fileUploadVOIn.size},#{fileUploadVOOut.size})-->
+<!--    </insert>-->
+
 </mapper>

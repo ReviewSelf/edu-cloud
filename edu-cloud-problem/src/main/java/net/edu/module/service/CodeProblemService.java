@@ -25,5 +25,9 @@ public interface CodeProblemService extends BaseService<CodeProblemEntity> {
 
     void delete(List<Long> idList);
 
-    boolean updateStatus(Integer id);
+    void updateStatus(Long problemId);
+
+    Boolean updateUsedNum(Long id);
+
+    Boolean updateSubmitTimes(Long id, Boolean isTrue);
 }

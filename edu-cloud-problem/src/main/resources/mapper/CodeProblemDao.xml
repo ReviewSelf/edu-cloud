@@ -30,14 +30,14 @@
         <result property="status" column="status"/>
     </resultMap>
     <update id="updateStatus" >
-        update problem_code set status=abs(status-1) where id=#{id}
+        update problem_code set status=abs(status-1) where id=#{problemId}
     </update>
 
 
     <select id="page" resultType="net.edu.module.vo.CodeProblemVO" >
         select id,name,description,img,source,tips,advice_time as adviceTime,difficulty,input_explain as inputExplain
                ,output_explain as outputExplain,sample_input as sampleInput,sample_output as sampleOutput,is_typical as isTypical,sample_num
-               ,kp_id as kpId,(select name from knowledge_point where id=kp_id limit 1) as kpName, submit_times as submitTimes,correct_times as correctTimes,used_num as usedNum
+               ,kp_id as kpId,(select name from teach_knowledge_point where id=kp_id limit 1) as kpName, submit_times as submitTimes,correct_times as correctTimes,used_num as usedNum
                ,memory_limit as memoryLimit,time_limit as timeLimit,create_time as createTime,creator,status
         from problem_code where deleted=0
         <if test="query.getName()!='' and query.getName()!=null">
@@ -55,10 +55,34 @@
         <if test="query.getIsTypical()!=null">
             and is_typical = #{query.isTypical}
         </if>
-        order by status asc,update_time desc
+        order by status asc,id desc
     </select>
 
     <update id="updateSampleNum">
-        update problem_code set sample_num = (select sum(1) from problem_code_sample where problem_id=#{id})
+        update problem_code set sample_num = (select count(1) from problem_code_sample where problem_id=#{problemId} and deleted=0)
+        where id=#{problemId}
+    </update>
+
+
+
+    <insert id="insertOption">
+        insert into problem_choice_options(problem_id, problem_option, is_true)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{problemId}, #{item.problemOption}, #{item.isTrue})
+        </foreach>
+
+    </insert>
+
+    <update id="updateUsedNum">
+        update problem_code set used_num= used_num+1 where id = #{id} and deleted=0
+    </update>
+
+    <update id="updateSubmitTimes">
+        update problem_code set submit_times = submit_times +1
+        <if test="isTrue==true">
+            ,correct_times = correct_times+1
+        </if>
+        where id = #{id} and deleted=0
     </update>
 </mapper>

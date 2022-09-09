@@ -7,6 +7,7 @@ import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
 * 选择题库表
@@ -61,6 +62,8 @@ public class ChoiceProblemVO implements Serializable {
 	@Schema(description = "典型问题")
 	private Integer isTypical;
 
+	@Schema(description = "选项")
+	private List<ChoiceOptionVO> options;
 
 	@Schema(description = "选项数")
 	private Integer optionNum;

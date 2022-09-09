@@ -53,11 +53,10 @@ public class FillProblemController {
         return Result.ok();
     }
 
-    @GetMapping("updateStatus/{id}")
+    @GetMapping("updateStatus/{problemId}")
     @Operation(summary = "修改状态")
-    public Result<String> updateStatus(@PathVariable("id")  Integer id){
-        fillProblemService.updateStatus(id);
-
+    public Result<String> updateStatus(@PathVariable("problemId")  Long problemId){
+        fillProblemService.updateStatus(problemId);
         return Result.ok();
     }
 
@@ -75,5 +74,21 @@ public class FillProblemController {
         fillProblemService.delete(idList);
 
         return Result.ok();
+    }
+
+    @PutMapping("usedNum")
+    @Operation(summary = "修改引用次数")
+    public Result<Boolean> updateUsedNum(@RequestParam Long id ){
+
+
+        return Result.ok(fillProblemService.updateUsedNum(id));
+    }
+
+    @PutMapping("submitTimes")
+    @Operation(summary = "修改提交和正确次数")
+    public Result<Boolean> updateSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue ){
+
+
+        return Result.ok( fillProblemService.updateSubmitTimes(id,isTrue));
     }
 }

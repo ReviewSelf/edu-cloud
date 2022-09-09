@@ -6,13 +6,13 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduFileApi;
-import net.edu.module.convert.ProblemCodeSampleConvert;
-import net.edu.module.entity.ProblemCodeSampleEntity;
+import net.edu.module.convert.CodeSampleConvert;
+import net.edu.module.entity.CodeSampleEntity;
 import net.edu.module.query.ProblemCodeSampleQuery;
 import net.edu.module.service.ProblemCodeSampleService;
 import net.edu.module.vo.CodeProblemVO;
-import net.edu.module.vo.FileUploadVO;
-import net.edu.module.vo.ProblemCodeSampleVO;
+import net.edu.module.vo.CodeSampleVO;
+import net.edu.module.vo.SampleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,18 +39,18 @@ public class ProblemCodeSampleController {
 
     @GetMapping("page")
     @Operation(summary = "分页")
-    public Result<PageResult<ProblemCodeSampleVO>> page(@Valid ProblemCodeSampleQuery query){
-        PageResult<ProblemCodeSampleVO> page = problemCodeSampleService.page(query);
+    public Result<PageResult<CodeSampleVO>> page(@Valid ProblemCodeSampleQuery query){
+        PageResult<CodeSampleVO> page = problemCodeSampleService.page(query);
 
         return Result.ok(page);
     }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    public Result<ProblemCodeSampleVO> get(@PathVariable("id") Long id){
-        ProblemCodeSampleEntity entity = problemCodeSampleService.getById(id);
+    public Result<CodeSampleVO> get(@PathVariable("id") Long id){
+        CodeSampleEntity entity = problemCodeSampleService.getById(id);
 
-        return Result.ok(ProblemCodeSampleConvert.INSTANCE.convert(entity));
+        return Result.ok(CodeSampleConvert.INSTANCE.convert(entity));
     }
 
     @GetMapping("problem/{id}")
@@ -63,23 +63,18 @@ public class ProblemCodeSampleController {
 
     @PostMapping("file")
     @Operation(summary = "保存样例文件")
-    public Result<String> saveSample(@RequestParam("fileIn") MultipartFile fileIn,@RequestParam("fileOut") MultipartFile fileOut,@RequestParam("id") Long id){
-        FileUploadVO fileUploadVOIn = eduFileApi.upload(fileIn,"1");
-        FileUploadVO fileUploadVOOut = eduFileApi.upload(fileOut,"1");
-        ProblemCodeSampleEntity problemCodeSampleEntity = new ProblemCodeSampleEntity();
-        problemCodeSampleEntity.setProblemId(id);
-        problemCodeSampleEntity.setInputPath(fileUploadVOIn.getUrl());
-        problemCodeSampleEntity.setInputSize(fileUploadVOIn.getSize().toString());
-        problemCodeSampleEntity.setOutputPath(fileUploadVOOut.getUrl());
-        problemCodeSampleEntity.setOutputPath(fileUploadVOOut.getSize().toString());
-        problemCodeSampleService.saveSample(problemCodeSampleEntity);
+    public Result<String> saveSample(@RequestParam("input") MultipartFile[] inFiles,@RequestParam("output") MultipartFile[] outFiles,@RequestParam("problemId") Long problemId){
+        System.out.println(inFiles+" "+outFiles+" "+problemId);
+        List<SampleVO> sampleVOS=eduFileApi.uploadBatch(inFiles,outFiles, problemId);
+        System.out.println(sampleVOS);
+        problemCodeSampleService.saveSample(sampleVOS,problemId);
         return Result.ok();
     }
 
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody ProblemCodeSampleVO vo){
+    public Result<String> save(@RequestBody CodeSampleVO vo){
         problemCodeSampleService.save(vo);
 
         return Result.ok();
@@ -87,7 +82,7 @@ public class ProblemCodeSampleController {
 
     @PutMapping
     @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid ProblemCodeSampleVO vo){
+    public Result<String> update(@RequestBody @Valid CodeSampleVO vo){
         problemCodeSampleService.update(vo);
 
         return Result.ok();

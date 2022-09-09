@@ -2,11 +2,11 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.entity.ProblemCodeSampleEntity;
+import net.edu.module.entity.CodeSampleEntity;
 import net.edu.module.query.ProblemCodeSampleQuery;
 import net.edu.module.vo.CodeProblemVO;
-import net.edu.module.vo.FileUploadVO;
-import net.edu.module.vo.ProblemCodeSampleVO;
+import net.edu.module.vo.CodeSampleVO;
+import net.edu.module.vo.SampleVO;
 
 import java.util.List;
 
@@ -16,17 +16,17 @@ import java.util.List;
  * @author sqw 
  * @since 1.0.0 2022-09-07
  */
-public interface ProblemCodeSampleService extends BaseService<ProblemCodeSampleEntity> {
+public interface ProblemCodeSampleService extends BaseService<CodeSampleEntity> {
 
-    PageResult<ProblemCodeSampleVO> page(ProblemCodeSampleQuery query);
+    PageResult<CodeSampleVO> page(ProblemCodeSampleQuery query);
 
-    void save(ProblemCodeSampleVO vo);
+    void save(CodeSampleVO vo);
 
-    void update(ProblemCodeSampleVO vo);
+    void update(CodeSampleVO vo);
 
     void delete(List<Long> idList);
 
     CodeProblemVO getProblem(Long id);
 
-    void saveSample(ProblemCodeSampleEntity problemCodeSampleEntity);
+    void saveSample(List<SampleVO> sampleVOS,Long problemId);
 }

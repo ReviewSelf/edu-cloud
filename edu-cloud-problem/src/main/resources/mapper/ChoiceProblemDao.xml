@@ -2,27 +2,59 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.ChoiceProblemDao">
-    <select id="selectChoiceProblem" resultType="net.edu.module.vo.ChoiceProblemVO">
-<!--        select id,type,name,description,source,tips,advice_time,img,difficulty,kp_id as kpId-->
-<!--               ,(select name from knowledge_point where id=kp_id limit 1) as kpName,submit_times-->
-<!--               ,correct_times as correctTimes,is_typical as isTypical,option_num as optionNum,used_num as usedNum,-->
-<!--                -->
-<!--        from problem_choice where deleted = 0-->
-<!--        order by status asc,update_time desc-->
+    <resultMap type="net.edu.module.vo.ChoiceProblemVO" id="choiceProblem">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="source" property="source"/>
+        <result column="tips" property="tips"/>
+        <result column="advice_time" property="adviceTime"/>
+        <result column="img" property="img"/>
+        <result column="difficulty" property="difficulty"/>
+        <result column="kp_id" property="kpId"/>
+        <result column="kp_name" property="kpName"/>
+        <result column="submit_times" property="submitTimes"/>
+        <result column="correct_times" property="correctTimes"/>
+        <result column="is_typical" property="isTypical"/>
+        <result column="option_num" property="optionNum"/>
+        <result column="used_num" property="usedNum"/>
+        <result column="create_time" property="createTime"/>
+        <result column="creator" property="creator"/>
+        <result column="status" property="status"/>
+        <collection property="options"  javaType="java.util.ArrayList" ofType="net.edu.module.vo.ChoiceOptionVO">
+            <id column="option_id" property="id" />
+            <result column="problem_id" property="problemId" />
+            <result column="problem_option" property="problemOption"  />
+            <result column="is_true" property="isTrue"  />
+        </collection>
+
+
+    </resultMap>
+
+    <select id="selectChoiceProblem" resultMap="choiceProblem">
+        select a.id,type,name,description,source,tips,advice_time,img,difficulty,kp_id
+               ,(select name from teach_knowledge_point where id=kp_id limit 1) as kp_name,submit_times
+               ,correct_times ,is_typical ,option_num,used_num
+               ,a.create_time ,creator,status ,
+                b.id as option_id,b.problem_id,b.problem_option,b.is_true
+        from problem_choice a left join problem_choice_options b on
+        a.id=b.problem_id where a.deleted = 0 and a.id=#{problemId}
+
     </select>
 
 
     <select id="page" resultType="net.edu.module.vo.ChoiceProblemVO">
         select id,type,name,description,source,tips,advice_time as adviceTime,img,difficulty,kp_id as kpId
-        ,(select name from knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
+        ,(select name from teach_knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
         ,correct_times as correctTimes,is_typical as isTypical,option_num as optionNum,used_num as usedNum,
         create_time as createTime,creator,status
         from problem_choice where deleted = 0
         <if test="query.getType()!=null">
-            and  type = #{query.type}
+            and type = #{query.type}
         </if>
         <if test="query.getName()!='' and query.getName()!=null">
-            and  name like concat('%',#{query.name},'%')
+            and name like concat('%',#{query.name},'%')
         </if>
         <if test="query.getDifficulty()!=null">
             and difficulty =#{query.difficulty}
@@ -36,10 +68,43 @@
         <if test="query.getIsTypical()!=null">
             and is_typical = #{query.isTypical}
         </if>
-        order by status asc,update_time desc
+        order by status asc,id desc
     </select>
 
-    <update id="updateStatus" >
-        update problem_choice set status=abs(status-1) where id=#{id}
+    <update id="updateStatus">
+        update problem_choice
+        set status=abs(status - 1)
+        where id = #{problemId}
+    </update>
+
+
+
+
+
+    <delete id="deleteOption">
+        delete
+        from problem_choice_options
+        where problem_id = #{problemId};
+    </delete>
+
+    <insert id="insertOption">
+        insert into problem_choice_options(problem_id, problem_option, is_true)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{problemId}, #{item.problemOption}, #{item.isTrue})
+        </foreach>
+
+    </insert>
+
+    <update id="updateUsedNum">
+        update problem_choice set used_num= used_num+1 where id = #{id} and deleted=0
+    </update>
+
+    <update id="updateSubmitTimes" >
+        update problem_choice set submit_times = submit_times +1
+        <if test="isTrue==true">
+            ,correct_times = correct_times+1
+        </if>
+        where id = #{id} and deleted=0
     </update>
 </mapper>

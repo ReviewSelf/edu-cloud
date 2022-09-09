@@ -17,9 +17,9 @@ import java.util.List;
 public interface ProblemPaperItemService extends BaseService<ProblemPaperItemEntity> {
 
 
-    List<ProblemPaperItemEntity> get(Integer paperId);
+    List<ProblemPaperItemEntity> get(Long paperId);
     void insert(List<ProblemPaperItemEntity> list);
 
 
-    void delete(Integer paperId);
+    void delete(Long paperId);
 }

@@ -10,6 +10,8 @@ import net.edu.framework.common.utils.EncryptUtils;
 import net.edu.module.service.SampleUploadService;
 import net.edu.module.utils.ResponseUtils;
 import net.edu.module.vo.FileUploadVO;
+import net.edu.module.vo.SampleVO;
+import org.apache.ibatis.javassist.tools.reflect.Sample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +20,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -29,6 +33,21 @@ public class SampleController {
 
     @Autowired
     private SampleUploadService sampleUploadService;
+
+
+    @PostMapping("/upload/batch")
+    @Operation(summary = "一个测试样例文件")
+    public List<SampleVO> uploadBatch(@RequestParam("input") MultipartFile[] input, @RequestParam("output") MultipartFile[] output, @RequestParam("problemId") Long problemId) {
+        List<SampleVO> sampleVOS=new ArrayList<>();
+        String newFileName = problemId + File.separator + System.currentTimeMillis();
+        // 文件扩展名
+        for (int i=0;i<input.length;i++){
+            String inputPath=  sampleUploadService.upload(input[i], newFileName+"_"+i + ".in");
+            String outPath=sampleUploadService.upload(output[i], newFileName+"_"+i + ".out");
+            sampleVOS.add(new SampleVO(problemId,inputPath,outPath,input[i].getSize(),output[i].getSize()));
+        }
+        return sampleVOS;
+    }
 
     @PostMapping("/upload")
     @Operation(summary = "一个测试样例文件")

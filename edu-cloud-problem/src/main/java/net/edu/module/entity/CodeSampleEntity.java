@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
 
-import java.util.Date;
-
 /**
  * 测试样例表
  *
@@ -16,12 +14,12 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("problem_code_sample")
-public class ProblemCodeSampleEntity extends BaseEntity {
+public class CodeSampleEntity extends BaseEntity {
 
 	/**
 	 * 问题ID
 	 */
-	private long problemId;
+	private Long problemId;
 
 	/**
 	* 样例输入文件地址
@@ -36,12 +34,12 @@ public class ProblemCodeSampleEntity extends BaseEntity {
 	/**
 	 * 样例输入文件大小
 	 */
-	private String inputSize;
+	private Long inputSize;
 
 	/**
 	 * 样例输出文件大小
 	 */
-	private String outputSize;
+	private Long outputSize;
 
 
 }

@@ -34,7 +34,7 @@
 
     <select id="page" resultType="net.edu.module.vo.FillProblemVO">
         select id,name,description,source,tips,advice_time as adviceTime,img,difficulty,kp_id as kpId
-        ,(select name from knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
+        ,(select name from teach_knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
         ,correct_times as correctTimes,is_typical as isTypical,used_num as usedNum,answer,
         create_time as createTime,creator,status
         from problem_fill where deleted = 0
@@ -53,6 +53,19 @@
         <if test="query.getIsTypical()!=null">
             and is_typical = #{query.isTypical}
         </if>
-        order by status asc,update_time desc
+        order by status asc,id desc
     </select>
+
+
+    <update id="updateUsedNum">
+        update problem_fill set used_num= used_num+1 where id = #{id} and deleted=0
+    </update>
+
+    <update id="updateSubmitTimes">
+        update problem_fill set submit_times = submit_times +1
+        <if test="isTrue==true">
+            ,correct_times = correct_times+1
+        </if>
+        where id = #{id} and deleted=0
+    </update>
 </mapper>

@@ -65,15 +65,6 @@
 
 
 
-    <insert id="insertOption">
-        insert into problem_choice_options(problem_id, problem_option, is_true)
-        values
-        <foreach collection="list" item="item" separator=",">
-            (#{problemId}, #{item.problemOption}, #{item.isTrue})
-        </foreach>
-
-    </insert>
-
     <update id="updateUsedNum">
         update problem_code set used_num= used_num+1 where id = #{id} and deleted=0
     </update>

@@ -1,9 +1,9 @@
 server:
-  port: 7011
+  port: 7001
 
 spring:
   application:
-    name: edu-cloud-wechat
+    name: edu-cloud-class
   profiles:
     active: dev
   cloud:

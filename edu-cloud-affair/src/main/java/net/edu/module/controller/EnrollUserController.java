@@ -63,6 +63,13 @@ public class EnrollUserController {
     }
 
 
+//    @DeleteMapping("{id}")
+//    @Operation(summary = "删除")
+//    public Result<String> delete(@PathVariable("id") Long id){
+//        enrollUserService.deleteEnrollUser(id);
+//        return Result.ok();
+//    }
+
     @DeleteMapping
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
@@ -71,10 +78,4 @@ public class EnrollUserController {
         return Result.ok();
     }
 
-    @GetMapping("confirm")
-    @Operation(summary = "更新状态")
-    public Object confirm(@RequestParam("id") Integer id){
-        enrollUserService.confirm(id);
-        return Result.ok();
-    }
 }

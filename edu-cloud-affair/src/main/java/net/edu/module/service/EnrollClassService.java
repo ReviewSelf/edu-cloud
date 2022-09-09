@@ -5,7 +5,9 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.EnrollClassEntity;
 import net.edu.module.query.EnrollClassQuery;
+import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.vo.EnrollClassVO;
+import net.edu.module.vo.EnrollUserVO;
 
 
 import java.util.List;
@@ -18,15 +20,17 @@ import java.util.List;
  */
 public interface EnrollClassService extends BaseService<EnrollClassEntity> {
 
-    IPage<EnrollClassEntity> getEnrollClass(Integer pageIndex, Integer pageSize);
+    PageResult<EnrollClassVO> page(EnrollClassQuery query);
 
     void save(EnrollClassVO vo);
 
     void update(EnrollClassVO vo);
 
-    void deleteEnrollClass(long id);
+    void delete(List<Long> idList);
 
-    IPage<EnrollClassEntity> select(Integer pageIndex, Integer pageSize,String className);
+
 
     void updateStatus(Long id);
+
+    void unUpdateStatus(Long id);
 }

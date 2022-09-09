@@ -80,7 +80,7 @@ public class EnrollUserEntity extends BaseEntity {
 	/**
 	* 登录时间
 	*/
-	private String loginTime;
+	private Date loginTime;
 
 	/**
 	* 开始课次

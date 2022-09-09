@@ -11,8 +11,10 @@ import net.edu.module.convert.EnrollClassConvert;
 import net.edu.module.dao.EnrollClassDao;
 import net.edu.module.entity.EnrollClassEntity;
 import net.edu.module.query.EnrollClassQuery;
+import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollClassService;
 import net.edu.module.vo.EnrollClassVO;
+import net.edu.module.vo.EnrollUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,9 +34,10 @@ public class EnrollClassServiceImpl extends BaseServiceImpl<EnrollClassDao, Enro
     @Autowired
     private EnrollClassDao enrollClassDao;
     @Override
-    public IPage<EnrollClassEntity> getEnrollClass(Integer pageIndex, Integer pageSize) {
-        Page<EnrollClassEntity> page = new Page<>(pageIndex, pageSize);
-        return enrollClassDao.getEnrollClassByPage(page);
+    public PageResult<EnrollClassVO> page(EnrollClassQuery query) {
+        Page<EnrollClassVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<EnrollClassVO> list =enrollClassDao.getEnrollClassByPage(page,query);
+        return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
     private LambdaQueryWrapper<EnrollClassEntity> getWrapper(EnrollClassQuery query){
@@ -59,22 +62,19 @@ public class EnrollClassServiceImpl extends BaseServiceImpl<EnrollClassDao, Enro
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteEnrollClass(long id) {
-        enrollClassDao.deleteEnrollClass(id);
+    public void delete(List<Long> idList) {
+        removeByIds(idList);
     }
 
-    @Override
-    public IPage<EnrollClassEntity> select(Integer pageIndex, Integer pageSize,  String className) {
-        Page<EnrollClassEntity> page = new Page<>(pageIndex, pageSize);
-        if(className == null ){
-            return enrollClassDao.getEnrollClassByPage(page);
-        }
-        return enrollClassDao.select(page,className);
-    }
+
 
     @Override
     public void updateStatus(Long id) {
         enrollClassDao.updateStatus(id);
     }
 
+    @Override
+    public void unUpdateStatus(Long id){
+        enrollClassDao.unUpdateStatus(id);
+    }
 }

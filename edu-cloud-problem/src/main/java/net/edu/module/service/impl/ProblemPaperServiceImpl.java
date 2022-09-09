@@ -41,13 +41,7 @@ public class ProblemPaperServiceImpl extends BaseServiceImpl<ProblemPaperDao, Pr
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
-    private LambdaQueryWrapper<ProblemPaperEntity> getWrapper(ProblemPaperQuery query){
-        LambdaQueryWrapper<ProblemPaperEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.like(StrUtil.isNotBlank(query.getName()), ProblemPaperEntity::getName, query.getName());
-        wrapper.eq(query.getStatus() != null, ProblemPaperEntity::getStatus, query.getStatus());
-        wrapper.eq(query.getDifficulty()!= null, ProblemPaperEntity::getDifficulty, query.getDifficulty());
-        return wrapper;
-    }
+
 
 
     @Override

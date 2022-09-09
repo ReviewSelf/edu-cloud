@@ -1,9 +1,9 @@
 server:
-  port: 7002
+  port: 7006
 
 spring:
   application:
-    name: edu-cloud-lessons
+    name: edu-cloud-teaching
   profiles:
     active: dev
   cloud:

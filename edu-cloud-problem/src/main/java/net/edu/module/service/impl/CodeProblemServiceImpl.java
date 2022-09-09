@@ -58,9 +58,8 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
     }
 
     @Override
-    public boolean updateStatus(Integer id) {
-        codeProblemDao.updateStatus(id);
-        return true;
+    public void updateStatus(Long problemId) {
+        codeProblemDao.updateStatus(problemId);
     }
 
 }

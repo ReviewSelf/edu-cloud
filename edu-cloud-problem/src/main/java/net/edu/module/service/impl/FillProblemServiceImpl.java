@@ -73,8 +73,7 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
     }
 
     @Override
-    public boolean updateStatus(Integer id) {
-        fillProblemDao.updateStatus(id);
-        return true;
+    public void updateStatus(Long problemId) {
+        fillProblemDao.updateStatus(problemId);
     }
 }

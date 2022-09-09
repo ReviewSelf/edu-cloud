@@ -25,6 +25,7 @@
                 create_time
         from problem_paper_item
         where paper_id = #{paperId}
+         order by sort asc,id desc
     </select>
 
     <delete id="delete">

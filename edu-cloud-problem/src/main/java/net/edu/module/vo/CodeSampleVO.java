@@ -16,10 +16,12 @@ import java.util.Date;
 */
 @Data
 @Schema(description = "测试样例表")
-public class ProblemCodeSampleVO implements Serializable {
+public class CodeSampleVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
+
+	private Long problemId;
 
 	@Schema(description = "样例输入文件地址")
 	private String inputPath;

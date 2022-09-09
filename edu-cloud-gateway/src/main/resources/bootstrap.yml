@@ -35,11 +35,11 @@ spring:
             - Path=/wechat/**
           filters:
             - StripPrefix=1
-        - id: edu-cloud-lessons
-          uri: lb://edu-cloud-lessons
+        - id: edu-cloud-teaching
+          uri: lb://edu-cloud-teaching
           order: 102
           predicates:
-            - Path=/lessons/**
+            - Path=/teaching/**
           filters:
             - StripPrefix=1
         - id: edu-cloud-file

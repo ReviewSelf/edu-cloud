@@ -18,8 +18,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface EnrollUserDao extends BaseDao<EnrollUserEntity> {
     IPage<EnrollUserVO> getEnrollUserByPage(Page<EnrollUserVO> page, EnrollUserQuery query);
-
-
     void deleteEnrollUser(long id);
 
     void confirmEnrollUser(Integer id);

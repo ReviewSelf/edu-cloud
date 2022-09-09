@@ -22,19 +22,25 @@
         <result column="create_time" property="createTime"/>
         <result column="creator" property="creator"/>
         <result column="status" property="status"/>
-        <collection property="options" ofType="net.edu.module.vo.ChoiceOptionVO"
-                    select="selectOption" column="{problemId=id}" >
-
+        <collection property="options"  javaType="java.util.ArrayList" ofType="net.edu.module.vo.ChoiceOptionVO">
+            <id column="option_id" property="id" />
+            <result column="problem_id" property="problemId" />
+            <result column="problem_option" property="problemOption"  />
+            <result column="is_true" property="isTrue"  />
         </collection>
+
+
     </resultMap>
 
-
     <select id="selectChoiceProblem" resultMap="choiceProblem">
-        select id,type,name,description,source,tips,advice_time,img,difficulty,kp_id
+        select a.id,type,name,description,source,tips,advice_time,img,difficulty,kp_id
                ,(select name from teach_knowledge_point where id=kp_id limit 1) as kp_name,submit_times
                ,correct_times ,is_typical ,option_num,used_num
-               ,create_time ,creator,status
-        from problem_choice where deleted = 0 and id=#{problemId}
+               ,a.create_time ,creator,status ,
+                b.id as option_id,b.problem_id,b.problem_option,b.is_true
+        from problem_choice a left join problem_choice_options b on
+        a.id=b.problem_id where a.deleted = 0 and a.id=#{problemId}
+
     </select>
 
 
@@ -72,11 +78,7 @@
     </update>
 
 
-    <select id="selectOption" resultType="net.edu.module.vo.ChoiceOptionVO">
-        select id, problem_id as problemId, problem_option as problemOption, is_true as isTrue
-        from problem_choice_options
-        where problem_id = #{problemId}
-    </select>
+
 
 
     <delete id="deleteOption">
@@ -93,10 +95,4 @@
         </foreach>
 
     </insert>
-
-<!--    <update id="updateOptionNum">-->
-<!--        update problem_choice-->
-<!--        set option_num = (select sum(1) from problem_choice_options where problem_id = #{id} and deleted = 0)-->
-<!--        where id = #{problemId}-->
-<!--    </update>-->
 </mapper>

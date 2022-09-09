@@ -1,0 +1,76 @@
+package net.edu.module.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
+import net.edu.module.convert.TeachClassConvert;
+import net.edu.module.entity.TeachClassEntity;
+import net.edu.module.service.TeachClassService;
+import net.edu.module.query.TeachClassQuery;
+import net.edu.module.vo.TeachClassVO;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+* 班级表
+*
+* @author wengruichen babamu@126.com
+* @since 1.0.0 2022-09-09
+*/
+@RestController
+@RequestMapping("teach/class")
+@Tag(name="班级表")
+@AllArgsConstructor
+public class TeachClassController {
+    private final TeachClassService teachClassService;
+
+    @GetMapping("page")
+    @Operation(summary = "分页")
+    @PreAuthorize("hasAuthority('teachclass:page')")
+    public Result<PageResult<TeachClassVO>> page(@Valid TeachClassQuery query){
+        PageResult<TeachClassVO> page = teachClassService.page(query);
+
+        return Result.ok(page);
+    }
+
+    @GetMapping("{id}")
+    @Operation(summary = "信息")
+    @PreAuthorize("hasAuthority('teachclass:info')")
+    public Result<TeachClassVO> get(@PathVariable("id") Long id){
+        TeachClassEntity entity = teachClassService.getById(id);
+
+        return Result.ok(TeachClassConvert.INSTANCE.convert(entity));
+    }
+
+    @PostMapping
+    @Operation(summary = "保存")
+    @PreAuthorize("hasAuthority('teachclass:save')")
+    public Result<String> save(@RequestBody TeachClassVO vo){
+        teachClassService.save(vo);
+
+        return Result.ok();
+    }
+
+    @PutMapping
+    @Operation(summary = "修改")
+    @PreAuthorize("hasAuthority('teachclass:update')")
+    public Result<String> update(@RequestBody @Valid TeachClassVO vo){
+        teachClassService.update(vo);
+
+        return Result.ok();
+    }
+
+    @DeleteMapping
+    @Operation(summary = "删除")
+    @PreAuthorize("hasAuthority('teachclass:delete')")
+    public Result<String> delete(@RequestBody List<Long> idList){
+        teachClassService.delete(idList);
+
+        return Result.ok();
+    }
+}

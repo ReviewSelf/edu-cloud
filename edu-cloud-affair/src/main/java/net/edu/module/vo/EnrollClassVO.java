@@ -44,6 +44,9 @@ public class EnrollClassVO implements Serializable {
 	@Schema(description = "班级名称")
 	private String className;
 
+	@Schema(description = "课程类型")
+	private String courseType;
+
 	@Schema(description = "开始时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private String startTime;
@@ -61,9 +64,11 @@ public class EnrollClassVO implements Serializable {
 	@Schema(description = "是否删除")
 	private Integer deleted;
 
-	@Schema(description = "上课日期")
+	@Schema(description = "开课日期")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private String classDate;
 
-
+	@Schema(description = "结课日期")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private String classEnd;
 }

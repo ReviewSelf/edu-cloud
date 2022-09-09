@@ -39,6 +39,11 @@ public class EnrollClassEntity extends BaseEntity {
 	private String endTime;
 
 	/**
+	 * 课程类型
+	 */
+	private String courseType;
+
+	/**
 	* 面向对象
 	*/
 	private String object;
@@ -54,4 +59,8 @@ public class EnrollClassEntity extends BaseEntity {
 	*/
 	private String classDate;
 
+	/**
+	 * 结课日期
+	 */
+	private String classEnd;
 }

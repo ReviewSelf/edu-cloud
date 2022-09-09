@@ -8,11 +8,11 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.CodeSampleConvert;
 import net.edu.module.dao.CodeProblemDao;
-import net.edu.module.dao.ProblemCodeSampleDao;
+import net.edu.module.dao.CodeSampleDao;
+import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.entity.CodeSampleEntity;
-import net.edu.module.query.ProblemCodeSampleQuery;
-import net.edu.module.service.ProblemCodeSampleService;
-import net.edu.module.vo.CodeProblemVO;
+import net.edu.module.query.CodeSampleQuery;
+import net.edu.module.service.CodeSampleService;
 import net.edu.module.vo.CodeSampleVO;
 import net.edu.module.vo.SampleVO;
 import org.springframework.stereotype.Service;
@@ -23,35 +23,27 @@ import java.util.List;
 /**
  * 测试样例表
  *
- * @author sqw 
+ * @author sqw
  * @since 1.0.0 2022-09-07
  */
 @Service
 @AllArgsConstructor
-public class CodeSampleServiceImpl extends BaseServiceImpl<ProblemCodeSampleDao, CodeSampleEntity> implements ProblemCodeSampleService {
+public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSampleEntity> implements CodeSampleService {
 
-    private final ProblemCodeSampleDao problemCodeSampleDao;
     private final CodeProblemDao codeProblemDao;
 
     @Override
-    public PageResult<CodeSampleVO> page(ProblemCodeSampleQuery query) {
+    public PageResult<CodeSampleVO> page(CodeSampleQuery query) {
         IPage<CodeSampleEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
 
         return new PageResult<>(CodeSampleConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
     }
 
-    private LambdaQueryWrapper<CodeSampleEntity> getWrapper(ProblemCodeSampleQuery query){
+    private LambdaQueryWrapper<CodeSampleEntity> getWrapper(CodeSampleQuery query) {
         LambdaQueryWrapper<CodeSampleEntity> wrapper = Wrappers.lambdaQuery();
-
         return wrapper;
     }
 
-    @Override
-    public void save(CodeSampleVO vo) {
-        CodeSampleEntity entity = CodeSampleConvert.INSTANCE.convert(vo);
-
-        baseMapper.insert(entity);
-    }
 
     @Override
     public void update(CodeSampleVO vo) {
@@ -63,20 +55,16 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<ProblemCodeSampleDao,
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
+        CodeSampleEntity entity=getById(idList.get(0));
         removeByIds(idList);
-        CodeSampleVO vo = problemCodeSampleDao.selectSample(idList.get(0));
-        codeProblemDao.updateSampleNum(vo.getProblemId());
+        codeProblemDao.updateSampleNum(entity.getProblemId());
     }
 
-    @Override
-    public CodeProblemVO getProblem(Long id) {
-        return problemCodeSampleDao.selectProblem(id);
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveSample(List<SampleVO> sampleVOS,Long problemId) {
-        sampleVOS.forEach((item)->{
+    public void saveSample(List<SampleVO> sampleVOS, Long problemId) {
+        sampleVOS.forEach((item) -> {
             baseMapper.insert(CodeSampleConvert.INSTANCE.convert(item));
         });
         codeProblemDao.updateSampleNum(problemId);

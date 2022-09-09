@@ -18,4 +18,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ProblemPaperDao extends BaseDao<ProblemPaperEntity> {
 
     IPage<ProblemPaperVO> page(Page<ProblemPaperVO> page, ProblemPaperQuery query);
+
+    int updateStatus(Long paperId);
 }

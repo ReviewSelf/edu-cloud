@@ -26,7 +26,7 @@ public interface FillProblemService extends BaseService<FillProblemEntity> {
 
     void updateStatus(Long problemId);
 
-    Boolean updateUsedNum(Long id);
+    void updateUsedNum(Long id);
 
-    Boolean updateSubmitTimes(Long id, Boolean isTrue);
+    void updateSubmitTimes(Long id, Boolean isTrue);
 }

@@ -46,6 +46,8 @@ public class ProblemPaperVO implements Serializable {
 	@Schema(description = "创建人")
 	private Long creator;
 
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date updateTime;
 
 
 

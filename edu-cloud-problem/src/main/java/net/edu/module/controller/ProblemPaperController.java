@@ -41,7 +41,7 @@ public class ProblemPaperController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    public Result<ProblemPaperVO> get(@PathVariable("id") Long id){
+    public Result<ProblemPaperVO> get(@PathVariable Long id){
         ProblemPaperEntity entity = problemPaperService.getById(id);
 
         return Result.ok(ProblemPaperConvert.INSTANCE.convert(entity));
@@ -58,6 +58,7 @@ public class ProblemPaperController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ProblemPaperVO vo){
+        System.out.println(vo);
         problemPaperService.update(vo);
 
         return Result.ok();
@@ -65,9 +66,16 @@ public class ProblemPaperController {
 
     @DeleteMapping
     @Operation(summary = "删除")
-    @PreAuthorize("hasAuthority('edu-cloud-problem:problempaper:delete')")
     public Result<String> delete(@RequestBody List<Long> idList){
         problemPaperService.delete(idList);
+
+        return Result.ok();
+    }
+
+    @GetMapping("updateStatus/{paperId}")
+    @Operation(summary = "修改状态")
+    public Result<String> updateStatus(@PathVariable Long paperId){
+        problemPaperService.updateStatus(paperId);
 
         return Result.ok();
     }

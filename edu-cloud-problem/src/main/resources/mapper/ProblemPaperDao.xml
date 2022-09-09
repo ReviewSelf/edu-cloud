@@ -37,4 +37,10 @@
         order by status asc,id desc
     </select>
 
+    <update id="updateStatus">
+        update problem_paper
+            set status=abs(status - 1)
+        where id = #{paperId}
+    </update>
+
 </mapper>

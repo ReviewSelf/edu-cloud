@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 选择题库表
  *
- * @author 马佳浩 
+ * @author 马佳浩
  * @since 1.0.0 2022-09-05
  */
 @Service
@@ -32,8 +32,8 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
 
     @Override
     public PageResult<ChoiceProblemVO> page(ChoiceProblemQuery query) {
-        Page<ChoiceProblemVO> page = new Page<>(query.getPage(),query.getLimit());
-        IPage<ChoiceProblemVO> list = choiceProblemDao.page(page,query);
+        Page<ChoiceProblemVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<ChoiceProblemVO> list = choiceProblemDao.page(page, query);
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -42,14 +42,15 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     public ChoiceProblemVO getChoiceProblem(Long problemId) {
         return choiceProblemDao.selectChoiceProblem(problemId);
     }
+
     @Override
     @Transactional
     public void save(ChoiceProblemVO vo) {
         ChoiceProblemEntity entity = ChoiceProblemConvert.INSTANCE.convert(vo);
         entity.setOptionNum(vo.getOptions().size());
         baseMapper.insert(entity);
-        if(vo.getOptions().size()>0){
-            choiceProblemDao.insertOption(vo.getOptions(),entity.getId());
+        if (vo.getOptions().size() > 0) {
+            choiceProblemDao.insertOption(vo.getOptions(), entity.getId());
         }
         System.out.println(entity.getId());
     }
@@ -61,8 +62,8 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         entity.setOptionNum(vo.getOptions().size());
         //删除原先选项
         choiceProblemDao.deleteOption(entity.getId());
-        if(vo.getOptions().size()>0){
-            choiceProblemDao.insertOption(vo.getOptions(),entity.getId());
+        if (vo.getOptions().size() > 0) {
+            choiceProblemDao.insertOption(vo.getOptions(), entity.getId());
         }
         updateById(entity);
     }
@@ -79,17 +80,13 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     }
 
     @Override
-    public Boolean updateUsedNum(Long id) {
-        int ans = choiceProblemDao.updateUsedNum(id);
-        if(ans!=0) return true;
-        return false;
+    public void updateUsedNum(Long id) {
+        choiceProblemDao.updateUsedNum(id);
     }
 
     @Override
-    public Boolean updateSubmitTimes(Long id, Boolean isTrue) {
-        int ans =  choiceProblemDao.updateSubmitTimes(id,isTrue);
-        if(ans!=0) return true;
-        return false;
+    public void updateSubmitTimes(Long id, Boolean isTrue) {
+        choiceProblemDao.updateSubmitTimes(id, isTrue);
     }
 
 

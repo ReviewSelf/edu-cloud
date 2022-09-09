@@ -79,16 +79,14 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
 
 
     @Override
-    public Boolean updateUsedNum(Long id) {
-        int ans =fillProblemDao.updateUsedNum(id);
-        if(ans!=0) return true;
-        return false;
+    public void updateUsedNum(Long id) {
+        fillProblemDao.updateUsedNum(id);
+
     }
 
     @Override
-    public Boolean updateSubmitTimes(Long id, Boolean isTrue) {
-        int ans =fillProblemDao.updateSubmitTimes(id,isTrue);
-        if(ans!=0) return true;
-        return false;
+    public void updateSubmitTimes(Long id, Boolean isTrue) {
+        fillProblemDao.updateSubmitTimes(id,isTrue);
+
     }
 }

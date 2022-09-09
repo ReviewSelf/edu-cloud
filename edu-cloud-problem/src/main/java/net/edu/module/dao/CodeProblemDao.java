@@ -18,11 +18,11 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface CodeProblemDao extends BaseDao<CodeProblemEntity> {
 
-    void updateStatus(Long problemId);
+    int updateStatus(Long problemId);
 
     IPage<CodeProblemVO> page(Page<CodeProblemVO> page, @Param("query")CodeProblemQuery query);
 
-    void updateSampleNum(Long problemId);
+    int updateSampleNum(Long problemId);
 
     int updateUsedNum(@Param("id") Long id);
 

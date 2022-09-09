@@ -80,18 +80,18 @@ public class ChoiceProblemController {
 
     @PutMapping("usedNum")
     @Operation(summary = "修改引用次数")
-    public Result<Boolean> updateUsedNum(@RequestParam Long id ){
+    public Result<String> updateUsedNum(@RequestParam Long id ){
 
-
-        return Result.ok(choiceProblemService.updateUsedNum(id));
+        choiceProblemService.updateUsedNum(id);
+        return Result.ok();
     }
 
     @PutMapping("submitTimes")
     @Operation(summary = "修改提交和正确次数")
-    public Result<Boolean> updateSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue ){
+    public Result<String> updateSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue ){
 
-
-        return Result.ok(choiceProblemService.updateSubmitTimes(id,isTrue));
+        choiceProblemService.updateSubmitTimes(id,isTrue);
+        return Result.ok();
     }
 
 }

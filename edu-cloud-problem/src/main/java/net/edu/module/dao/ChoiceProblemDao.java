@@ -33,7 +33,6 @@ public interface ChoiceProblemDao extends BaseDao<ChoiceProblemEntity> {
 
     IPage<ChoiceProblemVO> page(Page<ChoiceProblemVO> page, @Param("query")ChoiceProblemQuery query);
 
-    List<ChoiceOptionVO> selectOption(@Param("problemId") Long problemId);
 
     void deleteOption(@Param("problemId") Long problemId);
 

@@ -3,14 +3,9 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.convert.ProblemPaperItemConvert;
 import net.edu.module.entity.ProblemPaperItemEntity;
 import net.edu.module.service.ProblemPaperItemService;
-import net.edu.module.query.ProblemPaperItemQuery;
-import net.edu.module.vo.ProblemPaperItemVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,7 +28,7 @@ public class ProblemPaperItemController {
 
     @GetMapping("{paperId}")
     @Operation(summary = "信息")
-    public Result<List<ProblemPaperItemEntity>> get(@PathVariable("paperId") Integer paperId){
+    public Result<List<ProblemPaperItemEntity>> get(@PathVariable("paperId") Long paperId){
         List<ProblemPaperItemEntity> entity = problemPaperItemService.get(paperId);
 
         return Result.ok(entity);
@@ -42,6 +37,7 @@ public class ProblemPaperItemController {
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody List<ProblemPaperItemEntity> list){
+        System.out.println(list);
         problemPaperItemService.insert(list);
 
         return Result.ok();
@@ -49,7 +45,7 @@ public class ProblemPaperItemController {
 
     @DeleteMapping
     @Operation(summary = "删除")
-    public Result<String> delete(@RequestParam(value = "paperId") Integer paperId){
+    public Result<String> delete(@RequestParam(value = "paperId") Long paperId){
         problemPaperItemService.delete(paperId);
         return Result.ok();
     }

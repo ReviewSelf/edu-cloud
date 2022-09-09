@@ -20,7 +20,7 @@
     </resultMap>
     <select id="page" resultType="net.edu.module.vo.ProblemPaperVO">
         select id,name,difficulty,problem_num as problemNum,score,description,kp_id as kpId
-        ,(select name from teach_knowledge_point where id=kp_id limit 1) as kpName,create_time as createTime,creator,status
+        ,(select name from problem_knowledge_point where id=kp_id limit 1) as kpName,create_time as createTime,creator,status
         from problem_paper where deleted = 0
         <if test="query.getName()!='' and query.getName()!=null">
             and name like concat('%',#{query.name},'%')

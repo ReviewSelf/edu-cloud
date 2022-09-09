@@ -48,7 +48,7 @@ public class ProblemPaperItemServiceImpl extends BaseServiceImpl<ProblemPaperIte
     public void insert(List<ProblemPaperItemEntity> list) {
         //插入新的试卷题目前先删除老的题目
         delete(list.get(0).getPaperId());
-        //插入
+        //插入新题目
         baseMapper.insert(list);
         //更新对应试卷的题目数量和总分数
         problemPaperService.updateNumAndScore(list);

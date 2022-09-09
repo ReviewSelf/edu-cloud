@@ -34,7 +34,7 @@
 
     <select id="selectChoiceProblem" resultMap="choiceProblem">
         select a.id,type,name,description,source,tips,advice_time,img,difficulty,kp_id
-               ,(select name from teach_knowledge_point where id=kp_id limit 1) as kp_name,submit_times
+               ,(select name from problem_knowledge_point where id=kp_id limit 1) as kp_name,submit_times
                ,correct_times ,is_typical ,option_num,used_num
                ,a.create_time ,creator,status ,
                 b.id as option_id,b.problem_id,b.problem_option,b.is_true
@@ -46,7 +46,7 @@
 
     <select id="page" resultType="net.edu.module.vo.ChoiceProblemVO">
         select id,type,name,description,source,tips,advice_time as adviceTime,img,difficulty,kp_id as kpId
-        ,(select name from teach_knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
+        ,(select name from problem_knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
         ,correct_times as correctTimes,is_typical as isTypical,option_num as optionNum,used_num as usedNum,
         create_time as createTime,creator,status
         from problem_choice where deleted = 0

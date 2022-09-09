@@ -34,7 +34,7 @@
 
     <select id="page" resultType="net.edu.module.vo.FillProblemVO">
         select id,name,description,source,tips,advice_time as adviceTime,img,difficulty,kp_id as kpId
-        ,(select name from teach_knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
+        ,(select name from problem_knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
         ,correct_times as correctTimes,is_typical as isTypical,used_num as usedNum,answer,
         create_time as createTime,creator,status
         from problem_fill where deleted = 0

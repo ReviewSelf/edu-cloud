@@ -33,9 +33,7 @@ public class ProblemPaperController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<ProblemPaperVO>> page(@Valid ProblemPaperQuery query){
-        System.out.println(query);
         PageResult<ProblemPaperVO> page = problemPaperService.page(query);
-
         return Result.ok(page);
     }
 
@@ -43,7 +41,6 @@ public class ProblemPaperController {
     @Operation(summary = "信息")
     public Result<ProblemPaperVO> get(@PathVariable Long id){
         ProblemPaperEntity entity = problemPaperService.getById(id);
-
         return Result.ok(ProblemPaperConvert.INSTANCE.convert(entity));
     }
 
@@ -51,16 +48,13 @@ public class ProblemPaperController {
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ProblemPaperVO vo){
         problemPaperService.save(vo);
-
         return Result.ok();
     }
 
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ProblemPaperVO vo){
-        System.out.println(vo);
         problemPaperService.update(vo);
-
         return Result.ok();
     }
 
@@ -68,7 +62,6 @@ public class ProblemPaperController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         problemPaperService.delete(idList);
-
         return Result.ok();
     }
 
@@ -76,7 +69,6 @@ public class ProblemPaperController {
     @Operation(summary = "修改状态")
     public Result<String> updateStatus(@PathVariable Long paperId){
         problemPaperService.updateStatus(paperId);
-
         return Result.ok();
     }
 }

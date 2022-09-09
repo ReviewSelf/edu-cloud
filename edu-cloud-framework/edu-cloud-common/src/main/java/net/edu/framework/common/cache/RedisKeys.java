@@ -21,4 +21,8 @@ public class RedisKeys {
         return "sys:access:" + accessToken;
     }
 
+
+    public static String getKnowledgePointKey() {
+        return "problem:kp:" ;
+    }
 }

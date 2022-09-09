@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.KnowledgePointConvert;
@@ -33,6 +34,7 @@ public class KnowledgePointController {
     @GetMapping("list")
     @Operation(summary = "知识点列表")
     public Result<List<KnowledgePointVO>> list(){
+
         List<KnowledgePointVO> list = knowledgePointService.getKpList();
         return Result.ok(list);
     }

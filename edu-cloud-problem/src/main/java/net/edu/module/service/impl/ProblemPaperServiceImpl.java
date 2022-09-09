@@ -13,6 +13,7 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ProblemPaperConvert;
 import net.edu.module.dao.ProblemPaperDao;
 import net.edu.module.entity.ProblemPaperEntity;
+import net.edu.module.entity.ProblemPaperItemEntity;
 import net.edu.module.query.ProblemPaperQuery;
 import net.edu.module.service.ProblemPaperService;
 import net.edu.module.vo.CodeProblemVO;
@@ -72,5 +73,16 @@ public class ProblemPaperServiceImpl extends BaseServiceImpl<ProblemPaperDao, Pr
     @Override
     public void updateStatus(Long paperId) {
         baseMapper.updateStatus(paperId);
+    }
+
+    @Override
+    public void updateNumAndScore(List<ProblemPaperItemEntity> paperItemList) {
+        int totalScore = 0;
+        for (int i=0 ; i < paperItemList.size();i++){
+            totalScore += paperItemList.get(i).getScore();
+        }
+        baseMapper.updateNumAndScore(paperItemList.get(0).getPaperId(),paperItemList.size(),totalScore);
+
+
     }
 }

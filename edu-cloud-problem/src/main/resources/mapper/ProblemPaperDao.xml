@@ -43,4 +43,10 @@
         where id = #{paperId}
     </update>
 
+    <update id="updateNumAndScore">
+        update problem_paper
+            set problem_num = #{totalNum}, score = #{totalScore}
+        where id = #{paperId}
+    </update>
+
 </mapper>

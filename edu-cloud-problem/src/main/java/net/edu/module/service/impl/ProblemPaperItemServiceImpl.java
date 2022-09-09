@@ -10,6 +10,7 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ProblemPaperItemConvert;
 import net.edu.module.entity.ProblemPaperItemEntity;
 import net.edu.module.query.ProblemPaperItemQuery;
+import net.edu.module.service.ProblemPaperService;
 import net.edu.module.vo.ProblemPaperItemVO;
 import net.edu.module.dao.ProblemPaperItemDao;
 import net.edu.module.service.ProblemPaperItemService;
@@ -34,6 +35,8 @@ public class ProblemPaperItemServiceImpl extends BaseServiceImpl<ProblemPaperIte
     @Autowired
     private ProblemPaperItemDao problemPaperItemDao;
 
+    @Autowired
+    private ProblemPaperService problemPaperService;
 
     @Override
     public List<ProblemPaperItemEntity> get(Long paperId) {
@@ -43,8 +46,13 @@ public class ProblemPaperItemServiceImpl extends BaseServiceImpl<ProblemPaperIte
 
     @Override
     public void insert(List<ProblemPaperItemEntity> list) {
+        //插入新的试卷题目前先删除老的题目
         delete(list.get(0).getPaperId());
+        //插入
         baseMapper.insert(list);
+        //更新对应试卷的题目数量和总分数
+        problemPaperService.updateNumAndScore(list);
+
     }
 
 

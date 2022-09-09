@@ -7,6 +7,9 @@ import net.edu.module.entity.ProblemPaperEntity;
 import net.edu.module.query.ProblemPaperQuery;
 import net.edu.module.vo.ProblemPaperVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
 * 问题卷表
@@ -20,4 +23,6 @@ public interface ProblemPaperDao extends BaseDao<ProblemPaperEntity> {
     IPage<ProblemPaperVO> page(Page<ProblemPaperVO> page, ProblemPaperQuery query);
 
     int updateStatus(Long paperId);
+
+    int updateNumAndScore(@Param("paperId") long paperId, @Param("totalNum") int totalNum, @Param("totalScore") int totalScore);
 }

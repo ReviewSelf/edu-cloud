@@ -4,6 +4,7 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
+import net.edu.module.entity.ProblemPaperItemEntity;
 import net.edu.module.vo.ProblemPaperVO;
 import net.edu.module.query.ProblemPaperQuery;
 import net.edu.module.entity.ProblemPaperEntity;
@@ -27,4 +28,6 @@ public interface ProblemPaperService extends BaseService<ProblemPaperEntity> {
     void delete(List<Long> idList);
 
     void updateStatus(Long paperId);
+
+    void updateNumAndScore(List<ProblemPaperItemEntity> paperItemList);
 }

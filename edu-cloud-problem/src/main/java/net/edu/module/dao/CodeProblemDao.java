@@ -21,4 +21,6 @@ public interface CodeProblemDao extends BaseDao<CodeProblemEntity> {
     void updateStatus(Integer id);
 
     IPage<CodeProblemVO> page(Page<CodeProblemVO> page, @Param("query")CodeProblemQuery query);
+
+    void updateSampleNum(Long id);
 }

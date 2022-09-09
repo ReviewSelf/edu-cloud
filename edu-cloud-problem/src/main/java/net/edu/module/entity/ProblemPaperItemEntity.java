@@ -19,7 +19,7 @@ public class ProblemPaperItemEntity {
 	* id
 	*/
 	@TableId
-	private Integer id;
+	private Long id;
 
 	/**
 	* 顺序
@@ -29,12 +29,12 @@ public class ProblemPaperItemEntity {
 	/**
 	 * 试卷id
 	 */
-	private Integer paperId;
+	private Long paperId;
 
 	/**
 	* 题目id
 	*/
-	private Integer problemId;
+	private Long problemId;
 
 	/**
 	* 分数

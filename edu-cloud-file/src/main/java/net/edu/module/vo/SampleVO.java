@@ -2,7 +2,9 @@ package net.edu.module.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
@@ -15,11 +17,14 @@ import java.util.Date;
 * @since 1.0.0 2022-09-07
 */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(description = "测试样例表")
-public class ProblemCodeSampleVO implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class SampleVO implements Serializable {
 
-	private Long id;
+
+	@Schema(description = "问题Id")
+	private Long problemId;
 
 	@Schema(description = "样例输入文件地址")
 	private String inputPath;
@@ -28,13 +33,12 @@ public class ProblemCodeSampleVO implements Serializable {
 	private String outputPath;
 
 	@Schema(description = "样例输入文件大小")
-	private String inputSize;
+	private Long inputSize;
 
 	@Schema(description = "样例输出文件大小")
-	private String outputSize;
+	private Long outputSize;
 
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date createTime;
+
 
 
 

@@ -3,7 +3,7 @@
 <mapper namespace="net.edu.module.dao.KnowledgePointDao">
 
     <select id="getKpList" resultType="net.edu.module.entity.KnowledgePointEntity">
-        select id,pid,name,description,sort from knowledge_point where deleted = 0
+        select id,pid,name,description,sort from teach_knowledge_point where deleted = 0
         order by sort asc
     </select>
 

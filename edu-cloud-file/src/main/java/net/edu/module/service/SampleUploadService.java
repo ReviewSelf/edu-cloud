@@ -1,6 +1,7 @@
 package net.edu.module.service;
 
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +17,8 @@ import java.io.IOException;
 @Service
 public class SampleUploadService {
 
-    String pathPrefix="E:\\sample";
+    @Value("${storage.local.samplePath}")
+    String pathPrefix;
 
     @SneakyThrows
     public  String upload(MultipartFile file, String fileName){

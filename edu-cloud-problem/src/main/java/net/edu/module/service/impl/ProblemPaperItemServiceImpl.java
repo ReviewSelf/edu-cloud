@@ -45,6 +45,7 @@ public class ProblemPaperItemServiceImpl extends BaseServiceImpl<ProblemPaperIte
     public void insert(List<ProblemPaperItemEntity> list) {
         delete(list.get(0).getPaperId());
         baseMapper.insert(list);
+
     }
 
 

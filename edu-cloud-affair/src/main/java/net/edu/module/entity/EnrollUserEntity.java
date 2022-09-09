@@ -18,7 +18,6 @@ import java.util.Date;
 @TableName("enroll_user")
 public class EnrollUserEntity extends BaseEntity {
 
-
 	/**
 	* 微信昵称
 	*/

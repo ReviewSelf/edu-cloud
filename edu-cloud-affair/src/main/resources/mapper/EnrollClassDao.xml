@@ -20,25 +20,27 @@
         <result property="classDate" column="class_date"/>
     </resultMap>
 
-    <update id="deleteEnrollClass">
-        update enroll_class  set deleted=1 where id = #{id}
-    </update>
 
     <select id="getEnrollClassByPage" resultType="net.edu.module.entity.EnrollClassEntity">
         select *
         from enroll_class
         where deleted = 0
+        <if test="query.getClassName() !=null and query.getClassName()!=''">
+            and class_name like concat('%',#{query.className},'%')
+        </if>
+        order by update_time desc
     </select>
 
-    <select id="select" resultType="net.edu.module.entity.EnrollClassEntity">
-        select * from enroll_class
-        where deleted = 0
-        <if test="className != null">
-            and class_name like concat('%',#{className},'%')
-        </if>
-    </select>
 
     <update id="updateStatus">
-        update enroll_class  set status = 1 where id = #{id}
+        update enroll_class set
+            status = 1
+        where id = #{id}
+    </update>
+
+    <update id="unUpdateStatus">
+        update enroll_class set
+            status = 0
+        where id = #{id}
     </update>
 </mapper>

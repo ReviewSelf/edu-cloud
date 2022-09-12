@@ -13,6 +13,9 @@ import java.util.Date;
 public class EnrollLessonVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Schema(description = "课程ID")
+    private Integer id;
+
     @Schema(description = "任课老师")
     private String username;
 

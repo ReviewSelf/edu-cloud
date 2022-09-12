@@ -2,16 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.EnrollLessonDao">
+    <insert id="saveLesson" parameterType="net.edu.module.entity.EnrollLessonEntity">
+        insert into
+        teach_lesson(teacher_id , place , begin_time , end_time)
+        values(#{teacherId} , #{place} , #{beginTime} , #{endTime})
+    </insert>
+    <update id="updateLesson" parameterType="net.edu.module.vo.EnrollLessonVO">
+        update
+        teach_lesson set teacher_id = #{teacherId} , place = #{place} , begin_time = #{beginTime} , end_time = #{endTime}
+        where id = #{id}
+    </update>
     <select id="getEnrollLessonByPage" resultType="net.edu.module.vo.EnrollLessonVO">
         select
+        t1.id,
         t1.teacher_id,
-        t1.place,
+        (case when t1.place = '0' then '翠柏校区' when t1.place = '1' then '联盛校区' end) as place,
         t1.begin_time,
         t1.end_time,
         t2.username
         from teach_lesson t1
         left join sys_user t2 on t1.teacher_id = t2.id
+        where t1.deleted = 0
         order by start_time desc
+    </select>
+    <select id="getLessonById" resultType="net.edu.module.entity.EnrollLessonEntity">
+        select
+        t1.id,
+        t1.teacher_id,
+        (case when t1.place = '0' then '翠柏校区' when t1.place = '1' then '联盛校区' end) as place,
+        t1.begin_time,
+        t1.end_time,
+        t2.username
+        from teach_lesson t1
+        left join sys_user t2 on t1.teacher_id = t2.id
+        where t1.id = #{id}
+    </select>
+    <select id="getSelectOne" resultType="net.edu.module.entity.EnrollSelectOne">
+        select
+        id,
+        username
+        from sys_user
     </select>
 
 

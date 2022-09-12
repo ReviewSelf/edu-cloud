@@ -5,10 +5,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
 
+import java.math.BigInteger;
+
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("teach_lesson")
 public class EnrollLessonEntity extends BaseEntity {
+
+    /**
+     * ID
+     */
+    private Integer lessonId;
 
     /**
      * 任课老师

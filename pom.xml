@@ -27,6 +27,7 @@
         <module>edu-cloud-judge</module>
         <module>edu-cloud-affair</module>
         <module>edu-cloud-teaching</module>
+        <module>edu-cloud-person</module>
     </modules>
 
     <properties>

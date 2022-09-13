@@ -3,6 +3,7 @@ package net.edu.module.dao;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
+import net.edu.module.entity.EnrollJoinLessonEntity;
 import net.edu.module.entity.EnrollLessonEntity;
 import net.edu.module.entity.EnrollSelectOne;
 import net.edu.module.query.EnrollLessonQuery;
@@ -23,4 +24,6 @@ public interface EnrollLessonDao extends BaseDao<EnrollLessonEntity> {
     List<EnrollSelectOne> getSelectOne();
 
     void saveLesson(EnrollLessonVO vo);
+
+    void joinLesson(EnrollJoinLessonEntity entity);
 }

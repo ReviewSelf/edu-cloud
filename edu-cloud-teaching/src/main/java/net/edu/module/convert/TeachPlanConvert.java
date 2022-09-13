@@ -10,8 +10,8 @@ import java.util.List;
 /**
 * 教学计划表
 *
-* @author 阿沐
-* @since 1.0.0 2022-09-08
+* @author sqw 
+* @since 1.0.0 2022-09-12
 */
 @Mapper
 public interface TeachPlanConvert {

@@ -6,16 +6,14 @@ import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
 
 /**
-* 教学计划表查询
+* 教学日历表查询
 *
-* @author 阿沐
-* @since 1.0.0 2022-09-08
+* @author sqw 
+* @since 1.0.0 2022-09-12
 */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "教学计划表查询")
-public class TeachPlanQuery extends Query {
-    @Schema(description = "名称")
-    private String name;
-
+@Schema(description = "教学日历表查询")
+public class TeachPlanItemQuery extends Query {
+    private Long id; //教学计划id
 }

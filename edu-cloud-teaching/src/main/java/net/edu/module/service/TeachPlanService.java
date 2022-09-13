@@ -1,6 +1,5 @@
 package net.edu.module.service;
 
-
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.TeachPlanEntity;
@@ -12,8 +11,8 @@ import java.util.List;
 /**
  * 教学计划表
  *
- * @author 阿沐
- * @since 1.0.0 2022-09-08
+ * @author sqw 
+ * @since 1.0.0 2022-09-12
  */
 public interface TeachPlanService extends BaseService<TeachPlanEntity> {
 
@@ -24,4 +23,8 @@ public interface TeachPlanService extends BaseService<TeachPlanEntity> {
     void update(TeachPlanVO vo);
 
     void delete(List<Long> idList);
+
+    void updateStatus(Long id);
+
+    void updateUsedNum(Long id);
 }

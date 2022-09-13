@@ -10,7 +10,6 @@ import net.edu.module.entity.TeachPlanEntity;
 import net.edu.module.query.TeachPlanQuery;
 import net.edu.module.service.TeachPlanService;
 import net.edu.module.vo.TeachPlanVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,11 +18,11 @@ import java.util.List;
 /**
 * 教学计划表
 *
-* @author 阿沐
-* @since 1.0.0 2022-09-08
+* @author sqw 
+* @since 1.0.0 2022-09-12
 */
 @RestController
-@RequestMapping("teachPlan")
+@RequestMapping("plan")
 @Tag(name="教学计划表")
 @AllArgsConstructor
 public class TeachPlanController {
@@ -33,9 +32,9 @@ public class TeachPlanController {
     @Operation(summary = "分页")
     public Result<PageResult<TeachPlanVO>> page(@Valid TeachPlanQuery query){
         PageResult<TeachPlanVO> page = teachPlanService.page(query);
+
         return Result.ok(page);
     }
-
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
@@ -53,6 +52,22 @@ public class TeachPlanController {
         return Result.ok();
     }
 
+    @GetMapping("updateStatus/{id}")
+    @Operation(summary = "修改状态")
+    public Result<String> updateStatus(@PathVariable("id")  Long id){
+        teachPlanService.updateStatus(id);
+
+        return Result.ok();
+    }
+
+    @PutMapping("usedNum")
+    @Operation(summary = "修改引用次数")
+    public Result<String> updateUsedNum(@RequestParam Long id ){
+
+        teachPlanService.updateUsedNum(id);
+        return Result.ok();
+    }
+
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid TeachPlanVO vo){
@@ -65,6 +80,7 @@ public class TeachPlanController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         teachPlanService.delete(idList);
+
         return Result.ok();
     }
 }

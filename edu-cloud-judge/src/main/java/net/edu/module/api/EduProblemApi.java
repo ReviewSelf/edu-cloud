@@ -18,7 +18,7 @@ public interface EduProblemApi {
     @GetMapping("sample/list/{problemId}")
     Result<List<CodeSampleVO>> getSampleList(@PathVariable(value = "problemId") Long  problemId);
 
-    @GetMapping("options/{problemId}")
+    @GetMapping("choice/options/{problemId}")
     List<String> getChoiceOptions(@PathVariable(value = "problemId") Long problemId,@RequestParam(required = false)int flag);
 
     @GetMapping("choice/submitTimes")

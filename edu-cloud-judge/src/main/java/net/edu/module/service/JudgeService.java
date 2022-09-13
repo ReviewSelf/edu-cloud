@@ -64,11 +64,9 @@ public class JudgeService {
 
     public int judgeBefore(JudgeRecordSubmitVO vo) {
         //插入记录
-
-
         if(vo.getProblemType()==1){
            judgeChoice(vo);
-            judgeRecordDao.insertSubmitRecord(vo);
+
         }else if(vo.getProblemType()==2){
             judgeRecordDao.insertSubmitRecord(vo);
         }else if(vo.getProblemType()==3){
@@ -82,6 +80,7 @@ public class JudgeService {
         return 0;
     }
 
+    @Transactional
     public void judgeChoice(JudgeRecordSubmitVO vo){
         List<String> arr= Arrays.asList(vo.getSubmitContent().split(";;;"));
         List<String> answer=eduProblemApi.getChoiceOptions(vo.getProblemId(), 1);
@@ -96,6 +95,7 @@ public class JudgeService {
                 }
             }
         }
+        judgeRecordDao.insertSubmitRecord(vo);
     }
 
     @Transactional
@@ -134,6 +134,7 @@ public class JudgeService {
     }
 
 
+    @Transactional
     public void judgeAfter(Long recordId,Long problemId,int type) {
         int status=judgeRecordDao.selectResult(recordId);
         //更新题目回答次数/正确次数
@@ -144,7 +145,6 @@ public class JudgeService {
             eduProblemApi.updateFillSubmitTimes(problemId,status==3);
         }
         else if(type==3){
-            System.out.println(status);
             eduProblemApi.updateCodeSubmitTimes(problemId,status==3);
         }
         //结束判题更新用户答题次数/准确次数

@@ -5,3 +5,4 @@ auth:
     - /test/**
     - /sample/list/**
     - /**/submitTimes
+    - /choice/options/**

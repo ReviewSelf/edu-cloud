@@ -49,7 +49,7 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
     @Override
     public void update(CodeSampleVO vo) {
         CodeSampleEntity entity = CodeSampleConvert.INSTANCE.convert(vo);
-        redisUtils.del();RedisKeys.getSample(vo.getProblemId());
+        redisUtils.del(RedisKeys.getSample(vo.getProblemId()));
         updateById(entity);
     }
 
@@ -59,7 +59,7 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
         CodeSampleEntity entity=getById(idList.get(0));
         removeByIds(idList);
         codeProblemDao.updateSampleNum(entity.getProblemId());
-        redisUtils.del();RedisKeys.getSample(entity.getProblemId());
+        redisUtils.del(RedisKeys.getSample(entity.getProblemId()));
     }
 
 
@@ -69,7 +69,7 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
         sampleVOS.forEach((item) -> {
             baseMapper.insert(CodeSampleConvert.INSTANCE.convert(item));
         });
-        redisUtils.del();RedisKeys.getSample(problemId);
+        redisUtils.del(RedisKeys.getSample(problemId));
         codeProblemDao.updateSampleNum(problemId);
     }
 

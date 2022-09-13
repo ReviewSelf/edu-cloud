@@ -105,6 +105,15 @@
         <if test="isTrue==true">
             ,correct_times = correct_times+1
         </if>
-        where id = #{id} and deleted=0
+        where id = #{id}
     </update>
+
+
+    <select id="selectChoiceOptions" resultType="java.lang.String">
+        select  problem_option  from  problem_choice_options
+        where problem_id=#{problemId}
+        <if test="flag!= null">
+            and is_true=#{flag}
+        </if>
+    </select>
 </mapper>

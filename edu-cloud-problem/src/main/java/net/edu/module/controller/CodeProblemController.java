@@ -43,7 +43,6 @@ public class CodeProblemController {
     public Result<CodeProblemVO> get(@PathVariable("id") Long id){
         CodeProblemEntity entity = codeProblemService.getById(id);
         entity.setMemoryLimit(entity.getMemoryLimit()/1024);
-        entity.setTimeLimit(entity.getTimeLimit().divide(new BigDecimal(1000),0));
         return Result.ok(CodeProblemConvert.INSTANCE.convert(entity));
     }
 
@@ -51,7 +50,6 @@ public class CodeProblemController {
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody CodeProblemVO vo){
         vo.setMemoryLimit(vo.getMemoryLimit()*1024);
-        vo.setTimeLimit(vo.getTimeLimit()*1000);
         codeProblemService.save(vo);
 
         return Result.ok();
@@ -69,7 +67,6 @@ public class CodeProblemController {
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid CodeProblemVO vo){
         vo.setMemoryLimit(vo.getMemoryLimit()*1024);
-        vo.setTimeLimit(vo.getTimeLimit()*1000);
         codeProblemService.update(vo);
 
         return Result.ok();
@@ -83,7 +80,7 @@ public class CodeProblemController {
         return Result.ok();
     }
 
-    @PutMapping("usedNum")
+    @GetMapping("usedNum")
     @Operation(summary = "修改引用次数")
     public Result<String> updateUsedNum(@RequestParam Long id ){
 
@@ -91,7 +88,7 @@ public class CodeProblemController {
         return Result.ok();
     }
 
-    @PutMapping("submitTimes")
+    @GetMapping("submitTimes")
     @Operation(summary = "修改提交和正确次数")
     public Result<String> updateSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue ){
         codeProblemService.updateSubmitTimes(id,isTrue);

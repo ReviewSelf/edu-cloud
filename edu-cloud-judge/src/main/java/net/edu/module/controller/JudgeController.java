@@ -2,8 +2,8 @@ package net.edu.module.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.entity.CodeRecordEntity;
-import net.edu.module.service.JudgeCodeService;
+import net.edu.module.service.JudgeService;
+import net.edu.module.vo.JudgeRecordSubmitVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,14 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Tag(name="代码题判题接口")
-public class JudgeCodeController {
+public class JudgeController {
 
     @Autowired
-    JudgeCodeService judgeCodeService;
+    JudgeService judgeService;
 
-    @PostMapping("/code")
-    public Result<Integer> judge(@RequestBody CodeRecordEntity codeRecordEntity){
+    @PostMapping("/record")
+    public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo){
 
-        return Result.ok( judgeCodeService.judgeBefore(codeRecordEntity));
+        return Result.ok( judgeService.judgeBefore(vo));
     }
+
+
 }

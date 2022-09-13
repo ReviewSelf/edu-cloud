@@ -30,4 +30,10 @@ public class EnrollUserQuery extends Query {
     @Schema(description = "意向说明")
     private String purpose;
 
+    @Schema(description = "开始时间")
+    private String beginTime;
+
+    @Schema(description = "结束时间")
+    private String endTime;
+
 }

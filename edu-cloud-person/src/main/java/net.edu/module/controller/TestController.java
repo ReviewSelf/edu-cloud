@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class TestController {
 
+
     @GetMapping("test")
     public Result<String> test(){
         return Result.ok("新增模块演示。。。");

@@ -34,6 +34,7 @@ public class EnrollUserController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<EnrollUserVO>> page(@Valid EnrollUserQuery query){
+        System.out.println(query.getPage()+" "+query.getLimit());
         PageResult<EnrollUserVO> page = enrollUserService.page(query);
         return Result.ok(page);
     }

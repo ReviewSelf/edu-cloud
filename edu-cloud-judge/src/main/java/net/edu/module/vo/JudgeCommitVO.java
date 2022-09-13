@@ -1,7 +1,12 @@
 package net.edu.module.vo;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 
 /**
@@ -11,22 +16,33 @@ import lombok.Data;
  * @Description:
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class JudgeCommitVO {
-    Float cpu_time_limit;
-    Integer memory_limit;
-    String stdin;
-    String language_id;
-    String expected_output;
-    String source_code;
+
+    //时间限制
+    private BigDecimal cpuTimeLimit;
+     //空间限制
+    private Integer memoryLimit;
+    //输入
+    private String stdin;
+
+    //语言
+    private Integer languageId;
+    //输出
+    private String expectedOutput;
+    //代码
+    private String sourceCode;
 
 
     public String toJsonString() {
-        return "{\"cpu_time_limit\":\""+cpu_time_limit
-                +"\",\"memory_limit\":\""+memory_limit
+        return "{\"cpu_time_limit\":\""+cpuTimeLimit
+                +"\",\"memory_limit\":\""+memoryLimit
                 +"\",\"stdin\":\""+stdin
-                +"\",\"language_id\":\""+language_id
-                +"\",\"expected_output\":\""+expected_output
-                +"\",\"source_code\":\""+source_code
+                +"\",\"language_id\":\""+languageId
+                +"\",\"expected_output\":\""+expectedOutput
+                +"\",\"source_code\":\""+sourceCode
                 +"\"}";
     }
 

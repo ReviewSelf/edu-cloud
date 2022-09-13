@@ -3,12 +3,10 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduFileApi;
 import net.edu.module.convert.CodeSampleConvert;
 import net.edu.module.entity.CodeSampleEntity;
-import net.edu.module.query.CodeSampleQuery;
 import net.edu.module.service.CodeSampleService;
 import net.edu.module.vo.CodeSampleVO;
 import net.edu.module.vo.SampleVO;
@@ -36,12 +34,11 @@ public class CodeSampleController {
     private EduFileApi eduFileApi;
 
 
-    @GetMapping("page")
+    @GetMapping("list/{problemId}")
     @Operation(summary = "分页")
-    public Result<PageResult<CodeSampleVO>> page(@Valid CodeSampleQuery query){
-        PageResult<CodeSampleVO> page = codeSampleService.page(query);
-
-        return Result.ok(page);
+    public Result<List<CodeSampleVO>> getList(@PathVariable("problemId") Long  problemId){
+        List<CodeSampleVO> list = codeSampleService.getList(problemId);
+        return Result.ok(list);
     }
 
     @GetMapping("{id}")

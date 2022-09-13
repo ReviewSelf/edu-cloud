@@ -3,3 +3,6 @@ auth:
   #免验证
   ignore_urls:
     - /test/**
+    - /sample/list/**
+    - /**/submitTimes
+    - /choice/options/**

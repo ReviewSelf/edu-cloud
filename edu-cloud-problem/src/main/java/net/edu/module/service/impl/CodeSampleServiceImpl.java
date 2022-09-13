@@ -1,17 +1,15 @@
 package net.edu.module.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.CodeSampleConvert;
 import net.edu.module.dao.CodeProblemDao;
 import net.edu.module.dao.CodeSampleDao;
-import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.entity.CodeSampleEntity;
-import net.edu.module.query.CodeSampleQuery;
 import net.edu.module.service.CodeSampleService;
 import net.edu.module.vo.CodeSampleVO;
 import net.edu.module.vo.SampleVO;
@@ -31,24 +29,27 @@ import java.util.List;
 public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSampleEntity> implements CodeSampleService {
 
     private final CodeProblemDao codeProblemDao;
+    private final RedisUtils redisUtils;
+
 
     @Override
-    public PageResult<CodeSampleVO> page(CodeSampleQuery query) {
-        IPage<CodeSampleEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-
-        return new PageResult<>(CodeSampleConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
-    }
-
-    private LambdaQueryWrapper<CodeSampleEntity> getWrapper(CodeSampleQuery query) {
-        LambdaQueryWrapper<CodeSampleEntity> wrapper = Wrappers.lambdaQuery();
-        return wrapper;
+    public List<CodeSampleVO> getList(Long problemId) {
+        List<CodeSampleVO> arr=null;
+        arr= (List<CodeSampleVO>) redisUtils.get(RedisKeys.getSample(problemId),RedisUtils.HOUR_ONE_EXPIRE);
+        if(arr==null){
+            LambdaQueryWrapper<CodeSampleEntity> wrapper = Wrappers.lambdaQuery();
+            wrapper.eq(true, CodeSampleEntity::getProblemId, problemId);
+            arr=CodeSampleConvert.INSTANCE.convertList(baseMapper.selectList(wrapper));
+            redisUtils.set(RedisKeys.getSample(problemId),arr,RedisUtils.HOUR_ONE_EXPIRE);
+        }
+        return arr;
     }
 
 
     @Override
     public void update(CodeSampleVO vo) {
         CodeSampleEntity entity = CodeSampleConvert.INSTANCE.convert(vo);
-
+        redisUtils.del(RedisKeys.getSample(vo.getProblemId()));
         updateById(entity);
     }
 
@@ -58,6 +59,7 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
         CodeSampleEntity entity=getById(idList.get(0));
         removeByIds(idList);
         codeProblemDao.updateSampleNum(entity.getProblemId());
+        redisUtils.del(RedisKeys.getSample(entity.getProblemId()));
     }
 
 
@@ -67,6 +69,7 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
         sampleVOS.forEach((item) -> {
             baseMapper.insert(CodeSampleConvert.INSTANCE.convert(item));
         });
+        redisUtils.del(RedisKeys.getSample(problemId));
         codeProblemDao.updateSampleNum(problemId);
     }
 

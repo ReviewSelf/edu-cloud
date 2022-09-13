@@ -19,4 +19,6 @@ import java.util.List;
 public interface TeachPlanItemDao extends BaseDao<TeachPlanItemEntity> {
 
     List<TeachPlanItemVO> page(@Param("id") Long id);
+
+    TeachPlanItemVO selectPlanItem(@Param("id") Long id);
 }

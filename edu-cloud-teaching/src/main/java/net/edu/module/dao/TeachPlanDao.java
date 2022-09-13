@@ -23,4 +23,6 @@ public interface TeachPlanDao extends BaseDao<TeachPlanEntity> {
     int updateStatus(@Param("id") Long id);
 
     int updateUsedNum(@Param("id") Long id);
+
+    int updateLessonNum(@Param("id") Long id);
 }

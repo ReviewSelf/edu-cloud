@@ -48,4 +48,8 @@
         update teach_plan set used_num= used_num+1 where id = #{id}
     </update>
 
+
+   <update id="updateLessonNum">
+        update teach_plan set lesson_num = (select count(1) from teach_plan_item where plan_id = #{id} and deleted = 0) where id = #{id}
+   </update>
 </mapper>

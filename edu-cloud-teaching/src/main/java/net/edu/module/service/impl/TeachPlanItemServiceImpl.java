@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachPlanItemConvert;
+import net.edu.module.dao.TeachPlanDao;
 import net.edu.module.dao.TeachPlanItemDao;
 import net.edu.module.entity.TeachPlanItemEntity;
 import net.edu.module.query.TeachPlanItemQuery;
@@ -26,6 +27,7 @@ import java.util.List;
 public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, TeachPlanItemEntity> implements TeachPlanItemService {
 
     private final TeachPlanItemDao teachPlanItemDao;
+    private final TeachPlanDao teachPlanDao;
 
     @Override
     public List<TeachPlanItemVO> page( Long id) {
@@ -40,23 +42,30 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(TeachPlanItemVO vo) {
         TeachPlanItemEntity entity = TeachPlanItemConvert.INSTANCE.convert(vo);
 
         baseMapper.insert(entity);
+        teachPlanDao.updateLessonNum(entity.getPlanId());//更新教学计划的课次
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(TeachPlanItemVO vo) {
         TeachPlanItemEntity entity = TeachPlanItemConvert.INSTANCE.convert(vo);
 
         updateById(entity);
+
+        teachPlanDao.updateLessonNum(entity.getPlanId());//更新教学计划的课次
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
-        removeByIds(idList);
+        TeachPlanItemVO vo = teachPlanItemDao.selectPlanItem(idList.get(0)); //获取日历所属计划的id信息
+        removeByIds(idList);//真正的删除操作
+        teachPlanDao.updateLessonNum(vo.getPlanId());//更新教学计划的课次
     }
 
 }

@@ -22,7 +22,13 @@
         select id,plan_id as planId,sort,duration,name,description
         from teach_plan_item
         where deleted=0 and plan_id = #{id}
-        order by sort desc,id desc
+        order by sort asc,id desc
+    </select>
+
+    <select id="selectPlanItem" resultType="net.edu.module.vo.TeachPlanItemVO">
+        select id,plan_id as planId,sort,duration,name,description
+        from teach_plan_item
+        where deleted=0 and id = #{id}
     </select>
 
 </mapper>

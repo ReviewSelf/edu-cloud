@@ -35,8 +35,6 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
     private EnrollUserDao enrollUserDao;
     @Override
     public PageResult<EnrollUserVO> page(EnrollUserQuery query) {
-        System.out.println("sssssss");
-        System.out.println(query.getPage()+" "+query.getLimit());
         Page<EnrollUserVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<EnrollUserVO> list =enrollUserDao.getEnrollUserByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());

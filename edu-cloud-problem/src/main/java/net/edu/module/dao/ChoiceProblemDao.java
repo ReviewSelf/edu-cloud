@@ -42,5 +42,5 @@ public interface ChoiceProblemDao extends BaseDao<ChoiceProblemEntity> {
 
     int updateSubmitTimes(@Param("id") Long id,@Param("isTrue") Boolean isTrue);
 
-//    void updateOptionNum(@Param("id") Long problemId);
+    List<String> selectChoiceOptions(Long problemId, int  flag);
 }

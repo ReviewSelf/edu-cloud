@@ -5,8 +5,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -82,8 +84,9 @@ public class CodeProblemVO implements Serializable {
 	private Integer memoryLimit;
 
 	@Schema(description = "时间限制")
-	@Min(value = 15, message = "排序值不能小于15ms")
-	private Integer timeLimit;
+	@Min(value = 0, message = "至少0s")
+	@Max(value = 15, message = "不能查过15s")
+	private BigDecimal timeLimit;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

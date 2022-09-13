@@ -89,5 +89,11 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         choiceProblemDao.updateSubmitTimes(id, isTrue);
     }
 
+    @Override
+    public List<String> getChoiceOptions(Long problemId, int flag) {
+
+        return choiceProblemDao.selectChoiceOptions(problemId,flag);
+    }
+
 
 }

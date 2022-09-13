@@ -100,7 +100,7 @@ public class SampleController {
     @SneakyThrows
     @GetMapping("/fileBase64")
     @Operation(summary = "测试样例转Base64")
-    public String download(@RequestParam("path") String path){
+    public String getFileContent(@RequestParam("path") String path){
         return EncryptUtils.getFileBase64(path);
     }
 }

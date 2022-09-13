@@ -86,12 +86,19 @@ public class ChoiceProblemController {
         return Result.ok();
     }
 
-    @PutMapping("submitTimes")
+    @GetMapping("submitTimes")
     @Operation(summary = "修改提交和正确次数")
     public Result<String> updateSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue ){
 
         choiceProblemService.updateSubmitTimes(id,isTrue);
         return Result.ok();
+    }
+
+    @GetMapping("options/{problemId}")
+    @Operation(summary = "获取选项")
+    public List<String> getOptions(@PathVariable("problemId") Long problemId,@RequestParam(required = false)int flag){
+        List<String> list = choiceProblemService.getChoiceOptions(problemId,flag);
+        return list;
     }
 
 }

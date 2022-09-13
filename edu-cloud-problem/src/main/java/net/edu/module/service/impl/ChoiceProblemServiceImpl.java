@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ChoiceProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
@@ -29,6 +31,8 @@ import java.util.List;
 public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, ChoiceProblemEntity> implements ChoiceProblemService {
 
     private final ChoiceProblemDao choiceProblemDao;
+
+    private final RedisUtils redisUtils;
 
     @Override
     public PageResult<ChoiceProblemVO> page(ChoiceProblemQuery query) {
@@ -62,6 +66,7 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         entity.setOptionNum(vo.getOptions().size());
         //删除原先选项
         choiceProblemDao.deleteOption(entity.getId());
+        redisUtils.del(RedisKeys.getChoiceOptions(vo.getId()));
         if (vo.getOptions().size() > 0) {
             choiceProblemDao.insertOption(vo.getOptions(), entity.getId());
         }
@@ -91,8 +96,15 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
 
     @Override
     public List<String> getChoiceOptions(Long problemId, int flag) {
-
-        return choiceProblemDao.selectChoiceOptions(problemId,flag);
+        List<String> arr=null;
+        if(flag==1){
+            arr= (List<String>) redisUtils.get(RedisKeys.getChoiceOptions(problemId),RedisUtils.HOUR_ONE_EXPIRE);
+            if(arr==null){
+                arr=choiceProblemDao.selectChoiceOptions(problemId,flag);
+                redisUtils.set(RedisKeys.getChoiceOptions(problemId),arr,RedisUtils.HOUR_ONE_EXPIRE);
+            }
+        }
+        return arr;
     }
 
 

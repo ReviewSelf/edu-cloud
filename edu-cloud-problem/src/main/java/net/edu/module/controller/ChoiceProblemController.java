@@ -101,4 +101,10 @@ public class ChoiceProblemController {
         return list;
     }
 
+    @PostMapping("choiceProblemInfo")
+    @Operation(summary = "获取题目和选型")
+     public Result<List<ChoiceProblemVO>> selectChoiceProblemInfo(@RequestBody List<Long> idList){
+        return Result.ok(choiceProblemService.selectChoiceProblemInfo(idList));
+    }
+
 }

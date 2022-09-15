@@ -45,15 +45,15 @@ public class SpringDocConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         Contact contact= new Contact();
-        contact.setName("阿沐 babamu@126.com");
+        contact.setName("1771605689@qq.com");
 
         return new OpenAPI().info(new Info()
-            .title("MakuCloud")
-            .description( "MakuCloud")
+            .title("eduCloud")
+            .description( "eduCloud")
             .contact(contact)
             .version("1.0")
-            .termsOfService("https://maku.net")
+            .termsOfService("https://edu.net")
             .license(new License().name("MIT")
-            .url("https://maku.net")));
+            .url("https://edu.net")));
     }
 }

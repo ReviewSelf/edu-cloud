@@ -4,6 +4,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.TeachPlanItemEntity;
 import net.edu.module.query.TeachPlanItemQuery;
+import net.edu.module.vo.TeachPlanItemPaperVO;
 import net.edu.module.vo.TeachPlanItemVO;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public interface TeachPlanItemService extends BaseService<TeachPlanItemEntity> {
     void update(TeachPlanItemVO vo);
 
     void delete(List<Long> idList);
+
+    List<TeachPlanItemPaperVO> getItemPaper(Long id);
+
+    void updateItemPaper(List<TeachPlanItemPaperVO> list);
 }

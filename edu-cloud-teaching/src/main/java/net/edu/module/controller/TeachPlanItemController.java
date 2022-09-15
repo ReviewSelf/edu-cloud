@@ -8,6 +8,7 @@ import net.edu.module.convert.TeachPlanItemConvert;
 import net.edu.module.entity.TeachPlanItemEntity;
 import net.edu.module.query.TeachPlanItemQuery;
 import net.edu.module.service.TeachPlanItemService;
+import net.edu.module.vo.TeachPlanItemPaperVO;
 import net.edu.module.vo.TeachPlanItemVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,6 +65,20 @@ public class TeachPlanItemController {
     public Result<String> delete(@RequestBody List<Long> idList){
         teachPlanItemService.delete(idList);
 
+        return Result.ok();
+    }
+
+    @GetMapping("paper/{id}")
+    @Operation(summary = "获取教学试卷")
+    public Result<List<TeachPlanItemPaperVO>> getItemPaper(@PathVariable("id") Long id){
+        List<TeachPlanItemPaperVO> list = teachPlanItemService.getItemPaper(id);
+        return Result.ok(list);
+    }
+
+    @PostMapping("paper")
+    @Operation(summary = "更新教学试卷")
+    public Result<String> updateItemPaper(@RequestBody List<TeachPlanItemPaperVO> list){
+         teachPlanItemService.updateItemPaper(list);
         return Result.ok();
     }
 }

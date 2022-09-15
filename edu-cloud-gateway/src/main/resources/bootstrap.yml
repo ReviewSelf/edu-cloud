@@ -70,6 +70,13 @@ spring:
             - Path=/lessons/**
           filters:
             - StripPrefix=1
+        - id: edu-cloud-class
+          uri: lb://edu-cloud-person
+          order: 107
+          predicates:
+            - Path=/person/**
+          filters:
+            - StripPrefix=1
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

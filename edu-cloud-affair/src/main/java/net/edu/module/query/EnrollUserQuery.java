@@ -23,4 +23,11 @@ public class EnrollUserQuery extends Query {
 
     @Schema(description = "状态")
     private String status;
+
+    @Schema(description = "所在区域")
+    private String area;
+
+    @Schema(description = "意向说明")
+    private String purpose;
+
 }

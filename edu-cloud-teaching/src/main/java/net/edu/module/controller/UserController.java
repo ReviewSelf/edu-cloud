@@ -34,7 +34,7 @@ public class UserController {
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("page")
+    @GetMapping("student/page")
     @Operation(summary = "分页")
 
     public Result<PageResult<UserVO>> page(@Valid UserQuery query){
@@ -43,7 +43,7 @@ public class UserController {
         return Result.ok(page);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("student/{id}")
     @Operation(summary = "信息")
 
     public Result<UserVO> get(@PathVariable("id") Long id){

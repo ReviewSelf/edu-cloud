@@ -98,4 +98,7 @@ public class CodeProblemVO implements Serializable {
 
 	@Schema(description = "状态")
 	private Integer status;
+
+	@Schema(description = "参考答案")
+	private String answer;
 }

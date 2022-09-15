@@ -30,4 +30,6 @@ public interface CodeProblemService extends BaseService<CodeProblemEntity> {
     void updateUsedNum(Long id);
 
     void updateSubmitTimes(Long id, Boolean isTrue);
+
+    CodeProblemVO getCodeProblemInfo(Long problemId);
 }

@@ -107,5 +107,9 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         return arr;
     }
 
+    @Override
+    public ChoiceProblemVO getChoiceProblemInfo(Long problemId) {
 
+        return choiceProblemDao.selectChoiceProblemInfo(problemId);
+    }
 }

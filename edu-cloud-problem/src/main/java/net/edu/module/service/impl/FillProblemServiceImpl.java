@@ -89,4 +89,9 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
         fillProblemDao.updateSubmitTimes(id,isTrue);
 
     }
+
+    @Override
+    public FillProblemVO selectFillProblemInfo(Long id) {
+        return fillProblemDao.selectFillProblemInfo(id);
+    }
 }

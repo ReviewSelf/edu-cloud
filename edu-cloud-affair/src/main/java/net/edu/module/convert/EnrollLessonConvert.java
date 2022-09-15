@@ -15,4 +15,6 @@ public interface EnrollLessonConvert {
     EnrollLessonConvert INSTANCE = Mappers.getMapper(EnrollLessonConvert.class);
 
     EnrollLessonEntity convert(EnrollLessonVO vo);
+
+    EnrollLessonVO convert(EnrollLessonEntity entity);
 }

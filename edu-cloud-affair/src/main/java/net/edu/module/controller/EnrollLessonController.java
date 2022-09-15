@@ -6,14 +6,22 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.module.convert.EnrollLessonConvert;
+import net.edu.module.convert.EnrollUserConvert;
+import net.edu.module.entity.EnrollJoinLessonEntity;
+import net.edu.module.entity.EnrollLessonEntity;
+import net.edu.module.entity.EnrollSelectOne;
+import net.edu.module.entity.EnrollUserEntity;
 import net.edu.module.query.EnrollLessonQuery;
 import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollLessonService;
 import net.edu.module.vo.EnrollLessonVO;
 import net.edu.module.vo.EnrollUserVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("enrollLesson")
@@ -32,9 +40,47 @@ public class EnrollLessonController {
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody EnrollLessonVO vo){
+    public Result<String> saveLesson(@RequestBody EnrollLessonVO vo){
         System.out.println(vo);
-        enrollLessonService.save(vo);
+        enrollLessonService.saveLesson(vo);
+        return Result.ok();
+    }
+
+    @GetMapping("{id}")
+    @Operation(summary = "信息")
+    public Object get(@PathVariable("id") Long id){
+        EnrollLessonEntity entity = enrollLessonService.getLessonById(id);
+        return Result.ok(entity);
+    }
+
+    @PutMapping
+    @Operation(summary = "修改")
+    public Object update(@RequestBody @Valid EnrollLessonVO vo){
+        enrollLessonService.updateLesson(vo);
+
+        return Result.ok();
+    }
+
+    @DeleteMapping
+    @Operation(summary = "删除")
+    public Result<String> delete(@RequestBody List<Long> idList){
+        enrollLessonService.delete(idList);
+
+        return Result.ok();
+    }
+
+    @GetMapping("SelectOne")
+    @Operation(summary = "下拉框选择任课老师")
+    public Object getSelectOne() {
+        List<EnrollSelectOne> entity = enrollLessonService.getSelectOne();
+        return Result.ok(entity);
+    }
+
+    @PostMapping("joinLesson")
+    @Operation(summary = "加入试听课")
+    public Object joinLesson(@RequestBody EnrollJoinLessonEntity entity) {
+        System.out.println(entity);
+        enrollLessonService.joinLesson(entity);
         return Result.ok();
     }
 

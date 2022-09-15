@@ -63,11 +63,11 @@ spring:
             - Path=/affair/**
           filters:
             - StripPrefix=1
-        - id: edu-cloud-class
-          uri: lb://edu-cloud-class
+        - id: edu-cloud-lessons
+          uri: lb://edu-cloud-lessons
           order: 106
           predicates:
-            - Path=/class/**
+            - Path=/lessons/**
           filters:
             - StripPrefix=1
         - id: openapi

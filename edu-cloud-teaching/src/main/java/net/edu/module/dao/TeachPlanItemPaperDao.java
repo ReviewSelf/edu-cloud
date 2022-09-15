@@ -13,5 +13,5 @@ public interface TeachPlanItemPaperDao {
 
     int deleteItemPaper(@Param("id") Long id);
 
-    int insertItemPaper(@Param("list") List<TeachPlanItemPaperVO> list);
+    int insertItemPaper(@Param("list") List<TeachPlanItemPaperVO> list,@Param("itemId") Long itemId);
 }

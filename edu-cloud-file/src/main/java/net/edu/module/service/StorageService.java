@@ -2,6 +2,7 @@ package net.edu.module.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.file.FileNameUtil;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
 import java.util.Date;
@@ -63,6 +64,15 @@ public abstract class StorageService {
      * @return 返回http地址
      */
     public abstract String upload(byte[] data, String path);
+
+    /**
+     * 内部文件上传
+     *
+     * @param file 文件流
+     * @param fileName 文件名称
+     * @return 返回本地url
+     */
+    public abstract String upload2(MultipartFile file, String fileName);
 
     /**
      * 文件上传

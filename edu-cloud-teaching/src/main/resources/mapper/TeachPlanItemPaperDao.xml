@@ -17,7 +17,7 @@
         insert into teach_plan_item_paper(item_id,paper_id,paper_name,paper_type)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.itemId},#{item.paperId},#{item.paperName},#{item.paperType})
+            (#{itemId},#{item.paperId},#{item.paperName},#{item.paperType})
         </foreach>
     </insert>
 

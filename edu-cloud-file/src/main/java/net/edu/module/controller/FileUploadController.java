@@ -24,7 +24,7 @@ public class FileUploadController {
 
 
     @PostMapping("upload")
-    @Operation(summary = "普通文件上传")
+    @Operation(summary = "普通文件上传,对外公开文件")
     public Result<FileUploadVO> upload(@RequestParam("file") MultipartFile file) throws Exception {
         if (file.isEmpty()) {
             return Result.error("请选择需要上传的文件");
@@ -40,6 +40,22 @@ public class FileUploadController {
         return Result.ok(vo);
     }
 
+    @PostMapping("upload2")
+    @Operation(summary = "不对外公开文件")
+    public Result<FileUploadVO> upload2(@RequestParam("file") MultipartFile file) throws Exception {
+        if (file.isEmpty()) {
+            return Result.error("请选择需要上传的文件");
+        }
+        // 上传路径
+        String path = storageService.getPath(file.getOriginalFilename());
+        // 上传文件
+        String url = storageService.upload2(file, file.getName());
+        FileUploadVO vo = new FileUploadVO();
+        vo.setUrl(url);
+        vo.setSize(file.getSize());
+        vo.setName(file.getOriginalFilename());
+        return Result.ok(vo);
+    }
 //    @PostMapping("upload")
 //    @Operation(summary = "普通文件上传")
 //    public Result<FileUploadVO> upload(@RequestParam("file") MultipartFile file) throws Exception {

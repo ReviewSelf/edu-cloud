@@ -7,6 +7,7 @@ import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
 * 教学日历表
@@ -36,6 +37,10 @@ public class TeachPlanItemVO implements Serializable {
 
 	@Schema(description = "说明")
 	private String description;
+
+	@Schema(description = "日历试卷")
+	private List<TeachPlanItemPaperVO> paperList;
+
 
 
 

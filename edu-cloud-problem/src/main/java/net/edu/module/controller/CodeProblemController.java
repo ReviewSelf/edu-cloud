@@ -90,7 +90,7 @@ public class CodeProblemController {
 
     @GetMapping("submitTimes")
     @Operation(summary = "修改提交和正确次数")
-    public Result<String> updateSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue ){
+    public Result<String> updateSubmitTimesFromJudge(@RequestParam Long id , @RequestParam Boolean isTrue ){
         codeProblemService.updateSubmitTimes(id,isTrue);
         return Result.ok( );
     }

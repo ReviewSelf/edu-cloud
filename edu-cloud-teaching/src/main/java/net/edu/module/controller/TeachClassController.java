@@ -7,9 +7,11 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.TeachClassConvert;
 import net.edu.module.entity.TeachClassEntity;
+import net.edu.module.query.TeachPlanQuery;
 import net.edu.module.service.TeachClassService;
 import net.edu.module.query.TeachClassQuery;
 import net.edu.module.vo.TeachClassVO;
+import net.edu.module.vo.TeachPlanVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,16 +33,16 @@ public class TeachClassController {
 
     @GetMapping("page")
     @Operation(summary = "分页")
-    @PreAuthorize("hasAuthority('teachclass:page')")
     public Result<PageResult<TeachClassVO>> page(@Valid TeachClassQuery query){
+        System.out.println(query);
         PageResult<TeachClassVO> page = teachClassService.page(query);
 
         return Result.ok(page);
     }
 
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    @PreAuthorize("hasAuthority('teachclass:info')")
     public Result<TeachClassVO> get(@PathVariable("id") Long id){
         TeachClassEntity entity = teachClassService.getById(id);
 
@@ -49,7 +51,6 @@ public class TeachClassController {
 
     @PostMapping
     @Operation(summary = "保存")
-    @PreAuthorize("hasAuthority('teachclass:save')")
     public Result<String> save(@RequestBody TeachClassVO vo){
         teachClassService.save(vo);
 
@@ -58,7 +59,6 @@ public class TeachClassController {
 
     @PutMapping
     @Operation(summary = "修改")
-    @PreAuthorize("hasAuthority('teachclass:update')")
     public Result<String> update(@RequestBody @Valid TeachClassVO vo){
         teachClassService.update(vo);
 
@@ -67,7 +67,6 @@ public class TeachClassController {
 
     @DeleteMapping
     @Operation(summary = "删除")
-    @PreAuthorize("hasAuthority('teachclass:delete')")
     public Result<String> delete(@RequestBody List<Long> idList){
         teachClassService.delete(idList);
 

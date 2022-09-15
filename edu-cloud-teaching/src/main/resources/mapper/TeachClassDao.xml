@@ -26,4 +26,25 @@
         <result property="version" column="version"/>
     </resultMap>
 
+    <select id="page" resultType="net.edu.module.vo.TeachClassVO">
+        select
+            id,
+            name,
+            description,
+            img,plan_id as planId,
+            lesson_num as lessonNum,
+            lesson_ime as lessonTime,
+            frequency,
+            status,
+            begin_time as beginTime,
+            end_time as endTime,
+            teacher1_id as teacher1Id,
+            teacher2_id as teacher2Id
+        from teach_class
+        where deleted =0
+        <if test="query.getName()!=null and query.getName()!=''">
+            and  name like concat('%',#{query.name},'%')
+        </if>
+        order by lesson_num desc,id desc
+    </select>
 </mapper>

@@ -49,7 +49,7 @@ public class TeachClassEntity {
 	/**
 	* 上课时间，每次课的时间段
 	*/
-	private String lessonIme;
+	private String lessonTime;
 
 	/**
 	* 周频,0则表示无

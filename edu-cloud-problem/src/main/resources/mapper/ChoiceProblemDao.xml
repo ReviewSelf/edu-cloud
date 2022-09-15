@@ -114,21 +114,38 @@
         </if>
     </select>
 
-    <select id="selectChoiceProblemInfo" resultMap="choiceProblem">
-        select id,type,name,description,source,tips,advice_time,img,difficulty,kp_id
-             ,(select name from problem_knowledge_point where id=kp_id limit 1) as kp_name,submit_times
-             ,correct_times ,is_typical ,option_num,used_num
-             ,create_time ,creator,status
-        from problem_choice where deleted = 0 and id in
-                            <foreach collection="idList" index="index" item="item" open="(" close=")" separator=",">
-                                #{item}
-                            </foreach>
-    </select>
+    <resultMap type="net.edu.module.vo.ChoiceProblemVO" id="choiceProblemInfo">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="img" property="img"/>
+        <result column="difficulty" property="difficulty"/>
+        <result column="submit_times" property="submitTimes"/>
+        <result column="correct_times" property="correctTimes"/>
+        <result column="option_num" property="optionNum"/>
+        <result column="used_num" property="usedNum"/>
+        <collection property="options"  javaType="java.util.ArrayList" ofType="net.edu.module.vo.ChoiceOptionVO">
+            <result column="problem_option" property="problemOption"/>
+        </collection>
 
-    <select id="selectChoiceOptionsInfo" resultType="java.lang.String">
-        select  problem_option  from  problem_choice_options
-        where problem_id=#{problemId}
+    </resultMap>
 
+    <select id="selectChoiceProblemInfo" resultMap="choiceProblemInfo">
+        select a.id,
+               a.type,
+               a.name,
+               a.description,
+               a.img,
+               a.difficulty,
+             a.submit_times,
+             a.correct_times ,
+             a.option_num,
+             a.used_num,
+             b.problem_option
+
+        from problem_choice a left join problem_choice_options b on
+            a.id=b.problem_id where a.deleted = 0 and a.id=#{problemId}
     </select>
 
 

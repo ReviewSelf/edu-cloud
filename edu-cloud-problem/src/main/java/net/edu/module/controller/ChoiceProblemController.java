@@ -101,10 +101,16 @@ public class ChoiceProblemController {
         return list;
     }
 
-    @PostMapping("choiceProblemInfo")
+    @GetMapping("choiceProblemInfo/{problemId}")
     @Operation(summary = "获取题目和选型")
-     public Result<List<ChoiceProblemVO>> selectChoiceProblemInfo(@RequestBody List<Long> idList){
-        return Result.ok(choiceProblemService.selectChoiceProblemInfo(idList));
+     public Result<ChoiceProblemVO> selectChoiceProblemInfo(@PathVariable("problemId") Long problemId){
+        return Result.ok(choiceProblemService.selectChoiceProblemInfo(problemId));
+    }
+
+    @GetMapping("choiceProblemInfo/{problemId}")
+    @Operation(summary = "获取题目和选型")
+    public Result<ChoiceProblemVO> select(@PathVariable("problemId") Long problemId){
+        return Result.ok(choiceProblemService.selectChoiceProblemInfo(problemId));
     }
 
 }

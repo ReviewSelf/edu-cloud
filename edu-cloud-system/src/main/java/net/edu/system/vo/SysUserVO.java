@@ -33,6 +33,7 @@ public class SysUserVO implements Serializable {
 
     @Schema(description = "密码")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotBlank(message = "密码不能为空")
     private String password;
 
     @Schema(description = "姓名", required = true)

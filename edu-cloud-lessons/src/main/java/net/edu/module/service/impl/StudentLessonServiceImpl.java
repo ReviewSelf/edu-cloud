@@ -5,6 +5,8 @@ import net.edu.framework.common.utils.AddressUtils;
 import net.edu.framework.common.utils.HttpContextUtils;
 import net.edu.framework.common.utils.IpUtils;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
+import net.edu.framework.security.user.UserDetail;
 import net.edu.module.service.StudentLessonService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -34,10 +36,17 @@ public class StudentLessonServiceImpl implements StudentLessonService {
         if(ipList!=null){
             for (String ipRange:ipList){
                 if(!IpUtils.ipExistsInRange(ip,ipRange)){
-                    return  Result.error("不在ip段中，不可进入此班级");
+                    return  Result.error("不在ip白名单中，不可进入此班级");
                 }
             }
         }
+        Long userId = SecurityUser.getUserId();
+
+        //班级名单校验
+        if(false){
+            return  Result.error("不在该班级中，不可进入此班级");
+        }
+
         // 签到
 
 

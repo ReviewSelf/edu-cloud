@@ -5,6 +5,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
+import net.edu.framework.security.user.UserDetail;
 import net.edu.module.convert.ChoiceProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.service.ChoiceProblemService;
@@ -18,11 +20,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
-* 选择题库表
-*
-* @author 马佳浩 
-* @since 1.0.0 2022-09-05
-*/
+ * 选择题库表
+ *
+ * @author 马佳浩
+ * @since 1.0.0 2022-09-05
+ */
 @RestController
 @RequestMapping("choice")
 @Tag(name="选择题库表")
@@ -103,7 +105,7 @@ public class ChoiceProblemController {
 
     @GetMapping("problemInfo/{problemId}")
     @Operation(summary = "获取答题题目信息")
-     public Result<ChoiceProblemVO> getChoiceProblemInfo(@PathVariable("problemId") Long problemId){
+    public Result<ChoiceProblemVO> getChoiceProblemInfo(@PathVariable("problemId") Long problemId){
         return Result.ok(choiceProblemService.getChoiceProblemInfo(problemId));
     }
 

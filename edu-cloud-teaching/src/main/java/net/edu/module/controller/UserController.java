@@ -13,6 +13,7 @@ import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
 import net.edu.module.service.UserService;
 import net.edu.module.vo.UserVO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class UserController {
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
 
-    @GetMapping("page")
+    @GetMapping("teacherPage")
     @Operation(summary = "分页")
 
     public Result<PageResult<UserVO>> page(@Valid UserQuery query){
@@ -44,7 +45,7 @@ public class UserController {
         return Result.ok(page);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("teacher/{id}")
     @Operation(summary = "信息")
 
     public Result<UserVO> get(@PathVariable("id") Long id){

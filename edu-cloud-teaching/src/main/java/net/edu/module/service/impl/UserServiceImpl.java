@@ -44,7 +44,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
 
         // 数据列表
         System.out.println(params);
-        List<UserEntity> list = baseMapper.getList(params);
+        List<UserEntity> list = baseMapper.getTeacherList(params);
 
         return new PageResult<>(UserConvert.INSTANCE.convertList(list), page.getTotal());
     }

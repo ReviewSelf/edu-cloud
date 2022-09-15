@@ -94,4 +94,11 @@ public class CodeProblemController {
         codeProblemService.updateSubmitTimes(id,isTrue);
         return Result.ok( );
     }
+
+
+    @GetMapping("problemInfo/{problemId}")
+    @Operation(summary = "获取答题题目信息")
+    public Result<CodeProblemVO> getCodeProblemInfo(@PathVariable("problemId")  Long problemId){
+        return Result.ok(codeProblemService.getCodeProblemInfo(problemId));
+    }
 }

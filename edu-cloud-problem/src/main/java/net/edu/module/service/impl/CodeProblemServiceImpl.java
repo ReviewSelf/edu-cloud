@@ -75,4 +75,8 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
 
     }
 
+    @Override
+    public CodeProblemVO getCodeProblemInfo(Long problemId) {
+        return codeProblemDao.selectCodeProblemInfo(problemId);
+    }
 }

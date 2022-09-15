@@ -30,7 +30,7 @@ public class EnrollUserVO implements Serializable {
 	private String name;
 
 	@Schema(description = "手机号码")
-	private Integer phone;
+	private String phone;
 
 	@Schema(description = "unionId")
 	private String unionId;

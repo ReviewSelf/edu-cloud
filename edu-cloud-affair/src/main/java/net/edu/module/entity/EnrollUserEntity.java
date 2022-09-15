@@ -31,7 +31,7 @@ public class EnrollUserEntity extends BaseEntity {
 	/**
 	* 手机号码
 	*/
-	private Integer phone;
+	private String phone;
 
 	/**
 	* unionId

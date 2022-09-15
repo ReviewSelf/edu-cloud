@@ -14,7 +14,7 @@
 		t1.super_admin = 0
 		AND t1.deleted = 0
 		<if test="username != null and username.trim() != ''">
-			and t1.username = concat('%',#{username},'%')
+			and t1.username = concat('%',#{query.username},'%')
 		</if>
 		<if test="mobile != null and mobile.trim() != ''">
 			and t1.mobile = concat('%',#{mobile},'%')

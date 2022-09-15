@@ -115,6 +115,11 @@ public class CodeProblemEntity extends BaseEntity {
 	private BigDecimal timeLimit;
 
 	/**
+	 * 参考答案
+	 */
+	private String answer;
+
+	/**
 	 * 状态
 	 */
 	private Integer status;

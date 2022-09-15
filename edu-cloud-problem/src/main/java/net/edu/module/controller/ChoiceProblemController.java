@@ -102,9 +102,9 @@ public class ChoiceProblemController {
     }
 
     @GetMapping("choiceProblemInfo/{problemId}")
-    @Operation(summary = "获取题目和选型")
-     public Result<ChoiceProblemVO> selectChoiceProblemInfo(@PathVariable("problemId") Long problemId){
-        return Result.ok(choiceProblemService.selectChoiceProblemInfo(problemId));
+    @Operation(summary = "答题信息")
+     public Result<ChoiceProblemVO> getChoiceProblemInfo(@PathVariable("problemId") Long problemId){
+        return Result.ok(choiceProblemService.getChoiceProblemInfo(problemId));
     }
 
 

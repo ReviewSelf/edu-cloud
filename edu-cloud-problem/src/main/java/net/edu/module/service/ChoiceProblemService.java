@@ -36,5 +36,5 @@ public interface ChoiceProblemService extends BaseService<ChoiceProblemEntity> {
 
     List<String> getChoiceOptions(Long problemId,int flag);
 
-    ChoiceProblemVO selectChoiceProblemInfo(Long problemId);
+    ChoiceProblemVO getChoiceProblemInfo(Long problemId);
 }

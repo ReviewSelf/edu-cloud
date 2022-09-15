@@ -35,4 +35,6 @@ public interface ChoiceProblemService extends BaseService<ChoiceProblemEntity> {
     void updateSubmitTimes(Long id, Boolean isTrue);
 
     List<String> getChoiceOptions(Long problemId,int flag);
+
+    ChoiceProblemVO selectChoiceProblemInfo(Long problemId);
 }

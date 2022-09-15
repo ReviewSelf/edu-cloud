@@ -124,7 +124,7 @@ public class RedisUtils {
      */
     public Object get(String key, long expire) {
         Object value = redisTemplate.opsForValue().get(key);
-        if (expire != NOT_EXPIRE) {
+        if (value!=null&&expire != NOT_EXPIRE) {
             expire(key, expire);
         }
         return value;

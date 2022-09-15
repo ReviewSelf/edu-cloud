@@ -9,6 +9,7 @@ import net.edu.module.convert.EnrollLessonConvert;
 import net.edu.module.convert.EnrollUserConvert;
 import net.edu.module.dao.EnrollLessonDao;
 import net.edu.module.dao.EnrollUserDao;
+import net.edu.module.entity.EnrollJoinLessonEntity;
 import net.edu.module.entity.EnrollLessonEntity;
 import net.edu.module.entity.EnrollSelectOne;
 import net.edu.module.entity.EnrollUserEntity;
@@ -70,6 +71,11 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
     @Override
     public void saveLesson(EnrollLessonVO vo) {
         enrollLessonDao.saveLesson(vo);
+    }
+
+    @Override
+    public void joinLesson(EnrollJoinLessonEntity entity) {
+        enrollLessonDao.joinLesson(entity);
     }
 
 

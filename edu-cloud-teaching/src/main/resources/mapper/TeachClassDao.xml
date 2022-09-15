@@ -33,7 +33,7 @@
             description,
             img,plan_id as planId,
             lesson_num as lessonNum,
-            lesson_ime as lessonTime,
+            lesson_time as lessonTime,
             frequency,
             status,
             begin_time as beginTime,

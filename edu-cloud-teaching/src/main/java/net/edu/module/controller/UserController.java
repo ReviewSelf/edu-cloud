@@ -40,7 +40,6 @@ public class UserController {
     public Result<PageResult<UserVO>> page(@Valid UserQuery query){
         System.out.println(query);
         PageResult<UserVO> page = userService.page(query);
-
         return Result.ok(page);
     }
 

@@ -26,5 +26,7 @@ public interface FillProblemDao extends BaseDao<FillProblemEntity> {
 
     int updateSubmitTimes(@Param("id") Long id,@Param("isTrue") Boolean isTrue);
 
+    FillProblemVO selectFillProblemInfo(@Param("id") Long id);
+
 
 }

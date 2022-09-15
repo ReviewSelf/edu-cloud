@@ -30,5 +30,5 @@ public interface FillProblemService extends BaseService<FillProblemEntity> {
 
     void updateSubmitTimes(Long id, Boolean isTrue);
 
-
+    FillProblemVO selectFillProblemInfo(Long id);
 }

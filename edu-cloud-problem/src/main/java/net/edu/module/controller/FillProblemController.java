@@ -92,5 +92,11 @@ public class FillProblemController {
         return Result.ok( );
     }
 
+    @GetMapping("fillProblemInfo/{problemId}")
+    @Operation(summary = "获取填空题详情")
+    public Result<FillProblemVO> selectFillProblemInfo(@PathVariable("problemId")  Long problemId){
+        return Result.ok(fillProblemService.selectFillProblemInfo(problemId));
+    }
+
 
 }

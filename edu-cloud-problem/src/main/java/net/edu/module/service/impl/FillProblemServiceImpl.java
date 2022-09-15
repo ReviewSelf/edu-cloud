@@ -90,5 +90,8 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
 
     }
 
-
+    @Override
+    public FillProblemVO selectFillProblemInfo(Long id) {
+        return fillProblemDao.selectFillProblemInfo(id);
+    }
 }

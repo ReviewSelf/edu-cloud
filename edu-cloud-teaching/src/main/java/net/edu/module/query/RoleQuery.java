@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "分配角色查询")
-public class RoleUserQuery extends UserQuery {
+public class RoleQuery extends TeacherQuery {
     @Schema(description = "角色ID")
     private Long roleId;
 

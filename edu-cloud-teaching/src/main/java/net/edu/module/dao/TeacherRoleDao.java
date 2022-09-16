@@ -13,7 +13,7 @@ import java.util.List;
  * @author 阿沐 babamu@126.com
  */
 @Mapper
-public interface UserRoleDao extends BaseDao<UserRoleEntity> {
+public interface TeacherRoleDao extends BaseDao<UserRoleEntity> {
 
     /**
      * 角色ID列表

@@ -15,7 +15,8 @@ import java.util.Map;
  * @author 阿沐 babamu@126.com
  */
 @Mapper
-public interface UserDao extends BaseDao<UserEntity> {
+public interface TeacherDao extends BaseDao<UserEntity> {
+
 
 	List<UserEntity> getTeacherList(Map<String, Object> params);
 

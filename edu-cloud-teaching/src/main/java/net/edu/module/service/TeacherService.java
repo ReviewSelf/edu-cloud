@@ -4,9 +4,9 @@ package net.edu.module.service;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.UserEntity;
-import net.edu.module.query.RoleUserQuery;
-import net.edu.module.query.UserQuery;
-import net.edu.module.vo.UserVO;
+import net.edu.module.query.RoleQuery;
+import net.edu.module.query.TeacherQuery;
+import net.edu.module.vo.TeacherVO;
 
 import java.util.List;
 
@@ -15,17 +15,18 @@ import java.util.List;
  *
  * @author 阿沐 babamu@126.com
  */
-public interface UserService extends BaseService<UserEntity> {
+public interface TeacherService extends BaseService<UserEntity> {
 
-    PageResult<UserVO> page(UserQuery query);
 
-    void save(UserVO vo);
+    PageResult<TeacherVO> TeacherPage(TeacherQuery query);
 
-    void update(UserVO vo);
+    void save(TeacherVO vo);
+
+    void update(TeacherVO vo);
 
     void delete(List<Long> idList);
 
-    UserVO getByMobile(String mobile);
+    TeacherVO getByMobile(String mobile);
 
     /**
      * 修改密码
@@ -38,6 +39,6 @@ public interface UserService extends BaseService<UserEntity> {
     /**
      * 分配角色，用户列表
      */
-    PageResult<UserVO> roleUserPage(RoleUserQuery query);
+    PageResult<TeacherVO> roleUserPage(RoleQuery query);
 
 }

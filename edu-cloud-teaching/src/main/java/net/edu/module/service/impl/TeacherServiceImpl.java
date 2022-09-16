@@ -6,14 +6,14 @@ import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
-import net.edu.module.convert.UserConvert;
-import net.edu.module.dao.UserDao;
+import net.edu.module.convert.TeacherConvert;
+import net.edu.module.dao.TeacherDao;
 import net.edu.module.entity.UserEntity;
-import net.edu.module.query.RoleUserQuery;
-import net.edu.module.query.UserQuery;
-import net.edu.module.service.UserRoleService;
-import net.edu.module.service.UserService;
-import net.edu.module.vo.UserVO;
+import net.edu.module.query.RoleQuery;
+import net.edu.module.query.TeacherQuery;
+import net.edu.module.service.RoleService;
+import net.edu.module.service.TeacherService;
+import net.edu.module.vo.TeacherVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +28,13 @@ import java.util.Map;
  */
 @Service
 @AllArgsConstructor
-public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implements UserService {
+public class TeacherServiceImpl extends BaseServiceImpl<TeacherDao, UserEntity> implements TeacherService {
 
-    private final UserRoleService userRoleService;
+    private final RoleService roleService;
+
 
     @Override
-    public PageResult<UserVO> page(UserQuery query) {
+    public PageResult<TeacherVO> TeacherPage(TeacherQuery query) {
         System.out.println(query);
         // 查询参数
         Map<String, Object> params = getParams(query);
@@ -46,10 +47,10 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
         System.out.println(params);
         List<UserEntity> list = baseMapper.getTeacherList(params);
 
-        return new PageResult<>(UserConvert.INSTANCE.convertList(list), page.getTotal());
+        return new PageResult<>(TeacherConvert.INSTANCE.convertList(list), page.getTotal());
     }
 
-    private Map<String, Object> getParams(UserQuery query) {
+    private Map<String, Object> getParams(TeacherQuery query) {
         Map<String, Object> params = new HashMap<>();
         params.put("username", query.getUsername());
         params.put("mobile", query.getMobile());
@@ -65,8 +66,8 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(UserVO vo) {
-        UserEntity entity = UserConvert.INSTANCE.convert(vo);
+    public void save(TeacherVO vo) {
+        UserEntity entity = TeacherConvert.INSTANCE.convert(vo);
 
         // 判断用户名是否存在
         UserEntity user = baseMapper.getByUsername(entity.getUsername());
@@ -84,13 +85,13 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
         baseMapper.insert(entity);
 
         // 保存用户角色关系
-        userRoleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
+        roleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
 
     }
 
     @Override
-    public void update(UserVO vo) {
-        UserEntity entity = UserConvert.INSTANCE.convert(vo);
+    public void update(TeacherVO vo) {
+        UserEntity entity = TeacherConvert.INSTANCE.convert(vo);
 
         // 判断用户名是否存在
         UserEntity user = baseMapper.getByUsername(entity.getUsername());
@@ -108,7 +109,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
         updateById(entity);
 
         // 更新用户角色关系
-        userRoleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
+        roleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
 
     }
 
@@ -118,15 +119,15 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
         removeByIds(idList);
 
         // 删除用户角色关系
-        userRoleService.deleteByUserIdList(idList);
+        roleService.deleteByUserIdList(idList);
 
     }
 
     @Override
-    public UserVO getByMobile(String mobile) {
+    public TeacherVO getByMobile(String mobile) {
         UserEntity user = baseMapper.getByMobile(mobile);
 
-        return UserConvert.INSTANCE.convert(user);
+        return TeacherConvert.INSTANCE.convert(user);
     }
 
     @Override
@@ -139,7 +140,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
     }
 
     @Override
-    public PageResult<UserVO> roleUserPage(RoleUserQuery query) {
+    public PageResult<TeacherVO> roleUserPage(RoleQuery query) {
         // 查询参数
         Map<String, Object> params = getParams(query);
         params.put("roleId", query.getRoleId());
@@ -151,7 +152,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
         // 数据列表
         List<UserEntity> list = baseMapper.getRoleUserList(params);
 
-        return new PageResult<>(UserConvert.INSTANCE.convertList(list), page.getTotal());
+        return new PageResult<>(TeacherConvert.INSTANCE.convertList(list), page.getTotal());
     }
 
 }

@@ -3,9 +3,11 @@
 
 <mapper namespace="net.edu.module.dao.TeacherDao">
 
-	<select id="getList" resultType="net.edu.module.entity.UserEntity">
+	<select id="getTeacherList" resultType="net.edu.module.entity.UserEntity">
 		SELECT
-		t1.*,
+		t1.id,t1.username,t1.real_name,t1.avatar,t1.gender,t1.email,t1.mobile,t1.org_id,t1.super_admin,t1.status
+		,t1.version,t1.deleted,t1.creator,t1.creator,t1.create_time,t1.updater,t1.update_time
+		, (select t3.name from sys_org t3 where t3.id = t1.org_id) orgName,
 		t2.role_id
 		FROM
 		sys_user t1
@@ -14,10 +16,10 @@
 		t1.super_admin = 0
 		AND t1.deleted = 0
 		<if test="username != null and username.trim() != ''">
-			and t1.username = concat('%',#{username},'%')
+			and t1.username like concat('%',#{username},'%')
 		</if>
 		<if test="mobile != null and mobile.trim() != ''">
-			and t1.mobile = concat('%',#{mobile},'%')
+			and t1.mobile = #{mobile}
 		</if>
 		<if test="gender != null">
 			and t1.gender = #{gender}

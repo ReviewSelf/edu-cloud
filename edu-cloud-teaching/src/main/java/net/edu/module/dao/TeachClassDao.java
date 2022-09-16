@@ -10,11 +10,11 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
-* 教学计划表
-*
-* @author 阿沐
-* @since 1.0.0 2022-09-08
-*/
+ * 教学计划表
+ *
+ * @author 阿沐
+ * @since 1.0.0 2022-09-08
+ */
 @Mapper
 public interface TeachClassDao extends BaseDao<TeachClassEntity> {
 

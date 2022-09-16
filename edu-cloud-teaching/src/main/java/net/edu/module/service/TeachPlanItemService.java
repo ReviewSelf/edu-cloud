@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 教学日历表
  *
- * @author sqw 
+ * @author sqw
  * @since 1.0.0 2022-09-12
  */
 public interface TeachPlanItemService extends BaseService<TeachPlanItemEntity> {

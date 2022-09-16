@@ -7,13 +7,12 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
-import net.edu.module.convert.UserConvert;
+import net.edu.module.convert.TeacherConvert;
 import net.edu.module.entity.UserEntity;
-import net.edu.module.query.UserQuery;
-import net.edu.module.service.UserRoleService;
-import net.edu.module.service.UserService;
-import net.edu.module.vo.UserVO;
-import org.springframework.security.access.prepost.PreAuthorize;
+import net.edu.module.query.TeacherQuery;
+import net.edu.module.service.RoleService;
+import net.edu.module.service.TeacherService;
+import net.edu.module.vo.TeacherVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,17 +29,18 @@ import java.util.List;
 @RequestMapping("user")
 @AllArgsConstructor
 @Tag(name="用户管理")
-public class UserController {
-    private final UserService userService;
-    private final UserRoleService userRoleService;
+public class TeacherController {
+    private final TeacherService teacherService;
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+
 
     @GetMapping("teacherPage")
     @Operation(summary = "分页")
 
-    public Result<PageResult<UserVO>> page(@Valid UserQuery query){
+    public Result<PageResult<TeacherVO>> TeacherPage(@Valid TeacherQuery query){
         System.out.println(query);
-        PageResult<UserVO> page = userService.page(query);
+        PageResult<TeacherVO> page = teacherService.TeacherPage(query);
 
         return Result.ok(page);
     }
@@ -48,13 +48,13 @@ public class UserController {
     @GetMapping("teacher/{id}")
     @Operation(summary = "信息")
 
-    public Result<UserVO> get(@PathVariable("id") Long id){
-        UserEntity entity = userService.getById(id);
+    public Result<TeacherVO> get(@PathVariable("id") Long id){
+        UserEntity entity = teacherService.getById(id);
 
-        UserVO vo = UserConvert.INSTANCE.convert(entity);
+        TeacherVO vo = TeacherConvert.INSTANCE.convert(entity);
 
         // 用户角色列表
-        List<Long> roleIdList = userRoleService.getRoleIdList(id);
+        List<Long> roleIdList = roleService.getRoleIdList(id);
         vo.setRoleIdList(roleIdList);
 
         return Result.ok(vo);
@@ -63,7 +63,7 @@ public class UserController {
     @PostMapping
     @Operation(summary = "保存")
 
-    public Result<String> save(@RequestBody @Valid UserVO vo){
+    public Result<String> save(@RequestBody @Valid TeacherVO vo){
         // 新增密码不能为空
         if (StrUtil.isBlank(vo.getPassword())){
             Result.error("密码不能为空");
@@ -73,7 +73,7 @@ public class UserController {
         vo.setPassword(passwordEncoder.encode(vo.getPassword()));
 
         // 保存
-        userService.save(vo);
+        teacherService.save(vo);
 
         return Result.ok();
     }
@@ -81,7 +81,7 @@ public class UserController {
     @PutMapping
     @Operation(summary = "修改")
 
-    public Result<String> update(@RequestBody @Valid UserVO vo){
+    public Result<String> update(@RequestBody @Valid TeacherVO vo){
         // 如果密码不为空，则进行加密处理
         if(StrUtil.isBlank(vo.getPassword())){
             vo.setPassword(null);
@@ -89,7 +89,7 @@ public class UserController {
             vo.setPassword(passwordEncoder.encode(vo.getPassword()));
         }
 
-        userService.update(vo);
+        teacherService.update(vo);
 
         return Result.ok();
     }
@@ -102,7 +102,7 @@ public class UserController {
         if(idList.contains(userId)){
             return Result.error("不能删除当前登录用户");
         }
-        userService.delete(idList);
+        teacherService.delete(idList);
 
         return Result.ok();
     }

@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Data
 @Schema(description = "用户")
-public class UserVO implements Serializable {
+public class TeacherVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "id")
@@ -77,18 +77,4 @@ public class UserVO implements Serializable {
     @Schema(description = "创建时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
     private Date createTime;
-
-    private String unionId;
-
-    private String address;
-
-    private Integer age;
-
-    private Integer grade;
-
-    private String integral;
-
-    private String balance;
-
-    private String openId;
 }

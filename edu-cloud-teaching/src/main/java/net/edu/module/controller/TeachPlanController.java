@@ -25,6 +25,7 @@ import java.util.List;
 @RequestMapping("plan")
 @Tag(name="教学计划表")
 @AllArgsConstructor
+
 public class TeachPlanController {
     private final TeachPlanService teachPlanService;
 

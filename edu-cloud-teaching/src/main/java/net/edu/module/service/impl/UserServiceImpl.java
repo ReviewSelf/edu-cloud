@@ -1,7 +1,6 @@
 package net.edu.module.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
@@ -15,7 +14,6 @@ import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
 import net.edu.module.service.UserService;
 import net.edu.module.vo.UserVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,28 +31,22 @@ import java.util.Map;
 public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implements UserService {
 
     private final UserRoleService userRoleService;
-    @Autowired
-    private UserDao userDao;
 
     @Override
     public PageResult<UserVO> page(UserQuery query) {
-//        System.out.println(query);
-//        // 查询参数
-//        Map<String, Object> params = getParams(query);
-//
-//        // 分页查询
-//        IPage<UserEntity> page = getPage(query);
-//        params.put(Constant.PAGE, page);
-//
-//        // 数据列表
-//        System.out.println(params);
-//        List<UserEntity> list = baseMapper.getList(params);
-//
-//        return new PageResult<>(UserConvert.INSTANCE.convertList(list), page.getTotal());
+        System.out.println(query);
+        // 查询参数
+        Map<String, Object> params = getParams(query);
 
-        Page<UserVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<UserVO> list = userDao.getList(page,query);
-        return new PageResult<>(list.getRecords(), page.getTotal());
+        // 分页查询
+        IPage<UserEntity> page = getPage(query);
+        params.put(Constant.PAGE, page);
+
+        // 数据列表
+        System.out.println(params);
+        List<UserEntity> list = baseMapper.getTeacherList(params);
+
+        return new PageResult<>(UserConvert.INSTANCE.convertList(list), page.getTotal());
     }
 
     private Map<String, Object> getParams(UserQuery query) {

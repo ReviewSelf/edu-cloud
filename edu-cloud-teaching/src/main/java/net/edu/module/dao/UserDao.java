@@ -1,12 +1,8 @@
 package net.edu.module.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.UserEntity;
-import net.edu.module.query.UserQuery;
-import net.edu.module.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,9 +17,7 @@ import java.util.Map;
 @Mapper
 public interface UserDao extends BaseDao<UserEntity> {
 
-//	List<UserEntity> getList(Map<String, Object> params);
-
-	IPage<UserVO> getList(Page<UserVO> page, UserQuery query);
+	List<UserEntity> getTeacherList(Map<String, Object> params);
 
 	UserEntity getById(@Param("id") Long id);
 

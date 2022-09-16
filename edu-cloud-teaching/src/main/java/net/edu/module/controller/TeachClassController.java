@@ -19,11 +19,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
-* 班级表
-*
-* @author wengruichen babamu@126.com
-* @since 1.0.0 2022-09-09
-*/
+ * 班级表
+ *
+ * @author wengruichen babamu@126.com
+ * @since 1.0.0 2022-09-09
+ */
 @RestController
 @RequestMapping("teach/class")
 @Tag(name="班级表")

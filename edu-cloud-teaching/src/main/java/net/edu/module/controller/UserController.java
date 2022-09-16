@@ -37,16 +37,16 @@ public class UserController {
     @GetMapping("student/page")
     @Operation(summary = "分页")
 
-    public Result<PageResult<UserVO>> page(@Valid UserQuery query){
+    public Result<PageResult<UserVO>> StudentPage(@Valid UserQuery query){
         System.out.println(query);
-        PageResult<UserVO> page = userService.page(query);
+        PageResult<UserVO> page = userService.StudentPage(query);
         return Result.ok(page);
     }
 
     @GetMapping("student/{id}")
     @Operation(summary = "信息")
 
-    public Result<UserVO> get(@PathVariable("id") Long id){
+    public Result<UserVO> getStudent(@PathVariable("id") Long id){
         UserEntity entity = userService.getById(id);
 
         UserVO vo = UserConvert.INSTANCE.convert(entity);

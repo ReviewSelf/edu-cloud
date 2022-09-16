@@ -23,7 +23,7 @@ public interface UserDao extends BaseDao<UserEntity> {
 
 //	List<UserEntity> getList(Map<String, Object> params);
 
-	IPage<UserVO> getList(Page<UserVO> page, UserQuery query);
+	IPage<UserVO> getStudentList(Page<UserVO> page, UserQuery query);
 
 	UserEntity getById(@Param("id") Long id);
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.teaching.dao.TeachClassUserDao">
+
+    <resultMap type="net.edu.teaching.entity.TeachClassUserEntity" id="teachClassUserMap">
+        <result property="id" column="id"/>
+        <result property="classId" column="class_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="joinLessonTimes" column="join_lesson_times"/>
+        <result property="quitLessonTimes" column="quit_lesson_times"/>
+        <result property="joinTime" column="join_time"/>
+        <result property="quitTime" column="quit_time"/>
+        <result property="status" column="status"/>
+        <result property="lateTimes" column="late_times"/>
+        <result property="homeworkTimes" column="homework_times"/>
+        <result property="unfinishedProblemNum" column="unfinished_problem_num"/>
+        <result property="paymentAmount" column="payment_amount"/>
+        <result property="paymentTimes" column="payment_times"/>
+        <result property="paymentTrue" column="payment_true"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="deleted" column="deleted"/>
+        <result property="updater" column="updater"/>
+        <result property="creator" column="creator"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+</mapper>

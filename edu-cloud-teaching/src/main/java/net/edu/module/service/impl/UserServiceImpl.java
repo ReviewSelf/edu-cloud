@@ -37,7 +37,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
     private UserDao userDao;
 
     @Override
-    public PageResult<UserVO> page(UserQuery query) {
+    public PageResult<UserVO> StudentPage(UserQuery query) {
 //        System.out.println(query);
 //        // 查询参数
 //        Map<String, Object> params = getParams(query);
@@ -53,7 +53,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implem
 //        return new PageResult<>(UserConvert.INSTANCE.convertList(list), page.getTotal());
 
         Page<UserVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<UserVO> list = userDao.getList(page,query);
+        IPage<UserVO> list = userDao.getStudentList(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 

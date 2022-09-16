@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.UserDao">
 
-	<select id="getList" resultType="net.edu.module.entity.UserEntity">
+	<select id="getStudentList" resultType="net.edu.module.entity.UserEntity">
 		SELECT
 		t1.*,
 		t3.name as orgName,
@@ -13,7 +13,6 @@
 		LEFT JOIN sys_user_role t2 ON t1.id=t2.user_id
 		left join sys_org t3 on t1.org_id=t3.id
 		WHERE
-
 		 t1.deleted = 0
 		and t2.role_id = 2
 		and t2.deleted = 0

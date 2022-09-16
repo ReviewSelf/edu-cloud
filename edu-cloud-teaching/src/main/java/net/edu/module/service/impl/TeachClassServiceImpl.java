@@ -68,4 +68,9 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
         removeByIds(idList);
     }
 
+    @Override
+    public List<TeachClassEntity> getOldClassUser(Long userId) {
+        return teachClassDao.getOldClassUser(userId);
+    }
+
 }

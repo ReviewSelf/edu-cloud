@@ -10,7 +10,8 @@
         <result property="img" column="img"/>
         <result property="planId" column="plan_id"/>
         <result property="lessonNum" column="lesson_num"/>
-        <result property="lessonTime" column="lesson_time"/>
+        <result property="lessonBeginTime" column="lesson_begin_time"/>
+        <result property="lessonEndTime" column="lesson_end_time"/>
         <result property="frequency" column="frequency"/>
         <result property="status" column="status"/>
         <result property="beginTime" column="begin_time"/>
@@ -33,7 +34,8 @@
         description,
         img,plan_id as planId,
         lesson_num as lessonNum,
-        lesson_time as lessonTime,
+        lesson_begin_time as lessonBedinTime,
+        lesson_end_time as lessonEndTime,
         frequency,
         status,
         begin_time as beginTime,
@@ -46,5 +48,12 @@
             and  name like concat('%',#{query.name},'%')
         </if>
         order by lesson_num desc,id desc
+    </select>
+<!--    获取学生在上的所有课程-->
+    <select id="getOldClassUser" resultType="net.edu.module.entity.TeachClassEntity">
+        select id,name,description,img,plan_id,lesson_num,lesson_begin_time ,lesson_end_time,frequency,status, begin_time,
+               end_time,teacher1_id,teacher2_id,next_lessson from teach_class
+        where id = (select class_id from teach_class_user where user_id = #{userId})
+
     </select>
 </mapper>

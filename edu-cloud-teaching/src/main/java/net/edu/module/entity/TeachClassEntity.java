@@ -47,9 +47,14 @@ public class TeachClassEntity {
 	private Integer lessonNum;
 
 	/**
-	 * 上课时间，每次课的时间段
+	 * 上课开始时间
 	 */
-	private String lessonTime;
+	private Date lessonBeginTime;
+
+	/**
+	 * 上课结束时间
+	 */
+	private Date lessonEndTime;
 
 	/**
 	 * 周频,0则表示无

@@ -5,7 +5,8 @@
 
 	<select id="getStudentList" resultType="net.edu.module.entity.UserEntity">
 		SELECT
-		t1.*,
+		t1.id,t1.username,t1.real_name,t1.avatar,t1.gender,t1.email,t1.mobile,t1.org_id,t1.super_admin,t1.status
+		,t1.address,t1.age,t1.grade,t1.integral,t1.balance,
 		t3.name as orgName,
 		t2.role_id
 		FROM

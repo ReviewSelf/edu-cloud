@@ -36,8 +36,11 @@ public class TeachClassVO implements Serializable {
     @Schema(description = "总课时")
     private Integer lessonNum;
 
-    @Schema(description = "上课时间，每次课的时间段")
-    private String lessonTime;
+    @Schema(description = "上课开始时间")
+    private Date lessonBeginTime;
+
+    @Schema(description = "上课结束时间")
+    private Date lessonEndTime;
 
     @Schema(description = "周频,0则表示无")
     private Integer frequency;

@@ -5,7 +5,6 @@ package net.edu.module.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.TeachClassConvert;
@@ -39,6 +38,18 @@ public class TeachClassController {
         PageResult<TeachClassVO> page = teachClassService.page(query);
 
         return Result.ok(page);
+    }
+
+    /**
+     * 获取学生所在的班级信息
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("page/old/{userId}")
+    @Operation(summary = "旧班级信息")
+    public Result<List<TeachClassEntity>> getOldPage(@PathVariable("userId") Long userId){
+        return Result.ok(teachClassService.getOldClassUser(userId));
     }
 
 

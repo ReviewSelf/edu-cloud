@@ -9,6 +9,8 @@ import net.edu.module.vo.TeachClassVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 教学计划表
  *
@@ -19,4 +21,7 @@ import org.apache.ibatis.annotations.Param;
 public interface TeachClassDao extends BaseDao<TeachClassEntity> {
 
     IPage<TeachClassVO> page(Page<TeachClassVO> page, @Param("query") TeachClassQuery query);
+
+    List<TeachClassEntity> getOldClassUser(Long userId);
+
 }

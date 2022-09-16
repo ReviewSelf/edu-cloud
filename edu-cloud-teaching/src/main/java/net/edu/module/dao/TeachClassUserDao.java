@@ -4,6 +4,8 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.TeachClassUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Date;
+
 /**
 * 班级用户表
 *
@@ -12,5 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
-	
+
+    void quitClass(Long userId, Date quitTime);
 }

@@ -23,4 +23,7 @@ public interface TeachClassService extends BaseService<TeachClassEntity> {
     void update(TeachClassVO vo);
 
     void delete(List<Long> idList);
+
+
+    List<TeachClassEntity> getOldClassUser(Long userId);
 }

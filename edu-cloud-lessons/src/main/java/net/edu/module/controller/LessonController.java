@@ -29,12 +29,10 @@ import java.util.List;
 public class LessonController {
     private final LessonService lessonService;
 
-    @GetMapping("page")
-    @Operation(summary = "分页")
-    public Result<PageResult<LessonVO>> page(@Valid LessonQuery query){
-        PageResult<LessonVO> page = lessonService.page(query);
-
-        return Result.ok(page);
+    @GetMapping("list")
+    @Operation(summary = "课程列表")
+    public Result<List<LessonVO>> list(@Valid LessonQuery query){
+        return Result.ok(lessonService.list(query));
     }
 
     @GetMapping("{id}")

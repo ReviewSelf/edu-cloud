@@ -59,6 +59,11 @@ public class TeachClassVO implements Serializable {
 	@Schema(description = "任课老师")
 	private Integer teacher2Id;
 
+	@Schema(description = "班名称")
+	private String teacher1Name;
+	@Schema(description = "任课老师名称")
+	private String teacher2Name;
+
 	@Schema(description = "下一次课程id")
 	private Integer nextLessson;
 

@@ -1,5 +1,6 @@
 package net.edu.module.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
@@ -34,27 +35,23 @@ public class LessonEntity {
 	/**
 	* 上课地点('0'表示翠柏校区，'1'表示联盛校区)
 	*/
-	private Integer place;
+	private String place;
 
 	/**
-	* 预计开课时间
+	 * 名称
+	 */
+	private String name;
+
+	/**
+	* 开课时间
 	*/
 	private Date beginTime;
 
 	/**
-	* 预计结课时间
+	* 结课时间
 	*/
 	private Date endTime;
 
-	/**
-	* 实际开始时间
-	*/
-	private Date startTime;
-
-	/**
-	* 实际结束时间
-	*/
-	private Date finishTime;
 
 	/**
 	* 创建时间
@@ -71,7 +68,7 @@ public class LessonEntity {
 	/**
 	* 课堂状态，-1-未开启，0表示进行中，1-已结束，2-表示异常结束
 	*/
-	private Integer state;
+	private Integer status;
 
 	/**
 	* 创建人

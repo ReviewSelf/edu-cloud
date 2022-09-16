@@ -21,4 +21,6 @@
         <result property="deleted" column="deleted"/>
     </resultMap>
 
+
+
 </mapper>

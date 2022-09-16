@@ -28,16 +28,11 @@ import java.util.List;
 public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> implements LessonService {
 
     @Override
-    public PageResult<LessonVO> page(LessonQuery query) {
-        IPage<LessonEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-
-        return new PageResult<>(LessonConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
-    }
-
-    private LambdaQueryWrapper<LessonEntity> getWrapper(LessonQuery query){
+    public List<LessonVO> list(LessonQuery query) {
         LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
+        wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
+        List<LessonEntity> list = baseMapper.selectList(wrapper);
+        return LessonConvert.INSTANCE.convertList(list);
     }
 
     @Override

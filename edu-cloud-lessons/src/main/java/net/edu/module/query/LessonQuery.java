@@ -16,5 +16,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "课程表查询")
-public class LessonQuery extends Query {
+public class LessonQuery  {
+    Long classId;
+
 }

@@ -13,12 +13,14 @@
     <artifactId>edu-cloud-lessons</artifactId>
     <packaging>jar</packaging>
 
+
     <dependencies>
         <dependency>
             <groupId>net.edu</groupId>
             <artifactId>edu-cloud-starter</artifactId>
             <version>${revision}</version>
         </dependency>
+
     </dependencies>
 
     <build>

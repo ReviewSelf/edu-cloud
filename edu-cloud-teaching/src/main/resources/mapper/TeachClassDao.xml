@@ -26,4 +26,41 @@
         <result property="version" column="version"/>
     </resultMap>
 
+
+    <select id="selectClassForStudent" resultType="net.edu.module.vo.TeachClassVO">
+        SELECT a.status,
+        a.id,
+        a.name,
+        end_time as endTime,
+        teacher1_id as teacher1Id,
+        teacher2_id as teacher2Id,
+        (select real_name FROM sys_user WHERE id = teacher1_id) as teacher1Name,
+        (select real_name FROM sys_user WHERE id = teacher2_id) as teacher2Name,
+        next_lessson as nextLessson,
+        frequency
+        from teach_class a
+        LEFT JOIN teach_class_user b on a.id = b.class_id and b.user_id = #{userId}
+        <if test="status!=null">
+            and status=#{status}
+        </if>
+    </select>
+
+    <select id="selectClassForTeacher" resultType="net.edu.module.vo.TeachClassVO">
+        SELECT a.status,
+        a.id,
+        a.name,
+        end_time as endTime,
+        teacher1_id as teacher1Id,
+        teacher2_id as teacher2Id,
+        (select real_name FROM sys_user WHERE id = teacher1_id) as teacher1Name,
+        (select real_name FROM sys_user WHERE id = teacher2_id) as teacher2Name,
+        next_lessson as nextLessson,
+        frequency
+        from teach_class a
+        where a.teacher1_id=#{userId} or a.teacher2_id=#{userId}
+        <if test="status!=null">
+            and status=#{status}
+        </if>
+    </select>
+
 </mapper>

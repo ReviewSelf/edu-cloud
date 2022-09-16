@@ -28,8 +28,11 @@ public class LessonVO implements Serializable {
 	@Schema(description = "班级ID")
 	private Long classId;
 
-	@Schema(description = "上课地点('0'表示翠柏校区，'1'表示联盛校区)")
-	private Integer place;
+	@Schema(description = "名称")
+	private String name;
+
+	@Schema(description = "上课地点")
+	private String place;
 
 	@Schema(description = "预计开课时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
@@ -39,13 +42,6 @@ public class LessonVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date endTime;
 
-	@Schema(description = "实际开始时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date startTime;
-
-	@Schema(description = "实际结束时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date finishTime;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
@@ -56,7 +52,7 @@ public class LessonVO implements Serializable {
 	private Date updateTime;
 
 	@Schema(description = "课堂状态，-1-未开启，0表示进行中，1-已结束，2-表示异常结束")
-	private Integer state;
+	private Integer status;
 
 	@Schema(description = "创建人")
 	private Long creator;

@@ -1,14 +1,10 @@
 package net.edu.module.service.impl;
 
-import net.edu.framework.common.exception.ServerException;
-import net.edu.framework.common.utils.AddressUtils;
+
 import net.edu.framework.common.utils.HttpContextUtils;
 import net.edu.framework.common.utils.IpUtils;
 import net.edu.framework.common.utils.Result;
-import net.edu.framework.security.user.SecurityUser;
-import net.edu.framework.security.user.UserDetail;
 import net.edu.module.service.StudentLessonService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +36,7 @@ public class StudentLessonServiceImpl implements StudentLessonService {
                 }
             }
         }
-        Long userId = SecurityUser.getUserId();
+    //    Long userId = SecurityUser.getUserId();
 
         //班级名单校验
         if(false){

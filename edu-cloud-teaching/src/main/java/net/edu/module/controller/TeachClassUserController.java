@@ -3,7 +3,6 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.TeachClassUserConvert;
@@ -11,11 +10,10 @@ import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
 import net.edu.module.vo.TeachClassUserVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,6 +49,7 @@ public class TeachClassUserController {
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody TeachClassUserVO vo){
+
         teachClassUserService.save(vo);
 
         return Result.ok();

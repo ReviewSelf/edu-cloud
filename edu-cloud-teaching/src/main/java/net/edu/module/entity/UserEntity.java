@@ -55,4 +55,18 @@ public class UserEntity extends BaseEntity {
      */
     @TableField(exist=false)
     private String orgName;
+
+    private String unionId;
+
+    private String address;
+
+    private Integer age;
+
+    private Integer grade;
+
+    private String integral;
+
+    private String balance;
+
+    private String openId;
 }

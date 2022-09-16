@@ -1,5 +1,8 @@
 package net.edu.module.controller;
 
+
+
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -7,12 +10,10 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.TeachClassConvert;
 import net.edu.module.entity.TeachClassEntity;
-import net.edu.module.query.TeachPlanQuery;
-import net.edu.module.service.TeachClassService;
 import net.edu.module.query.TeachClassQuery;
+import net.edu.module.service.TeachClassService;
 import net.edu.module.vo.TeachClassVO;
-import net.edu.module.vo.TeachPlanVO;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,9 +28,9 @@ import java.util.List;
 @RestController
 @RequestMapping("teach/class")
 @Tag(name="班级表")
-@AllArgsConstructor
 public class TeachClassController {
-    private final TeachClassService teachClassService;
+    @Autowired
+    TeachClassService teachClassService;
 
     @GetMapping("page")
     @Operation(summary = "分页")

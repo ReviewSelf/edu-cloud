@@ -3,9 +3,9 @@ package net.edu.module.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
-import net.edu.module.dao.UserRoleDao;
+import net.edu.module.dao.TeacherRoleDao;
 import net.edu.module.entity.UserRoleEntity;
-import net.edu.module.service.UserRoleService;
+import net.edu.module.service.RoleService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * @author 阿沐 babamu@126.com
  */
 @Service
-public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRoleEntity> implements UserRoleService {
+public class RoleServiceImpl extends BaseServiceImpl<TeacherRoleDao, UserRoleEntity> implements RoleService {
 
     @Override
     public void saveOrUpdate(Long userId, List<Long> roleIdList) {

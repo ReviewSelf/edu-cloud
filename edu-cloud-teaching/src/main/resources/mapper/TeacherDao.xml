@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.edu.module.dao.UserDao">
+<mapper namespace="net.edu.module.dao.TeacherDao">
 
-	<select id="getStudentList" resultType="net.edu.module.entity.UserEntity">
+	<select id="getTeacherList" resultType="net.edu.module.entity.UserEntity">
 		SELECT
-		t1.*,
-		t3.name as orgName,
+		t1.id,t1.username,t1.real_name,t1.avatar,t1.gender,t1.email,t1.mobile,t1.org_id,t1.super_admin,t1.status
+		,t1.version,t1.deleted,t1.creator,t1.creator,t1.create_time,t1.updater,t1.update_time
+		, (select t3.name from sys_org t3 where t3.id = t1.org_id) orgName,
 		t2.role_id
 		FROM
 		sys_user t1
 		LEFT JOIN sys_user_role t2 ON t1.id=t2.user_id
-		left join sys_org t3 on t1.org_id=t3.id
 		WHERE
-		 t1.deleted = 0
-		and t2.role_id = 2
-		and t2.deleted = 0
-		and t3.deleted = 0
-		<if test="query.getUsername() != null and query.getUsername() != ''">
-			and t1.username like concat('%',#{query.username},'%')
+		t1.super_admin = 0
+		AND t1.deleted = 0
+		<if test="username != null and username.trim() != ''">
+			and t1.username like concat('%',#{username},'%')
 		</if>
-		<if test="query.getMobile() != null and query.getMobile() != ''">
-			and t1.mobile like concat('%',#{query.mobile},'%')
+		<if test="mobile != null and mobile.trim() != ''">
+			and t1.mobile = #{mobile}
 		</if>
-		<if test="query.getGender() != null">
-			and t1.gender = #{query.gender}
+		<if test="gender != null">
+			and t1.gender = #{gender}
 		</if>
-
+		<if test="roleId != null">
+			AND t2.role_id = #{roleId}
+		</if>
 	</select>
 
 	<select id="getById" resultType="net.edu.module.entity.UserEntity">

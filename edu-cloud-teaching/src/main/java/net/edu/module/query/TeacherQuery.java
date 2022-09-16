@@ -13,7 +13,7 @@ import net.edu.framework.common.query.Query;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "用户查询")
-public class UserQuery extends Query {
+public class TeacherQuery extends Query {
     @Schema(description = "用户名")
     private String username;
 

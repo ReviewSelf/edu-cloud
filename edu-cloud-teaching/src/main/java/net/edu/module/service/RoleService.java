@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author 阿沐 babamu@126.com
  */
-public interface UserRoleService extends BaseService<UserRoleEntity> {
+public interface RoleService extends BaseService<UserRoleEntity> {
 
     /**
      * 保存或修改

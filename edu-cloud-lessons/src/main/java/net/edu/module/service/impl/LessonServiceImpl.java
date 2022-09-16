@@ -36,11 +36,30 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     }
 
     @Override
-    public void save(LessonVO vo) {
-        LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
+    public void createLessons(List<LessonVO> voList) {
 
-        baseMapper.insert(entity);
+        if(voList!=null){
+            voList.forEach(item->{
+                //插入课程
+                LessonEntity entity = LessonConvert.INSTANCE.convert(item);
+                baseMapper.insert(entity);
+                //拷贝教学资源，生成课堂资源
+
+                //拷贝教学题目，生成课堂题目
+
+            });
+        }
+
+
+
     }
+
+//    @Override
+//    public void save(LessonVO vo) {
+//        LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
+//
+//        baseMapper.insert(entity);
+//    }
 
     @Override
     public void update(LessonVO vo) {
@@ -54,5 +73,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     public void delete(List<Long> idList) {
         removeByIds(idList);
     }
+
+
 
 }

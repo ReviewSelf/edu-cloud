@@ -60,4 +60,13 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
         removeByIds(idList);
     }
 
+    @Override
+    public void copyFromPlanItem(Long planItemId) {
+        //先获取试卷及其类型
+
+        //把试卷拆解成一个个的题目及类型
+
+        // 插入至数据库
+    }
+
 }

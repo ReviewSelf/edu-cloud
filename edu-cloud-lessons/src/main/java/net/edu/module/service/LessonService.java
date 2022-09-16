@@ -19,9 +19,11 @@ public interface LessonService extends BaseService<LessonEntity> {
 
     List<LessonVO> list(LessonQuery query);
 
-    void save(LessonVO vo);
+//    void save(LessonVO vo);
 
     void update(LessonVO vo);
 
     void delete(List<Long> idList);
+
+    void createLessons(List<LessonVO> voList);
 }

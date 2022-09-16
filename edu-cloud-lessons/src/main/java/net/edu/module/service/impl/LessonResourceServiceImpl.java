@@ -60,4 +60,13 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
         removeByIds(idList);
     }
 
+    @Override
+    public void copyFromPlanItem(Long planItemId) {
+        //根据id获取资源列表
+
+
+        // 插入至数据库
+
+    }
+
 }

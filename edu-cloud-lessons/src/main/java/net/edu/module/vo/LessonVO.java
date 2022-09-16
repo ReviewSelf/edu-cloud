@@ -22,6 +22,9 @@ public class LessonVO implements Serializable {
 	@Schema(description = "课堂ID")
 	private Long id;
 
+	@Schema(description = "日历id")
+	private Long planItemId;
+
 	@Schema(description = "任课老师")
 	private Long teacherId;
 

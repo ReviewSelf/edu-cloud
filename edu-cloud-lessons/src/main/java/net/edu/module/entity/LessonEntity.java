@@ -28,6 +28,11 @@ public class LessonEntity {
 	private Long teacherId;
 
 	/**
+	 * 日历id
+	 */
+	private Long planItemId;
+
+	/**
 	* 班级ID
 	*/
 	private Long classId;

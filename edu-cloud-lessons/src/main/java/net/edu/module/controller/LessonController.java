@@ -43,13 +43,22 @@ public class LessonController {
         return Result.ok(LessonConvert.INSTANCE.convert(entity));
     }
 
-    @PostMapping
-    @Operation(summary = "保存")
-    public Result<String> save(@RequestBody LessonVO vo){
-        lessonService.save(vo);
+    @PostMapping("/create")
+    @Operation(summary = "创建课堂")
+    public Result<String> createLessons(@RequestBody List<LessonVO> voList){
+        lessonService.createLessons(voList);
 
         return Result.ok();
     }
+
+//    @PostMapping
+//    @Operation(summary = "保存")
+//    public Result<String> save(@RequestBody LessonVO vo){
+//        lessonService.save(vo);
+//
+//        return Result.ok();
+//    }
+
 
     @PutMapping
     @Operation(summary = "修改")

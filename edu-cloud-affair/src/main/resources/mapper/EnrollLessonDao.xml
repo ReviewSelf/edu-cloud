@@ -12,6 +12,11 @@
         teach_lesson set teacher_id = #{teacherId} , place = #{place} , begin_time = #{beginTime} , end_time = #{endTime}
         where id = #{id}
     </update>
+    <update id="joinLesson">
+        update
+        enroll_user set try_lesson = #{tryLesson} , status = 3
+        where id = #{id}
+    </update>
     <select id="getEnrollLessonByPage" resultType="net.edu.module.vo.EnrollLessonVO">
         select
         t1.id,

@@ -25,4 +25,12 @@ public class RedisKeys {
     public static String getKnowledgePointKey() {
         return "problem:kp:" ;
     }
+
+    public static String getChoiceOptions(Long problemId){
+        return "problem:choice:"+problemId;
+    }
+
+    public static String getSample(Long problemId) {
+        return "problem:sample:"+problemId;
+    }
 }

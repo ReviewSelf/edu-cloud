@@ -1,6 +1,9 @@
 package net.edu.module.vo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -10,10 +13,15 @@ import java.math.BigDecimal;
  * @Version: 1.0
  * @Description:
  */
-//这里为了适配juage0服务返回值采用下划线命名
+
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class JudgeResultVO {
-    private Integer status_id;
-    private BigDecimal time;
+    private Long recordId;
+    private Long sampleId;
+    private Integer resultCode;
+    private BigDecimal runtime;
     private Integer memory;
 }

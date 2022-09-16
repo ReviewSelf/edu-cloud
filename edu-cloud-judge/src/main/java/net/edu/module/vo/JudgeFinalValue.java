@@ -13,7 +13,7 @@ public class JudgeFinalValue {
 
     public static final String X_Edu_Admin = "qghRoPKlJud7n1HWL0SnCVdW7tHO8kTj";
 
-    public static final String SUBMIT_POST_URL = SERVER_URL + "/submissions/batch?base64_encoded=true";
+    public static final String SUBMIT_POST_URL = SERVER_URL + "/submissions?base64_encoded=true&wait=true&fields=time,memory,status_id";
 
     public static final String LANGUAGES_GET_URL = SERVER_URL + "/languages";
 

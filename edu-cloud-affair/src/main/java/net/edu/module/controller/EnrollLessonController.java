@@ -8,6 +8,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.EnrollLessonConvert;
 import net.edu.module.convert.EnrollUserConvert;
+import net.edu.module.entity.EnrollJoinLessonEntity;
 import net.edu.module.entity.EnrollLessonEntity;
 import net.edu.module.entity.EnrollSelectOne;
 import net.edu.module.entity.EnrollUserEntity;
@@ -16,6 +17,7 @@ import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollLessonService;
 import net.edu.module.vo.EnrollLessonVO;
 import net.edu.module.vo.EnrollUserVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -72,6 +74,14 @@ public class EnrollLessonController {
     public Object getSelectOne() {
         List<EnrollSelectOne> entity = enrollLessonService.getSelectOne();
         return Result.ok(entity);
+    }
+
+    @PostMapping("joinLesson")
+    @Operation(summary = "加入试听课")
+    public Object joinLesson(@RequestBody EnrollJoinLessonEntity entity) {
+        System.out.println(entity);
+        enrollLessonService.joinLesson(entity);
+        return Result.ok();
     }
 
 }

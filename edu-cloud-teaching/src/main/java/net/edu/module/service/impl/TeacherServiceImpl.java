@@ -14,6 +14,7 @@ import net.edu.module.query.TeacherQuery;
 import net.edu.module.service.RoleService;
 import net.edu.module.service.TeacherService;
 import net.edu.module.vo.TeacherVO;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -153,6 +154,13 @@ public class TeacherServiceImpl extends BaseServiceImpl<TeacherDao, UserEntity> 
         List<UserEntity> list = baseMapper.getRoleUserList(params);
 
         return new PageResult<>(TeacherConvert.INSTANCE.convertList(list), page.getTotal());
+    }
+
+    @Override
+    public void  resetPassword(String id,String password){
+        UserEntity user=getById(id);
+        user.setPassword(password);
+        updateById(user);
     }
 
 }

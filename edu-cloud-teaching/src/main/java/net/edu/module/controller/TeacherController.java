@@ -7,11 +7,13 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.framework.security.user.UserDetail;
 import net.edu.module.convert.TeacherConvert;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.TeacherQuery;
 import net.edu.module.service.RoleService;
 import net.edu.module.service.TeacherService;
+import net.edu.module.vo.PasswordVo;
 import net.edu.module.vo.TeacherVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -38,17 +40,16 @@ public class TeacherController {
     @GetMapping("teacherPage")
     @Operation(summary = "分页")
 
-    public Result<PageResult<TeacherVO>> TeacherPage(@Valid TeacherQuery query){
-        System.out.println(query);
+    public Result<PageResult<TeacherVO>> TeacherPage(@Valid TeacherQuery query) {
+//        System.out.println(query);
         PageResult<TeacherVO> page = teacherService.TeacherPage(query);
-
         return Result.ok(page);
     }
 
     @GetMapping("teacher/{id}")
     @Operation(summary = "信息")
 
-    public Result<TeacherVO> get(@PathVariable("id") Long id){
+    public Result<TeacherVO> get(@PathVariable("id") Long id) {
         UserEntity entity = teacherService.getById(id);
 
         TeacherVO vo = TeacherConvert.INSTANCE.convert(entity);
@@ -56,16 +57,17 @@ public class TeacherController {
         // 用户角色列表
         List<Long> roleIdList = roleService.getRoleIdList(id);
         vo.setRoleIdList(roleIdList);
-
+        System.out.println(entity);
+        System.out.println(roleIdList);
         return Result.ok(vo);
     }
 
     @PostMapping
     @Operation(summary = "保存")
 
-    public Result<String> save(@RequestBody @Valid TeacherVO vo){
+    public Result<String> save(@RequestBody @Valid TeacherVO vo) {
         // 新增密码不能为空
-        if (StrUtil.isBlank(vo.getPassword())){
+        if (StrUtil.isBlank(vo.getPassword())) {
             Result.error("密码不能为空");
         }
 
@@ -81,11 +83,11 @@ public class TeacherController {
     @PutMapping
     @Operation(summary = "修改")
 
-    public Result<String> update(@RequestBody @Valid TeacherVO vo){
+    public Result<String> update(@RequestBody @Valid TeacherVO vo) {
         // 如果密码不为空，则进行加密处理
-        if(StrUtil.isBlank(vo.getPassword())){
+        if (StrUtil.isBlank(vo.getPassword())) {
             vo.setPassword(null);
-        }else{
+        } else {
             vo.setPassword(passwordEncoder.encode(vo.getPassword()));
         }
 
@@ -97,13 +99,22 @@ public class TeacherController {
     @DeleteMapping
     @Operation(summary = "删除")
 
-    public Result<String> delete(@RequestBody List<Long> idList){
+    public Result<String> delete(@RequestBody List<Long> idList) {
         Long userId = SecurityUser.getUserId();
-        if(idList.contains(userId)){
+        if (idList.contains(userId)) {
             return Result.error("不能删除当前登录用户");
         }
         teacherService.delete(idList);
 
         return Result.ok();
     }
+
+    @PutMapping("ResetPassword")
+    @Operation(summary = "重置密码")
+    public Result<String> ResetPassword(@RequestBody PasswordVo vo) {
+        vo.setPassword(passwordEncoder.encode(vo.getPassword()));
+        teacherService.resetPassword(vo.getId(), vo.getPassword());
+        return Result.ok();
+    }
+
 }

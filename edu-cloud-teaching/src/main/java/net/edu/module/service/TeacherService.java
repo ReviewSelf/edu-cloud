@@ -41,4 +41,6 @@ public interface TeacherService extends BaseService<UserEntity> {
      */
     PageResult<TeacherVO> roleUserPage(RoleQuery query);
 
+    void resetPassword(String id,String password);
+
 }

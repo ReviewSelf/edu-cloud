@@ -7,18 +7,19 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
-import net.edu.framework.security.user.UserDetail;
 import net.edu.module.convert.TeacherConvert;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.TeacherQuery;
 import net.edu.module.service.RoleService;
 import net.edu.module.service.TeacherService;
+import net.edu.module.vo.AllTeacherVo;
 import net.edu.module.vo.PasswordVo;
 import net.edu.module.vo.TeacherVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,7 +42,6 @@ public class TeacherController {
     @Operation(summary = "分页")
 
     public Result<PageResult<TeacherVO>> TeacherPage(@Valid TeacherQuery query) {
-//        System.out.println(query);
         PageResult<TeacherVO> page = teacherService.TeacherPage(query);
         return Result.ok(page);
     }
@@ -116,5 +116,14 @@ public class TeacherController {
         teacherService.resetPassword(vo.getId(), vo.getPassword());
         return Result.ok();
     }
+
+    @GetMapping("GetTeacher")
+    @Operation(summary= "获取全部老师")
+    public Result<List<AllTeacherVo>> GetTeacher(){
+        List<AllTeacherVo> allTeacherVo=teacherService.GetTeacher();
+        return Result.ok(allTeacherVo);
+    }
+
+
 
 }

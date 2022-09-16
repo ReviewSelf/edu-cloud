@@ -6,6 +6,7 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.RoleQuery;
 import net.edu.module.query.TeacherQuery;
+import net.edu.module.vo.AllTeacherVo;
 import net.edu.module.vo.TeacherVO;
 
 import java.util.List;
@@ -42,5 +43,7 @@ public interface TeacherService extends BaseService<UserEntity> {
     PageResult<TeacherVO> roleUserPage(RoleQuery query);
 
     void resetPassword(String id,String password);
+
+    List<AllTeacherVo> GetTeacher();
 
 }

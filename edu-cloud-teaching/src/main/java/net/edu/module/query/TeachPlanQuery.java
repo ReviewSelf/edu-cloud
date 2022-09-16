@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
 
+import java.util.Date;
+
 /**
-* 教学计划表查询
+* 课堂签到表查询
 *
-* @author sqw 
-* @since 1.0.0 2022-09-12
-*/
+**/
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "教学计划表查询")

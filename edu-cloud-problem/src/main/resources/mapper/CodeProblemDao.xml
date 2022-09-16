@@ -76,4 +76,27 @@
         </if>
         where id = #{id}
     </update>
+
+    <select id="selectCodeProblemInfo" resultType="net.edu.module.vo.CodeProblemVO">
+        select id,
+               name,
+               description,
+               img,
+               source,
+               tips,
+               advice_time as adviceTime,
+               difficulty,
+               input_explain as inputExplain,
+               output_explain as outputexplain,
+               sample_input as sampleInput,
+               sample_output as sampleOutput,
+               sample_num as sampleNum,
+               submit_times as submitTimes,
+               correct_times as correctTimes,
+               used_num as usedNum,
+               memory_limit as memoryLimit,
+               time_limit as timeLimit
+        from problem_code
+        where id=#{problemId} and deleted = 0
+    </select>
 </mapper>

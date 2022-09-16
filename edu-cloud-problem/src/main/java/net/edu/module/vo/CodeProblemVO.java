@@ -85,7 +85,7 @@ public class CodeProblemVO implements Serializable {
 
 	@Schema(description = "时间限制")
 	@Min(value = 0, message = "至少0s")
-	@Max(value = 15, message = "不能查过15s")
+	@Max(value = 15, message = "不能超过15s")
 	private BigDecimal timeLimit;
 
 	@Schema(description = "创建时间")
@@ -98,4 +98,7 @@ public class CodeProblemVO implements Serializable {
 
 	@Schema(description = "状态")
 	private Integer status;
+
+	@Schema(description = "参考答案")
+	private String answer;
 }

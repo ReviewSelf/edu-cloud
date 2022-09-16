@@ -36,4 +36,7 @@ public class EnrollUserQuery extends Query {
     @Schema(description = "结束时间")
     private String endTime;
 
+    @Schema(description = "年级")
+    private String grade;
+
 }

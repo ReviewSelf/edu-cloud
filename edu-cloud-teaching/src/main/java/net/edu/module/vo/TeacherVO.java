@@ -20,7 +20,7 @@ import java.util.List;
  * @author 阿沐 babamu@126.com
  */
 @Data
-@Schema(description = "用户")
+@Schema(description = "老师用户")
 public class TeacherVO implements Serializable {
     private static final long serialVersionUID = 1L;
 

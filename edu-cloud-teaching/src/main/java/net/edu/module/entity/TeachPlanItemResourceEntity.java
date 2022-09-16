@@ -2,6 +2,7 @@ package net.edu.module.entity;
 
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
@@ -15,6 +16,9 @@ public class TeachPlanItemResourceEntity extends BaseEntity {
      * 日历资源名称
      */
     private String name;
+
+
+    private Long itemId;
     /**
      * 日历资源路径
      */

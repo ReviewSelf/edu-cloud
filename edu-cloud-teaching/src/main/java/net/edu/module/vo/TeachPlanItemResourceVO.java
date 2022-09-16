@@ -15,6 +15,8 @@ public class TeachPlanItemResourceVO implements Serializable {
     @Schema(description = "日历资源id")
     private Long id;
 
+    @Schema(description = "日历资源id")
+    private Long itemId;
 
     @Schema(description = "日历资源名称")
     private String name;

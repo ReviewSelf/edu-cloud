@@ -14,5 +14,5 @@ public interface TeachPlanItemResourceDao {
 
     int deletedItemResource(@Param("id") Long id);
 
-    void insertItemResource(@Param("vo") TeachPlanItemResourceVO vo);
+    int insertItemResource(@Param("vo") TeachPlanItemResourceVO vo);
 }

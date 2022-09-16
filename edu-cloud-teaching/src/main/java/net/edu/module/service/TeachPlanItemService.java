@@ -32,7 +32,7 @@ public interface TeachPlanItemService extends BaseService<TeachPlanItemEntity> {
 
     List<TeachPlanItemResourceVO> getItemResource(Long id);
 
-    void deleteItemResource(List<Long> idList);
+    void deleteItemResource(Long id);
 
     void saveItemResource(TeachPlanItemResourceVO vo);
 }

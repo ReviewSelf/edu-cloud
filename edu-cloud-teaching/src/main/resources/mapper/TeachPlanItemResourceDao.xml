@@ -14,7 +14,7 @@
     </update>
 
     <insert id="insertItemResource">
-        insert into teach_paln_item_resource(name,file_path,remark,file_type) values(#{vo.name},#{vo.filePath},#{vo.remark},#{vo.fileType})
+        insert into teach_plan_item_resource(item_id,name,file_path,remark,file_type) values(#{vo.itemId},#{vo.name},#{vo.filePath},#{vo.remark},#{vo.fileType})
     </insert>
 
 </mapper>

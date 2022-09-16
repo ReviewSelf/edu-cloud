@@ -46,10 +46,8 @@ public class FileUploadController {
         if (file.isEmpty()) {
             return Result.error("请选择需要上传的文件");
         }
-        // 上传路径
-        String path = storageService.getPath(file.getOriginalFilename());
         // 上传文件
-        String url = storageService.upload2(file, file.getName());
+        String url = storageService.upload2(file, file.getOriginalFilename());
         FileUploadVO vo = new FileUploadVO();
         vo.setUrl(url);
         vo.setSize(file.getSize());

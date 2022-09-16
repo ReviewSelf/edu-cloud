@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * 教学日历表
  *
- * @author sqw 
+ * @author sqw
  * @since 1.0.0 2022-09-12
  */
 @Service
@@ -36,9 +36,9 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
     private final TeachPlanItemResourceDao teachPlanItemResourceDao;
 
     @Override
-    public List<TeachPlanItemVO> page( Long id) {
+    public List<TeachPlanItemVO> page(Long id) {
         List<TeachPlanItemVO> list = teachPlanItemDao.page(id);
-        return  list;
+        return list;
     }
 
 
@@ -46,10 +46,10 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
     @Transactional(rollbackFor = Exception.class)
     public void save(TeachPlanItemVO vo) {
         TeachPlanItemEntity entity = TeachPlanItemConvert.INSTANCE.convert(vo);
-         baseMapper.insert(entity);//新增教学日历
+        baseMapper.insert(entity);//新增教学日历
         System.out.println(entity.getId());
-        if(vo.getPaperList().size()>0) {
-            teachPlanItemPaperDao.insertItemPaper(vo.getPaperList(),entity.getId()); //新增日历试卷
+        if (vo.getPaperList().size() > 0) {
+            teachPlanItemPaperDao.insertItemPaper(vo.getPaperList(), entity.getId()); //新增日历试卷
         }
         teachPlanDao.updateLessonNum(entity.getPlanId());//更新教学计划的课次（日历数）
     }
@@ -83,7 +83,7 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
         //删除当前教学日历中老的试卷
         teachPlanItemPaperDao.deleteItemPaper(list.get(0).getItemId());
         //插入试卷到当前教学日历中
-        teachPlanItemPaperDao.insertItemPaper(list,list.get(0).getItemId());
+        teachPlanItemPaperDao.insertItemPaper(list, list.get(0).getItemId());
     }
 
     @Override
@@ -92,11 +92,8 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void deleteItemResource(List<Long> idList) {
-        for(int i=0;i<idList.size();i++){
-            teachPlanItemResourceDao.deletedItemResource(idList.get(i));
-        }
+    public void deleteItemResource(Long id) {
+        teachPlanItemResourceDao.deletedItemResource(id);
     }
 
     @Override

@@ -34,7 +34,7 @@
         description,
         img,plan_id as planId,
         lesson_num as lessonNum,
-        lesson_begin_time as lessonBedinTime,
+        lesson_begin_time as lessonBeginTime,
         lesson_end_time as lessonEndTime,
         frequency,
         status,
@@ -53,7 +53,7 @@
     <select id="getOldClassUser" resultType="net.edu.module.entity.TeachClassEntity">
         select id,name,description,img,plan_id,lesson_num,lesson_begin_time ,lesson_end_time,frequency,status, begin_time,
                end_time,teacher1_id,teacher2_id,next_lessson from teach_class
-        where id = (select class_id from teach_class_user where user_id = #{userId})
+        where id in (select class_id from teach_class_user where user_id = #{userId} and status = 1)
 
     </select>
 </mapper>

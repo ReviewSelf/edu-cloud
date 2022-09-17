@@ -28,5 +28,5 @@ public interface TeachClassUserService extends BaseService<TeachClassUserEntity>
 
     void delete(List<Long> idList);
 
-    void quitClass(Long userId, Date quitTime);
+    void quitClass(Long classId,Long userId, Date quitTime);
 }

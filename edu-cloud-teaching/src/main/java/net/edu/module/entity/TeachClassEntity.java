@@ -3,6 +3,8 @@ package net.edu.module.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
+
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -49,12 +51,12 @@ public class TeachClassEntity {
 	/**
 	 * 上课开始时间
 	 */
-	private Date lessonBeginTime;
+	private Time lessonBeginTime;
 
 	/**
 	 * 上课结束时间
 	 */
-	private Date lessonEndTime;
+	private Time lessonEndTime;
 
 	/**
 	 * 周频,0则表示无

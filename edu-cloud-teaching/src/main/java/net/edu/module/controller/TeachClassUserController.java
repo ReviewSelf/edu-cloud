@@ -74,7 +74,7 @@ public class TeachClassUserController {
     @PutMapping("/quit")
     @Operation(summary = "退班")
     public Result<String> quitClass(@RequestBody @Valid TeachClassUserVO vo){
-        teachClassUserService.quitClass(vo.getUserId(), vo.getQuitTime());
+        teachClassUserService.quitClass(vo.getClassId(),vo.getUserId(), vo.getQuitTime());
         return Result.ok();
     }
 }

@@ -82,6 +82,14 @@ public class UserVO implements Serializable {
 
     private String address;
 
+    private String province;
+
+    private String city;
+
+    private String district;
+    private String area;
+
+
     private Integer age;
 
     private Integer grade;

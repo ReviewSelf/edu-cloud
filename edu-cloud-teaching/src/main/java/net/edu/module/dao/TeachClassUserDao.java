@@ -15,5 +15,5 @@ import java.util.Date;
 @Mapper
 public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
 
-    void quitClass(Long userId, Date quitTime);
+    void quitClass(Long classId,Long userId, Date quitTime);
 }

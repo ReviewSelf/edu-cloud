@@ -4,8 +4,8 @@ package net.edu.module.api;
 
 
 import net.edu.module.api.fallback.EduFileApiFallBack;
-import net.edu.module.vo.FileUploadVO;
-import net.edu.module.vo.SampleVO;
+import net.edu.module.api.vo.FileUploadVO;
+import net.edu.module.api.vo.SampleVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

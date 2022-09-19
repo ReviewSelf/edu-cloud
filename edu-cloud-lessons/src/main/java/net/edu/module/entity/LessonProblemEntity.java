@@ -21,6 +21,11 @@ public class LessonProblemEntity extends BaseEntity {
 	*/
 	private Long lessonId;
 
+
+	/**
+	 * 课堂ID
+	 */
+	private Integer score;
 	/**
 	* 问题ID
 	*/

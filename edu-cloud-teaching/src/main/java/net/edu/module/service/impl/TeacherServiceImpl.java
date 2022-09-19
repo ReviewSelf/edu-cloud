@@ -7,12 +7,13 @@ import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeacherConvert;
-import net.edu.module.dao.TeacherDao;
+import net.edu.module.dao.UserDao;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.RoleQuery;
 import net.edu.module.query.TeacherQuery;
 import net.edu.module.service.RoleService;
 import net.edu.module.service.TeacherService;
+import net.edu.module.vo.AllTeacherVo;
 import net.edu.module.vo.TeacherVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,7 @@ import java.util.Map;
  */
 @Service
 @AllArgsConstructor
-public class TeacherServiceImpl extends BaseServiceImpl<TeacherDao, UserEntity> implements TeacherService {
+public class TeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implements TeacherService {
 
     private final RoleService roleService;
 
@@ -153,6 +154,19 @@ public class TeacherServiceImpl extends BaseServiceImpl<TeacherDao, UserEntity> 
         List<UserEntity> list = baseMapper.getRoleUserList(params);
 
         return new PageResult<>(TeacherConvert.INSTANCE.convertList(list), page.getTotal());
+    }
+
+    @Override
+    public void  resetPassword(String id,String password){
+        UserEntity user=getById(id);
+        user.setPassword(password);
+        updateById(user);
+    }
+
+    @Override
+    public List<AllTeacherVo> GetTeacher(){
+        List<AllTeacherVo> allTeacherVo=baseMapper.getTeacher();
+        return allTeacherVo;
     }
 
 }

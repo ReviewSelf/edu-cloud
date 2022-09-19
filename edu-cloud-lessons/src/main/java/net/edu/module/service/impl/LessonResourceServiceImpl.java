@@ -27,6 +27,8 @@ import java.util.List;
 @AllArgsConstructor
 public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao, LessonResourceEntity> implements LessonResourceService {
 
+    private final EduTeachApi eduTeachApi;
+    private final LessonResourceDao lessonResourceDao;
     private final LessonResourceDao lessonResourceDao;
 
     @Override
@@ -63,11 +65,13 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
     }
 
     @Override
-    public void copyFromPlanItem(Long planItemId) {
+    public void copyFromPlanItem(Long planItemId,Long lessonId) {
         //根据id获取资源列表
-
-
-        // 插入至数据库
+        List<TeachPlanItemResourceVO> list =eduTeachApi.getItemResource(planItemId).getData();
+        if(!CollectionUtil.isEmpty(list)){
+            // 插入至数据库
+            lessonResourceDao.insertResourceList(list,lessonId);
+        }
 
     }
 

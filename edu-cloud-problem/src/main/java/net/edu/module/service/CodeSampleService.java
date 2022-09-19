@@ -1,10 +1,9 @@
 package net.edu.module.service;
 
-import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
+import net.edu.module.api.vo.SampleVO;
 import net.edu.module.entity.CodeSampleEntity;
 import net.edu.module.vo.CodeSampleVO;
-import net.edu.module.vo.SampleVO;
 
 import java.util.List;
 
@@ -24,5 +23,5 @@ public interface CodeSampleService extends BaseService<CodeSampleEntity> {
     void delete(List<Long> idList);
 
 
-    void saveSample(List<SampleVO> sampleVOS,Long problemId);
+    void saveSample(List<SampleVO> sampleVOS, Long problemId);
 }

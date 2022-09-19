@@ -20,5 +20,13 @@
         <result property="version" column="version"/>
         <result property="deleted" column="deleted"/>
     </resultMap>
+    <insert id="insertProblemList" parameterType="net.edu.module.api.vo.ProblemPaperItemEntity">
+        insert into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type) values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{lessonId},#{item.score},#{item.problemId},#{item.problemName},#{item.problemType},1,#{paperType}
+            )
+        </foreach>
+    </insert>
 
 </mapper>

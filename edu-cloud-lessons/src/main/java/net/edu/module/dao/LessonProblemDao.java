@@ -1,8 +1,12 @@
 package net.edu.module.dao;
 
 import net.edu.framework.mybatis.dao.BaseDao;
+import net.edu.module.api.vo.ProblemPaperItemEntity;
 import net.edu.module.entity.LessonProblemEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * 课堂练习表
@@ -12,5 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface LessonProblemDao extends BaseDao<LessonProblemEntity> {
-	
+
+    int insertProblemList(@Param("list") List<ProblemPaperItemEntity> problemList, Integer paperType, Long lessonId);
 }

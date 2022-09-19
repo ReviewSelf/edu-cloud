@@ -5,6 +5,8 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.vo.TeachClassVO;
 import net.edu.module.query.TeachClassQuery;
 import net.edu.module.entity.TeachClassEntity;
+import net.edu.module.vo.TeachPlanItemVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,9 +20,17 @@ public interface TeachClassService extends BaseService<TeachClassEntity> {
 
     PageResult<TeachClassVO> page(TeachClassQuery query);
 
+    List<TeachPlanItemVO> selectLesson(@Param("id") Long id);
+
     void save(TeachClassVO vo);
 
     void update(TeachClassVO vo);
 
     void delete(List<Long> idList);
+
+
+    List<TeachClassVO> getClassForStudent(Long userId,Integer status);
+
+
+    List<TeachClassVO> getClassForTeacher(Long userId,Integer status);
 }

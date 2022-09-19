@@ -1,11 +1,16 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.module.api.EduProblemApi;
+import net.edu.module.api.EduTeachApi;
+import net.edu.module.api.vo.ProblemPaperItemEntity;
+import net.edu.module.api.vo.TeachPlanItemPaperVO;
 import net.edu.module.convert.LessonProblemConvert;
 import net.edu.module.entity.LessonProblemEntity;
 import net.edu.module.query.LessonProblemQuery;
@@ -26,6 +31,11 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, LessonProblemEntity> implements LessonProblemService {
+
+    private final EduTeachApi eduTeachApi;
+    private final EduProblemApi eduProblemApi;
+
+    private final LessonProblemDao lessonProblemDao;
 
     @Override
     public PageResult<LessonProblemVO> page(LessonProblemQuery query) {
@@ -61,12 +71,22 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
     }
 
     @Override
-    public void copyFromPlanItem(Long planItemId) {
+    public void copyFromPlanItem(Long planItemId, Long lessonId) {
         //先获取试卷及其类型
+        List<TeachPlanItemPaperVO> paperList=eduTeachApi.getItemPaper(planItemId).getData();
+        if(!CollectionUtil.isEmpty(paperList)){
+            for (TeachPlanItemPaperVO paper : paperList){
+                //把试卷拆解成一个个的题目及类型
+                List<ProblemPaperItemEntity> problemList=eduProblemApi.getPaperProblem(paper.getPaperId()).getData();
+                if(!CollectionUtil.isEmpty(problemList)){
+                    // 插入至数据库
+                    lessonProblemDao.insertProblemList(problemList,paper.getPaperType(),lessonId);
+                }
 
-        //把试卷拆解成一个个的题目及类型
+            }
+        }
 
-        // 插入至数据库
+
     }
 
 }

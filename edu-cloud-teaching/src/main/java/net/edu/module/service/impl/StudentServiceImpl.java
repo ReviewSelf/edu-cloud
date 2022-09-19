@@ -8,7 +8,7 @@ import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.UserConvert;
-import net.edu.module.dao.StudentDao;
+import net.edu.module.dao.UserDao;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.RoleUserQuery;
 import net.edu.module.query.UserQuery;
@@ -30,11 +30,11 @@ import java.util.Map;
  */
 @Service
 @AllArgsConstructor
-public class StudentServiceImpl extends BaseServiceImpl<StudentDao, UserEntity> implements StudentService {
+public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implements StudentService {
 
     private final UserRoleService userRoleService;
     @Autowired
-    private StudentDao userDao;
+    private UserDao userDao;
 
     @Override
     public PageResult<UserVO> StudentPage(UserQuery query) {

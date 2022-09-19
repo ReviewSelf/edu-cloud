@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import net.edu.framework.common.utils.DateUtils;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 班级表
@@ -36,22 +37,27 @@ public class TeachClassVO implements Serializable {
     @Schema(description = "总课时")
     private Integer lessonNum;
 
-    @Schema(description = "上课时间，每次课的时间段")
-    private String lessonTime;
-
     @Schema(description = "周频,0则表示无")
     private Integer frequency;
 
     @Schema(description = "班级状态，0=未发布，1=未开班，2=开班中，3=结班")
     private Integer status;
 
+    @Schema(description = "上课开始时间")
+    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+    private String lessonBeginTime;
+
+    @Schema(description = "上课结束时间")
+    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+    private String lessonEndTime;
+
     @Schema(description = "班级预计开始时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-    private Date beginTime;
+    private String beginTime;
 
     @Schema(description = "班级预计结束时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-    private Date endTime;
+    private String endTime;
 
     @Schema(description = "班主任")
     private Integer teacher1Id;
@@ -82,5 +88,15 @@ public class TeachClassVO implements Serializable {
     @Schema(description = "版本")
     private Integer version;
 
+    @Schema(description = "学生列表")
+    private List userIdList;
 
+    @Schema(description = "班主任名称")
+    private String teacher1Name;
+
+    @Schema(description = "任课老师名称")
+    private String teacher2Name;
+
+    @Schema(description = "上课地点")
+    private String place;
 }

@@ -24,14 +24,11 @@ import java.util.List;
 public class ProblemPaperItemController {
     private final ProblemPaperItemService problemPaperItemService;
 
-
-
     @GetMapping("{paperId}")
-    @Operation(summary = "信息")
-    public Result<List<ProblemPaperItemEntity>> get(@PathVariable("paperId") Long paperId){
-        List<ProblemPaperItemEntity> entity = problemPaperItemService.get(paperId);
-
-        return Result.ok(entity);
+    @Operation(summary = "试卷列表")
+    public Result<List<ProblemPaperItemEntity>> getPaperList(@PathVariable("paperId") Long paperId){
+        List<ProblemPaperItemEntity> list = problemPaperItemService.get(paperId);
+        return Result.ok(list);
     }
 
     @PostMapping

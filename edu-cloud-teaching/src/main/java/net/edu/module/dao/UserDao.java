@@ -24,12 +24,12 @@ public interface UserDao extends BaseDao<UserEntity> {
 
 //	List<UserEntity> getList(Map<String, Object> params);
 
-	List<UserEntity> getTeacherList(Map<String, Object> params);
-	IPage<UserVO> getStudentList(Page<UserVO> page, UserQuery query);
+	List<UserEntity> selectTeacherList(Map<String, Object> params);
+	IPage<UserVO> selectStudentList(Page<UserVO> page, UserQuery query);
 
-	UserEntity getById(@Param("id") Long id);
+	UserEntity selectById(@Param("id") Long id);
 
-	List<UserEntity> getRoleUserList(Map<String, Object> params);
+	List<UserEntity> selectRoleUserList(Map<String, Object> params);
 
 	default UserEntity getByUsername(String username){
 		return this.selectOne(new QueryWrapper<UserEntity>().eq("username", username));
@@ -39,5 +39,5 @@ public interface UserDao extends BaseDao<UserEntity> {
 		return this.selectOne(new QueryWrapper<UserEntity>().eq("mobile", mobile));
 	}
 
-	List<AllTeacherVo> getTeacher();
+	List<AllTeacherVo> selectTeacher();
 }

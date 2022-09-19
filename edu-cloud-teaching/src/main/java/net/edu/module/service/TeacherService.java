@@ -27,7 +27,7 @@ public interface TeacherService extends BaseService<UserEntity> {
 
     void delete(List<Long> idList);
 
-    TeacherVO getByMobile(String mobile);
+
 
     /**
      * 修改密码
@@ -35,12 +35,12 @@ public interface TeacherService extends BaseService<UserEntity> {
      * @param id          用户ID
      * @param newPassword 新密码
      */
-    void updatePassword(Long id, String newPassword);
+
 
     /**
      * 分配角色，用户列表
      */
-    PageResult<TeacherVO> roleUserPage(RoleQuery query);
+
 
     void resetPassword(String id,String password);
 

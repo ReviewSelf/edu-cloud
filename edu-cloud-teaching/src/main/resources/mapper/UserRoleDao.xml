@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.UserRoleDao">
 
-    <select id="getRoleIdList" resultType="long">
+    <select id="selectRoleIdList" resultType="long">
         select role_id from sys_user_role where user_id = #{userId} and deleted = 0
     </select>
 

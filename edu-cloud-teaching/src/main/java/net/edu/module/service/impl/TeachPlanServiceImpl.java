@@ -72,4 +72,9 @@ public class TeachPlanServiceImpl extends BaseServiceImpl<TeachPlanDao, TeachPla
         teachPlanDao.updateUsedNum(id);
     }
 
+    @Override
+    public void updateLessonNum(Long id) {
+        teachPlanDao.updateLessonNum(id);
+    }
+
 }

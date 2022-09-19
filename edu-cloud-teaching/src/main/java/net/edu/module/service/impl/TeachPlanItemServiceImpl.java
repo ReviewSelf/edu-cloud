@@ -12,6 +12,7 @@ import net.edu.module.dao.TeachPlanItemResourceDao;
 import net.edu.module.entity.TeachPlanItemEntity;
 import net.edu.module.query.TeachPlanItemQuery;
 import net.edu.module.service.TeachPlanItemService;
+import net.edu.module.service.TeachPlanService;
 import net.edu.module.vo.TeachPlanItemPaperVO;
 import net.edu.module.vo.TeachPlanItemResourceVO;
 import net.edu.module.vo.TeachPlanItemVO;
@@ -31,7 +32,7 @@ import java.util.List;
 public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, TeachPlanItemEntity> implements TeachPlanItemService {
 
     private final TeachPlanItemDao teachPlanItemDao;
-    private final TeachPlanDao teachPlanDao;
+    private final TeachPlanService teachPlanService;
     private final TeachPlanItemPaperDao teachPlanItemPaperDao;
     private final TeachPlanItemResourceDao teachPlanItemResourceDao;
 
@@ -52,7 +53,7 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
         if (vo.getPaperList().size() > 0) {
             teachPlanItemPaperDao.insertItemPaper(vo.getPaperList(), entity.getId()); //新增日历试卷
         }
-        teachPlanDao.updateLessonNum(entity.getPlanId());//更新教学计划的课次（日历数）
+        teachPlanService.updateLessonNum(entity.getPlanId());//更新教学计划的课次（日历数）
     }
 
     @Override
@@ -62,7 +63,7 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
 
         updateById(entity);
 
-        teachPlanDao.updateLessonNum(entity.getPlanId());//更新教学计划的课次
+        teachPlanService.updateLessonNum(entity.getPlanId());//更新教学计划的课次
     }
 
     @Override
@@ -70,7 +71,7 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
     public void delete(List<Long> idList) {
         TeachPlanItemVO vo = teachPlanItemDao.selectPlanItem(idList.get(0)); //获取日历所属计划的id信息
         removeByIds(idList);//真正的删除操作
-        teachPlanDao.updateLessonNum(vo.getPlanId());//更新教学计划的课次
+        teachPlanService.updateLessonNum(vo.getPlanId());//更新教学计划的课次（日历数）
     }
 
     @Override

@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface LessonIPService extends BaseService<LessonIPEntity> {
 
-    PageResult<LessonIPVO> page(LessonIPQuery query);
+    List<LessonIPVO> list(LessonIPQuery query);
 
     void save(LessonIPVO vo);
 

@@ -45,7 +45,6 @@ public class LessonController {
     @Operation(summary = "创建课堂")
     public Result<String> createLessons(@RequestBody List<LessonVO> voList){
         lessonService.createLessons(voList);
-        System.out.println(voList);
         return Result.ok();
     }
 

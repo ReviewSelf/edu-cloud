@@ -21,6 +21,8 @@ public interface TeachClassUserService extends BaseService<TeachClassUserEntity>
 
     PageResult<TeachClassUserVO> page(TeachClassUserQuery query);
 
+    List<Long> getUserIdList(Long classId);
+
     void save(TeachClassUserVO vo);
 
     void update(TeachClassUserVO vo);

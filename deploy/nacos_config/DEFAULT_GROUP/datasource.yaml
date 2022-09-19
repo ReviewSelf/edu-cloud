@@ -1,18 +1,36 @@
 spring:
   redis:
     database: 2
-    host: localhost
+    host: 101.34.86.238
     port: 6379
-    #password:
+    password: pwd@123
+  rabbitmq:
+    addresses: 124.70.217.106:5673
+    username: guest
+    password: guest
+    publisher-returns: true
+    publisher-confirm-type: correlated
+    virtual-host: /
+    listener:
+      type: simple
+      simple:
+        acknowledge-mode: auto #确认模式
+        prefetch: 1 #限制每次发送一条数据。
+        concurrency: 3 #同一个队列启动几个消费者
+        max-concurrency: 10 #启动消费者最大数量
+        #重试策略相关配置
+        retry:
+          # 开启消费者(程序出现异常)重试机制，默认开启并一直重试
+          enabled: true
+          # 最大重试次数
+          max-attempts: 1
+          # 重试间隔时间(毫秒)
+          initial-interval: 3000
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://124.70.217.106:3306/edu_cloud?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
     username: root
     password: 8888
-    # driver-class-name: dm.jdbc.driver.DmDriver
-    # url: jdbc:dm://192.168.3.19:5236/maku_cloud?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
-    # username: maku_cloud
-    # password: 12345678
     hikari:
       connection-timeout: 30000
       minimum-idle: 5
@@ -21,8 +39,6 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
       connection-test-query: SELECT 1
-
-
 
 
 mybatis-plus:
@@ -49,3 +65,16 @@ mybatis-plus:
     prefix:
     blobType: BLOB
     boolValue: TRUE
+storage:
+  enabled: true
+  config:
+    # 存储类型：local、aliyun
+    type: local
+    # 访问域名
+    domain: http://127.0.0.1:8080/file
+    # 配置访问前缀
+    prefix: upload
+  local:
+    # 本地上传路径
+    path: E://upload
+    samplePath: E://sample

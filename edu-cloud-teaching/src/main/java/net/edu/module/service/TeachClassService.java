@@ -29,8 +29,8 @@ public interface TeachClassService extends BaseService<TeachClassEntity> {
     void delete(List<Long> idList);
 
 
-    List<TeachClassVO> getClassForStudent(Long userId,Integer status);
+    List<TeachClassVO> getClassForStudent(Integer status);
 
 
-    List<TeachClassVO> getClassForTeacher(Long userId,Integer status);
+    List<TeachClassVO> getClassForTeacher(Integer status);
 }

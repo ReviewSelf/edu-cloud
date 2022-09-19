@@ -28,12 +28,12 @@ import java.util.List;
 public class LessonIPController {
     private final LessonIPService lessonIpService;
 
-    @GetMapping("page")
-    @Operation(summary = "分页")
-    public Result<PageResult<LessonIPVO>> page(@Valid LessonIPQuery query){
-        PageResult<LessonIPVO> page = lessonIpService.page(query);
+    @GetMapping("list")
+    @Operation(summary = "ip列表")
+    public Result<List<LessonIPVO>> list(@Valid LessonIPQuery query){
+        List<LessonIPVO> list = lessonIpService.list(query);
 
-        return Result.ok(page);
+        return Result.ok(list);
     }
 
     @GetMapping("{id}")

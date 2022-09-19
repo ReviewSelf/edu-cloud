@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface LessonProblemService extends BaseService<LessonProblemEntity> {
 
-    PageResult<LessonProblemVO> page(LessonProblemQuery query);
+    List<LessonProblemVO> list(LessonProblemQuery query);
 
     void save(LessonProblemVO vo);
 

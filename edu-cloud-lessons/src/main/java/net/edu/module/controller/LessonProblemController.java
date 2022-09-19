@@ -28,10 +28,10 @@ import java.util.List;
 public class LessonProblemController {
     private final LessonProblemService lessonProblemService;
 
-    @GetMapping("page")
-    @Operation(summary = "分页")
-    public Result<PageResult<LessonProblemVO>> page(@Valid LessonProblemQuery query){
-        PageResult<LessonProblemVO> page = lessonProblemService.page(query);
+    @GetMapping("list")
+    @Operation(summary = "获取课堂就题目信息")
+    public Result<List<LessonProblemVO>> list(@Valid LessonProblemQuery query){
+        List<LessonProblemVO> page = lessonProblemService.list(query);
 
         return Result.ok(page);
     }

@@ -34,4 +34,7 @@
             (#{item},#{classId})
         </foreach>
     </insert>
+    <select id="selectUserIdList" resultType="java.lang.Long">
+        select user_id from teach_class_user where deleted=0 and status=1
+    </select>
 </mapper>

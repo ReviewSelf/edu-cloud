@@ -38,10 +38,10 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
     private final LessonProblemDao lessonProblemDao;
 
     @Override
-    public PageResult<LessonProblemVO> page(LessonProblemQuery query) {
-        IPage<LessonProblemEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
+    public List<LessonProblemVO> list(LessonProblemQuery query) {
+        List<LessonProblemVO> list = lessonProblemDao.selectLessonProblem(query);
 
-        return new PageResult<>(LessonProblemConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        return list;
     }
 
     private LambdaQueryWrapper<LessonProblemEntity> getWrapper(LessonProblemQuery query){

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.TeachClassConvert;
 import net.edu.module.dao.TeachClassDao;
 import net.edu.module.dao.TeachClassUserDao;
@@ -74,12 +75,14 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
     }
 
     @Override
-    public List<TeachClassVO> getClassForStudent(Long userId, Integer status) {
+    public List<TeachClassVO> getClassForStudent( Integer status) {
+        Long userId = SecurityUser.getUserId();
         return teachClassDao.selectClassForStudent(userId,status);
     }
 
     @Override
-    public List<TeachClassVO> getClassForTeacher(Long userId, Integer status) {
+    public List<TeachClassVO> getClassForTeacher( Integer status) {
+        Long userId = SecurityUser.getUserId();
         return teachClassDao.selectClassForTeacher(userId,status);
     }
 

@@ -72,7 +72,7 @@ public class TeachPlanController {
 
     @PutMapping
     @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid TeachPlanVO vo){
+    public Result<String> update(@Valid @RequestBody TeachPlanVO vo){
         teachPlanService.update(vo);
 
         return Result.ok();

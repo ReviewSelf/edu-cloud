@@ -8,9 +8,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.EnrollUserConvert;
-import net.edu.module.dao.EnrollClassDao;
 import net.edu.module.dao.EnrollUserDao;
-import net.edu.module.entity.EnrollClassEntity;
 import net.edu.module.entity.EnrollUserEntity;
 import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.vo.EnrollUserVO;
@@ -36,14 +34,8 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
     @Override
     public PageResult<EnrollUserVO> page(EnrollUserQuery query) {
         Page<EnrollUserVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<EnrollUserVO> list =enrollUserDao.getEnrollUserByPage(page,query);
+        IPage<EnrollUserVO> list =enrollUserDao.selectEnrollUserByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
-    }
-
-    private LambdaQueryWrapper<EnrollUserEntity> getWrapper(EnrollUserQuery query){
-        LambdaQueryWrapper<EnrollUserEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
     }
 
     @Override
@@ -68,16 +60,11 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
 
 
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void deleteEnrollUser(long id) {
-        enrollUserDao.deleteEnrollUser(id);
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public  void confirm(Integer id){
-        enrollUserDao.confirmEnrollUser(id);
+        enrollUserDao.updateConfirmEnrollUser(id);
     }
 
 }

@@ -25,7 +25,7 @@ import java.util.List;
 * @since 1.0.0 2022-09-05
 */
 @RestController
-@RequestMapping("enroll/user")
+@RequestMapping("enrollUser")
 @Tag(name="XinXiHeShi")
 @AllArgsConstructor
 public class EnrollUserController {

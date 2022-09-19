@@ -50,12 +50,6 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
         return teachPlanItemVOList;
     }
 
-    private LambdaQueryWrapper<TeachClassEntity> getWrapper(TeachClassQuery query){
-        LambdaQueryWrapper<TeachClassEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
-    }
-
     @Override
     public void save(TeachClassVO vo) {
         TeachClassEntity entity = TeachClassConvert.INSTANCE.convert(vo);
@@ -78,5 +72,16 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
     public void delete(List<Long> idList) {
         removeByIds(idList);
     }
+
+    @Override
+    public List<TeachClassVO> getClassForStudent(Long userId, Integer status) {
+        return teachClassDao.selectClassForStudent(userId,status);
+    }
+
+    @Override
+    public List<TeachClassVO> getClassForTeacher(Long userId, Integer status) {
+        return teachClassDao.selectClassForTeacher(userId,status);
+    }
+
 
 }

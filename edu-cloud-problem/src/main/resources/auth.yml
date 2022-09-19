@@ -6,3 +6,4 @@ auth:
     - /sample/list/**
     - /**/submitTimes
     - /choice/options/**
+    - /paperItem/**

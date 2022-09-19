@@ -13,8 +13,8 @@ import java.util.List;
 
 @FeignClient(value = "edu-cloud-problem", fallbackFactory = EduProblemFallBack.class)
 public interface EduProblemApi {
-    @GetMapping("{paperId}")
-     Result<List<ProblemPaperItemEntity>> getPaperProblem(@PathVariable("paperId") Long paperId);
+    @GetMapping("paperItem/{paperId}")
+     Result<List<ProblemPaperItemEntity>> getPaperProblem(@PathVariable(value = "paperId") Long paperId);
 
 
 

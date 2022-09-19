@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.AllArgsConstructor;
@@ -41,9 +42,12 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
 
     @Override
+    @Transactional
     public void createLessons(List<LessonVO> voList) {
 
-        if(voList!=null){
+        if(!CollectionUtil.isEmpty(voList)){
+            //第一堂课状态设置进行中
+            voList.get(0).setStatus(0);
             voList.forEach(item->{
                 //插入课程
                 LessonEntity entity = LessonConvert.INSTANCE.convert(item);

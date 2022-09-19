@@ -13,6 +13,7 @@ import net.edu.module.query.TeachClassQuery;
 import net.edu.module.service.TeachClassService;
 import net.edu.module.vo.TeachClassVO;
 import net.edu.module.vo.TeachPlanItemVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +35,7 @@ public class TeachClassController {
 
     @GetMapping("page")
     @Operation(summary = "分页")
-    public Result<PageResult<TeachClassVO>> list(@Valid TeachClassQuery query){
+    public Result<PageResult<TeachClassVO>> page(@Valid TeachClassQuery query){
         System.out.println(query);
         PageResult<TeachClassVO> page = teachClassService.page(query);
 
@@ -53,8 +54,6 @@ public class TeachClassController {
     @Operation(summary = "信息")
     public Result<TeachClassVO> get(@PathVariable("id") Long id){
         TeachClassEntity entity = teachClassService.getById(id);
-        System.out.println(entity);
-        System.out.println(TeachClassConvert.INSTANCE.convert(entity));
         return Result.ok(TeachClassConvert.INSTANCE.convert(entity));
     }
 
@@ -80,5 +79,17 @@ public class TeachClassController {
         teachClassService.delete(idList);
 
         return Result.ok();
+    }
+
+
+    @GetMapping("student")
+    public Result<List<TeachClassVO>> studentClassList(@Param("userId")Long userId,@Param("status")Integer status){
+        return Result.ok(teachClassService.getClassForStudent(userId, status));
+    }
+
+
+    @GetMapping("teacher")
+    public Result<List<TeachClassVO>> teacherClassList(@Param("userId")Long userId,@Param("status")Integer status){
+        return Result.ok(teachClassService.getClassForTeacher(userId, status));
     }
 }

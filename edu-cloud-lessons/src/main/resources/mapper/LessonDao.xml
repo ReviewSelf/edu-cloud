@@ -10,11 +10,9 @@
         <result property="place" column="place"/>
         <result property="beginTime" column="begin_time"/>
         <result property="endTime" column="end_time"/>
-        <result property="startTime" column="start_time"/>
-        <result property="finishTime" column="finish_time"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
-        <result property="state" column="state"/>
+        <result property="status" column="state"/>
         <result property="creator" column="creator"/>
         <result property="updater" column="updater"/>
         <result property="version" column="version"/>

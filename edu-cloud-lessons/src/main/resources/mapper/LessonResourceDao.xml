@@ -17,11 +17,9 @@
         <result property="version" column="version"/>
     </resultMap>
     <insert id="insertResourceList" parameterType="net.edu.module.api.vo.TeachPlanItemResourceVO">
-        insert into lesson_resource(lesson_id,name,file_path,file_type,remark,source)
+        insert into lesson_resource(lesson_id,name,file_path,file_type,remark,source) values
         <foreach collection="list" item="item" separator=",">
-            (
-            #{lessonId},#{item.name},#{item.filePath},#{item.fileType},#{item.remark},1
-            )
+           (#{lessonId},#{item.name},#{item.filePath},#{item.fileType},#{item.remark},1)
         </foreach>
     </insert>
 

@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -73,13 +74,18 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
     public void copyFromPlanItem(Long planItemId, Long lessonId) {
         //先获取试卷及其类型
         List<TeachPlanItemPaperVO> paperList=eduTeachApi.getItemPaper(planItemId).getData();
+        if(!CollectionUtil.isEmpty(paperList)){
+            for (TeachPlanItemPaperVO paper : paperList){
+                //把试卷拆解成一个个的题目及类型
+                List<ProblemPaperItemEntity> problemList=eduProblemApi.getPaperProblem(paper.getPaperId()).getData();
+                if(!CollectionUtil.isEmpty(problemList)){
+                    // 插入至数据库
+                    lessonProblemDao.insertProblemList(problemList,paper.getPaperType(),lessonId);
+                }
 
-        for (TeachPlanItemPaperVO paper : paperList){
-            //把试卷拆解成一个个的题目及类型
-            List<ProblemPaperItemEntity> problemList=eduProblemApi.getPaperProblem(paper.getPaperId()).getData();
-            // 插入至数据库
-            lessonProblemDao.insertProblemList(problemList,paper.getPaperType(),lessonId);
+            }
         }
+
 
     }
 

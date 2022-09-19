@@ -21,9 +21,9 @@ import java.util.List;
 @FeignClient(value = "edu-cloud-teaching", fallbackFactory = EduTeachApiFallBack.class)
 public interface EduTeachApi {
 
-    @GetMapping("paper/{id}")
-    Result<List<TeachPlanItemPaperVO>> getItemPaper(@PathVariable("id") Long id);
+    @GetMapping("planItem/paper/{id}")
+    Result<List<TeachPlanItemPaperVO>> getItemPaper(@PathVariable(value = "id") Long id);
 
-    @GetMapping("resource/{id}")
-    Result<List<TeachPlanItemResourceVO>> getItemResource(@PathVariable("id") Long id);
+    @GetMapping("planItem/resource/{id}")
+    Result<List<TeachPlanItemResourceVO>> getItemResource(@PathVariable(value = "id") Long id);
 }

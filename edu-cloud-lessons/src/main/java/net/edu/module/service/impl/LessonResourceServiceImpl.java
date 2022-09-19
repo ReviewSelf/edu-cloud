@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -68,8 +69,11 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
     public void copyFromPlanItem(Long planItemId,Long lessonId) {
         //根据id获取资源列表
         List<TeachPlanItemResourceVO> list =eduTeachApi.getItemResource(planItemId).getData();
-        // 插入至数据库
-        lessonResourceDao.insertResourceList(list,lessonId);
+        if(!CollectionUtil.isEmpty(list)){
+            // 插入至数据库
+            lessonResourceDao.insertResourceList(list,lessonId);
+        }
+
     }
 
 }

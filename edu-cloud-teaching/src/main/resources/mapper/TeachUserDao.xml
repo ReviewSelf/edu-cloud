@@ -3,11 +3,25 @@
 
 <mapper namespace="net.edu.module.dao.UserDao">
 
-	<select id="selectTeacherList" resultType="net.edu.module.entity.UserEntity">
+	<select id="getTeacherList" resultType="net.edu.module.entity.UserEntity">
 		SELECT
-		t1.id,t1.username,t1.real_name,t1.avatar,t1.gender,t1.email,t1.mobile,t1.org_id,t1.super_admin,t1.status
-		,t1.version,t1.deleted,t1.creator,t1.creator,t1.create_time,t1.updater,t1.update_time
-		, (select t3.name from sys_org t3 where t3.id = t1.org_id) orgName,
+		t1.id,
+		t1.username,
+		t1.real_name,
+		t1.avatar,
+		t1.gender,
+		t1.email,
+		t1.mobile,
+		t1.org_id,
+		t1.super_admin,
+		t1.status,
+		t1.version,
+		t1.deleted,
+		t1.creator,
+		t1.create_time,
+		t1.updater,
+		t1.update_time,
+		(select t3.name from sys_org t3 where t3.id = t1.org_id) orgName,
 		t2.role_id
 		FROM
 		sys_user t1
@@ -28,9 +42,24 @@
 			AND t2.role_id = #{roleId}
 		</if>
 	</select>
-	<select id="selectStudentList" resultType="net.edu.module.entity.UserEntity">
+	<select id="SelectStudentList" resultType="net.edu.module.entity.UserEntity">
 		SELECT
-		t1.*,
+		t1.id,
+		t1.username,
+		t1.real_name,
+		t1.avatar,
+		t1.gender,
+		t1.email,
+		t1.mobile,
+		t1.org_id,
+		t1.super_admin,
+		t1.status,
+		t1.address,
+		t1.age,
+		t1.grade,
+		t1.integral,
+		t1.balance,
+		t1.area,
 		t3.name as orgName,
 		t2.role_id
 		FROM
@@ -54,13 +83,47 @@
 
 	</select>
 
-	<select id="selectById" resultType="net.edu.module.entity.UserEntity">
-		select t1.*, (select t2.name from sys_org t2 where t2.id = t1.org_id) orgName from sys_user t1
+	<select id="getById" resultType="net.edu.module.entity.UserEntity">
+		select
+		    t1.id,
+		    t1.username,
+		    t1.real_name,
+		    t1.avatar,
+		    t1.gender,
+		    t1.email,
+		    t1.mobile,
+		    t1.org_id,
+		    t1.super_admin,
+		    t1.status,
+		    t1.address,
+		    t1.age,
+		    t1.grade,
+		    t1.integral,
+		    t1.balance,
+		    t1.area,
+			(select t2.name from sys_org t2 where t2.id = t1.org_id) orgName from sys_user t1
 			where t1.id = #{id} and t1.deleted = 0
 	</select>
 
-	<select id="selectRoleUserList" resultType="net.edu.module.entity.UserEntity">
-		select t1.* from sys_user t1 left join sys_user_role t2 on t1.id = t2.user_id
+	<select id="getRoleUserList" resultType="net.edu.module.entity.UserEntity">
+		select
+		    t1.id,
+		    t1.username,
+		    t1.real_name,
+		    t1.avatar,
+		    t1.gender,
+		    t1.email,
+		    t1.mobile,
+		    t1.org_id,
+		    t1.super_admin,
+		    t1.status,
+		    t1.address,
+		    t1.age,
+		    t1.grade,
+		    t1.integral,
+		    t1.balance,
+		    t1.area
+		from sys_user t1 left join sys_user_role t2 on t1.id = t2.user_id
 		where t1.deleted = 0 and t2.deleted = 0 and t2.role_id = #{roleId}
 		<if test="username != null and username.trim() != ''">
 			and t1.username = concat('%',#{username},'%')
@@ -73,11 +136,10 @@
 		</if>
 	</select>
 
-	<select id="selectTeacher" resultType="net.edu.module.vo.AllTeacherVo">
+	<select id="getTeacher" resultType="net.edu.module.vo.AllTeacherVo">
 		select id,real_name
 		from sys_user
 		where deleted=0
 	</select>
-
 
 </mapper>

@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+import java.util.Date;
+
 /**
 * 班级用户表
 *
@@ -15,5 +17,7 @@ import java.util.List;
 */
 @Mapper
 public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
+
+    void updateQuitClass(Long classId,Long userId, Date quitTime);
     int insertClassUser(@Param("list") List list,@Param("classId") Long classId);
 }

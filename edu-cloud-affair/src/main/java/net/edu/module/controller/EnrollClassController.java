@@ -25,7 +25,7 @@ import java.util.List;
 * @since  2022-09-06
 */
 @RestController
-@RequestMapping("enrollclass")
+@RequestMapping("enrollClass")
 @Tag(name="班级发布")
 @AllArgsConstructor
 public class EnrollClassController {
@@ -71,14 +71,14 @@ public class EnrollClassController {
         return Result.ok();
     }
 
-    @PutMapping("status{id}")
+    @PutMapping("status/{id}")
     @Operation(summary = "更新状态")
     public Result<String> updateStatus(@PathVariable("id") Long id){
         enrollClassService.updateStatus(id);
         return Result.ok();
     }
 
-    @PutMapping("unstatus{id}")
+    @PutMapping("unstatus/{id}")
     @Operation(summary = "更新状态")
     public Result<String> unUpdateStatus(@PathVariable("id") Long id){
         enrollClassService.unUpdateStatus(id);

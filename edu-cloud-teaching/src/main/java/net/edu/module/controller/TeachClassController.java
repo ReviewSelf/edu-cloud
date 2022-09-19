@@ -42,6 +42,18 @@ public class TeachClassController {
         return Result.ok(page);
     }
 
+    /**
+     * 获取学生所在的班级信息
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("page/old/{userId}")
+    @Operation(summary = "旧班级信息")
+    public Result<List<TeachClassEntity>> getOldPage(@PathVariable("userId") Long userId){
+        return Result.ok(teachClassService.getOldClassUser(userId));
+    }
+
 
     @GetMapping("startClass")
     @Operation(summary = "分页")

@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
 import net.edu.framework.common.utils.DateUtils;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -64,12 +65,12 @@ public class TeachClassEntity {
 	/**
 	 * 上课开始时间
 	 */
-	private String lessonBeginTime;
+	private Time lessonBeginTime;
 
 	/**
 	 * 上课结束时间
 	 */
-	private String lessonEndTime;
+	private Time lessonEndTime;
 
 	/**
 	 * 班级预计开始时间

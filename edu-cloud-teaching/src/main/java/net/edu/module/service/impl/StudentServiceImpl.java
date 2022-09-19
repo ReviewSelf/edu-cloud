@@ -37,10 +37,9 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     private UserDao userDao;
 
     @Override
-    public PageResult<UserVO> StudentPage(UserQuery query) {
-
+    public PageResult<UserVO> SelectStudentList(UserQuery query) {
         Page<UserVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<UserVO> list = userDao.selectStudentList(page,query);
+        IPage<UserVO> list = userDao.SelectStudentList(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
@@ -144,7 +143,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         params.put(Constant.PAGE, page);
 
         // 数据列表
-        List<UserEntity> list = baseMapper.selectRoleUserList(params);
+        List<UserEntity> list = baseMapper.getRoleUserList(params);
 
         return new PageResult<>(UserConvert.INSTANCE.convertList(list), page.getTotal());
     }

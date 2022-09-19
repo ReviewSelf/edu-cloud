@@ -36,7 +36,7 @@ public class EnrollClassServiceImpl extends BaseServiceImpl<EnrollClassDao, Enro
     @Override
     public PageResult<EnrollClassVO> page(EnrollClassQuery query) {
         Page<EnrollClassVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<EnrollClassVO> list =enrollClassDao.getEnrollClassByPage(page,query);
+        IPage<EnrollClassVO> list =enrollClassDao.SelectEnrollClassByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 

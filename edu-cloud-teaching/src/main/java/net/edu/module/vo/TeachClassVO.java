@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import java.io.Serializable;
 import net.edu.framework.common.utils.DateUtils;
+
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -37,27 +39,25 @@ public class TeachClassVO implements Serializable {
     @Schema(description = "总课时")
     private Integer lessonNum;
 
+    @Schema(description = "上课开始时间")
+    private Time lessonBeginTime;
+
+    @Schema(description = "上课结束时间")
+    private Time lessonEndTime;
+
     @Schema(description = "周频,0则表示无")
     private Integer frequency;
 
     @Schema(description = "班级状态，0=未发布，1=未开班，2=开班中，3=结班")
     private Integer status;
 
-    @Schema(description = "上课开始时间")
-    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-    private String lessonBeginTime;
-
-    @Schema(description = "上课结束时间")
-    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-    private String lessonEndTime;
-
     @Schema(description = "班级预计开始时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-    private String beginTime;
+    private Date beginTime;
 
     @Schema(description = "班级预计结束时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-    private String endTime;
+    private Date endTime;
 
     @Schema(description = "班主任")
     private Integer teacher1Id;

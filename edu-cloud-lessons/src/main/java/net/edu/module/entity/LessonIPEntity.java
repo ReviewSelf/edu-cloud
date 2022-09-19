@@ -19,6 +19,11 @@ import java.util.Date;
 @TableName("lesson_ip")
 public class LessonIPEntity  {
 	/**
+	 * ID
+	 */
+	@TableId
+	private Long id;
+	/**
 	* 课堂id
 	*/
 	private Long lessonId;

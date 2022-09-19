@@ -17,6 +17,11 @@ import net.edu.framework.mybatis.entity.BaseEntity;
 @TableName("lesson_problem")
 public class LessonProblemEntity {
 	/**
+	 * ID
+	 */
+	@TableId
+	private Long id;
+	/**
 	 * 课堂ID
 	 */
 	private Long lessonId;

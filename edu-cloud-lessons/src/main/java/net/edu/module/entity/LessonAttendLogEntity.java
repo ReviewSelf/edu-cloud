@@ -19,6 +19,11 @@ import java.util.Date;
 @TableName("lesson_attend_log")
 public class LessonAttendLogEntity  {
 	/**
+	 * ID
+	 */
+	@TableId
+	private Long id;
+	/**
 	* 学生id
 	*/
 	private Long stuId;

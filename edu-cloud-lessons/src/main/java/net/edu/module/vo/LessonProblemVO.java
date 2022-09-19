@@ -24,6 +24,9 @@ public class LessonProblemVO implements Serializable {
 	@Schema(description = "课堂ID")
 	private Long lessonId;
 
+	@Schema(description = "分数")
+	private Integer score;
+
 	@Schema(description = "问题ID")
 	private Long problemId;
 

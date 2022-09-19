@@ -1,5 +1,7 @@
 package net.edu.module.convert;
 
+import net.edu.module.api.vo.TeachPlanItemResourceVO;
+import net.edu.module.entity.LessonProblemEntity;
 import net.edu.module.entity.LessonResourceEntity;
 import net.edu.module.vo.LessonResourceVO;
 import org.mapstruct.Mapper;
@@ -19,8 +21,10 @@ public interface LessonResourceConvert {
 
     LessonResourceEntity convert(LessonResourceVO vo);
 
+
     LessonResourceVO convert(LessonResourceEntity entity);
 
     List<LessonResourceVO> convertList(List<LessonResourceEntity> list);
+
 
 }

@@ -29,9 +29,9 @@ import java.util.List;
 public class TeachPlanItemController {
     private final TeachPlanItemService teachPlanItemService;
 
-    @GetMapping("page/{id}")
+    @GetMapping("list/{id}")
     @Operation(summary = "分页")
-    public Result<List<TeachPlanItemVO>> page(@PathVariable("id") Long id) {
+    public Result<List<TeachPlanItemVO>> list(@PathVariable("id") Long id) {
         List<TeachPlanItemVO> list = teachPlanItemService.list(id);
 
         return Result.ok(list);

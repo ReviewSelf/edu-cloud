@@ -7,6 +7,8 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.LessonConvert;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
+import net.edu.module.service.LessonProblemService;
+import net.edu.module.service.LessonResourceService;
 import net.edu.module.vo.LessonVO;
 import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
@@ -25,6 +27,10 @@ import java.util.List;
 @AllArgsConstructor
 public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> implements LessonService {
 
+
+   private final LessonProblemService lessonProblemService;
+    private final LessonResourceService lessonResourceService;
+
     @Override
     public List<LessonVO> list(LessonQuery query) {
         LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
@@ -42,10 +48,10 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
                 //插入课程
                 LessonEntity entity = LessonConvert.INSTANCE.convert(item);
                 baseMapper.insert(entity);
-                //拷贝教学资源，生成课堂资源
-
                 //拷贝教学题目，生成课堂题目
-
+                lessonProblemService.copyFromPlanItem(item.getPlanItemId(),entity.getId());
+                //拷贝教学资源，生成课堂资源
+                lessonResourceService.copyFromPlanItem(item.getPlanItemId(),entity.getId());
             });
         }
 

@@ -16,4 +16,6 @@ import java.util.List;
 @Mapper
 public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
     int insertClassUser(@Param("list") List list,@Param("classId") Long classId);
+
+    List<Long> selectUserIdList(Long classId);
 }

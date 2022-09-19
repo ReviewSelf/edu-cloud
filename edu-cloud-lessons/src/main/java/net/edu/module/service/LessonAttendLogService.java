@@ -1,6 +1,7 @@
 package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.LessonAttendLogEntity;
 import net.edu.module.query.LessonAttendLogQuery;
@@ -17,11 +18,15 @@ import java.util.List;
  */
 public interface LessonAttendLogService extends BaseService<LessonAttendLogEntity> {
 
-    PageResult<LessonAttendLogVO> page(LessonAttendLogQuery query);
+    List<LessonAttendLogVO> list(LessonAttendLogQuery query);
+
+    Result attendance(Long userId, Long lessonId);
 
     void save(LessonAttendLogVO vo);
 
     void update(LessonAttendLogVO vo);
 
     void delete(List<Long> idList);
+
+    void copyUserFromClassUser(Long classId,Long lessonId);
 }

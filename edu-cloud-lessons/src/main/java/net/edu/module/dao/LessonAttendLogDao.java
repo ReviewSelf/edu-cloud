@@ -4,6 +4,9 @@ package net.edu.module.dao;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.LessonAttendLogEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * 课堂签到表
@@ -13,5 +16,6 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface LessonAttendLogDao extends BaseDao<LessonAttendLogEntity> {
-	
+
+    void insertUserList(@Param("list") List<Long> list,Long lessonId);
 }

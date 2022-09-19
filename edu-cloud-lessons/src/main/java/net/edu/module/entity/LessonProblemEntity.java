@@ -15,7 +15,7 @@ import net.edu.framework.mybatis.entity.BaseEntity;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("lesson_problem")
-public class LessonProblemEntity extends BaseEntity {
+public class LessonProblemEntity {
 	/**
 	* 课堂ID
 	*/
@@ -60,5 +60,17 @@ public class LessonProblemEntity extends BaseEntity {
 	* 类型（课前，课中，课后）
 	*/
 	private Integer type;
+
+	/**
+	 * 更新时间
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private Date updateTime;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	private Date createTime;
 
 }

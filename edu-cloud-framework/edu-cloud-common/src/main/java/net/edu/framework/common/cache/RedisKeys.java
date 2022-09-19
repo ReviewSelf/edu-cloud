@@ -33,4 +33,12 @@ public class RedisKeys {
     public static String getSample(Long problemId) {
         return "problem:sample:"+problemId;
     }
+
+    public static String getLessonAttendLog(Long lessonId) {
+        return "lesson:log:"+lessonId;
+    }
+
+    public static String getLessonIp(Long lessonId) {
+        return "lesson:ip:"+lessonId;
+    }
 }

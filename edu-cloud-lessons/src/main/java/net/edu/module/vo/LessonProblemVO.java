@@ -56,13 +56,5 @@ public class LessonProblemVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date updateTime;
 
-	private Long creator;
-
-	private Long updater;
-
-	private Integer version;
-
-	private Integer deleted;
-
 
 }

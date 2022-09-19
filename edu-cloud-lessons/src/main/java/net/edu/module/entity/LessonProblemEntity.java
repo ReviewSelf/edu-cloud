@@ -17,48 +17,53 @@ import net.edu.framework.mybatis.entity.BaseEntity;
 @TableName("lesson_problem")
 public class LessonProblemEntity extends BaseEntity {
 	/**
-	* 课堂ID
-	*/
-	private Long lessonId;
-
-
-	/**
 	 * 课堂ID
 	 */
-	private Integer score;
+	private Long lessonId;
+
 	/**
-	* 问题ID
-	*/
+	 * 问题ID
+	 */
 	private Long problemId;
 
 	/**
-	* 问题名称（冗余，提高效率）
-	*/
+	 * 问题名称（冗余，提高效率）
+	 */
 	private String problemName;
 
 	/**
-	* 问题类型(选择填空代码)
-	*/
+	 * 问题类型(选择填空代码)
+	 */
 	private Integer problemType;
 
 	/**
-	* 开始时间
-	*/
+	 * 开始时间
+	 */
 	private Date beginTime;
 
 	/**
-	* 结束时间
-	*/
+	 * 分数
+	 */
+	private Integer score;
+
+	/**
+	 * 顺序
+	 */
+	private Integer sort;
+
+	/**
+	 * 结束时间
+	 */
 	private Date endTime;
 
 	/**
-	* 来源，1=教学计划（不可删除），2=老师添加（可删除）
-	*/
+	 * 来源
+	 */
 	private Integer source;
 
 	/**
-	* 类型（课前，课中，课后）
-	*/
+	 * 练习类型
+	 */
 	private Integer type;
 
 }

@@ -37,12 +37,6 @@ public class TeachPlanServiceImpl extends BaseServiceImpl<TeachPlanDao, TeachPla
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
-    private LambdaQueryWrapper<TeachPlanEntity> getWrapper(TeachPlanQuery query){
-        LambdaQueryWrapper<TeachPlanEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
-    }
-
     @Override
     public void save(TeachPlanVO vo) {
         TeachPlanEntity entity = TeachPlanConvert.INSTANCE.convert(vo);

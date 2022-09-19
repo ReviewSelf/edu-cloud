@@ -27,7 +27,7 @@ import java.util.List;
  * @since 1.0.0 2022-09-09
  */
 @RestController
-@RequestMapping("teach/class")
+@RequestMapping("class")
 @Tag(name="班级表")
 public class TeachClassController {
     @Autowired

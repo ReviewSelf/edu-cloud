@@ -23,7 +23,7 @@ import java.util.List;
 * @since 1.0.0 2022-09-16
 */
 @RestController
-@RequestMapping("teachclassuser")
+@RequestMapping("classUser")
 @Tag(name="班级用户表")
 @AllArgsConstructor
 public class TeachClassUserController {

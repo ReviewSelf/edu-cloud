@@ -1,11 +1,14 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.module.api.EduTeachApi;
+import net.edu.module.api.vo.TeachPlanItemResourceVO;
 import net.edu.module.convert.LessonResourceConvert;
 import net.edu.module.entity.LessonResourceEntity;
 import net.edu.module.query.LessonResourceQuery;
@@ -28,7 +31,6 @@ import java.util.List;
 public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao, LessonResourceEntity> implements LessonResourceService {
 
     private final EduTeachApi eduTeachApi;
-    private final LessonResourceDao lessonResourceDao;
     private final LessonResourceDao lessonResourceDao;
 
     @Override

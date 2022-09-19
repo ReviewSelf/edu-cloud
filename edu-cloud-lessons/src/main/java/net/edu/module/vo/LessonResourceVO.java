@@ -25,6 +25,8 @@ public class LessonResourceVO implements Serializable {
 
 	@Schema(description = "路径")
 	private String filePath;
+	@Schema(description = "备注")
+	private String remark;
 
 	@Schema(description = "资源类型，见字典表")
 	private Integer fileType;

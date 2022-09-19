@@ -25,6 +25,10 @@ public class LessonResourceEntity extends BaseEntity {
 	* 路径
 	*/
 	private String filePath;
+	/**
+	 * 备注
+	 */
+	private String remark;
 
 	/**
 	* 资源类型，见字典表

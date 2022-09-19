@@ -25,4 +25,6 @@ public interface TeachClassDao extends BaseDao<TeachClassEntity> {
     List<TeachClassVO> selectClassForStudent(Long userId, Integer status);
 
     List<TeachClassVO> selectClassForTeacher(Long userId,Integer status);
+
+    List<TeachClassEntity> selectOldClassUser(Long userId);
 }

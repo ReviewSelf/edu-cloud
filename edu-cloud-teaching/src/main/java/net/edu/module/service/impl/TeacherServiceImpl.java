@@ -45,7 +45,7 @@ public class TeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
         // 数据列表
         System.out.println(params);
-        List<UserEntity> list = baseMapper.selectTeacherList(params);
+        List<UserEntity> list = baseMapper.getTeacherList(params);
 
         return new PageResult<>(TeacherConvert.INSTANCE.convertList(list), page.getTotal());
     }
@@ -132,7 +132,7 @@ public class TeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
     @Override
     public List<AllTeacherVo> GetTeacher(){
-        List<AllTeacherVo> allTeacherVo=baseMapper.selectTeacher();
+        List<AllTeacherVo> allTeacherVo=baseMapper.getTeacher();
         return allTeacherVo;
     }
 

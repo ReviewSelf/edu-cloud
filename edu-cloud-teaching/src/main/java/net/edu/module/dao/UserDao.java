@@ -25,6 +25,7 @@ public interface UserDao extends BaseDao<UserEntity> {
 //	List<UserEntity> getList(Map<String, Object> params);
 
 	List<UserEntity> getTeacherList(Map<String, Object> params);
+
 	IPage<UserVO> SelectStudentList(Page<UserVO> page, UserQuery query);
 
 	UserEntity getById(@Param("id") Long id);

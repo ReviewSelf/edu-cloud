@@ -94,7 +94,7 @@ public class TeachClassEntity {
 	/**
 	 * 下一次课程id
 	 */
-	private Integer nextLessson;
+	private Integer nextLesson;
 
 	/**
 	 * 创建时间

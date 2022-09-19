@@ -82,14 +82,14 @@ public class TeachClassController {
     }
 
 
-    @GetMapping("student")
-    public Result<List<TeachClassVO>> studentClassList(@Param("userId")Long userId,@Param("status")Integer status){
-        return Result.ok(teachClassService.getClassForStudent(userId, status));
+    @GetMapping("student/{status}")
+    public Result<List<TeachClassVO>> studentClassList(@PathVariable Integer status){
+        return Result.ok(teachClassService.getClassForStudent( status));
     }
 
 
-    @GetMapping("teacher")
-    public Result<List<TeachClassVO>> teacherClassList(@Param("userId")Long userId,@Param("status")Integer status){
-        return Result.ok(teachClassService.getClassForTeacher(userId, status));
+    @GetMapping("teacher/{status}")
+    public Result<List<TeachClassVO>> teacherClassList( @PathVariable Integer status){
+        return Result.ok(teachClassService.getClassForTeacher(status));
     }
 }

@@ -67,4 +67,10 @@ public class LessonResourceController {
 
         return Result.ok();
     }
+
+    @GetMapping("getLessonResource/{lessonId}")
+    @Operation(summary = "通过课程id获取资源列表")
+    public Result<List<LessonResourceVO>> getLessonResource(@PathVariable("lessonId") Long lessonId){
+        return Result.ok(lessonResourceService.getLessonResource(lessonId));
+    }
 }

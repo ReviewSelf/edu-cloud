@@ -17,4 +17,16 @@
         <result property="version" column="version"/>
     </resultMap>
 
+    <select id="selectLessonResource" resultMap="lessonResourceMap">
+        select  id,
+                lesson_id,
+                name,
+                file_path,
+                file_type,
+                remark
+        from lesson_resource
+        where lesson_id=#{lessonId}
+        and deleted = 0
+    </select>
+
 </mapper>

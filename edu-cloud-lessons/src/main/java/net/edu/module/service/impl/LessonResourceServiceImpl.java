@@ -27,6 +27,8 @@ import java.util.List;
 @AllArgsConstructor
 public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao, LessonResourceEntity> implements LessonResourceService {
 
+    private final LessonResourceDao lessonResourceDao;
+
     @Override
     public PageResult<LessonResourceVO> page(LessonResourceQuery query) {
         IPage<LessonResourceEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
@@ -69,4 +71,8 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
 
     }
 
+    @Override
+    public List<LessonResourceVO> getLessonResource(Long lessonId) {
+        return lessonResourceDao.selectLessonResource(lessonId);
+    }
 }

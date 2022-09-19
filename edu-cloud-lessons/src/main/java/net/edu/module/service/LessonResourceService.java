@@ -25,4 +25,6 @@ public interface LessonResourceService extends BaseService<LessonResourceEntity>
     void delete(List<Long> idList);
 
     void copyFromPlanItem(Long planItemId);
+
+    List<LessonResourceVO> getLessonResource(Long lessonId);
 }

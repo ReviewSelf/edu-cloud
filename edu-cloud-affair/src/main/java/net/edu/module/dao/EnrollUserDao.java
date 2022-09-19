@@ -17,7 +17,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface EnrollUserDao extends BaseDao<EnrollUserEntity> {
     IPage<EnrollUserVO> selectEnrollUserByPage(Page<EnrollUserVO> page, EnrollUserQuery query);
-    void updateEnrollUser(long id);
-
     void updateConfirmEnrollUser(Integer id);
 }

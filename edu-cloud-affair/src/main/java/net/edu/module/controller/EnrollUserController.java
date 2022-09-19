@@ -12,7 +12,6 @@ import net.edu.module.query.EnrollUserQuery;
 
 import net.edu.module.service.EnrollUserService;
 import net.edu.module.vo.EnrollUserVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

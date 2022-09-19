@@ -36,16 +36,6 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
         IPage<EnrollLessonVO> list =enrollLessonDao.getEnrollLessonByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
-
-    @Override
-    public void save(EnrollLessonVO vo) {
-
-        EnrollLessonEntity entity = EnrollLessonConvert.INSTANCE.convert(vo);
-
-        System.out.println("xxxxxx:" + entity);
-        baseMapper.insert(entity);
-    }
-
     @Override
     public EnrollLessonEntity getLessonById(Long id) {
         return enrollLessonDao.getLessonById(id);

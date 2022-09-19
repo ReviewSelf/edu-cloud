@@ -21,7 +21,7 @@
     </resultMap>
 
 
-    <select id="SelectEnrollClassByPage" resultType="net.edu.module.entity.EnrollClassEntity">
+    <select id="selectEnrollClassByPage" resultType="net.edu.module.entity.EnrollClassEntity">
         select id,course_type,status,class_name,start_time,end_time,object,target,class_date,class_end
         from enroll_class
         where deleted = 0

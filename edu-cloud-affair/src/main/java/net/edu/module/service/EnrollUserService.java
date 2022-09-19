@@ -25,9 +25,5 @@ public interface EnrollUserService extends BaseService<EnrollUserEntity> {
 
     void delete(List<Long> idList);
 
-
-
-
-
     void confirm(Integer id);
 }

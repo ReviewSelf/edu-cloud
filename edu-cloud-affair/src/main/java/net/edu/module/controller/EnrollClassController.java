@@ -8,11 +8,8 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.EnrollClassConvert;
 import net.edu.module.entity.EnrollClassEntity;
 import net.edu.module.query.EnrollClassQuery;
-import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollClassService;
 import net.edu.module.vo.EnrollClassVO;
-import net.edu.module.vo.EnrollUserVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,7 +18,7 @@ import java.util.List;
 /**
 * 班级发布
 *
-* @author 翁瑞辰 
+* @author 翁瑞辰
 * @since  2022-09-06
 */
 @RestController

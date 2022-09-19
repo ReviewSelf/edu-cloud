@@ -10,7 +10,7 @@ import java.util.List;
 /**
 * 班级发布
 *
-* @author 翁瑞辰 
+* @author 翁瑞辰
 * @since  2022-09-06
 */
 @Mapper
@@ -20,7 +20,5 @@ public interface EnrollClassConvert {
     EnrollClassEntity convert(EnrollClassVO vo);
 
     EnrollClassVO convert(EnrollClassEntity entity);
-
-//    List<EnrollClassVO> convertList(List<EnrollClassEntity> list);
 
 }

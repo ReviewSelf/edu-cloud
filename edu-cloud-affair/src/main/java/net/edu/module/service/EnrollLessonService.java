@@ -15,8 +15,6 @@ public interface EnrollLessonService extends BaseService<EnrollLessonEntity> {
 
     PageResult<EnrollLessonVO> page(EnrollLessonQuery query);
 
-    void save(EnrollLessonVO vo);
-
     EnrollLessonEntity getLessonById(Long id);
 
     void updateLesson(EnrollLessonVO vo);

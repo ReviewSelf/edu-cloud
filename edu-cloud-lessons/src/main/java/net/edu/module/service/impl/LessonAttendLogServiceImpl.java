@@ -44,7 +44,7 @@ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogD
             LambdaQueryWrapper<LessonAttendLogEntity> wrapper = Wrappers.lambdaQuery();
             wrapper.eq(true, LessonAttendLogEntity::getLessonId, query.getLessonId());
             list = baseMapper.selectList(wrapper);
-            redisUtils.set(RedisKeys.getLessonAttendLog(query.getLessonId()),list,RedisUtils.HOUR_ONE_EXPIRE);
+            redisUtils.set(RedisKeys.getLessonAttendLog(query.getLessonId()),list,RedisUtils.MIN_TEN_EXPIRE);
         }
         return LessonAttendLogConvert.INSTANCE.convertList(list);
     }
@@ -80,7 +80,6 @@ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogD
     @Override
     public void update(LessonAttendLogVO vo) {
         LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
-
         updateById(entity);
     }
 

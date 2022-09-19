@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.LessonConvert;
@@ -38,11 +40,18 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     private final LessonAttendLogService lessonAttendLogService;
 
+    private final RedisUtils redisUtils;
+
     @Override
     public List<LessonVO> list(LessonQuery query) {
-        LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
-        List<LessonEntity> list = baseMapper.selectList(wrapper);
+        List<LessonEntity> list =null;
+        list= (List<LessonEntity>) redisUtils.get(RedisKeys.getLesson(query.getClassId()),RedisUtils.MIN_TEN_EXPIRE);
+        if(list==null){
+            LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
+            wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
+            list=baseMapper.selectList(wrapper);
+            redisUtils.set(RedisKeys.getLesson(query.getClassId()),list,RedisUtils.MIN_TEN_EXPIRE);
+        }
         return LessonConvert.INSTANCE.convertList(list);
     }
 

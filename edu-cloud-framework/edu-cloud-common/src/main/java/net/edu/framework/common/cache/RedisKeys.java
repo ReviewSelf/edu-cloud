@@ -41,4 +41,8 @@ public class RedisKeys {
     public static String getLessonIp(Long lessonId) {
         return "lesson:ip:"+lessonId;
     }
+
+    public static String getLesson(Long classId) {
+        return "lesson:"+classId;
+    }
 }

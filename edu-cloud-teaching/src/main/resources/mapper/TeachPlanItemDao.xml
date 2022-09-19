@@ -18,7 +18,7 @@
         <result property="version" column="version"/>
     </resultMap>
 
-    <select id="page" resultType="net.edu.module.vo.TeachPlanItemVO">
+    <select id="list" resultType="net.edu.module.vo.TeachPlanItemVO">
         select id,plan_id as planId,sort,duration,name,description
         from teach_plan_item
         where deleted=0 and plan_id = #{id}

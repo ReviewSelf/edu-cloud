@@ -8,6 +8,7 @@ import net.edu.framework.common.utils.DateUtils;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 班级表
@@ -87,5 +88,15 @@ public class TeachClassVO implements Serializable {
     @Schema(description = "版本")
     private Integer version;
 
+    @Schema(description = "学生列表")
+    private List userIdList;
 
+    @Schema(description = "班主任名称")
+    private String teacher1Name;
+
+    @Schema(description = "任课老师名称")
+    private String teacher2Name;
+
+    @Schema(description = "上课地点")
+    private String place;
 }

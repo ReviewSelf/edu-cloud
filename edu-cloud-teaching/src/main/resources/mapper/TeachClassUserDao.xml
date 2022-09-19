@@ -29,4 +29,12 @@
     <update id="quitClass">
         update teach_class_user set quit_time=#{quitTime} ,status = 2 where user_id = #{userId} and class_id = #{classId}
     </update>
+    <insert id="insertClassUser" parameterType="net.edu.module.entity.TeachClassUserEntity">
+        INSERT INTO teach_class_user
+        (user_id,class_id)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item},#{classId})
+        </foreach>
+    </insert>
 </mapper>

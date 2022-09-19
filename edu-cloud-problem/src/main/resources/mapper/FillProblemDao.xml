@@ -68,4 +68,16 @@
         </if>
         where id = #{id}
     </update>
+
+    <select id="selectFillProblemInfo" resultType="net.edu.module.vo.FillProblemVO">
+        select id,
+               name,
+               description,
+               img,
+               difficulty,
+               submit_times as submitTimes,
+               correct_times as correctTimes
+            from problem_fill where id=#{id} and deleted = 0
+    </select>
+
 </mapper>

@@ -16,65 +16,58 @@ spring:
       routes:
         - id: edu-cloud-system
           uri: lb://edu-cloud-system
-          order: 1
+          order: 100
           predicates:
             - Path=/sys/**
           filters:
             - StripPrefix=1
         - id: edu-cloud-problem
           uri: lb://edu-cloud-problem
-          order: 100
+          order: 101
           predicates:
             - Path=/problem/**
           filters:
             - StripPrefix=1
+        - id: edu-cloud-judge
+          uri: lb://edu-cloud-judge
+          order: 102
+          predicates:
+            - Path=/judge/**
+          filters:
+            - StripPrefix=1
         - id: edu-cloud-wechat
           uri: lb://edu-cloud-wechat
-          order: 101
+          order: 103
           predicates:
             - Path=/wechat/**
           filters:
             - StripPrefix=1
         - id: edu-cloud-teaching
           uri: lb://edu-cloud-teaching
-          order: 102
+          order: 104
           predicates:
             - Path=/teaching/**
           filters:
             - StripPrefix=1
         - id: edu-cloud-file
           uri: lb://edu-cloud-file
-          order: 103
+          order: 105
           predicates:
             - Path=/file/**
           filters:
             - StripPrefix=1
-        - id: edu-cloud-judge
-          uri: lb://edu-cloud-judge
-          order: 104
-          predicates:
-            - Path=/judge/**
-          filters:
-            - StripPrefix=1
         - id: edu-cloud-affair
           uri: lb://edu-cloud-affair
-          order: 105
+          order: 106
           predicates:
             - Path=/affair/**
           filters:
             - StripPrefix=1
-        - id: edu-cloud-class
-          uri: lb://edu-cloud-class
-          order: 106
-          predicates:
-            - Path=/class/**
-          filters:
-            - StripPrefix=1
-        - id: edu-cloud-class
-          uri: lb://edu-cloud-person
+        - id: edu-cloud-lessons
+          uri: lb://edu-cloud-lessons
           order: 107
           predicates:
-            - Path=/person/**
+            - Path=/lessons/**
           filters:
             - StripPrefix=1
         - id: openapi

@@ -27,4 +27,6 @@ public interface CodeProblemDao extends BaseDao<CodeProblemEntity> {
     int updateUsedNum(@Param("id") Long id);
 
     int updateSubmitTimes(@Param("id") Long id,@Param("isTrue") Boolean isTrue);
+
+    CodeProblemVO selectCodeProblemInfo(@Param("problemId") Long problemId);
 }

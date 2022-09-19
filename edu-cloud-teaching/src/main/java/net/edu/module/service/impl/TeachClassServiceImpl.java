@@ -9,13 +9,14 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachClassConvert;
 import net.edu.module.dao.TeachClassDao;
-import net.edu.module.dao.TeachPlanDao;
+import net.edu.module.dao.TeachClassUserDao;
+import net.edu.module.dao.TeachPlanItemDao;
 import net.edu.module.entity.TeachClassEntity;
 import net.edu.module.query.TeachClassQuery;
-import net.edu.module.query.TeachPlanQuery;
+import net.edu.module.service.TeachPlanItemService;
 import net.edu.module.vo.TeachClassVO;
 import net.edu.module.service.TeachClassService;
-import net.edu.module.vo.TeachPlanVO;
+import net.edu.module.vo.TeachPlanItemVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +33,21 @@ import java.util.List;
 public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachClassEntity> implements TeachClassService {
 
     private final TeachClassDao teachClassDao;
-
-
+    private final TeachClassUserDao teachClassUserDao;
+    private final TeachPlanItemDao teachPlanItemDao;
+    private final TeachPlanItemService teachPlanItemService;
 
     @Override
     public PageResult<TeachClassVO> page(TeachClassQuery query) {
         Page<TeachClassVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<TeachClassVO> list = teachClassDao.page(page, query);
         return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
+    @Override
+    public List<TeachPlanItemVO> selectLesson(Long id) {
+        List<TeachPlanItemVO> teachPlanItemVOList= teachPlanItemService.list(id);
+        return teachPlanItemVOList;
     }
 
     private LambdaQueryWrapper<TeachClassEntity> getWrapper(TeachClassQuery query){
@@ -53,6 +61,9 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
         TeachClassEntity entity = TeachClassConvert.INSTANCE.convert(vo);
 
         baseMapper.insert(entity);
+        System.out.println(entity.getId());
+        teachClassUserDao.insertClassUser(vo.getUserIdList(),entity.getId());
+
     }
 
     @Override

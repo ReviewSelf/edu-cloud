@@ -3,6 +3,9 @@ package net.edu.module.dao;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.TeachClassUserEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 import java.util.Date;
 
@@ -16,4 +19,5 @@ import java.util.Date;
 public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
 
     void quitClass(Long classId,Long userId, Date quitTime);
+    int insertClassUser(@Param("list") List list,@Param("classId") Long classId);
 }

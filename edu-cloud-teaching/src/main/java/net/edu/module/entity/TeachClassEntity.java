@@ -1,10 +1,12 @@
 package net.edu.module.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
+import net.edu.framework.common.utils.DateUtils;
 
-import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -49,16 +51,6 @@ public class TeachClassEntity {
 	private Integer lessonNum;
 
 	/**
-	 * 上课开始时间
-	 */
-	private Time lessonBeginTime;
-
-	/**
-	 * 上课结束时间
-	 */
-	private Time lessonEndTime;
-
-	/**
 	 * 周频,0则表示无
 	 */
 	private Integer frequency;
@@ -68,15 +60,26 @@ public class TeachClassEntity {
 	 */
 	private Integer status;
 
+
+	/**
+	 * 上课开始时间
+	 */
+	private String lessonBeginTime;
+
+	/**
+	 * 上课结束时间
+	 */
+	private String lessonEndTime;
+
 	/**
 	 * 班级预计开始时间
 	 */
-	private Date beginTime;
+	private String beginTime;
 
 	/**
 	 * 班级预计结束时间
 	 */
-	private Date endTime;
+	private String endTime;
 
 	/**
 	 * 班主任
@@ -128,5 +131,10 @@ public class TeachClassEntity {
 	 * 版本
 	 */
 	private Integer version;
+
+	/**
+	 * 上课地点
+	 */
+	private String place;
 
 }

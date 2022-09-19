@@ -26,7 +26,7 @@
         <result property="version" column="version"/>
     </resultMap>
 
-    <update id="quitClass">
+    <update id="updateQuitClass">
         update teach_class_user set quit_time=#{quitTime} ,status = 2 where user_id = #{userId} and class_id = #{classId}
     </update>
     <insert id="insertClassUser" parameterType="net.edu.module.entity.TeachClassUserEntity">

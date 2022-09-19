@@ -22,6 +22,6 @@ public interface TeachClassDao extends BaseDao<TeachClassEntity> {
 
     IPage<TeachClassVO> page(Page<TeachClassVO> page, @Param("query") TeachClassQuery query);
 
-    List<TeachClassEntity> getOldClassUser(Long userId);
+    List<TeachClassEntity> selectOldClassUser(Long userId);
 
 }

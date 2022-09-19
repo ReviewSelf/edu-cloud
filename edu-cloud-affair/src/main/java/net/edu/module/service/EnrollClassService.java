@@ -28,8 +28,6 @@ public interface EnrollClassService extends BaseService<EnrollClassEntity> {
 
     void delete(List<Long> idList);
 
-
-
     void updateStatus(Long id);
 
     void unUpdateStatus(Long id);

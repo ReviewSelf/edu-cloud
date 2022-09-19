@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface StudentService extends BaseService<UserEntity> {
 
-    PageResult<UserVO> StudentPage(UserQuery query);
+    PageResult<UserVO> SelectStudentList(UserQuery query);
 
     void save(UserVO vo);
 

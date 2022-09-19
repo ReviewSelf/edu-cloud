@@ -67,7 +67,7 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
 
     @Override
     public void quitClass(Long classId,Long userId, Date quitTime) {
-        teachClassUserDao.quitClass(classId,userId,quitTime);
+        teachClassUserDao.updateQuitClass(classId,userId,quitTime);
     }
 
 }

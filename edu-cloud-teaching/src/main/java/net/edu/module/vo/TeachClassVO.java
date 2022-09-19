@@ -66,7 +66,7 @@ public class TeachClassVO implements Serializable {
     private Integer teacher2Id;
 
     @Schema(description = "下一次课程id")
-    private Integer nextLessson;
+    private Integer nextLesson;
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

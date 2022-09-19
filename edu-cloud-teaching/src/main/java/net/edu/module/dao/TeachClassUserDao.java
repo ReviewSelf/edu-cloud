@@ -18,6 +18,6 @@ import java.util.Date;
 @Mapper
 public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
 
-    void quitClass(Long classId,Long userId, Date quitTime);
+    void updateQuitClass(Long classId,Long userId, Date quitTime);
     int insertClassUser(@Param("list") List list,@Param("classId") Long classId);
 }

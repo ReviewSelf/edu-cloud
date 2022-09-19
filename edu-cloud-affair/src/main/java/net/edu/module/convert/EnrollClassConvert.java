@@ -21,6 +21,6 @@ public interface EnrollClassConvert {
 
     EnrollClassVO convert(EnrollClassEntity entity);
 
-    List<EnrollClassVO> convertList(List<EnrollClassEntity> list);
+//    List<EnrollClassVO> convertList(List<EnrollClassEntity> list);
 
 }

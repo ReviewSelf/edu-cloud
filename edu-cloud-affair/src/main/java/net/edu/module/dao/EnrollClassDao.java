@@ -22,9 +22,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface EnrollClassDao extends BaseDao<EnrollClassEntity> {
 
 
-    IPage<EnrollClassVO> getEnrollClassByPage(Page<EnrollClassVO> page, EnrollClassQuery query);
-
-
+    IPage<EnrollClassVO> SelectEnrollClassByPage(Page<EnrollClassVO> page, EnrollClassQuery query);
 
     void updateStatus(Long id);
     void unUpdateStatus(Long id);

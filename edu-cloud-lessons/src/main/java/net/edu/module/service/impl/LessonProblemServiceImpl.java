@@ -44,11 +44,6 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
         return list;
     }
 
-    private LambdaQueryWrapper<LessonProblemEntity> getWrapper(LessonProblemQuery query){
-        LambdaQueryWrapper<LessonProblemEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
-    }
 
     @Override
     public void save(LessonProblemVO vo) {
@@ -85,8 +80,6 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
 
             }
         }
-
-
     }
 
 }

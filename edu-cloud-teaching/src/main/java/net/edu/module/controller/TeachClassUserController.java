@@ -38,6 +38,14 @@ public class TeachClassUserController {
         return Result.ok(page);
     }
 
+    @GetMapping("list/{classId}")
+    @Operation(summary = "根据班级获取学生Id")
+    public Result<List<Long>> getUserIdList(  @PathVariable Long classId){
+        List<Long> list = teachClassUserService.getUserIdList(classId);
+        return Result.ok(list);
+    }
+
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<TeachClassUserVO> get(@PathVariable("id") Long id){
@@ -70,4 +78,7 @@ public class TeachClassUserController {
 
         return Result.ok();
     }
+
+
+
 }

@@ -5,6 +5,8 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.LessonIPEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
 * 1
 *
@@ -13,5 +15,6 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface LessonIPDao extends BaseDao<LessonIPEntity> {
-	
+
+
 }

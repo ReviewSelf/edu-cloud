@@ -23,4 +23,6 @@ public interface TeachClassUserConvert {
 
     List<TeachClassUserVO> convertList(List<TeachClassUserEntity> list);
 
+
+
 }

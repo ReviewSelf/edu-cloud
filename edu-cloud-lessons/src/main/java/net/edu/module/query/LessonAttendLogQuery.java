@@ -1,6 +1,7 @@
 package net.edu.module.query;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
@@ -15,6 +16,8 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@AllArgsConstructor
 @Schema(description = "课堂签到表查询")
-public class LessonAttendLogQuery extends Query {
+public class LessonAttendLogQuery {
+    private Long lessonId;
 }

@@ -27,11 +27,18 @@ import java.util.List;
 
 public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao, TeachClassUserEntity> implements TeachClassUserService {
 
+    private final TeachClassUserDao teachClassUserDao;
+
     @Override
     public PageResult<TeachClassUserVO> page(TeachClassUserQuery query) {
         IPage<TeachClassUserEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
 
         return new PageResult<>(TeachClassUserConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+    }
+
+    @Override
+    public List<Long> getUserIdList(Long classId) {
+        return teachClassUserDao.selectUserIdList(classId);
     }
 
     private LambdaQueryWrapper<TeachClassUserEntity> getWrapper(TeachClassUserQuery query){

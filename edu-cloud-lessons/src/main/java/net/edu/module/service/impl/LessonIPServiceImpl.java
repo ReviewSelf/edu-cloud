@@ -5,10 +5,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.LessonIPConvert;
 import net.edu.module.dao.LessonIPDao;
+import net.edu.module.entity.LessonEntity;
 import net.edu.module.entity.LessonIPEntity;
 import net.edu.module.query.LessonIPQuery;
 import net.edu.module.service.LessonIPService;
@@ -28,18 +31,23 @@ import java.util.List;
 @AllArgsConstructor
 public class LessonIPServiceImpl extends BaseServiceImpl<LessonIPDao, LessonIPEntity> implements LessonIPService {
 
+
+    private final RedisUtils redisUtils;
+
     @Override
-    public PageResult<LessonIPVO> page(LessonIPQuery query) {
-        IPage<LessonIPEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-
-        return new PageResult<>(LessonIPConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+    public List<LessonIPVO> list(LessonIPQuery query) {
+        List<LessonIPEntity> list=null;
+        list= (List<LessonIPEntity>) redisUtils.get(RedisKeys.getLessonIp(query.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
+        if(list==null){
+            LambdaQueryWrapper<LessonIPEntity> wrapper = Wrappers.lambdaQuery();
+            wrapper.eq(true, LessonIPEntity::getLessonId, query.getLessonId());
+            list = baseMapper.selectList(wrapper);
+            redisUtils.set(RedisKeys.getLessonIp(query.getLessonId()),list,RedisUtils.HOUR_ONE_EXPIRE);
+        }
+          return LessonIPConvert.INSTANCE.convertList(list);
     }
 
-    private LambdaQueryWrapper<LessonIPEntity> getWrapper(LessonIPQuery query){
-        LambdaQueryWrapper<LessonIPEntity> wrapper = Wrappers.lambdaQuery();
 
-        return wrapper;
-    }
 
     @Override
     public void save(LessonIPVO vo) {

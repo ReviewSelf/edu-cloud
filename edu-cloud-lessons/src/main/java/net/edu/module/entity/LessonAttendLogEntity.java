@@ -17,7 +17,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("lesson_attend_log")
-public class LessonAttendLogEntity extends BaseEntity {
+public class LessonAttendLogEntity  {
 	/**
 	* 学生id
 	*/
@@ -42,5 +42,18 @@ public class LessonAttendLogEntity extends BaseEntity {
 	* 是否点名
 	*/
 	private Integer rollCall;
+
+	/**
+	 * 更新时间
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private Date updateTime;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	private Date createTime;
+
 
 }

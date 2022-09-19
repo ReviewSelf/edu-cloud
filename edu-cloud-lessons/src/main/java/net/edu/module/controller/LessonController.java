@@ -3,14 +3,12 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.LessonConvert;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.service.LessonService;
 import net.edu.module.query.LessonQuery;
 import net.edu.module.vo.LessonVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,7 +17,7 @@ import java.util.List;
 /**
 * 课程表
 *
-* @author 马佳浩 
+* @author 马佳浩
 * @since 1.0.0 2022-09-15
 */
 @RestController
@@ -47,7 +45,7 @@ public class LessonController {
     @Operation(summary = "创建课堂")
     public Result<String> createLessons(@RequestBody List<LessonVO> voList){
         lessonService.createLessons(voList);
-
+        System.out.println(voList);
         return Result.ok();
     }
 
@@ -58,7 +56,6 @@ public class LessonController {
 //
 //        return Result.ok();
 //    }
-
 
     @PutMapping
     @Operation(summary = "修改")

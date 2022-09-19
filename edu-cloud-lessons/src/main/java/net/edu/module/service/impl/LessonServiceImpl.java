@@ -2,9 +2,7 @@ package net.edu.module.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.LessonConvert;
 import net.edu.module.entity.LessonEntity;
@@ -20,7 +18,7 @@ import java.util.List;
 /**
  * 课程表
  *
- * @author 马佳浩 
+ * @author 马佳浩
  * @since 1.0.0 2022-09-15
  */
 @Service
@@ -34,6 +32,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         List<LessonEntity> list = baseMapper.selectList(wrapper);
         return LessonConvert.INSTANCE.convertList(list);
     }
+
 
     @Override
     public void createLessons(List<LessonVO> voList) {

@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * 课程表
  *
- * @author 马佳浩 
+ * @author 马佳浩
  * @since 1.0.0 2022-09-15
  */
 @Data
@@ -99,4 +99,8 @@ public class LessonEntity {
 	@TableField(fill = FieldFill.INSERT)
 	private Integer deleted;
 
+
+	private Integer sort;
+
+	private String description;
 }

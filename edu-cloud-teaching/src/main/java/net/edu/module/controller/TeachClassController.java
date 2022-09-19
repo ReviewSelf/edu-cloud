@@ -5,7 +5,6 @@ package net.edu.module.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.TeachClassConvert;
@@ -13,6 +12,7 @@ import net.edu.module.entity.TeachClassEntity;
 import net.edu.module.query.TeachClassQuery;
 import net.edu.module.service.TeachClassService;
 import net.edu.module.vo.TeachClassVO;
+import net.edu.module.vo.TeachPlanItemVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,7 +34,7 @@ public class TeachClassController {
 
     @GetMapping("page")
     @Operation(summary = "分页")
-    public Result<PageResult<TeachClassVO>> page(@Valid TeachClassQuery query){
+    public Result<PageResult<TeachClassVO>> list(@Valid TeachClassQuery query){
         System.out.println(query);
         PageResult<TeachClassVO> page = teachClassService.page(query);
 
@@ -42,19 +42,27 @@ public class TeachClassController {
     }
 
 
+    @GetMapping("startClass")
+    @Operation(summary = "分页")
+    public Result<List<TeachPlanItemVO>> startClass(@RequestParam Long planId){
+        List<TeachPlanItemVO> lessonVOList= teachClassService.selectLesson(planId);
+        return Result.ok(lessonVOList);
+    }
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<TeachClassVO> get(@PathVariable("id") Long id){
         TeachClassEntity entity = teachClassService.getById(id);
-
+        System.out.println(entity);
+        System.out.println(TeachClassConvert.INSTANCE.convert(entity));
         return Result.ok(TeachClassConvert.INSTANCE.convert(entity));
     }
 
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody TeachClassVO vo){
+        System.out.println(vo);
         teachClassService.save(vo);
-
         return Result.ok();
     }
 

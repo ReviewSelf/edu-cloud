@@ -18,7 +18,7 @@ import java.util.List;
 /**
 * 教学计划表
 *
-* @author sqw 
+* @author sqw
 * @since 1.0.0 2022-09-12
 */
 @RestController
@@ -32,6 +32,7 @@ public class TeachPlanController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<TeachPlanVO>> page(@Valid TeachPlanQuery query){
+        System.out.println("sssssssssssss");
         PageResult<TeachPlanVO> page = teachPlanService.page(query);
 
         return Result.ok(page);

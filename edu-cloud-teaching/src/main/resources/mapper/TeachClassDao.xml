@@ -33,13 +33,17 @@
         description,
         img,plan_id as planId,
         lesson_num as lessonNum,
-        lesson_time as lessonTime,
         frequency,
         status,
+        lesson_begin_time as lessonBeginTime,
+        lesson_end_time as lessonEndTime,
         begin_time as beginTime,
         end_time as endTime,
         teacher1_id as teacher1Id,
-        teacher2_id as teacher2Id
+        teacher2_id as teacher2Id,
+        place,
+        (select real_name from sys_user where id=teacher1Id) as teacher1Name,
+        (select real_name from sys_user where id=teacher2Id) as teacher2Name
         from teach_class
         where deleted =0
         <if test="query.getName()!=null and query.getName()!=''">
@@ -47,4 +51,7 @@
         </if>
         order by lesson_num desc,id desc
     </select>
+
+
+
 </mapper>

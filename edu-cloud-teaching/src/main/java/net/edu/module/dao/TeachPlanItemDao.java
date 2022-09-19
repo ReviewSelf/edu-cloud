@@ -2,7 +2,6 @@ package net.edu.module.dao;
 
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.TeachPlanItemEntity;
-import net.edu.module.query.TeachPlanItemQuery;
 import net.edu.module.vo.TeachPlanItemVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -18,7 +17,6 @@ import java.util.List;
 @Mapper
 public interface TeachPlanItemDao extends BaseDao<TeachPlanItemEntity> {
 
-    List<TeachPlanItemVO> page(@Param("id") Long id);
+    List<TeachPlanItemVO> list(@Param("id") Long id);
     TeachPlanItemVO selectPlanItem(@Param("id") Long id);
-
 }

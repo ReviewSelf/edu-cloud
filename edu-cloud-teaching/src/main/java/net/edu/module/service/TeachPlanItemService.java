@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface TeachPlanItemService extends BaseService<TeachPlanItemEntity> {
 
-    List<TeachPlanItemVO> page(Long id);
+    List<TeachPlanItemVO> list(Long id);
 
     void save(TeachPlanItemVO vo);
 

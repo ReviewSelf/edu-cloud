@@ -11,7 +11,7 @@ import java.util.Date;
 /**
 * 课程表
 *
-* @author 马佳浩 
+* @author 马佳浩
 * @since 1.0.0 2022-09-15
 */
 @Data
@@ -69,5 +69,9 @@ public class LessonVO implements Serializable {
 	@Schema(description = "删除")
 	private Integer deleted;
 
+	@Schema(description = "顺序")
+	private Integer sort;
 
+	@Schema(description = "顺序")
+	private String description;
 }

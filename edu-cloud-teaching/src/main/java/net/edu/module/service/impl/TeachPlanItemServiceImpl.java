@@ -35,9 +35,10 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
     private final TeachPlanItemPaperDao teachPlanItemPaperDao;
     private final TeachPlanItemResourceDao teachPlanItemResourceDao;
 
+
     @Override
-    public List<TeachPlanItemVO> page(Long id) {
-        List<TeachPlanItemVO> list = teachPlanItemDao.page(id);
+    public List<TeachPlanItemVO> list(Long id) {
+        List<TeachPlanItemVO> list = teachPlanItemDao.list(id);
         return list;
     }
 

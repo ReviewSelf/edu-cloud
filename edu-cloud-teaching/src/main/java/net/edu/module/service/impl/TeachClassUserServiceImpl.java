@@ -14,6 +14,8 @@ import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import net.edu.framework.common.page.PageResult;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +28,8 @@ import java.util.List;
 @AllArgsConstructor
 
 public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao, TeachClassUserEntity> implements TeachClassUserService {
+
+    private final TeachClassUserDao teachClassUserDao;
 
     @Override
     public PageResult<TeachClassUserVO> page(TeachClassUserQuery query) {

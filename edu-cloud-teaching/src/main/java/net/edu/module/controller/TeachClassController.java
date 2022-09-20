@@ -42,6 +42,18 @@ public class TeachClassController {
         return Result.ok(page);
     }
 
+    /**
+     * 获取学生所在的班级信息
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("page/old/{userId}")
+    @Operation(summary = "旧班级信息")
+    public Result<List<TeachClassEntity>> getOldPage(@PathVariable("userId") Long userId){
+        return Result.ok(teachClassService.getOldClassUser(userId));
+    }
+
 
     @GetMapping("startClass")
     @Operation(summary = "分页")
@@ -91,5 +103,14 @@ public class TeachClassController {
     @GetMapping("teacher/{status}")
     public Result<List<TeachClassVO>> teacherClassList( @PathVariable Integer status){
         return Result.ok(teachClassService.getClassForTeacher(status));
+    }
+
+    @GetMapping("/updateNextLesson")
+    @Operation(summary = "修改下一堂课id")
+    public Result<String> updateNextLesson(@RequestParam Integer nextLesson, @RequestParam Long classId){
+
+        teachClassService.updateNextLesson(nextLesson,classId);
+        return Result.ok();
+
     }
 }

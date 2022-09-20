@@ -26,10 +26,10 @@ import java.util.List;
  * @author 阿沐 babamu@126.com
  */
 @RestController
-@RequestMapping("user/student")
+@RequestMapping("student")
 @AllArgsConstructor
 @Tag(name="用户管理")
-public class StudentController {
+public class TeachStudentController {
     private final StudentService userService;
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
@@ -39,7 +39,7 @@ public class StudentController {
 
     public Result<PageResult<UserVO>> StudentPage(@Valid UserQuery query){
         System.out.println(query);
-        PageResult<UserVO> page = userService.StudentPage(query);
+        PageResult<UserVO> page = userService.SelectStudentList(query);
         return Result.ok(page);
     }
 

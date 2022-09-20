@@ -1,8 +1,6 @@
 package net.edu.module.api;
 
-import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.api.fallback.EduProblemFallBack;
 import net.edu.module.api.fallback.EduTeachApiFallBack;
 import net.edu.module.api.vo.TeachPlanItemPaperVO;
 import net.edu.module.api.vo.TeachPlanItemResourceVO;
@@ -26,4 +24,8 @@ public interface EduTeachApi {
 
     @GetMapping("planItem/resource/{id}")
     Result<List<TeachPlanItemResourceVO>> getItemResource(@PathVariable(value = "id") Long id);
+
+
+    @GetMapping("classUser/list/{classId}")
+     Result<List<Long>> list(@PathVariable(value = "classId") Long classId);
 }

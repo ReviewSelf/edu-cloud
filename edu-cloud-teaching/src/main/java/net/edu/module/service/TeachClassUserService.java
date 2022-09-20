@@ -8,6 +8,7 @@ import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,9 +22,13 @@ public interface TeachClassUserService extends BaseService<TeachClassUserEntity>
 
     PageResult<TeachClassUserVO> page(TeachClassUserQuery query);
 
+    List<Long> getUserIdList(Long classId);
+
     void save(TeachClassUserVO vo);
 
     void update(TeachClassUserVO vo);
 
     void delete(List<Long> idList);
+
+    void quitClass(Long classId,Long userId, Date quitTime);
 }

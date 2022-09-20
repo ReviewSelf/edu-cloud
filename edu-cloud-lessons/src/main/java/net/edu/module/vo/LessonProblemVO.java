@@ -27,6 +27,9 @@ public class LessonProblemVO implements Serializable {
 	@Schema(description = "分数")
 	private Integer score;
 
+	@Schema(description = "顺序")
+	private Integer sort;
+
 	@Schema(description = "问题ID")
 	private Long problemId;
 
@@ -50,19 +53,6 @@ public class LessonProblemVO implements Serializable {
 	@Schema(description = "类型（课前，课中，课后）")
 	private Integer type;
 
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date createTime;
-
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date updateTime;
-
-	private Long creator;
-
-	private Long updater;
-
-	private Integer version;
-
-	private Integer deleted;
 
 
 }

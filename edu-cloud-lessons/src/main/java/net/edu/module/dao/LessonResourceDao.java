@@ -17,7 +17,7 @@ import java.util.List;
 */
 @Mapper
 public interface LessonResourceDao extends BaseDao<LessonResourceEntity> {
-    List<LessonResourceVO> selectLessonResource(Long lessonId);
+    List<LessonResourceVO> selectLessonResource(@Param("lessonId") Long lessonId);
 
 
     void insertResourceList(@Param("list") List<TeachPlanItemResourceVO> list, Long lessonId);

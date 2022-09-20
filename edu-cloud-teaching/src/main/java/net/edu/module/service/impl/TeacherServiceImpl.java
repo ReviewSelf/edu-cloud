@@ -9,7 +9,6 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeacherConvert;
 import net.edu.module.dao.UserDao;
 import net.edu.module.entity.UserEntity;
-import net.edu.module.query.RoleQuery;
 import net.edu.module.query.TeacherQuery;
 import net.edu.module.service.RoleService;
 import net.edu.module.service.TeacherService;
@@ -122,38 +121,6 @@ public class TeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         // 删除用户角色关系
         roleService.deleteByUserIdList(idList);
 
-    }
-
-    @Override
-    public TeacherVO getByMobile(String mobile) {
-        UserEntity user = baseMapper.getByMobile(mobile);
-
-        return TeacherConvert.INSTANCE.convert(user);
-    }
-
-    @Override
-    public void updatePassword(Long id, String newPassword) {
-        // 修改密码
-        UserEntity user = getById(id);
-        user.setPassword(newPassword);
-
-        updateById(user);
-    }
-
-    @Override
-    public PageResult<TeacherVO> roleUserPage(RoleQuery query) {
-        // 查询参数
-        Map<String, Object> params = getParams(query);
-        params.put("roleId", query.getRoleId());
-
-        // 分页查询
-        IPage<UserEntity> page = getPage(query);
-        params.put(Constant.PAGE, page);
-
-        // 数据列表
-        List<UserEntity> list = baseMapper.getRoleUserList(params);
-
-        return new PageResult<>(TeacherConvert.INSTANCE.convertList(list), page.getTotal());
     }
 
     @Override

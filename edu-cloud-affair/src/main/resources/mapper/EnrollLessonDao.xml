@@ -38,7 +38,7 @@
         t1.begin_time,
         t1.end_time,
         t2.username
-        from teach_lesson t1
+        from lesson t1
         left join sys_user t2 on t1.teacher_id = t2.id
         where t1.id = #{id}
     </select>

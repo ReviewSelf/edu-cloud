@@ -12,7 +12,6 @@ import net.edu.module.query.EnrollUserQuery;
 
 import net.edu.module.service.EnrollUserService;
 import net.edu.module.vo.EnrollUserVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,7 +24,7 @@ import java.util.List;
 * @since 1.0.0 2022-09-05
 */
 @RestController
-@RequestMapping("enroll/user")
+@RequestMapping("enrollUser")
 @Tag(name="XinXiHeShi")
 @AllArgsConstructor
 public class EnrollUserController {

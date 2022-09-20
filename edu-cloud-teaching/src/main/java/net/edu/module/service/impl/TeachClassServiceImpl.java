@@ -86,5 +86,14 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
         return teachClassDao.selectClassForTeacher(userId,status);
     }
 
+    @Override
+    public void updateNextLesson(Integer nextLesson, Long classId) {
+        teachClassDao.updateNextLesson(nextLesson,classId);
+    }
+
+    @Override
+    public List<TeachClassEntity> getOldClassUser(Long userId) {
+        return teachClassDao.selectOldClassUser(userId);
+    }
 
 }

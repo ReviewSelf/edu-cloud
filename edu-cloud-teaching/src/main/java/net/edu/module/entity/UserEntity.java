@@ -58,6 +58,13 @@ public class UserEntity extends BaseEntity {
 
     private String unionId;
 
+    private String province;
+
+    private String city;
+
+    private String district;
+    private String area;
+
     private String address;
 
     private Integer age;

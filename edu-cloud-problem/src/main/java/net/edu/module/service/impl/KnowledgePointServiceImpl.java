@@ -67,11 +67,8 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
     @Override
     public List<KnowledgePointVO> getKpList() {
         List<KnowledgePointEntity> menuList=null;
-
-        if(redisUtils.get(RedisKeys.getKnowledgePointKey())!=null){
-            menuList=(List<KnowledgePointEntity>) redisUtils.get(RedisKeys.getKnowledgePointKey(),RedisUtils.NOT_EXPIRE);
-        }
-        else {
+        menuList= (List<KnowledgePointEntity>) redisUtils.get(RedisKeys.getKnowledgePointKey(),RedisUtils.MIN_TEN_EXPIRE);
+        if(menuList==null){
             menuList = baseMapper.getKpList();
             redisUtils.set(RedisKeys.getKnowledgePointKey(),menuList,RedisUtils.MIN_TEN_EXPIRE);
         }

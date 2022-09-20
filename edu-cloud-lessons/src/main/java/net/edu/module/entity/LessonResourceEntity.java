@@ -15,7 +15,12 @@ import net.edu.framework.mybatis.entity.BaseEntity;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("lesson_resource")
-public class LessonResourceEntity extends BaseEntity {
+public class LessonResourceEntity {
+	/**
+	 * ID
+	 */
+	@TableId
+	private Long id;
 	/**
 	* 名称
 	*/
@@ -39,5 +44,17 @@ public class LessonResourceEntity extends BaseEntity {
 	* 来源，1=教学计划生成（不可删除），2=老师添加可删除
 	*/
 	private Integer source;
+
+	/**
+	 * 更新时间
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private Date updateTime;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	private Date createTime;
 
 }

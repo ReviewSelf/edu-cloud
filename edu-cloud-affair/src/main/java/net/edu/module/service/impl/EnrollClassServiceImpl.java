@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * 班级发布
  *
- * @author 翁瑞辰 
+ * @author 翁瑞辰
  * @since  2022-09-06
  */
 @Service
@@ -36,14 +36,8 @@ public class EnrollClassServiceImpl extends BaseServiceImpl<EnrollClassDao, Enro
     @Override
     public PageResult<EnrollClassVO> page(EnrollClassQuery query) {
         Page<EnrollClassVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<EnrollClassVO> list =enrollClassDao.getEnrollClassByPage(page,query);
+        IPage<EnrollClassVO> list =enrollClassDao.selectEnrollClassByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
-    }
-
-    private LambdaQueryWrapper<EnrollClassEntity> getWrapper(EnrollClassQuery query){
-        LambdaQueryWrapper<EnrollClassEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
     }
 
     @Override

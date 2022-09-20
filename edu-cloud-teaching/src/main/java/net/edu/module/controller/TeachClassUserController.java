@@ -38,6 +38,14 @@ public class TeachClassUserController {
         return Result.ok(page);
     }
 
+    @GetMapping("list/{classId}")
+    @Operation(summary = "根据班级获取学生Id")
+    public Result<List<Long>> getUserIdList(  @PathVariable Long classId){
+        List<Long> list = teachClassUserService.getUserIdList(classId);
+        return Result.ok(list);
+    }
+
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<TeachClassUserVO> get(@PathVariable("id") Long id){
@@ -68,6 +76,13 @@ public class TeachClassUserController {
     public Result<String> delete(@RequestBody List<Long> idList){
         teachClassUserService.delete(idList);
 
+        return Result.ok();
+    }
+
+    @PutMapping("/quit")
+    @Operation(summary = "退班")
+    public Result<String> quitClass(@RequestBody @Valid TeachClassUserVO vo){
+        teachClassUserService.quitClass(vo.getClassId(),vo.getUserId(), vo.getQuitTime());
         return Result.ok();
     }
 }

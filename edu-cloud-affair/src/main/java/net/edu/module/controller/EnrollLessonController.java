@@ -6,18 +6,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.convert.EnrollLessonConvert;
-import net.edu.module.convert.EnrollUserConvert;
 import net.edu.module.entity.EnrollJoinLessonEntity;
 import net.edu.module.entity.EnrollLessonEntity;
 import net.edu.module.entity.EnrollSelectOne;
-import net.edu.module.entity.EnrollUserEntity;
 import net.edu.module.query.EnrollLessonQuery;
-import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollLessonService;
 import net.edu.module.vo.EnrollLessonVO;
-import net.edu.module.vo.EnrollUserVO;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

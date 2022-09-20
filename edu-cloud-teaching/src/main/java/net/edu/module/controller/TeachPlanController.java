@@ -32,7 +32,6 @@ public class TeachPlanController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<TeachPlanVO>> page(@Valid TeachPlanQuery query){
-        System.out.println("sssssssssssss");
         PageResult<TeachPlanVO> page = teachPlanService.page(query);
 
         return Result.ok(page);

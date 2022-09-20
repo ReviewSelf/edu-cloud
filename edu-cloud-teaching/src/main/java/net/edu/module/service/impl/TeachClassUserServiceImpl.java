@@ -14,6 +14,8 @@ import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import net.edu.framework.common.page.PageResult;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,11 +29,18 @@ import java.util.List;
 
 public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao, TeachClassUserEntity> implements TeachClassUserService {
 
+    private final TeachClassUserDao teachClassUserDao;
+
     @Override
     public PageResult<TeachClassUserVO> page(TeachClassUserQuery query) {
         IPage<TeachClassUserEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
 
         return new PageResult<>(TeachClassUserConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+    }
+
+    @Override
+    public List<Long> getUserIdList(Long classId) {
+        return teachClassUserDao.selectUserIdList(classId);
     }
 
     private LambdaQueryWrapper<TeachClassUserEntity> getWrapper(TeachClassUserQuery query){
@@ -58,6 +67,11 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+    }
+
+    @Override
+    public void quitClass(Long classId,Long userId, Date quitTime) {
+        teachClassUserDao.updateQuitClass(classId,userId,quitTime);
     }
 
 }

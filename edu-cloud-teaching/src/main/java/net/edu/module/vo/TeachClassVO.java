@@ -52,11 +52,11 @@ public class TeachClassVO implements Serializable {
     private Integer status;
 
     @Schema(description = "班级预计开始时间")
-    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+    @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     private Date beginTime;
 
     @Schema(description = "班级预计结束时间")
-    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+    @JsonFormat(pattern = DateUtils.DATE_PATTERN)
     private Date endTime;
 
     @Schema(description = "班主任")

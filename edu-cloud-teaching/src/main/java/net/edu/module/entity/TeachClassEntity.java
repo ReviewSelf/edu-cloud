@@ -75,12 +75,12 @@ public class TeachClassEntity {
 	/**
 	 * 班级预计开始时间
 	 */
-	private String beginTime;
+	private Date beginTime;
 
 	/**
 	 * 班级预计结束时间
 	 */
-	private String endTime;
+	private Date endTime;
 
 	/**
 	 * 班主任

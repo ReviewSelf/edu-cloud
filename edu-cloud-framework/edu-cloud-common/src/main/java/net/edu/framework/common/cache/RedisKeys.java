@@ -42,7 +42,7 @@ public class RedisKeys {
         return "lesson:ip:"+lessonId;
     }
 
-    public static String getLesson(Long classId) {
-        return "lesson:"+classId;
+    public static String getClassLesson(Long classId) {
+        return "lesson:class:"+classId;
     }
 }

@@ -2,6 +2,7 @@ package net.edu.module.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.service.JudgeService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class JudgeController {
 
     @PostMapping("/record")
     public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo){
-
+        vo.setSubmitStatus(0);
+        vo.setUserId(SecurityUser.getUserId());
         return Result.ok( judgeService.judgeBefore(vo));
     }
 

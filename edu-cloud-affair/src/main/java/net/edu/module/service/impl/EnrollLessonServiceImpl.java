@@ -33,7 +33,7 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
     @Override
     public PageResult<EnrollLessonVO> page(EnrollLessonQuery query) {
         Page<EnrollLessonVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<EnrollLessonVO> list =enrollLessonDao.getEnrollLessonByPage(page,query);
+        IPage<EnrollLessonVO> list =enrollLessonDao.selectEnrollLessonByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
@@ -48,7 +48,7 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
 
     @Override
     public EnrollLessonEntity getLessonById(Long id) {
-        return enrollLessonDao.getLessonById(id);
+        return enrollLessonDao.selectLessonById(id);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
 
     @Override
     public List<EnrollSelectOne> getSelectOne() {
-        return enrollLessonDao.getSelectOne();
+        return enrollLessonDao.SelectOne();
     }
 
     @Override

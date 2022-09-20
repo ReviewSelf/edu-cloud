@@ -15,13 +15,13 @@ import java.util.List;
 @Mapper
 public interface EnrollLessonDao extends BaseDao<EnrollLessonEntity> {
 
-    IPage<EnrollLessonVO> getEnrollLessonByPage(Page<EnrollLessonVO> page, EnrollLessonQuery query);
+    IPage<EnrollLessonVO> selectEnrollLessonByPage(Page<EnrollLessonVO> page, EnrollLessonQuery query);
 
-    EnrollLessonEntity getLessonById(Long id);
+    EnrollLessonEntity selectLessonById(Long id);
 
     void updateLesson(EnrollLessonVO vo);
 
-    List<EnrollSelectOne> getSelectOne();
+    List<EnrollSelectOne> SelectOne();
 
     void saveLesson(EnrollLessonVO vo);
 

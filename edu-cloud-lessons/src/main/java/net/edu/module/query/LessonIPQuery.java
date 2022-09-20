@@ -1,6 +1,7 @@
 package net.edu.module.query;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
@@ -13,6 +14,8 @@ import net.edu.framework.common.query.Query;
 */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "1查询")
-public class LessonIPQuery extends Query {
+@AllArgsConstructor
+@Schema(description = "IP查询")
+public class LessonIPQuery  {
+    private Long lessonId;
 }

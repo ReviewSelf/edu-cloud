@@ -18,21 +18,21 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
-* 代码题库表
-*
-* @author 马佳浩 
-* @since 1.0.0 2022-09-05
-*/
+ * 代码题库表
+ *
+ * @author 马佳浩
+ * @since 1.0.0 2022-09-05
+ */
 @RestController
 @RequestMapping("code")
-@Tag(name="代码题库表")
+@Tag(name = "代码题库表")
 @AllArgsConstructor
 public class CodeProblemController {
     private final CodeProblemService codeProblemService;
 
     @GetMapping("page")
     @Operation(summary = "分页")
-    public Result<PageResult<CodeProblemVO>> page(@Valid CodeProblemQuery query){
+    public Result<PageResult<CodeProblemVO>> page(@Valid CodeProblemQuery query) {
         PageResult<CodeProblemVO> page = codeProblemService.page(query);
 
         return Result.ok(page);
@@ -40,16 +40,16 @@ public class CodeProblemController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    public Result<CodeProblemVO> get(@PathVariable("id") Long id){
+    public Result<CodeProblemVO> get(@PathVariable("id") Long id) {
         CodeProblemEntity entity = codeProblemService.getById(id);
-        entity.setMemoryLimit(entity.getMemoryLimit()/1024);
+        entity.setMemoryLimit(entity.getMemoryLimit() / 1024);
         return Result.ok(CodeProblemConvert.INSTANCE.convert(entity));
     }
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody CodeProblemVO vo){
-        vo.setMemoryLimit(vo.getMemoryLimit()*1024);
+    public Result<String> save(@RequestBody CodeProblemVO vo) {
+        vo.setMemoryLimit(vo.getMemoryLimit() * 1024);
         codeProblemService.save(vo);
 
         return Result.ok();
@@ -57,7 +57,7 @@ public class CodeProblemController {
 
     @GetMapping("updateStatus/{problemId}")
     @Operation(summary = "修改状态")
-    public Result<String> updateStatus(@PathVariable("problemId")  Long problemId){
+    public Result<String> updateStatus(@PathVariable("problemId") Long problemId) {
         codeProblemService.updateStatus(problemId);
 
         return Result.ok();
@@ -65,8 +65,8 @@ public class CodeProblemController {
 
     @PutMapping
     @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid CodeProblemVO vo){
-        vo.setMemoryLimit(vo.getMemoryLimit()*1024);
+    public Result<String> update(@RequestBody @Valid CodeProblemVO vo) {
+        vo.setMemoryLimit(vo.getMemoryLimit() * 1024);
         codeProblemService.update(vo);
 
         return Result.ok();
@@ -74,7 +74,7 @@ public class CodeProblemController {
 
     @DeleteMapping
     @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
+    public Result<String> delete(@RequestBody List<Long> idList) {
         codeProblemService.delete(idList);
 
         return Result.ok();
@@ -82,7 +82,7 @@ public class CodeProblemController {
 
     @GetMapping("usedNum")
     @Operation(summary = "修改引用次数")
-    public Result<String> updateUsedNum(@RequestParam Long id ){
+    public Result<String> updateUsedNum(@RequestParam Long id) {
 
         codeProblemService.updateUsedNum(id);
         return Result.ok();
@@ -90,15 +90,15 @@ public class CodeProblemController {
 
     @GetMapping("submitTimes")
     @Operation(summary = "修改提交和正确次数")
-    public Result<String> updateSubmitTimesFromJudge(@RequestParam Long id , @RequestParam Boolean isTrue ){
-        codeProblemService.updateSubmitTimes(id,isTrue);
-        return Result.ok( );
+    public Result<String> updateSubmitTimesFromJudge(@RequestParam Long id, @RequestParam Boolean isTrue) {
+        codeProblemService.updateSubmitTimes(id, isTrue);
+        return Result.ok();
     }
 
 
     @GetMapping("problemInfo/{problemId}")
     @Operation(summary = "获取答题题目信息")
-    public Result<CodeProblemVO> getCodeProblemInfo(@PathVariable("problemId")  Long problemId){
+    public Result<CodeProblemVO> getCodeProblemInfo(@PathVariable("problemId") Long problemId) {
         return Result.ok(codeProblemService.getCodeProblemInfo(problemId));
     }
 }

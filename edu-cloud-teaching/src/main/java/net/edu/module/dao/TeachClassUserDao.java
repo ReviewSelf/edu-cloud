@@ -20,4 +20,6 @@ public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
 
     void updateQuitClass(Long classId,Long userId, Date quitTime);
     int insertClassUser(@Param("list") List list,@Param("classId") Long classId);
+
+    List<Long> selectUserIdList(Long classId);
 }

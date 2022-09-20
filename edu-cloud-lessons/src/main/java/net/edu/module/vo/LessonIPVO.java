@@ -31,19 +31,4 @@ public class LessonIPVO implements Serializable {
 	@Schema(description = "备注")
 	private String remark;
 
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date createTime;
-
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date updateTime;
-
-	private Long creator;
-
-	private Long updater;
-
-	private Integer version;
-
-	private Integer deleted;
-
-
 }

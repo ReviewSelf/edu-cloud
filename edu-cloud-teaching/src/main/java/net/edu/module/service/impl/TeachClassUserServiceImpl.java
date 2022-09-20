@@ -11,12 +11,9 @@ import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
 import net.edu.module.vo.TeachClassUserVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import net.edu.framework.common.page.PageResult;
-
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,13 +27,16 @@ import java.util.List;
 
 public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao, TeachClassUserEntity> implements TeachClassUserService {
 
-    @Autowired
-    TeachClassUserDao teachClassUserDao;
     @Override
     public PageResult<TeachClassUserVO> page(TeachClassUserQuery query) {
         IPage<TeachClassUserEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
 
         return new PageResult<>(TeachClassUserConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+    }
+
+    @Override
+    public List<Long> getUserIdList(Long classId) {
+        return teachClassUserDao.selectUserIdList(classId);
     }
 
     private LambdaQueryWrapper<TeachClassUserEntity> getWrapper(TeachClassUserQuery query){

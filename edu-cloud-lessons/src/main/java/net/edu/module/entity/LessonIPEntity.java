@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
 import net.edu.framework.mybatis.entity.BaseEntity;
 
+import java.util.Date;
+
 
 /**
  * 1
@@ -15,7 +17,12 @@ import net.edu.framework.mybatis.entity.BaseEntity;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("lesson_ip")
-public class LessonIPEntity extends BaseEntity {
+public class LessonIPEntity  {
+	/**
+	 * ID
+	 */
+	@TableId
+	private Long id;
 	/**
 	* 课堂id
 	*/
@@ -30,5 +37,17 @@ public class LessonIPEntity extends BaseEntity {
 	* 备注
 	*/
 	private String remark;
+
+	/**
+	 * 更新时间
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private Date updateTime;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	private Date createTime;
 
 }

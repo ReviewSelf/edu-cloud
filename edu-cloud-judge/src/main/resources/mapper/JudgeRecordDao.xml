@@ -31,4 +31,30 @@
         select submit_status from judge_record where id=#{recordId}
     </select>
 
+    <select id="selectRecord" resultType="net.edu.module.vo.JudgeRecordSubmitVO">
+        select id,
+               problem_id,
+               problem_type,
+               source,
+               source_id,
+               user_id,
+               submit_time,
+               submit_content,
+               submit_img,
+               language_type,
+               submit_status,
+               pass_rate,
+               runtime,
+               memory,
+               judge_type,
+               judge_user,
+               judge_reason,
+               update_time
+        from judge_record
+        where problem_id=#{problemId}
+          and problem_type=#{problemType}
+          and source=#{source}
+          and source_id=#{sourceId}
+    </select>
+
 </mapper>

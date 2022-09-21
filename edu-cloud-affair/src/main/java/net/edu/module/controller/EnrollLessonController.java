@@ -28,7 +28,9 @@ public class EnrollLessonController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<EnrollLessonVO>> page(@Valid EnrollLessonQuery query){
+        System.out.println(query);
         PageResult<EnrollLessonVO> page = enrollLessonService.page(query);
+        System.out.println(page);
         return Result.ok(page);
     }
 

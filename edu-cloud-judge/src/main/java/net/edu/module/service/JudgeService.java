@@ -164,4 +164,8 @@ public class JudgeService {
         System.out.println(result);
         return new JSONObject(result);
     }
+
+    public JudgeRecordSubmitVO getRecord(JudgeRecordSubmitVO vo){
+        return judgeRecordDao.selectRecord(vo);
+    }
 }

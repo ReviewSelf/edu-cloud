@@ -142,4 +142,11 @@
 		where deleted=0
 	</select>
 
+	<update id="updateSubmitCorrectTimes">
+		update sys_user set
+			submit_times=submit_times+1,
+			correct_times=correct_times+#{correct}
+		where id = #{userId}
+	</update>
+
 </mapper>

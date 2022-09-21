@@ -40,4 +40,6 @@ public interface StudentService extends BaseService<UserEntity> {
      */
     PageResult<UserVO> roleUserPage(RoleUserQuery query);
 
+    void updateSubmitCorrectTimes(Long userId,Integer correct);
+
 }

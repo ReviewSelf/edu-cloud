@@ -27,8 +27,8 @@
                 where a.id=#{recordId}
     </select>
 
-    <select id="selectResult" resultType="java.lang.Integer">
-        select submit_status from judge_record where id=#{recordId}
+    <select id="selectResult" resultType="net.edu.module.vo.JudgeRecordSubmitVO">
+        select user_id as userId,submit_status as submitStatus from judge_record where id=#{recordId}
     </select>
 
     <select id="selectRecord" resultType="net.edu.module.vo.JudgeRecordSubmitVO">
@@ -55,6 +55,7 @@
           and problem_type=#{problemType}
           and source=#{source}
           and source_id=#{sourceId}
+        order by update_time desc limit 1
     </select>
 
 </mapper>

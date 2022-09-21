@@ -28,7 +28,8 @@ public class JudgeController {
     public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo){
         vo.setSubmitStatus(0);
         vo.setUserId(SecurityUser.getUserId());
-        return Result.ok( judgeService.judgeBefore(vo));
+        judgeService.judgeBefore(vo);
+        return Result.ok();
     }
 
     @PostMapping("/getRecord")

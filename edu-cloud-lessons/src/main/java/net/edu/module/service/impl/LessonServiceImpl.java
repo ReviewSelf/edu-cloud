@@ -35,7 +35,7 @@ import java.util.List;
 public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> implements LessonService {
 
 
-   private final LessonProblemService lessonProblemService;
+    private final LessonProblemService lessonProblemService;
     private final LessonResourceService lessonResourceService;
 
     private final LessonAttendLogService lessonAttendLogService;
@@ -46,16 +46,17 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     @Override
     public List<LessonVO> list(LessonQuery query) {
-        List<LessonEntity> list =null;
-        list= (List<LessonEntity>) redisUtils.get(RedisKeys.getClassLesson(query.getClassId()),RedisUtils.MIN_TEN_EXPIRE);
-        if(list==null){
+        List<LessonEntity> list = null;
+        list = (List<LessonEntity>) redisUtils.get(RedisKeys.getClassLesson(query.getClassId()), RedisUtils.MIN_TEN_EXPIRE);
+        if (list == null) {
             LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
             wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
-            list=baseMapper.selectList(wrapper);
-            redisUtils.set(RedisKeys.getClassLesson(query.getClassId()),list,RedisUtils.MIN_TEN_EXPIRE);
+            list = baseMapper.selectList(wrapper);
+            redisUtils.set(RedisKeys.getClassLesson(query.getClassId()), list, RedisUtils.MIN_TEN_EXPIRE);
         }
         return LessonConvert.INSTANCE.convertList(list);
     }
+
     @Override
     public void update(LessonVO vo) {
         LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
@@ -68,41 +69,33 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     @Transactional
     public void createLessons(List<LessonVO> voList) {
 
-        if(!CollectionUtil.isEmpty(voList)){
+        if (!CollectionUtil.isEmpty(voList)) {
             //第一堂课状态设置进行中
             voList.get(0).setStatus(0);
 
-            for (int i=0;i<voList.size();i++){
-                LessonVO item=voList.get(i);
+            for (int i = 0; i < voList.size(); i++) {
+                LessonVO item = voList.get(i);
                 //插入课程
                 LessonEntity entity = LessonConvert.INSTANCE.convert(item);
                 baseMapper.insert(entity);
 
-                if(i==0){
+                if (i == 0) {
                     //生成第一堂课的学生签到表//插入签到表
-                    lessonAttendLogService.copyUserFromClassUser(voList.get(0).getClassId(),entity.getId());
+                    lessonAttendLogService.copyUserFromClassUser(voList.get(0).getClassId(), entity.getId());
                     //更新课堂下一堂课指向
-                    eduTeachApi.updateNextLesson(entity.getId(),item.getClassId());
+                    eduTeachApi.updateNextLesson(entity.getId(), item.getClassId());
                 }
                 //拷贝教学题目，生成课堂题目
-                lessonProblemService.copyFromPlanItem(item.getPlanItemId(),entity.getId());
+                lessonProblemService.copyFromPlanItem(item.getPlanItemId(), entity.getId());
                 //拷贝教学资源，生成课堂资源
-                lessonResourceService.copyFromPlanItem(item.getPlanItemId(),entity.getId());
+                lessonResourceService.copyFromPlanItem(item.getPlanItemId(), entity.getId());
             }
-
 
 
         }
 
 
-
     }
-
-
-
-
-
-
 
 
 }

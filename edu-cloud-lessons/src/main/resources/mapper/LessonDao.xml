@@ -6,6 +6,7 @@
     <resultMap type="net.edu.module.entity.LessonEntity" id="lessonMap">
         <result property="id" column="id"/>
         <result property="teacherId" column="teacher_id"/>
+        <result property="name" column="name"/>
         <result property="classId" column="class_id"/>
         <result property="place" column="place"/>
         <result property="beginTime" column="begin_time"/>
@@ -15,10 +16,7 @@
         <result property="status" column="state"/>
         <result property="creator" column="creator"/>
         <result property="updater" column="updater"/>
-        <result property="version" column="version"/>
         <result property="deleted" column="deleted"/>
     </resultMap>
-
-
 
 </mapper>

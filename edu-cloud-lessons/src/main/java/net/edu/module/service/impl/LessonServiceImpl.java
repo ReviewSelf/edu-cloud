@@ -36,6 +36,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
 
    private final LessonProblemService lessonProblemService;
+
     private final LessonResourceService lessonResourceService;
 
     private final LessonAttendLogService lessonAttendLogService;
@@ -44,11 +45,13 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     private final RedisUtils redisUtils;
 
+    private final LessonDao lessonDao;
+
     @Override
     public List<LessonVO> list(LessonQuery query) {
         List<LessonEntity> list =null;
         list= (List<LessonEntity>) redisUtils.get(RedisKeys.getClassLesson(query.getClassId()),RedisUtils.MIN_TEN_EXPIRE);
-        if(list==null){
+        if(!CollectionUtil.isEmpty(list)){
             LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
             wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
             list=baseMapper.selectList(wrapper);

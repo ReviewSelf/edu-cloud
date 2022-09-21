@@ -29,4 +29,6 @@ public interface LessonAttendLogService extends BaseService<LessonAttendLogEntit
     void delete(List<Long> idList);
 
     void copyUserFromClassUser(Long classId,Long lessonId);
+
+    void updateStudents(LessonAttendLogVO vo);
 }

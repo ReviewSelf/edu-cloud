@@ -40,6 +40,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     private final LessonAttendLogService lessonAttendLogService;
 
+    private final EduTeachApi eduTeachApi;
+
     private final RedisUtils redisUtils;
 
     @Override
@@ -54,7 +56,13 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         }
         return LessonConvert.INSTANCE.convertList(list);
     }
+    @Override
+    public void update(LessonVO vo) {
+        LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
+        updateById(entity);
+        redisUtils.del(RedisKeys.getClassLesson(vo.getClassId()));
 
+    }
 
     @Override
     @Transactional
@@ -73,6 +81,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
                 if(i==0){
                     //生成第一堂课的学生签到表//插入签到表
                     lessonAttendLogService.copyUserFromClassUser(voList.get(0).getClassId(),entity.getId());
+                    //更新课堂下一堂课指向
+                    eduTeachApi.updateNextLesson(entity.getId(),item.getClassId());
                 }
                 //拷贝教学题目，生成课堂题目
                 lessonProblemService.copyFromPlanItem(item.getPlanItemId(),entity.getId());
@@ -88,25 +98,10 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     }
 
-//    @Override
-//    public void save(LessonVO vo) {
-//        LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
-//
-//        baseMapper.insert(entity);
-//    }
 
-    @Override
-    public void update(LessonVO vo) {
-        LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
 
-        updateById(entity);
-    }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        removeByIds(idList);
-    }
+
 
 
 

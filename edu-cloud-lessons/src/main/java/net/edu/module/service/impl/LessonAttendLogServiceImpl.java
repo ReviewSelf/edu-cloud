@@ -66,7 +66,7 @@ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogD
                 }
             }
         }
-        return  Result.error("不在该班级中，不可进入此班级");
+        return  Result.error("不在该课堂中，不可进入此班级");
     }
 
 

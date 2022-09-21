@@ -6,3 +6,4 @@ auth:
     - /planItem/**
     - /classUser/list/**
     - /class/updateNextLesson
+    - /student/updateSubmitCorrectTimes

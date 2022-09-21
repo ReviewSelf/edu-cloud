@@ -20,7 +20,7 @@ public interface JudgeRecordDao {
 
     int updateRecord(Long recordId);
 
-    int selectResult(Long recordId);
+    JudgeRecordSubmitVO selectResult(Long recordId);
 
     JudgeRecordSubmitVO selectRecord(JudgeRecordSubmitVO vo);
 

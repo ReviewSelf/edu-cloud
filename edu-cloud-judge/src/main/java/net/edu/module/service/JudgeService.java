@@ -11,15 +11,18 @@ import net.edu.framework.common.mq.QueueName;
 import net.edu.framework.common.utils.EncryptUtils;
 import net.edu.module.api.EduFileApi;
 import net.edu.module.api.EduProblemApi;
+import net.edu.module.api.EduTeachApi;
 import net.edu.module.dao.JudgeRecordDao;
 import net.edu.module.dao.JudgeRecordSampleDao;
 import net.edu.module.vo.*;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.ChannelCallback;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,8 +35,13 @@ import java.util.List;
 @Service
 public class JudgeService {
 
+
     @Autowired
     RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    EduTeachApi eduTeachApi;
+
 
     @Autowired
     JudgeRecordDao judgeRecordDao;
@@ -47,37 +55,22 @@ public class JudgeService {
     @Autowired
     JudgeRecordSampleDao judgeRecordSampleDao;
 
-    /**
-     * 获取对应队列的数量;
-     *
-     * @param queueName
-     * @return
-     */
-    public int getMessageCount(String queueName) {
-        AMQP.Queue.DeclareOk declareOk = rabbitTemplate.execute(new ChannelCallback<AMQP.Queue.DeclareOk>() {
-            public AMQP.Queue.DeclareOk doInRabbit(Channel channel) throws Exception {
-                return channel.queueDeclarePassive(queueName);
-            }
-        });
-        return declareOk.getMessageCount();
-    }
 
-    public int judgeBefore(JudgeRecordSubmitVO vo) {
+
+    public void judgeBefore(JudgeRecordSubmitVO vo) {
         //插入记录
         if(vo.getProblemType()==1){
+            //选择题直接判题
            judgeChoice(vo);
-
         }else if(vo.getProblemType()==2){
+            //填空题只插入
             judgeRecordDao.insertSubmitRecord(vo);
         }else if(vo.getProblemType()==3){
+            //代码题先插入后推送至mq
             judgeRecordDao.insertSubmitRecord(vo);
-            //当前列队数量，0表示正在判题，1表示1人等待依次类推；
-            int num = getMessageCount(QueueName.JUDGE_QUEUE);
             //提交到mq
             rabbitTemplate.convertAndSend(ExchangeName.DEFAULT_EXCHANGE, BindingName.JUDGE_BINDING, vo.getId());
-            return num;
         }
-        return 0;
     }
 
     @Transactional
@@ -96,6 +89,7 @@ public class JudgeService {
             }
         }
         judgeRecordDao.insertSubmitRecord(vo);
+        judgeAfter(vo.getId(), vo.getProblemId(), 1);
     }
 
     @Transactional
@@ -116,6 +110,7 @@ public class JudgeService {
                     .expectedOutput(eduFileApi.getFileContent(item.getOutputPath()))
                     .sourceCode(vo.getSubmitCode())
                     .build();
+
             JSONObject result = Judge0Http(judgeCommitVO);
 
             JudgeResultVO resultVO = JudgeResultVO.builder()
@@ -136,18 +131,24 @@ public class JudgeService {
 
     @Transactional
     public void judgeAfter(Long recordId,Long problemId,int type) {
-        int status=judgeRecordDao.selectResult(recordId);
+        JudgeRecordSubmitVO vo=judgeRecordDao.selectResult(recordId);
         //更新题目回答次数/正确次数
         if(type==1){
-            eduProblemApi.updateChoiceSubmitTimes(problemId,status==3);
+            eduProblemApi.updateChoiceSubmitTimes(problemId,vo.getSubmitStatus()==3);
         }
         else if(type==2){
-            eduProblemApi.updateFillSubmitTimes(problemId,status==3);
+            eduProblemApi.updateFillSubmitTimes(problemId,vo.getSubmitStatus()==3);
         }
         else if(type==3){
-            eduProblemApi.updateCodeSubmitTimes(problemId,status==3);
+            eduProblemApi.updateCodeSubmitTimes(problemId,vo.getSubmitStatus()==3);
         }
+
         //结束判题更新用户答题次数/准确次数
+        if(vo.getSubmitStatus()==3){
+            eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 1);
+        }else {
+            eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 0);
+        }
 
     }
 
@@ -162,6 +163,11 @@ public class JudgeService {
                 .header("X-Edu-Token", JudgeFinalValue.X_Edu_Token)
                 .header("X-Edu-Admin", JudgeFinalValue.X_Edu_Admin)
                 .execute().body();
+        System.out.println(result);
         return new JSONObject(result);
+    }
+
+    public JudgeRecordSubmitVO getRecord(JudgeRecordSubmitVO vo){
+        return judgeRecordDao.selectRecord(vo);
     }
 }

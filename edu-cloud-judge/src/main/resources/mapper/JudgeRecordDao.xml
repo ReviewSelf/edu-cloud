@@ -33,29 +33,28 @@
 
     <select id="selectRecord" resultType="net.edu.module.vo.JudgeRecordSubmitVO">
         select id,
-               problem_id,
-               problem_type,
+               problem_id as problemId,
+               problem_type as problemType,
                source,
-               source_id,
-               user_id,
-               submit_time,
-               submit_content,
-               submit_img,
-               language_type,
-               submit_status,
-               pass_rate,
+               source_id as sourceId,
+               user_id as userId,
+               submit_time as submitTime,
+               submit_content as submitContent,
+               submit_img as submitImg,
+               language_type as languageType,
+               submit_status as submitStatus,
+               pass_rate as passRate,
                runtime,
                memory,
-               judge_type,
-               judge_user,
-               judge_reason,
-               update_time
+               judge_type as judgeType,
+               judge_user as judgeUser,
+               judge_reason as judgeReason
         from judge_record
         where problem_id=#{problemId}
           and problem_type=#{problemType}
           and source=#{source}
           and source_id=#{sourceId}
-        order by update_time desc limit 1
+order by update_time desc limit 1
     </select>
 
 </mapper>

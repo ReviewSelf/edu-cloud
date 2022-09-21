@@ -6,7 +6,6 @@ import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.service.JudgeService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,13 +26,14 @@ public class JudgeController {
 
     @PostMapping("/record")
     public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo){
-        System.out.println(vo);
         vo.setSubmitStatus(0);
         vo.setUserId(SecurityUser.getUserId());
         if(StringUtils.isEmpty(vo.getSubmitImg())){
             vo.setSubmitImg(null);
         }
         return Result.ok( judgeService.judgeBefore(vo));
+        judgeService.judgeBefore(vo);
+        return Result.ok();
     }
 
     @PostMapping("/getRecord")

@@ -5,3 +5,5 @@ auth:
     - /test
     - /planItem/**
     - /classUser/list/**
+    - /class/updateNextLesson
+    - /student/updateSubmitCorrectTimes

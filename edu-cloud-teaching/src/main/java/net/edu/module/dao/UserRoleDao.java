@@ -21,5 +21,5 @@ public interface UserRoleDao extends BaseDao<UserRoleEntity> {
      *
      * @return  返回角色ID列表
      */
-    List<Long> getRoleIdList(@Param("userId") Long userId);
+    List<Long> selectRoleIdList(@Param("userId") Long userId);
 }

@@ -68,7 +68,8 @@ public class EnrollClassServiceImpl extends BaseServiceImpl<EnrollClassDao, Enro
     }
 
     @Override
-    public void unUpdateStatus(Long id){
-        enrollClassDao.unUpdateStatus(id);
+    public List<EnrollClassVO> selectPublish() {
+        return enrollClassDao.selectEnrollClassByPageAndPublish();
     }
+
 }

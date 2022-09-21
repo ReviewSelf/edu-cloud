@@ -127,4 +127,10 @@
 
     </select>
 
+    <update id="updateNextLesson">
+        update teach_class set
+            next_lesson=#{nextLesson}
+        where id = #{classId}
+    </update>
+
 </mapper>

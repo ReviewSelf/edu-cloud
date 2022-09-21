@@ -5,6 +5,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedisUtils {
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 默认过期时长为24小时，单位：秒
@@ -101,7 +103,7 @@ public class RedisUtils {
             if(key.length==1){
                 redisTemplate.delete(key[0]);
             }else{
-                redisTemplate.delete(CollectionUtils.arrayToList(key));
+                redisTemplate.delete((Collection<String>) CollectionUtils.arrayToList(key));
             }
         }
     }
@@ -123,6 +125,9 @@ public class RedisUtils {
      * @return
      */
     public Object get(String key, long expire) {
+        if(key==null){
+            return null;
+        }
         Object value = redisTemplate.opsForValue().get(key);
         if (value!=null&&expire != NOT_EXPIRE) {
             expire(key, expire);

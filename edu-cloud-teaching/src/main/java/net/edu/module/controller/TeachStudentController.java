@@ -104,4 +104,11 @@ public class TeachStudentController {
 
         return Result.ok();
     }
+
+    @GetMapping("/updateSubmitCorrectTimes")
+    @Operation(summary = "修改提交次数和正确次数")
+    public Result<String> updateSubmitCorrectTimes(@RequestParam Long userId,@RequestParam Integer correct){
+        userService.updateSubmitCorrectTimes(userId,correct);
+        return Result.ok();
+    }
 }

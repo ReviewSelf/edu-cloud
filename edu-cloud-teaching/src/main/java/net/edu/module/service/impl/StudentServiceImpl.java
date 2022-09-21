@@ -148,4 +148,9 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         return new PageResult<>(UserConvert.INSTANCE.convertList(list), page.getTotal());
     }
 
+    @Override
+    public void updateSubmitCorrectTimes(Long userId, Integer correct) {
+        userDao.updateSubmitCorrectTimes(userId,correct);
+    }
+
 }

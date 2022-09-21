@@ -61,7 +61,7 @@ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogD
                         vo.setStatus(1);
                         vo.setCheckinTime(new Date());
                         LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
-                        baseMapper.insert(entity);
+                        updateById(entity);
                         redisUtils.set(RedisKeys.getLessonAttendLog(lessonId),userList,RedisUtils.MIN_TEN_EXPIRE);
 
                     }
@@ -77,12 +77,15 @@ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogD
     public void save(LessonAttendLogVO vo) {
         LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
         baseMapper.insert(entity);
+        redisUtils.del(RedisKeys.getLessonAttendLog(vo.getLessonId()));
+
     }
 
     @Override
     public void update(LessonAttendLogVO vo) {
         LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
         updateById(entity);
+        redisUtils.del(RedisKeys.getLessonAttendLog(vo.getLessonId()));
     }
 
     @Override

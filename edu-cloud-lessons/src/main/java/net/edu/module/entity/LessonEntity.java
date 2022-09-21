@@ -1,9 +1,12 @@
 package net.edu.module.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
+import net.edu.framework.common.utils.DateUtils;
+
 import java.util.Date;
 
 /**
@@ -50,11 +53,13 @@ public class LessonEntity {
 	/**
 	* 开课时间
 	*/
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date beginTime;
 
 	/**
 	* 结课时间
 	*/
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date endTime;
 
 
@@ -62,12 +67,14 @@ public class LessonEntity {
 	* 创建时间
 	*/
 	@TableField(fill = FieldFill.INSERT)
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date createTime;
 
 	/**
 	* 修改时间
 	*/
 	@TableField(fill = FieldFill.INSERT_UPDATE)
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date updateTime;
 
 	/**

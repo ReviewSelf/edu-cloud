@@ -13,6 +13,21 @@ public class TeachPlanItemPaperVO {
     private Long itemId;
 
     /**
+     * 题目数量
+     */
+    private Integer problemNum;
+
+    /**
+     * 试卷说明
+     */
+    private String description;
+
+    /**
+     * 试卷难度
+     */
+    private Integer difficulty;
+
+    /**
      * 试卷id
      */
     private Long paperId;

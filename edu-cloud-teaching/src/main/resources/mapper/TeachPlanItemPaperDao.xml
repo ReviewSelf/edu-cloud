@@ -4,8 +4,10 @@
 <mapper namespace="net.edu.module.dao.TeachPlanItemPaperDao">
 
     <select id="selectItemPaper" resultType="net.edu.module.vo.TeachPlanItemPaperVO">
-        select id,item_id as itemId,paper_id as paperId,paper_name as paperName,paper_type as paperType
-        from teach_plan_item_paper
+        select t1.id,t1.item_id as itemId,t1.paper_id as paperId,t1.paper_name as paperName,t1.paper_type as paperType,
+        t2.difficulty, t2.problem_num as problemNum , t2.description
+        from teach_plan_item_paper t1
+        left join problem_paper t2 on t1.paper_id = t2.id
         where  item_id = #{id}
     </select>
 

@@ -1,14 +1,19 @@
 package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.LessonConvert;
+import net.edu.module.dao.LessonAttendLogDao;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
 import net.edu.module.service.LessonAttendLogService;
@@ -34,15 +39,26 @@ import java.util.List;
 @AllArgsConstructor
 public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> implements LessonService {
 
-
     private final LessonProblemService lessonProblemService;
     private final LessonResourceService lessonResourceService;
-
     private final LessonAttendLogService lessonAttendLogService;
-
+    private final LessonDao lessonDao;
     private final EduTeachApi eduTeachApi;
-
     private final RedisUtils redisUtils;
+
+    @Override
+    public PageResult<LessonVO> page(LessonQuery query) {
+        Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
+        query.setUserId(SecurityUser.getUserId());
+
+        IPage<LessonVO> list;
+        if(query.getRole()==1){
+            list = lessonDao.selectStudentPage(page, query);
+        }else {
+            list = lessonDao.selectTeacherPage(page, query);
+        }
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
 
     @Override
     public List<LessonVO> list(LessonQuery query) {

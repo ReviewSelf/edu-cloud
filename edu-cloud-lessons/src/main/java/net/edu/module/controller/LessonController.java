@@ -3,6 +3,7 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.LessonConvert;
 import net.edu.module.entity.LessonAttendLogEntity;
@@ -31,12 +32,17 @@ import java.util.List;
 public class LessonController {
     private final LessonService lessonService;
 
-
-    @GetMapping("list")
+    @GetMapping("page")
     @Operation(summary = "课程列表")
-    public Result<List<LessonVO>> list(@Valid LessonQuery query) {
-        return Result.ok(lessonService.list(query));
+    public Result<PageResult<LessonVO>> page(@Valid LessonQuery query) {
+        return Result.ok(lessonService.page(query));
     }
+
+//    @GetMapping("list")
+//    @Operation(summary = "课程列表")
+//    public Result<List<LessonVO>> list(@Valid LessonQuery query) {
+//        return Result.ok(lessonService.list(query));
+//    }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")

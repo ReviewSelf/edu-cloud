@@ -1,6 +1,7 @@
 package net.edu.module.service;
 
 
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
@@ -15,6 +16,8 @@ import java.util.List;
  * @since 1.0.0 2022-09-15
  */
 public interface LessonService extends BaseService<LessonEntity> {
+
+    PageResult<LessonVO> page(LessonQuery query);
 
     List<LessonVO> list(LessonQuery query);
 

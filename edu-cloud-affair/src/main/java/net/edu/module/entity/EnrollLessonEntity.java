@@ -23,6 +23,11 @@ public class EnrollLessonEntity extends BaseEntity {
     private String username;
 
     /**
+     *  课堂名称
+     */
+    private String name;
+
+    /**
      * 任课老师ID
      */
     private Integer teacherId;

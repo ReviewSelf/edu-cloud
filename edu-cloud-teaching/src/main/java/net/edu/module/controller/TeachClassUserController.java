@@ -7,8 +7,10 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.TeachClassUserConvert;
 import net.edu.module.entity.TeachClassUserEntity;
+import net.edu.module.entity.TeachStudentEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
+import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,6 +47,12 @@ public class TeachClassUserController {
         return Result.ok(list);
     }
 
+    @GetMapping("getStudent/{id}")
+    @Operation(summary = "获取学生")
+    public Object getStudent(@PathVariable("id") Long id) {
+        List<TeachStudentEntity> entity = teachClassUserService.getStudent(id);
+        return Result.ok(entity);
+    }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")

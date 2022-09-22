@@ -151,5 +151,4 @@
             a.id=b.problem_id where a.deleted = 0 and a.id=#{problemId}
     </select>
 
-
 </mapper>

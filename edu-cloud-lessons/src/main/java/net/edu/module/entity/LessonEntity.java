@@ -1,6 +1,5 @@
 package net.edu.module.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -39,7 +38,7 @@ public class LessonEntity {
 	private Long classId;
 
 	/**
-	*
+	* 上课地点('0'表示翠柏校区，'1'表示联盛校区)
 	*/
 	private String place;
 
@@ -51,13 +50,11 @@ public class LessonEntity {
 	/**
 	* 开课时间
 	*/
-
 	private Date beginTime;
 
 	/**
 	* 结课时间
 	*/
-
 	private Date endTime;
 
 

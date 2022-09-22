@@ -109,9 +109,9 @@ import static java.lang.Math.abs;
         vo.setUpdateTime(new Date());
         List<LessonAttendLogVO> list=null;
         list= (List<LessonAttendLogVO>) redisUtils.get(RedisKeys.getLessonAttendLog(vo.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
-        if(CollectionUtil.isEmpty(list)){
+        if(!CollectionUtil.isEmpty(list)){
             for(int i= 0 ;i<list.size();i++){
-                if(list.get(i).getId() == vo.getStuId()){
+                if(list.get(i).getStuId() == vo.getStuId()){
                     list.set(i,vo);
                     System.out.println(list);
                     redisUtils.set(RedisKeys.getLessonAttendLog(vo.getLessonId()),list,RedisUtils.MIN_TEN_EXPIRE);

@@ -167,7 +167,7 @@ public class JudgeService {
         return new JSONObject(result);
     }
 
-    public JudgeRecordSubmitVO getRecord(JudgeRecordSubmitVO vo){
-        return judgeRecordDao.selectRecord(vo);
-    }
+
+
+
 }

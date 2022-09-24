@@ -95,13 +95,11 @@ import static java.lang.Math.abs;
     }
 
     @Override
-    public void copyUserFromClassUser(Long classId,Long lessonId) {
-        List<Long> list=eduTeachApi.list(classId).getData();
-        if(!CollectionUtil.isEmpty(list)){
-            lessonAttendLogDao.insertUserList(list,lessonId);
+    public void copyUserFromClassUser(List<Long> userList,Long lessonId) {
+        if(!CollectionUtil.isEmpty(userList)){
+            lessonAttendLogDao.insertUserList(userList,lessonId);
         }
         redisUtils.del(RedisKeys.getLessonAttendLog(lessonId));
-
     }
 
     @Override

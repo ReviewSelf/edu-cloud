@@ -38,7 +38,7 @@
         </foreach>
     </insert>
     <select id="selectUserIdList" resultType="java.lang.Long">
-        select user_id from teach_class_user where deleted=0 and status=1
+        select user_id from teach_class_user where  class_id = #{classId} and deleted=0 and status=1
     </select>
     <select id="selectStudent" resultType="net.edu.module.entity.TeachStudentEntity">
         select

@@ -21,6 +21,7 @@ public class RecordService {
 
 
     public List<LessonJudgeRecordVo> getLessonProblemRecord(Long lessonId, Integer type) {
+        System.out.println(lessonId);
         return judgeRecordDao.selectLessonRecord(lessonId,type);
     }
 

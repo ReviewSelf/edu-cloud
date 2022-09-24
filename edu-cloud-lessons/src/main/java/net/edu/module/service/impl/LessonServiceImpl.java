@@ -86,6 +86,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     public void createLessons(List<LessonVO> voList) {
 
         if (!CollectionUtil.isEmpty(voList)) {
+            //班级学生列表
+            List<Long> userList=eduTeachApi.list(voList.get(0).getClassId()).getData();
             //第一堂课状态设置进行中
             voList.get(0).setStatus(0);
 
@@ -95,7 +97,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
                 LessonEntity entity = LessonConvert.INSTANCE.convert(item);
                 baseMapper.insert(entity);
                 //生成第一堂课的学生签到表//插入签到表
-                lessonAttendLogService.copyUserFromClassUser(voList.get(0).getClassId(), entity.getId());
+                lessonAttendLogService.copyUserFromClassUser(userList, entity.getId());
                 if (i == 0) {
                     //更新课堂下一堂课指向
                     eduTeachApi.updateNextLesson(entity.getId(), item.getClassId());

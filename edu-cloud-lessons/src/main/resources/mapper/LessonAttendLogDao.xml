@@ -27,4 +27,10 @@
         </foreach>
     </insert>
 
+    <select id="selectStudentsList" resultType="net.edu.module.vo.LessonAttendLogVO">
+        select a.id ,stu_id as stuId,b.real_name as name,lesson_id as lessonId,checkin_time as checkinTime,roll_call as rollCall,a.status
+        from lesson_attend_log a left join sys_user b on a.stu_id = b.id
+        where lesson_id = #{query.lessonId}
+    </select>
+
 </mapper>

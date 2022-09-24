@@ -42,14 +42,15 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
 
     private LambdaQueryWrapper<LessonResourceEntity> getWrapper(LessonResourceQuery query){
         LambdaQueryWrapper<LessonResourceEntity> wrapper = Wrappers.lambdaQuery();
-
+        wrapper.eq(LessonResourceEntity::getDeleted,0);
         return wrapper;
     }
 
     @Override
     public void save(LessonResourceVO vo) {
+        System.out.println(vo);
         LessonResourceEntity entity = LessonResourceConvert.INSTANCE.convert(vo);
-
+        System.out.println(entity);
         baseMapper.insert(entity);
     }
 
@@ -80,5 +81,10 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
     @Override
     public List<LessonResourceVO> getLessonResource(Long lessonId) {
         return lessonResourceDao.selectLessonResource(lessonId);
+    }
+
+    @Override
+    public void deleteResource(Long id) {
+        lessonResourceDao.deleteResource(id);
     }
 }

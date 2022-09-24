@@ -22,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
+import static java.lang.Math.abs;
+
 /**
  * 课堂签到表
  *
@@ -30,7 +32,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogDao, LessonAttendLogEntity> implements LessonAttendLogService {
+ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogDao, LessonAttendLogEntity> implements LessonAttendLogService {
 
     private final EduTeachApi eduTeachApi;
     private final LessonAttendLogDao lessonAttendLogDao;
@@ -38,15 +40,13 @@ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogD
 
     @Override
     public List<LessonAttendLogVO> list(LessonAttendLogQuery query) {
-        List<LessonAttendLogEntity> list=null;
-        list= (List<LessonAttendLogEntity>) redisUtils.get(RedisKeys.getLessonAttendLog(query.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
+        List<LessonAttendLogVO> list=null;
+        list= (List<LessonAttendLogVO>) redisUtils.get(RedisKeys.getLessonAttendLog(query.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
         if(list==null){
-            LambdaQueryWrapper<LessonAttendLogEntity> wrapper = Wrappers.lambdaQuery();
-            wrapper.eq(true, LessonAttendLogEntity::getLessonId, query.getLessonId());
-            list = baseMapper.selectList(wrapper);
+            list = lessonAttendLogDao.selectStudentsList(query);
             redisUtils.set(RedisKeys.getLessonAttendLog(query.getLessonId()),list,RedisUtils.MIN_TEN_EXPIRE);
         }
-        return LessonAttendLogConvert.INSTANCE.convertList(list);
+        return list;
     }
 
 
@@ -60,27 +60,32 @@ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogD
                     if(vo.getStatus()!=1){
                         vo.setStatus(1);
                         vo.setCheckinTime(new Date());
-                        save(vo);
+                        LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
+                        updateById(entity);
+                        redisUtils.set(RedisKeys.getLessonAttendLog(lessonId),userList,RedisUtils.MIN_TEN_EXPIRE);
+
                     }
                     return Result.ok();
                 }
             }
         }
-        return  Result.error("不在该班级中，不可进入此班级");
+        return  Result.error("不在该课堂中，不可进入此班级");
     }
 
 
     @Override
     public void save(LessonAttendLogVO vo) {
         LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
-
         baseMapper.insert(entity);
+        redisUtils.del(RedisKeys.getLessonAttendLog(vo.getLessonId()));
+
     }
 
     @Override
     public void update(LessonAttendLogVO vo) {
         LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
         updateById(entity);
+        redisUtils.del(RedisKeys.getLessonAttendLog(vo.getLessonId()));
     }
 
     @Override
@@ -95,7 +100,30 @@ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogD
         if(!CollectionUtil.isEmpty(list)){
             lessonAttendLogDao.insertUserList(list,lessonId);
         }
+        redisUtils.del(RedisKeys.getLessonAttendLog(lessonId));
 
     }
+
+    @Override
+    public void updateStudents(LessonAttendLogVO vo) {
+        vo.setUpdateTime(new Date());
+        List<LessonAttendLogVO> list=null;
+        list= (List<LessonAttendLogVO>) redisUtils.get(RedisKeys.getLessonAttendLog(vo.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
+        if(!CollectionUtil.isEmpty(list)){
+            for(int i= 0 ;i<list.size();i++){
+                if(list.get(i).getStuId() == vo.getStuId()){
+                    list.set(i,vo);
+                    System.out.println(list);
+                    redisUtils.set(RedisKeys.getLessonAttendLog(vo.getLessonId()),list,RedisUtils.MIN_TEN_EXPIRE);
+                    break;
+                }
+            }
+        }
+        update(vo);
+    }
+
+
+
+
 
 }

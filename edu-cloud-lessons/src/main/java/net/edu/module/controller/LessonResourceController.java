@@ -60,13 +60,14 @@ public class LessonResourceController {
         return Result.ok();
     }
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
-        lessonResourceService.delete(idList);
+    public Result<String> deleteResource(@PathVariable("id") Long id){
+        lessonResourceService.deleteResource(id);
 
         return Result.ok();
     }
+
 
     @GetMapping("getLessonResource/{lessonId}")
     @Operation(summary = "通过课程id获取资源列表")

@@ -6,6 +6,7 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.dao.UserRoleDao;
 import net.edu.module.entity.UserRoleEntity;
 import net.edu.module.service.UserRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRoleEntity> implements UserRoleService {
 
+    @Autowired
+    UserRoleDao userRoleDao;
     @Override
     public void saveOrUpdate(Long userId, List<Long> roleIdList) {
         // 数据库角色ID列表
@@ -79,6 +82,6 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRoleDao, UserRoleEn
     @Override
     public List<Long> getRoleIdList(Long userId) {
         System.out.println(userId);
-        return baseMapper.getRoleIdList(userId);
+        return userRoleDao.selectRoleIdList(userId);
     }
 }

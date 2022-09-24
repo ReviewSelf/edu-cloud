@@ -12,6 +12,8 @@ import net.edu.module.vo.EnrollClassVO;
 import net.edu.module.vo.EnrollUserVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
 * 班级发布
 *
@@ -25,5 +27,6 @@ public interface EnrollClassDao extends BaseDao<EnrollClassEntity> {
     IPage<EnrollClassVO> selectEnrollClassByPage(Page<EnrollClassVO> page, EnrollClassQuery query);
 
     void updateStatus(Long id);
-    void unUpdateStatus(Long id);
+
+    List<EnrollClassVO> selectEnrollClassByPageAndPublish();
 }

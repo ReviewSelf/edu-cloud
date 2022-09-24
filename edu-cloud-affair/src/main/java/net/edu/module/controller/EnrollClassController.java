@@ -75,11 +75,14 @@ public class EnrollClassController {
         return Result.ok();
     }
 
-    @PutMapping("unstatus/{id}")
-    @Operation(summary = "更新状态")
-    public Result<String> unUpdateStatus(@PathVariable("id") Long id){
-        enrollClassService.unUpdateStatus(id);
-        return Result.ok();
+    /**
+     * 获取所有发布的班级
+     * @return
+     */
+    @GetMapping("publish")
+    @Operation(summary = "分页")
+    public Result<List<EnrollClassVO>> selectPublish(){
+        return Result.ok(enrollClassService.selectPublish());
     }
 
 }

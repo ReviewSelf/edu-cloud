@@ -34,13 +34,14 @@
 
     <update id="updateStatus">
         update enroll_class set
-            status = 1
+            status = ABS(status - 1)
         where id = #{id}
     </update>
 
-    <update id="unUpdateStatus">
-        update enroll_class set
-            status = 0
-        where id = #{id}
-    </update>
+    <select id="selectEnrollClassByPageAndPublish" resultType="net.edu.module.vo.EnrollClassVO">
+        select id,course_type,status,class_name,start_time,end_time,object,target,class_date,class_end
+        from enroll_class
+        where deleted = 0 and status = 1
+        order by class_date asc
+    </select>
 </mapper>

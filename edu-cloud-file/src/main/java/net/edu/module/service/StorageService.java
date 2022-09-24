@@ -2,9 +2,13 @@ package net.edu.module.service;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.file.FileNameUtil;
+import lombok.SneakyThrows;
+import net.edu.framework.common.exception.ServerException;
+import net.edu.module.utils.ResponseUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.Date;
 
 /**
@@ -82,4 +86,22 @@ public abstract class StorageService {
      * @return 返回http地址
      */
     public abstract String upload(InputStream inputStream, String path);
+
+
+    @SneakyThrows
+    public void previewUrl(String path, HttpServletResponse response) {
+        File file = new File(path);
+        if (!file.exists()) {
+            throw new ServerException("文件不存在");
+        }
+        FileInputStream fileInputStream = new FileInputStream(file);
+        InputStream fis = new BufferedInputStream(fileInputStream);
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer);
+        fis.close();
+        ResponseUtils.responsePDFHead(response, file.getName());
+        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+        outputStream.write(buffer);
+        outputStream.flush();
+    }
 }

@@ -31,7 +31,7 @@ public class LocalStorageService extends StorageService {
     @Override
     @SneakyThrows
     public String upload2(MultipartFile file, String fileName) {
-        String path=localPath+File.separator+fileName;
+        String path=localPath+File.separator+System.currentTimeMillis()+"_"+fileName;
         File newFile=new File(path);
         // 没有目录，则自动创建目录
         File parent = newFile.getParentFile();

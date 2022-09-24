@@ -123,6 +123,4 @@ public class TeacherController {
         return Result.ok(allTeacherVo);
     }
 
-
-
 }

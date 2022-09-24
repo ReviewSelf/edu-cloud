@@ -21,7 +21,7 @@ public class EnrollUserVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(description = "用户id")
-	private Long id;
+	private Integer id;
 
 	@Schema(description = "微信昵称")
 	private String wxName;

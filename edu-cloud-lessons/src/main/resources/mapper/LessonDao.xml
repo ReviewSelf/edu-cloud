@@ -33,8 +33,9 @@
 
     <select id="selectTeacherPage" resultType="net.edu.module.vo.LessonVO">
         select t.id,t.teacher_id as teacherId,name,status,(select name from sys_user where id=t.teacher_id) as teacherName,t.class_id as classId,(select name from teach_class where id=t.class_id) as className,t.place,t.begin_time as beginTime,t.end_time as endTime   from lesson t
-        where exists (select 1 from teach_class a where (a.teacher1_id=#{query.userId} or a.teacher2_id=#{query.userId})
-        and a.id=t.class_id)
+        where (exists (select 1 from teach_class a where (a.teacher1_id=#{query.userId} or a.teacher2_id=#{query.userId} )
+        and a.id=t.class_id) or t.teacher_id=#{query.userId})
+
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
         </if>

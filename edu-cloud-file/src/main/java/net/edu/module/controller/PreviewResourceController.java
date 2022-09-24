@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+
 
 @RestController
 @Tag(name = "文件预览")
@@ -22,9 +24,19 @@ public class PreviewResourceController {
     private final PreviewResourceService previewResourceService;
 
     @SneakyThrows
-    @GetMapping("/fileBase64")
+    @GetMapping("/pdf1")
     @Operation(summary = "资源文件转Base64")
-    public Result<String> getFileContent(@RequestParam("path") String path){
-        return Result.ok(previewResourceService.getFileContent(path));
+    public Result<String> getPDF1(){
+        String path="C:/Users/17716/Desktop/111.pdf";
+        return Result.ok("data:application/pdf;base64,"+previewResourceService.getPDF1(path));
+    }
+
+
+    @SneakyThrows
+    @GetMapping("/pdf2")
+    @Operation(summary = "资源文件转Base64")
+    public void getPDF2(HttpServletResponse response){
+        String path="C:/Users/17716/Desktop/111.pdf";
+        previewResourceService.getPDF2(path,response);
     }
 }

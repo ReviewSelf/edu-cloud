@@ -19,4 +19,12 @@ public class ResponseUtils {
         response.setContentType("application/octet-stream; charset=utf-8");
         response.setCharacterEncoding("utf-8");
     }
+
+    @SneakyThrows
+    public static void responsePDFHead(HttpServletResponse response, String name) {
+        response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name, "UTF-8"));
+        response.setContentType("application/pdf; charset=utf-8");
+        response.setCharacterEncoding("utf-8");
+    }
 }

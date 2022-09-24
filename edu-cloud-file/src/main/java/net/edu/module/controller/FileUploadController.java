@@ -3,15 +3,16 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.LocalStorageService;
+import net.edu.module.service.SampleUploadService;
 import net.edu.module.service.StorageService;
 import net.edu.module.vo.FileUploadVO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -21,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 public class FileUploadController {
     private final StorageService storageService=new LocalStorageService();
-
 
     @PostMapping("upload")
     @Operation(summary = "普通文件上传,对外公开文件")
@@ -70,6 +70,8 @@ public class FileUploadController {
 //        vo.setName(file.getOriginalFilename());
 //        return Result.ok(vo);
 //    }
+
+
 
 
 }

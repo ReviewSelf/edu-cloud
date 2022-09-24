@@ -67,7 +67,8 @@
           and problem_type = #{problemType}
           and source = #{source}
           and source_id = #{sourceId}
-        order by update_time desc limit 1
+        order by update_time desc
+        limit 1
     </select>
 
     <resultMap id="LessonRecord" type="net.edu.module.vo.LessonJudgeRecordVo">
@@ -75,8 +76,8 @@
         <result property="name" column="name"/>
         <result property="lessonId" column="lesson_id"/>
         <collection property="problemRecords"
-                     javaType="java.util.ArrayList"
-        ofType="net.edu.module.vo.LessonProblemRecord">
+                    javaType="java.util.ArrayList"
+                    ofType="net.edu.module.vo.LessonProblemRecord">
             <id property="recordId" column="record_id"/>
             <result property="problemId" column="problem_id"/>
             <result property="problemName" column="problem_name"/>
@@ -107,4 +108,53 @@
             where type=#{type}
         </if>
     </select>
+
+    <select id="selectRecordAndAnswer" resultType="net.edu.module.vo.ProblemCompletionVo">
+        select id,
+        problem_id as problemId,
+        problem_type as problemType,
+        source ,
+        source_id as sourceId,
+        user_id as userId,
+        submit_time as submitTime,
+        submit_content as submitContent,
+        submit_img as submitImg,
+        language_type as languageType,
+        submit_status as submitStatus,
+        judge_type as judgeType,
+        judge_user as judgeUser,
+        judge_reason as judgeReason,
+        <if test="problemType==1">
+            (select problem_option from problem_choice_options b where b.problem_id=#{problemId} and b.is_true=1) as
+            answer
+        </if>
+        <if test="problemType==2">
+            (select answer from problem_fill b where b.id = #{problemId}) as answer
+        </if>
+        <if test="problemType==3">
+            (select answer from problem_code b where b.id=#{problemId}) as answer
+        </if>
+        from judge_record
+        where problem_id = #{problemId}
+        and problem_type = #{problemType}
+        and source = #{source}
+        and source_id = #{sourceId}
+        order by update_time desc
+        limit 1
+    </select>
+
+    <update id="updateReasonAndStatus">
+        update judge_record
+        set judge_type=2
+            and judge_reason = #{judgeReason}
+            and submit_status = #{submitStatus}
+        where id = (select id
+                    from judge_record
+                    where problem_id = #{problemId}
+                      and problem_type = #{problemType}
+                      and source = #{source}
+                      and source_id = #{sourceId}
+                    order by update_time desc
+                    limit 1)
+    </update>
 </mapper>

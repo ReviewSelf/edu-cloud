@@ -3,6 +3,7 @@ package net.edu.module.service;
 import net.edu.module.dao.JudgeRecordDao;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
+import net.edu.module.vo.ProblemCompletionVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,13 @@ public class RecordService {
 
     public JudgeRecordSubmitVO getRecord(JudgeRecordSubmitVO vo){
         return judgeRecordDao.selectRecord(vo);
+    }
+
+    public ProblemCompletionVo getRecordAndAnswer(ProblemCompletionVo vo) {
+        return judgeRecordDao.selectRecordAndAnswer(vo);
+    }
+
+    public int updateReasonAndStatus(ProblemCompletionVo vo){
+        return judgeRecordDao.updateReasonAndStatus(vo);
     }
 }

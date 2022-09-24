@@ -60,24 +60,24 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
-    @Override
-    public List<LessonVO> list(LessonQuery query) {
-        List<LessonEntity> list = null;
-        list = (List<LessonEntity>) redisUtils.get(RedisKeys.getClassLesson(query.getClassId()), RedisUtils.MIN_TEN_EXPIRE);
-        if (list == null) {
-            LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
-            wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
-            list = baseMapper.selectList(wrapper);
-            redisUtils.set(RedisKeys.getClassLesson(query.getClassId()), list, RedisUtils.MIN_TEN_EXPIRE);
-        }
-        return LessonConvert.INSTANCE.convertList(list);
-    }
+//    @Override
+//    public List<LessonVO> list(LessonQuery query) {
+//        List<LessonEntity> list = null;
+//        list = (List<LessonEntity>) redisUtils.get(RedisKeys.getClassLesson(query.getClassId()), RedisUtils.MIN_TEN_EXPIRE);
+//        if (list == null) {
+//            LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
+//            wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
+//            list = baseMapper.selectList(wrapper);
+//            redisUtils.set(RedisKeys.getClassLesson(query.getClassId()), list, RedisUtils.MIN_TEN_EXPIRE);
+//        }
+//        return LessonConvert.INSTANCE.convertList(list);
+//    }
 
     @Override
     public void update(LessonVO vo) {
         LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
         updateById(entity);
-        redisUtils.del(RedisKeys.getClassLesson(vo.getClassId()));
+    //    redisUtils.del(RedisKeys.getClassLesson(vo.getClassId()));
 
     }
 
@@ -94,10 +94,9 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
                 //插入课程
                 LessonEntity entity = LessonConvert.INSTANCE.convert(item);
                 baseMapper.insert(entity);
-
+                //生成第一堂课的学生签到表//插入签到表
+                lessonAttendLogService.copyUserFromClassUser(voList.get(0).getClassId(), entity.getId());
                 if (i == 0) {
-                    //生成第一堂课的学生签到表//插入签到表
-                    lessonAttendLogService.copyUserFromClassUser(voList.get(0).getClassId(), entity.getId());
                     //更新课堂下一堂课指向
                     eduTeachApi.updateNextLesson(entity.getId(), item.getClassId());
                 }

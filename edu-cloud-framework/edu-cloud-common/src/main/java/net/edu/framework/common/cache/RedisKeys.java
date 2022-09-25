@@ -45,4 +45,8 @@ public class RedisKeys {
     public static String getClassLesson(Long classId) {
         return "lesson:class:"+classId;
     }
+
+    public static String getPdf(String path) {
+        return "file:pdf:"+path;
+    }
 }

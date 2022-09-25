@@ -20,6 +20,6 @@ public class ProblemCompletionVo {
     private Integer submitStatus=0; //0=未判题，3=正确，4=错误
     private Integer judgeType;
     private Integer judgeUser;
-    private Integer judgeReason;
+    private String judgeReason;
     private String answer;
 }

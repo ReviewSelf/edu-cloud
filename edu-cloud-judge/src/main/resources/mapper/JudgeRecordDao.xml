@@ -139,22 +139,26 @@
         and problem_type = #{problemType}
         and source = #{source}
         and source_id = #{sourceId}
+        and user_id = #{userId}
         order by update_time desc
         limit 1
     </select>
 
     <update id="updateReasonAndStatus">
-        update judge_record
-        set judge_type=2
-            and judge_reason = #{judgeReason}
-            and submit_status = #{submitStatus}
-        where id = (select id
-                    from judge_record
-                    where problem_id = #{problemId}
-                      and problem_type = #{problemType}
-                      and source = #{source}
-                      and source_id = #{sourceId}
-                    order by update_time desc
-                    limit 1)
+        update judge_record t
+        set t.judge_type=2,
+            t.judge_reason = #{judgeReason},
+            t.submit_status = #{submitStatus}
+        where exists(select tt.id
+                     from (select id
+                           from judge_record
+                           where problem_id = #{problemId}
+                             and problem_type = #{problemType}
+                             and source = #{source}
+                             and source_id = #{sourceId}
+                             and user_id = #{userId}
+                           order by update_time desc
+                           limit 1) tt
+                     where t.id = tt.id)
     </update>
 </mapper>

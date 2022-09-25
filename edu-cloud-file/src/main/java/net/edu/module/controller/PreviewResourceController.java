@@ -26,17 +26,16 @@ public class PreviewResourceController {
     @SneakyThrows
     @GetMapping("/pdf1")
     @Operation(summary = "资源文件转Base64")
-    public Result<String> getPDF1(){
-        String path="C:/Users/17716/Desktop/111.pdf";
+    public Result<String> getPDF1(@RequestParam("path") String path){
         return Result.ok("data:application/pdf;base64,"+previewResourceService.getPDF1(path));
     }
 
 
     @SneakyThrows
     @GetMapping("/pdf2")
-    @Operation(summary = "资源文件转Base64")
-    public void getPDF2(HttpServletResponse response){
-        String path="C:/Users/17716/Desktop/111.pdf";
+    @Operation(summary = "资源文件转文件流")
+    public void getPDF2(@RequestParam("path") String path,HttpServletResponse response){
+
         previewResourceService.getPDF2(path,response);
     }
 }

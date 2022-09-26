@@ -3,6 +3,7 @@ package net.edu.module.service.impl;
 
 
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisCache;
@@ -11,6 +12,7 @@ import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.TreeUtils;
+import net.edu.framework.common.utils.YouBianCodeUtil;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.KnowledgePointConvert;
 import net.edu.module.dao.KnowledgePointDao;
@@ -33,15 +35,39 @@ import java.util.List;
 @AllArgsConstructor
 public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao, KnowledgePointEntity> implements KnowledgePointService {
 
-    private RedisUtils redisUtils=new RedisUtils();
+    private final RedisUtils redisUtils;
 
 
+    /*
+     * 分成三种情况
+     * 1.数据库无数据 调用YouBianCodeUtil.getNextYouBianCode(null);
+     * 2.添加子节点，无兄弟元素 YouBianCodeUtil.getSubYouBianCode(parentCode,null);
+     * 3.添加子节点有兄弟元素 YouBianCodeUtil.getNextYouBianCode(lastCode);
+     * */
     @Override
     public void save(KnowledgePointVO vo) {
         KnowledgePointEntity entity = KnowledgePointConvert.INSTANCE.convert(vo);
+        //找同类确定上一个最大code
+        KnowledgePointEntity pEntity= baseMapper.selectBrotherEntity(vo.getPid(), vo.getCode());
+        if (pEntity==null) {
+            if ("0".equals(vo.getPid())) {
+                //情况1
+                entity.setCode(YouBianCodeUtil.getNextYouBianCode(null));
+            } else {
+                //情况2
+                KnowledgePointEntity parent =  baseMapper.selectById(vo.getPid());
+                if(parent==null){
+                    entity.setCode(YouBianCodeUtil.getSubYouBianCode("", null));
+                }else {
+                    entity.setCode(YouBianCodeUtil.getSubYouBianCode(parent.getCode(), null));
+                }
+            }
+        }else {
+            //情况三
+            entity.setCode(YouBianCodeUtil.getNextYouBianCode(pEntity.getCode()));
+        }
         // 保存知识点
         baseMapper.insert(entity);
-
         redisUtils.del(RedisKeys.getKnowledgePointKey());
     }
 

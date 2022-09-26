@@ -63,8 +63,10 @@ public class CodeProblemVO implements Serializable {
 	@Schema(description = "测试样例数")
 	private Integer sampleNum;
 
-	@Schema(description = "知识点id")
-	private Integer kpId;
+
+
+	@Schema(description = "知识点代码")
+	private String kpCode;
 
 	@Schema(description = "知识点名称")
 	private String kpName;

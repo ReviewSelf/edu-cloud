@@ -32,16 +32,14 @@ import java.util.Map;
 @AllArgsConstructor
 public class ProblemPaperItemServiceImpl extends BaseServiceImpl<ProblemPaperItemDao, ProblemPaperItemEntity> implements ProblemPaperItemService {
 
-    @Autowired
-    private ProblemPaperItemDao problemPaperItemDao;
 
-    @Autowired
-    private ProblemPaperService problemPaperService;
+
+    private final ProblemPaperService problemPaperService;
 
     @Override
     public List<ProblemPaperItemEntity> get(Long paperId) {
 
-        return problemPaperItemDao.selectPageRecords(paperId);
+        return baseMapper.selectPageRecords(paperId);
     }
 
     @Override
@@ -59,7 +57,7 @@ public class ProblemPaperItemServiceImpl extends BaseServiceImpl<ProblemPaperIte
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(Long paperId) {
-        problemPaperItemDao.delete(paperId);
+        baseMapper.delete(paperId);
     }
 
 

@@ -35,14 +35,13 @@ import java.util.List;
 @AllArgsConstructor
 public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, FillProblemEntity> implements FillProblemService {
 
-    private final FillProblemDao fillProblemDao;
 
     private final RedisUtils redisUtils;
 
     @Override
     public PageResult<FillProblemVO> page(FillProblemQuery query) {
         Page<FillProblemVO> page = new Page<>(query.getPage(),query.getLimit());
-            IPage<FillProblemVO> list = fillProblemDao.page(page,query);
+            IPage<FillProblemVO> list = baseMapper.page(page,query);
             return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -78,19 +77,19 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
 
     @Override
     public void updateStatus(Long problemId) {
-        fillProblemDao.updateStatus(problemId);
+        baseMapper.updateStatus(problemId);
     }
 
 
     @Override
     public void updateUsedNum(Long id) {
-        fillProblemDao.updateUsedNum(id);
+        baseMapper.updateUsedNum(id);
 
     }
 
     @Override
     public void updateSubmitTimes(Long id, Boolean isTrue) {
-        fillProblemDao.updateSubmitTimes(id,isTrue);
+        baseMapper.updateSubmitTimes(id,isTrue);
 
     }
 
@@ -98,7 +97,7 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
     public FillProblemVO selectFillProblemInfo(Long id) {
         FillProblemVO fillProblemVO= (FillProblemVO) redisUtils.get(RedisKeys.getProblemInfo(id,"fill"));
         if(fillProblemVO==null){
-            fillProblemVO=fillProblemDao.selectFillProblemInfo(id);
+            fillProblemVO=baseMapper.selectFillProblemInfo(id);
             redisUtils.set(RedisKeys.getProblemInfo(id,"fill"),fillProblemVO, RedisUtils.MIN_TEN_EXPIRE);
         }
         return fillProblemVO;

@@ -1,6 +1,7 @@
 package net.edu.module.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
@@ -24,6 +25,10 @@ public class KnowledgePointEntity extends BaseEntity {
      */
     private String name;
 
+    /**
+     * 代码
+     */
+    private String code;
     /**
      * 知识点说明
      */

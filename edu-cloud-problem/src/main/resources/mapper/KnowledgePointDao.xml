@@ -3,8 +3,17 @@
 <mapper namespace="net.edu.module.dao.KnowledgePointDao">
 
     <select id="getKpList" resultType="net.edu.module.entity.KnowledgePointEntity">
-        select id,pid,name,description,sort from problem_knowledge_point where deleted = 0
+        select id,pid,name,description,code,sort from problem_knowledge_point where deleted = 0
         order by sort asc
     </select>
 
+    
+    <select id="selectBrotherEntity" resultType="net.edu.module.entity.KnowledgePointEntity">
+        select id,pid,name,description,code,sort from problem_knowledge_point
+        where pid=#{pid}
+        <if test="code!=null and code!=''">
+            and code=#{code}
+        </if>
+        order by code asc limit 1
+    </select>
 </mapper>

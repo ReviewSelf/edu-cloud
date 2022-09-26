@@ -43,9 +43,8 @@ public class FillProblemVO implements Serializable {
 	private Integer difficulty;
 
 
-
-	@Schema(description = "知识点ID")
-	private Integer kpId;
+	@Schema(description = "知识点代码")
+	private String kpCode;
 
 	@Schema(description = "知识点名称")
 	private String kpName;

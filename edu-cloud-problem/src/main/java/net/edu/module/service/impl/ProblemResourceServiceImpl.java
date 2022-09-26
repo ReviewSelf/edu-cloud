@@ -27,22 +27,20 @@ import java.util.List;
 @AllArgsConstructor
 public class ProblemResourceServiceImpl extends BaseServiceImpl<ProblemResourceDao, ProblemResourceEntity> implements ProblemResourceService {
 
-    final ProblemResourceDao problemResourceDao;
-
 
     @Override
     public List<ProblemResourceVO> getProblemResource(Long id) {
-        return problemResourceDao.selectProblemResource(id);
+        return baseMapper.selectProblemResource(id);
     }
 
     @Override
     public void deleteProblemResource(Long id) {
-        problemResourceDao.deleteProblemResource(id);
+        baseMapper.deleteProblemResource(id);
     }
 
     @Override
     public void saveProblemResource(ProblemResourceVO vo) {
-        problemResourceDao.insertProblrmResource(vo);
+        baseMapper.insertProblrmResource(vo);
     }
 
 }

@@ -31,21 +31,21 @@ import java.util.List;
 @AllArgsConstructor
 public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, ChoiceProblemEntity> implements ChoiceProblemService {
 
-    private final ChoiceProblemDao choiceProblemDao;
+ 
 
     private final RedisUtils redisUtils;
 
     @Override
     public PageResult<ChoiceProblemVO> page(ChoiceProblemQuery query) {
         Page<ChoiceProblemVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<ChoiceProblemVO> list = choiceProblemDao.page(page, query);
+        IPage<ChoiceProblemVO> list = baseMapper.page(page, query);
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
 
     @Override
     public ChoiceProblemVO getChoiceProblem(Long problemId) {
-        return choiceProblemDao.selectChoiceProblem(problemId);
+        return baseMapper.selectChoiceProblem(problemId);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         entity.setOptionNum(vo.getOptions().size());
         baseMapper.insert(entity);
         if (vo.getOptions().size() > 0) {
-            choiceProblemDao.insertOption(vo.getOptions(), entity.getId());
+            baseMapper.insertOption(vo.getOptions(), entity.getId());
         }
         System.out.println(entity.getId());
     }
@@ -66,10 +66,10 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         ChoiceProblemEntity entity = ChoiceProblemConvert.INSTANCE.convert(vo);
         entity.setOptionNum(vo.getOptions().size());
         //删除原先选项
-        choiceProblemDao.deleteOption(entity.getId());
+        baseMapper.deleteOption(entity.getId());
         redisUtils.del(RedisKeys.getChoiceOptions(vo.getId()));
         if (vo.getOptions().size() > 0) {
-            choiceProblemDao.insertOption(vo.getOptions(), entity.getId());
+            baseMapper.insertOption(vo.getOptions(), entity.getId());
         }
         updateById(entity);
     }
@@ -82,17 +82,17 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
 
     @Override
     public void updateStatus(Long problemId) {
-        choiceProblemDao.updateStatus(problemId);
+        baseMapper.updateStatus(problemId);
     }
 
     @Override
     public void updateUsedNum(Long id) {
-        choiceProblemDao.updateUsedNum(id);
+        baseMapper.updateUsedNum(id);
     }
 
     @Override
     public void updateSubmitTimes(Long id, Boolean isTrue) {
-        choiceProblemDao.updateSubmitTimes(id, isTrue);
+        baseMapper.updateSubmitTimes(id, isTrue);
     }
 
     //获取选择题答案，判题时启用
@@ -102,7 +102,7 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         if(flag==1){
             arr= (List<String>) redisUtils.get(RedisKeys.getChoiceOptions(problemId),RedisUtils.HOUR_ONE_EXPIRE);
             if(arr==null){
-                arr=choiceProblemDao.selectChoiceOptions(problemId,flag);
+                arr=baseMapper.selectChoiceOptions(problemId,flag);
                 redisUtils.set(RedisKeys.getChoiceOptions(problemId),arr,RedisUtils.HOUR_ONE_EXPIRE);
             }
         }
@@ -115,7 +115,7 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     public ChoiceProblemVO getChoiceProblemInfo(Long problemId) {
         ChoiceProblemVO choiceProblemVO= (ChoiceProblemVO) redisUtils.get(RedisKeys.getProblemInfo(problemId,"choice"));
         if(choiceProblemVO==null){
-            choiceProblemVO=choiceProblemDao.selectChoiceProblemInfo(problemId);
+            choiceProblemVO=baseMapper.selectChoiceProblemInfo(problemId);
             redisUtils.set(RedisKeys.getProblemInfo(problemId,"choice"),choiceProblemVO,RedisUtils.MIN_TEN_EXPIRE);
         }
         return choiceProblemVO;

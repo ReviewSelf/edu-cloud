@@ -33,11 +33,10 @@ import java.util.List;
 @AllArgsConstructor
 public class ProblemPaperServiceImpl extends BaseServiceImpl<ProblemPaperDao, ProblemPaperEntity> implements ProblemPaperService {
 
-    private final ProblemPaperDao problemPaperDao;
     @Override
     public PageResult<ProblemPaperVO> page(ProblemPaperQuery query) {
         Page<ProblemPaperVO> page = new Page<>(query.getPage(),query.getLimit());
-        IPage<ProblemPaperVO> list = problemPaperDao.page(page,query);
+        IPage<ProblemPaperVO> list = baseMapper.page(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 

@@ -95,8 +95,10 @@ public class LessonIPServiceImpl extends BaseServiceImpl<LessonIPDao, LessonIPEn
                     return true;
                 }
             }
+            return false;
         }
-        return false;
+        return true;
+
     }
 
 }

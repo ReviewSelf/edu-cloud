@@ -29,7 +29,6 @@ import java.util.List;
 @AllArgsConstructor
 public class NewsController {
 
-
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
     private WxService wxService;
@@ -76,7 +75,7 @@ public class NewsController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create() {
-        String openid = "";		// 发送给指定的用户
+        String openid = "oPybX5iiL-yKwxOPlYl3yKcpbAEM";		// 发送给指定的用户
         String serviceName = "E";
         String orderNo = "2";
 
@@ -90,6 +89,7 @@ public class NewsController {
      */
     @PostMapping(value="/wxToken",produces = "application/xml;charset=UTF-8")
     public Object  handleMessage(@RequestBody InMessage inMessage) {
+        System.out.println(inMessage);
         // 创建响应消息实体对象
         OutMessage outMessage = new OutMessage();
         // 把原来的接收方设置为发送方

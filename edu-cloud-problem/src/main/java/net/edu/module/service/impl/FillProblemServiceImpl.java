@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.FillProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
@@ -34,6 +36,8 @@ import java.util.List;
 public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, FillProblemEntity> implements FillProblemService {
 
     private final FillProblemDao fillProblemDao;
+
+    private final RedisUtils redisUtils;
 
     @Override
     public PageResult<FillProblemVO> page(FillProblemQuery query) {
@@ -92,6 +96,11 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
 
     @Override
     public FillProblemVO selectFillProblemInfo(Long id) {
-        return fillProblemDao.selectFillProblemInfo(id);
+        FillProblemVO fillProblemVO= (FillProblemVO) redisUtils.get(RedisKeys.getProblemInfo(id,"fill"));
+        if(fillProblemVO==null){
+            fillProblemVO=fillProblemDao.selectFillProblemInfo(id);
+            redisUtils.set(RedisKeys.getProblemInfo(id,"fill"),fillProblemVO, RedisUtils.MIN_TEN_EXPIRE);
+        }
+        return fillProblemVO;
     }
 }

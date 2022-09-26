@@ -4,7 +4,9 @@ package net.edu.module.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.CodeProblemConvert;
 import net.edu.module.entity.CodeProblemEntity;
@@ -28,6 +30,7 @@ import java.util.List;
 public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, CodeProblemEntity> implements CodeProblemService {
 
     private final CodeProblemDao codeProblemDao;
+    private final RedisUtils redisUtils;
 
     @Override
     public PageResult<CodeProblemVO> page(CodeProblemQuery query) {
@@ -70,13 +73,17 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
 
     @Override
     public void updateSubmitTimes(Long id, Boolean isTrue) {
-
          codeProblemDao.updateSubmitTimes(id,isTrue);
-
     }
 
+    //答题显示内容，每次缓存10分钟，10分钟一更新提交次数
     @Override
     public CodeProblemVO getCodeProblemInfo(Long problemId) {
-        return codeProblemDao.selectCodeProblemInfo(problemId);
+        CodeProblemVO codeProblemVO= (CodeProblemVO) redisUtils.get(RedisKeys.getProblemInfo(problemId,"code"));
+        if(codeProblemVO==null){
+            codeProblemVO=codeProblemDao.selectCodeProblemInfo(problemId);
+            redisUtils.set(RedisKeys.getProblemInfo(problemId,"code"),codeProblemVO,RedisUtils.MIN_TEN_EXPIRE);
+        }
+        return codeProblemVO;
     }
 }

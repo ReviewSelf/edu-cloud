@@ -15,6 +15,7 @@ import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.dao.ChoiceProblemDao;
 import net.edu.module.service.ChoiceProblemService;
+import net.edu.module.vo.CodeProblemVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,6 +95,7 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         choiceProblemDao.updateSubmitTimes(id, isTrue);
     }
 
+    //获取选择题答案，判题时启用
     @Override
     public List<String> getChoiceOptions(Long problemId, int flag) {
         List<String> arr=null;
@@ -107,10 +109,16 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         return arr;
     }
 
+
+    //答题显示内容，每次缓存10分钟，10分钟一更新提交次数
     @Override
     public ChoiceProblemVO getChoiceProblemInfo(Long problemId) {
-
-        return choiceProblemDao.selectChoiceProblemInfo(problemId);
+        ChoiceProblemVO choiceProblemVO= (ChoiceProblemVO) redisUtils.get(RedisKeys.getProblemInfo(problemId,"choice"));
+        if(choiceProblemVO==null){
+            choiceProblemVO=choiceProblemDao.selectChoiceProblemInfo(problemId);
+            redisUtils.set(RedisKeys.getProblemInfo(problemId,"choice"),choiceProblemVO,RedisUtils.MIN_TEN_EXPIRE);
+        }
+        return choiceProblemVO;
     }
 
 }

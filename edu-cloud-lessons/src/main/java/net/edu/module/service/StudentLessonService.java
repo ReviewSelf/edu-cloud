@@ -5,5 +5,5 @@ import net.edu.framework.common.utils.Result;
 public interface StudentLessonService {
 
 
-    Result attendLesson(Long lessonId);
+    Result<String> attendLesson(Long lessonId);
 }

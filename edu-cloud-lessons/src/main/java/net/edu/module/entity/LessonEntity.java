@@ -1,9 +1,12 @@
 package net.edu.module.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
+import net.edu.framework.common.utils.DateUtils;
+
 import java.util.Date;
 
 /**
@@ -57,6 +60,20 @@ public class LessonEntity {
 	*/
 	private Date endTime;
 
+	/**
+	 * 作业开始时间
+	 */
+	private Date homeworkBeginTime;
+
+	/**
+	 * 作业结束时间
+	 */
+	private Date homeworkEndTime;
+
+	/**
+	 * 作业状态， 0：无，1：有 ，2：结束
+	 */
+	private Integer homeworkStatus;
 
 	/**
 	* 创建时间

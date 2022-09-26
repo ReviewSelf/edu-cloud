@@ -38,11 +38,11 @@ public class LessonController {
         return Result.ok(lessonService.page(query));
     }
 
-//    @GetMapping("list")
-//    @Operation(summary = "课程列表")
-//    public Result<List<LessonVO>> list(@Valid LessonQuery query) {
-//        return Result.ok(lessonService.list(query));
-//    }
+    @GetMapping("list")
+    @Operation(summary = "课程列表")
+    public Result<List<LessonVO>> list(@Valid LessonQuery query) {
+        return Result.ok(lessonService.list(query));
+    }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")

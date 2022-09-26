@@ -31,8 +31,7 @@ public class StudentLessonController {
     @GetMapping("{lessonId}")
     @Operation(summary = "课程列表")
     public Result<String> attendLesson( @PathVariable Long lessonId){
-        studentLessonService.attendLesson(lessonId);
-        return Result.ok();
+        return studentLessonService.attendLesson(lessonId);
     }
 
 

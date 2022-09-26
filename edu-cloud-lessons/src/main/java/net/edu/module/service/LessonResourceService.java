@@ -16,13 +16,10 @@ import java.util.List;
  */
 public interface LessonResourceService extends BaseService<LessonResourceEntity> {
 
-    PageResult<LessonResourceVO> page(LessonResourceQuery query);
+
 
     void save(LessonResourceVO vo);
 
-    void update(LessonResourceVO vo);
-
-    void delete(List<Long> idList);
 
     void copyFromPlanItem(Long planItemId,Long lessonId);
 

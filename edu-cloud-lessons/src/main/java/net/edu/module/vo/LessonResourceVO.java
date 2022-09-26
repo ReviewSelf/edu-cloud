@@ -21,7 +21,7 @@ public class LessonResourceVO implements Serializable {
 	private Integer id;
 
 	@Schema(description = "课堂id")
-	private String lessonId;
+	private Long lessonId;
 
 	@Schema(description = "名称")
 	private String name;

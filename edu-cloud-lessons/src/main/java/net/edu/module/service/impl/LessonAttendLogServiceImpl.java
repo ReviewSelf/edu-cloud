@@ -13,9 +13,12 @@ import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.LessonAttendLogConvert;
 import net.edu.module.dao.LessonAttendLogDao;
 import net.edu.module.entity.LessonAttendLogEntity;
+import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonAttendLogQuery;
 import net.edu.module.service.LessonAttendLogService;
+import net.edu.module.service.LessonService;
 import net.edu.module.vo.LessonAttendLogVO;
+import net.edu.module.vo.LessonVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,8 +37,8 @@ import static java.lang.Math.abs;
 @AllArgsConstructor
  public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogDao, LessonAttendLogEntity> implements LessonAttendLogService {
 
-    private final EduTeachApi eduTeachApi;
     private final LessonAttendLogDao lessonAttendLogDao;
+
     private final RedisUtils redisUtils;
 
     @Override
@@ -52,24 +55,29 @@ import static java.lang.Math.abs;
 
     //名单校验加签到
     @Override
-    public Result attendance(Long userId, Long lessonId) {
-        List<LessonAttendLogVO> userList=list(new LessonAttendLogQuery(lessonId));
+    public Boolean attendance(Long userId,LessonEntity lessonEntity) {
+        Date date=new Date();
+        List<LessonAttendLogVO> userList=list(new LessonAttendLogQuery(lessonEntity.getId()));
         if(!CollectionUtil.isEmpty(userList)){
             for (LessonAttendLogVO vo:userList){
-                if(vo.getStuId()==userId){
+                if(vo.getStuId().equals(userId)){
+                    if(lessonEntity.getBeginTime().getTime()>date.getTime() && lessonEntity.getEndTime().getTime()<date.getTime()){
+                        //不在上课范围，直接进入课堂
+                        return true;
+                    }
+                    //在课堂范围则签到
                     if(vo.getStatus()!=1){
                         vo.setStatus(1);
                         vo.setCheckinTime(new Date());
                         LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
                         updateById(entity);
-                        redisUtils.set(RedisKeys.getLessonAttendLog(lessonId),userList,RedisUtils.MIN_TEN_EXPIRE);
-
+                        redisUtils.set(RedisKeys.getLessonAttendLog(lessonEntity.getId()),userList,RedisUtils.MIN_TEN_EXPIRE);
                     }
-                    return Result.ok();
+                    return true;
                 }
             }
         }
-        return  Result.error("不在该课堂中，不可进入此班级");
+        return false ;
     }
 
 

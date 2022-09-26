@@ -31,9 +31,9 @@ public class LessonProblemController {
     @GetMapping("list")
     @Operation(summary = "获取课堂就题目信息")
     public Result<List<LessonProblemVO>> list(@Valid LessonProblemQuery query){
-        List<LessonProblemVO> page = lessonProblemService.list(query);
+        List<LessonProblemVO> list = lessonProblemService.list(query);
 
-        return Result.ok(page);
+        return Result.ok(list);
     }
 
     @GetMapping("{id}")

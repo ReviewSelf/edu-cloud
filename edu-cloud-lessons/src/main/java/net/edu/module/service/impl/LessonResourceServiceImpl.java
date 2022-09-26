@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.api.vo.TeachPlanItemResourceVO;
@@ -32,41 +34,19 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
 
     private final EduTeachApi eduTeachApi;
     private final LessonResourceDao lessonResourceDao;
+    private final RedisUtils redisUtils;
 
-    @Override
-    public PageResult<LessonResourceVO> page(LessonResourceQuery query) {
-        IPage<LessonResourceEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
 
-        return new PageResult<>(LessonResourceConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
-    }
-
-    private LambdaQueryWrapper<LessonResourceEntity> getWrapper(LessonResourceQuery query){
-        LambdaQueryWrapper<LessonResourceEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(LessonResourceEntity::getDeleted,0);
-        return wrapper;
-    }
 
     @Override
     public void save(LessonResourceVO vo) {
-        System.out.println(vo);
         LessonResourceEntity entity = LessonResourceConvert.INSTANCE.convert(vo);
-        System.out.println(entity);
         baseMapper.insert(entity);
+        redisUtils.del(RedisKeys.getLessonResources(vo.getLessonId()));
     }
 
-    @Override
-    public void update(LessonResourceVO vo) {
-        LessonResourceEntity entity = LessonResourceConvert.INSTANCE.convert(vo);
 
-        updateById(entity);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        removeByIds(idList);
-    }
-
+    //开班时调用
     @Override
     public void copyFromPlanItem(Long planItemId,Long lessonId) {
         //根据id获取资源列表
@@ -80,11 +60,19 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
 
     @Override
     public List<LessonResourceVO> getLessonResource(Long lessonId) {
-        return lessonResourceDao.selectLessonResource(lessonId);
+        List<LessonResourceVO> lessonResourceVOS=null;
+        lessonResourceVOS= (List<LessonResourceVO>) redisUtils.get(RedisKeys.getLessonResources(lessonId),RedisUtils.HOUR_ONE_EXPIRE);
+        if(lessonResourceVOS==null){
+            lessonResourceVOS=lessonResourceDao.selectLessonResource(lessonId);
+            redisUtils.set(RedisKeys.getLessonResources(lessonId),lessonResourceVOS,RedisUtils.HOUR_ONE_EXPIRE);
+        }
+        return lessonResourceVOS;
     }
 
     @Override
     public void deleteResource(Long id) {
+        LessonResourceEntity entity=baseMapper.selectById(id);
+        redisUtils.del(RedisKeys.getLessonResources(entity.getLessonId()));
         lessonResourceDao.deleteResource(id);
     }
 }

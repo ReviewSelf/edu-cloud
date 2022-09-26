@@ -60,18 +60,17 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
-//    @Override
-//    public List<LessonVO> list(LessonQuery query) {
-//        List<LessonEntity> list = null;
-//        list = (List<LessonEntity>) redisUtils.get(RedisKeys.getClassLesson(query.getClassId()), RedisUtils.MIN_TEN_EXPIRE);
-//        if (list == null) {
-//            LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
-//            wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
-//            list = baseMapper.selectList(wrapper);
-//            redisUtils.set(RedisKeys.getClassLesson(query.getClassId()), list, RedisUtils.MIN_TEN_EXPIRE);
-//        }
-//        return LessonConvert.INSTANCE.convertList(list);
-//    }
+    @Override
+    public List<LessonVO> list(LessonQuery query) {
+        List<LessonEntity> list = null;
+        if (list == null) {
+            LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
+            wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
+            wrapper.orderByAsc(LessonEntity::getSort);
+            list = baseMapper.selectList(wrapper);
+        }
+        return LessonConvert.INSTANCE.convertList(list);
+    }
 
     @Override
     public void update(LessonVO vo) {
@@ -113,6 +112,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
 
     }
+
+
 
 
 }

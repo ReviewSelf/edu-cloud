@@ -20,13 +20,18 @@ import net.edu.module.service.LessonAttendLogService;
 import net.edu.module.service.LessonProblemService;
 import net.edu.module.service.LessonResourceService;
 import net.edu.module.vo.LessonAttendLogVO;
+import net.edu.module.vo.LessonIPVO;
 import net.edu.module.vo.LessonVO;
 import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,6 +62,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         }else {
             list = lessonDao.selectTeacherPage(page, query);
         }
+        handlerStatisticsMonthlyScheduled();
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -80,6 +86,12 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     //    redisUtils.del(RedisKeys.getClassLesson(vo.getClassId()));
 
     }
+
+    @Override
+    public void updateHomework(LessonVO vo) {
+        lessonDao.updateLesson(vo);
+    }
+
 
     @Override
     @Transactional
@@ -111,6 +123,32 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
         }
 
+
+    }
+
+    @Override
+    public PageResult<LessonVO> homeworkPage(LessonQuery query) {
+        Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
+        query.setUserId(SecurityUser.getUserId());
+
+        IPage<LessonVO> list;
+        list = lessonDao.selectHomeworkPage(page, query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
+    @Override
+    public void handlerStatisticsMonthlyScheduled() {
+//        获取表中所有作业状态为1的课程信息
+        List<LessonVO> list = lessonDao.selectLessonIdList();
+        for(int i=0;i<list.size();i++){
+            //判断当前时间是否大于结束时间
+            if( list.get(i).getHomeworkEndTime().compareTo(new Date()) < 0){
+//                修改回家作业状态
+                list.get(i).setHomeworkStatus(2);
+//                更新到数据库
+                update(list.get(i));
+            }
+        }
 
     }
 

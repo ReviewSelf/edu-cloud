@@ -128,6 +128,17 @@ public class WxServiceImpl implements WxService {
         return HttpUtil.post(url, body);
     }
 
+//    @Override
+//    public String getUnionId(String openId) {
+//        String accessToken = AccessToken.getToken();
+//        String url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token="+accessToken+"&openid="+openId;
+//        System.out.println(url);
+//        String result = HttpUtil.get(url);
+//        JSONObject jsonObject = JSONUtil.parseObj(result);
+//        String unionId = jsonObject.getStr("union_id");
+//        return unionId;
+//    }
+
     @Override
     public void template(){
         String accessToken = AccessToken.getToken();

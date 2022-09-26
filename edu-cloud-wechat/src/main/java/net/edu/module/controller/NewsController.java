@@ -5,9 +5,12 @@ import cn.hutool.crypto.digest.Digester;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.utils.Result;
 import net.edu.module.entity.*;
+import net.edu.module.service.MessageService;
 import net.edu.module.service.WxService;
 import net.edu.module.untils.SubscriptionMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,10 @@ public class NewsController {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+    @Autowired
     private WxService wxService;
+    @Autowired
+    private MessageService messageService;
 
     /**
      * Token验证
@@ -121,6 +127,9 @@ public class NewsController {
             String event = inMessage.getEvent();
             //如果是关注事件
             if("subscribe".equals(event)){
+                String openId = inMessage.getFromUserName();
+//                String unionId = wxService.getUnionId(openId);
+                messageService.insertOpenId(openId);
                 outMessage.setMsgType("text");
                 outMessage.setContent("欢迎关注我的公众号~~~输入“注册”可以注册成为我们的用户，输入“报名”可以了解我们的课程并进行报名");
             }
@@ -178,5 +187,11 @@ public class NewsController {
     @GetMapping("template")
     public void template(){
         wxService.template();
+    }
+
+    @PostMapping("post")
+    @Operation(summary = "注册")
+    public void post(@RequestBody UserEntity userEntity){
+        messageService.post(userEntity);
     }
 }

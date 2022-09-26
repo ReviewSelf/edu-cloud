@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.MessageDao">
+
+    <insert id="insertId">
+        INSERT INTO enroll_user (open_id) values (#{openId})
+    </insert>
+
+    <update id="save">
+        UPDATE enroll_user
+        set
+            phone = #{userEntity.phone}
+            <if test="userEntity.name!=null and userEntity.name!=''">
+                ,name = #{userEntity.name}
+            </if>
+            <if test="userEntity.area!=null and userEntity.area!=''">
+                ,area = #{userEntity.area}
+            </if>
+            <if test="userEntity.address!=null and userEntity.address!=''">
+                ,address=#{userEntity.address}
+            </if>
+        WHERE
+            open_id = #{userEntity.openId}
+    </update>
+</mapper>

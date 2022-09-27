@@ -39,7 +39,6 @@
                 b.id as option_id,b.problem_id,b.problem_option,b.is_true
         from problem_choice a left join problem_choice_options b on
         a.id=b.problem_id where a.deleted = 0 and a.id=#{problemId}
-
     </select>
 
 

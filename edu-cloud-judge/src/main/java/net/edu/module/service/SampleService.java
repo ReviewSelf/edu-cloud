@@ -1,6 +1,11 @@
 package net.edu.module.service;
 
+import lombok.AllArgsConstructor;
+import net.edu.module.dao.JudgeRecordSampleDao;
+import net.edu.module.vo.RecordSampleVo;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Author: 马佳浩
@@ -9,6 +14,11 @@ import org.springframework.stereotype.Service;
  * @Description:
  */
 @Service
+@AllArgsConstructor
 public class SampleService {
-    //getSampleList(Integer problemId);
+
+    private final JudgeRecordSampleDao judgeRecordSampleDao;
+    public List<RecordSampleVo> getRecordSampleList(Integer problemId){
+        return judgeRecordSampleDao.selectRecordSampleList(problemId);
+    }
 }

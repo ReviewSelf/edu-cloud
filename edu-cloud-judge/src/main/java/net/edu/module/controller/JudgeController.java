@@ -8,9 +8,11 @@ import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.service.JudgeService;
 import net.edu.module.service.RecordService;
+import net.edu.module.service.SampleService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
 import net.edu.module.vo.ProblemCompletionVo;
+import net.edu.module.vo.RecordSampleVo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class JudgeController {
     private final JudgeService judgeService;
 
     private final RecordService recordService;
+
+    private final SampleService sampleService;
 
     @PostMapping("/record")
     public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo) {
@@ -67,6 +71,12 @@ public class JudgeController {
     public Result<String> updateReasonAndStatus(@RequestBody ProblemCompletionVo vo){
         recordService.updateReasonAndStatus(vo);
         return Result.ok();
+    }
+
+    @GetMapping("/getRecordSampleList/{problemId}")
+    @Operation(summary = "获取代码题对应的样例")
+    public Result<List<RecordSampleVo>> getRecordSampleList(@PathVariable Integer problemId){
+        return Result.ok(sampleService.getRecordSampleList(problemId));
     }
 
 

@@ -49,11 +49,12 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
     public void save(KnowledgePointVO vo) {
         KnowledgePointEntity entity = KnowledgePointConvert.INSTANCE.convert(vo);
         //找同类确定上一个最大code
-        KnowledgePointEntity pEntity= baseMapper.selectBrotherEntity(vo.getPid(), vo.getCode());
-        if (pEntity==null) {
+        KnowledgePointEntity bEntity= baseMapper.selectBrotherEntity(vo.getPid(), vo.getCode());
+        if (bEntity==null) {
             if (0==vo.getPid()) {
                 //情况1
                 entity.setCode(YouBianCodeUtil.getNextYouBianCode(null));
+                entity.setLevel(1);
             } else {
                 //情况2
                 KnowledgePointEntity parent =  baseMapper.selectById(vo.getPid());
@@ -62,10 +63,12 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
                 }else {
                     entity.setCode(YouBianCodeUtil.getSubYouBianCode(parent.getCode(), null));
                 }
+                entity.setLevel(parent.getLevel()+1);
             }
         }else {
             //情况三
-            entity.setCode(YouBianCodeUtil.getNextYouBianCode(pEntity.getCode()));
+            entity.setCode(YouBianCodeUtil.getNextYouBianCode(bEntity.getCode()));
+            entity.setLevel(bEntity.getLevel());
         }
         // 保存知识点
         baseMapper.insert(entity);

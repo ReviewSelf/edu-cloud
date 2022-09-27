@@ -11,11 +11,9 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ChoiceProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.query.ChoiceProblemQuery;
-import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.dao.ChoiceProblemDao;
 import net.edu.module.service.ChoiceProblemService;
-import net.edu.module.vo.CodeProblemVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +47,7 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void save(ChoiceProblemVO vo) {
         ChoiceProblemEntity entity = ChoiceProblemConvert.INSTANCE.convert(vo);
         entity.setOptionNum(vo.getOptions().size());
@@ -57,7 +55,6 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         if (vo.getOptions().size() > 0) {
             baseMapper.insertOption(vo.getOptions(), entity.getId());
         }
-        System.out.println(entity.getId());
     }
 
     @Override

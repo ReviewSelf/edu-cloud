@@ -23,5 +23,5 @@ public interface CodeSampleService extends BaseService<CodeSampleEntity> {
     void delete(List<Long> idList);
 
 
-    void saveSample(List<SampleVO> sampleVOS, Long problemId);
+    void saveSample(List<SampleVO> sampleVos, Long problemId);
 }

@@ -8,7 +8,7 @@ import net.edu.module.entity.ProblemPaperItemEntity;
 import net.edu.module.service.ProblemPaperItemService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.util.List;
 
 /**

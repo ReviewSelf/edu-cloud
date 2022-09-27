@@ -24,7 +24,7 @@ public class ProblemResourceEntity {
 	private Long problemId;
 
 	/**
-	* 问题类型 1选择 2填空 3代码
+	* 问题类型 1:选择 2:填空 3:代码
 	*/
 	private Integer problemType;
 

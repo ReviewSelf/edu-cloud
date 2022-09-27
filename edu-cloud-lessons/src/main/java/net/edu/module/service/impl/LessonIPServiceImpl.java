@@ -2,20 +2,15 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
-import net.edu.framework.common.page.PageResult;
-import net.edu.framework.common.utils.HttpContextUtils;
 import net.edu.framework.common.utils.IpUtils;
 import net.edu.framework.common.utils.RedisUtils;
-import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.LessonIPConvert;
 import net.edu.module.dao.LessonIPDao;
-import net.edu.module.entity.LessonEntity;
 import net.edu.module.entity.LessonIPEntity;
 import net.edu.module.query.LessonIPQuery;
 import net.edu.module.service.LessonIPService;
@@ -23,7 +18,7 @@ import net.edu.module.vo.LessonIPVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
 /**

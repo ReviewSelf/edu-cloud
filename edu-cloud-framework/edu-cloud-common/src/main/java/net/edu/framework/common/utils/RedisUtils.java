@@ -61,7 +61,6 @@ public class RedisUtils {
         try {
             if(time>0){
                 redisTemplate.expire(key, time, TimeUnit.SECONDS);
-                // stringRedisTemplate.opsForValue().set(key, value.toString(), 30, TimeUnit.SECONDS);
             }
             return true;
         } catch (Exception e) {

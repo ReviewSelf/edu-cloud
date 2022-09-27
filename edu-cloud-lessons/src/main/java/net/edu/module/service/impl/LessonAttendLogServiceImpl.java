@@ -37,16 +37,15 @@ import static java.lang.Math.abs;
 @AllArgsConstructor
  public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogDao, LessonAttendLogEntity> implements LessonAttendLogService {
 
-    private final LessonAttendLogDao lessonAttendLogDao;
-
     private final RedisUtils redisUtils;
 
     @Override
     public List<LessonAttendLogVO> list(LessonAttendLogQuery query) {
+        
         List<LessonAttendLogVO> list=null;
         list= (List<LessonAttendLogVO>) redisUtils.get(RedisKeys.getLessonAttendLog(query.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
         if(list==null){
-            list = lessonAttendLogDao.selectStudentsList(query);
+            list = baseMapper.selectStudentsList(query);
             redisUtils.set(RedisKeys.getLessonAttendLog(query.getLessonId()),list,RedisUtils.MIN_TEN_EXPIRE);
         }
         return list;
@@ -105,7 +104,7 @@ import static java.lang.Math.abs;
     @Override
     public void copyUserFromClassUser(List<Long> userList,Long lessonId) {
         if(!CollectionUtil.isEmpty(userList)){
-            lessonAttendLogDao.insertUserList(userList,lessonId);
+            baseMapper.insertUserList(userList,lessonId);
         }
         redisUtils.del(RedisKeys.getLessonAttendLog(lessonId));
     }
@@ -117,7 +116,7 @@ import static java.lang.Math.abs;
         list= (List<LessonAttendLogVO>) redisUtils.get(RedisKeys.getLessonAttendLog(vo.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
         if(!CollectionUtil.isEmpty(list)){
             for(int i= 0 ;i<list.size();i++){
-                if(list.get(i).getStuId() == vo.getStuId()){
+                if(list.get(i).getStuId().equals(vo.getStuId())){
                     list.set(i,vo);
                     System.out.println(list);
                     redisUtils.set(RedisKeys.getLessonAttendLog(vo.getLessonId()),list,RedisUtils.MIN_TEN_EXPIRE);

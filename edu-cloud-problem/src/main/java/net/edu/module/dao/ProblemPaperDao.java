@@ -8,8 +8,7 @@ import net.edu.module.query.ProblemPaperQuery;
 import net.edu.module.vo.ProblemPaperVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.core.parameters.P;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 /**
 * 问题卷表

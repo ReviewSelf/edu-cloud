@@ -36,15 +36,12 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
     private final EduTeachApi eduTeachApi;
     private final EduProblemApi eduProblemApi;
 
-    private final LessonProblemDao lessonProblemDao;
 
     private final RedisUtils redisUtils;
 
     @Override
     public List<LessonProblemVO> list(LessonProblemQuery query) {
-        List<LessonProblemVO> list = lessonProblemDao.selectLessonProblem(query);
-
-        return list;
+        return baseMapper.selectLessonProblem(query);
     }
 
 
@@ -80,7 +77,7 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
                 List<ProblemPaperItemEntity> problemList=eduProblemApi.getPaperProblem(paper.getPaperId()).getData();
                 if(!CollectionUtil.isEmpty(problemList)){
                     // 插入至数据库
-                    lessonProblemDao.insertProblemList(problemList,paper.getPaperType(),lessonId);
+                    baseMapper.insertProblemList(problemList,paper.getPaperType(),lessonId);
                 }
 
             }

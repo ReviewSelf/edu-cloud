@@ -29,7 +29,7 @@ public class SpringDocConfig {
         List<GroupedOpenApi> groups = new ArrayList<>();
         List<RouteDefinition> definitions = locator.getRouteDefinitions().collectList().block();
         assert definitions != null;
-        definitions.stream().filter(routeDefinition -> !routeDefinition.getId().equals("openapi")).forEach(routeDefinition -> {
+        definitions.stream().filter(routeDefinition -> !"openapi".equals(routeDefinition.getId())).forEach(routeDefinition -> {
             if (routeDefinition.getId().startsWith("ReactiveCompositeDiscoveryClient")) {
                 return;
             }

@@ -1,5 +1,6 @@
 package net.edu.framework.common.utils;
 
+import cn.hutool.core.util.StrUtil;
 import io.netty.util.internal.StringUtil;
 import org.springframework.util.StringUtils;
 
@@ -30,7 +31,7 @@ public class YouBianCodeUtil {
 	 */
 	public static synchronized String getNextYouBianCode(String code) {
 		String newcode = "";
-		if (StringUtils.isEmpty(code)) {
+		if (StrUtil.isEmpty(code)) {
 			String zimu = "A";
 			String num = getStrNum(1);
 			newcode = zimu + num;
@@ -78,7 +79,7 @@ public class YouBianCodeUtil {
 	 * @return
 	 */
 	public static synchronized String getSubYouBianCode(String parentCode,String localCode) {
-		if(localCode!=null && localCode!=""){
+		if(!StrUtil.isEmpty(localCode)){
 
 //			return parentCode + getNextYouBianCode(localCode);
 			return getNextYouBianCode(localCode);

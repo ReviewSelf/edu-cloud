@@ -65,8 +65,8 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void saveSample(List<SampleVO> sampleVOS, Long problemId) {
-        sampleVOS.forEach((item) -> {
+    public void saveSample(List<SampleVO> sampleVos, Long problemId) {
+        sampleVos.forEach((item) -> {
             baseMapper.insert(CodeSampleConvert.INSTANCE.convert(item));
         });
         redisUtils.del(RedisKeys.getSample(problemId));

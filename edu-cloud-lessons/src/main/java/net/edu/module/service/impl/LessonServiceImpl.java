@@ -47,7 +47,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final LessonProblemService lessonProblemService;
     private final LessonResourceService lessonResourceService;
     private final LessonAttendLogService lessonAttendLogService;
-    private final LessonDao lessonDao;
     private final EduTeachApi eduTeachApi;
     private final RedisUtils redisUtils;
 
@@ -57,10 +56,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         query.setUserId(SecurityUser.getUserId());
 
         IPage<LessonVO> list;
+        //判断是否为学生
         if(query.getRole()==1){
-            list = lessonDao.selectStudentPage(page, query);
+            list = baseMapper.selectStudentPage(page, query);
         }else {
-            list = lessonDao.selectTeacherPage(page, query);
+            list = baseMapper.selectTeacherPage(page, query);
         }
         handlerStatisticsMonthlyScheduled();
         return new PageResult<>(list.getRecords(), list.getTotal());
@@ -69,12 +69,10 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     @Override
     public List<LessonVO> list(LessonQuery query) {
         List<LessonEntity> list = null;
-        if (list == null) {
-            LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
-            wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
-            wrapper.orderByAsc(LessonEntity::getSort);
-            list = baseMapper.selectList(wrapper);
-        }
+        LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
+        wrapper.orderByAsc(LessonEntity::getSort);
+        list = baseMapper.selectList(wrapper);
         return LessonConvert.INSTANCE.convertList(list);
     }
 
@@ -88,12 +86,12 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     @Override
     public void updateHomework(LessonVO vo) {
-        lessonDao.updateLesson(vo);
+        baseMapper.updateLesson(vo);
     }
 
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void createLessons(List<LessonVO> voList) {
 
         if (!CollectionUtil.isEmpty(voList)) {
@@ -131,21 +129,21 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         query.setUserId(SecurityUser.getUserId());
 
         IPage<LessonVO> list;
-        list = lessonDao.selectHomeworkPage(page, query);
+        list = baseMapper.selectHomeworkPage(page, query);
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
     @Override
     public void handlerStatisticsMonthlyScheduled() {
 //        获取表中所有作业状态为1的课程信息
-        List<LessonVO> list = lessonDao.selectLessonIdList();
-        for(int i=0;i<list.size();i++){
+        List<LessonVO> list = baseMapper.selectLessonIdList();
+        for (LessonVO lessonVO : list) {
             //判断当前时间是否大于结束时间
-            if( list.get(i).getHomeworkEndTime().compareTo(new Date()) < 0){
+            if (lessonVO.getHomeworkEndTime().compareTo(new Date()) < 0) {
 //                修改回家作业状态
-                list.get(i).setHomeworkStatus(2);
+                lessonVO.setHomeworkStatus(2);
 //                更新到数据库
-                update(list.get(i));
+                update(lessonVO);
             }
         }
 

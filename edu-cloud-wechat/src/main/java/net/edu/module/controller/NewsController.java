@@ -60,7 +60,8 @@ public class NewsController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public void create() {
-        String openid = "";		// 发送给指定的用户
+        // 发送给指定的用户
+        String openid = "";
         String serviceName = "E";
         String orderNo = "2";
 

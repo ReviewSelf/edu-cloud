@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
-import java.util.List;
+
 
 
 /**
@@ -27,5 +27,7 @@ public class JudgeRecordSubmitVO {
     private String submitContent;
     private String submitImg;
     private Integer languageType;
-    private Integer submitStatus=0; //0=未判题，3=正确，4=错误
+    // 0=未判题，3=正确，4=错误
+    private Integer submitStatus;
+
 }

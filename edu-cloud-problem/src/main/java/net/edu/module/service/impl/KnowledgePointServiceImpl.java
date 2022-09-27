@@ -3,10 +3,9 @@ package net.edu.module.service.impl;
 
 
 
-import cn.hutool.core.collection.CollectionUtil;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.cache.RedisCache;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
@@ -19,7 +18,6 @@ import net.edu.module.dao.KnowledgePointDao;
 import net.edu.module.entity.KnowledgePointEntity;
 import net.edu.module.service.KnowledgePointService;
 import net.edu.module.vo.KnowledgePointVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,7 +48,7 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
         //找同类确定上一个最大code
         KnowledgePointEntity pEntity= baseMapper.selectBrotherEntity(vo.getPid(), vo.getCode());
         if (pEntity==null) {
-            if ("0".equals(vo.getPid())) {
+            if (0==vo.getPid()) {
                 //情况1
                 entity.setCode(YouBianCodeUtil.getNextYouBianCode(null));
             } else {

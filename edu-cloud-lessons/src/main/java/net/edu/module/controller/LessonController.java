@@ -61,7 +61,6 @@ public class LessonController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid LessonVO vo) {
-        System.out.println(vo);
         lessonService.update(vo);
         return Result.ok();
     }
@@ -71,7 +70,6 @@ public class LessonController {
     @PutMapping("/homework")
     @Operation(summary = "回家作业修改")
     public Result<String> updateHomework(@RequestBody @Valid LessonVO vo) {
-        System.out.println(vo);
         lessonService.updateHomework(vo);
         return Result.ok();
     }

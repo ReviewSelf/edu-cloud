@@ -33,7 +33,7 @@ import java.util.List;
 public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao, LessonResourceEntity> implements LessonResourceService {
 
     private final EduTeachApi eduTeachApi;
-    private final LessonResourceDao lessonResourceDao;
+
     private final RedisUtils redisUtils;
 
 
@@ -46,14 +46,18 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
     }
 
 
-    //开班时调用
+    /**
+     * 开班后自动根据教学日历资源生成课堂资源
+     * @param planItemId
+     * @param lessonId
+     */
     @Override
     public void copyFromPlanItem(Long planItemId,Long lessonId) {
         //根据id获取资源列表
         List<TeachPlanItemResourceVO> list =eduTeachApi.getItemResource(planItemId).getData();
         if(!CollectionUtil.isEmpty(list)){
             // 插入至数据库
-            lessonResourceDao.insertResourceList(list,lessonId);
+            baseMapper.insertResourceList(list,lessonId);
         }
 
     }
@@ -63,7 +67,7 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
         List<LessonResourceVO> lessonResourceVOS=null;
         lessonResourceVOS= (List<LessonResourceVO>) redisUtils.get(RedisKeys.getLessonResources(lessonId),RedisUtils.HOUR_ONE_EXPIRE);
         if(lessonResourceVOS==null){
-            lessonResourceVOS=lessonResourceDao.selectLessonResource(lessonId);
+            lessonResourceVOS=baseMapper.selectLessonResource(lessonId);
             redisUtils.set(RedisKeys.getLessonResources(lessonId),lessonResourceVOS,RedisUtils.HOUR_ONE_EXPIRE);
         }
         return lessonResourceVOS;
@@ -73,6 +77,6 @@ public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao
     public void deleteResource(Long id) {
         LessonResourceEntity entity=baseMapper.selectById(id);
         redisUtils.del(RedisKeys.getLessonResources(entity.getLessonId()));
-        lessonResourceDao.deleteResource(id);
+        baseMapper.deleteResource(id);
     }
 }

@@ -11,9 +11,12 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.CodeProblemConvert;
 import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.query.CodeProblemQuery;
+import net.edu.module.service.CodeSampleService;
+import net.edu.module.vo.CodeProblemAnswerVo;
 import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.dao.CodeProblemDao;
 import net.edu.module.service.CodeProblemService;
+import net.edu.module.vo.CodeSampleVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,8 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
 
 
     private final RedisUtils redisUtils;
+
+    private final CodeSampleService codeSampleService;
 
     @Override
     public PageResult<CodeProblemVO> page(CodeProblemQuery query) {
@@ -90,5 +95,15 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
             redisUtils.set(RedisKeys.getProblemInfo(problemId,"code"),codeProblemVO,RedisUtils.MIN_TEN_EXPIRE);
         }
         return codeProblemVO;
+    }
+
+    @Override
+    public CodeProblemAnswerVo getCodeProblemAnswer(Long problemId) {
+        CodeProblemEntity entity = baseMapper.selectById(problemId);
+        CodeProblemAnswerVo vo = new CodeProblemAnswerVo();
+        vo.setAnswer(entity.getAnswer());
+        List<CodeSampleVO> codeSampleVOList = codeSampleService.getList(problemId);
+        vo.setCodeSampleVOList(codeSampleVOList);
+        return vo;
     }
 }

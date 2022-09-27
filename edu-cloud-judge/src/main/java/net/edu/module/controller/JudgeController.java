@@ -53,7 +53,6 @@ public class JudgeController {
     }
 
 
-
     /**
      * 获取课堂中每个人每题的答题记录
      * @param lessonId
@@ -84,11 +83,6 @@ public class JudgeController {
         return Result.ok();
     }
 
-    @GetMapping("/getRecordSampleList/{problemId}")
-    @Operation(summary = "获取代码题对应的样例")
-    public Result<List<RecordSampleVo>> getRecordSampleList(@PathVariable Integer problemId){
-        return Result.ok(sampleService.getRecordSampleList(problemId));
-    }
 
 
 

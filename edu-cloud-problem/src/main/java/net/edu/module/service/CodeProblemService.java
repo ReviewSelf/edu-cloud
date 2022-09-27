@@ -3,6 +3,7 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
+import net.edu.module.vo.CodeProblemAnswerVo;
 import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.query.CodeProblemQuery;
 import net.edu.module.entity.CodeProblemEntity;
@@ -32,4 +33,6 @@ public interface CodeProblemService extends BaseService<CodeProblemEntity> {
     void updateSubmitTimes(Long id, Boolean isTrue);
 
     CodeProblemVO getCodeProblemInfo(Long problemId);
+
+    CodeProblemAnswerVo getCodeProblemAnswer(Long problemId);
 }

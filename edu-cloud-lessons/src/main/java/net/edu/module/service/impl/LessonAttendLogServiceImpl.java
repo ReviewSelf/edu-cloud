@@ -9,6 +9,7 @@ import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.LessonAttendLogConvert;
 import net.edu.module.dao.LessonAttendLogDao;
@@ -38,13 +39,14 @@ import static java.lang.Math.abs;
  public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogDao, LessonAttendLogEntity> implements LessonAttendLogService {
 
     private final RedisUtils redisUtils;
+    private final LessonAttendLogDao lessonAttendLogDao;
 
     @Override
     public List<LessonAttendLogVO> list(LessonAttendLogQuery query) {
         
         List<LessonAttendLogVO> list=null;
         list= (List<LessonAttendLogVO>) redisUtils.get(RedisKeys.getLessonAttendLog(query.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
-        if(list==null){
+        if(CollectionUtil.isEmpty(list)){
             list = baseMapper.selectStudentsList(query);
             redisUtils.set(RedisKeys.getLessonAttendLog(query.getLessonId()),list,RedisUtils.MIN_TEN_EXPIRE);
         }
@@ -112,19 +114,12 @@ import static java.lang.Math.abs;
     @Override
     public void updateStudents(LessonAttendLogVO vo) {
         vo.setUpdateTime(new Date());
-        List<LessonAttendLogVO> list=null;
-        list= (List<LessonAttendLogVO>) redisUtils.get(RedisKeys.getLessonAttendLog(vo.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
-        if(!CollectionUtil.isEmpty(list)){
-            for(int i= 0 ;i<list.size();i++){
-                if(list.get(i).getStuId().equals(vo.getStuId())){
-                    list.set(i,vo);
-                    System.out.println(list);
-                    redisUtils.set(RedisKeys.getLessonAttendLog(vo.getLessonId()),list,RedisUtils.MIN_TEN_EXPIRE);
-                    break;
-                }
-            }
+        if(vo.getStuId() == null){
+            vo.setStuId(SecurityUser.getUserId());
         }
-        update(vo);
+        //根据学生id和课堂id找到唯一的记录进行修改
+        lessonAttendLogDao.updateStudents(vo);
+        redisUtils.del(RedisKeys.getLessonAttendLog(vo.getLessonId()));
     }
 
 

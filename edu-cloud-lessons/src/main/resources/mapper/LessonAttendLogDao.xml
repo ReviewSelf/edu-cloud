@@ -29,4 +29,25 @@
         where lesson_id = #{query.lessonId}
     </select>
 
+    <update id="updateStudents">
+        update lesson_attend_log set stu_id = #{vo.stuId}
+         <if test="vo.getId()!=null">
+         ,id = #{vo.id}
+         </if>
+        <if test="vo.getStatus()!=null">
+            ,status = #{vo.status}
+        </if>
+        <if test="vo.getCheckinTime()!=null">
+            ,checkin_time = #{vo.checkinTime}
+        </if>
+        <if test="vo.getRollCall()!=null">
+            ,roll_call = #{vo.rollCall}
+        </if>
+        <if test="vo.getUpdateTime()!=null">
+            ,update_time = #{vo.updateTime}
+        </if>
+        where stu_id = #{vo.stuId} and lesson_id = #{vo.lessonId}
+
+    </update>
+
 </mapper>

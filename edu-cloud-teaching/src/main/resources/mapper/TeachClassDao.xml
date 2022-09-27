@@ -132,4 +132,9 @@
             next_lesson=#{nextLesson}
         where id = #{classId}
     </update>
+    <update id="endingClass">
+        update teach_class
+        set status = 3
+        where id = #{id}
+    </update>
 </mapper>

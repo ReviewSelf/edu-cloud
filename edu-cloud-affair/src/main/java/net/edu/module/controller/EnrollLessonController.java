@@ -9,8 +9,10 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.entity.EnrollJoinLessonEntity;
 import net.edu.module.entity.EnrollLessonEntity;
 import net.edu.module.entity.EnrollSelectOne;
+import net.edu.module.entity.EnrollUserEntity;
 import net.edu.module.query.EnrollLessonQuery;
 import net.edu.module.service.EnrollLessonService;
+import net.edu.module.service.EnrollUserService;
 import net.edu.module.vo.EnrollLessonVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,7 @@ import java.util.List;
 public class EnrollLessonController {
 
     private final EnrollLessonService enrollLessonService;
+    private final EnrollUserService enrollUserService;
 
     @GetMapping("page")
     @Operation(summary = "分页")
@@ -77,6 +80,8 @@ public class EnrollLessonController {
     public Object joinLesson(@RequestBody EnrollJoinLessonEntity entity) {
         System.out.println(entity);
         enrollLessonService.joinLesson(entity);
+        EnrollUserEntity user = enrollUserService.getById(entity.getId());
+        enrollLessonService.joinLessonSys(user);
         return Result.ok();
     }
 

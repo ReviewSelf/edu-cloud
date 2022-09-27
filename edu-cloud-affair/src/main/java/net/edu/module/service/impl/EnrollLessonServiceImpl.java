@@ -9,10 +9,7 @@ import net.edu.module.convert.EnrollLessonConvert;
 import net.edu.module.convert.EnrollUserConvert;
 import net.edu.module.dao.EnrollLessonDao;
 import net.edu.module.dao.EnrollUserDao;
-import net.edu.module.entity.EnrollJoinLessonEntity;
-import net.edu.module.entity.EnrollLessonEntity;
-import net.edu.module.entity.EnrollSelectOne;
-import net.edu.module.entity.EnrollUserEntity;
+import net.edu.module.entity.*;
 import net.edu.module.query.EnrollLessonQuery;
 import net.edu.module.service.EnrollLessonService;
 import net.edu.module.service.EnrollUserService;
@@ -30,6 +27,7 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
 
     @Autowired
     private EnrollLessonDao enrollLessonDao;
+    private EnrollUserDao enrollUserDao;
     @Override
     public PageResult<EnrollLessonVO> page(EnrollLessonQuery query) {
         Page<EnrollLessonVO> page = new Page<>(query.getPage(), query.getLimit());
@@ -66,6 +64,11 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
     @Override
     public void joinLesson(EnrollJoinLessonEntity entity) {
         enrollLessonDao.joinLesson(entity);
+    }
+
+    @Override
+    public void joinLessonSys(EnrollUserEntity user) {
+        enrollLessonDao.joinLessonSys(user);
     }
 
 

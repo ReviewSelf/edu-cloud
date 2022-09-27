@@ -92,6 +92,11 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
     }
 
     @Override
+    public void endingCalss(Integer id) {
+        teachClassDao.endingClass(id);
+    }
+
+    @Override
     public List<TeachClassEntity> getOldClassUser(Long userId) {
         return teachClassDao.selectOldClassUser(userId);
     }

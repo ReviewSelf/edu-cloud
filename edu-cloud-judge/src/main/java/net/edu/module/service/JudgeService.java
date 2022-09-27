@@ -68,7 +68,7 @@ public class JudgeService {
     @Transactional(rollbackFor = Exception.class)
     public void judgeChoice(JudgeRecordSubmitVO vo) {
         List<String> arr = Arrays.asList(vo.getSubmitContent().split(";;;"));
-        List<String> answer = eduProblemApi.getChoiceOptions(vo.getProblemId(), 1);
+        List<String> answer = eduProblemApi.getChoiceOptions(vo.getProblemId(), 1).getData();
         if (arr.size() != answer.size()) {
             vo.setSubmitStatus(4);
         } else {

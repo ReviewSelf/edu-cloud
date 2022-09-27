@@ -92,8 +92,8 @@ public class ChoiceProblemController {
 
     @GetMapping("options/{problemId}")
     @Operation(summary = "获取选项")
-    public List<String> getOptionsFromJudge(@PathVariable("problemId") Long problemId, @RequestParam(required = false) int flag) {
-        return choiceProblemService.getChoiceOptions(problemId, flag);
+    public Result<List<String>> getOptionsFromJudge(@PathVariable("problemId") Long problemId, @RequestParam(required = false,defaultValue = "1")  int flag) {
+        return Result.ok(choiceProblemService.getChoiceOptions(problemId, flag));
     }
 
     @GetMapping("problemInfo/{problemId}")
@@ -101,6 +101,8 @@ public class ChoiceProblemController {
     public Result<ChoiceProblemVO> getChoiceProblemInfo(@PathVariable("problemId") Long problemId) {
         return Result.ok(choiceProblemService.getChoiceProblemInfo(problemId));
     }
+
+
 
 
 }

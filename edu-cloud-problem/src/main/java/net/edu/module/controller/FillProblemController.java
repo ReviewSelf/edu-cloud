@@ -98,4 +98,11 @@ public class FillProblemController {
     }
 
 
+    @GetMapping("getFillAnswer/{problemId}")
+    @Operation(summary = "获取填空题答案")
+    public Result<String> getFillAnswer(@PathVariable Long problemId){
+        return Result.ok(fillProblemService.getById(problemId).getAnswer());
+    }
+
+
 }

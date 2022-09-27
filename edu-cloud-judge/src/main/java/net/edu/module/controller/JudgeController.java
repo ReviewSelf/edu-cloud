@@ -73,10 +73,10 @@ public class JudgeController {
         return Result.ok();
     }
 
-    @GetMapping("/getRecordSampleList/{problemId}")
+    @GetMapping("/getRecordSampleList/{recordId}")
     @Operation(summary = "获取代码题对应的样例")
-    public Result<List<RecordSampleVo>> getRecordSampleList(@PathVariable Integer problemId){
-        return Result.ok(sampleService.getRecordSampleList(problemId));
+    public Result<List<RecordSampleVo>> getRecordSampleList(@PathVariable Integer recordId){
+        return Result.ok(sampleService.getRecordSampleList(recordId));
     }
 
 

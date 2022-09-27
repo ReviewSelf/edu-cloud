@@ -92,7 +92,14 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         baseMapper.updateSubmitTimes(id, isTrue);
     }
 
-    //获取选择题答案，判题时启用
+
+
+    /**
+     * 获取选择题答案，判题时启用
+     * @param problemId
+     * @param flag
+     * @return
+     */
     @Override
     public List<String> getChoiceOptions(Long problemId, int flag) {
         List<String> arr=null;

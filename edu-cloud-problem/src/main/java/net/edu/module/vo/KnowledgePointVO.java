@@ -29,6 +29,8 @@ public class KnowledgePointVO extends TreeNode<KnowledgePointVO> {
     @Schema(description = "代码")
     private String code;
 
+    private Integer level;
+
     @Schema(description = "排序")
     @Min(value = 0, message = "排序值不能小于0")
     private Integer sort;

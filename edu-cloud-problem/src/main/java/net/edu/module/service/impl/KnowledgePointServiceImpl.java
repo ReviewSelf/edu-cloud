@@ -36,21 +36,25 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
     private final RedisUtils redisUtils;
 
 
-    /*
+
+
+    /**
      * 分成三种情况
      * 1.数据库无数据 调用YouBianCodeUtil.getNextYouBianCode(null);
      * 2.添加子节点，无兄弟元素 YouBianCodeUtil.getSubYouBianCode(parentCode,null);
      * 3.添加子节点有兄弟元素 YouBianCodeUtil.getNextYouBianCode(lastCode);
-     * */
+     * @param vo
+     */
     @Override
     public void save(KnowledgePointVO vo) {
         KnowledgePointEntity entity = KnowledgePointConvert.INSTANCE.convert(vo);
         //找同类确定上一个最大code
-        KnowledgePointEntity pEntity= baseMapper.selectBrotherEntity(vo.getPid(), vo.getCode());
-        if (pEntity==null) {
+        KnowledgePointEntity bEntity= baseMapper.selectBrotherEntity(vo.getPid(), vo.getCode());
+        if (bEntity==null) {
             if (0==vo.getPid()) {
                 //情况1
                 entity.setCode(YouBianCodeUtil.getNextYouBianCode(null));
+                entity.setLevel(1);
             } else {
                 //情况2
                 KnowledgePointEntity parent =  baseMapper.selectById(vo.getPid());
@@ -59,10 +63,12 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
                 }else {
                     entity.setCode(YouBianCodeUtil.getSubYouBianCode(parent.getCode(), null));
                 }
+                entity.setLevel(parent.getLevel()+1);
             }
         }else {
             //情况三
-            entity.setCode(YouBianCodeUtil.getNextYouBianCode(pEntity.getCode()));
+            entity.setCode(YouBianCodeUtil.getNextYouBianCode(bEntity.getCode()));
+            entity.setLevel(bEntity.getLevel());
         }
         // 保存知识点
         baseMapper.insert(entity);
@@ -90,8 +96,7 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
 
     @Override
     public List<KnowledgePointVO> getKpList() {
-        List<KnowledgePointEntity> menuList=null;
-        menuList= (List<KnowledgePointEntity>) redisUtils.get(RedisKeys.getKnowledgePointKey(),RedisUtils.MIN_TEN_EXPIRE);
+        List<KnowledgePointEntity> menuList= (List<KnowledgePointEntity>) redisUtils.get(RedisKeys.getKnowledgePointKey(),RedisUtils.MIN_TEN_EXPIRE);
         if(menuList==null){
             menuList = baseMapper.getKpList();
             redisUtils.set(RedisKeys.getKnowledgePointKey(),menuList,RedisUtils.MIN_TEN_EXPIRE);

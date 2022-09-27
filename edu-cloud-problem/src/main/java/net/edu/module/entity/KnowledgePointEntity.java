@@ -28,6 +28,11 @@ public class KnowledgePointEntity extends BaseEntity {
      * 代码
      */
     private String code;
+
+    /**
+     * 等级
+     */
+    private Integer level;
     /**
      * 知识点说明
      */

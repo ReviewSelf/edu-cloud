@@ -76,7 +76,12 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
          baseMapper.updateSubmitTimes(id,isTrue);
     }
 
-    //答题显示内容，每次缓存10分钟，10分钟一更新提交次数
+
+    /**
+     * 答题显示内容，每次缓存10分钟，10分钟一更新提交次数
+     * @param problemId 问题ID
+     * @return 代码题对象
+     */
     @Override
     public CodeProblemVO getCodeProblemInfo(Long problemId) {
         CodeProblemVO codeProblemVO= (CodeProblemVO) redisUtils.get(RedisKeys.getProblemInfo(problemId,"code"));

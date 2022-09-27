@@ -53,15 +53,26 @@ public class JudgeController {
     }
 
 
-    //获取课堂中每个人每题的答题记录
+
+    /**
+     * 获取课堂中每个人每题的答题记录
+     * @param lessonId
+     * @param type
+     * @return
+     */
     @GetMapping("/lesson/problem/record")
     public Result<List<LessonJudgeRecordVo>> getLessonProblemRecord(@RequestParam("lessonId") Long lessonId, @RequestParam(value = "type",required = false) Integer type){
         return Result.ok(recordService.getLessonProblemRecord(lessonId,type));
     }
 
 
+    /**
+     * 获取学生答题记录
+     * @param vo
+     * @return
+     */
     @PostMapping("/getRecordAndAnswer")
-    @Operation(summary = "获取学生答题记录和参考答案")
+    @Operation(summary = "获取学生答题记录")
     public Result<ProblemCompletionVo> getRecordAndAnswer(@RequestBody ProblemCompletionVo vo){
         return Result.ok(recordService.getRecordAndAnswer(vo));
     }

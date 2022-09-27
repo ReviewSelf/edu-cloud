@@ -63,6 +63,9 @@ public class SysUserVO implements Serializable {
     @Range(min = 0, max = 1, message = "用户状态不正确")
     private Integer status;
 
+    private Integer submitTimes;
+    private Integer correctTimes;
+
     @Schema(description = "角色ID列表")
     private List<Long> roleIdList;
 

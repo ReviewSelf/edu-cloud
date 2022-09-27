@@ -38,11 +38,11 @@ public class LessonController {
         return Result.ok(lessonService.page(query));
     }
 
-//    @GetMapping("list")
-//    @Operation(summary = "课程列表")
-//    public Result<List<LessonVO>> list(@Valid LessonQuery query) {
-//        return Result.ok(lessonService.list(query));
-//    }
+    @GetMapping("list")
+    @Operation(summary = "课程列表")
+    public Result<List<LessonVO>> list(@Valid LessonQuery query) {
+        return Result.ok(lessonService.list(query));
+    }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
@@ -67,5 +67,17 @@ public class LessonController {
 
 
 
+    @PutMapping("/homework")
+    @Operation(summary = "回家作业修改")
+    public Result<String> updateHomework(@RequestBody @Valid LessonVO vo) {
+        lessonService.updateHomework(vo);
+        return Result.ok();
+    }
+
+    @GetMapping("homework/page")
+    @Operation(summary = "课程列表")
+    public Result<PageResult<LessonVO>> homeworkPage(@Valid LessonQuery query) {
+        return Result.ok(lessonService.homeworkPage(query));
+    }
 
 }

@@ -51,10 +51,12 @@ public class FillProblemEntity extends BaseEntity {
 	*/
 	private Integer difficulty;
 
+
+
 	/**
-	* 知识点
-	*/
-	private Long kpId;
+	 * 知识点code
+	 */
+	private String kpCode;
 
 	/**
 	* 提交次数

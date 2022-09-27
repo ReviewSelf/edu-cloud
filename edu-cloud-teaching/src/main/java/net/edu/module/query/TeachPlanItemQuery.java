@@ -15,5 +15,6 @@ import net.edu.framework.common.query.Query;
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "教学日历表查询")
 public class TeachPlanItemQuery extends Query {
-    private Long id; //教学计划id
+    //教学计划id
+    private Long id;
 }

@@ -23,7 +23,7 @@ public class TeachPlanItemPaperVO {
     private String paperName;
 
     /**
-     * 试卷类型 0代表预习资料，1代表课堂练习，3代表课后作业
+     * 试卷类型 0:预习资料，1:课堂练习，3:课后作业
      */
     private Integer paperType;
 }

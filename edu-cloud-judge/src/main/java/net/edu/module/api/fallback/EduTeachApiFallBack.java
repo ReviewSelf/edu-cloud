@@ -2,7 +2,6 @@ package net.edu.module.api.fallback;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;

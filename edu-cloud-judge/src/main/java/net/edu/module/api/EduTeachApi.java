@@ -1,7 +1,7 @@
 package net.edu.module.api;
 
 
-import io.swagger.v3.oas.annotations.Operation;
+
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.fallback.EduProblemFallBack;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -17,7 +17,8 @@ public class ProblemCompletionVo {
     private String submitContent;
     private String submitImg;
     private Integer languageType;
-    private Integer submitStatus=0; //0=未判题，3=正确，4=错误
+    //0=未判题，3=正确，4=错误
+    private Integer submitStatus;
     private Integer judgeType;
     private Integer judgeUser;
     private String judgeReason;

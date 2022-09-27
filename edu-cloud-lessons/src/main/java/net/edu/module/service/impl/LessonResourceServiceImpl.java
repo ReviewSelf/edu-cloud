@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.api.vo.TeachPlanItemResourceVO;
@@ -31,60 +33,50 @@ import java.util.List;
 public class LessonResourceServiceImpl extends BaseServiceImpl<LessonResourceDao, LessonResourceEntity> implements LessonResourceService {
 
     private final EduTeachApi eduTeachApi;
-    private final LessonResourceDao lessonResourceDao;
 
-    @Override
-    public PageResult<LessonResourceVO> page(LessonResourceQuery query) {
-        IPage<LessonResourceEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
+    private final RedisUtils redisUtils;
 
-        return new PageResult<>(LessonResourceConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
-    }
 
-    private LambdaQueryWrapper<LessonResourceEntity> getWrapper(LessonResourceQuery query){
-        LambdaQueryWrapper<LessonResourceEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(LessonResourceEntity::getDeleted,0);
-        return wrapper;
-    }
 
     @Override
     public void save(LessonResourceVO vo) {
-        System.out.println(vo);
         LessonResourceEntity entity = LessonResourceConvert.INSTANCE.convert(vo);
-        System.out.println(entity);
         baseMapper.insert(entity);
+        redisUtils.del(RedisKeys.getLessonResources(vo.getLessonId()));
     }
 
-    @Override
-    public void update(LessonResourceVO vo) {
-        LessonResourceEntity entity = LessonResourceConvert.INSTANCE.convert(vo);
 
-        updateById(entity);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        removeByIds(idList);
-    }
-
+    /**
+     * 开班后自动根据教学日历资源生成课堂资源
+     * @param planItemId
+     * @param lessonId
+     */
     @Override
     public void copyFromPlanItem(Long planItemId,Long lessonId) {
         //根据id获取资源列表
         List<TeachPlanItemResourceVO> list =eduTeachApi.getItemResource(planItemId).getData();
         if(!CollectionUtil.isEmpty(list)){
             // 插入至数据库
-            lessonResourceDao.insertResourceList(list,lessonId);
+            baseMapper.insertResourceList(list,lessonId);
         }
 
     }
 
     @Override
     public List<LessonResourceVO> getLessonResource(Long lessonId) {
-        return lessonResourceDao.selectLessonResource(lessonId);
+        List<LessonResourceVO> lessonResourceVOS=null;
+        lessonResourceVOS= (List<LessonResourceVO>) redisUtils.get(RedisKeys.getLessonResources(lessonId),RedisUtils.HOUR_ONE_EXPIRE);
+        if(lessonResourceVOS==null){
+            lessonResourceVOS=baseMapper.selectLessonResource(lessonId);
+            redisUtils.set(RedisKeys.getLessonResources(lessonId),lessonResourceVOS,RedisUtils.HOUR_ONE_EXPIRE);
+        }
+        return lessonResourceVOS;
     }
 
     @Override
     public void deleteResource(Long id) {
-        lessonResourceDao.deleteResource(id);
+        LessonResourceEntity entity=baseMapper.selectById(id);
+        redisUtils.del(RedisKeys.getLessonResources(entity.getLessonId()));
+        baseMapper.deleteResource(id);
     }
 }

@@ -3,23 +3,22 @@
 
 <mapper namespace="net.edu.module.dao.LessonDao">
 
-    <resultMap type="net.edu.module.entity.LessonEntity" id="lessonMap">
+    <resultMap type="net.edu.module.vo.LessonVO" id="lessonMap">
         <result property="id" column="id"/>
         <result property="teacherId" column="teacher_id"/>
-        <result property="name" column="name"/>
         <result property="classId" column="class_id"/>
+        <result property="name" column="name"/>
+        <result property="className" column="className"/>
         <result property="place" column="place"/>
         <result property="beginTime" column="begin_time"/>
         <result property="endTime" column="end_time"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="status" column="state"/>
-        <result property="creator" column="creator"/>
-        <result property="updater" column="updater"/>
-        <result property="deleted" column="deleted"/>
+        <result property="status" column="status"/>
+        <result property="homeworkBeginTime" column="homework_begin_time"/>
+        <result property="homeworkEndTime" column="homework_end_time"/>
+        <result property="homeworkStatus" column="homework_status"/>
     </resultMap>
     <select id="selectStudentPage" resultType="net.edu.module.vo.LessonVO">
-        select t.id,t.teacher_id as teacherId,name,status,(select name from sys_user where id=t.teacher_id) as teacherName,t.class_id as classId,(select name from teach_class where id=t.class_id) as className,t.place,t.begin_time as beginTime,t.end_time as endTime   from lesson t
+        select t.id,t.teacher_id as teacherId,name,status,(select name from sys_user where id=t.teacher_id) as teacherName,t.class_id as classId ,(select name from teach_class where id=t.class_id) as className,t.place,t.begin_time as beginTime,t.end_time as endTime   from lesson t
         where exists (select 1 from teach_class a join teach_class_user b on a.id=b.class_id and b.user_id=#{query.userId}
             where a.id=t.class_id)
 
@@ -32,7 +31,7 @@
     </select>
 
     <select id="selectTeacherPage" resultType="net.edu.module.vo.LessonVO">
-        select t.id,t.teacher_id as teacherId,name,status,(select name from sys_user where id=t.teacher_id) as teacherName,t.class_id as classId,(select name from teach_class where id=t.class_id) as className,t.place,t.begin_time as beginTime,t.end_time as endTime   from lesson t
+        select t.id,t.teacher_id ,name,status,(select name from sys_user where id=t.teacher_id) as teacherName,t.class_id ,(select name from teach_class where id=t.class_id) as className,t.place,t.begin_time as beginTime,t.end_time as endTime   from lesson t
         where (exists (select 1 from teach_class a where (a.teacher1_id=#{query.userId} or a.teacher2_id=#{query.userId} )
         and a.id=t.class_id) or t.teacher_id=#{query.userId})
 
@@ -42,6 +41,30 @@
         <if test="query.getClassId()!=null">
             and t.class_id=#{query.classId}
         </if>
+    </select>
+
+    <update id="updateLesson">
+        UPDATE lesson SET homework_begin_time = #{vo.homeworkBeginTime},homework_end_time = #{vo.homeworkEndTime},homework_status = #{vo.homeworkStatus}
+        WHERE id=#{vo.id} AND deleted=0
+    </update>
+
+    <select id="selectHomeworkPage" resultMap="lessonMap">
+        select t.id,t.teacher_id ,name,status,(select name from sys_user where id=t.teacher_id) as teacherName,t.class_id,
+               (select name from teach_class where id=t.class_id) as className,t.place,t.begin_time ,t.end_time,
+               t.homework_begin_time,t.homework_end_time,t.homework_status
+        from lesson t
+        where exists (select 1 from teach_class a join teach_class_user b on a.id=b.class_id and b.user_id=#{query.userId}
+        where a.id=t.class_id) and t.homework_status > 0  and t.status = 0
+        <if test="query.getName()!=null and query.getName()!=''">
+            and name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getClassId()!=null">
+            and t.class_id=#{query.classId}
+        </if>
+    </select>
+
+    <select id="selectLessonIdList" resultType="net.edu.module.vo.LessonVO">
+        select id,homework_end_time as homeworkEndTime from lesson where homework_status = 1 and deleted = 0
     </select>
 
 </mapper>

@@ -1,10 +1,10 @@
 package net.edu.module.service;
 
+import lombok.AllArgsConstructor;
 import net.edu.module.dao.JudgeRecordDao;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
 import net.edu.module.vo.ProblemCompletionVo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +16,9 @@ import java.util.List;
  * @Description:
  */
 @Service
+@AllArgsConstructor
 public class RecordService {
-    @Autowired
-    JudgeRecordDao judgeRecordDao;
+    private final JudgeRecordDao judgeRecordDao;
 
 
     public List<LessonJudgeRecordVo> getLessonProblemRecord(Long lessonId, Integer type) {

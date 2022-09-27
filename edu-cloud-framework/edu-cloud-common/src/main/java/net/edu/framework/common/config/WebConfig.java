@@ -44,8 +44,7 @@ public class WebConfig implements WebMvcConfigurer {
         // 忽略未知属性
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        // 统一日期格式转换，不建议开启
-        //mapper.setDateFormat(new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN));
+        //统一日期格式转换，不建议开启 mapper.setDateFormat(new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN));
         mapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
 
         converter.setObjectMapper(mapper);
@@ -56,8 +55,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
-        //文件最大
-        factory.setMaxFileSize(DataSize.parse("100MB")); //KB,MB
+        //文件最大//KB,MB
+        factory.setMaxFileSize(DataSize.parse("100MB"));
         /// 设置总上传数据总大小
         factory.setMaxRequestSize(DataSize.parse("1000MB"));
         return factory.createMultipartConfig();

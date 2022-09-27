@@ -24,4 +24,5 @@ public interface LessonAttendLogDao extends BaseDao<LessonAttendLogEntity> {
 
     List<LessonAttendLogVO> selectStudentsList(@Param("query") LessonAttendLogQuery query);
 
+    int updateStudents(@Param("vo") LessonAttendLogVO vo);
 }

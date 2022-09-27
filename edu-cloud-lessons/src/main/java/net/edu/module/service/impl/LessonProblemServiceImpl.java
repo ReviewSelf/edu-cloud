@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
@@ -35,13 +36,12 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
     private final EduTeachApi eduTeachApi;
     private final EduProblemApi eduProblemApi;
 
-    private final LessonProblemDao lessonProblemDao;
+
+    private final RedisUtils redisUtils;
 
     @Override
     public List<LessonProblemVO> list(LessonProblemQuery query) {
-        List<LessonProblemVO> list = lessonProblemDao.selectLessonProblem(query);
-
-        return list;
+        return baseMapper.selectLessonProblem(query);
     }
 
 
@@ -65,6 +65,8 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
         removeByIds(idList);
     }
 
+
+    //开班时启用
     @Override
     public void copyFromPlanItem(Long planItemId, Long lessonId) {
         //先获取试卷及其类型
@@ -75,7 +77,7 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
                 List<ProblemPaperItemEntity> problemList=eduProblemApi.getPaperProblem(paper.getPaperId()).getData();
                 if(!CollectionUtil.isEmpty(problemList)){
                     // 插入至数据库
-                    lessonProblemDao.insertProblemList(problemList,paper.getPaperType(),lessonId);
+                    baseMapper.insertProblemList(problemList,paper.getPaperType(),lessonId);
                 }
 
             }

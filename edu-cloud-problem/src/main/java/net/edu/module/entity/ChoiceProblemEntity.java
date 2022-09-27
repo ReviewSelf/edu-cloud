@@ -56,10 +56,11 @@ public class ChoiceProblemEntity extends BaseEntity {
 	*/
 	private Integer difficulty;
 
+
 	/**
-	* 知识点
-	*/
-	private Long kpId;
+	 * 知识点code
+	 */
+	private String kpCode;
 
 	/**
 	* 回答次数

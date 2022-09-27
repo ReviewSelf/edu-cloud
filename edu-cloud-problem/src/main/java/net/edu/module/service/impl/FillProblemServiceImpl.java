@@ -1,23 +1,18 @@
 package net.edu.module.service.impl;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.FillProblemConvert;
-import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.query.FillProblemQuery;
-import net.edu.module.vo.ChoiceProblemVO;
-import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.vo.FillProblemVO;
 import net.edu.module.dao.FillProblemDao;
 import net.edu.module.service.FillProblemService;
-import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,23 +28,17 @@ import java.util.List;
 @AllArgsConstructor
 public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, FillProblemEntity> implements FillProblemService {
 
-    private final FillProblemDao fillProblemDao;
+
+    private final RedisUtils redisUtils;
 
     @Override
     public PageResult<FillProblemVO> page(FillProblemQuery query) {
         Page<FillProblemVO> page = new Page<>(query.getPage(),query.getLimit());
-            IPage<FillProblemVO> list = fillProblemDao.page(page,query);
+            IPage<FillProblemVO> list = baseMapper.page(page,query);
             return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
-    private LambdaQueryWrapper<FillProblemEntity> getWrapper(FillProblemQuery query){
-        LambdaQueryWrapper<FillProblemEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.like(StrUtil.isNotBlank(query.getName()), FillProblemEntity::getName, query.getName());
-        wrapper.eq(query.getStatus() != null, FillProblemEntity::getStatus, query.getStatus());
-        wrapper.eq(query.getDifficulty() != null, FillProblemEntity::getDifficulty, query.getDifficulty());
-        wrapper.orderByAsc(FillProblemEntity::getUpdateTime);
-        return wrapper;
-    }
+
 
     @Override
     public void save(FillProblemVO vo) {
@@ -74,24 +63,29 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
 
     @Override
     public void updateStatus(Long problemId) {
-        fillProblemDao.updateStatus(problemId);
+        baseMapper.updateStatus(problemId);
     }
 
 
     @Override
     public void updateUsedNum(Long id) {
-        fillProblemDao.updateUsedNum(id);
+        baseMapper.updateUsedNum(id);
 
     }
 
     @Override
     public void updateSubmitTimes(Long id, Boolean isTrue) {
-        fillProblemDao.updateSubmitTimes(id,isTrue);
+        baseMapper.updateSubmitTimes(id,isTrue);
 
     }
 
     @Override
     public FillProblemVO selectFillProblemInfo(Long id) {
-        return fillProblemDao.selectFillProblemInfo(id);
+        FillProblemVO fillProblemVO= (FillProblemVO) redisUtils.get(RedisKeys.getProblemInfo(id,"fill"));
+        if(fillProblemVO==null){
+            fillProblemVO=baseMapper.selectFillProblemInfo(id);
+            redisUtils.set(RedisKeys.getProblemInfo(id,"fill"),fillProblemVO, RedisUtils.MIN_TEN_EXPIRE);
+        }
+        return fillProblemVO;
     }
 }

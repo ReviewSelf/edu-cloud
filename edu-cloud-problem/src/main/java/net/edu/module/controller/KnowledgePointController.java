@@ -1,17 +1,14 @@
 package net.edu.module.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.KnowledgePointConvert;
 import net.edu.module.entity.KnowledgePointEntity;
 import net.edu.module.service.KnowledgePointService;
 import net.edu.module.vo.KnowledgePointVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

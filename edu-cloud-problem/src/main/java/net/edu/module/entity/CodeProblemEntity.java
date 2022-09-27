@@ -83,10 +83,12 @@ public class CodeProblemEntity extends BaseEntity {
 	*/
 	private Integer sampleNum;
 
+
+
 	/**
-	* 知识点id
-	*/
-	private Long kpId;
+	 * 知识点code
+	 */
+	private String kpCode;
 
 	/**
 	* 提交次数

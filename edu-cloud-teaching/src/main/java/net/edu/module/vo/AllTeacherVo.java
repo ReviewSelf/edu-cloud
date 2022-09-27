@@ -6,9 +6,9 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @Description: TODO
- * @author: sl
- * @date: 2022年09月16日 19:38
+ * {@code @Description:} TODO
+ * {@code @author:} sl
+ * {@code @date:} 2022年09月16日 19:38
  */
 @Data
 @Schema(description = "所有老师")

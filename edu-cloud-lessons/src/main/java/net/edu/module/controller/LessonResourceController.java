@@ -28,34 +28,11 @@ import java.util.List;
 public class LessonResourceController {
     private final LessonResourceService lessonResourceService;
 
-    @GetMapping("page")
-    @Operation(summary = "分页")
-    public Result<PageResult<LessonResourceVO>> page(@Valid LessonResourceQuery query){
-        PageResult<LessonResourceVO> page = lessonResourceService.page(query);
-
-        return Result.ok(page);
-    }
-
-    @GetMapping("{id}")
-    @Operation(summary = "信息")
-    public Result<LessonResourceVO> get(@PathVariable("id") Long id){
-        LessonResourceEntity entity = lessonResourceService.getById(id);
-
-        return Result.ok(LessonResourceConvert.INSTANCE.convert(entity));
-    }
 
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody LessonResourceVO vo){
         lessonResourceService.save(vo);
-
-        return Result.ok();
-    }
-
-    @PutMapping
-    @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid LessonResourceVO vo){
-        lessonResourceService.update(vo);
 
         return Result.ok();
     }

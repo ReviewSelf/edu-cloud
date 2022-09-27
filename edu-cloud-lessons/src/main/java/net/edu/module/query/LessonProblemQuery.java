@@ -24,4 +24,5 @@ public class LessonProblemQuery  {
     @Schema(description = "练习类型")
     private Integer type;
 
+
 }

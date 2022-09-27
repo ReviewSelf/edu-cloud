@@ -52,8 +52,8 @@ public class CodeSampleController {
     @PostMapping("file")
     @Operation(summary = "保存样例文件")
     public Result<String> saveSample(@RequestParam("input") MultipartFile[] inFiles,@RequestParam("output") MultipartFile[] outFiles,@RequestParam("problemId") Long problemId){
-        List<SampleVO> sampleVOS=eduFileApi.uploadBatch(inFiles,outFiles, problemId);
-        codeSampleService.saveSample(sampleVOS,problemId);
+        List<SampleVO> sampleVos=eduFileApi.uploadBatch(inFiles,outFiles, problemId);
+        codeSampleService.saveSample(sampleVos,problemId);
         return Result.ok();
     }
 

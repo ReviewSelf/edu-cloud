@@ -16,30 +16,48 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    //Topic交换机 起名：edu-exchange
+
     @Bean
     TopicExchange TopicExchange() {
         return ExchangeBuilder.topicExchange(ExchangeName.DEFAULT_EXCHANGE).build();
     }
-    //队列1 默认队列：edu-queue
+
+    /**
+     * 队列1 默认队列：edu-queue
+     *
+     * @return
+     */
     @Bean
     public Queue queueEdu() {
         return QueueBuilder.durable(QueueName.DEFAULT_QUEUE).build();
     }
-    //队列2 判题队列：edu-judge-queue
+
+    /**
+     * 队列2 判题队列：edu-judge-queue
+     *
+     * @return
+     */
     @Bean
     public Queue queueJudge() {
         return QueueBuilder.durable(QueueName.JUDGE_QUEUE).build();
     }
 
 
-
-    //绑定
+    /**
+     * 绑定edu
+     *
+     * @return
+     */
     @Bean
     Binding bindingEdu() {
         return BindingBuilder.bind(queueEdu()).to(TopicExchange()).with(BindingName.DEFAULT_BINDING);
     }
 
+    /**
+     * 绑定judge
+     *
+     * @return
+     */
     @Bean
     Binding bindingJudge() {
         return BindingBuilder.bind(queueJudge()).to(TopicExchange()).with(BindingName.JUDGE_BINDING);

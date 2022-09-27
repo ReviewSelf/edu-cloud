@@ -5,15 +5,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.framework.security.user.SecurityUser;
-import net.edu.framework.security.user.UserDetail;
-import net.edu.module.convert.ChoiceProblemConvert;
-import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.service.ChoiceProblemService;
 import net.edu.module.query.ChoiceProblemQuery;
-import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -99,8 +93,7 @@ public class ChoiceProblemController {
     @GetMapping("options/{problemId}")
     @Operation(summary = "获取选项")
     public List<String> getOptionsFromJudge(@PathVariable("problemId") Long problemId, @RequestParam(required = false) int flag) {
-        List<String> list = choiceProblemService.getChoiceOptions(problemId, flag);
-        return list;
+        return choiceProblemService.getChoiceOptions(problemId, flag);
     }
 
     @GetMapping("problemInfo/{problemId}")

@@ -11,6 +11,8 @@ import net.edu.module.vo.LessonVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
 * 课程表
 *
@@ -24,4 +26,9 @@ public interface LessonDao extends BaseDao<LessonEntity> {
 
     IPage<LessonVO> selectTeacherPage(Page<LessonVO> page, @Param("query")LessonQuery query);
 
+    int updateLesson(@Param("vo") LessonVO vo);
+
+    IPage<LessonVO> selectHomeworkPage(Page<LessonVO> page, @Param("query") LessonQuery query);
+
+    List<LessonVO> selectLessonIdList();
 }

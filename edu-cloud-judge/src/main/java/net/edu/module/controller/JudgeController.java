@@ -1,16 +1,18 @@
 package net.edu.module.controller;
 
+import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.service.JudgeService;
 import net.edu.module.service.RecordService;
+import net.edu.module.service.SampleService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
 import net.edu.module.vo.ProblemCompletionVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+import net.edu.module.vo.RecordSampleVo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,18 +25,21 @@ import java.util.List;
  */
 @RestController
 @Tag(name = "代码题判题接口")
+@AllArgsConstructor
 public class JudgeController {
 
-    @Autowired
-    JudgeService judgeService;
-    @Autowired
-    RecordService recordService;
+
+    private final JudgeService judgeService;
+
+    private final RecordService recordService;
+
+    private final SampleService sampleService;
 
     @PostMapping("/record")
     public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo) {
         vo.setSubmitStatus(0);
         vo.setUserId(SecurityUser.getUserId());
-        if (StringUtils.isEmpty(vo.getSubmitImg())) {
+        if (StrUtil.isEmpty(vo.getSubmitImg())) {
             vo.setSubmitImg(null);
         }
         judgeService.judgeBefore(vo);
@@ -66,6 +71,12 @@ public class JudgeController {
     public Result<String> updateReasonAndStatus(@RequestBody ProblemCompletionVo vo){
         recordService.updateReasonAndStatus(vo);
         return Result.ok();
+    }
+
+    @GetMapping("/getRecordSampleList/{problemId}")
+    @Operation(summary = "获取代码题对应的样例")
+    public Result<List<RecordSampleVo>> getRecordSampleList(@PathVariable Integer problemId){
+        return Result.ok(sampleService.getRecordSampleList(problemId));
     }
 
 

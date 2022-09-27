@@ -11,7 +11,6 @@ import net.edu.module.entity.ProblemPaperEntity;
 import net.edu.module.service.ProblemPaperService;
 import net.edu.module.query.ProblemPaperQuery;
 import net.edu.module.vo.ProblemPaperVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

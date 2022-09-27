@@ -7,6 +7,7 @@ import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
 * 课程表
@@ -51,6 +52,16 @@ public class LessonVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date endTime;
 
+	@Schema(description = "作业开始时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date homeworkBeginTime;
+
+	@Schema(description = "作业结束时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date homeworkEndTime;
+
+	@Schema(description = "作业状态， 0：无，1：有 ，2：结束")
+	private Integer homeworkStatus;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

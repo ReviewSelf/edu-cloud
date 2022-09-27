@@ -20,13 +20,18 @@ import net.edu.module.service.LessonAttendLogService;
 import net.edu.module.service.LessonProblemService;
 import net.edu.module.service.LessonResourceService;
 import net.edu.module.vo.LessonAttendLogVO;
+import net.edu.module.vo.LessonIPVO;
 import net.edu.module.vo.LessonVO;
 import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +47,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final LessonProblemService lessonProblemService;
     private final LessonResourceService lessonResourceService;
     private final LessonAttendLogService lessonAttendLogService;
-    private final LessonDao lessonDao;
     private final EduTeachApi eduTeachApi;
     private final RedisUtils redisUtils;
 
@@ -52,26 +56,25 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         query.setUserId(SecurityUser.getUserId());
 
         IPage<LessonVO> list;
+        //判断是否为学生
         if(query.getRole()==1){
-            list = lessonDao.selectStudentPage(page, query);
+            list = baseMapper.selectStudentPage(page, query);
         }else {
-            list = lessonDao.selectTeacherPage(page, query);
+            list = baseMapper.selectTeacherPage(page, query);
         }
+        handlerStatisticsMonthlyScheduled();
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
-//    @Override
-//    public List<LessonVO> list(LessonQuery query) {
-//        List<LessonEntity> list = null;
-//        list = (List<LessonEntity>) redisUtils.get(RedisKeys.getClassLesson(query.getClassId()), RedisUtils.MIN_TEN_EXPIRE);
-//        if (list == null) {
-//            LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
-//            wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
-//            list = baseMapper.selectList(wrapper);
-//            redisUtils.set(RedisKeys.getClassLesson(query.getClassId()), list, RedisUtils.MIN_TEN_EXPIRE);
-//        }
-//        return LessonConvert.INSTANCE.convertList(list);
-//    }
+    @Override
+    public List<LessonVO> list(LessonQuery query) {
+        List<LessonEntity> list = null;
+        LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
+        wrapper.orderByAsc(LessonEntity::getSort);
+        list = baseMapper.selectList(wrapper);
+        return LessonConvert.INSTANCE.convertList(list);
+    }
 
     @Override
     public void update(LessonVO vo) {
@@ -82,7 +85,13 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     }
 
     @Override
-    @Transactional
+    public void updateHomework(LessonVO vo) {
+        baseMapper.updateLesson(vo);
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void createLessons(List<LessonVO> voList) {
 
         if (!CollectionUtil.isEmpty(voList)) {
@@ -113,6 +122,34 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
 
     }
+
+    @Override
+    public PageResult<LessonVO> homeworkPage(LessonQuery query) {
+        Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
+        query.setUserId(SecurityUser.getUserId());
+
+        IPage<LessonVO> list;
+        list = baseMapper.selectHomeworkPage(page, query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
+    @Override
+    public void handlerStatisticsMonthlyScheduled() {
+//        获取表中所有作业状态为1的课程信息
+        List<LessonVO> list = baseMapper.selectLessonIdList();
+        for (LessonVO lessonVO : list) {
+            //判断当前时间是否大于结束时间
+            if (lessonVO.getHomeworkEndTime().compareTo(new Date()) < 0) {
+//                修改回家作业状态
+                lessonVO.setHomeworkStatus(2);
+//                更新到数据库
+                update(lessonVO);
+            }
+        }
+
+    }
+
+
 
 
 }

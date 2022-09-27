@@ -4,15 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.convert.ProblemResourceConvert;
-import net.edu.module.entity.ProblemResourceEntity;
+
 import net.edu.module.service.ProblemResourceService;
-import net.edu.module.query.ProblemResourceQuery;
 import net.edu.module.vo.ProblemResourceVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**

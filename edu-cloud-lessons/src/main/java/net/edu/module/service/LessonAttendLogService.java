@@ -4,6 +4,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.LessonAttendLogEntity;
+import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonAttendLogQuery;
 import net.edu.module.vo.LessonAttendLogVO;
 
@@ -20,7 +21,7 @@ public interface LessonAttendLogService extends BaseService<LessonAttendLogEntit
 
     List<LessonAttendLogVO> list(LessonAttendLogQuery query);
 
-    Result attendance(Long userId, Long lessonId);
+    Boolean attendance(Long userId, LessonEntity lessonEntity);
 
     void save(LessonAttendLogVO vo);
 

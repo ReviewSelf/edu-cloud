@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.SneakyThrows;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.utils.EncryptUtils;
+import net.edu.framework.common.utils.Result;
 import net.edu.module.service.SampleUploadService;
 import net.edu.module.utils.ResponseUtils;
 import net.edu.module.vo.FileUploadVO;
@@ -59,8 +60,15 @@ public class SampleController {
     @SneakyThrows
     @GetMapping("/fileBase64")
     @Operation(summary = "测试样例转Base64")
-    public String getFileContent(@RequestParam("path") String path){
-        return sampleUploadService.getFileContent(path);
+    public Result<String> getFileContent(@RequestParam("path") String path){
+        return Result.ok(sampleUploadService.getFileContent(path));
+    }
+
+    @SneakyThrows
+    @GetMapping("/fileStream")
+    @Operation(summary = "样例文件转文件流")
+    public void getFileStream(@RequestParam("path") String path,HttpServletResponse response){
+        sampleUploadService.getFileStream(path,response);
     }
 }
 

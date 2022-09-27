@@ -98,8 +98,8 @@ public class JudgeService {
                     .cpuTimeLimit(vo.getTimeLimit())
                     .memoryLimit(vo.getMemoryLimit())
                     .languageId(vo.getLanguageType())
-                    .stdin(eduFileApi.getFileContent(item.getInputPath()))
-                    .expectedOutput(eduFileApi.getFileContent(item.getOutputPath()))
+                    .stdin(eduFileApi.getFileContent(item.getInputPath()).getData())
+                    .expectedOutput(eduFileApi.getFileContent(item.getOutputPath()).getData())
                     .sourceCode(vo.getSubmitCode())
                     .build();
 

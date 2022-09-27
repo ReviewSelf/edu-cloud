@@ -90,5 +90,22 @@ public class SampleUploadService {
         return str;
     }
 
-
+    @SneakyThrows
+    public void getFileStream(String path, HttpServletResponse response) {
+        String bufferString = null;
+        File file = new File(path);
+        if (!file.exists()) {
+            throw new ServerException("文件不存在");
+        }
+        FileInputStream fileInputStream = new FileInputStream(file);
+        InputStream fis = new BufferedInputStream(fileInputStream);
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer);
+        fis.close();
+        bufferString = new String(buffer);
+        ResponseUtils.responseTxtHead(response, new File(path).getName());
+        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+        outputStream.write(buffer);
+        outputStream.flush();
+    }
 }

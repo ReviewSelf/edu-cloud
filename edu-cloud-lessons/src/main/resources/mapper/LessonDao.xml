@@ -61,6 +61,7 @@
         <if test="query.getClassId()!=null">
             and t.class_id=#{query.classId}
         </if>
+        order by t.homework_end_time asc
     </select>
 
     <select id="selectLessonIdList" resultType="net.edu.module.vo.LessonVO">

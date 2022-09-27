@@ -67,8 +67,7 @@
           and problem_type = #{problemType}
           and source = #{source}
           and source_id = #{sourceId}
-        order by update_time desc
-        limit 1
+        order by update_time desc limit 1
     </select>
 
     <resultMap id="LessonRecord" type="net.edu.module.vo.LessonJudgeRecordVo">
@@ -131,32 +130,44 @@
     </resultMap>
 
     <select id="selectRecordAndAnswer" resultMap="judgeRecordAndAnswer">
-        select a.id,
-               a.problem_id,
-               a.problem_type,
-               a.source ,
-               a.source_id,
-               a.user_id,
-               a.submit_content,
-               a.submit_img,
-               a.submit_status,
-               a.judge_type,
-               a.judge_reason,
-                b.record_id,
-                b.sample_id,
-                b.runtime,
-                b.memory,
-                b.result_code
-        from judge_record a
-            left join judge_record_sample b
-                on a.id = b.record_id
-        where a.problem_id = #{problemId}
-        and a.problem_type = #{problemType}
-        and a.source = #{source}
-        and a.source_id = #{sourceId}
-        and a.user_id = #{userId}
-        order by a.update_time desc
-        limit 1
+        select t.id,
+               t.problem_id,
+               t.problem_type,
+               t.source,
+               t.source_id,
+               t.user_id,
+               t.submit_content,
+               t.submit_img,
+               t.submit_status,
+               t.judge_type,
+               t.judge_reason,
+               b.record_id,
+               b.sample_id,
+               b.runtime,
+               b.memory,
+               b.result_code
+        from (select a.id,
+                     a.problem_id,
+                     a.problem_type,
+                     a.source,
+                     a.source_id,
+                     a.user_id,
+                     a.submit_content,
+                     a.submit_img,
+                     a.submit_status,
+                     a.judge_type,
+                     a.judge_reason
+              from judge_record a
+              where a.problem_id = #{problemId}
+                and a.problem_type = #{problemType}
+                and a.source = #{source}
+                and a.source_id = #{sourceId}
+                and a.user_id = #{userId}
+              order by a.update_time desc limit 1) t
+                 left join judge_record_sample b
+                           on t.id = b.record_id
+
+
     </select>
 
     <update id="updateReasonAndStatus">
@@ -172,8 +183,7 @@
                              and source = #{source}
                              and source_id = #{sourceId}
                              and user_id = #{userId}
-                           order by update_time desc
-                           limit 1) tt
+                           order by update_time desc limit 1) tt
                      where t.id = tt.id)
     </update>
 </mapper>

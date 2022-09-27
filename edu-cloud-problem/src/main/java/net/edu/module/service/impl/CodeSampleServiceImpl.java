@@ -34,8 +34,8 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
 
     @Override
     public List<CodeSampleVO> getList(Long problemId) {
-        List<CodeSampleVO> arr=null;
-        arr= (List<CodeSampleVO>) redisUtils.get(RedisKeys.getSample(problemId),RedisUtils.HOUR_ONE_EXPIRE);
+
+        List<CodeSampleVO> arr=(List<CodeSampleVO>) redisUtils.get(RedisKeys.getSample(problemId),RedisUtils.HOUR_ONE_EXPIRE);
         if(arr==null){
             LambdaQueryWrapper<CodeSampleEntity> wrapper = Wrappers.lambdaQuery();
             wrapper.eq(true, CodeSampleEntity::getProblemId, problemId);
@@ -66,9 +66,7 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveSample(List<SampleVO> sampleVos, Long problemId) {
-        sampleVos.forEach((item) -> {
-            baseMapper.insert(CodeSampleConvert.INSTANCE.convert(item));
-        });
+        sampleVos.forEach((item) -> baseMapper.insert(CodeSampleConvert.INSTANCE.convert(item)));
         redisUtils.del(RedisKeys.getSample(problemId));
         codeProblemDao.updateSampleNum(problemId);
     }

@@ -36,12 +36,15 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
     private final RedisUtils redisUtils;
 
 
-    /*
+
+
+    /**
      * 分成三种情况
      * 1.数据库无数据 调用YouBianCodeUtil.getNextYouBianCode(null);
      * 2.添加子节点，无兄弟元素 YouBianCodeUtil.getSubYouBianCode(parentCode,null);
      * 3.添加子节点有兄弟元素 YouBianCodeUtil.getNextYouBianCode(lastCode);
-     * */
+     * @param vo
+     */
     @Override
     public void save(KnowledgePointVO vo) {
         KnowledgePointEntity entity = KnowledgePointConvert.INSTANCE.convert(vo);
@@ -90,8 +93,7 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
 
     @Override
     public List<KnowledgePointVO> getKpList() {
-        List<KnowledgePointEntity> menuList=null;
-        menuList= (List<KnowledgePointEntity>) redisUtils.get(RedisKeys.getKnowledgePointKey(),RedisUtils.MIN_TEN_EXPIRE);
+        List<KnowledgePointEntity> menuList= (List<KnowledgePointEntity>) redisUtils.get(RedisKeys.getKnowledgePointKey(),RedisUtils.MIN_TEN_EXPIRE);
         if(menuList==null){
             menuList = baseMapper.getKpList();
             redisUtils.set(RedisKeys.getKnowledgePointKey(),menuList,RedisUtils.MIN_TEN_EXPIRE);

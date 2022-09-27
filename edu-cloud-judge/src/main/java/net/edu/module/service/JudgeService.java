@@ -11,6 +11,7 @@ import net.edu.framework.common.mq.QueueName;
 import net.edu.framework.common.utils.EncryptUtils;
 import net.edu.module.api.EduFileApi;
 import net.edu.module.api.EduProblemApi;
+import net.edu.module.api.EduTeachApi;
 import net.edu.module.dao.JudgeRecordDao;
 import net.edu.module.dao.JudgeRecordSampleDao;
 import net.edu.module.vo.*;
@@ -38,7 +39,8 @@ public class JudgeService {
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-
+    @Autowired
+    EduTeachApi eduTeachApi;
 
 
     @Autowired
@@ -55,26 +57,20 @@ public class JudgeService {
 
 
 
-    public int judgeBefore(JudgeRecordSubmitVO vo) {
-
+    public void judgeBefore(JudgeRecordSubmitVO vo) {
         //插入记录
         if(vo.getProblemType()==1){
+            //选择题直接判题
            judgeChoice(vo);
-
         }else if(vo.getProblemType()==2){
+            //填空题只插入
             judgeRecordDao.insertSubmitRecord(vo);
         }else if(vo.getProblemType()==3){
+            //代码题先插入后推送至mq
             judgeRecordDao.insertSubmitRecord(vo);
-            //当前列队数量，0表示正在判题，1表示1人等待依次类推；
-            System.out.println(vo.getId());
             //提交到mq
-            try {
-                rabbitTemplate.convertAndSend(ExchangeName.DEFAULT_EXCHANGE, BindingName.JUDGE_BINDING, vo.getId());
-            }catch (Exception e){
-                System.out.println(e);
-            }
+            rabbitTemplate.convertAndSend(ExchangeName.DEFAULT_EXCHANGE, BindingName.JUDGE_BINDING, vo.getId());
         }
-        return 0;
     }
 
     @Transactional
@@ -93,6 +89,7 @@ public class JudgeService {
             }
         }
         judgeRecordDao.insertSubmitRecord(vo);
+        judgeAfter(vo.getId(), vo.getProblemId(), 1);
     }
 
     @Transactional
@@ -113,7 +110,6 @@ public class JudgeService {
                     .expectedOutput(eduFileApi.getFileContent(item.getOutputPath()))
                     .sourceCode(vo.getSubmitCode())
                     .build();
-            System.out.println(judgeCommitVO.toJsonString());
 
             JSONObject result = Judge0Http(judgeCommitVO);
 
@@ -135,18 +131,24 @@ public class JudgeService {
 
     @Transactional
     public void judgeAfter(Long recordId,Long problemId,int type) {
-        int status=judgeRecordDao.selectResult(recordId);
+        JudgeRecordSubmitVO vo=judgeRecordDao.selectResult(recordId);
         //更新题目回答次数/正确次数
         if(type==1){
-            eduProblemApi.updateChoiceSubmitTimes(problemId,status==3);
+            eduProblemApi.updateChoiceSubmitTimes(problemId,vo.getSubmitStatus()==3);
         }
         else if(type==2){
-            eduProblemApi.updateFillSubmitTimes(problemId,status==3);
+            eduProblemApi.updateFillSubmitTimes(problemId,vo.getSubmitStatus()==3);
         }
         else if(type==3){
-            eduProblemApi.updateCodeSubmitTimes(problemId,status==3);
+            eduProblemApi.updateCodeSubmitTimes(problemId,vo.getSubmitStatus()==3);
         }
+
         //结束判题更新用户答题次数/准确次数
+        if(vo.getSubmitStatus()==3){
+            eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 1);
+        }else {
+            eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 0);
+        }
 
     }
 
@@ -165,7 +167,9 @@ public class JudgeService {
         return new JSONObject(result);
     }
 
-    public JudgeRecordSubmitVO getRecord(JudgeRecordSubmitVO vo){
-        return judgeRecordDao.selectRecord(vo);
-    }
+
+
+
+
+
 }

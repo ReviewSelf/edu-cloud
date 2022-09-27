@@ -23,6 +23,9 @@ public class LessonAttendLogVO implements Serializable {
 	@Schema(description = "学生id")
 	private Long stuId;
 
+	@Schema(description = "学生姓名")
+	private String name;
+
 	@Schema(description = "课堂id")
 	private Long lessonId;
 
@@ -35,8 +38,6 @@ public class LessonAttendLogVO implements Serializable {
 
 	@Schema(description = "是否点名")
 	private Integer rollCall;
-
-
 
 	@Schema(description = "更新时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

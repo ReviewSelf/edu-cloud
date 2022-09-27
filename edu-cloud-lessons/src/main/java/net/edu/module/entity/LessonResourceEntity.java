@@ -21,6 +21,12 @@ public class LessonResourceEntity {
 	 */
 	@TableId
 	private Long id;
+
+	/**
+	 * 课堂id
+	 */
+	private Long lessonId;
+
 	/**
 	* 名称
 	*/
@@ -57,4 +63,8 @@ public class LessonResourceEntity {
 	@TableField(fill = FieldFill.INSERT)
 	private Date createTime;
 
+	/**
+	 * 删除标志
+	 */
+	private Integer deleted;
 }

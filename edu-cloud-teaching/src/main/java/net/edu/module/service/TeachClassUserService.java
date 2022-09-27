@@ -1,9 +1,12 @@
 package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.TeachClassUserEntity;
+import net.edu.module.entity.TeachStudentEntity;
 import net.edu.module.query.TeachClassUserQuery;
+import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.stereotype.Service;
 
@@ -31,4 +34,6 @@ public interface TeachClassUserService extends BaseService<TeachClassUserEntity>
     void delete(List<Long> idList);
 
     void quitClass(Long classId,Long userId, Date quitTime);
+
+    List<TeachStudentEntity> getStudent(Long id);
 }

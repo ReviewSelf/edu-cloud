@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class WxServiceImpl implements WxService {
-    private static final String APPID = "wx5d0fc93575b299a8";
-    private static final String APPSECRET = "b74a02008ff43c3a7d1d75012a82d3a4";
+    public static final String APPID = "wx5d0fc93575b299a8";
+    public static final String APPSECRET = "b74a02008ff43c3a7d1d75012a82d3a4";
 
     AccessToken AccessToken = new AccessToken();
     @Override

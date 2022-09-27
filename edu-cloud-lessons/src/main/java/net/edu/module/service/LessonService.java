@@ -1,6 +1,7 @@
 package net.edu.module.service;
 
 
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
@@ -16,13 +17,13 @@ import java.util.List;
  */
 public interface LessonService extends BaseService<LessonEntity> {
 
-    List<LessonVO> list(LessonQuery query);
+    PageResult<LessonVO> page(LessonQuery query);
 
-//    void save(LessonVO vo);
+//    List<LessonVO> list(LessonQuery query);
+
 
     void update(LessonVO vo);
 
-    void delete(List<Long> idList);
 
     void createLessons(List<LessonVO> voList);
 }

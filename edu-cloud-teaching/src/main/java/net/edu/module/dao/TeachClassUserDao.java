@@ -1,7 +1,10 @@
 package net.edu.module.dao;
 
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.TeachClassUserEntity;
+import net.edu.module.entity.TeachStudentEntity;
+import net.edu.module.vo.TeachClassStudentVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,4 +25,6 @@ public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
     int insertClassUser(@Param("list") List list,@Param("classId") Long classId);
 
     List<Long> selectUserIdList(Long classId);
+
+    List<TeachStudentEntity> selectStudent(Long id);
 }

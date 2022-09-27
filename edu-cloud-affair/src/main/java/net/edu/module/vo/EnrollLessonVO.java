@@ -16,6 +16,9 @@ public class EnrollLessonVO implements Serializable {
     @Schema(description = "课程ID")
     private Integer id;
 
+    @Schema(description = "课程名称")
+    private String name;
+
     @Schema(description = "任课老师")
     private String username;
 

@@ -16,7 +16,15 @@
             and grade = #{query.grade}
         </if>
         <if test="query.getStatus() !=null ">
-            and status = #{query.status}
+            <if test="query.getStatus() == 2">
+                and status = 2 or status = 3
+            </if>
+            <if test="query.getStatus() == 1">
+                and status = 1
+            </if>
+            <if test="query.getStatus() == 4">
+                and status = 4
+            </if>
         </if>
         <if test="query.getArea() !=null and query.getArea()!=''">
             and area =#{query.area}
@@ -27,7 +35,7 @@
         <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
             and create_time &gt;=#{query.beginTime}  and create_time &lt;=#{query.endTime}
         </if>
-        order by update_time desc
+        order by update_time,status desc
     </select>
 
     <update id="updateEnrollUser">

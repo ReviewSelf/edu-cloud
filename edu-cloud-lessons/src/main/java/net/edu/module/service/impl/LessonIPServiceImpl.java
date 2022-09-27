@@ -52,20 +52,29 @@ public class LessonIPServiceImpl extends BaseServiceImpl<LessonIPDao, LessonIPEn
     @Override
     public void save(LessonIPVO vo) {
         LessonIPEntity entity = LessonIPConvert.INSTANCE.convert(vo);
-
         baseMapper.insert(entity);
+
+//        更新缓存
+        List<LessonIPEntity> list=null;
+        list= (List<LessonIPEntity>) redisUtils.get(RedisKeys.getLessonIp(vo.getLessonId()),RedisUtils.MIN_TEN_EXPIRE);
+        if(list!=null){
+            list.add(entity);
+            redisUtils.set(RedisKeys.getLessonIp(vo.getLessonId()),list,RedisUtils.HOUR_ONE_EXPIRE);
+        }
     }
 
     @Override
     public void update(LessonIPVO vo) {
         LessonIPEntity entity = LessonIPConvert.INSTANCE.convert(vo);
-
+        redisUtils.del(RedisKeys.getLessonIp(entity.getLessonId()));
         updateById(entity);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
+        LessonIPEntity entity = baseMapper.selectById(idList.get(0));
+        redisUtils.del(RedisKeys.getLessonIp(entity.getLessonId()));
         removeByIds(idList);
     }
 

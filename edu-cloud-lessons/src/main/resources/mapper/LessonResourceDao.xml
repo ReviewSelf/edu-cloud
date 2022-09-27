@@ -27,7 +27,11 @@
                 file_type,
                 remark
         from lesson_resource
-        where lesson_id=#{lessonId}
+        where lesson_id=#{lessonId} and deleted = 0
     </select>
+
+    <delete id="deleteResource">
+        update lesson_resource set deleted = 1 where id = #{id}
+    </delete>
 
 </mapper>

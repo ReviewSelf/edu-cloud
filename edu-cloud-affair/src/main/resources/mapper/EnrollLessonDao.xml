@@ -4,12 +4,12 @@
 <mapper namespace="net.edu.module.dao.EnrollLessonDao">
     <insert id="saveLesson" parameterType="net.edu.module.entity.EnrollLessonEntity">
         insert into
-        lesson(teacher_id , place , begin_time , end_time , class_id)
-        values(#{teacherId} , #{place} , #{beginTime} , #{endTime} , 0)
+        lesson(teacher_id , name , place , begin_time , end_time , class_id)
+        values(#{teacherId}, #{name} , #{place} , #{beginTime} , #{endTime} , 0)
     </insert>
     <update id="updateLesson" parameterType="net.edu.module.vo.EnrollLessonVO">
         update
-        lesson set teacher_id = #{teacherId} , place = #{place} , begin_time = #{beginTime} , end_time = #{endTime}
+        lesson set teacher_id = #{teacherId} , name = #{name}, place = #{place} , begin_time = #{beginTime} , end_time = #{endTime}
         where id = #{id}
     </update>
     <update id="joinLesson">
@@ -20,6 +20,7 @@
     <select id="selectEnrollLessonByPage" resultType="net.edu.module.vo.EnrollLessonVO">
         select
         t1.id,
+        t1.name,
         t1.teacher_id,
         t1.place,
         t1.begin_time,
@@ -32,6 +33,7 @@
     <select id="selectLessonById" resultType="net.edu.module.entity.EnrollLessonEntity">
         select
         t1.id,
+        t1.name,
         t1.teacher_id,
         t1.place,
         t1.begin_time,

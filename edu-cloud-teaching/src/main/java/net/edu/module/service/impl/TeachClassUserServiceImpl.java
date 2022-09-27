@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachClassUserConvert;
 import net.edu.module.dao.TeachClassUserDao;
 import net.edu.module.entity.TeachClassUserEntity;
+import net.edu.module.entity.TeachStudentEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
+import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,6 +75,11 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
     @Override
     public void quitClass(Long classId,Long userId, Date quitTime) {
         teachClassUserDao.updateQuitClass(classId,userId,quitTime);
+    }
+
+    @Override
+    public List<TeachStudentEntity> getStudent(Long id) {
+        return teachClassUserDao.selectStudent(id);
     }
 
 }

@@ -27,4 +27,6 @@ public interface LessonProblemService extends BaseService<LessonProblemEntity> {
 
     void copyFromPlanItem(Long planItemId, Long lessonId);
 
+    int updateProblemTime(List<LessonProblemVO> lessonProblemList);
+
 }

@@ -31,6 +31,9 @@ public class UserDetail implements UserDetails {
     private Long orgId;
     private Integer status;
     private Integer superAdmin;
+    private Integer submitTimes;
+    private Integer correctTimes;
+    private List<Long> roleIdList;
 
     /**
      * 数据权限范围

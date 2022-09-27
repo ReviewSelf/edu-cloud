@@ -4,6 +4,9 @@ package net.edu.module.vo;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
+import net.edu.module.dao.JudgeRecordSampleDao;
+
+import java.util.List;
 
 @Data
 public class ProblemCompletionVo {
@@ -23,4 +26,5 @@ public class ProblemCompletionVo {
     private Integer judgeUser;
     private String judgeReason;
     private String answer;
+    private List<RecordSampleVo> recordSampleVoList;
 }

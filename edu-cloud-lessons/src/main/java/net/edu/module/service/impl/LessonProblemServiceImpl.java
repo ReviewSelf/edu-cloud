@@ -33,6 +33,7 @@ import java.util.List;
 @AllArgsConstructor
 public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, LessonProblemEntity> implements LessonProblemService {
 
+    private final LessonProblemDao lessonProblemDao;
     private final EduTeachApi eduTeachApi;
     private final EduProblemApi eduProblemApi;
 
@@ -84,5 +85,8 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
         }
     }
 
-
+    @Override
+    public int updateProblemTime(List<LessonProblemVO> lessonProblemList) {
+        return lessonProblemDao.updateProblemTime(lessonProblemList);
+    }
 }

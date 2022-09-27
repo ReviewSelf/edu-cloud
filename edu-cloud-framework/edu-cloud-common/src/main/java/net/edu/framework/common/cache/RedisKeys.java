@@ -63,7 +63,7 @@ public class RedisKeys {
     }
 
     public static String getChoiceOptions(Long problemId) {
-        return "problem:choice:" + problemId;
+        return "problem:choice:option" + problemId;
     }
 
     public static String getSample(Long problemId) {

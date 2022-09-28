@@ -7,6 +7,7 @@ import net.edu.module.entity.UserEntity;
 import net.edu.module.query.RoleUserQuery;
 import net.edu.module.query.UserQuery;
 import net.edu.module.vo.UserVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -42,4 +43,5 @@ public interface StudentService extends BaseService<UserEntity> {
 
     void updateSubmitCorrectTimes(Long userId,Integer correct);
 
+    void studentFromExcel(MultipartFile file);
 }

@@ -49,6 +49,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final LessonAttendLogService lessonAttendLogService;
     private final EduTeachApi eduTeachApi;
     private final RedisUtils redisUtils;
+    private final LessonDao lessonDao;
 
     /**
      * 获取学生/老师的课堂记录

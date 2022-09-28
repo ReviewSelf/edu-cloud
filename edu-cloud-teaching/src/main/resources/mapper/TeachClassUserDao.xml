@@ -31,10 +31,10 @@
     </update>
     <insert id="insertClassUser" parameterType="net.edu.module.entity.TeachClassUserEntity">
         INSERT INTO teach_class_user
-        (user_id,class_id)
+        (user_id,class_id,join_time)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item},#{classId})
+            (#{item},#{classId},now())
         </foreach>
     </insert>
     <select id="selectUserIdList" resultType="java.lang.Long">

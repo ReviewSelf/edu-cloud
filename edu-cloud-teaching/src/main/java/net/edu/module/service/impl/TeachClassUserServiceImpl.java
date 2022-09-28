@@ -1,23 +1,27 @@
 package net.edu.module.service.impl;
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.utils.Result;
+import lombok.SneakyThrows;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachClassUserConvert;
+import net.edu.module.convert.UserConvert;
 import net.edu.module.dao.TeachClassUserDao;
 import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.entity.TeachStudentEntity;
+import net.edu.module.entity.UserEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
-import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
+import net.edu.module.vo.UserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import net.edu.framework.common.page.PageResult;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;

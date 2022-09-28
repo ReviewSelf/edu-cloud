@@ -8,7 +8,9 @@ import net.edu.module.entity.TeachStudentEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
+import net.edu.module.vo.UserVO;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.Date;

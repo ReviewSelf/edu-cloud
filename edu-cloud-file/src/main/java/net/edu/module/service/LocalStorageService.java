@@ -3,7 +3,9 @@ package net.edu.module.service;
 import lombok.SneakyThrows;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.module.properties.LocalStorageProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,12 +18,11 @@ import java.nio.file.Files;
 /**
  *
  */
+@Service
 public class LocalStorageService extends StorageService {
 
-   LocalStorageProperties properties=new LocalStorageProperties();
-
-    @Value("${storage.local.path}")
-    private String localPath="E://upload";
+    @Autowired
+    LocalStorageProperties properties;
 
     @Override
     public String upload(byte[] data, String path) {
@@ -31,7 +32,7 @@ public class LocalStorageService extends StorageService {
     @Override
     @SneakyThrows
     public String upload2(MultipartFile file, String fileName) {
-        String path=localPath+File.separator+System.currentTimeMillis()+"_"+fileName;
+        String path= properties.getPath()+File.separator+System.currentTimeMillis()+"_"+fileName;
         File newFile=new File(path);
         // 没有目录，则自动创建目录
         File parent = newFile.getParentFile();

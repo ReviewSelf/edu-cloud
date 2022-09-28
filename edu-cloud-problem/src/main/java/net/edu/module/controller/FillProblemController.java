@@ -11,6 +11,7 @@ import net.edu.module.service.FillProblemService;
 import net.edu.module.query.FillProblemQuery;
 import net.edu.module.vo.FillProblemVO;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -102,6 +103,13 @@ public class FillProblemController {
     @Operation(summary = "获取填空题答案")
     public Result<String> getFillAnswer(@PathVariable Long problemId){
         return Result.ok(fillProblemService.getById(problemId).getAnswer());
+    }
+
+
+    @PostMapping("/import")
+    public Result<String> importFromExcel(@RequestParam("file") MultipartFile file) {
+        fillProblemService.importFromExcel(file);
+        return Result.ok();
     }
 
 

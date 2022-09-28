@@ -1,6 +1,7 @@
 package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.vo.TeachClassVO;
 import net.edu.module.query.TeachClassQuery;
@@ -35,4 +36,6 @@ public interface TeachClassService extends BaseService<TeachClassEntity> {
     List<TeachClassVO> getClassForTeacher(Integer status);
 
     void updateNextLesson(Integer nextLesson,Long classId);
+
+    void endingCalss(Integer id);
 }

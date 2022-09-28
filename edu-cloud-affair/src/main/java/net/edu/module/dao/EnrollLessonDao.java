@@ -6,6 +6,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.EnrollJoinLessonEntity;
 import net.edu.module.entity.EnrollLessonEntity;
 import net.edu.module.entity.EnrollSelectOne;
+import net.edu.module.entity.EnrollUserEntity;
 import net.edu.module.query.EnrollLessonQuery;
 import net.edu.module.vo.EnrollLessonVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -26,4 +27,6 @@ public interface EnrollLessonDao extends BaseDao<EnrollLessonEntity> {
     void saveLesson(EnrollLessonVO vo);
 
     void joinLesson(EnrollJoinLessonEntity entity);
+
+    void joinLessonSys(EnrollUserEntity user);
 }

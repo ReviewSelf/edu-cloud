@@ -105,6 +105,13 @@ public class TeachClassController {
         return Result.ok(teachClassService.getClassForTeacher(status));
     }
 
+    @GetMapping("classStatus/{id}")
+    @Operation(summary = "结班")
+    public Result<String> updateNextLesson(@PathVariable Integer id){
+        teachClassService.endingCalss(id);
+        return Result.ok();
+    }
+
     @GetMapping("/updateNextLesson")
     @Operation(summary = "修改下一堂课id")
     public Result<String> updateNextLesson(@RequestParam Integer nextLesson, @RequestParam Long classId){

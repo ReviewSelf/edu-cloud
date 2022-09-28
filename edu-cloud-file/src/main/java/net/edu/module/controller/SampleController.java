@@ -64,11 +64,5 @@ public class SampleController {
         return Result.ok(sampleUploadService.getFileContent(path));
     }
 
-    @SneakyThrows
-    @GetMapping("/fileStream")
-    @Operation(summary = "样例文件转文件流")
-    public void getFileStream(@RequestParam("path") String path,HttpServletResponse response){
-        sampleUploadService.getFileStream(path,response);
-    }
 }
 

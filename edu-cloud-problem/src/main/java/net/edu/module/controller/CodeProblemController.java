@@ -12,6 +12,7 @@ import net.edu.module.query.CodeProblemQuery;
 import net.edu.module.vo.CodeProblemAnswerVo;
 import net.edu.module.vo.CodeProblemVO;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -103,7 +104,14 @@ public class CodeProblemController {
 
     @GetMapping("getCodeAnswer/{problemId}")
     @Operation(summary = "获取代码题答案")
-    public Result<CodeProblemAnswerVo> getCodeAnswer(@PathVariable("problemId") Long problemId){
-        return Result.ok(codeProblemService.getCodeProblemAnswer(problemId)) ;
+    public Result<CodeProblemAnswerVo> getCodeAnswer(@PathVariable("problemId") Long problemId) {
+        return Result.ok(codeProblemService.getCodeProblemAnswer(problemId));
+    }
+
+
+    @PostMapping("/import")
+    public Result<String> importFromExcel(@RequestParam("file") MultipartFile file) {
+        codeProblemService.importFromExcel(file);
+        return Result.ok();
     }
 }

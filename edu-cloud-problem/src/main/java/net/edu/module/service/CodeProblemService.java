@@ -7,6 +7,7 @@ import net.edu.module.vo.CodeProblemAnswerVo;
 import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.query.CodeProblemQuery;
 import net.edu.module.entity.CodeProblemEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -35,4 +36,6 @@ public interface CodeProblemService extends BaseService<CodeProblemEntity> {
     CodeProblemVO getCodeProblemInfo(Long problemId);
 
     CodeProblemAnswerVo getCodeProblemAnswer(Long problemId);
+
+    void importFromExcel(MultipartFile file);
 }

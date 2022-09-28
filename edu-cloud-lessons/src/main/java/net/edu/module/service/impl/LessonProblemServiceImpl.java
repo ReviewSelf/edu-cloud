@@ -94,4 +94,9 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
             }
         }
     }
+
+    @Override
+    public void insertProblemListByTeacher(List<ProblemPaperItemEntity> list,Long lessonId){
+        baseMapper.insertProblemListByTeacher(list,lessonId);
+    }
 }

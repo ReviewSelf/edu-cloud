@@ -50,20 +50,30 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final EduTeachApi eduTeachApi;
     private final RedisUtils redisUtils;
 
+    /**
+     * 获取学生/老师的课堂记录
+     * @param query
+     * @return
+     */
     @Override
     public PageResult<LessonVO> page(LessonQuery query) {
-        Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
         query.setUserId(SecurityUser.getUserId());
+        PageResult<LessonVO> pageResult=null;
+//        pageResult= (PageResult<LessonVO>) redisUtils.get(RedisKeys.getLessonPage(query.getRedisKeys()));
+//        if(pageResult==null){
+            Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
+            IPage<LessonVO> list;
+            //判断是否为学生
+            if(query.getRole()==1){
+                list = baseMapper.selectStudentPage(page, query);
+            }else {
+                list = baseMapper.selectTeacherPage(page, query);
+            }
+            pageResult=  new PageResult<>(list.getRecords(), list.getTotal());
+//            redisUtils.set(RedisKeys.getLessonPage(query.getRedisKeys()),pageResult,RedisUtils.SECOND_thirty_EXPIRE);
+//        }
 
-        IPage<LessonVO> list;
-        //判断是否为学生
-        if(query.getRole()==1){
-            list = baseMapper.selectStudentPage(page, query);
-        }else {
-            list = baseMapper.selectTeacherPage(page, query);
-        }
-        handlerStatisticsMonthlyScheduled();
-        return new PageResult<>(list.getRecords(), list.getTotal());
+        return pageResult;
     }
 
     @Override
@@ -81,7 +91,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
         updateById(entity);
     //    redisUtils.del(RedisKeys.getClassLesson(vo.getClassId()));
-
     }
 
     @Override
@@ -119,15 +128,12 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
 
         }
-
-
     }
 
     @Override
     public PageResult<LessonVO> homeworkPage(LessonQuery query) {
         Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
         query.setUserId(SecurityUser.getUserId());
-
         IPage<LessonVO> list;
         list = baseMapper.selectHomeworkPage(page, query);
         return new PageResult<>(list.getRecords(), list.getTotal());

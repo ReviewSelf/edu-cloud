@@ -1,17 +1,13 @@
 package net.edu.module.service;
 
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import net.edu.framework.common.cache.RedisCache;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.utils.EncryptUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.module.utils.ResponseUtils;
 import net.edu.module.vo.SampleVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -74,7 +70,7 @@ public class SampleUploadService {
         byte[] buffer = new byte[fis.available()];
         fis.read(buffer);
         fis.close();
-        ResponseUtils.responseFileHead(response, file.getName());
+        ResponseUtils.responseTXTHead(response, file.getName());
         OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
         outputStream.write(buffer);
         outputStream.flush();
@@ -90,22 +86,4 @@ public class SampleUploadService {
         return str;
     }
 
-    @SneakyThrows
-    public void getFileStream(String path, HttpServletResponse response) {
-        String bufferString = null;
-        File file = new File(path);
-        if (!file.exists()) {
-            throw new ServerException("文件不存在");
-        }
-        FileInputStream fileInputStream = new FileInputStream(file);
-        InputStream fis = new BufferedInputStream(fileInputStream);
-        byte[] buffer = new byte[fis.available()];
-        fis.read(buffer);
-        fis.close();
-        bufferString = new String(buffer);
-        ResponseUtils.responseTxtHead(response, new File(path).getName());
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(buffer);
-        outputStream.flush();
-    }
 }

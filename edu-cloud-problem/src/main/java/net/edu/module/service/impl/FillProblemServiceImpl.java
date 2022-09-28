@@ -1,8 +1,10 @@
 package net.edu.module.service.impl;
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
@@ -10,11 +12,13 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.FillProblemConvert;
 import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.query.FillProblemQuery;
+import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.vo.FillProblemVO;
 import net.edu.module.dao.FillProblemDao;
 import net.edu.module.service.FillProblemService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -87,5 +91,14 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
             redisUtils.set(RedisKeys.getProblemInfo(id,"fill"),fillProblemVO, RedisUtils.MIN_TEN_EXPIRE);
         }
         return fillProblemVO;
+    }
+
+    @SneakyThrows
+    @Override
+    public void importFromExcel(MultipartFile file) {
+        List<FillProblemVO> list= EasyExcel.read(file.getInputStream()).head(FillProblemVO.class).sheet().headRowNumber(3).doReadSync();
+        for (FillProblemVO vo:list){
+            save(vo);
+        }
     }
 }

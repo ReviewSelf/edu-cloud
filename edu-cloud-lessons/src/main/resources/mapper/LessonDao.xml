@@ -62,7 +62,7 @@
         <if test="query.getClassId()!=null">
             and t.class_id=#{query.classId}
         </if>
-        order by t.homework_end_time asc
+        order by t.homework_begin_time &lt;= now() ,if(t.homework_begin_time &lt;= now(),0,t.homework_begin_time) ,t.homework_begin_time desc
     </select>
 
     <select id="selectLessonIdList" resultType="net.edu.module.vo.LessonVO">

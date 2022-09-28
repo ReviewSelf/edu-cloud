@@ -59,8 +59,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     public PageResult<LessonVO> page(LessonQuery query) {
         query.setUserId(SecurityUser.getUserId());
         PageResult<LessonVO> pageResult=null;
-//        pageResult= (PageResult<LessonVO>) redisUtils.get(RedisKeys.getLessonPage(query.getRedisKeys()));
-//        if(pageResult==null){
             Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
             IPage<LessonVO> list;
             //判断是否为学生
@@ -70,9 +68,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
                 list = baseMapper.selectTeacherPage(page, query);
             }
             pageResult=  new PageResult<>(list.getRecords(), list.getTotal());
-//            redisUtils.set(RedisKeys.getLessonPage(query.getRedisKeys()),pageResult,RedisUtils.SECOND_thirty_EXPIRE);
-//        }
-
         return pageResult;
     }
 

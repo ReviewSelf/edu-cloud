@@ -16,4 +16,9 @@ import net.edu.framework.common.query.Query;
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "班级用户表查询")
 public class TeachClassUserQuery extends Query {
+    @Schema(description = "用户名")
+    private String realName;
+
+    @Schema(description = "班级编号")
+    private String classId;
 }

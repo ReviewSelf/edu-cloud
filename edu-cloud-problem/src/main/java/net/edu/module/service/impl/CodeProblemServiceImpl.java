@@ -1,9 +1,11 @@
 package net.edu.module.service.impl;
 
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
@@ -11,11 +13,15 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.CodeProblemConvert;
 import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.query.CodeProblemQuery;
+import net.edu.module.service.CodeSampleService;
+import net.edu.module.vo.CodeProblemAnswerVo;
 import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.dao.CodeProblemDao;
 import net.edu.module.service.CodeProblemService;
+import net.edu.module.vo.CodeSampleVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,6 +37,8 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
 
 
     private final RedisUtils redisUtils;
+
+    private final CodeSampleService codeSampleService;
 
     @Override
     public PageResult<CodeProblemVO> page(CodeProblemQuery query) {
@@ -90,5 +98,25 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
             redisUtils.set(RedisKeys.getProblemInfo(problemId,"code"),codeProblemVO,RedisUtils.MIN_TEN_EXPIRE);
         }
         return codeProblemVO;
+    }
+
+    @Override
+    public CodeProblemAnswerVo getCodeProblemAnswer(Long problemId) {
+        CodeProblemEntity entity = baseMapper.selectById(problemId);
+        CodeProblemAnswerVo vo = new CodeProblemAnswerVo();
+        vo.setAnswer(entity.getAnswer());
+        List<CodeSampleVO> codeSampleVOList = codeSampleService.getList(problemId);
+        vo.setCodeSampleVOList(codeSampleVOList);
+        return vo;
+    }
+
+    @SneakyThrows
+    @Override
+    public void importFromExcel(MultipartFile file) {
+        List<CodeProblemVO> list=EasyExcel.read(file.getInputStream()).head(CodeProblemVO.class).sheet().headRowNumber(3).doReadSync();
+        for (CodeProblemVO vo:list){
+            save(vo);
+        }
+
     }
 }

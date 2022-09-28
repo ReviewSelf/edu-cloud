@@ -9,8 +9,10 @@ import net.edu.module.convert.CodeProblemConvert;
 import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.service.CodeProblemService;
 import net.edu.module.query.CodeProblemQuery;
+import net.edu.module.vo.CodeProblemAnswerVo;
 import net.edu.module.vo.CodeProblemVO;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -98,5 +100,18 @@ public class CodeProblemController {
     @Operation(summary = "获取答题题目信息")
     public Result<CodeProblemVO> getCodeProblemInfo(@PathVariable("problemId") Long problemId) {
         return Result.ok(codeProblemService.getCodeProblemInfo(problemId));
+    }
+
+    @GetMapping("getCodeAnswer/{problemId}")
+    @Operation(summary = "获取代码题答案")
+    public Result<CodeProblemAnswerVo> getCodeAnswer(@PathVariable("problemId") Long problemId) {
+        return Result.ok(codeProblemService.getCodeProblemAnswer(problemId));
+    }
+
+
+    @PostMapping("/import")
+    public Result<String> importFromExcel(@RequestParam("file") MultipartFile file) {
+        codeProblemService.importFromExcel(file);
+        return Result.ok();
     }
 }

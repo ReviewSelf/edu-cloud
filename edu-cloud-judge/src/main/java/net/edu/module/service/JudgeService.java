@@ -68,7 +68,7 @@ public class JudgeService {
     @Transactional(rollbackFor = Exception.class)
     public void judgeChoice(JudgeRecordSubmitVO vo) {
         List<String> arr = Arrays.asList(vo.getSubmitContent().split(";;;"));
-        List<String> answer = eduProblemApi.getChoiceOptions(vo.getProblemId(), 1);
+        List<String> answer = eduProblemApi.getChoiceOptions(vo.getProblemId(), 1).getData();
         if (arr.size() != answer.size()) {
             vo.setSubmitStatus(4);
         } else {
@@ -98,8 +98,8 @@ public class JudgeService {
                     .cpuTimeLimit(vo.getTimeLimit())
                     .memoryLimit(vo.getMemoryLimit())
                     .languageId(vo.getLanguageType())
-                    .stdin(eduFileApi.getFileContent(item.getInputPath()))
-                    .expectedOutput(eduFileApi.getFileContent(item.getOutputPath()))
+                    .stdin(eduFileApi.getFileContent(item.getInputPath()).getData())
+                    .expectedOutput(eduFileApi.getFileContent(item.getOutputPath()).getData())
                     .sourceCode(vo.getSubmitCode())
                     .build();
 

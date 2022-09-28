@@ -7,14 +7,5 @@
         values (#{recordId},#{sampleId},#{runtime},#{memory},#{resultCode})
     </insert>
 
-    <select id="selectRecordSampleList" resultType="net.edu.module.vo.RecordSampleVo">
-        select record_id as recordId,
-               sample_id as sampleId,
-               runtime,
-               memory,
-               result_code as resultCode
-        from judge_record_sample
-        where record_id=#{problemId}
-    </select>
 
 </mapper>

@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ProblemCompletionVo {
     private Long id;
@@ -22,5 +24,5 @@ public class ProblemCompletionVo {
     private Integer judgeType;
     private Integer judgeUser;
     private String judgeReason;
-    private String answer;
+    private List<RecordSampleVo> sampleVoList;
 }

@@ -35,7 +35,6 @@ public class PreviewResourceController {
     @GetMapping("/pdf2")
     @Operation(summary = "资源文件转文件流")
     public void getPDF2(@RequestParam("path") String path,HttpServletResponse response){
-        System.out.println(111);
         previewResourceService.getPDF2(path,response);
     }
 }

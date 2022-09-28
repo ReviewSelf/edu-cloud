@@ -3,6 +3,7 @@ package net.edu.module.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
@@ -36,9 +37,9 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
 
     @Override
     public PageResult<TeachClassUserVO> page(TeachClassUserQuery query) {
-        IPage<TeachClassUserEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-
-        return new PageResult<>(TeachClassUserConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        Page<TeachClassUserVO> page = new Page<>(query.getPage() , query.getLimit());
+        IPage<TeachClassUserVO> list = teachClassUserDao.page(page, query);
+        return new PageResult<>(list.getRecords() , list.getTotal());
     }
 
     @Override

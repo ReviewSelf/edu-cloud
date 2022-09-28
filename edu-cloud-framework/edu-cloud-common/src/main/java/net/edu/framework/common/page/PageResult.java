@@ -31,4 +31,8 @@ public class PageResult<T> implements Serializable {
         this.list = list;
         this.total = (int)total;
     }
+
+    public PageResult() {
+
+    }
 }

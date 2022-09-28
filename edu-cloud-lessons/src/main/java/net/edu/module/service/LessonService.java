@@ -25,4 +25,6 @@ public interface LessonService extends BaseService<LessonEntity> {
     void delete(List<Long> idList);
 
     void createLessons(List<LessonVO> voList);
+
+    List<LessonVO> getListById(Long classId);
 }

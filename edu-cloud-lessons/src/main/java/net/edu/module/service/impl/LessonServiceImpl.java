@@ -40,6 +40,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     private final LessonAttendLogService lessonAttendLogService;
 
+    private final LessonDao lessonDao;
+
     private final RedisUtils redisUtils;
 
     @Override
@@ -86,6 +88,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
 
 
+    }
+
+    @Override
+    public List<LessonVO> getListById(Long classId) {
+        return lessonDao.getListById(classId);
     }
 
 //    @Override

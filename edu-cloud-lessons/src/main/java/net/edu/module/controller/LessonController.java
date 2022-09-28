@@ -71,4 +71,11 @@ public class LessonController {
 
         return Result.ok();
     }
+
+    @GetMapping("list/{classId}")
+    @Operation(summary = "通过班级ID查找课表")
+    public Result<List<LessonVO>> ClassLesson(@PathVariable("classId") Long classId) {
+        List<LessonVO> list = lessonService.getListById(classId);
+        return Result.ok(list);
+    }
 }

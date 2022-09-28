@@ -10,17 +10,33 @@
     <update id="save">
         UPDATE enroll_user
         set
-            phone = #{userEntity.phone}
-            <if test="userEntity.name!=null and userEntity.name!=''">
-                ,name = #{userEntity.name}
+            phone = #{phone}
+            <if test="name!=null and name!=''">
+                ,name = #{name}
             </if>
-            <if test="userEntity.area!=null and userEntity.area!=''">
-                ,area = #{userEntity.area}
+            <if test="area!=null and area!=''">
+                ,area = #{area}
             </if>
-            <if test="userEntity.address!=null and userEntity.address!=''">
-                ,address=#{userEntity.address}
+            <if test="address!=null and address!=''">
+                ,address=#{address}
+            </if>
+            <if test="age!=null and age!=''">
+                ,age=#{age}
+            </if>
+            <if test="grade!=null and grade!=''">
+                ,grade=#{grade}
+            </if>
+            <if test="remark!=null and remark!=''">
+                ,remark=#{remark}
+            </if>
+            <if test="purpose!=null and purpose!=''">
+                ,purpose=#{purpose}
             </if>
         WHERE
-            open_id = #{userEntity.openId}
+            open_id = #{openId}
     </update>
+    
+    <insert id="insertClassUser">
+        insert into enroll_class_user (enroll_class_id,open_id) values (#{classId},#{openId})
+    </insert>
 </mapper>

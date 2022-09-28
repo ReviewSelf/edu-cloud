@@ -12,5 +12,7 @@ public interface MessageDao {
 
     void insertId(String openId);
 
-    void save(UserEntity userEntity);
+    void save( UserEntity userEntity );
+
+    void insertClassUser(Integer classId, String openId);
 }

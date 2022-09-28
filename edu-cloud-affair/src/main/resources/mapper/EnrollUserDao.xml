@@ -4,7 +4,7 @@
 <mapper namespace="net.edu.module.dao.EnrollUserDao">
 
 
-    <select id="selectEnrollUserByPage" resultType="net.edu.module.vo.EnrollUserVO">
+    <select id="selectEnrollUserByPage" resultType="net.edu.module.vo.UserVO">
         select id,wx_name,name,phone,union_id,open_id,area,address,age,grade,purpose,status,create_time,
         update_time,login_time,start_number,end_number,remark,integral,balance,deleted,creator,updater,version
         from enroll_user

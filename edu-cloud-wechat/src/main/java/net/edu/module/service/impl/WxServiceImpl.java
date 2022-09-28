@@ -7,20 +7,22 @@ import net.edu.module.entity.*;
 import net.edu.module.service.WxService;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * @author weng
  * @date 2022/9/24 - 13:57
  **/
 @Service
 public class WxServiceImpl implements WxService {
-    public static final String APPID = "wx5d0fc93575b299a8";
-    public static final String APPSECRET = "b74a02008ff43c3a7d1d75012a82d3a4";
 
     AccessToken AccessToken = new AccessToken();
+
+
     @Override
     public AccessToken getAccessToken(){
-        String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + APPID +
-                "&secret=" + APPSECRET;
+        String url = WxFinalValue.TOKEN_URL;
         // 利用hutool的http工具类请求获取access_token
         String result = HttpUtil.get(url);
         // 将结果解析为json
@@ -39,87 +41,34 @@ public class WxServiceImpl implements WxService {
     @Override
     public String createMenu(){
         String accessToken = AccessToken.getToken();
-        String url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + accessToken;
+        String url = WxFinalValue.MENU_URL + accessToken;
+        String redirectUrl = "http://http.free.svipss.top/#/class";
         // 创建菜单的请求体
-        CommonButton btn11 = new CommonButton();
-        btn11.setName("成为学生");
+        String CodeUrl;
+        try {
+            CodeUrl = WxFinalValue.AUTH_BASE_URL.replace("APPID",WxFinalValue.APPID)
+                    .replace("REDIRECT_URI", URLEncoder.encode(redirectUrl, "UTF-8"))
+                    .replace("SCOPE",WxFinalValue.SCOPE);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
 
-        btn11.setType("view");
-
-        btn11.setUrl("http://www.baidu.com");
-
-        CommonButton btn12 = new CommonButton();
-
-        btn12.setName("成为老师");
-
-        btn12.setType("click");
-
-        btn12.setKey("12");
+        System.out.println("codeURL"+CodeUrl);
+//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5d0fc93575b299a8&redirect_uri=http%3A%2F%2Fhttp.free.svipss.top%2F%23%2Fclass&response_type=code&scope=snsapi_userinfo#wechat_redirect
 
 
-        CommonButton btn21 = new CommonButton();
-
-        btn21.setName("试听课");
-
-        btn21.setType("click");
-
-        btn21.setKey("21");
-
-        CommonButton btn22 = new CommonButton();
-
-        btn22.setName("正式课");
-
-        btn22.setType("click");
-
-        btn22.setKey("22");
-
-
-
-        CommonButton btn31 = new CommonButton();
-
-        btn31.setName("我的班级");
-
-        btn31.setType("click");
-
-        btn31.setKey("31");
-
-        CommonButton btn32 = new CommonButton();
-
-        btn32.setName("我的作业");
-
-        btn32.setType("click");
-
-        btn32.setKey("32");
-
-        CommonButton btn33 = new CommonButton();
-
-        btn33.setName("我的考试");
-
-        btn33.setType("click");
-
-        btn33.setKey("33");
-
-        ComplexButton mainBtn1 = new ComplexButton();
-
-        mainBtn1.setName("账号注册");
-
-        mainBtn1.setSub_button(new CommonButton[] { btn11, btn12 });
-
-        ComplexButton mainBtn2 = new ComplexButton();
+        CommonButton mainBtn2 = new CommonButton();
 
         mainBtn2.setName("课程报名");
 
-        mainBtn2.setSub_button(new CommonButton[] { btn21, btn22 });
+        mainBtn2.setType("view");
 
-        ComplexButton mainBtn3 = new ComplexButton();
+        mainBtn2.setUrl(CodeUrl);
 
-        mainBtn3.setName("我的");
-
-        mainBtn3.setSub_button(new CommonButton[] { btn31, btn32, btn33 });
 
         Menu menu = new Menu();
 
-        menu.setButton(new Button[] { mainBtn1, mainBtn2, mainBtn3 });
+        menu.setButton(new Button[] {mainBtn2});
 
         JSONObject object = new JSONObject(menu);
 
@@ -128,16 +77,16 @@ public class WxServiceImpl implements WxService {
         return HttpUtil.post(url, body);
     }
 
-//    @Override
-//    public String getUnionId(String openId) {
-//        String accessToken = AccessToken.getToken();
-//        String url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token="+accessToken+"&openid="+openId;
+    @Override
+    public String getUnionId(String openId) {
+        String accessToken = AccessToken.getToken();
+        String url = WxFinalValue.UNION_URL+accessToken+"&openid="+openId;
 //        System.out.println(url);
-//        String result = HttpUtil.get(url);
-//        JSONObject jsonObject = JSONUtil.parseObj(result);
-//        String unionId = jsonObject.getStr("union_id");
-//        return unionId;
-//    }
+        String result = HttpUtil.get(url);
+        JSONObject jsonObject = JSONUtil.parseObj(result);
+        String unionId = jsonObject.getStr("union_id");
+        return unionId;
+    }
 
     @Override
     public void template(){
@@ -151,6 +100,19 @@ public class WxServiceImpl implements WxService {
         String getUrl = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=" + accessToken;
         String info = HttpUtil.get(getUrl);
         System.out.println(info);
+    }
+
+    @Override
+    public String getOpenId(String code) {
+        String url = WxFinalValue.ACCESS_TOKEN_BASE_URL.replace("APPID",WxFinalValue.APPID)
+                .replace("SECRET",WxFinalValue.APPSECRET)
+                .replace("CODE",code);
+        String result = HttpUtil.get(url);
+        JSONObject jsonObject = JSONUtil.parseObj(result);
+        System.out.println(jsonObject);
+        String accessToken = jsonObject.getStr("access_token");
+        String openId = jsonObject.getStr("openid");
+        return openId;
     }
 
 }

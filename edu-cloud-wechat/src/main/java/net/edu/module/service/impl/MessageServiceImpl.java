@@ -23,4 +23,9 @@ public class MessageServiceImpl implements MessageService {
     public void post(UserEntity userEntity){
         messageDao.save(userEntity);
     }
+
+    @Override
+    public void insertClassUser(Integer classId, String openId) {
+        messageDao.insertClassUser(classId,openId);
+    }
 }

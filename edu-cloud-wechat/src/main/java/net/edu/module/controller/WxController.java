@@ -2,9 +2,6 @@ package net.edu.module.controller;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -14,7 +11,6 @@ import net.edu.module.service.MessageService;
 import net.edu.module.service.WxService;
 import net.edu.module.untils.SubscriptionMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,13 +23,11 @@ import java.util.List;
 * @author 阿沐 babamu@126.com
 */
 @RestController
-@RequestMapping("news")
+@RequestMapping("wx")
 @Tag(name="消息推送")
 @AllArgsConstructor
-public class NewsController {
+public class WxController {
 
-    @Autowired
-    private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private WxService wxService;
     @Autowired
@@ -108,16 +102,7 @@ public class NewsController {
         outMessage.setCreateTime(System.currentTimeMillis() / 1000);
         // 根据接收到消息类型，响应对应的消息内容
         if ("text".equals(inMessage.getMsgType())){
-            // 文本关键字回复
-            String inContent = inMessage.getContent();
-            if(inContent.contains("报名")){
-                outMessage.setMsgType("text");
-                outMessage.setContent("你输入了报名");
-            }
-            if(inContent.contains("注册")){
-                outMessage.setMsgType("text");
-                outMessage.setContent("你输入了注册");
-            }
+
 
         }else if ("image".equals(inMessage.getMsgType())){
             // 图片
@@ -131,34 +116,10 @@ public class NewsController {
 //                String unionId = wxService.getUnionId(openId);
                 messageService.insertOpenId(openId);
                 outMessage.setMsgType("text");
-                outMessage.setContent("欢迎关注我的公众号~~~输入“注册”可以注册成为我们的用户，输入“报名”可以了解我们的课程并进行报名");
+                outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
             }
             else if("CLICK".equals(event)){
-                String eventKey = inMessage.getEventKey();
-                if(eventKey.equals("12")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了成为老师");
-                }
-                if(eventKey.equals("21")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了试听课");
-                }
-                if(eventKey.equals("22")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了正式课");
-                }
-                if(eventKey.equals("31")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了我的班级");
-                }
-                if(eventKey.equals("32")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了我的作业");
-                }
-                if(eventKey.equals("33")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了我的考试");
-                }
+
             }
 
         }
@@ -191,7 +152,31 @@ public class NewsController {
 
     @PostMapping("post")
     @Operation(summary = "注册")
-    public void post(@RequestBody UserEntity userEntity){
+    public Result post(@RequestBody UserEntity userEntity){
         messageService.post(userEntity);
+        System.out.println(userEntity);
+        if(userEntity.getPurpose()=="" || userEntity.getPurpose()==null){
+            Integer classId = userEntity.getClassId();
+            String openId = userEntity.getOpenId();
+            messageService.insertClassUser(classId,openId);
+        }
+
+        return Result.ok();
+    }
+
+    @GetMapping("union")
+    public String getUnionId(@RequestParam("openId") String openId){
+        return wxService.getUnionId(openId);
+    }
+
+    /**
+     * 通过code获取openId
+     * @param code
+     * @return
+     */
+    @GetMapping("code")
+    public Result<String> getOpenId(@RequestParam("code") String code){
+        System.out.println(code);
+        return Result.ok(wxService.getOpenId(code));
     }
 }

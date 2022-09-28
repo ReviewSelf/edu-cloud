@@ -12,6 +12,8 @@ public interface WxService {
 
     AccessToken getAccessToken();
     String createMenu();
-//    String getUnionId(String openId);
+    String getUnionId(String openId);
     void template();
+
+    String getOpenId(String code);
 }

@@ -104,4 +104,7 @@ public class UserEntity extends BaseEntity {
 	*/
 	private String balance;
 
+    private Integer ClassId;
+
+
 }

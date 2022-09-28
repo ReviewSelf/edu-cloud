@@ -13,4 +13,6 @@ public interface MessageService {
     void insertOpenId(String openId);
 
     void post(UserEntity userEntity);
+
+    void insertClassUser(Integer classId, String openID);
 }

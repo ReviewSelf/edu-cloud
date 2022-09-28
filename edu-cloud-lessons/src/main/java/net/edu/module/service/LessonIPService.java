@@ -2,6 +2,7 @@ package net.edu.module.service;
 
 
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.vo.LessonIPVO;
 import net.edu.module.query.LessonIPQuery;
@@ -24,4 +25,6 @@ public interface LessonIPService extends BaseService<LessonIPEntity> {
     void update(LessonIPVO vo);
 
     void delete(List<Long> idList);
+
+    Boolean ipJudge(Long lessonId,String ip);
 }

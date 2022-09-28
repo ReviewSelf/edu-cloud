@@ -3,58 +3,187 @@
 <mapper namespace="net.edu.module.dao.JudgeRecordDao">
 
 
-    <insert id="insertSubmitRecord" useGeneratedKeys="true" keyProperty="id" keyColumn="id" parameterType="net.edu.module.vo.JudgeRecordSubmitVO">
-        insert into judge_record (problem_id,problem_type,source,source_id,user_id,submit_content,submit_img,language_type,
-        submit_status) values (
-         #{problemId},#{problemType},#{source},#{sourceId},#{userId},#{submitContent},#{submitImg},#{languageType},
-         #{submitStatus})
+    <insert id="insertSubmitRecord" useGeneratedKeys="true" keyProperty="id" keyColumn="id"
+            parameterType="net.edu.module.vo.JudgeRecordSubmitVO">
+        insert into judge_record (problem_id, problem_type, source, source_id, user_id, submit_content, submit_img,
+                                  language_type,
+                                  submit_status)
+        values (#{problemId}, #{problemType}, #{source}, #{sourceId}, #{userId}, #{submitContent}, #{submitImg},
+                #{languageType},
+                #{submitStatus})
     </insert>
     <update id="updateRecord">
-        update judge_record  set
-             runtime= (select avg(runtime) from judge_record_sample where record_id=#{recordId}),
-             memory=(select avg(memory) from judge_record_sample where record_id=#{recordId}),
-             submit_status=(select max(result_code) from judge_record_sample where record_id=#{recordId}),
-             pass_rate=(select sum(if(result_code=3,1,0))/sum(1) from judge_record_sample where record_id=#{recordId})
-        where id=#{recordId}
+        update judge_record
+        set runtime= (select avg(runtime) from judge_record_sample where record_id = #{recordId}),
+            memory=(select avg(memory) from judge_record_sample where record_id = #{recordId}),
+            submit_status=(select max(result_code) from judge_record_sample where record_id = #{recordId}),
+            pass_rate=(select sum(if(result_code = 3, 1, 0)) / sum(1)
+                       from judge_record_sample
+                       where record_id = #{recordId})
+        where id = #{recordId}
 
 
     </update>
 
     <select id="selectCodeProblemSubmit" resultType="net.edu.module.vo.CodeProblemSubmitVO">
-        select a.id as recordId,a.problem_id as problemId,a.submit_content as submitCode,language_type as languageType,
-               time_limit as timeLimit,memory_limit as memoryLimit,sample_num as sampleNum
-                from judge_record a join problem_code b on a.problem_id=b.id
-                where a.id=#{recordId}
+        select a.id             as recordId,
+               a.problem_id     as problemId,
+               a.submit_content as submitCode,
+               language_type    as languageType,
+               time_limit       as timeLimit,
+               memory_limit     as memoryLimit,
+               sample_num       as sampleNum
+        from judge_record a
+                 join problem_code b on a.problem_id = b.id
+        where a.id = #{recordId}
     </select>
 
-    <select id="selectResult" resultType="java.lang.Integer">
-        select submit_status from judge_record where id=#{recordId}
+    <select id="selectResult" resultType="net.edu.module.vo.JudgeRecordSubmitVO">
+        select user_id as userId, submit_status as submitStatus
+        from judge_record
+        where id = #{recordId}
     </select>
 
     <select id="selectRecord" resultType="net.edu.module.vo.JudgeRecordSubmitVO">
         select id,
-               problem_id,
-               problem_type,
+               problem_id     as problemId,
+               problem_type   as problemType,
                source,
-               source_id,
-               user_id,
-               submit_time,
-               submit_content,
-               submit_img,
-               language_type,
-               submit_status,
-               pass_rate,
+               source_id      as sourceId,
+               user_id        as userId,
+               submit_time    as submitTime,
+               submit_content as submitContent,
+               submit_img     as submitImg,
+               language_type  as languageType,
+               submit_status  as submitStatus,
+               pass_rate      as passRate,
                runtime,
                memory,
-               judge_type,
-               judge_user,
-               judge_reason,
-               update_time
+               judge_type     as judgeType,
+               judge_user     as judgeUser,
+               judge_reason   as judgeReason
         from judge_record
-        where problem_id=#{problemId}
-          and problem_type=#{problemType}
-          and source=#{source}
-          and source_id=#{sourceId}
+        where problem_id = #{problemId}
+          and problem_type = #{problemType}
+          and source = #{source}
+          and source_id = #{sourceId}
+        order by update_time desc limit 1
     </select>
 
+    <resultMap id="LessonRecord" type="net.edu.module.vo.LessonJudgeRecordVo">
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="lessonId" column="lesson_id"/>
+        <collection property="problemRecords"
+                    javaType="java.util.ArrayList"
+                    ofType="net.edu.module.vo.LessonProblemRecord">
+            <id property="recordId" column="record_id"/>
+            <result property="problemId" column="problem_id"/>
+            <result property="problemName" column="problem_name"/>
+            <result property="problemType" column="problem_type"/>
+            <result property="type" column="type"/>
+            <result property="submitStatus" column="submit_status"/>
+            <result property="submitTime" column="submit_time"/>
+            <result property="spendTime" column="spend_time"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectLessonRecord" resultMap="LessonRecord">
+        SELECT if(submit_status!=null and begin_time!=null ,timediff(submit_time,begin_time),null) as spend_time
+        ,c.user_id,c.name,c.lesson_id,c.problem_id,c.problem_name,c.problem_type,c.begin_time,c.type,d.id as
+        record_id,d.submit_status,d.submit_time FROM
+        (SELECT a.user_id,a.name,a.lesson_id,b.problem_id,b.problem_name,b.problem_type,b.begin_time,b.type FROM
+        (select lesson_id,stu_id as user_id,(SELECT real_name FROM sys_user WHERE id=stu_id) as name
+        from lesson_attend_log WHERE lesson_id=#{lessonId})a
+        left join lesson_problem b on b.lesson_id =a.lesson_id ORDER BY user_id,b.begin_time) c
+        left join (select id,submit_status,submit_time,problem_id,problem_type,source_id,user_id,source from
+        judge_record jr1
+        where source_id=#{lessonId} and not exists (select * from judge_record jr2 where source_id=#{lessonId} and
+        jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
+        jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.submit_time &lt; jr2.submit_time ) ) d on
+        c.problem_id=d.problem_id and c.problem_type=d.problem_type
+        and d.source_id=c.lesson_id and c.user_id=d.user_id and c.type=d.source
+        <if test="type!=null">
+            where type=#{type}
+        </if>
+    </select>
+    <resultMap id="judgeRecordAndAnswer" type="net.edu.module.vo.ProblemCompletionVo">
+        <result property="id" column="id"></result>
+        <result property="problemId" column="problem_id"></result>
+        <result property="problemType" column="problem_type"></result>
+        <result property="source" column="source"></result>
+        <result property="sourceId" column="source_id"></result>
+        <result property="userId" column="user_id"></result>
+        <result property="submitContent" column="submit_content"></result>
+        <result property="submitImg" column="submit_img"></result>
+        <result property="submitStatus" column="submit_status"></result>
+        <result property="judgeType" column="judge_type"></result>
+        <result property="judgeReason" column="judge_reason"></result>
+        <collection property="sampleVoList" javaType="java.util.ArrayList"
+                    ofType="net.edu.module.vo.RecordSampleVo">
+            <result property="recordId" column="record_id"></result>
+            <result property="sampleId" column="sample_id"></result>
+            <result property="memory" column="memory"></result>
+            <result property="runtime" column="runtime"></result>
+            <result property="resultCode" column="result_code"></result>
+        </collection>
+    </resultMap>
+
+    <select id="selectRecordAndAnswer" resultMap="judgeRecordAndAnswer">
+        select t.id,
+               t.problem_id,
+               t.problem_type,
+               t.source,
+               t.source_id,
+               t.user_id,
+               t.submit_content,
+               t.submit_img,
+               t.submit_status,
+               t.judge_type,
+               t.judge_reason,
+               b.record_id,
+               b.sample_id,
+               b.runtime,
+               b.memory,
+               b.result_code
+        from (select a.id,
+                     a.problem_id,
+                     a.problem_type,
+                     a.source,
+                     a.source_id,
+                     a.user_id,
+                     a.submit_content,
+                     a.submit_img,
+                     a.submit_status,
+                     a.judge_type,
+                     a.judge_reason
+              from judge_record a
+              where a.problem_id = #{problemId}
+                and a.problem_type = #{problemType}
+                and a.source = #{source}
+                and a.source_id = #{sourceId}
+                and a.user_id = #{userId}
+              order by a.update_time desc limit 1) t
+                 left join judge_record_sample b
+                           on t.id = b.record_id
+
+
+    </select>
+
+    <update id="updateReasonAndStatus">
+        update judge_record t
+        set t.judge_type=2,
+            t.judge_reason = #{judgeReason},
+            t.submit_status = #{submitStatus}
+        where exists(select tt.id
+                     from (select id
+                           from judge_record
+                           where problem_id = #{problemId}
+                             and problem_type = #{problemType}
+                             and source = #{source}
+                             and source_id = #{sourceId}
+                             and user_id = #{userId}
+                           order by update_time desc limit 1) tt
+                     where t.id = tt.id)
+    </update>
 </mapper>

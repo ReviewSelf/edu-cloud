@@ -1,17 +1,18 @@
 package net.edu.module.consumer;
 
 import com.rabbitmq.client.Channel;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.mq.QueueName;
 import net.edu.module.service.JudgeService;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Date;
 
 /**
  * @Author: 马佳浩
@@ -20,10 +21,12 @@ import java.util.Date;
  * @Description:
  */
 @Component
+@AllArgsConstructor
+@Slf4j
 public class JudgeConsumer {
 
-    @Autowired
-    JudgeService judgeService;
+
+    private final JudgeService judgeService;
 
 
 
@@ -36,7 +39,7 @@ public class JudgeConsumer {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (IOException e) {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-            throw new RuntimeException(e);
+            log.error("判题出错recordId{}",msg);
         }
     }
 

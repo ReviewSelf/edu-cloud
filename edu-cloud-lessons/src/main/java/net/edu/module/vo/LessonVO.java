@@ -7,6 +7,7 @@ import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
 * 课程表
@@ -27,9 +28,15 @@ public class LessonVO implements Serializable {
 
 	@Schema(description = "任课老师")
 	private Long teacherId;
+	@Schema(description = "任课老师")
+	private String teacherName;
+
 
 	@Schema(description = "班级ID")
 	private Long classId;
+
+	@Schema(description = "班级名称")
+	private String className;
 
 	@Schema(description = "名称")
 	private String name;
@@ -45,6 +52,16 @@ public class LessonVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date endTime;
 
+	@Schema(description = "作业开始时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date homeworkBeginTime;
+
+	@Schema(description = "作业结束时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date homeworkEndTime;
+
+	@Schema(description = "作业状态， 0：无，1：有 ，2：结束")
+	private Integer homeworkStatus;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
@@ -63,8 +80,6 @@ public class LessonVO implements Serializable {
 	@Schema(description = "更新人")
 	private Long updater;
 
-	@Schema(description = "版本")
-	private Integer version;
 
 	@Schema(description = "删除")
 	private Integer deleted;
@@ -74,4 +89,7 @@ public class LessonVO implements Serializable {
 
 	@Schema(description = "顺序")
 	private String description;
+
+	@Schema(description = "版本")
+	private Integer version;
 }

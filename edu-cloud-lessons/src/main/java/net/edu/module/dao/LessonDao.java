@@ -1,10 +1,14 @@
 package net.edu.module.dao;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.LessonEntity;
+import net.edu.module.query.LessonQuery;
 import net.edu.module.vo.LessonVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,6 +20,15 @@ import java.util.List;
 */
 @Mapper
 public interface LessonDao extends BaseDao<LessonEntity> {
+    IPage<LessonVO> selectStudentPage(Page<LessonVO> page, @Param("query") LessonQuery query);
+
+    IPage<LessonVO> selectTeacherPage(Page<LessonVO> page, @Param("query")LessonQuery query);
+
+    int updateLesson(@Param("vo") LessonVO vo);
+
+    IPage<LessonVO> selectHomeworkPage(Page<LessonVO> page, @Param("query") LessonQuery query);
+
+    List<LessonVO> selectLessonIdList();
 
     List<LessonVO> getListById(Long classId);
 }

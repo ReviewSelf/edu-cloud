@@ -211,10 +211,12 @@ public class IpUtils {
      * @return
      */
     public static Boolean ipExistsInRange(String ip,String ipRange){
-        if (ipRange == null)
+        if (ipRange == null) {
             throw new NullPointerException("IP段不能为空！");
-        if (ip == null)
+        }
+        if (ip == null) {
             throw new NullPointerException("IP不能为空！");
+        }
         ipRange = ipRange.trim();
         ip = ip.trim();
 
@@ -226,8 +228,9 @@ public class IpUtils {
         //ip段
         final String REGX_IP = "((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]\\d|\\d)\\.){3}(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]\\d|\\d)";
         final String REGX_IPB = REGX_IP + "\\-" + REGX_IP;
-        if (!ipRange.matches(REGX_IPB) || !ip.matches(REGX_IP))
+        if (!ipRange.matches(REGX_IPB) || !ip.matches(REGX_IP)) {
             return false;
+        }
         int idx = ipRange.indexOf('-');
         String[] sips = ipRange.substring(0, idx).split("\\.");
         String[] sipe = ipRange.substring(idx + 1).split("\\.");

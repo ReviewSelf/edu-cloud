@@ -67,4 +67,14 @@ public class LessonProblemController {
 
         return Result.ok();
     }
+
+    @PostMapping("/updateProblemTime")
+    @Operation(summary = "更新课堂练习开始时间结束时间")
+    public Result<String> updateProblemTime(@RequestBody List<LessonProblemVO> lessonProblemList){
+        lessonProblemService.updateProblemTime(lessonProblemList);
+        return Result.ok();
+    }
+
+
+
 }

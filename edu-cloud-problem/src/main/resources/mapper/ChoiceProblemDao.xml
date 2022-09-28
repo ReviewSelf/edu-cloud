@@ -12,7 +12,6 @@
         <result column="advice_time" property="adviceTime"/>
         <result column="img" property="img"/>
         <result column="difficulty" property="difficulty"/>
-        <result column="kp_id" property="kpId"/>
         <result column="kp_name" property="kpName"/>
         <result column="submit_times" property="submitTimes"/>
         <result column="correct_times" property="correctTimes"/>
@@ -34,19 +33,18 @@
 
     <select id="selectChoiceProblem" resultMap="choiceProblem">
         select a.id,type,name,description,source,tips,advice_time,img,difficulty,kp_id
-               ,(select name from problem_knowledge_point where id=kp_id limit 1) as kp_name,submit_times
+               ,(select name from problem_knowledge_point kp where kp.code=kp_code and  kp.deleted=0 limit 1) as kp_name,submit_times
                ,correct_times ,is_typical ,option_num,used_num
                ,a.create_time ,creator,status ,
                 b.id as option_id,b.problem_id,b.problem_option,b.is_true
         from problem_choice a left join problem_choice_options b on
         a.id=b.problem_id where a.deleted = 0 and a.id=#{problemId}
-
     </select>
 
 
     <select id="page" resultType="net.edu.module.vo.ChoiceProblemVO">
-        select id,type,name,description,source,tips,advice_time as adviceTime,img,difficulty,kp_id as kpId
-        ,(select name from problem_knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
+        select id,type,name,description,source,tips,advice_time as adviceTime,img,difficulty
+        ,(select name from problem_knowledge_point kp where kp.code=kp_code and  kp.deleted=0 limit 1) as kpName,submit_times as submitTimes
         ,correct_times as correctTimes,is_typical as isTypical,option_num as optionNum,used_num as usedNum,
         create_time as createTime,creator,status
         from problem_choice where deleted = 0
@@ -59,8 +57,8 @@
         <if test="query.getDifficulty()!=null">
             and difficulty =#{query.difficulty}
         </if>
-        <if test="query.getKpId()!=null">
-            and kp_id = #{query.kpId}
+        <if test="query.getKpCode()!=null and query.getKpCode()!=''">
+            and kp_code  like concat('%',#{query.kpCode},'%')
         </if>
         <if test="query.getStatus()!=null">
             and status = #{query.status}
@@ -150,6 +148,5 @@
         from problem_choice a left join problem_choice_options b on
             a.id=b.problem_id where a.deleted = 0 and a.id=#{problemId}
     </select>
-
 
 </mapper>

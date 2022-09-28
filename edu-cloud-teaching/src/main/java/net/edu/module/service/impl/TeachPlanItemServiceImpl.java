@@ -51,12 +51,15 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
     @Transactional(rollbackFor = Exception.class)
     public void save(TeachPlanItemVO vo) {
         TeachPlanItemEntity entity = TeachPlanItemConvert.INSTANCE.convert(vo);
-        baseMapper.insert(entity);//新增教学日历
+        //新增教学日历
+        baseMapper.insert(entity);
         System.out.println(entity.getId());
         if (vo.getPaperList().size() > 0) {
-            teachPlanItemPaperDao.insertItemPaper(vo.getPaperList(), entity.getId()); //新增日历试卷
+            //新增日历试卷
+            teachPlanItemPaperDao.insertItemPaper(vo.getPaperList(), entity.getId());
         }
-        teachPlanService.updateLessonNum(entity.getPlanId());//更新教学计划的课次（日历数）
+        //更新教学计划的课次（日历数）
+        teachPlanService.updateLessonNum(entity.getPlanId());
     }
 
     @Override
@@ -65,16 +68,19 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
         TeachPlanItemEntity entity = TeachPlanItemConvert.INSTANCE.convert(vo);
 
         updateById(entity);
-
-        teachPlanService.updateLessonNum(entity.getPlanId());//更新教学计划的课次
+        //更新教学计划的课次
+        teachPlanService.updateLessonNum(entity.getPlanId());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
-        TeachPlanItemVO vo = teachPlanItemDao.selectPlanItem(idList.get(0)); //获取日历所属计划的id信息
-        removeByIds(idList);//真正的删除操作
-        teachPlanService.updateLessonNum(vo.getPlanId());//更新教学计划的课次（日历数）
+        //获取日历所属计划的id信息
+        TeachPlanItemVO vo = teachPlanItemDao.selectPlanItem(idList.get(0));
+        //真正的删除操作
+        removeByIds(idList);
+        //更新教学计划的课次（日历数）
+        teachPlanService.updateLessonNum(vo.getPlanId());
     }
 
     @Override

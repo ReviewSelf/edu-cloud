@@ -1,15 +1,21 @@
 package net.edu.module.controller;
 
+import cn.hutool.core.util.StrUtil;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.service.JudgeService;
+import net.edu.module.service.RecordService;
+import net.edu.module.service.SampleService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import net.edu.module.vo.LessonJudgeRecordVo;
+import net.edu.module.vo.ProblemCompletionVo;
+import net.edu.module.vo.RecordSampleVo;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author: 马佳浩
@@ -18,23 +24,66 @@ import org.springframework.web.bind.annotation.RestController;
  * @Description:
  */
 @RestController
-@Tag(name="代码题判题接口")
+@Tag(name = "代码题判题接口")
+@AllArgsConstructor
 public class JudgeController {
 
-    @Autowired
-    JudgeService judgeService;
+
+    private final JudgeService judgeService;
+
+    private final RecordService recordService;
+
+    private final SampleService sampleService;
 
     @PostMapping("/record")
-    public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo){
+    public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo) {
         vo.setSubmitStatus(0);
         vo.setUserId(SecurityUser.getUserId());
-        return Result.ok( judgeService.judgeBefore(vo));
+        if (StrUtil.isEmpty(vo.getSubmitImg())) {
+            vo.setSubmitImg(null);
+        }
+        judgeService.judgeBefore(vo);
+        return Result.ok();
     }
 
     @PostMapping("/getRecord")
-    public Result<JudgeRecordSubmitVO> getRecord(@RequestBody JudgeRecordSubmitVO vo){
-        return Result.ok(judgeService.getRecord(vo));
+    @Operation(summary = "获取学生答题记录，回显")
+    public Result<JudgeRecordSubmitVO> getRecord(@RequestBody JudgeRecordSubmitVO vo) {
+        return Result.ok(recordService.getRecord(vo));
     }
+
+
+    /**
+     * 获取课堂中每个人每题的答题记录
+     * @param lessonId
+     * @param type
+     * @return
+     */
+    @GetMapping("/lesson/problem/record")
+    public Result<List<LessonJudgeRecordVo>> getLessonProblemRecord(@RequestParam("lessonId") Long lessonId, @RequestParam(value = "type",required = false) Integer type){
+        return Result.ok(recordService.getLessonProblemRecord(lessonId,type));
+    }
+
+
+    /**
+     * 获取学生答题记录
+     * @param vo
+     * @return
+     */
+    @PostMapping("/getRecordAndAnswer")
+    @Operation(summary = "获取学生答题记录")
+    public Result<ProblemCompletionVo> getRecordAndAnswer(@RequestBody ProblemCompletionVo vo){
+        return Result.ok(recordService.getRecordAndAnswer(vo));
+    }
+
+    @PostMapping("/updateReasonAndStatus")
+    @Operation(summary = "更新判题备注和提交状态（改判）")
+    public Result<String> updateReasonAndStatus(@RequestBody ProblemCompletionVo vo){
+        recordService.updateReasonAndStatus(vo);
+        return Result.ok();
+    }
+
+
 
 
 }

@@ -21,4 +21,6 @@ public interface LessonResourceDao extends BaseDao<LessonResourceEntity> {
 
 
     void insertResourceList(@Param("list") List<TeachPlanItemResourceVO> list, Long lessonId);
+
+    int deleteResource(@Param("id") Long id);
 }

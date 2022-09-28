@@ -42,6 +42,10 @@ public class RedisUtils {
     public final static long MIN_EXPIRE = 60L;
 
     /**
+     *缓存30S
+     */
+    public final static long SECOND_thirty_EXPIRE = 30L;
+    /**
      * 过期时长为10分钟，单位：秒
      */
     public final static long MIN_TEN_EXPIRE = 600L;
@@ -61,7 +65,6 @@ public class RedisUtils {
         try {
             if(time>0){
                 redisTemplate.expire(key, time, TimeUnit.SECONDS);
-                // stringRedisTemplate.opsForValue().set(key, value.toString(), 30, TimeUnit.SECONDS);
             }
             return true;
         } catch (Exception e) {

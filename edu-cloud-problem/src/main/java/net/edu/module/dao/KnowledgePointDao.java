@@ -16,4 +16,6 @@ import java.util.List;
 @Mapper
 public interface KnowledgePointDao  extends BaseDao<KnowledgePointEntity> {
     List<KnowledgePointEntity> getKpList();
+
+    KnowledgePointEntity selectBrotherEntity(Long pid,String code);
 }

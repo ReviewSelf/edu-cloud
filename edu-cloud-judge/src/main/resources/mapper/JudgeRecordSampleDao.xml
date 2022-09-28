@@ -7,4 +7,5 @@
         values (#{recordId},#{sampleId},#{runtime},#{memory},#{resultCode})
     </insert>
 
+
 </mapper>

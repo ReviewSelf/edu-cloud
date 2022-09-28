@@ -20,6 +20,9 @@ public class LessonResourceVO implements Serializable {
 
 	private Integer id;
 
+	@Schema(description = "课堂id")
+	private Long lessonId;
+
 	@Schema(description = "名称")
 	private String name;
 
@@ -33,6 +36,9 @@ public class LessonResourceVO implements Serializable {
 
 	@Schema(description = "来源，1=教学计划生成（不可删除），2=老师添加可删除")
 	private Integer source;
+
+	@Schema(description = "删除标志")
+	private Integer deleted;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

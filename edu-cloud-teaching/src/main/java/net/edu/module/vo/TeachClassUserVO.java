@@ -41,6 +41,8 @@ public class TeachClassUserVO implements Serializable {
 	@Schema(description = "退出时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date quitTime;
+	@Schema(description = "用户名字")
+	private String realName;
 
 	@Schema(description = "1=正常，2=退班")
 	private Integer status;

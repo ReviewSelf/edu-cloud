@@ -1,13 +1,9 @@
 package net.edu.module.service.impl;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
-
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ProblemPaperConvert;
@@ -16,7 +12,7 @@ import net.edu.module.entity.ProblemPaperEntity;
 import net.edu.module.entity.ProblemPaperItemEntity;
 import net.edu.module.query.ProblemPaperQuery;
 import net.edu.module.service.ProblemPaperService;
-import net.edu.module.vo.CodeProblemVO;
+
 import net.edu.module.vo.ProblemPaperVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,11 +29,10 @@ import java.util.List;
 @AllArgsConstructor
 public class ProblemPaperServiceImpl extends BaseServiceImpl<ProblemPaperDao, ProblemPaperEntity> implements ProblemPaperService {
 
-    private final ProblemPaperDao problemPaperDao;
     @Override
     public PageResult<ProblemPaperVO> page(ProblemPaperQuery query) {
         Page<ProblemPaperVO> page = new Page<>(query.getPage(),query.getLimit());
-        IPage<ProblemPaperVO> list = problemPaperDao.page(page,query);
+        IPage<ProblemPaperVO> list = baseMapper.page(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
@@ -72,8 +67,8 @@ public class ProblemPaperServiceImpl extends BaseServiceImpl<ProblemPaperDao, Pr
     @Override
     public void updateNumAndScore(List<ProblemPaperItemEntity> paperItemList) {
         int totalScore = 0;
-        for (int i=0 ; i < paperItemList.size();i++){
-            totalScore += paperItemList.get(i).getScore();
+        for (ProblemPaperItemEntity problemPaperItemEntity : paperItemList) {
+            totalScore += problemPaperItemEntity.getScore();
         }
         baseMapper.updateNumAndScore(paperItemList.get(0).getPaperId(),paperItemList.size(),totalScore);
 

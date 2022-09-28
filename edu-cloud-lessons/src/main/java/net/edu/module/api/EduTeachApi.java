@@ -1,12 +1,12 @@
 package net.edu.module.api;
 
+import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.fallback.EduTeachApiFallBack;
 import net.edu.module.api.vo.TeachPlanItemPaperVO;
 import net.edu.module.api.vo.TeachPlanItemResourceVO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,4 +28,10 @@ public interface EduTeachApi {
 
     @GetMapping("classUser/list/{classId}")
      Result<List<Long>> list(@PathVariable(value = "classId") Long classId);
+
+
+    @GetMapping("class/updateNextLesson")
+    @Operation(summary = "修改下一堂课id")
+    Result<String> updateNextLesson(@RequestParam Long nextLesson, @RequestParam Long classId);
+
 }

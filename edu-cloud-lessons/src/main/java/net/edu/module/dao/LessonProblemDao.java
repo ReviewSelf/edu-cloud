@@ -22,4 +22,6 @@ public interface LessonProblemDao extends BaseDao<LessonProblemEntity> {
     int insertProblemList(@Param("list") List<ProblemPaperItemEntity> problemList, Integer paperType, Long lessonId);
 
     List<LessonProblemVO> selectLessonProblem(@Param("query") LessonProblemQuery query);
+
+    int updateProblemTime(List<LessonProblemVO> lessonProblemList);
 }

@@ -3,6 +3,7 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.LessonConvert;
 import net.edu.module.entity.LessonEntity;
@@ -32,6 +33,11 @@ public class LessonController {
     public Result<List<LessonVO>> list(@Valid LessonQuery query){
         return Result.ok(lessonService.list(query));
     }
+    @GetMapping("page")
+    @Operation(summary = "课程列表")
+    public Result<PageResult<LessonVO>> page(@Valid LessonQuery query) {
+        return Result.ok(lessonService.page(query));
+    }
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
@@ -48,14 +54,6 @@ public class LessonController {
         return Result.ok();
     }
 
-//    @PostMapping
-//    @Operation(summary = "保存")
-//    public Result<String> save(@RequestBody LessonVO vo){
-//        lessonService.save(vo);
-//
-//        return Result.ok();
-//    }
-
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid LessonVO vo){
@@ -63,19 +61,23 @@ public class LessonController {
 
         return Result.ok();
     }
-
-    @DeleteMapping
-    @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
-        lessonService.delete(idList);
-
-        return Result.ok();
-    }
-
+    
     @GetMapping("list/{classId}")
     @Operation(summary = "通过班级ID查找课表")
     public Result<List<LessonVO>> ClassLesson(@PathVariable("classId") Long classId) {
         List<LessonVO> list = lessonService.getListById(classId);
         return Result.ok(list);
+    }
+    @PutMapping("/homework")
+    @Operation(summary = "回家作业修改")
+    public Result<String> updateHomework(@RequestBody @Valid LessonVO vo) {
+        lessonService.updateHomework(vo);
+        return Result.ok();
+    }
+
+    @GetMapping("homework/page")
+    @Operation(summary = "课程列表")
+    public Result<PageResult<LessonVO>> homeworkPage(@Valid LessonQuery query) {
+        return Result.ok(lessonService.homeworkPage(query));
     }
 }

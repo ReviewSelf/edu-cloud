@@ -21,8 +21,10 @@ public class FillProblemQuery extends Query {
     @Schema(description = "难度")
     private Integer difficulty;
 
-    @Schema(description = "知识点")
-    private Long kpId;
+
+
+    @Schema(description = "知识点代码")
+    private String kpCode;
 
     @Schema(description = "状态")
     private Integer status;

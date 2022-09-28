@@ -78,3 +78,4 @@ storage:
     # 本地上传路径
     path: E://upload
     samplePath: E://sample
+    templatePath: E://template

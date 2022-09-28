@@ -12,7 +12,6 @@
         <result property="adviceTime" column="advice_time"/>
         <result property="img" column="img"/>
         <result property="difficulty" column="difficulty"/>
-        <result property="kpId" column="kp_id"/>
         <result property="submitTimes" column="submit_times"/>
         <result property="correctTimes" column="correct_times"/>
         <result property="isTypical" column="is_typical"/>
@@ -33,8 +32,8 @@
 <!--    </update>-->
 
     <select id="page" resultType="net.edu.module.vo.FillProblemVO">
-        select id,name,description,source,tips,advice_time as adviceTime,img,difficulty,kp_id as kpId
-        ,(select name from problem_knowledge_point where id=kp_id limit 1) as kpName,submit_times as submitTimes
+        select id,name,description,source,tips,advice_time as adviceTime,img,difficulty
+        ,(select name from problem_knowledge_point kp where kp.code=kp_code and  kp.deleted=0 limit 1) as kpName,submit_times as submitTimes
         ,correct_times as correctTimes,is_typical as isTypical,used_num as usedNum,answer,
         create_time as createTime,creator,status
         from problem_fill where deleted = 0
@@ -44,8 +43,8 @@
         <if test="query.getDifficulty()!=null">
             and difficulty =#{query.difficulty}
         </if>
-        <if test="query.getKpId()!=null">
-            and kp_id = #{query.kpId}
+        <if test="query.getKpCode()!=null and query.getKpCode()!=''">
+            and kp_code  like concat('%',#{query.kpCode},'%')
         </if>
         <if test="query.getStatus()!=null">
             and status = #{query.status}

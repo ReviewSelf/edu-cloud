@@ -10,8 +10,8 @@ import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.service.FillProblemService;
 import net.edu.module.query.FillProblemQuery;
 import net.edu.module.vo.FillProblemVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -96,6 +96,20 @@ public class FillProblemController {
     @Operation(summary = "获取答题题目信息")
     public Result<FillProblemVO> getFillProblemInfo(@PathVariable("problemId")  Long problemId){
         return Result.ok(fillProblemService.selectFillProblemInfo(problemId));
+    }
+
+
+    @GetMapping("getFillAnswer/{problemId}")
+    @Operation(summary = "获取填空题答案")
+    public Result<String> getFillAnswer(@PathVariable Long problemId){
+        return Result.ok(fillProblemService.getById(problemId).getAnswer());
+    }
+
+
+    @PostMapping("/import")
+    public Result<String> importFromExcel(@RequestParam("file") MultipartFile file) {
+        fillProblemService.importFromExcel(file);
+        return Result.ok();
     }
 
 

@@ -23,5 +23,4 @@ public interface LessonProblemDao extends BaseDao<LessonProblemEntity> {
 
     List<LessonProblemVO> selectLessonProblem(@Param("query") LessonProblemQuery query);
 
-    int updateProblemTime(List<LessonProblemVO> lessonProblemList);
 }

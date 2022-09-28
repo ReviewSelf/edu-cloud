@@ -35,14 +35,4 @@
         order by type asc,sort asc
     </select>
 
-    <update id="updateProblemTime">
-
-        <foreach collection="lessonProblemList" item="item" separator=",">
-            update lesson_problem
-            set begin_time=#{beginTime},end_time=#{endTime}
-            where id =#{id}
-        </foreach>
-
-    </update>
-
 </mapper>

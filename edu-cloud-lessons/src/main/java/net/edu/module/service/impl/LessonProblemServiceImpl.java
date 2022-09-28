@@ -86,7 +86,12 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
     }
 
     @Override
-    public int updateProblemTime(List<LessonProblemVO> lessonProblemList) {
-        return lessonProblemDao.updateProblemTime(lessonProblemList);
+    @Transactional
+    public void updateProblemTime(List<LessonProblemVO> lessonProblemList) {
+        if (!CollectionUtil.isEmpty(lessonProblemList)){
+            for (LessonProblemVO vo:lessonProblemList){
+                update(vo);
+            }
+        }
     }
 }

@@ -2,21 +2,20 @@ package net.edu.module.controller;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
-import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONArray;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.utils.Result;
 import net.edu.module.entity.*;
+import com.alibaba.fastjson.JSON;
 import net.edu.module.service.WxService;
 import net.edu.module.untils.SubscriptionMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
 * 新增模块演示
@@ -81,6 +80,7 @@ public class NewsController {
 
         SubscriptionMessageUtil.sendOrderMsg("wx33ea578d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
     }
+
 
     /**
      * 接受用户的信息或菜单的响应
@@ -178,5 +178,30 @@ public class NewsController {
     @GetMapping("template")
     public void template(){
         wxService.template();
+    }
+
+    @PostMapping("test")
+    public Result<String> test(@RequestBody JSONObject jsonObject){
+        System.out.println(jsonObject.get("code"));
+        List<Map> listMap = new ArrayList<Map>();
+
+        Map map1 = new HashMap();
+        map1.put("小明","员工");
+        map1.put("小军","主管");
+        String jsonString1= JSON.toJSONString(map1);
+        System.out.println(jsonString1);
+
+        Map map2 = new HashMap();
+        map2.put("小王", "员工");
+        map2.put("小红", "主管");
+
+        listMap.add(map1);
+        listMap.add(map2);
+        Map map=(Map) JSONArray.parse(jsonString1);
+        System.out.println(map.get("小明"));
+        String jsonString2= JSON.toJSONString(listMap);
+        System.out.println(jsonString2);
+        wxService.messageTemplate(jsonObject);
+        return Result.ok();
     }
 }

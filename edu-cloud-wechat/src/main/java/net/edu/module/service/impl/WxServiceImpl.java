@@ -5,7 +5,10 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import net.edu.module.entity.*;
 import net.edu.module.service.WxService;
+import net.edu.module.untils.SubscriptionMessageUtil;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * @author weng
@@ -129,6 +132,16 @@ public class WxServiceImpl implements WxService {
     }
 
     @Override
+    public void messageTemplate(JSONObject jsonObject) {
+
+        String openid = "oPybX5iiL-yKwxOPlYl3yKcpbAEM";		// 发送给指定的用户
+        String serviceName = "E";
+        String orderNo = "2";
+        SubscriptionMessageUtil.sendOrderMsg("wx33ea578d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
+
+    }
+
+    @Override
     public void template(){
         String accessToken = AccessToken.getToken();
         String setUrl = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=" + accessToken;
@@ -141,5 +154,7 @@ public class WxServiceImpl implements WxService {
         String info = HttpUtil.get(getUrl);
         System.out.println(info);
     }
+
+
 
 }

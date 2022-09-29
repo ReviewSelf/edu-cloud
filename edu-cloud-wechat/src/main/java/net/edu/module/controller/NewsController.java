@@ -182,7 +182,9 @@ public class NewsController {
 
     @PostMapping("test")
     public Result<String> test(@RequestBody JSONObject jsonObject){
-        System.out.println(jsonObject.get("code"));
+        System.out.println(jsonObject.get("list"));
+        List UserVO= (List) jsonObject.get("list");
+        System.out.println(UserVO);
         List<Map> listMap = new ArrayList<Map>();
 
         Map map1 = new HashMap();

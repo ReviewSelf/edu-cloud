@@ -24,4 +24,5 @@ public class JudgeResultVO {
     private Integer resultCode;
     private BigDecimal runtime;
     private Integer memory;
+    private BigDecimal passRate;
 }

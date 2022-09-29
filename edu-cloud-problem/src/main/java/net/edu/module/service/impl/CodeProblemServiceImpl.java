@@ -115,6 +115,7 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
     public void importFromExcel(MultipartFile file) {
         List<CodeProblemVO> list=EasyExcel.read(file.getInputStream()).head(CodeProblemVO.class).sheet().headRowNumber(3).doReadSync();
         for (CodeProblemVO vo:list){
+            vo.setMemoryLimit(vo.getMemoryLimit()* 1024);
             save(vo);
         }
 

@@ -1,9 +1,6 @@
 package net.edu.module.dao;
 
-import net.edu.module.vo.CodeProblemSubmitVO;
-import net.edu.module.vo.JudgeRecordSubmitVO;
-import net.edu.module.vo.LessonJudgeRecordVo;
-import net.edu.module.vo.ProblemCompletionVo;
+import net.edu.module.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,7 +19,8 @@ public interface JudgeRecordDao {
 
     CodeProblemSubmitVO selectCodeProblemSubmit(Long recordId);
 
-    int updateRecord(Long recordId);
+    JudgeResultVO selectUpdateRecord(Long recordId);
+    int updateRecord(JudgeResultVO vo);
 
     JudgeRecordSubmitVO selectResult(Long recordId);
 

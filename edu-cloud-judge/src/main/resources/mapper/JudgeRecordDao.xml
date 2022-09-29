@@ -12,17 +12,18 @@
                 #{languageType},
                 #{submitStatus})
     </insert>
-    <update id="updateRecord">
+    <select id="selectUpdateRecord" resultType="net.edu.module.vo.JudgeResultVO">
+        select record_id as recordId,avg(runtime) as runtime,avg(memory) as memory,max(result_code) as resultCode,sum(if(result_code = 3, 1, 0)) / sum(1) as passRate from judge_record_sample
+            where record_id = #{recordId}
+    </select>
+
+    <update id="updateRecord" parameterType="net.edu.module.vo.JudgeResultVO">
         update judge_record
-        set runtime= (select avg(runtime) from judge_record_sample where record_id = #{recordId}),
-            memory=(select avg(memory) from judge_record_sample where record_id = #{recordId}),
-            submit_status=(select max(result_code) from judge_record_sample where record_id = #{recordId}),
-            pass_rate=(select sum(if(result_code = 3, 1, 0)) / sum(1)
-                       from judge_record_sample
-                       where record_id = #{recordId})
+        set runtime= #{runtime},
+            memory=#{memory},
+            submit_status=#{resultCode},
+            pass_rate=#{passRate}
         where id = #{recordId}
-
-
     </update>
 
     <select id="selectCodeProblemSubmit" resultType="net.edu.module.vo.CodeProblemSubmitVO">

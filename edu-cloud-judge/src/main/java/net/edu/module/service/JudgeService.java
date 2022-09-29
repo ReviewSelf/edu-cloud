@@ -58,7 +58,7 @@ public class JudgeService {
             //代码题先插入后推送至mq
             judgeRecordDao.insertSubmitRecord(vo);
             if (!StrUtil.isEmpty(vo.getSubmitContent())) {
-                rabbitTemplate.convertAndSend(ExchangeName.DEFAULT_EXCHANGE, BindingName.JUDGE_BINDING, vo.getId());
+                rabbitTemplate.convertAndSend(ExchangeName.DEFAULT_EXCHANGE, BindingName.JUDGE_BINDING, String.valueOf(vo.getId()));
             }
             //提交到mq
 
@@ -102,8 +102,10 @@ public class JudgeService {
                     .sourceCode(vo.getSubmitCode())
                     .build();
 
-            JSONObject result = Judge0Http(judgeCommitVO);
+            System.out.println(judgeCommitVO);
 
+            JSONObject result = Judge0Http(judgeCommitVO);
+            System.out.println(result);
             JudgeResultVO resultVO = JudgeResultVO.builder()
                     .runtime(result.getBigDecimal("time"))
                     .resultCode(result.getInt("status_id"))
@@ -115,7 +117,11 @@ public class JudgeService {
             judgeRecordSampleDao.insert(resultVO);
         });
         //更新运行结果
-        judgeRecordDao.updateRecord(recordId);
+        JudgeResultVO resultVO=judgeRecordDao.selectUpdateRecord(recordId);
+        if(resultVO.getResultCode()>=4){
+            resultVO.setResultCode(4);
+        }
+        judgeRecordDao.updateRecord(resultVO);
         judgeAfter(recordId, vo.getProblemId(), 3);
     }
 

@@ -6,13 +6,9 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.LessonConvert;
-import net.edu.module.entity.LessonAttendLogEntity;
 import net.edu.module.entity.LessonEntity;
-import net.edu.module.query.LessonAttendLogQuery;
-import net.edu.module.service.LessonAttendLogService;
 import net.edu.module.service.LessonService;
 import net.edu.module.query.LessonQuery;
-import net.edu.module.vo.LessonAttendLogVO;
 import net.edu.module.vo.LessonVO;
 import org.springframework.web.bind.annotation.*;
 

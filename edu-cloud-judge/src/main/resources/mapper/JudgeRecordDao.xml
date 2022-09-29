@@ -89,7 +89,7 @@
     </resultMap>
 
     <select id="selectLessonRecord" resultMap="LessonRecord">
-        SELECT if(submit_status!=null and begin_time!=null ,timediff(submit_time,begin_time),null) as spend_time
+        SELECT timediff(submit_time,begin_time) as spend_time
         ,c.user_id,c.name,c.lesson_id,c.problem_id,c.problem_name,c.problem_type,c.begin_time,c.type,d.id as
         record_id,d.submit_status,d.submit_time FROM
         (SELECT a.user_id,a.name,a.lesson_id,b.problem_id,b.problem_name,b.problem_type,b.begin_time,b.type FROM
@@ -116,6 +116,7 @@
         <result property="userId" column="user_id"></result>
         <result property="submitContent" column="submit_content"></result>
         <result property="submitImg" column="submit_img"></result>
+        <result property="submitTime" column="submit_time"></result>
         <result property="submitStatus" column="submit_status"></result>
         <result property="judgeType" column="judge_type"></result>
         <result property="judgeReason" column="judge_reason"></result>
@@ -141,6 +142,7 @@
                t.submit_status,
                t.judge_type,
                t.judge_reason,
+               t.submit_time,
                b.record_id,
                b.sample_id,
                b.runtime,
@@ -156,7 +158,8 @@
                      a.submit_img,
                      a.submit_status,
                      a.judge_type,
-                     a.judge_reason
+                     a.judge_reason,
+                     a.submit_time
               from judge_record a
               where a.problem_id = #{problemId}
                 and a.problem_type = #{problemType}

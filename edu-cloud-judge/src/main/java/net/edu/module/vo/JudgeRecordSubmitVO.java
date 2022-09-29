@@ -3,9 +3,11 @@ package net.edu.module.vo;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import net.edu.framework.common.utils.DateUtils;
 
-
+import java.util.Date;
 
 
 /**
@@ -26,6 +28,8 @@ public class JudgeRecordSubmitVO {
     private Long userId;
     private String submitContent;
     private String submitImg;
+    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+    private Date submitTime;
     private Integer languageType;
     // 0=未判题，3=正确，4=错误
     private Integer submitStatus;

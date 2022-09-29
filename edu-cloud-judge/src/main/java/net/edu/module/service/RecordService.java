@@ -1,6 +1,7 @@
 package net.edu.module.service;
 
 import lombok.AllArgsConstructor;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.dao.JudgeRecordDao;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
@@ -27,6 +28,7 @@ public class RecordService {
     }
 
     public JudgeRecordSubmitVO getRecord(JudgeRecordSubmitVO vo){
+        vo.setUserId(SecurityUser.getUserId());
         return judgeRecordDao.selectRecord(vo);
     }
 

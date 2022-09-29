@@ -67,6 +67,7 @@
           and problem_type = #{problemType}
           and source = #{source}
           and source_id = #{sourceId}
+          and user_id=#{userId}
         order by update_time desc limit 1
     </select>
 

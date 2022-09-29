@@ -93,7 +93,6 @@ public class JudgeService {
         List<CodeSampleVO> sampleVOList = eduProblemApi.getSampleList(vo.getProblemId()).getData();
         //遍历样例判题
         sampleVOList.forEach(item -> {
-
             JudgeCommitVO judgeCommitVO = JudgeCommitVO.builder()
                     .cpuTimeLimit(vo.getTimeLimit())
                     .memoryLimit(vo.getMemoryLimit())

@@ -11,6 +11,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.framework.security.user.UserDetail;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.LessonConvert;
 import net.edu.module.dao.LessonAttendLogDao;
@@ -58,12 +59,14 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
      */
     @Override
     public PageResult<LessonVO> page(LessonQuery query) {
-        query.setUserId(SecurityUser.getUserId());
+        UserDetail user=SecurityUser.getUser();
+        query.setUserId(user.getId());
+        query.setRole(user.getRoleIdList().get(0));
         PageResult<LessonVO> pageResult=null;
             Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
             IPage<LessonVO> list;
             //判断是否为学生
-            if(query.getRole()==1){
+            if(query.getRole()==2L){
                 list = baseMapper.selectStudentPage(page, query);
             }else {
                 list = baseMapper.selectTeacherPage(page, query);

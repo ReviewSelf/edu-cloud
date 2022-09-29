@@ -18,10 +18,11 @@
         <result property="homeworkStatus" column="homework_status"/>
     </resultMap>
     <select id="selectStudentPage" resultType="net.edu.module.vo.LessonVO">
-        select t.id,t.teacher_id as teacherId,name,status,(select real_name from sys_user where id=t.teacher_id) as teacherName,t.class_id as classId ,(select name from teach_class where id=t.class_id) as className,t.place,t.begin_time as beginTime,t.end_time as endTime   from lesson t
-        where exists (select 1 from teach_class a join teach_class_user b on a.id=b.class_id and b.user_id=#{query.userId}
-        where a.id=t.class_id)
-
+        SELECT b.id,b.teacher_id as teacherId,b.name,b.status
+        ,(select real_name from sys_user where id=b.teacher_id) as teacherName
+        ,b.class_id as classId ,(select name from teach_class where id=b.class_id) as className
+        ,b.place,b.begin_time as beginTime,b.end_time as endTime
+        FROM lesson_attend_log a join lesson b on a.lesson_id=b.id  where stu_id=#{query.userId}
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
         </if>
@@ -51,11 +52,11 @@
 
     <select id="selectHomeworkPage" resultMap="lessonMap">
         select t.id,t.teacher_id ,name,status,(select real_name from sys_user where id=t.teacher_id) as teacherName,t.class_id,
-        (select name from teach_class where id=t.class_id) as className,t.place,t.begin_time ,t.end_time,
-        t.homework_begin_time,t.homework_end_time,t.homework_status
+               (select name from teach_class where id=t.class_id) as className,t.place,t.begin_time ,t.end_time,
+               t.homework_begin_time,t.homework_end_time,t.homework_status
         from lesson t
         where exists (select 1 from teach_class a join teach_class_user b on a.id=b.class_id and b.user_id=#{query.userId}
-        where a.id=t.class_id) and t.homework_status > 0  and t.status = 0
+        where a.id=t.class_id) and t.homework_status > 0
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
         </if>
@@ -68,15 +69,5 @@
     <select id="selectLessonIdList" resultType="net.edu.module.vo.LessonVO">
         select id,homework_end_time as homeworkEndTime from lesson where homework_status = 1 and deleted = 0
     </select>
-    <select id="getListById" resultType="net.edu.module.vo.LessonVO">
-        select
-        name,
-        teacher_id,
-        place,
-        begin_time,
-        end_time
-        from lesson where class_id = #{classId} and begin_time > date_format(now(),'%Y-%m-%d')
-    </select>
-
 
 </mapper>

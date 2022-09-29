@@ -1,13 +1,13 @@
 #!/bin/sh
-export SYSTEM=/home/edu/api/edu-cloud-system.jar
-export FILE=/home/edu/api/edu-cloud-file.jar
-export JUDGE=/home/edu/api/edu-cloud-judge.jar
-export PROBLEM=/home/edu/api/edu-cloud-problem.jar
-export TEACHING=/home/edu/api/edu-cloud-teaching.jar
-export AFFAIR=/home/edu/api/edu-cloud-affair.jar
-export LESSONS=/home/edu/api/edu-cloud-lessons.jar
-export WECHAT=/home/edu/api/edu-cloud-wechat.jar
-export GATEWAY=/home/edu/api/edu-cloud-gateway.jar
+export SYSTEM=edu-cloud-system.jar
+export FILE=edu-cloud-file.jar
+export JUDGE=edu-cloud-judge.jar
+export PROBLEM=edu-cloud-problem.jar
+export TEACHING=edu-cloud-teaching.jar
+export AFFAIR=edu-cloud-affair.jar
+export LESSONS=edu-cloud-lessons.jar
+export WECHAT=edu-cloud-wechat.jar
+export GATEWAY=edu-cloud-gateway.jar
 
 
 export SYSTEM_port=7000

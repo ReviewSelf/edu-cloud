@@ -19,6 +19,8 @@ import net.edu.module.vo.TeachPlanItemVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,6 +42,7 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
     @Override
     public List<TeachPlanItemVO> list(Long id) {
         List<TeachPlanItemVO> list = teachPlanItemDao.list(id);
+        System.out.println(list);
         return list;
     }
 
@@ -108,5 +111,6 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
     public void saveItemResource(TeachPlanItemResourceVO vo) {
         teachPlanItemResourceDao.insertItemResource(vo);
     }
+
 
 }

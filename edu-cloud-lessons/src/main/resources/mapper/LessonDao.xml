@@ -20,7 +20,7 @@
     <select id="selectStudentPage" resultType="net.edu.module.vo.LessonVO">
         select t.id,t.teacher_id as teacherId,name,status,(select real_name from sys_user where id=t.teacher_id) as teacherName,t.class_id as classId ,(select name from teach_class where id=t.class_id) as className,t.place,t.begin_time as beginTime,t.end_time as endTime   from lesson t
         where exists (select 1 from teach_class a join teach_class_user b on a.id=b.class_id and b.user_id=#{query.userId}
-            where a.id=t.class_id)
+        where a.id=t.class_id)
 
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
@@ -51,8 +51,8 @@
 
     <select id="selectHomeworkPage" resultMap="lessonMap">
         select t.id,t.teacher_id ,name,status,(select real_name from sys_user where id=t.teacher_id) as teacherName,t.class_id,
-               (select name from teach_class where id=t.class_id) as className,t.place,t.begin_time ,t.end_time,
-               t.homework_begin_time,t.homework_end_time,t.homework_status
+        (select name from teach_class where id=t.class_id) as className,t.place,t.begin_time ,t.end_time,
+        t.homework_begin_time,t.homework_end_time,t.homework_status
         from lesson t
         where exists (select 1 from teach_class a join teach_class_user b on a.id=b.class_id and b.user_id=#{query.userId}
         where a.id=t.class_id) and t.homework_status > 0  and t.status = 0
@@ -68,5 +68,15 @@
     <select id="selectLessonIdList" resultType="net.edu.module.vo.LessonVO">
         select id,homework_end_time as homeworkEndTime from lesson where homework_status = 1 and deleted = 0
     </select>
+    <select id="getListById" resultType="net.edu.module.vo.LessonVO">
+        select
+        name,
+        teacher_id,
+        place,
+        begin_time,
+        end_time
+        from lesson where class_id = #{classId} and begin_time > date_format(now(),'%Y-%m-%d')
+    </select>
+
 
 </mapper>

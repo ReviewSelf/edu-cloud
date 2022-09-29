@@ -33,10 +33,10 @@ public class TeachPlanItemController {
     @Operation(summary = "分页")
     public Result<List<TeachPlanItemVO>> list(@PathVariable("id") Long id) {
         List<TeachPlanItemVO> list = teachPlanItemService.list(id);
-        System.out.println("lllllllllllll");
-        System.out.println(list);
         return Result.ok(list);
     }
+
+
 
     @GetMapping("{id}")
     @Operation(summary = "信息")

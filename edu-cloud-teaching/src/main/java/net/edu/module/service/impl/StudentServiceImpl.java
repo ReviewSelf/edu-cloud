@@ -1,8 +1,10 @@
 package net.edu.module.service.impl;
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
@@ -18,7 +20,9 @@ import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +155,18 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     @Override
     public void updateSubmitCorrectTimes(Long userId, Integer correct) {
         userDao.updateSubmitCorrectTimes(userId,correct);
+    }
+
+    @SneakyThrows
+    @Override
+    public void studentFromExcel(MultipartFile file) {
+        List<Long> list1=new ArrayList<>();
+        list1.add(2L);
+        List<UserVO> list= EasyExcel.read(file.getInputStream()).head(UserVO.class).sheet().headRowNumber(3).doReadSync();
+        for (UserVO vo:list){
+            vo.setRoleIdList(list1);
+            save(vo);
+        }
     }
 
 }

@@ -5,7 +5,6 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
-import net.edu.module.vo.LessonIPVO;
 import net.edu.module.vo.LessonVO;
 
 import java.util.List;
@@ -33,4 +32,6 @@ public interface LessonService extends BaseService<LessonEntity> {
     void handlerStatisticsMonthlyScheduled();
 
     PageResult<LessonVO> homeworkPage(LessonQuery query);
+
+    List<LessonVO> getListById(Long classId);
 }

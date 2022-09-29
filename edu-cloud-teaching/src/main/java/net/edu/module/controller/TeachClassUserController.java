@@ -13,6 +13,7 @@ import net.edu.module.service.TeachClassUserService;
 import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -93,4 +94,6 @@ public class TeachClassUserController {
         teachClassUserService.quitClass(vo.getClassId(),vo.getUserId(), vo.getQuitTime());
         return Result.ok();
     }
+
+
 }

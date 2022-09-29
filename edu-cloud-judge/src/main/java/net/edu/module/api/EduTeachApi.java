@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(value = "edu-cloud-teaching", fallbackFactory = EduProblemFallBack.class)
 public interface EduTeachApi {
-    @GetMapping("teaching/student/updateSubmitCorrectTimes")
+    @GetMapping("/student/updateSubmitCorrectTimes")
     Result<String> updateSubmitCorrectTimes(@RequestParam Long userId, @RequestParam Integer correct);
 }

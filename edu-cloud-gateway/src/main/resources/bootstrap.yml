@@ -5,7 +5,7 @@ spring:
   application:
     name: edu-cloud-gateway
   profiles:
-    active: dev
+    active: @profile.name@
   cloud:
     gateway:
       metrics:
@@ -78,9 +78,9 @@ spring:
             - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
     nacos:
       discovery:
-        server-addr: ${nacos_host:127.0.0.1}:${nacos_port:8848}
+        server-addr: @config.server-addr@
         # 命名空间，默认：public
-        namespace: ${nacos_namespace:}
+        namespace: @config.namespace@
         service: ${spring.application.name}
 
 springdoc:

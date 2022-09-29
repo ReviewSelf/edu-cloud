@@ -2,20 +2,20 @@ package net.edu.module.controller;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
-import cn.hutool.json.JSONObject;
-import com.alibaba.fastjson.JSONArray;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.entity.*;
-import com.alibaba.fastjson.JSON;
+import net.edu.module.service.MessageService;
 import net.edu.module.service.WxService;
 import net.edu.module.untils.SubscriptionMessageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
 * 新增模块演示
@@ -23,14 +23,15 @@ import java.util.*;
 * @author 阿沐 babamu@126.com
 */
 @RestController
-@RequestMapping("news")
+@RequestMapping("wx")
 @Tag(name="消息推送")
 @AllArgsConstructor
-public class NewsController {
+public class WxController {
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
     private WxService wxService;
+    @Autowired
+    private MessageService messageService;
 
     /**
      * Token验证
@@ -81,7 +82,6 @@ public class NewsController {
         SubscriptionMessageUtil.sendOrderMsg("wx33ea578d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
     }
 
-
     /**
      * 接受用户的信息或菜单的响应
      * @param inMessage
@@ -102,16 +102,7 @@ public class NewsController {
         outMessage.setCreateTime(System.currentTimeMillis() / 1000);
         // 根据接收到消息类型，响应对应的消息内容
         if ("text".equals(inMessage.getMsgType())){
-            // 文本关键字回复
-            String inContent = inMessage.getContent();
-            if(inContent.contains("报名")){
-                outMessage.setMsgType("text");
-                outMessage.setContent("你输入了报名");
-            }
-            if(inContent.contains("注册")){
-                outMessage.setMsgType("text");
-                outMessage.setContent("你输入了注册");
-            }
+
 
         }else if ("image".equals(inMessage.getMsgType())){
             // 图片
@@ -121,35 +112,14 @@ public class NewsController {
             String event = inMessage.getEvent();
             //如果是关注事件
             if("subscribe".equals(event)){
+                String openId = inMessage.getFromUserName();
+//                String unionId = wxService.getUnionId(openId);
+                messageService.insertOpenId(openId);
                 outMessage.setMsgType("text");
-                outMessage.setContent("欢迎关注我的公众号~~~输入“注册”可以注册成为我们的用户，输入“报名”可以了解我们的课程并进行报名");
+                outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
             }
             else if("CLICK".equals(event)){
-                String eventKey = inMessage.getEventKey();
-                if(eventKey.equals("12")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了成为老师");
-                }
-                if(eventKey.equals("21")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了试听课");
-                }
-                if(eventKey.equals("22")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了正式课");
-                }
-                if(eventKey.equals("31")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了我的班级");
-                }
-                if(eventKey.equals("32")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了我的作业");
-                }
-                if(eventKey.equals("33")){
-                    outMessage.setMsgType("text");
-                    outMessage.setContent("你点击了我的考试");
-                }
+
             }
 
         }
@@ -180,30 +150,33 @@ public class NewsController {
         wxService.template();
     }
 
-    @PostMapping("test")
-    public Result<String> test(@RequestBody JSONObject jsonObject){
-        System.out.println(jsonObject.get("list"));
-        List UserVO= (List) jsonObject.get("list");
-        System.out.println(UserVO);
-        List<Map> listMap = new ArrayList<Map>();
+    @PostMapping("post")
+    @Operation(summary = "注册")
+    public Result post(@RequestBody UserEntity userEntity){
+        messageService.post(userEntity);
+        System.out.println(userEntity);
+        if(userEntity.getPurpose()=="" || userEntity.getPurpose()==null){
+            Integer classId = userEntity.getClassId();
+            String openId = userEntity.getOpenId();
+            messageService.insertClassUser(classId,openId);
+        }
 
-        Map map1 = new HashMap();
-        map1.put("小明","员工");
-        map1.put("小军","主管");
-        String jsonString1= JSON.toJSONString(map1);
-        System.out.println(jsonString1);
-
-        Map map2 = new HashMap();
-        map2.put("小王", "员工");
-        map2.put("小红", "主管");
-
-        listMap.add(map1);
-        listMap.add(map2);
-        Map map=(Map) JSONArray.parse(jsonString1);
-        System.out.println(map.get("小明"));
-        String jsonString2= JSON.toJSONString(listMap);
-        System.out.println(jsonString2);
-        wxService.messageTemplate(jsonObject);
         return Result.ok();
+    }
+
+    @GetMapping("union")
+    public String getUnionId(@RequestParam("openId") String openId){
+        return wxService.getUnionId(openId);
+    }
+
+    /**
+     * 通过code获取openId
+     * @param code
+     * @return
+     */
+    @GetMapping("code")
+    public Result<String> getOpenId(@RequestParam("code") String code){
+        System.out.println(code);
+        return Result.ok(wxService.getOpenId(code));
     }
 }

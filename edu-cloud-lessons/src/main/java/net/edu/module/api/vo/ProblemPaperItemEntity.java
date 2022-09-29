@@ -52,6 +52,17 @@ public class ProblemPaperItemEntity {
     private Integer problemType;
 
     /**
+     * 类型
+     */
+    private Integer type;
+
+
+    /**
+     *来源
+     */
+    private Integer source;
+
+    /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)

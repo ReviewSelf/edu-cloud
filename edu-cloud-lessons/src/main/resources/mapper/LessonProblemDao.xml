@@ -17,7 +17,7 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
     <insert id="insertProblemList" parameterType="net.edu.module.api.vo.ProblemPaperItemEntity">
-        insert into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type) values
+        insert ignore into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type) values
         <foreach collection="list" item="item" separator=",">
             (
             #{lessonId},#{item.score},#{item.problemId},#{item.problemName},#{item.problemType},1,#{paperType}
@@ -35,14 +35,13 @@
         order by type asc,sort asc
     </select>
 
-    <update id="updateProblemTime">
-
-        <foreach collection="lessonProblemList" item="item" separator=",">
-            update lesson_problem
-            set begin_time=#{beginTime},end_time=#{endTime}
-            where id =#{id}
+    <insert id="insertProblemListByTeacher" parameterType="net.edu.module.api.vo.ProblemPaperItemEntity">
+        insert ignore into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type) values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{lessonId},#{item.score},#{item.problemId},#{item.problemName},#{item.problemType},#{item.source},#{item.type}
+            )
         </foreach>
-
-    </update>
+    </insert>
 
 </mapper>

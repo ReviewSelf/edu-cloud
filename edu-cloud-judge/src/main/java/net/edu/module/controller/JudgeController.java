@@ -33,7 +33,6 @@ public class JudgeController {
 
     private final RecordService recordService;
 
-    private final SampleService sampleService;
 
     @PostMapping("/record")
     public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo) {

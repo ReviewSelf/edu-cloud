@@ -9,6 +9,7 @@ import net.edu.module.convert.LessonProblemConvert;
 import net.edu.module.entity.LessonProblemEntity;
 import net.edu.module.service.LessonProblemService;
 import net.edu.module.query.LessonProblemQuery;
+import net.edu.module.vo.LessonAddVo;
 import net.edu.module.vo.LessonProblemVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,6 +73,13 @@ public class LessonProblemController {
     @Operation(summary = "更新课堂练习开始时间结束时间")
     public Result<String> updateProblemTime(@RequestBody List<LessonProblemVO> lessonProblemList){
         lessonProblemService.updateProblemTime(lessonProblemList);
+        return Result.ok();
+    }
+
+    @PostMapping("/batchInsertLessonProblem")
+    @Operation(summary = "批量新增课堂题")
+    public Result<String> batchInsertLessonProblem(@RequestBody LessonAddVo obj){
+        lessonProblemService.insertProblemListByTeacher(obj.getList(),obj.getLessonId());
         return Result.ok();
     }
 

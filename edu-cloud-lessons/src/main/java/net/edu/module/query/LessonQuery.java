@@ -20,14 +20,8 @@ public class LessonQuery  extends  Query{
     Long classId;
     Long name;
     Long userId;
-    //1=学生，2=老师
-    Integer role;
+    //1老师=，2=学生
+    Long role;
 
 
-    public String getRedisKeys() {
-        return  "class:" + classId +
-                "name:" + name +
-                "user:" + userId +
-                "role:" + role;
-    }
 }

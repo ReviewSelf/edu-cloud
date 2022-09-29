@@ -135,7 +135,7 @@ public class JudgeService {
 
         //结束判题更新用户答题次数/准确次数
         if (vo.getSubmitStatus() == 3) {
-            eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 1);
+             eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 1);
         } else {
             eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 0);
         }

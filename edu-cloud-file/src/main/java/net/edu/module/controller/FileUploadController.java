@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Tag(name = "文件上传")
 @AllArgsConstructor
 public class FileUploadController {
-    private final StorageService storageService=new LocalStorageService();
+    private final StorageService storageService;
 
 
     @PostMapping("upload")
@@ -54,22 +54,8 @@ public class FileUploadController {
         vo.setName(file.getOriginalFilename());
         return Result.ok(vo);
     }
-//    @PostMapping("upload")
-//    @Operation(summary = "普通文件上传")
-//    public Result<FileUploadVO> upload(@RequestParam("file") MultipartFile file) throws Exception {
-//        if (file.isEmpty()) {
-//            return Result.error("请选择需要上传的文件");
-//        }
-//        // 上传路径
-//        String path = storageService.getPath(file.getOriginalFilename());
-//        // 上传文件
-//        String url = storageService.upload(file.getBytes(), path);
-//        FileUploadVO vo = new FileUploadVO();
-//        vo.setUrl(url);
-//        vo.setSize(file.getSize());
-//        vo.setName(file.getOriginalFilename());
-//        return Result.ok(vo);
-//    }
+
+
 
 
 }

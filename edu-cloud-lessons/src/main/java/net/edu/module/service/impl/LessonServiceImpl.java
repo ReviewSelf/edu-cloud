@@ -49,7 +49,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final LessonAttendLogService lessonAttendLogService;
     private final EduTeachApi eduTeachApi;
     private final RedisUtils redisUtils;
-    private final LessonDao lessonDao;
 
     /**
      * 获取学生/老师的课堂记录
@@ -60,15 +59,15 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     public PageResult<LessonVO> page(LessonQuery query) {
         query.setUserId(SecurityUser.getUserId());
         PageResult<LessonVO> pageResult=null;
-        Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
-        IPage<LessonVO> list;
-        //判断是否为学生
-        if(query.getRole()==1){
-            list = baseMapper.selectStudentPage(page, query);
-        }else {
-            list = baseMapper.selectTeacherPage(page, query);
-        }
-        pageResult=  new PageResult<>(list.getRecords(), list.getTotal());
+            Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
+            IPage<LessonVO> list;
+            //判断是否为学生
+            if(query.getRole()==1){
+                list = baseMapper.selectStudentPage(page, query);
+            }else {
+                list = baseMapper.selectTeacherPage(page, query);
+            }
+            pageResult=  new PageResult<>(list.getRecords(), list.getTotal());
         return pageResult;
     }
 
@@ -86,7 +85,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     public void update(LessonVO vo) {
         LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
         updateById(entity);
-        //    redisUtils.del(RedisKeys.getClassLesson(vo.getClassId()));
+    //    redisUtils.del(RedisKeys.getClassLesson(vo.getClassId()));
     }
 
     @Override

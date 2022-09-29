@@ -1,0 +1,15 @@
+
+
+
+nohup java -jar edu-cloud-file.jar >/dev/null 2>&1 &
+nohup java -jar edu-cloud-lessons.jar >/dev/null 2>&1 &
+nohup java -jar edu-cloud-problem.jar >/dev/null 2>&1 &
+nohup java -jar edu-cloud-teaching.jar >/dev/null 2>&1 &
+nohup java -jar edu-cloud-judge.jar >/dev/null 2>&1 &
+
+
+
+
+nohup java -jar edu-cloud-affair.jar >/dev/null 2>&1 &
+nohup java -jar edu-cloud-system.jar >/dev/null 2>&1 &
+nohup java -jar edu-cloud-gateway.jar >/dev/null 2>&1 &

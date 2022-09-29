@@ -21,9 +21,9 @@
             <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.32</version>
+            <groupId>net.edu</groupId>
+            <artifactId>edu-cloud-api</artifactId>
+            <version>${revision}</version>
         </dependency>
 
     </dependencies>

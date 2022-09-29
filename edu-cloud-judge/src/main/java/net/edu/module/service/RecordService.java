@@ -36,6 +36,11 @@ public class RecordService {
         return judgeRecordDao.selectRecordAndAnswer(vo);
     }
 
+    /**
+     * 改判
+     * @param vo
+     * @return
+     */
     public int updateReasonAndStatus(ProblemCompletionVo vo){
         return judgeRecordDao.updateReasonAndStatus(vo);
     }

@@ -1,10 +1,10 @@
 package net.edu.module.dao;
 
 import net.edu.framework.mybatis.dao.BaseDao;
-import net.edu.module.api.vo.ProblemPaperItemEntity;
 import net.edu.module.entity.LessonProblemEntity;
 import net.edu.module.query.LessonProblemQuery;
 import net.edu.module.vo.LessonProblemVO;
+import net.edu.module.vo.ProblemPaperItemEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

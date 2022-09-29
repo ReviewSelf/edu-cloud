@@ -1,7 +1,7 @@
 package net.edu.module.service;
 
 import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.api.vo.SampleVO;
+import net.edu.module.vo.SampleVO;
 import net.edu.module.entity.CodeSampleEntity;
 import net.edu.module.vo.CodeSampleVO;
 

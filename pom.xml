@@ -27,6 +27,7 @@
         <module>edu-cloud-affair</module>
         <module>edu-cloud-teaching</module>
         <module>edu-cloud-lessons</module>
+        <module>edu-cloud-api</module>
     </modules>
 
     <properties>

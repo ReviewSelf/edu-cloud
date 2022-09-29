@@ -5,6 +5,7 @@ import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.mq.BindingName;
 import net.edu.framework.common.mq.ExchangeName;
 import net.edu.framework.common.utils.EncryptUtils;
@@ -29,8 +30,12 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class JudgeService {
 
+    private final int choiceType=1;
+    private final int fillType=2;
+    private final int codeType=3;
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -48,19 +53,20 @@ public class JudgeService {
 
     public void judgeBefore(JudgeRecordSubmitVO vo) {
         //插入记录
-        if (vo.getProblemType() == 1) {
+        if (vo.getProblemType() == choiceType) {
             //选择题直接判题
             judgeChoice(vo);
-        } else if (vo.getProblemType() == 2) {
+        } else if (vo.getProblemType() == fillType) {
             //填空题只插入
             judgeRecordDao.insertSubmitRecord(vo);
-        } else if (vo.getProblemType() == 3) {
+        } else if (vo.getProblemType() == codeType) {
             //代码题先插入后推送至mq
             judgeRecordDao.insertSubmitRecord(vo);
             if (!StrUtil.isEmpty(vo.getSubmitContent())) {
+                //提交到mq
                 rabbitTemplate.convertAndSend(ExchangeName.DEFAULT_EXCHANGE, BindingName.JUDGE_BINDING, String.valueOf(vo.getId()));
             }
-            //提交到mq
+
 
         }
     }
@@ -70,22 +76,22 @@ public class JudgeService {
         List<String> arr = Arrays.asList(vo.getSubmitContent().split(";;;"));
         List<String> answer = eduProblemApi.getChoiceOptions(vo.getProblemId(), 1).getData();
         if (arr.size() != answer.size()) {
-            vo.setSubmitStatus(4);
+            vo.setSubmitStatus(JudgeStatusCode.WA);
         } else {
-            vo.setSubmitStatus(3);
+            vo.setSubmitStatus(JudgeStatusCode.AC);
             for (String item : arr) {
                 if (!answer.contains(item)) {
-                    vo.setSubmitStatus(4);
+                    vo.setSubmitStatus(JudgeStatusCode.WA);
                     break;
                 }
             }
         }
         judgeRecordDao.insertSubmitRecord(vo);
-        judgeAfter(vo.getId(), vo.getProblemId(), 1);
+        judgeAfter(vo.getId(), vo.getProblemId(), choiceType);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void judgeCode(Long recordId) {
+    public void judgeCode(Long recordId) throws Exception{
 //        获取判题内容，时间限制，空间限制
         CodeProblemSubmitVO vo = judgeRecordDao.selectCodeProblemSubmit(recordId);
         vo.setSubmitCode(EncryptUtils.encryptByBase64(vo.getSubmitCode()));
@@ -101,11 +107,8 @@ public class JudgeService {
                     .expectedOutput(eduFileApi.getFileContent(item.getOutputPath()).getData())
                     .sourceCode(vo.getSubmitCode())
                     .build();
-
-            System.out.println(judgeCommitVO);
-
             JSONObject result = Judge0Http(judgeCommitVO);
-            System.out.println(result);
+            log.info("提交记录号：{},结果{}",recordId,result);
             JudgeResultVO resultVO = JudgeResultVO.builder()
                     .runtime(result.getBigDecimal("time"))
                     .resultCode(result.getInt("status_id"))
@@ -113,33 +116,42 @@ public class JudgeService {
                     .recordId(recordId)
                     .sampleId(item.getId())
                     .build();
-            //写入样例运行结果
-            judgeRecordSampleDao.insert(resultVO);
+            if(resultVO.getResultCode()!=null){
+                //写入样例运行结果
+                judgeRecordSampleDao.insert(resultVO);
+            }else {
+                //判题机报错，抛异常结束判题
+                throw new RuntimeException("判题错误："+result.toString());
+            }
+
         });
         //更新运行结果
         JudgeResultVO resultVO=judgeRecordDao.selectUpdateRecord(recordId);
-        if(resultVO.getResultCode()>=4){
-            resultVO.setResultCode(4);
+
+        if(resultVO!=null){
+            if(resultVO.getResultCode()>=JudgeStatusCode.WA){
+                resultVO.setResultCode(JudgeStatusCode.WA);
+            }
+            judgeRecordDao.updateRecord(resultVO);
         }
-        judgeRecordDao.updateRecord(resultVO);
-        judgeAfter(recordId, vo.getProblemId(), 3);
+
+        judgeAfter(recordId, vo.getProblemId(), codeType);
     }
 
 
-    @Transactional(rollbackFor = Exception.class)
     public void judgeAfter(Long recordId, Long problemId, int type) {
         JudgeRecordSubmitVO vo = judgeRecordDao.selectResult(recordId);
         //更新题目回答次数/正确次数
-        if (type == 1) {
-            eduProblemApi.updateChoiceSubmitTimes(problemId, vo.getSubmitStatus() == 3);
-        } else if (type == 2) {
-            eduProblemApi.updateFillSubmitTimes(problemId, vo.getSubmitStatus() == 3);
-        } else if (type == 3) {
-            eduProblemApi.updateCodeSubmitTimes(problemId, vo.getSubmitStatus() == 3);
+        if (type == choiceType) {
+            eduProblemApi.updateChoiceSubmitTimes(problemId, vo.getSubmitStatus() == JudgeStatusCode.AC);
+        } else if (type == fillType) {
+            eduProblemApi.updateFillSubmitTimes(problemId, vo.getSubmitStatus() == JudgeStatusCode.AC);
+        } else if (type == codeType) {
+            eduProblemApi.updateCodeSubmitTimes(problemId, vo.getSubmitStatus() == JudgeStatusCode.AC);
         }
 
         //结束判题更新用户答题次数/准确次数
-        if (vo.getSubmitStatus() == 3) {
+        if (vo.getSubmitStatus() == JudgeStatusCode.AC) {
              eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 1);
         } else {
             eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 0);

@@ -1,6 +1,6 @@
 package net.edu.module.convert;
 
-import net.edu.module.api.vo.ProblemPaperItemEntity;
+
 import net.edu.module.entity.LessonProblemEntity;
 import net.edu.module.vo.LessonProblemVO;
 import org.mapstruct.Mapper;

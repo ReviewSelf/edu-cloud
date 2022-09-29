@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduFileApi;
-import net.edu.module.api.vo.SampleVO;
+import net.edu.module.vo.SampleVO;
 import net.edu.module.convert.CodeSampleConvert;
 import net.edu.module.entity.CodeSampleEntity;
 import net.edu.module.service.CodeSampleService;

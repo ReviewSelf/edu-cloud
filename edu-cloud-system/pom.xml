@@ -15,10 +15,10 @@
 			<artifactId>edu-cloud-starter</artifactId>
 			<version>${revision}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.github.ben-manes.caffeine</groupId>
-			<artifactId>caffeine</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.github.ben-manes.caffeine</groupId>-->
+<!--			<artifactId>caffeine</artifactId>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>com.github.whvcse</groupId>
 			<artifactId>easy-captcha</artifactId>

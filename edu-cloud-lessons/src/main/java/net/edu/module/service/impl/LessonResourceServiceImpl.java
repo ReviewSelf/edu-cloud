@@ -10,13 +10,13 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.api.EduTeachApi;
-import net.edu.module.api.vo.TeachPlanItemResourceVO;
 import net.edu.module.convert.LessonResourceConvert;
 import net.edu.module.entity.LessonResourceEntity;
 import net.edu.module.query.LessonResourceQuery;
 import net.edu.module.vo.LessonResourceVO;
 import net.edu.module.dao.LessonResourceDao;
 import net.edu.module.service.LessonResourceService;
+import net.edu.module.vo.TeachPlanItemResourceVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

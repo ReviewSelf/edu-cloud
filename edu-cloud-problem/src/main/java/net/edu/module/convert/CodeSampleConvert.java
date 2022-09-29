@@ -1,6 +1,6 @@
 package net.edu.module.convert;
 
-import net.edu.module.api.vo.SampleVO;
+import net.edu.module.vo.SampleVO;
 import net.edu.module.entity.CodeSampleEntity;
 import net.edu.module.vo.CodeSampleVO;
 import org.mapstruct.Mapper;

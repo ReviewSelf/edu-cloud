@@ -12,5 +12,5 @@ import java.util.List;
 public interface JudgeRecordSampleDao {
     int insert(JudgeResultVO judgeResultVO);
 
-    List<RecordSampleVo> selectRecordSampleList(@Param("recordId") Integer recordId);
+
 }

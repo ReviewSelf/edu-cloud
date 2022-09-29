@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
-import net.edu.module.api.vo.SampleVO;
+import net.edu.module.vo.SampleVO;
 import net.edu.module.convert.CodeSampleConvert;
 import net.edu.module.dao.CodeProblemDao;
 import net.edu.module.dao.CodeSampleDao;

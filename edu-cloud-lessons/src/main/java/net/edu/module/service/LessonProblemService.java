@@ -1,12 +1,12 @@
 package net.edu.module.service;
 
 
-import net.edu.framework.common.page.PageResult;
+
 import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.api.vo.ProblemPaperItemEntity;
 import net.edu.module.vo.LessonProblemVO;
 import net.edu.module.query.LessonProblemQuery;
 import net.edu.module.entity.LessonProblemEntity;
+import net.edu.module.vo.ProblemPaperItemEntity;
 
 import java.util.List;
 

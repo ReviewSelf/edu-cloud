@@ -1,9 +1,9 @@
 package net.edu.module.dao;
 
 import net.edu.framework.mybatis.dao.BaseDao;
-import net.edu.module.api.vo.TeachPlanItemResourceVO;
 import net.edu.module.entity.LessonResourceEntity;
 import net.edu.module.vo.LessonResourceVO;
+import net.edu.module.vo.TeachPlanItemResourceVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

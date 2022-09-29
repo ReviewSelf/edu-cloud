@@ -1,23 +1,19 @@
 package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
-import net.edu.module.api.vo.ProblemPaperItemEntity;
-import net.edu.module.api.vo.TeachPlanItemPaperVO;
 import net.edu.module.convert.LessonProblemConvert;
 import net.edu.module.entity.LessonProblemEntity;
 import net.edu.module.query.LessonProblemQuery;
 import net.edu.module.vo.LessonProblemVO;
 import net.edu.module.dao.LessonProblemDao;
 import net.edu.module.service.LessonProblemService;
+import net.edu.module.vo.ProblemPaperItemEntity;
+import net.edu.module.vo.TeachPlanItemPaperVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

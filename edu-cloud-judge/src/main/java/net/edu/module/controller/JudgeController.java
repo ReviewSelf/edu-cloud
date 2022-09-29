@@ -8,11 +8,9 @@ import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.service.JudgeService;
 import net.edu.module.service.RecordService;
-import net.edu.module.service.SampleService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
 import net.edu.module.vo.ProblemCompletionVo;
-import net.edu.module.vo.RecordSampleVo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

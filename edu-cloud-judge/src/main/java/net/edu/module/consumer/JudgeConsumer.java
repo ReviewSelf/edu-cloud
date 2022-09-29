@@ -37,9 +37,9 @@ public class JudgeConsumer {
         try {
             judgeService.judgeCode(Long.valueOf(msg));
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-        } catch (IOException e) {
+        } catch (Exception e) {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-            log.error("判题出错recordId{}",msg);
+            log.error("判题出错记录号：{}",msg);
         }
     }
 

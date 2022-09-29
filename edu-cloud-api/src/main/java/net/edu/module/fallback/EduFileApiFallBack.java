@@ -1,4 +1,4 @@
-package net.edu.module.api.fallback;
+package net.edu.module.fallback;
 
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

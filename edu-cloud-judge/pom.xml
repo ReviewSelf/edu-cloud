@@ -14,6 +14,11 @@
             <artifactId>edu-cloud-starter</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>net.edu</groupId>
+            <artifactId>edu-cloud-api</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
     <build>

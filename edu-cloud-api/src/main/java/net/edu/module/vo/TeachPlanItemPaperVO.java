@@ -1,4 +1,4 @@
-package net.edu.module.api.vo;
+package net.edu.module.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

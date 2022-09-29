@@ -6,8 +6,10 @@ package net.edu.module.vo;
  * @Version: 1.0
  * @Description:
  */
-public class JudgeStatus {
-
+public class JudgeStatusCode {
+    public static final int OJ=0;
+    public static final int AC=3;
+    public static final int WA=4;
     public static String getStatus(String code){
         switch (code){
             case "1":

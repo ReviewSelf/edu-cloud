@@ -1,8 +1,8 @@
-package net.edu.module.api.vo;
+package net.edu.module.vo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.baomidou.mybatisplus.annotation.*;
+
 import java.util.Date;
 
 /**
@@ -13,12 +13,12 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-@TableName("problem_paper_item")
+
 public class ProblemPaperItemEntity {
     /**
      * id
      */
-    @TableId
+
     private Long id;
 
     /**
@@ -65,7 +65,6 @@ public class ProblemPaperItemEntity {
     /**
      * 创建时间
      */
-    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
 }

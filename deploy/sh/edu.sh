@@ -14,10 +14,10 @@ export SYSTEM_port=7000
 export FILE_port=7002
 export JUDGE_port=7004
 export PROBLEM_port=7001
-export TEACHING_port=7007
+export TEACHING_port=7006
 export AFFAIR_port=7003
 export LESSONS_port=7005
-export WECHAT_port=7006
+export WECHAT_port=7007
 export GATEWAY_port=8080
 
 case "$1" in

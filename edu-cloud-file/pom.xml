@@ -22,9 +22,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <classifier>execute</classifier>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -32,9 +29,7 @@
                 <configuration>
                     <skipTests>true</skipTests>
                 </configuration>
-
             </plugin>
-
         </plugins>
     </build>
 </project>

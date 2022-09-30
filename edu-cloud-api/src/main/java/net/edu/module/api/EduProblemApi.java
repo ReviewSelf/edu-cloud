@@ -21,16 +21,16 @@ public interface EduProblemApi {
     Result<List<CodeSampleVO>> getSampleList(@PathVariable(value = "problemId") Long  problemId);
 
     @GetMapping("choice/options/{problemId}")
-    Result<List<String>> getChoiceOptions(@PathVariable(value = "problemId") Long problemId,@RequestParam(required = false)int flag);
+    Result<List<String>> getChoiceOptions(@PathVariable(value = "problemId") Long problemId,@RequestParam(value = "flag",required = false)int flag);
 
     @GetMapping("choice/submitTimes")
-    Result<String> updateChoiceSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue );
+    Result<String> updateChoiceSubmitTimes(@RequestParam(value = "id") Long id , @RequestParam(value = "isTrue") Boolean isTrue );
 
     @GetMapping("code/submitTimes")
-    Result<String> updateCodeSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue );
+    Result<String> updateCodeSubmitTimes(@RequestParam(value = "id") Long id , @RequestParam(value = "isTrue") Boolean isTrue );
 
     @GetMapping("fill/submitTimes")
-    Result<String> updateFillSubmitTimes(@RequestParam Long id , @RequestParam Boolean isTrue );
+    Result<String> updateFillSubmitTimes(@RequestParam(value = "id") Long id , @RequestParam(value = "isTrue") Boolean isTrue );
 
 
     /****************************lessons调用******************************************/

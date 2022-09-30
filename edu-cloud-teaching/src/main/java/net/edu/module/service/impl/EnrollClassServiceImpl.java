@@ -1,7 +1,5 @@
 package net.edu.module.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
@@ -11,10 +9,8 @@ import net.edu.module.convert.EnrollClassConvert;
 import net.edu.module.dao.EnrollClassDao;
 import net.edu.module.entity.EnrollClassEntity;
 import net.edu.module.query.EnrollClassQuery;
-import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollClassService;
 import net.edu.module.vo.EnrollClassVO;
-import net.edu.module.vo.EnrollUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

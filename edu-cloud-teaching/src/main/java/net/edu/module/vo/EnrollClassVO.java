@@ -1,10 +1,11 @@
 package net.edu.module.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import java.io.Serializable;
 import net.edu.framework.common.utils.DateUtils;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**

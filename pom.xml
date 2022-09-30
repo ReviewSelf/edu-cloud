@@ -24,7 +24,6 @@
         <module>edu-cloud-wechat</module>
         <module>edu-cloud-file</module>
         <module>edu-cloud-judge</module>
-        <module>edu-cloud-affair</module>
         <module>edu-cloud-teaching</module>
         <module>edu-cloud-lessons</module>
         <module>edu-cloud-api</module>

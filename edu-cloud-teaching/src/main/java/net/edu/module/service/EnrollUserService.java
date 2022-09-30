@@ -1,6 +1,5 @@
 package net.edu.module.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.EnrollUserEntity;

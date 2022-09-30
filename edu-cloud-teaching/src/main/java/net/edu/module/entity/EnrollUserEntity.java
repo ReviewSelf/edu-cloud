@@ -1,8 +1,8 @@
 package net.edu.module.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.baomidou.mybatisplus.annotation.*;
 import net.edu.framework.mybatis.entity.BaseEntity;
 
 import java.util.Date;

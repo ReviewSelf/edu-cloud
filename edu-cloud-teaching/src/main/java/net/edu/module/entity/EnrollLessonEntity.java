@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
 
-import java.math.BigInteger;
-
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("teach_lesson")

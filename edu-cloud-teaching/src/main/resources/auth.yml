@@ -7,3 +7,4 @@ auth:
     - /classUser/list/**
     - /class/updateNextLesson
     - /student/updateSubmitCorrectTimes
+    - /enrollClass/publish

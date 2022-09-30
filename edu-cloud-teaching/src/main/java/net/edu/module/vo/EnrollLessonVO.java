@@ -1,12 +1,9 @@
 package net.edu.module.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @Data
 @Schema(description = "试听管理")

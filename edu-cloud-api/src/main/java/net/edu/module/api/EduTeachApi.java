@@ -19,7 +19,7 @@ public interface EduTeachApi {
 
     /****************************Judge调用******************************************/
     @GetMapping("/student/updateSubmitCorrectTimes")
-    Result<String> updateSubmitCorrectTimes(@RequestParam Long userId, @RequestParam Integer correct);
+    Result<String> updateSubmitCorrectTimes(@RequestParam(value = "userId") Long userId, @RequestParam(value = "correct") Integer correct);
 
 
     /****************************Lessons调用******************************************/
@@ -36,5 +36,5 @@ public interface EduTeachApi {
 
     @GetMapping("class/updateNextLesson")
     @Operation(summary = "修改下一堂课id")
-    Result<String> updateNextLesson(@RequestParam Long nextLesson, @RequestParam Long classId);
+    Result<String> updateNextLesson(@RequestParam(value = "nextLesson") Long nextLesson, @RequestParam(value = "classId") Long classId);
 }

@@ -5,8 +5,6 @@ import net.edu.module.vo.EnrollClassVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-
 /**
 * 班级发布
 *

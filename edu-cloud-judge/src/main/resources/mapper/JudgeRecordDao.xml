@@ -12,12 +12,12 @@
                 #{languageType},
                 #{submitStatus})
     </insert>
-    <select id="selectUpdateRecord" resultType="net.edu.module.vo.JudgeResultVO">
+    <select id="selectUpdateRecord" resultType="net.edu.module.vo.JudgeSampleResultVO">
         select record_id as recordId,avg(runtime) as runtime,avg(memory) as memory,max(result_code) as resultCode,sum(if(result_code = 3, 1, 0)) / sum(1) as passRate from judge_record_sample
             where record_id = #{recordId}
     </select>
 
-    <update id="updateRecord" parameterType="net.edu.module.vo.JudgeResultVO">
+    <update id="updateRecord" parameterType="net.edu.module.vo.JudgeSampleResultVO">
         update judge_record
         set runtime= #{runtime},
             memory=#{memory},
@@ -109,7 +109,7 @@
             where type=#{type}
         </if>
     </select>
-    <resultMap id="judgeRecordAndAnswer" type="net.edu.module.vo.ProblemCompletionVo">
+    <resultMap id="judgeRecordAndAnswer" type="net.edu.module.vo.JudgeRecordSubmitVO">
         <result property="id" column="id"></result>
         <result property="problemId" column="problem_id"></result>
         <result property="problemType" column="problem_type"></result>
@@ -123,7 +123,7 @@
         <result property="judgeType" column="judge_type"></result>
         <result property="judgeReason" column="judge_reason"></result>
         <collection property="sampleVoList" javaType="java.util.ArrayList"
-                    ofType="net.edu.module.vo.RecordSampleVo">
+                    ofType="net.edu.module.vo.JudgeSampleResultVO">
             <result property="recordId" column="record_id"></result>
             <result property="sampleId" column="sample_id"></result>
             <result property="memory" column="memory"></result>
@@ -179,16 +179,8 @@
         update judge_record t
         set t.judge_type=2,
             t.judge_reason = #{judgeReason},
-            t.submit_status = #{submitStatus}
-        where exists(select tt.id
-                     from (select id
-                           from judge_record
-                           where problem_id = #{problemId}
-                             and problem_type = #{problemType}
-                             and source = #{source}
-                             and source_id = #{sourceId}
-                             and user_id = #{userId}
-                           order by update_time desc limit 1) tt
-                     where t.id = tt.id)
+            t.submit_status = #{submitStatus},
+            t.judge_user=#{judgeUser}
+        where t.id=#{id}
     </update>
 </mapper>

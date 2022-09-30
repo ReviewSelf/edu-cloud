@@ -29,7 +29,6 @@ import java.util.List;
 @AllArgsConstructor
 public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, LessonProblemEntity> implements LessonProblemService {
 
-    private final LessonProblemDao lessonProblemDao;
     private final EduTeachApi eduTeachApi;
     private final EduProblemApi eduProblemApi;
 

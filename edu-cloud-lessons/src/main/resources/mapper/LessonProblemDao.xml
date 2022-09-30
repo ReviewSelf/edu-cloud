@@ -16,7 +16,7 @@
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>
     </resultMap>
-    <insert id="insertProblemList" parameterType="net.edu.module.api.vo.ProblemPaperItemEntity">
+    <insert id="insertProblemList" parameterType="net.edu.module.vo.ProblemPaperItemEntity">
         insert ignore into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type) values
         <foreach collection="list" item="item" separator=",">
             (
@@ -35,7 +35,7 @@
         order by type asc,sort asc
     </select>
 
-    <insert id="insertProblemListByTeacher" parameterType="net.edu.module.api.vo.ProblemPaperItemEntity">
+    <insert id="insertProblemListByTeacher" parameterType="net.edu.module.vo.ProblemPaperItemEntity">
         insert ignore into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type) values
         <foreach collection="list" item="item" separator=",">
             (

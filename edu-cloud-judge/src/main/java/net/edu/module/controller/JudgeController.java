@@ -10,7 +10,6 @@ import net.edu.module.service.JudgeService;
 import net.edu.module.service.RecordService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
-import net.edu.module.vo.ProblemCompletionVo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -69,13 +68,13 @@ public class JudgeController {
      */
     @PostMapping("/getRecordAndAnswer")
     @Operation(summary = "获取学生答题记录")
-    public Result<ProblemCompletionVo> getRecordAndAnswer(@RequestBody ProblemCompletionVo vo){
+    public Result<JudgeRecordSubmitVO> getRecordAndAnswer(@RequestBody JudgeRecordSubmitVO vo){
         return Result.ok(recordService.getRecordAndAnswer(vo));
     }
 
     @PostMapping("/updateReasonAndStatus")
     @Operation(summary = "更新判题备注和提交状态（改判）")
-    public Result<String> updateReasonAndStatus(@RequestBody ProblemCompletionVo vo){
+    public Result<String> updateReasonAndStatus(@RequestBody JudgeRecordSubmitVO vo){
         recordService.updateReasonAndStatus(vo);
         return Result.ok();
     }

@@ -109,7 +109,7 @@ public class JudgeService {
                     .build();
             JSONObject result = Judge0Http(judgeCommitVO);
             log.info("提交记录号：{},结果{}",recordId,result);
-            JudgeResultVO resultVO = JudgeResultVO.builder()
+            JudgeSampleResultVO resultVO = JudgeSampleResultVO.builder()
                     .runtime(result.getBigDecimal("time"))
                     .resultCode(result.getInt("status_id"))
                     .memory(result.getInt("memory"))
@@ -126,7 +126,7 @@ public class JudgeService {
 
         });
         //更新运行结果
-        JudgeResultVO resultVO=judgeRecordDao.selectUpdateRecord(recordId);
+        JudgeSampleResultVO resultVO=judgeRecordDao.selectUpdateRecord(recordId);
 
         if(resultVO!=null){
             if(resultVO.getResultCode()>=JudgeStatusCode.WA){

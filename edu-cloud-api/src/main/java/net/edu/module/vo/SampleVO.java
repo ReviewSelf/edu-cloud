@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "测试样例表")
+@Schema(description = "测试样例文件表")
 public class SampleVO implements Serializable {
 
 

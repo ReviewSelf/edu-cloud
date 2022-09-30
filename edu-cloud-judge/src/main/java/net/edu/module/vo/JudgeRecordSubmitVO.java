@@ -8,6 +8,7 @@ import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -33,5 +34,9 @@ public class JudgeRecordSubmitVO {
     private Integer languageType;
     // 0=未判题，3=正确，4=错误
     private Integer submitStatus;
+    private Integer judgeType;
+    private Long judgeUser;
+    private String judgeReason;
+    private List<JudgeSampleResultVO> sampleVoList;
 
 }

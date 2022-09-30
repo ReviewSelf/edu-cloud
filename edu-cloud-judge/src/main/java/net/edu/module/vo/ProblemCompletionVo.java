@@ -29,5 +29,5 @@ public class ProblemCompletionVo {
     private Integer judgeType;
     private Integer judgeUser;
     private String judgeReason;
-    private List<RecordSampleVo> sampleVoList;
+    private List<JudgeSampleResultVO> sampleVoList;
 }

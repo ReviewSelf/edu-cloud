@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="net.edu.module.dao.JudgeRecordSampleDao">
 
-    <insert id="insert" parameterType="net.edu.module.vo.JudgeResultVO">
+    <insert id="insert" parameterType="net.edu.module.vo.JudgeSampleResultVO">
         insert into judge_record_sample(record_id,sample_id,runtime,memory,result_code)
         values (#{recordId},#{sampleId},#{runtime},#{memory},#{resultCode})
     </insert>

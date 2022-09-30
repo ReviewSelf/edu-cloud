@@ -19,8 +19,8 @@ public interface JudgeRecordDao {
 
     CodeProblemSubmitVO selectCodeProblemSubmit(Long recordId);
 
-    JudgeResultVO selectUpdateRecord(Long recordId);
-    int updateRecord(JudgeResultVO vo);
+    JudgeSampleResultVO selectUpdateRecord(Long recordId);
+    int updateRecord(JudgeSampleResultVO vo);
 
     JudgeRecordSubmitVO selectResult(Long recordId);
 
@@ -28,7 +28,7 @@ public interface JudgeRecordDao {
 
     List<LessonJudgeRecordVo> selectLessonRecord(Long lessonId,Integer type);
 
-    ProblemCompletionVo selectRecordAndAnswer(ProblemCompletionVo vo);
+    JudgeRecordSubmitVO selectRecordAndAnswer(JudgeRecordSubmitVO vo);
 
-    int updateReasonAndStatus(ProblemCompletionVo vo);
+    int updateReasonAndStatus(JudgeRecordSubmitVO vo);
 }

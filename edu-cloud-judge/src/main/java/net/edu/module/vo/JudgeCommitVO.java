@@ -14,6 +14,8 @@ import java.math.BigDecimal;
  * @Date: 2022/9/7 14:55
  * @Version: 1.0
  * @Description:
+ *
+ * 判题请求体
  */
 @Data
 @AllArgsConstructor

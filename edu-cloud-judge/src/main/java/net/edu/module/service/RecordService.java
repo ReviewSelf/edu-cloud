@@ -32,7 +32,7 @@ public class RecordService {
         return judgeRecordDao.selectRecord(vo);
     }
 
-    public ProblemCompletionVo getRecordAndAnswer(ProblemCompletionVo vo) {
+    public JudgeRecordSubmitVO getRecordAndAnswer(JudgeRecordSubmitVO vo) {
         return judgeRecordDao.selectRecordAndAnswer(vo);
     }
 
@@ -41,7 +41,8 @@ public class RecordService {
      * @param vo
      * @return
      */
-    public int updateReasonAndStatus(ProblemCompletionVo vo){
+    public int updateReasonAndStatus(JudgeRecordSubmitVO vo){
+        vo.setJudgeUser(SecurityUser.getUserId());
         return judgeRecordDao.updateReasonAndStatus(vo);
     }
 }

@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JudgeResultVO {
+public class JudgeSampleResultVO {
     private Long recordId;
     private Long sampleId;
     private Integer resultCode;

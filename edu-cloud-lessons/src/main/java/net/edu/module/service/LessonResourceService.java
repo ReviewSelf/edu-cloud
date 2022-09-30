@@ -1,9 +1,8 @@
 package net.edu.module.service;
 
-import net.edu.framework.common.page.PageResult;
+
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.vo.LessonResourceVO;
-import net.edu.module.query.LessonResourceQuery;
 import net.edu.module.entity.LessonResourceEntity;
 
 import java.util.List;

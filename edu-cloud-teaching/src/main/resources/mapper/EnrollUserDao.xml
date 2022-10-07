@@ -38,10 +38,6 @@
         order by status,update_time desc
     </select>
 
-    <update id="updateEnrollUser">
-        update enroll_user  set deleted=1 where id = #{id}
-    </update>
-
     <update id="updateConfirmEnrollUser">
         update enroll_user set status=status+1
         where id=#{id}

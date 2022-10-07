@@ -31,7 +31,16 @@
         id,
         name,
         description,
-        img,plan_id as planId,
+        img,planName,plan_id,lessonNum,lessonPrice,frequency,
+        status,lessonBeginTime,lessonEndTime,beginTime,endTime,teacher1Id,teacher2Id,place,teacher1Name,teacher2Name
+        from (
+        select
+        id,
+        name,
+        description,
+        img,
+        (select name from teach_plan where id=t1.plan_id) as planName,
+        plan_id,
         lesson_num as lessonNum,
         lesson_price as lessonPrice,
         frequency,
@@ -43,12 +52,19 @@
         teacher1_id as teacher1Id,
         teacher2_id as teacher2Id,
         place,
-        (select real_name from sys_user where id=teacher1Id) as teacher1Name,
+        (select real_name from sys_user where id=teacher1Id ) as teacher1Name,
         (select real_name from sys_user where id=teacher2Id) as teacher2Name
-        from teach_class
+        from teach_class t1
         where deleted =0
         <if test="query.getName()!=null and query.getName()!=''">
-            and  name like concat('%',#{query.name},'%')
+            and name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getPlanName()!=null and query.getPlanName()!=''">
+            and plan_id =(select id from teach_plan where name=#{query.planName})
+        </if>
+        ) t2
+        <if test="query.getTeacher2Name()!=null and query.getTeacher2Name()!=''">
+            where teacher2Name like concat('%',#{query.Teacher2Name},'%')
         </if>
         order by status asc
     </select>

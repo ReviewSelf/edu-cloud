@@ -7,3 +7,9 @@ auth:
     - /**/submitTimes
     - /choice/options/**
     - /paperItem/**
+    - /homeWork/homeWork
+    - /choice/choiceProblemInfo
+    - /homeWork/changeProblemStatus
+    - /fill/fillProblemInfo
+    - /code/problemInfo/**
+    - /code/getCodeAnswer/**

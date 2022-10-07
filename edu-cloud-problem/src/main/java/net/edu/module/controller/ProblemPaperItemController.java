@@ -25,21 +25,21 @@ public class ProblemPaperItemController {
     private final ProblemPaperItemService problemPaperItemService;
 
     @GetMapping("{paperId}")
-    @Operation(summary = "试卷列表")
+    @Operation(summary = "当前试卷中已有题目的列表")
     public Result<List<ProblemPaperItemEntity>> getPaperList(@PathVariable("paperId") Long paperId){
         List<ProblemPaperItemEntity> list = problemPaperItemService.get(paperId);
         return Result.ok(list);
     }
 
     @PostMapping
-    @Operation(summary = "保存")
+    @Operation(summary = "保存试卷中的题目信息")
     public Result<String> save(@RequestBody List<ProblemPaperItemEntity> list){
         problemPaperItemService.insert(list);
         return Result.ok();
     }
 
     @DeleteMapping
-    @Operation(summary = "删除")
+    @Operation(summary = "删除试卷中的问题")
     public Result<String> delete(@RequestParam(value = "paperId") Long paperId){
         problemPaperItemService.delete(paperId);
         return Result.ok();

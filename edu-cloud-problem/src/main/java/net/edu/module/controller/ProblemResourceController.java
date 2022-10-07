@@ -25,14 +25,14 @@ public class ProblemResourceController {
     private final ProblemResourceService problemResourceService;
 
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @Operation(summary = "获取题目资源")
     public Result<List<ProblemResourceVO>> getProblemResource(@PathVariable("id") Long id) {
         List<ProblemResourceVO> list = problemResourceService.getProblemResource(id);
         return Result.ok(list);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @Operation(summary = "删除题目资源")
     public Result<String> deleteProblemResource(@PathVariable("id") Long id) {
         problemResourceService.deleteProblemResource(id);
@@ -40,7 +40,7 @@ public class ProblemResourceController {
         return Result.ok();
     }
 
-    @PostMapping("resource")
+    @PostMapping
     @Operation(summary = "保存题目资源")
     public Result<String> saveProblemResource(@RequestBody ProblemResourceVO vo) {
         problemResourceService.saveProblemResource(vo);

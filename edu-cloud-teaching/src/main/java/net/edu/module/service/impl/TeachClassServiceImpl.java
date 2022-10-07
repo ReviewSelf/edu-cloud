@@ -15,6 +15,7 @@ import net.edu.module.dao.TeachPlanItemDao;
 import net.edu.module.entity.TeachClassEntity;
 import net.edu.module.query.TeachClassQuery;
 import net.edu.module.service.TeachPlanItemService;
+import net.edu.module.service.TeachPlanService;
 import net.edu.module.vo.TeachClassVO;
 import net.edu.module.service.TeachClassService;
 import net.edu.module.vo.TeachPlanItemVO;
@@ -36,7 +37,7 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
 
     private final TeachClassDao teachClassDao;
     private final TeachClassUserDao teachClassUserDao;
-    private final TeachPlanItemDao teachPlanItemDao;
+    private final TeachPlanService teachPlanService;
     private final TeachPlanItemService teachPlanItemService;
 
     @Override
@@ -48,18 +49,17 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
 
     @Override
     public List<TeachPlanItemVO> selectLesson(Long id) {
-        List<TeachPlanItemVO> teachPlanItemVOList= teachPlanItemService.list(id);
+        List<TeachPlanItemVO> teachPlanItemVOList = teachPlanItemService.list(id);
         return teachPlanItemVOList;
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(TeachClassVO vo) {
         TeachClassEntity entity = TeachClassConvert.INSTANCE.convert(vo);
-
         baseMapper.insert(entity);
-        System.out.println(entity.getId());
-        teachClassUserDao.insertClassUser(vo.getUserIdList(),entity.getId());
-
+        teachClassUserDao.insertClassUser(vo.getUserIdList(), entity.getId());
+        teachPlanService.updateUsedNum(entity.getPlanId());
     }
 
     @Override
@@ -76,20 +76,20 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
     }
 
     @Override
-    public List<TeachClassVO> getClassForStudent( Integer status) {
+    public List<TeachClassVO> getClassForStudent(Integer status) {
         Long userId = SecurityUser.getUserId();
-        return teachClassDao.selectClassForStudent(userId,status);
+        return teachClassDao.selectClassForStudent(userId, status);
     }
 
     @Override
-    public List<TeachClassVO> getClassForTeacher( Integer status) {
+    public List<TeachClassVO> getClassForTeacher(Integer status) {
         Long userId = SecurityUser.getUserId();
-        return teachClassDao.selectClassForTeacher(userId,status);
+        return teachClassDao.selectClassForTeacher(userId, status);
     }
 
     @Override
     public void updateNextLesson(Integer nextLesson, Long classId) {
-        teachClassDao.updateNextLesson(nextLesson,classId);
+        teachClassDao.updateNextLesson(nextLesson, classId);
     }
 
     @Override

@@ -2,12 +2,14 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.LessonProblemConvert;
 import net.edu.module.entity.LessonProblemEntity;
+import net.edu.module.entity.LessonResourceEntity;
 import net.edu.module.query.LessonProblemQuery;
 import net.edu.module.vo.LessonProblemVO;
 import net.edu.module.dao.LessonProblemDao;
@@ -37,32 +39,62 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
 
     @Override
     public List<LessonProblemVO> list(LessonProblemQuery query) {
-        return baseMapper.selectLessonProblem(query);
+
+        List<LessonProblemVO> list= (List<LessonProblemVO>) redisUtils.get(RedisKeys.getLessonProblem(query.getLessonId(),query.getType()));
+
+        if(list==null){
+            list= baseMapper.selectLessonProblem(query);
+            redisUtils.set(RedisKeys.getLessonProblem(query.getLessonId(),query.getType()),list,RedisUtils.MIN_TEN_EXPIRE);
+        }
+        return list;
     }
 
 
     @Override
     public void save(LessonProblemVO vo) {
         LessonProblemEntity entity = LessonProblemConvert.INSTANCE.convert(vo);
-
         baseMapper.insert(entity);
+        redisUtils.delByPre(RedisKeys.getLessonProblem(vo.getLessonId(),null));
     }
 
     @Override
     public void update(LessonProblemVO vo) {
         LessonProblemEntity entity = LessonProblemConvert.INSTANCE.convert(vo);
-
         updateById(entity);
+        redisUtils.delByPre(RedisKeys.getLessonProblem(vo.getLessonId(),null));
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
+        LessonProblemEntity entity=baseMapper.selectById(idList.get(0));
         removeByIds(idList);
+        redisUtils.delByPre(RedisKeys.getLessonProblem(entity.getLessonId(),null));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateProblemTime(List<LessonProblemVO> lessonProblemList) {
+        if (!CollectionUtil.isEmpty(lessonProblemList)){
+            for (LessonProblemVO vo:lessonProblemList){
+                update(vo);
+            }
+        }
+    }
+
+    @Override
+    public void insertProblemListByTeacher(List<ProblemPaperItemEntity> list,Long lessonId){
+        baseMapper.insertProblemListByTeacher(list,lessonId);
+        redisUtils.delByPre(RedisKeys.getLessonProblem(lessonId,null));
     }
 
 
-    //开班时启用
+
+    /**
+     * 开班时启用
+     * @param planItemId
+     * @param lessonId
+     */
     @Override
     public void copyFromPlanItem(Long planItemId, Long lessonId) {
         //先获取试卷及其类型
@@ -78,20 +110,5 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
 
             }
         }
-    }
-
-    @Override
-    @Transactional
-    public void updateProblemTime(List<LessonProblemVO> lessonProblemList) {
-        if (!CollectionUtil.isEmpty(lessonProblemList)){
-            for (LessonProblemVO vo:lessonProblemList){
-                update(vo);
-            }
-        }
-    }
-
-    @Override
-    public void insertProblemListByTeacher(List<ProblemPaperItemEntity> list,Long lessonId){
-        baseMapper.insertProblemListByTeacher(list,lessonId);
     }
 }

@@ -35,18 +35,10 @@ public class CodeSampleController {
 
 
     @GetMapping("list/{problemId}")
-    @Operation(summary = "分页")
+    @Operation(summary = "获取题目测试样例的信息")
     public Result<List<CodeSampleVO>> getList(@PathVariable("problemId") Long  problemId){
         List<CodeSampleVO> list = codeSampleService.getList(problemId);
         return Result.ok(list);
-    }
-
-    @GetMapping("{id}")
-    @Operation(summary = "信息")
-    public Result<CodeSampleVO> get(@PathVariable("id") Long id){
-        CodeSampleEntity entity = codeSampleService.getById(id);
-
-        return Result.ok(CodeSampleConvert.INSTANCE.convert(entity));
     }
 
     @PostMapping("file")
@@ -54,15 +46,6 @@ public class CodeSampleController {
     public Result<String> saveSample(@RequestParam("input") MultipartFile[] inFiles,@RequestParam("output") MultipartFile[] outFiles,@RequestParam("problemId") Long problemId){
         List<SampleVO> sampleVos=eduFileApi.uploadBatch(inFiles,outFiles, problemId);
         codeSampleService.saveSample(sampleVos,problemId);
-        return Result.ok();
-    }
-
-
-    @PutMapping
-    @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid CodeSampleVO vo){
-        codeSampleService.update(vo);
-
         return Result.ok();
     }
 

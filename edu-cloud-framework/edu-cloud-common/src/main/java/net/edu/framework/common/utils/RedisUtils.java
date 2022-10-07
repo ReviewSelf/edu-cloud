@@ -1,5 +1,6 @@
 package net.edu.framework.common.utils;
 
+import cn.hutool.core.collection.CollUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -108,6 +109,15 @@ public class RedisUtils {
             }else{
                 redisTemplate.delete((Collection<String>) CollectionUtils.arrayToList(key));
             }
+        }
+    }
+
+
+    public void delByPre(String pre){
+        //模糊匹配
+        Set<String> keys = redisTemplate.keys(pre+"*");
+        if (CollUtil.isNotEmpty(keys)) {
+            redisTemplate.delete(keys);
         }
     }
 

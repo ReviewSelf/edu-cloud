@@ -19,7 +19,7 @@ import java.util.Date;
 public class LessonProblemQuery  {
 
     @Schema(description = "课堂ID")
-    private Integer lessonId;
+    private Long lessonId;
 
     @Schema(description = "练习类型")
     private Integer type;

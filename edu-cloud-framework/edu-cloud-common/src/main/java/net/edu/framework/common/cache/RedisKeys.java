@@ -43,6 +43,15 @@ public class RedisKeys {
     public static String getLessonResources(Long lessonId) {
         return "lesson:resources:" + lessonId;
     }
+    public static String getLessonProblem(Long lessonId,Integer type) {
+        if(type!=null){
+            return   "lesson:problem:" + lessonId+":"+type;
+        }
+        else {
+            return   "lesson:problem:" + lessonId;
+        }
+
+    }
 
     public static String getClassLesson(Long classId) {
         return "lesson:class:" + classId;
@@ -71,6 +80,7 @@ public class RedisKeys {
     public static String getSample(Long problemId) {
         return "problem:sample:" + problemId;
     }
+
 
 
 }

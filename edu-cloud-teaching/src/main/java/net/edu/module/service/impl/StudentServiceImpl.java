@@ -174,4 +174,14 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         }
     }
 
+    /**
+     * 获取学生id
+     * @param unionId
+     * @return
+     */
+    @Override
+    public String getStudentId(String unionId){
+        return userDao.getStudentId(unionId);
+    }
+
 }

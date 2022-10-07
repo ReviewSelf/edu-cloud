@@ -33,6 +33,9 @@ public class WxController {
     @Autowired
     private MessageService messageService;
 
+
+
+
     /**
      * Token验证
      * @param signature

@@ -44,4 +44,9 @@ public interface StudentService extends BaseService<UserEntity> {
     void updateSubmitCorrectTimes(Long userId,Integer correct);
 
     void studentFromExcel(MultipartFile file);
+
+    /**
+     * 获取学生id
+     */
+    String getStudentId(String unionId);
 }

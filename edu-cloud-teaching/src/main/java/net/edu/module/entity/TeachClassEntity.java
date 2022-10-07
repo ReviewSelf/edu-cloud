@@ -52,6 +52,11 @@ public class TeachClassEntity {
 	private Integer lessonNum;
 
 	/**
+	 * 课时单价
+	 */
+	private String lessonPrice;
+
+	/**
 	 * 周频,0则表示无
 	 */
 	private Integer frequency;

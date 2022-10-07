@@ -72,6 +72,7 @@
 
     <select id="getListById" resultType="net.edu.module.vo.LessonVO">
         select
+            id,
             name,
             teacher_id,
             place,
@@ -79,4 +80,5 @@
             end_time
         from lesson where class_id = #{classId} and begin_time > date_format(now(),'%Y-%m-%d')
     </select>
+
 </mapper>

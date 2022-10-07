@@ -19,6 +19,7 @@ import net.edu.module.query.LessonAttendLogQuery;
 import net.edu.module.service.LessonAttendLogService;
 import net.edu.module.service.LessonService;
 import net.edu.module.vo.LessonAttendLogVO;
+import net.edu.module.vo.LessonStudentVO;
 import net.edu.module.vo.LessonVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -122,8 +123,17 @@ import static java.lang.Math.abs;
         redisUtils.del(RedisKeys.getLessonAttendLog(vo.getLessonId()));
     }
 
+    @Override
+    public void insertLessonList(LessonStudentVO vo) {
+        List<Long> list = vo.getClassId();
+        Long stuId = vo.getStuId();
+        lessonAttendLogDao.insertLessonList(list,stuId);
+    }
 
-
-
-
+    @Override
+    public void deleteLessonList(LessonStudentVO vo) {
+        List<Long> list = vo.getClassId();
+        Long stuId = vo.getStuId();
+        lessonAttendLogDao.deleteLessonList(list,stuId);
+    }
 }

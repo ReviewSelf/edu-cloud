@@ -31,4 +31,6 @@ public interface TeachClassDao extends BaseDao<TeachClassEntity> {
     void updateNextLesson(Integer nextLesson,Long classId);
 
     void endingClass(Integer id);
+
+
 }

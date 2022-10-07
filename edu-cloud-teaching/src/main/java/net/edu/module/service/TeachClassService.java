@@ -1,5 +1,6 @@
 package net.edu.module.service;
 
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.BaseService;
@@ -7,6 +8,7 @@ import net.edu.module.vo.TeachClassVO;
 import net.edu.module.query.TeachClassQuery;
 import net.edu.module.entity.TeachClassEntity;
 import net.edu.module.vo.TeachPlanItemVO;
+import net.edu.module.vo.TeachPriceVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -38,4 +40,6 @@ public interface TeachClassService extends BaseService<TeachClassEntity> {
     void updateNextLesson(Integer nextLesson,Long classId);
 
     void endingCalss(Integer id);
+
+
 }

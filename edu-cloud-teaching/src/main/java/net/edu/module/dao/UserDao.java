@@ -43,4 +43,6 @@ public interface UserDao extends BaseDao<UserEntity> {
 	List<AllTeacherVo> getTeacher();
 
 	void updateSubmitCorrectTimes(Long userId,Integer correct);
+
+	String getStudentId(String unionId);
 }

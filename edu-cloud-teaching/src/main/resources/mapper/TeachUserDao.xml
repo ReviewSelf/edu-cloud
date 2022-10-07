@@ -149,4 +149,12 @@
 		where id = #{userId}
 	</update>
 
+	<select id="getStudentId" resultType="String">
+		select
+		id
+		from sys_user
+		where union_id=#{unionId}
+
+	</select>
+
 </mapper>

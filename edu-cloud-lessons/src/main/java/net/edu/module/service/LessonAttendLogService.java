@@ -7,6 +7,7 @@ import net.edu.module.entity.LessonAttendLogEntity;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonAttendLogQuery;
 import net.edu.module.vo.LessonAttendLogVO;
+import net.edu.module.vo.LessonStudentVO;
 
 
 import java.util.List;
@@ -32,4 +33,8 @@ public interface LessonAttendLogService extends BaseService<LessonAttendLogEntit
     void copyUserFromClassUser(List<Long> userList,Long lessonId);
 
     void updateStudents(LessonAttendLogVO vo);
+
+    void insertLessonList(LessonStudentVO vo);
+
+    void deleteLessonList(LessonStudentVO vo);
 }

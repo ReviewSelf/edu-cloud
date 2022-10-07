@@ -33,18 +33,12 @@ public class LessonController {
     public Result<List<LessonVO>> list(@Valid LessonQuery query){
         return Result.ok(lessonService.list(query));
     }
+
+
     @GetMapping("page")
     @Operation(summary = "课程列表")
     public Result<PageResult<LessonVO>> page(@Valid LessonQuery query) {
         return Result.ok(lessonService.page(query));
-    }
-
-    @GetMapping("{id}")
-    @Operation(summary = "信息")
-    public Result<LessonVO> get(@PathVariable("id") Long id){
-        LessonEntity entity = lessonService.getById(id);
-
-        return Result.ok(LessonConvert.INSTANCE.convert(entity));
     }
 
     @PostMapping("/create")

@@ -22,6 +22,18 @@ public interface LessonAttendLogDao extends BaseDao<LessonAttendLogEntity> {
 
     void insertUserList(@Param("list") List<Long> list,Long lessonId);
 
+    /**
+     * 根据学生id批量插入课程id
+     * @param list
+     * @param stuId
+     */
+    void insertLessonList(@Param("list") List<Long> list,Long stuId);
+
+    /**
+     * 根据学生id批量退出课程
+     */
+    void deleteLessonList(@Param("list") List<Long> list,Long stuId);
+
     List<LessonAttendLogVO> selectStudentsList(@Param("query") LessonAttendLogQuery query);
 
     int updateStudents(@Param("vo") LessonAttendLogVO vo);

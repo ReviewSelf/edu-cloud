@@ -20,6 +20,26 @@ public class TemplateService {
     @Value("${storage.local.templatePath}")
     String templatePath;
 
+    @SneakyThrows
+    public void downloadStudentImportExcel(HttpServletResponse response){
+        String path=templatePath+ File.separator;
+        String name="";
+        path+="studentImportExcel.xlsx";
+        name="学生导入模板文件.xlsx";
+        File file = new File(path);
+        if (!file.exists()) {
+            throw new ServerException("文件不存在");
+        }
+        FileInputStream fileInputStream = new FileInputStream(file);
+        InputStream fis = new BufferedInputStream(fileInputStream);
+        byte[] buffer = new byte[fis.available()];
+        fis.read(buffer);
+        fis.close();
+        ResponseUtils.responseEXCELHead(response, name);
+        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+        outputStream.write(buffer);
+        outputStream.flush();
+    }
 
     @SneakyThrows
     public void downloadProblemImportExcel(Integer type, HttpServletResponse response){

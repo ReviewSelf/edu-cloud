@@ -10,6 +10,7 @@
         <result property="img" column="img"/>
         <result property="planId" column="plan_id"/>
         <result property="lessonNum" column="lesson_num"/>
+        <result property="lessonPrice" column="lesson_price"/>
         <result property="frequency" column="frequency"/>
         <result property="status" column="status"/>
         <result property="beginTime" column="begin_time"/>
@@ -32,6 +33,7 @@
         description,
         img,plan_id as planId,
         lesson_num as lessonNum,
+        lesson_price as lessonPrice,
         frequency,
         status,
         lesson_begin_time as lessonBeginTime,
@@ -48,7 +50,7 @@
         <if test="query.getName()!=null and query.getName()!=''">
             and  name like concat('%',#{query.name},'%')
         </if>
-        order by lesson_num desc,id desc
+        order by status asc
     </select>
 
 
@@ -137,4 +139,6 @@
         set status = 3
         where id = #{id}
     </update>
+
+
 </mapper>

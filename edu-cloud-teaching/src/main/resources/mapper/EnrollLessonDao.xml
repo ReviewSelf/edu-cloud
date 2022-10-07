@@ -32,7 +32,7 @@
         t3.name as planItemName,
         t1.begin_time,
         t1.end_time,
-        t2.username
+        t2.real_name
         from lesson t1
         left join sys_user t2 on t1.teacher_id = t2.id
         left join teach_plan_item t3 on t1.plan_item_id = t3.id
@@ -46,7 +46,7 @@
         t1.place,
         t1.begin_time,
         t1.end_time,
-        t2.username
+        t2.real_name
         from lesson t1
         left join sys_user t2 on t1.teacher_id = t2.id
         where t1.id = #{id}

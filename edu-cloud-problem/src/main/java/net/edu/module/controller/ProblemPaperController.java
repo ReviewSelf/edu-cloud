@@ -30,7 +30,7 @@ public class ProblemPaperController {
     private final ProblemPaperService problemPaperService;
 
     @GetMapping("page")
-    @Operation(summary = "分页")
+    @Operation(summary = "获取试卷信息并分页")
     public Result<PageResult<ProblemPaperVO>> page(@Valid ProblemPaperQuery query){
         PageResult<ProblemPaperVO> page = problemPaperService.page(query);
         return Result.ok(page);

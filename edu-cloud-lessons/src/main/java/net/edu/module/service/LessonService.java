@@ -34,4 +34,6 @@ public interface LessonService extends BaseService<LessonEntity> {
     PageResult<LessonVO> homeworkPage(LessonQuery query);
 
     List<LessonVO> getListById(Long classId);
+
+    void delete(List<Long> idList);
 }

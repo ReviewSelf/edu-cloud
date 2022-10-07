@@ -29,5 +29,9 @@ public class TemplateController {
         templateService.downloadProblemImportExcel(type,response);
     }
 
+    @GetMapping("/studentExcel")
+    public void  downloadStudentImportExcel(HttpServletResponse response){
+        templateService.downloadStudentImportExcel(response);
+    }
 
 }

@@ -15,6 +15,7 @@ import net.edu.module.service.StudentService;
 import net.edu.module.vo.UserVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,6 +34,13 @@ public class TeachStudentController {
     private final StudentService userService;
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
+
+
+    @PostMapping("/import")
+    public Result<String> studentFromExcel(@RequestParam("file") MultipartFile file) {
+        userService.studentFromExcel(file);
+        return Result.ok();
+    }
 
     @GetMapping("/page")
     @Operation(summary = "分页")

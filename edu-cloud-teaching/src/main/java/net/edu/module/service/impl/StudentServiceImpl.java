@@ -18,6 +18,7 @@ import net.edu.module.service.UserRoleService;
 import net.edu.module.service.StudentService;
 import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +38,7 @@ import java.util.Map;
 public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implements StudentService {
 
     private final UserRoleService userRoleService;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
     private UserDao userDao;
 
@@ -165,6 +167,9 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         List<UserVO> list= EasyExcel.read(file.getInputStream()).head(UserVO.class).sheet().headRowNumber(3).doReadSync();
         for (UserVO vo:list){
             vo.setRoleIdList(list1);
+            vo.setStatus(1);
+            vo.setPassword("123456");
+            vo.setPassword(passwordEncoder.encode(vo.getPassword()));
             save(vo);
         }
     }

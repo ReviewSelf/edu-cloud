@@ -51,19 +51,18 @@
     </update>
 
     <select id="selectHomeworkPage" resultMap="lessonMap">
-        select t.id,t.teacher_id ,name,status,(select real_name from sys_user where id=t.teacher_id) as teacherName,t.class_id,
-               (select name from teach_class where id=t.class_id) as className,t.place,t.begin_time ,t.end_time,
-               t.homework_begin_time,t.homework_end_time,t.homework_status
-        from lesson t
-        where exists (select 1 from teach_class a join teach_class_user b on a.id=b.class_id and b.user_id=#{query.userId}
-        where a.id=t.class_id) and t.homework_status > 0
+        select b.id,b.teacher_id ,b.name,b.status,(select real_name from sys_user where id=b.teacher_id) as teacherName,b.class_id,
+               (select name from teach_class where id=b.class_id) as className,b.place,b.begin_time ,b.end_time,
+               b.homework_begin_time,b.homework_end_time,b.homework_status
+        FROM lesson_attend_log a join lesson b on a.lesson_id=b.id  where stu_id=#{query.userId}
+        and  b.homework_status > 0
         <if test="query.getName()!=null and query.getName()!=''">
-            and name like concat('%',#{query.name},'%')
+            and b.name like concat('%',#{query.name},'%')
         </if>
         <if test="query.getClassId()!=null">
-            and t.class_id=#{query.classId}
+            and b.class_id=#{query.classId}
         </if>
-        order by t.homework_begin_time &lt;= now() ,if(t.homework_begin_time &lt;= now(),0,t.homework_begin_time) ,t.homework_begin_time desc
+        order by b.homework_status desc,b.homework_begin_time &lt;= now() ,if(b.homework_begin_time &lt;= now(),0,b.homework_begin_time) ,b.homework_begin_time desc
     </select>
 
     <select id="selectLessonIdList" resultType="net.edu.module.vo.LessonVO">

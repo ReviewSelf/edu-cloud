@@ -31,7 +31,7 @@ public class CodeProblemController {
     private final CodeProblemService codeProblemService;
 
     @GetMapping("page")
-    @Operation(summary = "分页")
+    @Operation(summary = "获取代码题数据并分页")
     public Result<PageResult<CodeProblemVO>> page(@Valid CodeProblemQuery query) {
         PageResult<CodeProblemVO> page = codeProblemService.page(query);
 
@@ -39,7 +39,7 @@ public class CodeProblemController {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "信息")
+    @Operation(summary = "修改时获取代码题原有信息")
     public Result<CodeProblemVO> get(@PathVariable("id") Long id) {
         CodeProblemEntity entity = codeProblemService.getById(id);
         entity.setMemoryLimit(entity.getMemoryLimit() / 1024);
@@ -47,7 +47,7 @@ public class CodeProblemController {
     }
 
     @PostMapping
-    @Operation(summary = "保存")
+    @Operation(summary = "新增代码题时保存")
     public Result<String> save(@RequestBody CodeProblemVO vo) {
         vo.setMemoryLimit(vo.getMemoryLimit() * 1024);
         codeProblemService.save(vo);
@@ -56,7 +56,7 @@ public class CodeProblemController {
     }
 
     @GetMapping("updateStatus/{problemId}")
-    @Operation(summary = "修改状态")
+    @Operation(summary = "发布和下架")
     public Result<String> updateStatus(@PathVariable("problemId") Long problemId) {
         codeProblemService.updateStatus(problemId);
 

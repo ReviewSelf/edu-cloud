@@ -27,21 +27,21 @@ public class ChoiceProblemController {
     private final ChoiceProblemService choiceProblemService;
 
     @GetMapping("page")
-    @Operation(summary = "分页")
+    @Operation(summary = "获取选择题数据并分页")
     public Result<PageResult<ChoiceProblemVO>> page(@Valid ChoiceProblemQuery query) {
         PageResult<ChoiceProblemVO> page = choiceProblemService.page(query);
         return Result.ok(page);
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "信息")
+    @Operation(summary = "修改选择题时获取原有信息")
     public Result<ChoiceProblemVO> get(@PathVariable("id") Long id) {
         ChoiceProblemVO vo = choiceProblemService.getChoiceProblem(id);
         return Result.ok(vo);
     }
 
     @PostMapping
-    @Operation(summary = "保存")
+    @Operation(summary = "新增选择题时保存")
     public Result<String> save(@RequestBody ChoiceProblemVO vo) {
         choiceProblemService.save(vo);
 
@@ -50,7 +50,7 @@ public class ChoiceProblemController {
 
 
     @GetMapping("updateStatus/{problemId}")
-    @Operation(summary = "修改状态")
+    @Operation(summary = "发布和下架选择题")
     public Result<String> updateStatus(@PathVariable("problemId") Long problemId) {
         choiceProblemService.updateStatus(problemId);
 
@@ -59,7 +59,7 @@ public class ChoiceProblemController {
 
 
     @PutMapping
-    @Operation(summary = "修改")
+    @Operation(summary = "修改选择题信息")
     public Result<String> update(@RequestBody @Valid ChoiceProblemVO vo) {
         choiceProblemService.update(vo);
 

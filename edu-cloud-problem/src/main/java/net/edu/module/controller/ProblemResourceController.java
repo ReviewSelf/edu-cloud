@@ -40,7 +40,7 @@ public class ProblemResourceController {
         return Result.ok();
     }
 
-    @PostMapping("resource")
+    @PostMapping()
     @Operation(summary = "保存题目资源")
     public Result<String> saveProblemResource(@RequestBody ProblemResourceVO vo) {
         problemResourceService.saveProblemResource(vo);

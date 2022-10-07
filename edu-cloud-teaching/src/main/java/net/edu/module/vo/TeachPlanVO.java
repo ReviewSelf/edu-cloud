@@ -1,9 +1,12 @@
 package net.edu.module.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
 * 教学计划表
@@ -38,6 +41,9 @@ public class TeachPlanVO implements Serializable {
 	@Schema(description = "1=启用，2=停用")
 	private Integer status;
 
+	@Schema(description = "创建时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date createTime;
 
 
 }

@@ -59,7 +59,7 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
             teachPlanItemPaperDao.insertItemPaper(vo.getPaperList(), entity.getId());
         }
         //更新教学计划的课次（日历数）
-        teachPlanService.updateLessonNum(entity.getPlanId());
+        teachPlanService.updatePlanNum(entity.getPlanId());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
 
         updateById(entity);
         //更新教学计划的课次
-        teachPlanService.updateLessonNum(entity.getPlanId());
+        teachPlanService.updatePlanNum(entity.getPlanId());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class TeachPlanItemServiceImpl extends BaseServiceImpl<TeachPlanItemDao, 
         //真正的删除操作
         removeByIds(idList);
         //更新教学计划的课次（日历数）
-        teachPlanService.updateLessonNum(vo.getPlanId());
+        teachPlanService.updatePlanNum(vo.getPlanId());
     }
 
     @Override

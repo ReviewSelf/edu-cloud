@@ -82,7 +82,7 @@ public class WxController {
         String serviceName = "E";
         String orderNo = "2";
 
-        SubscriptionMessageUtil.sendOrderMsg("wx33ea578d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
+        SubscriptionMessageUtil.sendOrderMsg("wx33ea578wxf824deebaddd5375d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
     }
 
     /**
@@ -163,7 +163,6 @@ public class WxController {
             String openId = userEntity.getOpenId();
             messageService.insertClassUser(classId,openId);
         }
-
         return Result.ok();
     }
 

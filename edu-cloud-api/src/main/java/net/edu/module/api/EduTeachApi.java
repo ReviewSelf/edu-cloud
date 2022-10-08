@@ -37,4 +37,7 @@ public interface EduTeachApi {
     @GetMapping("class/updateNextLesson")
     @Operation(summary = "修改下一堂课id")
     Result<String> updateNextLesson(@RequestParam(value = "nextLesson") Long nextLesson, @RequestParam(value = "classId") Long classId);
+
+
+
 }

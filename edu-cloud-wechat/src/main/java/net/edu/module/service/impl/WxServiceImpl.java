@@ -25,6 +25,7 @@ public class WxServiceImpl implements WxService {
         String url = WxFinalValue.TOKEN_URL;
         // 利用hutool的http工具类请求获取access_token
         String result = HttpUtil.get(url);
+        System.out.println(result);
         // 将结果解析为json
         JSONObject jsonObject = JSONUtil.parseObj(result);
         // 获取access_token
@@ -42,7 +43,7 @@ public class WxServiceImpl implements WxService {
     public String createMenu(){
         String accessToken = AccessToken.getToken();
         String url = WxFinalValue.MENU_URL + accessToken;
-        String redirectUrl = "http://http.free.svipss.top/#/class";
+        String redirectUrl = "http://124.71.130.128/#/class";
         // 创建菜单的请求体
         String CodeUrl;
         try {
@@ -54,7 +55,7 @@ public class WxServiceImpl implements WxService {
         }
 
         System.out.println("codeURL"+CodeUrl);
-//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5d0fc93575b299a8&redirect_uri=http%3A%2F%2Fhttp.free.svipss.top%2F%23%2Fclass&response_type=code&scope=snsapi_userinfo#wechat_redirect
+//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf824deebaddd5375&redirect_uri=http%3A%2F%2F124.71.130.128%2F%23%2Fclass&response_type=code&scope=snsapi_userinfo#wechat_redirect
 
 
         CommonButton mainBtn2 = new CommonButton();
@@ -99,6 +100,7 @@ public class WxServiceImpl implements WxService {
         String result = HttpUtil.post(setUrl, body);
         String getUrl = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=" + accessToken;
         String info = HttpUtil.get(getUrl);
+        String getTemplateIdUrl = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=" + accessToken;
         System.out.println(info);
     }
 

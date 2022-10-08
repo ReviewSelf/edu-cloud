@@ -16,5 +16,5 @@ public class AccessToken {
 
     private int expiresIn;
 
-    public static final String APPID = "wx5d0fc93575b299a8";
+
 }

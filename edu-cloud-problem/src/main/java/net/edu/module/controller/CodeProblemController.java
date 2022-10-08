@@ -39,7 +39,7 @@ public class CodeProblemController {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "修改时获取代码题原有信息")
+    @Operation(summary = "获取代码题原有信息")
     public Result<CodeProblemVO> get(@PathVariable("id") Long id) {
         CodeProblemEntity entity = codeProblemService.getById(id);
         entity.setMemoryLimit(entity.getMemoryLimit() / 1024);

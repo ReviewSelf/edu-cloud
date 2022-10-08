@@ -134,8 +134,9 @@ public class WxController {
      * @return
      */
     @GetMapping("getAccessToken")
-    public AccessToken getAccessToken(){
-        return wxService.getAccessToken();
+    public void getAccessToken(){
+        System.out.println("66666666");
+        wxService.getAccessToken();
     }
 
     /**

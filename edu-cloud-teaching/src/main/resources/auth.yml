@@ -8,3 +8,4 @@ auth:
     - /class/updateNextLesson
     - /student/updateSubmitCorrectTimes
     - /enrollClass/publish
+    - /studentEx/getStudentId

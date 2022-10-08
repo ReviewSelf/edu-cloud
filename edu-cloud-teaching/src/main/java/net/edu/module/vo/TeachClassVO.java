@@ -34,7 +34,10 @@ public class TeachClassVO implements Serializable {
     private String img;
 
     @Schema(description = "引用教学计划")
-    private Long planId;
+    private String planId;
+
+    @Schema(description = "引用教学计划名称")
+    private String planName;
 
     @Schema(description = "总课时")
     private Integer lessonNum;

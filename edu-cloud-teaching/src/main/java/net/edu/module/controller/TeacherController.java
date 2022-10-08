@@ -70,6 +70,7 @@ public class TeacherController {
             Result.error("密码不能为空");
         }
 
+        vo.setPassword("123456");
         // 密码加密
         vo.setPassword(passwordEncoder.encode(vo.getPassword()));
 

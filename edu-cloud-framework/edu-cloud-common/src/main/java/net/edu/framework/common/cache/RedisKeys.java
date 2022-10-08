@@ -82,5 +82,7 @@ public class RedisKeys {
     }
 
 
-
+    public static String getSampleFile(String path) {
+        return "sample:" + path;
+    }
 }

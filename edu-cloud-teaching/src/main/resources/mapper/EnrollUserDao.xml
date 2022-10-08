@@ -5,37 +5,39 @@
 
 
     <select id="selectEnrollUserByPage" resultType="net.edu.module.vo.EnrollUserVO">
-        select id,wx_name,name,phone,union_id,open_id,area,address,age,grade,purpose,status,create_time,
-        update_time,login_time,start_number,end_number,remark,integral,balance,deleted,creator,updater,version
-        from enroll_user
-        where deleted = 0
+        select t1.id,t1.wx_name,t1.name,t1.phone,t1.union_id,t1.open_id,t1.area,t1.address,t1.age,t1.grade,t1.purpose,t1.status,t1.create_time,
+        t1.update_time,t1.login_time,t1.start_number,t1.end_number,t1.remark,t1.integral,t1.balance,t1.deleted,t1.creator,t1.updater,t1.version,
+        t2.teacher_opinion
+        from enroll_user t1
+        left join enroll_evaluate t2 on t1.id = t2.student_id
+        where t1.deleted = 0
         <if test="query.getName() !=null and query.getName()!=''">
-            and name like concat('%',#{query.name},'%')
+            and t1.name like concat('%',#{query.name},'%')
         </if>
         <if test="query.getGrade() !=null and query.getGrade()!=''">
-            and grade = #{query.grade}
+            and t1.grade = #{query.grade}
         </if>
         <if test="query.getStatus() !=null ">
             <if test="query.getStatus() == 2">
-                and status = 2 or status = 3
+                and t1.status = 2 or status = 3
             </if>
             <if test="query.getStatus() == 1">
-                and status = 1
+                and t1.status = 1
             </if>
             <if test="query.getStatus() == 4">
-                and status = 4
+                and t1.status = 4
             </if>
         </if>
         <if test="query.getArea() !=null and query.getArea()!=''">
-            and area =#{query.area}
+            and t1.area =#{query.area}
         </if>
         <if test="query.getPurpose() !=null and query.getPurpose()!=''">
-            and purpose like concat('%',#{query.purpose},'%')
+            and t1.purpose like concat('%',#{query.purpose},'%')
         </if>
         <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
-            and create_time &gt;=#{query.beginTime}  and create_time &lt;=#{query.endTime}
+            and t1.create_time &gt;=#{query.beginTime}  and create_time &lt;=#{query.endTime}
         </if>
-        order by status,update_time desc
+        order by t1.status,t1.update_time desc
     </select>
 
     <update id="updateEnrollUser">

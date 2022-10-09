@@ -1,6 +1,9 @@
 package net.edu.module.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
+
+
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import net.edu.module.dao.MessageDao;
 import net.edu.module.dao.TemplateDao;
 import net.edu.module.entity.MsgLogEntity;
@@ -27,21 +30,14 @@ public class TemplateServiceImpl implements TemplateService {
 
     @Override
     public int insertMsgLogClassOpenTemplate(ClassOpenVO vo) {
-        JSONObject json=(JSONObject) JSONObject.toJSON(vo);
-        String string = json.toJSONString();
-        String sendTime = json.getString("sendTime");
-        json.getLong("userId");
-        System.out.println();
 
+        String content = vo.toJsonString();
+        String sendTime = vo.getSendTime();
         Long userId = vo.getUserId();
 
-        String classTime = vo.getClassTime();
-        String location = vo.getLocation();
-        ClassOpenVO classOpenVO = new ClassOpenVO();
-
-
+        templateDao.insertMsgLogClassOpenTemplate(content,sendTime,userId);
         return 0;
-//                templateDao.insertMsgLogClassOpenTemplate(content,sendTime,userId);
+
     }
 
     @Override

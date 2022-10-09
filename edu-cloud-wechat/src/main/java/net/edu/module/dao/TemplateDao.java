@@ -17,5 +17,5 @@ public interface TemplateDao {
 
     void updateTemplate(Long id);
 
-    int insertMsgLogClassOpenTemplate(String content, Date sendTime, Long userId);
+    int insertMsgLogClassOpenTemplate(String content, String sendTime, Long userId);
 }

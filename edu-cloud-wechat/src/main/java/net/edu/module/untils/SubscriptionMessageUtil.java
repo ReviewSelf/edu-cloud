@@ -1,5 +1,8 @@
 package net.edu.module.untils;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
@@ -82,7 +85,11 @@ public class SubscriptionMessageUtil {
         // 卡片详情跳转页，设置此值，当点击消息时会打开指定的页面
 //        String detailUrl = "https://bing.com";
 
-        String[] words = content.split(" ");
+        JSONObject jsonObject = JSONUtil.parseObj(content);
+        String className = jsonObject.getStr("className");
+        String classTime = jsonObject.getStr("classTime");
+        String location = jsonObject.getStr("location");
+
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
         wxStorage.setAppId(appid);
         wxStorage.setSecret(appSecret);
@@ -92,10 +99,10 @@ public class SubscriptionMessageUtil {
         String phoneNumber = "13355556666";
         // 此处的 key/value 需和模板消息对应
         List<WxMpTemplateData> wxMpTemplateDataList = Arrays.asList(
-                new WxMpTemplateData("first", words[0], "#000000"),
-                new WxMpTemplateData("keyword1", words[1]),
-                new WxMpTemplateData("keyword2", words[2]),
-                new WxMpTemplateData("keyword3",words[3]),
+                new WxMpTemplateData("first", "您好,您报名的课程即将开课，请务必及时报到。", "#000000"),
+                new WxMpTemplateData("keyword1", className),
+                new WxMpTemplateData("keyword2", classTime),
+                new WxMpTemplateData("keyword3",location),
                 new WxMpTemplateData("keyword4","李老师"+phoneNumber),
                 new WxMpTemplateData("remark", "如有疑问，请及时与我们取得联系。")
         );
@@ -104,7 +111,6 @@ public class SubscriptionMessageUtil {
                 .toUser(userOpenid)
                 .templateId(OrderMsgTemplateId)
                 .data(wxMpTemplateDataList)
-//                .url(detailUrl)
                 .build();
 
         try {

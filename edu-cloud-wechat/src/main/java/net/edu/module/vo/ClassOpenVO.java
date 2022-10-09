@@ -36,4 +36,11 @@ public class ClassOpenVO  {
      */
     private Long userId;
 
+
+    public String toJsonString() {
+        return "{\"className\":\""+className
+                +"\",\"classTime\":\""+classTime
+                +"\",\"location\":\""+location
+                +"\"}";
+    }
 }

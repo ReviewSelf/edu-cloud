@@ -6,10 +6,12 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
+import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.*;
 import net.edu.module.service.MessageService;
 import net.edu.module.service.WxService;
 import net.edu.module.untils.SubscriptionMessageUtil;
+import net.edu.module.vo.EnrollUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +30,15 @@ import java.util.List;
 @AllArgsConstructor
 public class WxController {
 
+    private final EduTeachApi eduTeachApi;
+
     @Autowired
     private WxService wxService;
     @Autowired
     private MessageService messageService;
+
+
+
 
     /**
      * Token验证
@@ -79,7 +86,7 @@ public class WxController {
         String serviceName = "E";
         String orderNo = "2";
 
-        SubscriptionMessageUtil.sendOrderMsg("wx33ea578d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
+        SubscriptionMessageUtil.sendOrderMsg("wx33ea578wxf824deebaddd5375d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
     }
 
     /**
@@ -114,7 +121,7 @@ public class WxController {
             if("subscribe".equals(event)){
                 String openId = inMessage.getFromUserName();
 //                String unionId = wxService.getUnionId(openId);
-                messageService.insertOpenId(openId);
+                eduTeachApi.insertOpenId(openId);
                 outMessage.setMsgType("text");
                 outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
             }
@@ -131,8 +138,9 @@ public class WxController {
      * @return
      */
     @GetMapping("getAccessToken")
-    public AccessToken getAccessToken(){
-        return wxService.getAccessToken();
+    public void getAccessToken(){
+        System.out.println("66666666");
+        wxService.getAccessToken();
     }
 
     /**
@@ -152,15 +160,14 @@ public class WxController {
 
     @PostMapping("post")
     @Operation(summary = "注册")
-    public Result post(@RequestBody UserEntity userEntity){
-        messageService.post(userEntity);
-        System.out.println(userEntity);
-        if(userEntity.getPurpose()=="" || userEntity.getPurpose()==null){
-            Integer classId = userEntity.getClassId();
-            String openId = userEntity.getOpenId();
-            messageService.insertClassUser(classId,openId);
+    public Result post(@RequestBody EnrollUserVO enrollUserVO){
+        eduTeachApi.post(enrollUserVO);
+        if(enrollUserVO.getPurpose()=="" || enrollUserVO.getPurpose()==null){
+            Integer classId = enrollUserVO.getClassId();
+            String openId = enrollUserVO.getOpenId();
+            eduTeachApi.insertClassUser(classId,openId);
+//            messageService.insertClassUser(classId,openId);
         }
-
         return Result.ok();
     }
 

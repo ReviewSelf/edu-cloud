@@ -52,7 +52,6 @@ public class CodeProblemVO implements Serializable {
 	private Integer adviceTime;
 
 	@Schema(description = "知识点代码")
-	@ExcelIgnore
 	@ExcelProperty(index = 6)
 	private String kpCode;
 

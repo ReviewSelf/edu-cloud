@@ -21,9 +21,9 @@ public class TeachClassQuery extends Query {
     private String name;
 
     @Schema(description = "引用教学计划")
-    private Long planId;
+    private String planName;
 
     @Schema(description = "任课老师")
-    private Integer teacher2Id;
+    private String Teacher2Name;
 
 }

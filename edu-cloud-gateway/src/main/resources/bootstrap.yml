@@ -63,6 +63,13 @@ spring:
             - Path=/lessons/**
           filters:
             - StripPrefix=1
+        - id: edu-cloud-lessons
+          uri: lb://edu-cloud-quartz
+          order: 108
+          predicates:
+            - Path=/schedule/**
+          filters:
+            - StripPrefix=1
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

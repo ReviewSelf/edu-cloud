@@ -12,6 +12,7 @@
         <result column="advice_time" property="adviceTime"/>
         <result column="img" property="img"/>
         <result column="difficulty" property="difficulty"/>
+        <result column="kp_code" property="kpCode"/>
         <result column="kp_name" property="kpName"/>
         <result column="submit_times" property="submitTimes"/>
         <result column="correct_times" property="correctTimes"/>
@@ -32,7 +33,7 @@
     </resultMap>
 
     <select id="selectChoiceProblem" resultMap="choiceProblem">
-        select a.id,type,name,description,source,tips,advice_time,img,difficulty
+        select a.id,type,name,description,source,tips,advice_time,img,difficulty,kp_code
                ,(select name from problem_knowledge_point kp where kp.code=kp_code and  kp.deleted=0 limit 1) as kp_name,submit_times
                ,correct_times ,is_typical ,option_num,used_num
                ,a.create_time ,creator,status ,

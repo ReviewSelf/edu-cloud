@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.HomeWorkDao">
+    <select id="getStudentHomeWork" resultType="net.edu.module.vo.HomeWorkVO">
+        select
+            *
+        from
+            lesson_problem t1
+                left JOIN
+            (select
+                 *
+             from lesson_attend_log
+             where
+                 stu_id=#{studentId}) t2 ON t1.lesson_id=t2.lesson_id
+            where  t1.wechat_status=0
+            order by begin_time asc
+    </select>
+
+    <select id="getChoiceProblemInfo" resultType="net.edu.module.vo.WxChoiceProblemVO">
+        select * from problem_choice a
+        left JOIN(select* from problem_choice_options) b on a.id=b.problem_id where a.id =#{problemId}
+    </select>
+
+    <select id="GetFillProblemInfo" resultType="net.edu.module.vo.WxFillProblemVO">
+        select * from problem_fill
+        where id=#{problemId}
+    </select>
+
+    <update id="changeProblemStatus">
+        update lesson_problem
+        set wechat_status =1
+        where id=#{problemId}
+    </update>
+</mapper>

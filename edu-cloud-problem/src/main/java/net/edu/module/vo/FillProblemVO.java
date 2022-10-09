@@ -56,8 +56,6 @@ public class FillProblemVO implements Serializable {
 	private Integer difficulty;
 
 
-
-
 	@Schema(description = "知识点名称")
 	@ExcelIgnore
 	private String kpName;

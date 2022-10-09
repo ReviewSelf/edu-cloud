@@ -5,6 +5,7 @@ package net.edu.module.api;
 import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.fallback.EduProblemFallBack;
+import net.edu.module.vo.EnrollUserVO;
 import net.edu.module.vo.TeachPlanItemPaperVO;
 import net.edu.module.vo.TeachPlanItemResourceVO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -37,4 +38,19 @@ public interface EduTeachApi {
     @GetMapping("class/updateNextLesson")
     @Operation(summary = "修改下一堂课id")
     Result<String> updateNextLesson(@RequestParam(value = "nextLesson") Long nextLesson, @RequestParam(value = "classId") Long classId);
+
+
+    /****************************Wechat调用******************************************/
+
+    @GetMapping("enrollUser/insertClassUser")
+    @Operation(summary = "添加班级学生")
+    Result<String> insertClassUser(@RequestParam(value = "classId")Integer classId,@RequestParam(value = "openID") String openID);
+
+    @GetMapping("enrollUser/insertOpenId")
+    @Operation(summary = "添加班级学生openId")
+    Result<String> insertOpenId(String openId);
+
+    @GetMapping("enrollUser/insertClassUser")
+    @Operation(summary = "修改班级学生")
+    Result<String> post(EnrollUserVO enrollUserVO);
 }

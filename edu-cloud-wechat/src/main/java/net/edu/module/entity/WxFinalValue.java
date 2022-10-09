@@ -8,9 +8,9 @@ public class WxFinalValue {
 
     public static final String WX_URL = "https://api.weixin.qq.com/cgi-bin";
 
-    public static final String APPID = "wx5d0fc93575b299a8";
+    public static final String APPID = "wxf824deebaddd5375";
 
-    public static final String APPSECRET = "b74a02008ff43c3a7d1d75012a82d3a4";
+    public static final String APPSECRET = "d6dd63c0ece0f467d2d4a538bb4c9193";
 
 //    public static final AccessToken ACCESS_TOKEN = ;
 
@@ -18,7 +18,7 @@ public class WxFinalValue {
 
     public static final String MENU_URL = WX_URL + "/menu/create?access_token="  ;
 
-    public static final String UNION_URL = WX_URL + "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" ;
+    public static final String UNION_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" ;
 
     public static final String AUTH_BASE_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE#wechat_redirect";
 

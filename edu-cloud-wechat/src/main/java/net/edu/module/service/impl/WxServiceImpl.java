@@ -3,8 +3,10 @@ package net.edu.module.service.impl;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.module.entity.*;
 import net.edu.module.service.WxService;
+import net.edu.module.vo.WxToken;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -14,14 +16,13 @@ import java.net.URLEncoder;
  * @author weng
  * @date 2022/9/24 - 13:57
  **/
+@Slf4j
 @Service
 public class WxServiceImpl implements WxService {
 
-    AccessToken AccessToken = new AccessToken();
-
-
     @Override
-    public AccessToken getAccessToken(){
+    public void getAccessToken(){
+        log.debug("执行到service");
         String url = WxFinalValue.TOKEN_URL;
         // 利用hutool的http工具类请求获取access_token
         String result = HttpUtil.get(url);
@@ -30,18 +31,14 @@ public class WxServiceImpl implements WxService {
         JSONObject jsonObject = JSONUtil.parseObj(result);
         // 获取access_token
         String accessToken = jsonObject.getStr("access_token");
-        int expiresIn = jsonObject.getInt("expires_in");
-
-        AccessToken.setToken(accessToken);
-        AccessToken.setExpiresIn(expiresIn);
-        return AccessToken;
+        WxToken.token=accessToken;
     }
     /*
     创建菜单
      */
     @Override
     public String createMenu(){
-        String accessToken = AccessToken.getToken();
+        String accessToken = WxToken.token;
         String url = WxFinalValue.MENU_URL + accessToken;
         String redirectUrl = "http://124.71.130.128/#/class";
         // 创建菜单的请求体
@@ -80,7 +77,7 @@ public class WxServiceImpl implements WxService {
 
     @Override
     public String getUnionId(String openId) {
-        String accessToken = AccessToken.getToken();
+        String accessToken = WxToken.token;
         String url = WxFinalValue.UNION_URL+accessToken+"&openid="+openId;
 //        System.out.println(url);
         String result = HttpUtil.get(url);
@@ -91,7 +88,7 @@ public class WxServiceImpl implements WxService {
 
     @Override
     public void template(){
-        String accessToken = AccessToken.getToken();
+        String accessToken = WxToken.token;
         String setUrl = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=" + accessToken;
         String body="{\n" +
                 "    \"industry_id1\":\"16\",\n" +

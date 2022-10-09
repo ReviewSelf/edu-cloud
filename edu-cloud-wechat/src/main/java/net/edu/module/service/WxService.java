@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface WxService {
 
-    AccessToken getAccessToken();
+    void getAccessToken();
     String createMenu();
     String getUnionId(String openId);
     void template();

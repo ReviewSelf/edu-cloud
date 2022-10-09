@@ -35,7 +35,7 @@ public class ProblemPaperVO implements Serializable {
 	private String description;
 
 	@Schema(description = "知识点代码")
-	private Integer kpCode;
+	private String kpCode;
 	@Schema(description = "知识点名称")
 	private String kpName;
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

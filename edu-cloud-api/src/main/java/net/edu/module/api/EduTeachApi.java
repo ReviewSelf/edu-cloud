@@ -5,17 +5,16 @@ package net.edu.module.api;
 import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.fallback.EduProblemFallBack;
+import net.edu.module.fallback.EduTeachApiFallBack;
 import net.edu.module.vo.EnrollUserVO;
 import net.edu.module.vo.TeachPlanItemPaperVO;
 import net.edu.module.vo.TeachPlanItemResourceVO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(value = "edu-cloud-teaching", fallbackFactory = EduProblemFallBack.class)
+@FeignClient(value = "edu-cloud-teaching", fallbackFactory = EduTeachApiFallBack.class)
 public interface EduTeachApi {
 
     /****************************Judge调用******************************************/
@@ -48,9 +47,9 @@ public interface EduTeachApi {
 
     @GetMapping("enrollUser/insertOpenId")
     @Operation(summary = "添加班级学生openId")
-    Result<String> insertOpenId(String openId);
+    Result<String> insertOpenId(@RequestParam(value = "openId")String openId);
 
-    @GetMapping("enrollUser/insertClassUser")
+    @PostMapping("enrollUser/post")
     @Operation(summary = "修改班级学生")
     Result<String> post(EnrollUserVO enrollUserVO);
 }

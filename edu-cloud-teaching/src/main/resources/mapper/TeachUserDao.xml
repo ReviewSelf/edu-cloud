@@ -155,7 +155,6 @@
 		id
 		from sys_user
 		where union_id=#{unionId}
-
 	</select>
 
 </mapper>

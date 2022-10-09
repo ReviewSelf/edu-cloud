@@ -44,4 +44,8 @@
         where deleted = 0 and status = 1
         order by class_date asc
     </select>
+
+    <insert id="insertClassUser">
+        insert into enroll_class_user (enroll_class_id,open_id) values (#{classId},#{openId})
+    </insert>
 </mapper>

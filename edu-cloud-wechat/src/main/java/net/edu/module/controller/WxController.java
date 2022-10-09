@@ -8,9 +8,9 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.*;
-import net.edu.module.service.MessageService;
+import net.edu.module.service.TemplateService;
 import net.edu.module.service.WxService;
-import net.edu.module.untils.SubscriptionMessageUtil;
+import net.edu.module.vo.ClassOpenVO;
 import net.edu.module.vo.EnrollUserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,14 +30,14 @@ import java.util.List;
 @AllArgsConstructor
 public class WxController {
 
-    private final EduTeachApi eduTeachApi;
+
+    @Autowired
+    private EduTeachApi eduTeachApi;
 
     @Autowired
     private WxService wxService;
     @Autowired
-    private MessageService messageService;
-
-
+    private TemplateService templateService;
 
 
     /**
@@ -80,13 +80,12 @@ public class WxController {
         }
     }
 
+    /**
+     * 发送模板消息
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void create() {
-        String openid = "oPybX5iiL-yKwxOPlYl3yKcpbAEM";		// 发送给指定的用户
-        String serviceName = "E";
-        String orderNo = "2";
-
-        SubscriptionMessageUtil.sendOrderMsg("wx33ea578wxf824deebaddd5375d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
+    public void createTemplateMessage() {
+        templateService.sentTemplate();
     }
 
     /**
@@ -153,10 +152,6 @@ public class WxController {
         return wxService.createMenu();
     }
 
-    @GetMapping("template")
-    public void template(){
-        wxService.template();
-    }
 
     @PostMapping("post")
     @Operation(summary = "注册")
@@ -186,4 +181,27 @@ public class WxController {
         System.out.println(code);
         return Result.ok(wxService.getOpenId(code));
     }
+
+    @PostMapping("classOpen")
+    public Result<String> insertClassOpenTemplate(@RequestBody ClassOpenVO vo){
+        templateService.insertMsgLogClassOpenTemplate(vo);
+        return Result.ok();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,5 @@
 package net.edu.module.dao;
 
-import net.edu.module.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,9 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MessageDao {
 
-    void insertId(String openId);
 
-    void save( UserEntity userEntity );
-
-    void insertClassUser(Integer classId, String openId);
+    String selectUserOpenIdById(Long id);
 }

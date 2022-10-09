@@ -93,7 +93,7 @@ public class EnrollUserController {
         return Result.ok();
     }
 
-    @GetMapping("insertClassUser")
+    @PostMapping("post")
     @Operation(summary = "修改班级学生")
     public Result<String> post(EnrollUserVO enrollUserVO){
         enrollUserService.post(enrollUserVO);

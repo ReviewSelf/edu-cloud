@@ -20,5 +20,6 @@ public interface EnrollUserDao extends BaseDao<EnrollUserEntity> {
     IPage<EnrollUserVO> selectEnrollUserByPage(Page<EnrollUserVO> page, EnrollUserQuery query);
     void updateConfirmEnrollUser(Integer id);
     void insertId(String openId);
-    void save( UserEntity userEntity );
+    void save( EnrollUserEntity enrollUserEntity);
+    void insertClassUser(Integer classId, String openID);
 }

@@ -7,8 +7,10 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.EnrollUserConvert;
 import net.edu.module.entity.EnrollUserEntity;
+import net.edu.module.entity.UserEntity;
 import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollUserService;
+import net.edu.module.vo.EnrollClassVO;
 import net.edu.module.vo.EnrollUserVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,6 +76,27 @@ public class EnrollUserController {
     @Operation(summary = "更新状态")
     public Object confirm(@RequestParam("id") Integer id){
         enrollUserService.confirm(id);
+        return Result.ok();
+    }
+
+    @GetMapping("insertClassUser")
+    @Operation(summary = "添加班级学生")
+    public Result<String> insertClassUser(Integer classId, String openID){
+        enrollUserService.insertClassUser(classId,openID);
+        return Result.ok();
+    }
+
+    @GetMapping("insertOpenId")
+    @Operation(summary = "添加班级学生openId")
+    public Result<String> insertOpenId(String openId){
+        enrollUserService.insertOpenId(openId);
+        return Result.ok();
+    }
+
+    @GetMapping("insertClassUser")
+    @Operation(summary = "修改班级学生")
+    public Result<String> post(EnrollUserVO enrollUserVO){
+        enrollUserService.post(enrollUserVO);
         return Result.ok();
     }
 }

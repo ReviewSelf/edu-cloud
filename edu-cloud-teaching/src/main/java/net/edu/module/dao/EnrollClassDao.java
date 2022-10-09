@@ -21,7 +21,6 @@ import java.util.List;
 @Mapper
 public interface EnrollClassDao extends BaseDao<EnrollClassEntity> {
 
-    void insertClassUser(Integer classId, String openId);
 
     IPage<EnrollClassVO> selectEnrollClassByPage(Page<EnrollClassVO> page, EnrollClassQuery query);
 

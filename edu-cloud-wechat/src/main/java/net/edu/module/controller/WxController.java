@@ -83,8 +83,8 @@ public class WxController {
     /**
      * 发送模板消息
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void createTemplateMessage() {
+    @RequestMapping(value = "/send", method = RequestMethod.POST)
+    public void sendTemplateMessage() {
         templateService.sentTemplate();
     }
 

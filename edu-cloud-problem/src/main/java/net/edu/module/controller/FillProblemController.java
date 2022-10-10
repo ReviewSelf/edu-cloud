@@ -9,7 +9,9 @@ import net.edu.module.convert.FillProblemConvert;
 import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.service.FillProblemService;
 import net.edu.module.query.FillProblemQuery;
+import net.edu.module.service.HomeWorkService;
 import net.edu.module.vo.FillProblemVO;
+import net.edu.module.vo.WxFillProblemVO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +21,7 @@ import java.util.List;
 /**
 * 填空题表
 *
-* @author 马佳浩 
+* @author 马佳浩
 * @since 1.0.0 2022-09-05
 */
 @RestController
@@ -29,6 +31,7 @@ import java.util.List;
 public class FillProblemController {
     private final FillProblemService fillProblemService;
 
+    private final HomeWorkService homeWorkService;
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<FillProblemVO>> page(@Valid FillProblemQuery query){
@@ -111,6 +114,17 @@ public class FillProblemController {
         fillProblemService.importFromExcel(file);
         return Result.ok();
     }
+
+    /**
+     * 小程序获取填空题目信息
+     */
+    @GetMapping("/fillProblemInfo")
+    public WxFillProblemVO GetFillProblemInfo(String problemId){
+        WxFillProblemVO wxFillProblemVOS=homeWorkService.GetFillProblemInfo(problemId);
+        return wxFillProblemVOS;
+    }
+
+
 
 
 }

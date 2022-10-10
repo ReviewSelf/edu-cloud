@@ -158,6 +158,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return lessonDao.getListById(classId);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(List<Long> idList) {
+        removeByIds(idList);
+    }
 
 
 }

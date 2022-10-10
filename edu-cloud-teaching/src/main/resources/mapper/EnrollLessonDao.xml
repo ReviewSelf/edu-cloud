@@ -4,8 +4,8 @@
 <mapper namespace="net.edu.module.dao.EnrollLessonDao">
     <insert id="saveLesson" parameterType="net.edu.module.entity.EnrollLessonEntity">
         insert into
-        lesson(teacher_id , name , place , begin_time , end_time , class_id)
-        values(#{teacherId}, #{name} , #{place} , #{beginTime} , #{endTime} , 0)
+        lesson(teacher_id , name , place , begin_time , end_time , class_id , plan_item_id)
+        values(#{teacherId}, #{name} , #{place} , #{beginTime} , #{endTime} , 0 , #{planItemId})
     </insert>
     <insert id="joinLessonSys" parameterType="net.edu.module.entity.EnrollUserEntity">
         insert into
@@ -14,7 +14,7 @@
     </insert>
     <update id="updateLesson" parameterType="net.edu.module.vo.EnrollLessonVO">
         update
-        lesson set teacher_id = #{teacherId} , name = #{name}, place = #{place} , begin_time = #{beginTime} , end_time = #{endTime}
+        lesson set teacher_id = #{teacherId} , name = #{name}, place = #{place} , begin_time = #{beginTime} , plan_item_id = #{planItemId}, end_time = #{endTime}
         where id = #{id}
     </update>
     <update id="joinLesson">
@@ -28,11 +28,14 @@
         t1.name,
         t1.teacher_id,
         t1.place,
+        t1.plan_item_id,
+        t3.name as planItemName,
         t1.begin_time,
         t1.end_time,
-        t2.username
+        t2.real_name
         from lesson t1
         left join sys_user t2 on t1.teacher_id = t2.id
+        left join teach_plan_item t3 on t1.plan_item_id = t3.id
         where t1.deleted = 0 and t1.class_id = 0
     </select>
     <select id="selectLessonById" resultType="net.edu.module.entity.EnrollLessonEntity">
@@ -43,7 +46,7 @@
         t1.place,
         t1.begin_time,
         t1.end_time,
-        t2.username
+        t2.real_name
         from lesson t1
         left join sys_user t2 on t1.teacher_id = t2.id
         where t1.id = #{id}

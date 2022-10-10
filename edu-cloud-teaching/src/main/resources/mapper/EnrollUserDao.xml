@@ -35,12 +35,8 @@
         <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
             and create_time &gt;=#{query.beginTime}  and create_time &lt;=#{query.endTime}
         </if>
-        order by update_time,status desc
+        order by status,update_time desc
     </select>
-
-    <update id="updateEnrollUser">
-        update enroll_user  set deleted=1 where id = #{id}
-    </update>
 
     <update id="updateConfirmEnrollUser">
         update enroll_user set status=status+1

@@ -78,6 +78,9 @@ public class RedisKeys {
     public static String getKnowledgePointKey() {
         return "problem:kp:";
     }
+    public static String getOrgKey() {
+        return "problem:org:";
+    }
 
     public static String getChoiceOptions(Long problemId) {
         return "problem:choice:option" + problemId;

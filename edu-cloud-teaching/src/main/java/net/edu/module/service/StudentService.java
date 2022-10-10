@@ -6,6 +6,7 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.RoleUserQuery;
 import net.edu.module.query.UserQuery;
+import net.edu.module.vo.OrgVo;
 import net.edu.module.vo.UserVO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,4 +50,6 @@ public interface StudentService extends BaseService<UserEntity> {
      * 获取学生id
      */
     String getStudentId(String unionId);
+
+    List<OrgVo> getOrgList();
 }

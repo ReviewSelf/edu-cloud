@@ -6,4 +6,6 @@ public interface StudentLessonService {
 
 
     Result<String> attendLesson(Long lessonId);
+
+    Result<String> attendExam(Long examId);
 }

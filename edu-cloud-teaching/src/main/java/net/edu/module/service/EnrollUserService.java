@@ -3,6 +3,7 @@ package net.edu.module.service;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.EnrollUserEntity;
+import net.edu.module.entity.UserEntity;
 import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.vo.EnrollUserVO;
 
@@ -25,4 +26,10 @@ public interface EnrollUserService extends BaseService<EnrollUserEntity> {
     void delete(List<Long> idList);
 
     void confirm(Integer id);
+
+    void insertClassUser(Integer classId, String openID);
+
+    void insertOpenId(String openId);
+
+    void post(EnrollUserVO enrollUserVO);
 }

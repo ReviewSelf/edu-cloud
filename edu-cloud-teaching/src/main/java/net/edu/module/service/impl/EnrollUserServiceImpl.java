@@ -8,6 +8,7 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.EnrollUserConvert;
 import net.edu.module.dao.EnrollUserDao;
 import net.edu.module.entity.EnrollUserEntity;
+import net.edu.module.entity.UserEntity;
 import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollUserService;
 import net.edu.module.vo.EnrollUserVO;
@@ -63,6 +64,22 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
     @Transactional(rollbackFor = Exception.class)
     public  void confirm(Integer id){
         enrollUserDao.updateConfirmEnrollUser(id);
+    }
+
+    @Override
+    public void insertOpenId(String openId) {
+        enrollUserDao.insertId(openId);
+    }
+
+    @Override
+    public void post(EnrollUserVO enrollUserVO){
+        EnrollUserEntity entity = EnrollUserConvert.INSTANCE.convert(enrollUserVO);
+        enrollUserDao.save(entity);
+    }
+
+    @Override
+    public void insertClassUser(Integer classId, String openId) {
+        enrollUserDao.insertClassUser(classId,openId);
     }
 
 }

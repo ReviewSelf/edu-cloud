@@ -2,10 +2,7 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.entity.EnrollJoinLessonEntity;
-import net.edu.module.entity.EnrollLessonEntity;
-import net.edu.module.entity.EnrollSelectOne;
-import net.edu.module.entity.EnrollUserEntity;
+import net.edu.module.entity.*;
 import net.edu.module.query.EnrollLessonQuery;
 import net.edu.module.vo.EnrollLessonVO;
 
@@ -27,5 +24,5 @@ public interface EnrollLessonService extends BaseService<EnrollLessonEntity> {
 
     void joinLesson(EnrollJoinLessonEntity entity);
 
-    void joinLessonSys(EnrollUserEntity user);
+    void updateOpinion(EnrollOpinionEntity entity);
 }

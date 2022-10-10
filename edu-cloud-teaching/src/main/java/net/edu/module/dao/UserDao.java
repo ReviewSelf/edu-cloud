@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
+import net.edu.module.entity.OrgEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.vo.AllTeacherVo;
@@ -45,4 +46,6 @@ public interface UserDao extends BaseDao<UserEntity> {
 	void updateSubmitCorrectTimes(Long userId,Integer correct);
 
 	String getStudentId(String unionId);
+
+    List<OrgEntity> getOrgList();
 }

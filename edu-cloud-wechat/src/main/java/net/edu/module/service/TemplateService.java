@@ -1,7 +1,9 @@
 package net.edu.module.service;
 
-import net.edu.module.vo.ClassOpenVO;
+import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author weng
@@ -10,7 +12,15 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TemplateService {
 
-    int insertMsgLogClassOpenTemplate(ClassOpenVO classOpenVO);
-
     void sentTemplate();
+
+    int insertMsgLogClassOpenTemplate(List<ClassOpenVO> list);
+
+    int insertMsgLogWorkPublishTemplate(List<WorkPublishVO> list);
+
+    int insertMsgLogLessonOpenTemplate(List<LessonOpenVO> list);
+
+    int insertMsgLogSignSuccessTemplate(List<SignSuccessVO> list);
+
+    int insertMsgLogWorkDeadlineTemplate(List<WorkDeadlineVO> list);
 }

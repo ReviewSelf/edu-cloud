@@ -9,3 +9,6 @@ auth:
     - /student/updateSubmitCorrectTimes
     - /enrollClass/publish
     - /studentEx/getStudentId
+    - /enrollUser/insertOpenId
+    - /enrollUser/insertClassUser
+    - /enrollUser/post

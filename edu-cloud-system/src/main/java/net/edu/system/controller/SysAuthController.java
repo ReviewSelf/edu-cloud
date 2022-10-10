@@ -41,7 +41,6 @@ public class SysAuthController {
     public Result<SysTokenVO> login(@RequestBody SysAccountLoginVO login) {
         SysTokenVO token = sysAuthService.loginByAccount(login);
 
-        System.out.println("token"+token);
         return Result.ok(token);
     }
 

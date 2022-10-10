@@ -33,6 +33,9 @@ public class WxController {
     @Autowired
     private MessageService messageService;
 
+
+
+
     /**
      * Token验证
      * @param signature
@@ -79,7 +82,7 @@ public class WxController {
         String serviceName = "E";
         String orderNo = "2";
 
-        SubscriptionMessageUtil.sendOrderMsg("wx33ea578d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
+        SubscriptionMessageUtil.sendOrderMsg("wx33ea578wxf824deebaddd5375d3bf919f4", "934da208d55b9661b1df30065904bf82", openid, orderNo, serviceName);
     }
 
     /**
@@ -131,8 +134,9 @@ public class WxController {
      * @return
      */
     @GetMapping("getAccessToken")
-    public AccessToken getAccessToken(){
-        return wxService.getAccessToken();
+    public void getAccessToken(){
+        System.out.println("66666666");
+        wxService.getAccessToken();
     }
 
     /**
@@ -160,7 +164,6 @@ public class WxController {
             String openId = userEntity.getOpenId();
             messageService.insertClassUser(classId,openId);
         }
-
         return Result.ok();
     }
 

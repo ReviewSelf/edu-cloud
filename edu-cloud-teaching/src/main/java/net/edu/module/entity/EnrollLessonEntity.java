@@ -18,7 +18,7 @@ public class EnrollLessonEntity extends BaseEntity {
     /**
      * 任课老师
      */
-    private String username;
+    private String realName;
 
     /**
      *  课堂名称

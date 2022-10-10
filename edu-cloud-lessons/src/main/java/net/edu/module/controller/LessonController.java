@@ -82,4 +82,12 @@ public class LessonController {
     public Result<PageResult<LessonVO>> homeworkPage(@Valid LessonQuery query) {
         return Result.ok(lessonService.homeworkPage(query));
     }
+
+    @DeleteMapping
+    @Operation(summary = "删除")
+    public Result<String> delete(@RequestBody List<Long> idList){
+        lessonService.delete(idList);
+
+        return Result.ok();
+    }
 }

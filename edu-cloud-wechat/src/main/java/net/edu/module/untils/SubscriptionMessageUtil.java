@@ -51,6 +51,7 @@ public class SubscriptionMessageUtil {
                 new WxMpTemplateData("keyword1", orderId),
                 new WxMpTemplateData("keyword2", serviceName),
                 new WxMpTemplateData("keyword3", timeNow),
+                new WxMpTemplateData("keyword4", timeNow),
                 new WxMpTemplateData("remark", "请登录系统查看订单详情并及时配货")
         );
 

@@ -33,7 +33,13 @@ public class RedisKeys {
 
     //***********************************lesson***********************************************************
     public static String getLessonAttendLog(Long lessonId) {
-        return "lesson:log:" + lessonId;
+        if(lessonId!=null){
+            return "lesson:log:" + lessonId;
+        }
+        else {
+            return "lesson:log:";
+        }
+
     }
 
     public static String getLessonIp(Long lessonId) {
@@ -82,5 +88,7 @@ public class RedisKeys {
     }
 
 
-
+    public static String getSampleFile(String path) {
+        return "sample:" + path;
+    }
 }

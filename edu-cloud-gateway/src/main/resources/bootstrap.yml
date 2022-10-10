@@ -63,7 +63,7 @@ spring:
             - Path=/lessons/**
           filters:
             - StripPrefix=1
-        - id: edu-cloud-lessons
+        - id: edu-cloud-quartz
           uri: lb://edu-cloud-quartz
           order: 108
           predicates:

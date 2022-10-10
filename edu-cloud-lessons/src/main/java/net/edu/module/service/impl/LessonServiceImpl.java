@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -61,7 +62,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     public PageResult<LessonVO> page(LessonQuery query) {
         UserDetail user=SecurityUser.getUser();
         query.setUserId(user.getId());
-        query.setRole(user.getRoleIdList().get(0));
+        if(!CollUtil.isEmpty(user.getRoleIdList())){
+            query.setRole(user.getRoleIdList().get(0));
+        }else {
+            query.setRole(0L);//管理员
+        }
         PageResult<LessonVO> pageResult=null;
             Page<LessonVO> page = new Page<>(query.getPage(),query.getLimit());
             IPage<LessonVO> list;

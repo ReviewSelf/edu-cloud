@@ -63,18 +63,19 @@ import static java.lang.Math.abs;
         if(!CollectionUtil.isEmpty(userList)){
             for (LessonAttendLogVO vo:userList){
                 if(vo.getStuId().equals(userId)){
-                    if(lessonEntity.getBeginTime().getTime()>date.getTime() && lessonEntity.getEndTime().getTime()<date.getTime()){
-                        //不在上课范围，直接进入课堂
+                    //在上课范围，签到判断
+                    if(lessonEntity.getBeginTime().getTime()<=date.getTime() && lessonEntity.getEndTime().getTime()>=date.getTime()){
+                        if(vo.getStatus()!=1){
+                            vo.setStatus(1);
+                            vo.setCheckinTime(new Date());
+                            LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
+                            updateById(entity);
+                            redisUtils.set(RedisKeys.getLessonAttendLog(lessonEntity.getId()),userList,RedisUtils.MIN_TEN_EXPIRE);
+                        }
+                        //已签到返回
                         return true;
                     }
-                    //在课堂范围则签到
-                    if(vo.getStatus()!=1){
-                        vo.setStatus(1);
-                        vo.setCheckinTime(new Date());
-                        LessonAttendLogEntity entity = LessonAttendLogConvert.INSTANCE.convert(vo);
-                        updateById(entity);
-                        redisUtils.set(RedisKeys.getLessonAttendLog(lessonEntity.getId()),userList,RedisUtils.MIN_TEN_EXPIRE);
-                    }
+                    //不在上课时间内，直接返回
                     return true;
                 }
             }
@@ -128,6 +129,7 @@ import static java.lang.Math.abs;
         List<Long> list = vo.getClassId();
         Long stuId = vo.getStuId();
         lessonAttendLogDao.insertLessonList(list,stuId);
+        redisUtils.delByPre(RedisKeys.getLessonAttendLog(null));
     }
 
     @Override
@@ -135,5 +137,6 @@ import static java.lang.Math.abs;
         List<Long> list = vo.getClassId();
         Long stuId = vo.getStuId();
         lessonAttendLogDao.deleteLessonList(list,stuId);
+        redisUtils.delByPre(RedisKeys.getLessonAttendLog(null));
     }
 }

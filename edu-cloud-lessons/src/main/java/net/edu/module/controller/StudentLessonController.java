@@ -29,10 +29,16 @@ public class StudentLessonController {
     private final StudentLessonService studentLessonService;
 
     @GetMapping("{lessonId}")
-    @Operation(summary = "课程列表")
+    @Operation(summary = "参加课程")
     public Result<String> attendLesson( @PathVariable Long lessonId){
         return studentLessonService.attendLesson(lessonId);
     }
 
+
+    @GetMapping("{examId}")
+    @Operation(summary = "参加考试")
+    public Result<String> attendExam( @PathVariable Long examId){
+        return studentLessonService.attendExam(examId);
+    }
 
 }

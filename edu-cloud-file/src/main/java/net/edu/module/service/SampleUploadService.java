@@ -1,6 +1,7 @@
 package net.edu.module.service;
 
 import lombok.SneakyThrows;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.utils.EncryptUtils;
 import net.edu.framework.common.utils.RedisUtils;
@@ -78,10 +79,10 @@ public class SampleUploadService {
 
     public String getFileContent(String path) {
         String str=null;
-        str= (String) redisUtils.get(path, RedisUtils.HOUR_ONE_EXPIRE);
+        str= (String) redisUtils.get(RedisKeys.getSampleFile(path),RedisUtils.MIN_TEN_EXPIRE);
         if(str==null){
             str=EncryptUtils.getFileBase64(path);
-            redisUtils.set(path,str,RedisUtils.HOUR_ONE_EXPIRE);
+            redisUtils.set(RedisKeys.getSampleFile(path),str,RedisUtils.HOUR_ONE_EXPIRE);
         }
         return str;
     }

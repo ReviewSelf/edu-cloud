@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.entity.EnrollJoinLessonEntity;
-import net.edu.module.entity.EnrollLessonEntity;
-import net.edu.module.entity.EnrollSelectOne;
-import net.edu.module.entity.EnrollUserEntity;
+import net.edu.module.entity.*;
 import net.edu.module.query.EnrollLessonQuery;
 import net.edu.module.service.EnrollLessonService;
 import net.edu.module.service.EnrollUserService;
@@ -78,10 +75,17 @@ public class EnrollLessonController {
     @PostMapping("joinLesson")
     @Operation(summary = "加入试听课")
     public Object joinLesson(@RequestBody EnrollJoinLessonEntity entity) {
-        System.out.println(entity);
         enrollLessonService.joinLesson(entity);
-        EnrollUserEntity user = enrollUserService.getById(entity.getId());
-        enrollLessonService.joinLessonSys(user);
+        return Result.ok();
+    }
+
+    @PostMapping("teacherOpinion")
+    @Operation(summary = "教师评价")
+    public Object updateOpinion(@RequestBody EnrollOpinionEntity entity) {
+        enrollLessonService.updateOpinion(entity);
+        if(entity.getTeacherOpinion() == null) {
+            return Result.error();
+        }
         return Result.ok();
     }
 

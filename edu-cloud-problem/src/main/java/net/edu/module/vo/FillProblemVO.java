@@ -21,7 +21,7 @@ import java.util.Date;
 public class FillProblemVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@ExcelIgnore
-	private Integer id;
+	private Long id;
 
 	@Schema(description = "名称")
 	@ExcelProperty(index = 0)

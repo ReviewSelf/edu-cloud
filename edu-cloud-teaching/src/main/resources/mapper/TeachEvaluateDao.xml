@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.TeachEvaluateDao">
+
+    <resultMap type="net.edu.module.entity.TeachEvaluateEntity" id="teachEvaluateMap">
+        <result property="id" column="id"/>
+        <result property="evaluateUserId" column="evaluate_user_id"/>
+        <result property="evaluatedUserId" column="evaluated_user_id"/>
+        <result property="score" column="score"/>
+        <result property="classId" column="class_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="deleted" column="deleted"/>
+        <result property="type" column="type"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+    <select id="page" resultType="net.edu.module.vo.TeachEvaluateVO">
+        select id,evaluateUserName,evaluatedUserName,score,className,createTime,type,content from (
+        select a.id , (select real_name from sys_user where id=evaluate_user_id limit 1)as evaluateUserName,
+        (select real_name from sys_user where id=evaluated_user_id limit 1)as evaluatedUserName, score , c.name as className ,
+               a.create_time as createTime , a.type as type , a.content as content
+        from teach_evaluate a
+        join teach_class c on a.class_id = c.id
+        where a.deleted = 0)t
+        where 1=1
+        <if test="query.getEvaluateUserName()!='' and query.getEvaluateUserName()!=null"> and t.evaluateUserName like concat('%',#{query.evaluateUserName},'%') </if>
+        <if test="query.getEvaluatedUserName()!='' and query.getEvaluatedUserName()!=null"> and t.evaluatedUserName like concat('%',#{query.evaluatedUserName},'%') </if>
+        <if test="query.getClassName()!='' and query.getClassName()!=null"> and t.className like concat('%',#{query.className},'%') </if>
+        <if test="query.getType() != null">and t.type = #{query.type}</if>
+</select>
+
+</mapper>

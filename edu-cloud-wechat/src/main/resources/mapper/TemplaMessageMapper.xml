@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.TemplateDao">
+
+   <select id="selectTemplate" resultType="net.edu.module.entity.MsgLogEntity">
+       select
+           id,
+           content,
+           user_id as userId,
+           template_id as templateId,
+           type
+        from wx_msg_log
+        where is_push = 0 and TIMEDIFF(send_time,now()) &lt;='01:00:00'
+   </select>
+
+    <update id="updateTemplate">
+        update wx_msg_log
+        set is_push = 1,is_receive = 1,sent_time = now()
+        where id = #{id}
+    </update>
+
+    <!--插入开课提醒模板消息-->
+    <insert id="insertMsgLogClassOpenTemplate">
+        insert into wx_msg_log
+            (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
+        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,1,"Hx0hZKpfm1_CCDw_9uEnCTh9Ws-NB6GDONM7_1WuG3Q")
+    </insert>
+
+    <!--插入作业发布提醒模板消息-->
+    <insert id="insertMsgLogWorkPublishTemplate">
+        insert into wx_msg_log
+        (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
+        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,2,"NzaepBC0pI3Y4ANnOuKvCcujyQc8fjR0EbnpF1di_NA")
+    </insert>
+
+    <!--插入上课前提醒模板消息-->
+    <insert id="insertMsgLogLessonOpenTemplate">
+        insert into wx_msg_log
+        (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
+        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,3,"xVaI4nj2XXYtZBM5rSJZfNH2qonpexPlLAAnLlTKsNw")
+    </insert>
+
+    <!--插入上课签到成功提醒模板消息-->
+    <insert id="insertMsgLogSignSuccessTemplate">
+        insert into wx_msg_log
+        (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
+        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,4,"jwKnhcbeGq171pU7v-1r14ZnBKSLnsje5H61eAys5ek")
+    </insert>
+
+    <!--插入上课签到成功提醒模板消息-->
+    <insert id="insertMsgLogWorkDeadlineTemplate">
+        insert into wx_msg_log
+        (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
+        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,5,"Pimzo0M6cV3-U-Q2b-GQQpXOq0Yk4nGrfiGiwXyNow8")
+    </insert>
+</mapper>

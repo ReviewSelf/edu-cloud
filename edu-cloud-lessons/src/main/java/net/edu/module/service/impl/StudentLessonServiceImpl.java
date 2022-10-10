@@ -57,5 +57,26 @@ public class StudentLessonServiceImpl implements StudentLessonService {
         return Result.ok();
     }
 
+    @Override
+    public Result<String> attendExam(Long examId) {
+        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+        assert request != null;
+        String ip = IpUtils.getIpAddr(request);
+        //ip校验
+//        if(!lessonIPService.ipJudge(lessonId,ip)){
+//            return Result.error("不在ip白名单中，不可进入此班级,当前ip:"+ip);
+//        }
+        //名单校验
+        Long userId = SecurityUser.getUserId();
+
+        //班级名单校验 + 考试时间
+//        LessonEntity entity=lessonService.getById(lessonId);
+//        if(!lessonAttendLogService.attendance(userId,entity)){
+//            return Result.error("不在该课堂中，不可进入此班级");
+//        }
+        return Result.ok();
+
+    }
+
 
 }

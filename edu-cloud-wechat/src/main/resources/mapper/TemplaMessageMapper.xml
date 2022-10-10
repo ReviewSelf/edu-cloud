@@ -16,7 +16,7 @@
 
     <update id="updateTemplate">
         update wx_msg_log
-        set is_push = 1,is_receive = 1
+        set is_push = 1,is_receive = 1,sent_time = now()
         where id = #{id}
     </update>
 

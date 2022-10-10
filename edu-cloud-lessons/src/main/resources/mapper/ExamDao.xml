@@ -32,14 +32,21 @@
                name,
                place
         from exam
-        where deleted=0 and end_time &gt;=now()
-        <if test="query.name !='' or query.name != null">
+        where deleted=0
+          <if test="query.beginTime !=null or query.endTime !=null">
+            and begin_time &lt;=#{query.beginTime} and end_time &lt;=#{query.endTime}
+          </if>
+        <if test="query.endTime ==null">
+            and end_time &gt;=now()
+        </if>
+
+        <if test="query.name != null">
             and name=#{query.name}
         </if>
-        <if test="query.place !='' or query.place !=null">
+        <if test="query.place !=null">
             and place=#{query.place}
         </if>
-        <if test="query.description !='' or query.description !=null or query.description != ' ' or query.description !=undefined">
+        <if test=" query.description !=null ">
             and description=#{query.description}
         </if>
 

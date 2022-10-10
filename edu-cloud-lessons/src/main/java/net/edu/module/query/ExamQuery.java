@@ -30,6 +30,12 @@ public class ExamQuery extends Query {
     @Schema(description = "考试说明")
     private String description;
 
+    @Schema(description = "开始时间")
+    private String beginTime;
+
+    @Schema(description = "结束时间")
+    private String endTime;
+
 
 
 }

@@ -54,11 +54,6 @@ public class ExamEntity extends BaseEntity {
 	private Long kpId;
 
 
-
-
-
-
-
 	/**
 	* 考试名称
 	*/

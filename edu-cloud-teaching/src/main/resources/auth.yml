@@ -5,7 +5,9 @@ auth:
     - /test
     - /planItem/**
     - /classUser/list/**
+    - /classUser/updateHomeworkTimes
     - /class/updateNextLesson
     - /student/updateSubmitCorrectTimes
     - /enrollClass/publish
     - /studentEx/getStudentId
+    - /statistics/info

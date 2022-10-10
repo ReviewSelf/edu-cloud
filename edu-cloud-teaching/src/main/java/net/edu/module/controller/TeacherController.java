@@ -39,7 +39,6 @@ public class TeacherController {
 
     @GetMapping("teacherPage")
     @Operation(summary = "分页")
-
     public Result<PageResult<TeacherVO>> TeacherPage(@Valid TeacherQuery query) {
         PageResult<TeacherVO> page = teacherService.TeacherPage(query);
         return Result.ok(page);
@@ -123,5 +122,6 @@ public class TeacherController {
         List<AllTeacherVo> allTeacherVo=teacherService.GetTeacher();
         return Result.ok(allTeacherVo);
     }
+
 
 }

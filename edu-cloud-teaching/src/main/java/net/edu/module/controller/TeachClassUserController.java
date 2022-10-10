@@ -95,5 +95,10 @@ public class TeachClassUserController {
         return Result.ok();
     }
 
+    @GetMapping("/updateHomeworkTimes")
+    @Operation(summary = "更新回家作业完成情况")
+    public void updateHomeworkTimes(@RequestParam(value = "userId") Long userId,@RequestParam(value = "classId") Long classId,@RequestParam(value = "num") Integer num){
+        teachClassUserService.updateHomeworkTimes(userId,classId,num);
+    }
 
 }

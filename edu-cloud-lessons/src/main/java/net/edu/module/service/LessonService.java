@@ -36,4 +36,6 @@ public interface LessonService extends BaseService<LessonEntity> {
     List<LessonVO> getListById(Long classId);
 
     void delete(List<Long> idList);
+
+    void homeWorkDeadline();
 }

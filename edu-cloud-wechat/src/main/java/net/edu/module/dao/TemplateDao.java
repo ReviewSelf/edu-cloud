@@ -1,6 +1,7 @@
 package net.edu.module.dao;
 
 import net.edu.module.entity.MsgLogEntity;
+import net.edu.module.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Date;
@@ -13,9 +14,17 @@ import java.util.List;
 @Mapper
 public interface TemplateDao {
 
-    MsgLogEntity selectTemplate();
+    List<MsgLogEntity> selectTemplate();
 
     void updateTemplate(Long id);
 
     int insertMsgLogClassOpenTemplate(String content, String sendTime, Long userId);
+
+    int insertMsgLogWorkPublishTemplate(String content, String sendTime, Long userId);
+
+    int insertMsgLogLessonOpenTemplate(String content, String sendTime, Long userId);
+
+    int insertMsgLogSignSuccessTemplate(String content, String sendTime, Long userId);
+
+    int insertMsgLogWorkDeadlineTemplate(String content, String sendTime, Long userId);
 }

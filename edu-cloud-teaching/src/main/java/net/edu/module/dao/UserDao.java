@@ -8,6 +8,7 @@ import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.vo.AllTeacherVo;
 import net.edu.module.vo.UserVO;
+import net.edu.module.vo.affairTeacherVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,6 +26,8 @@ public interface UserDao extends BaseDao<UserEntity> {
 //	List<UserEntity> getList(Map<String, Object> params);
 
 	List<UserEntity> getTeacherList(Map<String, Object> params);
+
+	List<affairTeacherVO> getAffairTeacherList(Map<String, Object> params);
 
 	IPage<UserVO> SelectStudentList(Page<UserVO> page, UserQuery query);
 

@@ -4,12 +4,21 @@
 <mapper namespace="net.edu.module.dao.HomeWorkDao">
     <select id="getStudentHomeWork" resultType="net.edu.module.vo.HomeWorkVO">
         select
-            *
+        t1.id,
+        t1.lesson_id,
+        t1.problem_id,
+        t1.problem_name,
+        t1.problem_type,
+        t1.score,
+        t1.begin_time,
+        t1.end_time,
+        t1.sort,
+        t1.type
         from
             lesson_problem t1
                 left JOIN
             (select
-                 *
+                 id,stu_id,lesson_id,checkin_time,status,roll_call,create_time,update_time
              from lesson_attend_log
              where
                  stu_id=#{studentId}) t2 ON t1.lesson_id=t2.lesson_id
@@ -17,13 +26,36 @@
             order by begin_time asc
     </select>
 
+    <select id="getStudentHomeWorkPage" resultType="net.edu.module.vo.HomeWorkVO">
+        SELECT
+            t1.id,
+            t1.lesson_id,
+            t1.problem_id,
+            t1.problem_name,
+            t1.problem_type,
+            t1.score,
+            t1.begin_time,
+            t1.end_time,
+            t1.sort,
+            t1.type,
+            t1.wechat_status
+        FROM
+                ( SELECT id,stu_id,lesson_id,checkin_time,status,roll_call,create_time,update_time FROM lesson_attend_log WHERE stu_id =#{query.StudentId} ) t2
+                    LEFT JOIN lesson_problem t1 ON t2.lesson_id = t1.lesson_id
+        where  t1.wechat_status=0
+        ORDER BY
+            begin_time ASC
+    </select>
+
     <select id="getChoiceProblemInfo" resultType="net.edu.module.vo.WxChoiceProblemVO">
-        select * from problem_choice a
-        left JOIN(select* from problem_choice_options) b on a.id=b.problem_id where a.id =#{problemId}
+        select a.id,type,name,description,source,tips,advice_time,img,difficulty,kp_code,submit_times,correct_times,
+               is_typical,option_num,used_num,a.create_time,a.update_time,updater,creator,deleted,status,version,b.problem_id,b.problem_option,b.is_true from problem_choice a
+        left JOIN(select problem_id,problem_option,is_true from problem_choice_options) b on a.id=b.problem_id where a.id =#{problemId}
     </select>
 
     <select id="GetFillProblemInfo" resultType="net.edu.module.vo.WxFillProblemVO">
-        select * from problem_fill
+        select id,name,description,source,tips,advice_time,img,difficulty,kp_code,submit_times,correct_times,
+               is_typical,used_num,create_time,update_time,updater,creator,deleted,answer,status,version from problem_fill
         where id=#{problemId}
     </select>
 

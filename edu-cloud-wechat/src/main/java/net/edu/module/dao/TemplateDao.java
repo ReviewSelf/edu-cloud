@@ -27,4 +27,11 @@ public interface TemplateDao {
     int insertMsgLogSignSuccessTemplate(String content, String sendTime, Long userId);
 
     int insertMsgLogWorkDeadlineTemplate(String content, String sendTime, Long userId);
+
+    /**
+     * 根据id查找姓名
+     * @param id
+     * @return
+     */
+    String selectUserNameById(Long id);
 }

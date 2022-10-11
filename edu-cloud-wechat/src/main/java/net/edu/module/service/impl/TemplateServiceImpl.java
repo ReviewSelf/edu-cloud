@@ -24,6 +24,7 @@ public class TemplateServiceImpl implements TemplateService {
     @Autowired
     TemplateDao templateDao;
 
+
     @Override
     public void sentTemplate() {
         List<MsgLogEntity> list = templateDao.selectTemplate();
@@ -34,16 +35,17 @@ public class TemplateServiceImpl implements TemplateService {
             String appSecret = WxFinalValue.APPSECRET;
             String content = msgLogEntities.getContent();
             String tempId = msgLogEntities.getTemplateId();
+            String userName = templateDao.selectUserNameById(userId);
             int type = msgLogEntities.getType();
             //根据数据库类型发送提醒
             if(type == 1)
                 SubscriptionMessageUtil.sendClassOpenMsg(appid,appSecret,userOpenid,tempId,content);
             if(type == 2)
-                SubscriptionMessageUtil.sendHomeWorkMsg(appid,appSecret,userOpenid,tempId,content);
+                SubscriptionMessageUtil.sendHomeWorkMsg(appid,appSecret,userOpenid,tempId,content,userName);
             if(type == 3)
                 SubscriptionMessageUtil.sendLessonOpenMsg(appid,appSecret,userOpenid,tempId,content);
             if(type == 4)
-                SubscriptionMessageUtil.sendSignSuccessMsg(appid,appSecret,userOpenid,tempId,content);
+                SubscriptionMessageUtil.sendSignSuccessMsg(appid,appSecret,userOpenid,tempId,content,userName);
             if(type == 5)
                 SubscriptionMessageUtil.sendHomeworkSubmitMsg(appid,appSecret,userOpenid,tempId,content);
             //发送之后将标记更改为1
@@ -52,7 +54,34 @@ public class TemplateServiceImpl implements TemplateService {
         }
     }
 
+    @Override
+    public void sentMessage(MsgLogEntity msgLogEntity) {
 
+            Long userId = msgLogEntity.getUserId();
+            String userOpenid = messageDao.selectUserOpenIdById(userId);
+            String userName = templateDao.selectUserNameById(userId);
+            String appid = WxFinalValue.APPID;
+            String appSecret = WxFinalValue.APPSECRET;
+            String content = msgLogEntity.getContent();
+            String tempId = msgLogEntity.getTemplateId();
+
+            int type = msgLogEntity.getType();
+            //根据数据库类型发送提醒
+            if(type == 1)
+                SubscriptionMessageUtil.sendClassOpenMsg(appid,appSecret,userOpenid,tempId,content);
+            if(type == 2)
+                SubscriptionMessageUtil.sendHomeWorkMsg(appid,appSecret,userOpenid,tempId,content,userName);
+            if(type == 3)
+                SubscriptionMessageUtil.sendLessonOpenMsg(appid,appSecret,userOpenid,tempId,content);
+            if(type == 4)
+                SubscriptionMessageUtil.sendSignSuccessMsg(appid,appSecret,userOpenid,tempId,content,userName);
+            if(type == 5)
+                SubscriptionMessageUtil.sendHomeworkSubmitMsg(appid,appSecret,userOpenid,tempId,content);
+            //发送之后将标记更改为1
+            Long id = msgLogEntity.getId();
+            templateDao.updateTemplate(id);
+
+    }
     @Override
     public int insertMsgLogClassOpenTemplate(List<ClassOpenVO> list) {
 

@@ -52,4 +52,44 @@
 
     </select>
 
+    <select id="studentPage" resultType="net.edu.module.vo.ExamVO">
+        select a.name as name , c.name as className , a.place as place , a.description as description , a.begin_time as beginTime,
+               a.end_time as endTime , d.real_name as teacherName
+        from exam a
+        join exam_attend_log b on b.user_id = #{query.userId}
+        join teach_class c on c.id = a.class_id
+        join sys_user d on d.id = a.teacher_id
+        where a.paper_id = b.exam_id and a.deleted = 0
+        <if test="query.name != null and query.name != ''">
+            and a.name = #{query.name}
+        </if>
+        <if test="query.className != null and query.className != ''">
+            and c.name = #{query.className}
+        </if>
+        <if test="query.getPlace() != null and query.getPlace()  != ''">
+            and a.place = #{query.place}
+        </if>
+<!--        <if test="query.getPlace()  != null and query.getPlace()  != ''">-->
+<!--            and a.description = #{query.description}-->
+<!--        </if>-->
+        <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
+            and a.begin_time between  #{query.beginTime} and #{query.endTime}
+        </if>
+        <if test="query.teacherName != null and query.teacherName != ''">
+            and d.real_name = #{query.teacherName}
+        </if>
+    </select>
+
+    <select id="getExamingList" resultType="net.edu.module.vo.ExamVO">
+        select a.name as name , c.name as className , a.place as place , a.begin_time as beginTime,
+               a.end_time as endTime , d.real_name as teacherName , a.time_limit as timeLimit
+        from exam a
+        join exam_attend_log b on b.user_id = #{userId}
+        join teach_class c on c.id = a.class_id
+        join sys_user d on d.id = a.teacher_id
+        where a.paper_id = b.exam_id
+          and a.deleted = 0
+            and now() between a.begin_time and a.end_time
+    </select>
+
 </mapper>

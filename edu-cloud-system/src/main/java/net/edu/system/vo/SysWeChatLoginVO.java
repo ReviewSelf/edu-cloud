@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class SysWeChatLoginVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "手机号")
+    @Schema(description = "unionId")
     private String unionId;
 
 

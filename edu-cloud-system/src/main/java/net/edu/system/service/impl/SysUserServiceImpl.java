@@ -50,11 +50,6 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
         return new PageResult<>(SysUserConvert.INSTANCE.convertList(list), page.getTotal());
     }
 
-    @Override
-    public UserDetail getByUnionId(String unionId) {
-        return baseMapper.getByUnionId(unionId);
-    }
-
     private Map<String, Object> getParams(SysUserQuery query) {
         Map<String, Object> params = new HashMap<>();
         params.put("username", query.getUsername());

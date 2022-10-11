@@ -20,8 +20,6 @@ public interface SysUserService extends BaseService<SysUserEntity> {
 
     PageResult<SysUserVO> page(SysUserQuery query);
 
-    UserDetail getByUnionId(String unionId);
-
     void save(SysUserVO vo);
 
     void update(SysUserVO vo);

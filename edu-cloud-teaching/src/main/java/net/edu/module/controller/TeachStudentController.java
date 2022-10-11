@@ -1,6 +1,8 @@
 package net.edu.module.controller;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
 import net.edu.module.service.StudentService;
 import net.edu.module.vo.UserVO;
+import netscape.javascript.JSObject;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,11 +47,12 @@ public class TeachStudentController {
 
     @GetMapping("/page")
     @Operation(summary = "分页")
-
-    public Result<PageResult<UserVO>> StudentPage(@Valid UserQuery query){
-        System.out.println(query);
+    public Result<PageResult<UserVO>> StudentPage( @Valid UserQuery query){
+         System.out.println(query);
+        System.out.println(query.getOrgArr());
         PageResult<UserVO> page = userService.SelectStudentList(query);
         return Result.ok(page);
+//        return null;
     }
 
     @GetMapping("/{id}")

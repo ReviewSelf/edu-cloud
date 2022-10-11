@@ -42,7 +42,7 @@ public class StudentController {
     public Result<List<OrgVo>> orgList() {
         List<OrgVo> orglist = studentService.getOrgList();
 
-        System.out.println(orglist);
+        System.out.println("orglist"+orglist);
         return Result.ok(orglist);
     }
 }

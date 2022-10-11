@@ -52,7 +52,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     @Override
     public PageResult<UserVO> SelectStudentList(UserQuery query) {
         Page<UserVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<UserVO> list = userDao.SelectStudentList(page,query);
+        IPage<UserVO> list = userDao.selectStudentList(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
@@ -193,12 +193,11 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
     @Override
     public List<OrgVo> getOrgList() {
-        List<OrgEntity> menuList= (List<OrgEntity>) redisUtils.get(RedisKeys.getOrgKey(), RedisUtils.MIN_TEN_EXPIRE);
-        if(menuList==null){
-            menuList = baseMapper.getOrgList();
-            redisUtils.set(RedisKeys.getOrgKey(),menuList,RedisUtils.MIN_TEN_EXPIRE);
-        }
-        return TreeUtils.build(OrgConvert.INSTANCE.convertList(menuList), Constant.ROOT);
+//        List<OrgEntity> menuList= (List<OrgEntity>) redisUtils.get(RedisKeys.getOrgKey(), RedisUtils.MIN_TEN_EXPIRE);
+        List<OrgVo> menuList = baseMapper.getOrgList();
+        System.out.println(menuList);
+//            redisUtils.set(RedisKeys.getOrgKey(),menuList,RedisUtils.MIN_TEN_EXPIRE);
+        return TreeUtils.build(menuList, Constant.ROOT);
     }
 
 }

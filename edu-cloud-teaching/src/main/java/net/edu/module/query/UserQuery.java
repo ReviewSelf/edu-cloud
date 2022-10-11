@@ -34,6 +34,9 @@ public class UserQuery extends Query {
     @Schema(description = "机构名称")
     private Long orgName;
 
+    @Schema(description = "姓名")
+    private String realName;
+
     @Schema(description = "机构ID")
     private Long orgId;
 

@@ -72,13 +72,13 @@
 		and t2.deleted = 0
 		and t3.deleted = 0
 		<if test="query.getUsername() != null and query.getUsername() != ''">
-			and t1.username like concat('%',#{query.username},'%')
+			and t1.username like concat(#{query.username},'%')
 		</if>
 		<if test="query.getMobile() != null and query.getMobile() != ''">
-			and t1.mobile like concat('%',#{query.mobile},'%')
+			and t1.mobile like concat(#{query.mobile},'%')
 		</if>
-		<if test="query.getGender() != null">
-			and t1.gender = #{query.gender}
+		<if test="query.getRealName() != null and query.getRealName() != ''">
+			and t1.real_name like concat(#{query.realName},'%')
 		</if>
 		<if test="query.getOrgArr() != null and query.getOrgArr().size() > 0">
 		<foreach collection="query.getOrgArr()" item="item" open="and t1.org_id in(" close=")" separator=",">

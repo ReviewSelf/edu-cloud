@@ -42,7 +42,7 @@
 			AND t2.role_id = #{roleId}
 		</if>
 	</select>
-	<select id="SelectStudentList" resultType="net.edu.module.entity.UserEntity">
+	<select id="selectStudentList" resultType="net.edu.module.entity.UserEntity">
 		SELECT
 		t1.id,
 		t1.username,
@@ -80,7 +80,11 @@
 		<if test="query.getGender() != null">
 			and t1.gender = #{query.gender}
 		</if>
-
+		<if test="query.getOrgArr() != null and query.getOrgArr().size() > 0">
+		<foreach collection="query.getOrgArr()" item="item" open="and t1.org_id in(" close=")" separator=",">
+			#{item}
+		</foreach>
+		</if>
 	</select>
 
 	<select id="getById" resultType="net.edu.module.entity.UserEntity">
@@ -156,7 +160,7 @@
 		from sys_user
 		where union_id=#{unionId}
 	</select>
-    <select id="getOrgList" resultType="net.edu.module.entity.OrgEntity">
+    <select id="getOrgList" resultType="net.edu.module.vo.OrgVo">
 		select id,pid,name,sort
 		from sys_org
 		where deleted = 0

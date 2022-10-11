@@ -38,6 +38,14 @@ public interface EduTeachApi {
     @Operation(summary = "修改下一堂课id")
     Result<String> updateNextLesson(@RequestParam(value = "nextLesson") Long nextLesson, @RequestParam(value = "classId") Long classId);
 
+    @GetMapping("/classUser/updateHomeworkTimes")
+    @Operation(summary = "更新回家作业完成情况") Result<String>
+    updateHomeworkTimes(@RequestParam(value = "userId") Long userId, @RequestParam(value = "classId") Long classId, @RequestParam(value = "num") Integer num );
+
+    /****************************Quartz调用******************************************/
+    @GetMapping("/statistics/info")
+    @Operation(summary = "统计信息用于定时器")
+    Result<String> statisticsHomeInfo();
 
     /****************************Wechat调用******************************************/
 

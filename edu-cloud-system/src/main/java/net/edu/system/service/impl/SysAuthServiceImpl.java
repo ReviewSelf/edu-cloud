@@ -7,6 +7,7 @@ import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.security.cache.TokenStoreCache;
 import net.edu.framework.security.user.UserDetail;
 import net.edu.framework.security.utils.TokenUtils;
+import net.edu.framework.security.wechat.WeChatAuthenticationToken;
 import net.edu.system.enums.LoginOperationEnum;
 import net.edu.system.service.*;
 import net.edu.system.vo.SysAccountLoginVO;
@@ -35,7 +36,7 @@ public class SysAuthServiceImpl implements SysAuthService {
 
     private final SysUserRoleService sysUserRoleService;
     private final SysUserService sysUserService;
-
+    
     @Override
     public SysTokenVO loginByAccount(SysAccountLoginVO login) {
         // 验证码效验
@@ -63,8 +64,6 @@ public class SysAuthServiceImpl implements SysAuthService {
         List<Long> roleIdList = sysUserRoleService.getRoleIdList(user.getId());
         user.setRoleIdList(roleIdList);
 
-        System.out.println(user);
-
         // 生成 accessToken
         String accessToken = TokenUtils.generator();
 
@@ -75,19 +74,20 @@ public class SysAuthServiceImpl implements SysAuthService {
     }
 
     @Override
-    public SysTokenVO loginByWeChat(SysWeChatLoginVO login) {
+    public SysTokenVO loginByUnionId(SysWeChatLoginVO login) {
+        System.out.println(login.getUnionId());
+        Authentication authentication;
+        try {
+            // 用户认证
+            authentication = authenticationManager.authenticate(
+                    new WeChatAuthenticationToken(login.getUnionId()));
+        } catch (BadCredentialsException e) {
+            throw new ServerException("微信用户不存在");
+        }
         // 用户信息
-        UserDetail user=sysUserService.getByUnionId(login.getUnionId());
-
-        // 用户角色列表
-        List<Long> roleIdList = sysUserRoleService.getRoleIdList(user.getId());
-        user.setRoleIdList(roleIdList);
-
-        System.out.println(user);
-
+        UserDetail user = (UserDetail) authentication.getPrincipal();
         // 生成 accessToken
         String accessToken = TokenUtils.generator();
-        System.out.println(accessToken);
 
         // 保存用户信息到缓存
         tokenStoreCache.saveUser(accessToken, user);

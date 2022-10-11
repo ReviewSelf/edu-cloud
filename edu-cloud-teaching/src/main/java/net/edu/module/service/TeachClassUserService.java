@@ -38,4 +38,6 @@ public interface TeachClassUserService extends BaseService<TeachClassUserEntity>
     void quitClass(Long classId,Long userId, Date quitTime);
 
     List<TeachStudentEntity> getStudent(Long id);
+
+    void updateHomeworkTimes(Long userId, Long classId, Integer num);
 }

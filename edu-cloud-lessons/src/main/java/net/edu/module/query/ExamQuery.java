@@ -1,9 +1,11 @@
 package net.edu.module.query;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
+import net.edu.framework.common.utils.DateUtils;
 
 import java.util.Date;
 
@@ -34,6 +36,7 @@ public class ExamQuery extends Query {
     private String beginTime;
 
     @Schema(description = "结束时间")
+
     private String endTime;
 
 

@@ -94,4 +94,13 @@ public class RedisKeys {
     public static String getSampleFile(String path) {
         return "sample:" + path;
     }
+
+
+
+
+//***********************************teach***********************************************************
+
+    public static String getTeachStatistics() {
+        return "teach:statistics" ;
+    }
 }

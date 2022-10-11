@@ -19,6 +19,8 @@ public interface SysAuthService {
      */
     SysTokenVO loginByAccount(SysAccountLoginVO login);
 
+
+    SysTokenVO loginByUnionId(SysWeChatLoginVO login);
     /**
      * 微信登陆
      *

@@ -64,11 +64,12 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         entity.setOptionNum(vo.getOptions().size());
         //删除原先选项
         baseMapper.deleteOption(entity.getId());
-        redisUtils.del(RedisKeys.getChoiceOptions(vo.getId()));
         if (vo.getOptions().size() > 0) {
             baseMapper.insertOption(vo.getOptions(), entity.getId());
         }
         updateById(entity);
+        redisUtils.del(RedisKeys.getChoiceOptions(vo.getId()));
+        redisUtils.del();RedisKeys.getProblemInfo(vo.getId(),"choice");
     }
 
     @Override
@@ -104,7 +105,7 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
     public List<String> getChoiceOptions(Long problemId, int flag) {
         List<String> arr=null;
         if(flag==1){
-            arr= (List<String>) redisUtils.get(RedisKeys.getChoiceOptions(problemId),RedisUtils.HOUR_ONE_EXPIRE);
+            arr= (List<String>) redisUtils.get(RedisKeys.getChoiceOptions(problemId));
             if(arr==null){
                 arr=baseMapper.selectChoiceOptions(problemId,flag);
                 redisUtils.set(RedisKeys.getChoiceOptions(problemId),arr,RedisUtils.HOUR_ONE_EXPIRE);

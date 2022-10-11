@@ -33,4 +33,6 @@ public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
     List<Long> selectUserIdList(Long classId);
 
     List<TeachStudentEntity> selectStudent(Long id);
+
+    int updateHomeworkTimes(Long userId, Long classId, Integer num);
 }

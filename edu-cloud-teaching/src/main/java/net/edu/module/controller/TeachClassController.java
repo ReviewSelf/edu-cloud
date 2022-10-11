@@ -122,4 +122,10 @@ public class TeachClassController {
     }
 
 
+
+    @GetMapping("/getOpenClassesList")
+    @Operation(summary = "搜索已开班的班级")
+    public Result<List<String>> getOpenClassesList(@RequestParam String queryName){
+        return Result.ok(teachClassService.getOpenClassesList(queryName));
+    }
 }

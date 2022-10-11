@@ -193,5 +193,11 @@
 		from sys_user
 		where union_id=#{unionId}
 	</select>
+    <select id="getOrgList" resultType="net.edu.module.entity.OrgEntity">
+		select id,pid,name,sort
+		from sys_org
+		where deleted = 0
+		order by sort asc
+	</select>
 
 </mapper>

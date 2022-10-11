@@ -7,10 +7,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.dao.EnrollLessonDao;
 import net.edu.module.dao.EnrollUserDao;
-import net.edu.module.entity.EnrollJoinLessonEntity;
-import net.edu.module.entity.EnrollLessonEntity;
-import net.edu.module.entity.EnrollSelectOne;
-import net.edu.module.entity.EnrollUserEntity;
+import net.edu.module.entity.*;
 import net.edu.module.query.EnrollLessonQuery;
 import net.edu.module.service.EnrollLessonService;
 import net.edu.module.vo.EnrollLessonVO;
@@ -63,12 +60,17 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
     @Override
     public void joinLesson(EnrollJoinLessonEntity entity) {
         enrollLessonDao.joinLesson(entity);
+        EnrollUserEntity user = enrollLessonDao.selectUserById(entity.getId());
+        Integer studentId = entity.getId();
+        Integer tryLesson = entity.getTryLesson();
+        enrollLessonDao.joinLessonSys(user);
+        enrollLessonDao.joinLessonEvalute(user,studentId , tryLesson);
+        enrollLessonDao.joinLessonLog(studentId , tryLesson);
     }
 
     @Override
-    public void joinLessonSys(EnrollUserEntity user) {
-        enrollLessonDao.joinLessonSys(user);
+    public void updateOpinion(EnrollOpinionEntity entity) {
+        enrollLessonDao.updateOpinion(entity);
     }
-
 
 }

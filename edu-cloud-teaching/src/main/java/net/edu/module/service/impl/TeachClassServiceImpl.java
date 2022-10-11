@@ -104,4 +104,9 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
         return teachClassDao.selectOldClassUser(userId);
     }
 
+
+    @Override
+    public List<String> getOpenClassesList(String queryName) {
+        return teachClassDao.selectOpenClasses(queryName);
+    }
 }

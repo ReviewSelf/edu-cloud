@@ -87,4 +87,9 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
         return teachClassUserDao.selectStudent(id);
     }
 
+    @Override
+    public void updateHomeworkTimes(Long userId, Long classId, Integer num) {
+        teachClassUserDao.updateHomeworkTimes(userId,classId,num);
+    }
+
 }

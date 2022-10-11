@@ -82,5 +82,6 @@ public class EnrollUserVO implements Serializable {
 	@Schema(description = "余额")
 	private String balance;
 
-
+	@Schema(description = "老师反馈")
+	private String teacherOpinion;
 }

@@ -35,5 +35,4 @@
 			and t1.gender = #{gender}
 		</if>
 	</select>
-
 </mapper>

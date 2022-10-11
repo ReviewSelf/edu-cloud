@@ -156,6 +156,14 @@
         set status = 3
         where id = #{id}
     </update>
+    
+    <select id="selectOpenClasses" resultType="java.lang.String">
+        select name
+        from teach_class
+        where deleted = 0
+          and name like  '%${queryName}%'
+            and status=2
+    </select>
 
 
 </mapper>

@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * 填空题表
  *
- * @author 马佳浩 
+ * @author 马佳浩
  * @since 1.0.0 2022-09-05
  */
 @Service
@@ -37,11 +37,10 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
 
     @Override
     public PageResult<FillProblemVO> page(FillProblemQuery query) {
-        Page<FillProblemVO> page = new Page<>(query.getPage(),query.getLimit());
-            IPage<FillProblemVO> list = baseMapper.page(page,query);
-            return new PageResult<>(list.getRecords(), list.getTotal());
+        Page<FillProblemVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<FillProblemVO> list = baseMapper.page(page, query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
     }
-
 
 
     @Override
@@ -56,6 +55,8 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
         FillProblemEntity entity = FillProblemConvert.INSTANCE.convert(vo);
 
         updateById(entity);
+        redisUtils.del();
+        RedisKeys.getProblemInfo(vo.getId(), "fill");
     }
 
     @Override
@@ -79,16 +80,16 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
 
     @Override
     public void updateSubmitTimes(Long id, Boolean isTrue) {
-        baseMapper.updateSubmitTimes(id,isTrue);
+        baseMapper.updateSubmitTimes(id, isTrue);
 
     }
 
     @Override
     public FillProblemVO selectFillProblemInfo(Long id) {
-        FillProblemVO fillProblemVO= (FillProblemVO) redisUtils.get(RedisKeys.getProblemInfo(id,"fill"));
-        if(fillProblemVO==null){
-            fillProblemVO=baseMapper.selectFillProblemInfo(id);
-            redisUtils.set(RedisKeys.getProblemInfo(id,"fill"),fillProblemVO, RedisUtils.MIN_TEN_EXPIRE);
+        FillProblemVO fillProblemVO = (FillProblemVO) redisUtils.get(RedisKeys.getProblemInfo(id, "fill"));
+        if (fillProblemVO == null) {
+            fillProblemVO = baseMapper.selectFillProblemInfo(id);
+            redisUtils.set(RedisKeys.getProblemInfo(id, "fill"), fillProblemVO, RedisUtils.MIN_TEN_EXPIRE);
         }
         return fillProblemVO;
     }
@@ -96,8 +97,8 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
     @SneakyThrows
     @Override
     public void importFromExcel(MultipartFile file) {
-        List<FillProblemVO> list= EasyExcel.read(file.getInputStream()).head(FillProblemVO.class).sheet().headRowNumber(3).doReadSync();
-        for (FillProblemVO vo:list){
+        List<FillProblemVO> list = EasyExcel.read(file.getInputStream()).head(FillProblemVO.class).sheet().headRowNumber(3).doReadSync();
+        for (FillProblemVO vo : list) {
             save(vo);
         }
     }

@@ -7,10 +7,8 @@ import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.utils.TokenUtils;
 import net.edu.system.service.SysAuthService;
 import net.edu.system.service.SysCaptchaService;
-import net.edu.system.vo.SysAccountLoginVO;
-import net.edu.system.vo.SysCaptchaVO;
-import net.edu.system.vo.SysMobileLoginVO;
-import net.edu.system.vo.SysTokenVO;
+import net.edu.system.vo.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +34,7 @@ public class SysAuthController {
         return Result.ok(captchaVO);
     }
 
+
     @PostMapping("login")
     @Operation(summary = "账号密码登录")
     public Result<SysTokenVO> login(@RequestBody SysAccountLoginVO login) {
@@ -43,6 +42,16 @@ public class SysAuthController {
 
         return Result.ok(token);
     }
+
+    @PostMapping("wxMini")
+    @Operation(summary = "微信小程序登录")
+    public Result<SysTokenVO> wxMini(@RequestBody SysWeChatLoginVO login) {
+        SysTokenVO token = sysAuthService.loginByUnionId(login);
+
+        return Result.ok(token);
+    }
+
+
 
 
     @PostMapping("logout")

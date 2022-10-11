@@ -5,17 +5,23 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
+import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.module.convert.OrgConvert;
 import net.edu.module.convert.UserConvert;
 import net.edu.module.dao.UserDao;
+import net.edu.module.entity.OrgEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.RoleUserQuery;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
 import net.edu.module.service.StudentService;
+import net.edu.module.vo.OrgVo;
 import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,6 +45,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
+    private final RedisUtils redisUtils;
     @Autowired
     private UserDao userDao;
 
@@ -182,6 +189,16 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     @Override
     public String getStudentId(String unionId){
         return userDao.getStudentId(unionId);
+    }
+
+    @Override
+    public List<OrgVo> getOrgList() {
+        List<OrgEntity> menuList= (List<OrgEntity>) redisUtils.get(RedisKeys.getOrgKey(), RedisUtils.MIN_TEN_EXPIRE);
+        if(menuList==null){
+            menuList = baseMapper.getOrgList();
+            redisUtils.set(RedisKeys.getOrgKey(),menuList,RedisUtils.MIN_TEN_EXPIRE);
+        }
+        return TreeUtils.build(OrgConvert.INSTANCE.convertList(menuList), Constant.ROOT);
     }
 
 }

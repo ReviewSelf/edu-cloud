@@ -29,7 +29,7 @@
         <if test="query.getClassId()!=null">
             and t.class_id=#{query.classId}
         </if>
-        order by beginTime &lt;= now() ,if(beginTime &lt;= now(),0,beginTime) ,beginTime desc
+        order by endTime &lt;= now() ,if(endTime &lt;= now(),0,endTime) ,endTime desc
     </select>
 
     <select id="selectTeacherPage" resultType="net.edu.module.vo.LessonVO">
@@ -42,7 +42,7 @@
         <if test="query.getClassId()!=null">
             and t.class_id=#{query.classId}
         </if>
-        order by beginTime &lt;= now() ,if(beginTime &lt;= now(),0,beginTime) ,beginTime desc
+        order by endTime &lt;= now() ,if(endTime &lt;= now(),0,endTime) ,endTime desc
     </select>
 
     <update id="updateLesson">
@@ -62,7 +62,7 @@
         <if test="query.getClassId()!=null">
             and b.class_id=#{query.classId}
         </if>
-        order by b.homework_status desc,b.homework_begin_time &lt;= now() ,if(b.homework_begin_time &lt;= now(),0,b.homework_begin_time) ,b.homework_begin_time desc
+        order by b.homework_status desc,b.homework_end_time &lt;= now() ,if(b.homework_end_time &lt;= now(),0,b.homework_end_time) ,b.homework_end_time desc
     </select>
 
     <select id="selectLessonIdList" resultType="net.edu.module.vo.LessonVO">

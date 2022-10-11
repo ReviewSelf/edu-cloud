@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.net.URLDecoder;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -51,6 +52,12 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
     @Override
     public PageResult<UserVO> SelectStudentList(UserQuery query) {
+        try {
+            query.setRealName(java.net.URLDecoder.decode
+                    (query.getRealName(),"utf-8"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         Page<UserVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<UserVO> list = userDao.selectStudentList(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
@@ -62,6 +69,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         params.put("mobile", query.getMobile());
         params.put("gender", query.getGender());
         params.put("roleId", query.getRoleId());
+        params.put("realName", query.getRealName());
 
         // 数据权限
         params.put(Constant.DATA_SCOPE, getDataScope("t1", null));

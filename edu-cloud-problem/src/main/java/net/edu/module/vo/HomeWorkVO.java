@@ -1,6 +1,8 @@
 package net.edu.module.vo;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @Description: TODO

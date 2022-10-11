@@ -28,7 +28,6 @@
         <module>edu-cloud-teaching</module>
         <module>edu-cloud-lessons</module>
         <module>edu-cloud-api</module>
-        <module>edu-cloud-quartz</module>
     </modules>
 
     <properties>

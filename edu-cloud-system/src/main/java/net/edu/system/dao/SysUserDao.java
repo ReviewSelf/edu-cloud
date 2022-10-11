@@ -2,6 +2,7 @@ package net.edu.system.dao;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import net.edu.framework.mybatis.dao.BaseDao;
+import net.edu.framework.security.user.UserDetail;
 import net.edu.system.entity.SysUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 /**
  * 系统用户
- * 
+ *
  * @author 阿沐 babamu@126.com
  */
 @Mapper
@@ -30,4 +31,6 @@ public interface SysUserDao extends BaseDao<SysUserEntity> {
 	default SysUserEntity getByMobile(String mobile){
 		return this.selectOne(new QueryWrapper<SysUserEntity>().eq("mobile", mobile));
 	}
+
+	UserDetail getByUnionId(@Param("unionId") String unionId);
 }

@@ -7,10 +7,7 @@ import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.utils.TokenUtils;
 import net.edu.system.service.SysAuthService;
 import net.edu.system.service.SysCaptchaService;
-import net.edu.system.vo.SysAccountLoginVO;
-import net.edu.system.vo.SysCaptchaVO;
-import net.edu.system.vo.SysMobileLoginVO;
-import net.edu.system.vo.SysTokenVO;
+import net.edu.system.vo.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,11 +36,20 @@ public class SysAuthController {
     @PostMapping("login")
     @Operation(summary = "账号密码登录")
     public Result<SysTokenVO> login(@RequestBody SysAccountLoginVO login) {
+        System.out.println(login);
         SysTokenVO token = sysAuthService.loginByAccount(login);
 
         return Result.ok(token);
     }
 
+    @PostMapping("wxLogin")
+    @Operation(summary = "unionID登录")
+    public Result<SysTokenVO> wxLogin(@RequestBody SysWeChatLoginVO login) {
+
+        System.out.println(login);
+        SysTokenVO token = sysAuthService.loginByWeChat(login);
+        return Result.ok(token);
+    }
 
     @PostMapping("logout")
     @Operation(summary = "退出")

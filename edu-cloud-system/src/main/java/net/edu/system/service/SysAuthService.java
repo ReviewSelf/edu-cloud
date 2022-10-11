@@ -3,6 +3,7 @@ package net.edu.system.service;
 import net.edu.system.vo.SysAccountLoginVO;
 import net.edu.system.vo.SysMobileLoginVO;
 import net.edu.system.vo.SysTokenVO;
+import net.edu.system.vo.SysWeChatLoginVO;
 
 /**
  * 权限认证服务
@@ -17,6 +18,13 @@ public interface SysAuthService {
      * @param login 登录信息
      */
     SysTokenVO loginByAccount(SysAccountLoginVO login);
+
+    /**
+     * 微信登陆
+     *
+     * @param login 微信登陆
+     */
+    SysTokenVO loginByWeChat(SysWeChatLoginVO login);
 
     /**
      * 退出登录

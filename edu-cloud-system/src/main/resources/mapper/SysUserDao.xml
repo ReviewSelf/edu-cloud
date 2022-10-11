@@ -36,4 +36,8 @@
 		</if>
 	</select>
 
+	<select id="getByUnionId" resultType="net.edu.framework.security.user.UserDetail">
+		select t1.*, (select t2.name from sys_org t2 where t2.id = t1.org_id) orgName from sys_user t1
+		where t1.union_id = #{unionId} and t1.deleted = 0
+	</select>
 </mapper>

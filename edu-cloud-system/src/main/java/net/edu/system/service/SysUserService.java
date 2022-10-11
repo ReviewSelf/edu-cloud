@@ -2,10 +2,12 @@ package net.edu.system.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
+import net.edu.framework.security.user.UserDetail;
 import net.edu.system.entity.SysUserEntity;
 import net.edu.system.query.SysRoleUserQuery;
 import net.edu.system.query.SysUserQuery;
 import net.edu.system.vo.SysUserVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,6 +19,8 @@ import java.util.List;
 public interface SysUserService extends BaseService<SysUserEntity> {
 
     PageResult<SysUserVO> page(SysUserQuery query);
+
+    UserDetail getByUnionId(String unionId);
 
     void save(SysUserVO vo);
 

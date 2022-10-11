@@ -19,6 +19,8 @@
         <result property="updater" column="updater"/>
         <result property="deleted" column="deleted"/>
         <result property="name" column="name"/>
+        <result property="classId" column="class_id"></result>
+        <result property="problemNum" column="problem_num"></result>
         <result property="place" column="place"/>
     </resultMap>
     <select id="page" resultType="net.edu.module.vo.ExamVO">
@@ -27,6 +29,8 @@
                begin_time as beginTime,
                end_time as endTime,
                score,
+               paper_id as paperId,
+               class_id as classId,
                teacher_id as teacherId,
                kp_id as kpId,
                name,
@@ -34,7 +38,7 @@
         from exam
         where deleted=0
           <if test="query.beginTime !=null or query.endTime !=null">
-            and begin_time &gt;=#{query.beginTime} and end_time &lt;=#{query.endTime}
+            and begin_time &gt;=#{query.beginTime} and begin_time &lt;=#{query.endTime}
           </if>
         <if test="query.endTime ==null">
             and end_time &gt;=now()

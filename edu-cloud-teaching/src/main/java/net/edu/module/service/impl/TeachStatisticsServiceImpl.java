@@ -27,7 +27,6 @@ public  class TeachStatisticsServiceImpl  implements TeachStatisticsService {
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public TeachStatisticsInfoEntity getStatisticsInfo() {
         TeachStatisticsInfoEntity statisticsInfo=null;
         statisticsInfo= (TeachStatisticsInfoEntity) redisUtils.get(RedisKeys.getTeachStatistics());

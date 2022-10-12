@@ -40,7 +40,7 @@ public class WxServiceImpl implements WxService {
     public String createMenu(){
         String accessToken = WxToken.token;
         String url = WxFinalValue.MENU_URL + accessToken;
-        String redirectUrl = "http://124.71.130.128/#/class";
+        String redirectUrl = "http://www.proshaonian.com/#/class";
         // 创建菜单的请求体
         String CodeUrl;
         try {

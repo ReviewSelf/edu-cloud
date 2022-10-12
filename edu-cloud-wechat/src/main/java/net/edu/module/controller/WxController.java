@@ -10,8 +10,7 @@ import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.*;
 import net.edu.module.service.TemplateService;
 import net.edu.module.service.WxService;
-import net.edu.module.vo.ClassOpenVO;
-import net.edu.module.vo.EnrollUserVO;
+import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,8 +82,8 @@ public class WxController {
     /**
      * 发送模板消息
      */
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public void createTemplateMessage() {
+    @RequestMapping(value = "/send", method = RequestMethod.POST)
+    public void sendTemplateMessage() {
         templateService.sentTemplate();
     }
 
@@ -120,7 +119,8 @@ public class WxController {
             if("subscribe".equals(event)){
                 String openId = inMessage.getFromUserName();
 //                String unionId = wxService.getUnionId(openId);
-                eduTeachApi.insertOpenId(openId);
+                Result<String> stringResult = eduTeachApi.insertOpenId(openId);
+                System.out.println(stringResult);
                 outMessage.setMsgType("text");
                 outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
             }
@@ -183,12 +183,56 @@ public class WxController {
     }
 
     @PostMapping("classOpen")
-    public Result<String> insertClassOpenTemplate(@RequestBody ClassOpenVO vo){
+    public Result<String> insertClassOpenTemplate(@RequestBody List<ClassOpenVO> vo){
         templateService.insertMsgLogClassOpenTemplate(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("workPublish")
+    public Result<String> insertWorkPublishTemplate(@RequestBody List<WorkPublishVO> vo){
+        templateService.insertMsgLogWorkPublishTemplate(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("lessonOpen")
+    public Result<String> insertLessonOpenTemplate(@RequestBody List<LessonOpenVO> vo){
+        templateService.insertMsgLogLessonOpenTemplate(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("signSuccess")
+    public Result<String> insertSignSuccessTemplate(@RequestBody List<SignSuccessVO> vo){
+        templateService.insertMsgLogSignSuccessTemplate(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("workDeadline")
+    public Result<String> insertWorkDeadlineTemplate(@RequestBody List<WorkDeadlineVO> vo){
+        templateService.insertMsgLogWorkDeadlineTemplate(vo);
         return Result.ok();
     }
 }
 
+
+/**
+ * 接受数据格式样例，为ArrayList
+ [
+ {
+ "lessonName":"贪心算法",
+ "lessonTime":"2022-10-10 18:50:00",
+ "lessonLocation":"翠柏校区",
+ "sendTime":"2022-10-10 17:50:00",
+ "userId":10020
+ },
+ {
+ "lessonName":"贪心算法",
+ "lessonTime":"2022-10-10 18:50:00",
+ "lessonLocation":"翠柏校区",
+ "sendTime":"2022-10-10 17:50:00",
+ "userId":10043
+ }
+ ]
+ */
 
 
 

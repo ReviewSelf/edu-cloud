@@ -1,6 +1,8 @@
 package net.edu.security.config;
 
 import lombok.AllArgsConstructor;
+import net.edu.framework.security.wechat.WeChatAuthenticationProvider;
+import net.edu.framework.security.wechat.WeChatUserDetailsService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +28,7 @@ public class SecurityConfig {
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final WeChatUserDetailsService weChatUserDetailsService;
 
     @Bean
     DaoAuthenticationProvider daoAuthenticationProvider() {
@@ -36,16 +39,26 @@ public class SecurityConfig {
         return daoAuthenticationProvider;
     }
 
+    @Bean
+    WeChatAuthenticationProvider weChatAuthenticationProvider() {
+        return new WeChatAuthenticationProvider(weChatUserDetailsService);
+    }
+
 
 
     @Bean
     public AuthenticationManager authenticationManager() {
         List<AuthenticationProvider> providerList = new ArrayList<>();
         providerList.add(daoAuthenticationProvider());
+        providerList.add(weChatAuthenticationProvider());
+
         ProviderManager providerManager = new ProviderManager(providerList);
         providerManager.setAuthenticationEventPublisher(new DefaultAuthenticationEventPublisher(applicationEventPublisher));
 
         return providerManager;
     }
+
+
+
 
 }

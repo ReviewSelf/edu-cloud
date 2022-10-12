@@ -59,4 +59,11 @@
         <if test="query.getClassId()!=null"> and a.class_id = #{query.classId} </if>
     </select>
 
+    <update id="updateHomeworkTimes">
+        update teach_class_user set unfinished_problem_num =unfinished_problem_num + #{num}
+        <if test="num == 0">
+            ,homework_times =homework_times+1
+        </if>
+        where class_id = #{classId} and user_id = #{userId}
+    </update>
 </mapper>

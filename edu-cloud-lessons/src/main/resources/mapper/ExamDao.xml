@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ExamDao">
+
+    <resultMap type="net.edu.module.entity.ExamEntity" id="examMap">
+        <result property="id" column="id"/>
+        <result property="paperId" column="paper_id"/>
+        <result property="description" column="description"/>
+        <result property="beginTime" column="begin_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="score" column="score"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="kpId" column="kp_id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="version" column="version"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="creator" column="creator"/>
+        <result property="updater" column="updater"/>
+        <result property="deleted" column="deleted"/>
+        <result property="name" column="name"/>
+        <result property="place" column="place"/>
+    </resultMap>
+    <select id="page" resultType="net.edu.module.vo.ExamVO">
+        select id,
+               description,
+               begin_time as beginTime,
+               end_time as endTime,
+               score,
+               teacher_id as teacherId,
+               kp_id as kpId,
+               name,
+               place
+        from exam
+        where deleted=0
+          <if test="query.beginTime !=null or query.endTime !=null">
+            and begin_time &gt;=#{query.beginTime} and end_time &lt;=#{query.endTime}
+          </if>
+        <if test="query.endTime ==null">
+            and end_time &gt;=now()
+        </if>
+        <if test="query.name != null">
+            and name like '%${query.name}%'
+        </if>
+
+    </select>
+
+</mapper>

@@ -52,7 +52,7 @@ public class ExamEntity extends BaseEntity {
 	/**
 	* 知识点ID
 	*/
-	private Long kpId;
+	private String kpCode;
 
 
 	/**

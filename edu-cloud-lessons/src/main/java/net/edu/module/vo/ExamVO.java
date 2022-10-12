@@ -48,8 +48,8 @@ public class ExamVO implements Serializable {
 	@Schema(description = "监考老师")
 	private Long teacherId;
 
-	@Schema(description = "知识点ID")
-	private Long kpId;
+	@Schema(description = "知识点代码")
+	private String kpCode;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

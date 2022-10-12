@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.entity.ExamEntity;
 import net.edu.module.service.ExamService;
@@ -40,13 +41,13 @@ public class ExamController {
     @Operation(summary = "信息")
     public Result<ExamVO> get(@PathVariable("id") Long id){
         ExamEntity entity = examService.getById(id);
-
         return Result.ok(ExamConvert.INSTANCE.convert(entity));
     }
 
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ExamVO vo){
+        vo.setTeacherId(SecurityUser.getUserId());
         examService.save(vo);
 
         return Result.ok();
@@ -55,8 +56,8 @@ public class ExamController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ExamVO vo){
+        vo.setTeacherId(SecurityUser.getUserId());
         examService.update(vo);
-
         return Result.ok();
     }
 
@@ -64,7 +65,6 @@ public class ExamController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         examService.delete(idList);
-
         return Result.ok();
     }
 }

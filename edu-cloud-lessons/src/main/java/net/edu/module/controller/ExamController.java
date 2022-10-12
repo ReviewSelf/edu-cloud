@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.entity.ExamEntity;
 import net.edu.module.service.ExamService;
@@ -47,6 +48,7 @@ public class ExamController {
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ExamVO vo){
+        vo.setTeacherId(SecurityUser.getUserId());
         examService.save(vo);
 
         return Result.ok();

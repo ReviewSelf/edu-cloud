@@ -35,7 +35,7 @@ public class ProblemResourceServiceImpl extends BaseServiceImpl<ProblemResourceD
 
     @Override
     public void saveProblemResource(ProblemResourceVO vo) {
-        baseMapper.insertProblrmResource(vo);
+        baseMapper.insertProblemResource(vo);
     }
 
 }

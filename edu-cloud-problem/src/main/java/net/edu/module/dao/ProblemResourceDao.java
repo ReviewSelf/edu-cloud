@@ -21,5 +21,5 @@ public interface ProblemResourceDao extends BaseDao<ProblemResourceEntity> {
 
     int deleteProblemResource(@Param("id") Long id);
 
-    int insertProblrmResource(ProblemResourceVO vo);
+    int insertProblemResource(ProblemResourceVO vo);
 }

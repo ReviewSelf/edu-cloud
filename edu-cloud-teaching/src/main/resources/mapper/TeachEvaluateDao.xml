@@ -28,6 +28,6 @@
         <if test="query.getEvaluatedUserName()!='' and query.getEvaluatedUserName()!=null"> and t.evaluatedUserName like concat('%',#{query.evaluatedUserName},'%') </if>
         <if test="query.getClassName()!='' and query.getClassName()!=null"> and t.className like concat('%',#{query.className},'%') </if>
         <if test="query.getType() != null">and t.type = #{query.type}</if>
-</select>
+    </select>
 
 </mapper>

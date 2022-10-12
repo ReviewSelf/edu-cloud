@@ -9,6 +9,8 @@ import net.edu.module.vo.ExamVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
 * 考试
 *
@@ -18,5 +20,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ExamDao extends BaseDao<ExamEntity> {
     IPage<ExamVO> page(Page<ExamVO> page, @Param("query") ExamQuery query);
-	
+
+    IPage<ExamVO> studentPage(Page<ExamVO> page, @Param("query") ExamQuery query) ;
+
+    List<ExamVO> getExamingList(@Param("userId") Long userId);
 }

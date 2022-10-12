@@ -23,4 +23,8 @@ public interface ExamService extends BaseService<ExamEntity> {
     void update(ExamVO vo);
 
     void delete(List<Long> idList);
+
+    PageResult<ExamVO> studentPage(ExamQuery query);
+
+    List<ExamVO> getExamingList(Long userId);
 }

@@ -41,6 +41,16 @@ public class RedisKeys {
         }
 
     }
+    public static String getExamAttendLog(Long examId) {
+        if(examId!=null){
+            return "exam:log:" + examId;
+        }
+        else {
+            return "lesson:log:";
+        }
+
+    }
+
 
     public static String getLessonIp(Long lessonId) {
         return "lesson:ip:" + lessonId;

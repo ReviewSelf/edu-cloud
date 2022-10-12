@@ -8,7 +8,7 @@ auth:
     - /choice/options/**
     - /paperItem/**
     - /homeWork/homeWork
-    - /homeWork/homeWorkPage
+    - /homeWork/homeWorkPage/**
     - /choice/choiceProblemInfo
     - /homeWork/changeProblemStatus
     - /fill/fillProblemInfo

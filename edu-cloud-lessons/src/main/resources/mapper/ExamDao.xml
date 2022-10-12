@@ -81,7 +81,7 @@
         join exam_attend_log b on b.user_id = #{userId}
         where a.paper_id = b.exam_id
           and a.deleted = 0
-            and now() between a.begin_time and a.end_time
+            and   a.end_time &gt;= now()
     </select>
 
 </mapper>

@@ -42,7 +42,7 @@
 			AND t2.role_id = #{roleId}
 		</if>
 	</select>
-	<select id="selectStudentList" resultType="net.edu.module.entity.UserEntity">
+	<select id="selectStudentList" resultType="net.edu.module.vo.UserVO">
 		SELECT
 		t1.id,
 		t1.username,

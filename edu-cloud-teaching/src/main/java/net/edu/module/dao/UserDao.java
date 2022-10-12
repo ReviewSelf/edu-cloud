@@ -9,6 +9,7 @@ import net.edu.module.query.UserQuery;
 import net.edu.module.vo.AllTeacherVo;
 import net.edu.module.vo.OrgVo;
 import net.edu.module.vo.UserVO;
+import net.edu.module.vo.affairTeacherVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,7 +28,7 @@ public interface UserDao extends BaseDao<UserEntity> {
 
 	List<UserEntity> getTeacherList(Map<String, Object> params);
 
-	IPage<UserVO> SelectStudentList(Page<UserVO> page, UserQuery query);
+	IPage<UserVO> selectStudentList(Page<UserVO> page, UserQuery query);
 
 	UserEntity getById(@Param("id") Long id);
 
@@ -48,4 +49,6 @@ public interface UserDao extends BaseDao<UserEntity> {
 	String getStudentId(String unionId);
 
 	List<OrgVo> getOrgList();
+
+	List<affairTeacherVO> getAffairTeacherList(Map<String, Object> params);
 }

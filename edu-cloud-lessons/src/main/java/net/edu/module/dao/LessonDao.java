@@ -24,7 +24,7 @@ public interface LessonDao extends BaseDao<LessonEntity> {
 
     IPage<LessonVO> selectTeacherPage(Page<LessonVO> page, @Param("query")LessonQuery query);
 
-    int updateLesson(@Param("vo") LessonVO vo);
+    int updateHomework(@Param("vo") LessonVO vo);
 
     IPage<LessonVO> selectHomeworkPage(Page<LessonVO> page, @Param("query") LessonQuery query);
 

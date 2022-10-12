@@ -51,25 +51,6 @@ public class ExamVO implements Serializable {
 	@Schema(description = "知识点ID")
 	private Long kpId;
 
-	@Schema(description = "创建时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date createTime;
-
-	@Schema(description = "版本")
-	private Integer version;
-
-	@Schema(description = "修改时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date updateTime;
-
-	@Schema(description = "创建人")
-	private Long creator;
-
-	@Schema(description = "更新人")
-	private Long updater;
-
-	@Schema(description = "删除")
-	private Integer deleted;
 
 	@Schema(description = "考试名称")
 	private String name;
@@ -87,8 +68,9 @@ public class ExamVO implements Serializable {
 	private String teacherName;
 
 	@Schema(description = "考试时长")
-	private int timeLimit;
+	private Integer timeLimit;
 
 
-
+	@Schema(description = "学生参与状态")
+	private Integer status;
 }

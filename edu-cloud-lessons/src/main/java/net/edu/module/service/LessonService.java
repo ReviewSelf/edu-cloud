@@ -29,13 +29,14 @@ public interface LessonService extends BaseService<LessonEntity> {
 
     void createLessons(List<LessonVO> voList);
 
-    void handlerStatisticsMonthlyScheduled();
 
     PageResult<LessonVO> homeworkPage(LessonQuery query);
 
     List<LessonVO> getListById(Long classId);
 
     void delete(List<Long> idList);
+
+    void  closeLessonHomeWork(Long lessonId);
 
     void homeWorkDeadline();
 }

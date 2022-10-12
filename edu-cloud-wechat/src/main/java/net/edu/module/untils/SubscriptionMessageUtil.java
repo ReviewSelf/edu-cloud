@@ -21,7 +21,7 @@ public class SubscriptionMessageUtil {
     /**
      * 作业发布提醒
      */
-    public static void sendHomeWorkMsg(String appid,String appSecret,String userOpenid,String tempId,String content) {
+    public static void sendHomeWorkMsg(String appid,String appSecret,String userOpenid,String tempId,String content,String userName) {
 
         /**
          *  {{first.DATA}}
@@ -35,7 +35,6 @@ public class SubscriptionMessageUtil {
 
 
         JSONObject jsonObject = JSONUtil.parseObj(content);
-        String studentName = jsonObject.getStr("studentName");
         String subject = jsonObject.getStr("subject");
         String task = jsonObject.getStr("task");
 
@@ -50,7 +49,7 @@ public class SubscriptionMessageUtil {
         // 此处的 key/value 需和模板消息对应
         List<WxMpTemplateData> wxMpTemplateDataList = Arrays.asList(
                 new WxMpTemplateData("first", "您好，您的孩子有新的作业已发布，请查收", "#000000"),
-                new WxMpTemplateData("name", studentName),
+                new WxMpTemplateData("name", userName),
                 new WxMpTemplateData("subject", subject),
                 new WxMpTemplateData("content",task),
                 new WxMpTemplateData("remark", "感谢您的查阅，请及时监督孩子完成作业。")
@@ -171,7 +170,7 @@ public class SubscriptionMessageUtil {
     /**
      * 上课签到成功提醒
      */
-    public static void sendSignSuccessMsg(String appid, String appSecret, String userOpenid,String tempId,String content) {
+    public static void sendSignSuccessMsg(String appid, String appSecret, String userOpenid,String tempId,String content,String userName) {
 
         /**
          * {{first.DATA}}
@@ -187,7 +186,6 @@ public class SubscriptionMessageUtil {
 
 
         JSONObject jsonObject = JSONUtil.parseObj(content);
-        String studentName = jsonObject.getStr("studentName");
         String lessonName = jsonObject.getStr("lessonName");
         String lessonContent = jsonObject.getStr("lessonContent");
         String lessonTime = jsonObject.getStr("lessonTime");
@@ -203,7 +201,7 @@ public class SubscriptionMessageUtil {
         // 此处的 key/value 需和模板消息对应
         List<WxMpTemplateData> wxMpTemplateDataList = Arrays.asList(
                 new WxMpTemplateData("first","您好，您的孩子已完成签到", "#000000"),
-                new WxMpTemplateData("keyword1", studentName),
+                new WxMpTemplateData("keyword1", userName),
                 new WxMpTemplateData("keyword2", lessonName),
                 new WxMpTemplateData("keyword3", lessonContent),
                 new WxMpTemplateData("keyword4", lessonTime),

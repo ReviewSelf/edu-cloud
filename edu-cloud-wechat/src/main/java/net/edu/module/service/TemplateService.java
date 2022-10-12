@@ -1,5 +1,6 @@
 package net.edu.module.service;
 
+import net.edu.module.entity.MsgLogEntity;
 import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,8 @@ import java.util.List;
 public interface TemplateService {
 
     void sentTemplate();
+
+    void sentMessage(MsgLogEntity msgLogEntity);
 
     int insertMsgLogClassOpenTemplate(List<ClassOpenVO> list);
 

@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class SignSuccessVO {
 
+
+
     /**
      * 学生姓名
      */

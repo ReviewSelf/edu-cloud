@@ -80,11 +80,22 @@ public class WxController {
     }
 
     /**
-     * 发送模板消息
+     * 发送模板消息(定时器自动查询）
      */
     @RequestMapping(value = "/send", method = RequestMethod.POST)
     public void sendTemplateMessage() {
         templateService.sentTemplate();
+    }
+
+    /**
+     * 手动发送
+     * @param msgLogEntity
+     * @return
+     */
+    @RequestMapping(value = "/msg", method = RequestMethod.POST)
+    public Result<String> sendMessage(@RequestBody MsgLogEntity msgLogEntity) {
+        templateService.sentMessage(msgLogEntity);
+        return Result.ok();
     }
 
     /**

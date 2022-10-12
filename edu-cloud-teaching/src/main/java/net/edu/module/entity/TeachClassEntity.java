@@ -46,6 +46,7 @@ public class TeachClassEntity {
 	 */
 	private Long planId;
 
+
 	/**
 	 * 总课时
 	 */

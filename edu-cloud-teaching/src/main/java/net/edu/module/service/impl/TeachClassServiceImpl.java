@@ -70,8 +70,9 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
 
     @Override
     public void update(TeachClassVO vo) {
+        System.out.println(vo);
         TeachClassEntity entity = TeachClassConvert.INSTANCE.convert(vo);
-
+        System.out.println(entity);
         updateById(entity);
         redisUtils.del(RedisKeys.getActivityClass());
     }
@@ -82,6 +83,11 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
         removeByIds(idList);
         redisUtils.del(RedisKeys.getActivityClass());
     }
+
+//    @Override
+//    public List<TeachClassVO> getById(Integer id) {
+//        return teachClassDao.selectById(id);
+//    }
 
     @Override
     public List<TeachClassVO> getClassForStudent(Integer status) {
@@ -106,6 +112,10 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
         redisUtils.del(RedisKeys.getActivityClass());
     }
 
+    @Override
+    public TeachClassVO getClassById(Long id) {
+        return teachClassDao.selectClassById(id);
+    }
 
 
     @Override

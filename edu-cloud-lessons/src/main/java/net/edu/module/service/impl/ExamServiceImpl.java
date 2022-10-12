@@ -6,7 +6,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
+import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.dao.ExamDao;
@@ -29,6 +33,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implements ExamService {
 
+    private final ExamDao examDao;
+    private final RedisUtils redisUtils;
+
     @Override
     public PageResult<ExamVO> page(ExamQuery query) {
         Page<ExamVO> page = new Page<>(query.getPage(),query.getLimit());
@@ -36,6 +43,19 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
+    @Override
+    public PageResult<ExamVO> studentPage(ExamQuery query){
+        Page<ExamVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<ExamVO> list = examDao.studentPage(page, query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
+    @Override
+    public List<ExamVO> getExamingList(Long userId){
+        List<ExamVO> list = examDao.getExamingList(userId);
+        System.out.println(list);
+        return list;
+    }
 
     @Override
     public void save(ExamVO vo) {

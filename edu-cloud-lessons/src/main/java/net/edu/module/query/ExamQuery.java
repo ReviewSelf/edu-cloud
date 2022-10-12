@@ -39,6 +39,13 @@ public class ExamQuery extends Query {
 
     private String endTime;
 
+    @Schema(description = "班级名字")
+    private String className;
 
+    @Schema(description = "监考老师名字")
+    private String teacherName;
+
+    @Schema(description = "学生id")
+    private Long userId;
 
 }

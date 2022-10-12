@@ -24,7 +24,7 @@
         update problem_resource set deleted = 1 where id = #{id}
     </update>
 
-    <insert id="insertProblrmResource" parameterType="net.edu.module.entity.ProblemResourceEntity">
+    <insert id="insertProblemResource" parameterType="net.edu.module.entity.ProblemResourceEntity">
         insert into problem_resource(problem_id , problem_type , file_path , file_type , remark) values(#{problemId} , #{problemType} , #{filePath} , #{fileType} , #{remark})
     </insert>
 

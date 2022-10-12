@@ -9,9 +9,9 @@
         <result column="userNum" property="userNum"/>
         <result column="problemSubmitNum" property="problemSubmitNum"/>
         <result column="userActivity" property="userActivity"/>
-        <collection column="{day=weekDay}" property="userActivityTotal" ofType="net.edu.module.vo.ChartVO"
+        <collection column="{day=monthDay}" property="userActivityTotal" ofType="net.edu.module.vo.ChartVO"
                     select="selectUserActivity"/>
-        <collection column="{day=monthDay}" property="problemSubmitTotal" ofType="net.edu.module.vo.ChartVO"
+        <collection column="{day=weekDay}" property="problemSubmitTotal" ofType="net.edu.module.vo.ChartVO"
                     select="selectProblemSubmit"/>
     </resultMap>
 

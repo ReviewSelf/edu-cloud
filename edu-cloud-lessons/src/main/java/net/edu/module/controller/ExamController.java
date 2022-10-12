@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.entity.ExamEntity;
 import net.edu.module.service.ExamService;
@@ -36,6 +37,23 @@ public class ExamController {
         return Result.ok(page);
     }
 
+    @GetMapping("studentPage")
+    @Operation(summary = "学生端分页")
+    public Result<PageResult<ExamVO>> studentPage(@Valid ExamQuery query){
+        query.setUserId(SecurityUser.getUserId());
+        PageResult<ExamVO> page = examService.studentPage(query);
+        System.out.println(SecurityUser.getUserId());
+        return Result.ok(page);
+    }
+
+    @GetMapping("Examing")
+    @Operation(summary = "正在进行的考试")
+    public Result<List<ExamVO>> list(){
+        List<ExamVO> list = examService.getExamingList(SecurityUser.getUserId());
+        return Result.ok(list);
+    }
+
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<ExamVO> get(@PathVariable("id") Long id){
@@ -47,6 +65,7 @@ public class ExamController {
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ExamVO vo){
+        vo.setTeacherId(SecurityUser.getUserId());
         examService.save(vo);
 
         return Result.ok();

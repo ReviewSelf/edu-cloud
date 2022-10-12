@@ -32,7 +32,7 @@ public interface TeachClassDao extends BaseDao<TeachClassEntity> {
 
     void endingClass(Integer id);
 
-    List<String> selectOpenClasses(String queryName);
+    List<TeachClassVO> selectOpenClasses();
 
 
 }

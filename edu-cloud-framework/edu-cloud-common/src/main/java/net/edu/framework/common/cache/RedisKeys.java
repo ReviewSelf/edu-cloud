@@ -46,6 +46,11 @@ public class RedisKeys {
         return "lesson:ip:" + lessonId;
     }
 
+
+    public static String getExamIp(Long examId) {
+        return "exam:ip:" + examId;
+    }
+
     public static String getLessonResources(Long lessonId) {
         return "lesson:resources:" + lessonId;
     }
@@ -103,4 +108,25 @@ public class RedisKeys {
     public static String getTeachStatistics() {
         return "teach:statistics" ;
     }
+
+    public static String getActivityClass() {
+        return "teach:activityclass" ;
+    }
+
+
+
+
+
+
+
+
+
+
+
+    //***********************************judge***********************************************************
+    public static String getJudgeRecordFlag(Long userId, Long problemId, Integer problemType, Integer source, Long sourceId) {
+        return "judge:record:"+userId+":" +problemId+":"+problemType+":"+source+":"+sourceId;
+    }
+
+
 }

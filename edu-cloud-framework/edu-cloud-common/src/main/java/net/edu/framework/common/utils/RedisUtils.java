@@ -45,7 +45,12 @@ public class RedisUtils {
     /**
      *缓存30S
      */
-    public final static long SECOND_thirty_EXPIRE = 30L;
+    public final static long SECOND_THIRTY_EXPIRE = 30L;
+
+    /**
+     *缓存20S
+     */
+    public final static long SECOND_TWENTY_EXPIRE = 20L;
     /**
      * 过期时长为10分钟，单位：秒
      */

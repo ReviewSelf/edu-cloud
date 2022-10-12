@@ -6,9 +6,12 @@ import cn.hutool.json.JSONObject;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.mq.BindingName;
 import net.edu.framework.common.mq.ExchangeName;
 import net.edu.framework.common.utils.EncryptUtils;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.module.api.EduFileApi;
 import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
@@ -41,6 +44,8 @@ public class JudgeService {
 
     private final EduTeachApi eduTeachApi;
 
+    private final RedisUtils redisUtils;
+
 
     private final JudgeRecordDao judgeRecordDao;
 
@@ -51,7 +56,16 @@ public class JudgeService {
     private final JudgeRecordSampleDao judgeRecordSampleDao;
 
 
+    @SneakyThrows
     public void judgeBefore(JudgeRecordSubmitVO vo) {
+
+        //提交频率限制
+        Long second= (Long) redisUtils.getExpire(RedisKeys.getJudgeRecordFlag(vo.getUserId(),vo.getProblemId(),vo.getProblemType(),vo.getSource(),vo.getSourceId()));
+        if(second>0L){
+            throw new ServerException("提交冷却中，请"+second+"秒后重新提交");
+        }
+
+
         //插入记录
         if (vo.getProblemType() == choiceType) {
             //选择题直接判题
@@ -66,9 +80,9 @@ public class JudgeService {
                 //提交到mq
                 rabbitTemplate.convertAndSend(ExchangeName.DEFAULT_EXCHANGE, BindingName.JUDGE_BINDING, String.valueOf(vo.getId()));
             }
-
-
         }
+
+        redisUtils.set(RedisKeys.getJudgeRecordFlag(vo.getUserId(),vo.getProblemId(),vo.getProblemType(),vo.getSource(),vo.getSourceId()),System.currentTimeMillis(),RedisUtils.SECOND_TWENTY_EXPIRE);
     }
 
     @Transactional(rollbackFor = Exception.class)

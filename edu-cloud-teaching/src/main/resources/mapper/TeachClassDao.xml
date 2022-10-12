@@ -157,11 +157,10 @@
         where id = #{id}
     </update>
     
-    <select id="selectOpenClasses" resultType="java.lang.String">
-        select name
+    <select id="selectOpenClasses" resultType="net.edu.module.vo.TeachClassVO">
+        select name,id
         from teach_class
         where deleted = 0
-          and name like  '%${queryName}%'
             and status=2
     </select>
 

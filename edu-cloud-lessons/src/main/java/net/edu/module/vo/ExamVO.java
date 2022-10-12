@@ -80,14 +80,15 @@ public class ExamVO implements Serializable {
 	@Schema(description = "班级名字")
 	private String className;
 
+	@Schema(description = "时间限制")
+	private Integer timeLimit;
+
 	@Schema(description = "学生id")
 	private Long userId;
 
 	@Schema(description = "监考老师名字")
 	private String teacherName;
 
-	@Schema(description = "考试时长")
-	private int timeLimit;
 
 
 

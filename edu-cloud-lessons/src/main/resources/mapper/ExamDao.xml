@@ -24,28 +24,28 @@
         <result property="place" column="place"/>
     </resultMap>
     <select id="page" resultType="net.edu.module.vo.ExamVO">
-        select id,
-               description,
-               begin_time as beginTime,
-               end_time as endTime,
-               score,
-               paper_id as paperId,
-               class_id as classId,
-               teacher_id as teacherId,
-               kp_code as kpCode,
-               name,
-               place
-        from exam
+        select a.id,
+               (select name from teach_class b where b.id=a.class_id) as className,
+               a.description,
+               a.begin_time as beginTime,
+               a.end_time as endTime,
+               a.score,
+               a.time_limit as timeLimit,
+               a.paper_id as paperId,
+               a.class_id as classId,
+               a.teacher_id as teacherId,
+               a.kp_code as kpCode,
+               a.name,
+               a.place
+        from exam a
         where deleted=0
           <if test="query.beginTime !=null or query.endTime !=null">
-            and begin_time &gt;=#{query.beginTime} and begin_time &lt;=#{query.endTime}
+            and begin_time &gt;=#{query.beginTime} and begin_time &lt;  DATE_ADD(#{query.endTime},INTERVAL 1 day)
           </if>
-        <if test="query.endTime ==null">
-            and end_time &gt;=now()
-        </if>
         <if test="query.name != null">
             and name like concat('%',#{query.name},'%')
         </if>
+        order by end_time &lt;= now() ,if(end_time &lt;= now(),0,end_time) ,end_time desc
 
     </select>
 

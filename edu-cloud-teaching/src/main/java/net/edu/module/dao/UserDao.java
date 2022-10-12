@@ -9,7 +9,7 @@ import net.edu.module.query.UserQuery;
 import net.edu.module.vo.AllTeacherVo;
 import net.edu.module.vo.OrgVo;
 import net.edu.module.vo.UserVO;
-import net.edu.module.vo.affairTeacherVO;
+import net.edu.module.vo.AffairTeacherVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -50,5 +50,5 @@ public interface UserDao extends BaseDao<UserEntity> {
 
 	List<OrgVo> getOrgList();
 
-	List<affairTeacherVO> getAffairTeacherList(Map<String, Object> params);
+	List<AffairTeacherVO> getAffairTeacherList(Map<String, Object> params);
 }

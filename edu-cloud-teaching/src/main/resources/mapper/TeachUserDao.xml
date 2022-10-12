@@ -86,7 +86,7 @@
 			</foreach>
 		</if>
 	</select>
-	<select id="getAffairTeacherList" resultType="net.edu.module.vo.affairTeacherVO">
+	<select id="getAffairTeacherList" resultType="net.edu.module.vo.AffairTeacherVO">
 		SELECT
 		t1.id,
 		t1.username,

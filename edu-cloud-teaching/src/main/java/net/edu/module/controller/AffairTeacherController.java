@@ -8,14 +8,12 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.AffairTeacherConvert;
-import net.edu.module.convert.TeacherConvert;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.AffairTeacherQuery;
 import net.edu.module.service.RoleService;
-import net.edu.module.service.affairTeacherService;
+import net.edu.module.service.AffairTeacherService;
 import net.edu.module.vo.PasswordVo;
-import net.edu.module.vo.TeacherVO;
-import net.edu.module.vo.affairTeacherVO;
+import net.edu.module.vo.AffairTeacherVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +29,9 @@ import java.util.List;
 @RequestMapping("affairTeacher")
 @AllArgsConstructor
 @Tag(name="教务管理老师用户管理")
-public class affairTeacherController {
+public class AffairTeacherController {
 
-    private final affairTeacherService affairTeacherService;
+    private final AffairTeacherService affairTeacherService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -41,8 +39,8 @@ public class affairTeacherController {
 
     @GetMapping("affairTeacherPage")
     @Operation(summary = "分页")
-    public Result<PageResult<affairTeacherVO>> affairTeacherPage(@Valid AffairTeacherQuery query) {
-        PageResult<affairTeacherVO> page = affairTeacherService.affairTeacherPage(query);
+    public Result<PageResult<AffairTeacherVO>> affairTeacherPage(@Valid AffairTeacherQuery query) {
+        PageResult<AffairTeacherVO> page = affairTeacherService.affairTeacherPage(query);
         return Result.ok(page);
     }
 
@@ -70,10 +68,10 @@ public class affairTeacherController {
 
     @GetMapping("affairTeacher/{id}")
     @Operation(summary = "信息")
-    public Result<affairTeacherVO> get(@PathVariable("id") Long id) {
+    public Result<AffairTeacherVO> get(@PathVariable("id") Long id) {
         UserEntity entity = affairTeacherService.getById(id);
 
-        affairTeacherVO vo = AffairTeacherConvert.INSTANCE.convert(entity);
+        AffairTeacherVO vo = AffairTeacherConvert.INSTANCE.convert(entity);
 
         // 用户角色列表
         List<Long> roleIdList = roleService.getRoleIdList(id);
@@ -83,7 +81,7 @@ public class affairTeacherController {
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody @Valid affairTeacherVO vo) {
+    public Result<String> save(@RequestBody @Valid AffairTeacherVO vo) {
         // 新增密码不能为空
         if (StrUtil.isBlank(vo.getPassword())) {
             Result.error("密码不能为空");
@@ -102,7 +100,7 @@ public class affairTeacherController {
     @PutMapping
     @Operation(summary = "修改")
 
-    public Result<String> update(@RequestBody @Valid affairTeacherVO vo) {
+    public Result<String> update(@RequestBody @Valid AffairTeacherVO vo) {
         // 如果密码不为空，则进行加密处理
         if (StrUtil.isBlank(vo.getPassword())) {
             vo.setPassword(null);

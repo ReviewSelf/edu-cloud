@@ -2,8 +2,7 @@ package net.edu.module.convert;
 
 import net.edu.framework.security.user.UserDetail;
 import net.edu.module.entity.UserEntity;
-import net.edu.module.vo.TeacherVO;
-import net.edu.module.vo.affairTeacherVO;
+import net.edu.module.vo.AffairTeacherVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -18,13 +17,13 @@ import java.util.List;
 public interface AffairTeacherConvert {
     AffairTeacherConvert INSTANCE = Mappers.getMapper(AffairTeacherConvert.class);
 
-    affairTeacherVO convert(UserEntity entity);
+    AffairTeacherVO convert(UserEntity entity);
 
-    UserEntity convert(affairTeacherVO vo);
+    UserEntity convert(AffairTeacherVO vo);
 
-    affairTeacherVO convert(UserDetail userDetail);
+    AffairTeacherVO convert(UserDetail userDetail);
 
     UserDetail convertDetail(UserEntity entity);
 
-    List<affairTeacherVO> convertList(List<UserEntity> list);
+    List<AffairTeacherVO> convertList(List<UserEntity> list);
 }

@@ -7,15 +7,12 @@ import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.AffairTeacherConvert;
-import net.edu.module.convert.TeacherConvert;
 import net.edu.module.dao.UserDao;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.AffairTeacherQuery;
-import net.edu.module.query.TeacherQuery;
 import net.edu.module.service.RoleService;
-import net.edu.module.service.affairTeacherService;
-import net.edu.module.vo.TeacherVO;
-import net.edu.module.vo.affairTeacherVO;
+import net.edu.module.service.AffairTeacherService;
+import net.edu.module.vo.AffairTeacherVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,12 +27,12 @@ import java.util.Map;
  */
 @Service
 @AllArgsConstructor
-public class affairTeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implements affairTeacherService {
+public class AffairTeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntity> implements AffairTeacherService {
 
 
     private final RoleService roleService;
     @Override
-    public PageResult<affairTeacherVO> affairTeacherPage(AffairTeacherQuery query){
+    public PageResult<AffairTeacherVO> affairTeacherPage(AffairTeacherQuery query){
 
         // 查询参数
         Map<String, Object> params = getParams(query);
@@ -45,7 +42,7 @@ public class affairTeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntit
         params.put(Constant.PAGE, page);
 
         // 数据列表
-        List<affairTeacherVO> list = baseMapper.getAffairTeacherList(params);
+        List<AffairTeacherVO> list = baseMapper.getAffairTeacherList(params);
 
         return new PageResult<>(list, page.getTotal());
     }
@@ -81,7 +78,7 @@ public class affairTeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntit
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(affairTeacherVO vo) {
+    public void save(AffairTeacherVO vo) {
         UserEntity entity = AffairTeacherConvert.INSTANCE.convert(vo);
 
         // 判断用户名是否存在
@@ -105,7 +102,7 @@ public class affairTeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntit
     }
 
     @Override
-    public void update(affairTeacherVO vo) {
+    public void update(AffairTeacherVO vo) {
         UserEntity entity = AffairTeacherConvert.INSTANCE.convert(vo);
 
         // 判断用户名是否存在

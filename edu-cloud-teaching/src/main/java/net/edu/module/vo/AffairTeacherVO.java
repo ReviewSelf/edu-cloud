@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Data
 @Schema(description = "教务老师用户")
-public class affairTeacherVO implements Serializable {
+public class AffairTeacherVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Schema(description = "id")

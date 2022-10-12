@@ -1,5 +1,6 @@
 package net.edu.module.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
@@ -63,5 +64,15 @@ public class ExamEntity extends BaseEntity {
 	* 考试地点
 	*/
 	private String place;
+
+	/**
+	 * 班级ID
+	 */
+	private Long classId;
+
+	/**
+	 * 问题数量
+	 */
+	private Integer problemNum;
 
 }

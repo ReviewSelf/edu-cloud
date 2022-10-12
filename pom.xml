@@ -28,7 +28,6 @@
         <module>edu-cloud-teaching</module>
         <module>edu-cloud-lessons</module>
         <module>edu-cloud-api</module>
-        <module>edu-cloud-quartz</module>
     </modules>
 
     <properties>
@@ -231,6 +230,22 @@
                 <!--Nacos服务发现地址-->
                 <discovery.server-addr>127.0.0.1:8848</discovery.server-addr>
             </properties>
+<!--            <properties>-->
+<!--                &lt;!&ndash;当前环境,生产环境为空&ndash;&gt;-->
+<!--                <profile.name>dev</profile.name>-->
+<!--                &lt;!&ndash;Nacos配置中心地址&ndash;&gt;-->
+<!--                <config.server-addr>124.70.217.106:8848</config.server-addr>-->
+<!--                &lt;!&ndash;Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空&ndash;&gt;-->
+<!--                <config.namespace>8e8bf1a9-c5aa-47e3-865f-28411e433b25</config.namespace>-->
+<!--                &lt;!&ndash;Nacos用户名&ndash;&gt;-->
+<!--                <config.username>nacos</config.username>-->
+<!--                &lt;!&ndash;Nacos密码&ndash;&gt;-->
+<!--                <config.password>nacos</config.password>-->
+<!--                &lt;!&ndash;Nacos配置分组名称&ndash;&gt;-->
+<!--                <config.group>DEFAULT_GROUP</config.group>-->
+<!--                &lt;!&ndash;Nacos服务发现地址&ndash;&gt;-->
+<!--                <discovery.server-addr>124.70.217.106:8848</discovery.server-addr>-->
+<!--            </properties>-->
         </profile>
         <!-- 生产 -->
         <profile>

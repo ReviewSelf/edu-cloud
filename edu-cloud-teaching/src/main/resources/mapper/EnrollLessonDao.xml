@@ -12,6 +12,16 @@
         sys_user(username , real_name , mobile , union_id , open_id , area , age , grade , version , integral , balance , password)
         values(#{wxName} , #{name} , #{phone} , #{unionId} , #{openId} , #{area} , #{age} , #{grade} , #{version} , #{integral} , #{balance} , '123456')
     </insert>
+    <insert id="joinLessonEvalute">
+    insert into
+        enroll_evaluate(student_id , lesson_id)
+        values(#{studentId} , #{tryLesson})
+    </insert>
+    <insert id="joinLessonLog">
+        insert into
+        lesson_attend_log(stu_id , lesson_id)
+        values(#{studentId} , #{tryLesson})
+    </insert>
     <update id="updateLesson" parameterType="net.edu.module.vo.EnrollLessonVO">
         update
         lesson set teacher_id = #{teacherId} , name = #{name}, place = #{place} , begin_time = #{beginTime} , plan_item_id = #{planItemId}, end_time = #{endTime}
@@ -21,6 +31,11 @@
         update
         enroll_user set status = 3
         where id = #{id}
+    </update>
+    <update id="updateOpinion">
+        update
+        enroll_evaluate set teacher_opinion = #{teacherOpinion}
+        where student_id = #{studentId}
     </update>
     <select id="selectEnrollLessonByPage" resultType="net.edu.module.vo.EnrollLessonVO">
         select
@@ -51,11 +66,13 @@
         left join sys_user t2 on t1.teacher_id = t2.id
         where t1.id = #{id}
     </select>
-    <select id="SelectOne" resultType="net.edu.module.entity.EnrollSelectOne">
-        select
-        id,
-        username
-        from sys_user
+    <select id="selectUserById" resultType="net.edu.module.entity.EnrollUserEntity">
+        select t1.id,t1.wx_name,t1.name,t1.phone,t1.union_id,t1.open_id,t1.area,t1.address,t1.age,t1.grade,t1.purpose,t1.status,t1.create_time,
+        t1.update_time,t1.login_time,t1.start_number,t1.end_number,t1.remark,t1.integral,t1.balance,t1.deleted,t1.creator,t1.updater,t1.version,
+        t2.teacher_opinion
+        from enroll_user t1
+        left join enroll_evaluate t2 on t1.id = t2.student_id
+        where t1.id = #{id}
     </select>
 
 

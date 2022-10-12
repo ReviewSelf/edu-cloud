@@ -49,8 +49,8 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
     @Override
     public void update(CodeSampleVO vo) {
         CodeSampleEntity entity = CodeSampleConvert.INSTANCE.convert(vo);
-        redisUtils.del(RedisKeys.getSample(vo.getProblemId()));
         updateById(entity);
+        redisUtils.del(RedisKeys.getSample(vo.getProblemId()));
     }
 
     @Override
@@ -67,8 +67,8 @@ public class CodeSampleServiceImpl extends BaseServiceImpl<CodeSampleDao, CodeSa
     @Transactional(rollbackFor = Exception.class)
     public void saveSample(List<SampleVO> sampleVos, Long problemId) {
         sampleVos.forEach((item) -> baseMapper.insert(CodeSampleConvert.INSTANCE.convert(item)));
-        redisUtils.del(RedisKeys.getSample(problemId));
         codeProblemDao.updateSampleNum(problemId);
+        redisUtils.del(RedisKeys.getSample(problemId));
     }
 
 

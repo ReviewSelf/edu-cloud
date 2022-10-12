@@ -127,6 +127,7 @@
             name,
             description,
             img,
+            (select name from teach_plan where id=plan_id) as planName,
             plan_id,
             lesson_num,
             lesson_begin_time,
@@ -142,7 +143,7 @@
             (select real_name from sys_user where id=teacher2Id) as teacher2Name
         from teach_class
         where deleted =0 and id in (select class_id from teach_class_user where user_id = #{userId} and status = 1)
-
+        order by status asc
     </select>
 
     <update id="updateNextLesson">
@@ -155,6 +156,13 @@
         set status = 3
         where id = #{id}
     </update>
+    
+    <select id="selectOpenClasses" resultType="net.edu.module.vo.TeachClassVO">
+        select name,id
+        from teach_class
+        where deleted = 0
+            and status=2
+    </select>
 
 
 </mapper>

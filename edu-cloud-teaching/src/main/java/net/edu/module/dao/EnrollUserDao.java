@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.EnrollUserEntity;
+import net.edu.module.entity.UserEntity;
 import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.vo.EnrollUserVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,4 +19,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface EnrollUserDao extends BaseDao<EnrollUserEntity> {
     IPage<EnrollUserVO> selectEnrollUserByPage(Page<EnrollUserVO> page, EnrollUserQuery query);
     void updateConfirmEnrollUser(Integer id);
+    void insertId(String openId);
+    void save( EnrollUserEntity enrollUserEntity);
+    void insertClassUser(Integer classId, String openID);
 }

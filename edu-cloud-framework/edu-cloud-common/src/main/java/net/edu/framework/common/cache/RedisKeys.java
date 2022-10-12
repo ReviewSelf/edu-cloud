@@ -78,6 +78,9 @@ public class RedisKeys {
     public static String getKnowledgePointKey() {
         return "problem:kp:";
     }
+    public static String getOrgKey() {
+        return "problem:org:";
+    }
 
     public static String getChoiceOptions(Long problemId) {
         return "problem:choice:option" + problemId;
@@ -90,5 +93,18 @@ public class RedisKeys {
 
     public static String getSampleFile(String path) {
         return "sample:" + path;
+    }
+
+
+
+
+//***********************************teach***********************************************************
+
+    public static String getTeachStatistics() {
+        return "teach:statistics" ;
+    }
+
+    public static String getActivityClass() {
+        return "teach:activityclass" ;
     }
 }

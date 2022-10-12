@@ -25,6 +25,12 @@ public class ExamVO implements Serializable {
 	@Schema(description = "试卷ID")
 	private Long paperId;
 
+	@Schema(description = "班级ID")
+	private Long classId;
+
+	@Schema(description = "题目数量")
+	private Integer problemNum;
+
 	@Schema(description = "考试说明")
 	private String description;
 
@@ -82,5 +88,7 @@ public class ExamVO implements Serializable {
 
 	@Schema(description = "考试时长")
 	private int timeLimit;
+
+
 
 }

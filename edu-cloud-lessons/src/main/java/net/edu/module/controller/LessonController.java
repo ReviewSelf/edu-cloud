@@ -90,4 +90,11 @@ public class LessonController {
 
         return Result.ok();
     }
+
+    @GetMapping("/homework/deadline")
+    @Operation(summary = "回家作业超时截止操作")
+    public Result<String> homeWorkDeadline(){
+        lessonService.homeWorkDeadline();
+        return Result.ok();
+    }
 }

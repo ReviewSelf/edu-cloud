@@ -27,7 +27,6 @@ import java.util.List;
 @AllArgsConstructor
 public class EnrollClassController {
     private final EnrollClassService enrollClassService;
-
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<EnrollClassVO>> page(@Valid EnrollClassQuery query){
@@ -84,5 +83,6 @@ public class EnrollClassController {
     public Result<List<EnrollClassVO>> selectPublish(){
         return Result.ok(enrollClassService.selectPublish());
     }
+
 
 }

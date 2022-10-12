@@ -41,5 +41,7 @@ public interface TeachClassService extends BaseService<TeachClassEntity> {
 
     void endingCalss(Integer id);
 
+    List<TeachClassVO> getOpenClassesList();
+
 
 }

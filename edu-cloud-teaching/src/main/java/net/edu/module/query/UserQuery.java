@@ -4,6 +4,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 用户查询
@@ -25,4 +30,18 @@ public class UserQuery extends Query {
 
     @Schema(description = "角色")
     private Long roleId;
+
+    @Schema(description = "机构名称")
+    private Long orgName;
+
+    @Schema(description = "姓名")
+    private String realName;
+
+    @Schema(description = "机构ID")
+    private Long orgId;
+
+    @Schema(description = "机构ID")
+    private List<Integer> orgArr;
+
+
 }

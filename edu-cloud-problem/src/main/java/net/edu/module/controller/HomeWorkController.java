@@ -1,14 +1,23 @@
 package net.edu.module.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
+import net.edu.module.dao.HomeWorkDao;
+import net.edu.module.query.ChoiceProblemQuery;
+import net.edu.module.query.HomeWorkQuery;
 import net.edu.module.service.HomeWorkService;
+import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.vo.HomeWorkVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -24,6 +33,8 @@ public class HomeWorkController {
     @Autowired
     private final HomeWorkService homeWorkService;
 
+    @Autowired
+    private final HomeWorkDao homeWorkDao;
 
     /**
      * 根据学生id获取对应课后作业
@@ -34,6 +45,18 @@ public class HomeWorkController {
 
         List<HomeWorkVO> homeWorkVO=homeWorkService.getStudentHomeWork(studentId);
         return homeWorkVO;
+    }
+
+
+
+    /**
+     * 根据学生id分页获取对应课后作业
+     *
+     */
+    @GetMapping("/homeWorkPage")
+    public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@Valid HomeWorkQuery query){
+        PageResult<HomeWorkVO> page=homeWorkService.getStudentHomeWorkPage(query);
+        return Result.ok(page);
     }
 
     /**

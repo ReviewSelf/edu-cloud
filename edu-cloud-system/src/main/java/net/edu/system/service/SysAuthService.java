@@ -1,7 +1,6 @@
 package net.edu.system.service;
 
 import net.edu.system.vo.SysAccountLoginVO;
-import net.edu.system.vo.SysMobileLoginVO;
 import net.edu.system.vo.SysTokenVO;
 import net.edu.system.vo.SysWeChatLoginVO;
 
@@ -21,6 +20,7 @@ public interface SysAuthService {
 
 
     SysTokenVO loginByUnionId(SysWeChatLoginVO login);
+
     /**
      * 退出登录
      *

@@ -36,7 +36,7 @@ public class SysAuthServiceImpl implements SysAuthService {
 
     private final SysUserRoleService sysUserRoleService;
     private final SysUserService sysUserService;
-    
+
     @Override
     public SysTokenVO loginByAccount(SysAccountLoginVO login) {
         // 验证码效验

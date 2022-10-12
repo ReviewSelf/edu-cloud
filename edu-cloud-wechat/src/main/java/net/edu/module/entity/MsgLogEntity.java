@@ -11,9 +11,9 @@ public class MsgLogEntity {
 
     private String content;
 
-    private Date createTime;
+    private String createTime;
 
-    private Date sendTime;
+    private String sendTime;
 
     private String source;
 
@@ -29,5 +29,5 @@ public class MsgLogEntity {
 
     private int type;
 
-    private Date sentTime;
+    private String sentTime;
 }

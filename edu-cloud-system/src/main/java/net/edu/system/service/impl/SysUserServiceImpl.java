@@ -6,6 +6,7 @@ import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.UserDetail;
 import net.edu.system.convert.SysUserConvert;
 import net.edu.system.dao.SysUserDao;
 import net.edu.system.entity.SysUserEntity;
@@ -131,7 +132,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserDao, SysUserEntit
     @Override
     public SysUserVO getByMobile(String mobile) {
         SysUserEntity user = baseMapper.getByMobile(mobile);
-        
+
         return SysUserConvert.INSTANCE.convert(user);
     }
 

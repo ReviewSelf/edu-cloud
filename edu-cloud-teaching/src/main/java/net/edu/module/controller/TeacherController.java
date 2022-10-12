@@ -81,7 +81,6 @@ public class TeacherController {
 
     @PutMapping
     @Operation(summary = "修改")
-
     public Result<String> update(@RequestBody @Valid TeacherVO vo) {
         // 如果密码不为空，则进行加密处理
         if (StrUtil.isBlank(vo.getPassword())) {

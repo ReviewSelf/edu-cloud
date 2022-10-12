@@ -54,4 +54,8 @@
         (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
         values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,5,"Pimzo0M6cV3-U-Q2b-GQQpXOq0Yk4nGrfiGiwXyNow8")
     </insert>
+
+    <select id="selectUserNameById" resultType="java.lang.String">
+        select real_name from sys_user where id = #{id}
+    </select>
 </mapper>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.WxMsgLogDao">
+
+    <resultMap type="net.edu.module.entity.WxMsgLogEntity" id="wxMsgLogMap">
+        <result property="id" column="id"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="create_time"/>
+        <result property="sendTime" column="send_time"/>
+        <result property="sentTime" column="sent_time"/>
+        <result property="source" column="source"/>
+        <result property="userId" column="user_id"/>
+        <result property="userType" column="user_type"/>
+        <result property="isPush" column="is_push"/>
+        <result property="isReceive" column="is_receive"/>
+        <result property="type" column="type"/>
+        <result property="templateId" column="template_id"/>
+    </resultMap>
+
+
+    <select id="selectWxMsgLogByPage" resultType="net.edu.module.entity.WxMsgLogEntity">
+        select
+            id,
+            content,
+            create_time as createTime,
+            send_time as sendTime,
+            sent_time as sentTime,
+            source,
+            user_id as userId,
+            (select real_name  from sys_user where id = user_id) as realName,
+            user_type as userType,
+            is_push as isPush,
+            is_receive as isReceive,
+            type,
+            template_id as templateId
+        from wx_msg_log
+        where 1=1
+        <if test="query.getUserId() !=null and query.getUserId()!=''">
+            and user_id like concat('%',#{query.userId},'%')
+        </if>
+        <if test="query.getIsPush() !=null and query.getIsPush()!='' or query.getIsPush()==0">
+            and is_push = #{query.isPush}
+        </if>
+        <if test="query.getType() !=null and query.getType()!=''">
+            and type = #{query.type}
+        </if>
+        order by  sendTime desc
+    </select>
+
+    <select id="selectWxMsgLogById" resultType="net.edu.module.entity.WxMsgLogEntity">
+        select
+            id,
+            content,
+            create_time as createTime,
+            send_time as sendTime,
+            sent_time as sentTime,
+            source,
+            user_id as userId,
+            (select real_name  from sys_user where id = user_id) as realName,
+            user_type as userType,
+            is_push as isPush,
+            is_receive as isReceive,
+            type,
+            template_id as templateId
+        from wx_msg_log
+        where id = #{id}
+    </select>
+
+    <delete id="deleteWxMsgLogByIds">
+        delete
+        from wx_msg_log
+        where 1=1 and
+        <foreach collection="list" item="item" separator="or">
+            id=#{item}
+        </foreach>
+
+    </delete>
+</mapper>

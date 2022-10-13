@@ -21,7 +21,6 @@ public interface ExamProblemDao extends BaseDao<ExamProblemEntity> {
 
     int insertProblemList(@Param("list") List<ProblemPaperItemEntity> problemList, Integer paperType, Long lessonId);
 
-    List<ExamProblemVO> selectExamProblem(@Param("query") ExamProblemQuery query);
 
     int insertProblemListByTeacher(@Param("list") List<ProblemPaperItemEntity> problemList,Long lessonId);
 }

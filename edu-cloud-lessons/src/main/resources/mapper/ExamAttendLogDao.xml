@@ -3,6 +3,11 @@
 
 <mapper namespace="net.edu.module.dao.ExamAttendLogDao">
 
+    <select id="selectUserAttendById" resultType="net.edu.module.vo.ExamAttendLogVO">
+        select exam_id,b.description,b.begin_time as beginTime,b.end_time as endTime,b.name as examName,b.time_limit as timeLimit,b.score as totalScore,a.score,join_time as joinTime,
+               quit_time as quitTime,status from exam_attend_log a join exam b on a.exam_id=b.id and b.id=#{examId}
+            and a.user_id=#{userId}
+    </select>
 
 
 </mapper>

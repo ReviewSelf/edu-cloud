@@ -1,6 +1,9 @@
 package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.utils.RedisUtils;
@@ -18,6 +21,7 @@ import net.edu.module.vo.TeachPlanItemPaperVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,9 +39,12 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
 
 
     @Override
-    public List<ExamProblemVO> list(ExamProblemQuery query) {
+    public List<ExamProblemEntity> list(Long examId ) {
+        List<ExamProblemEntity> list= new LambdaQueryChainWrapper<>(baseMapper)
+                .eq(ExamProblemEntity::getExamId, examId).list();
+        //打乱
+        Collections.shuffle(list);
 
-       List<ExamProblemVO>  list= baseMapper.selectExamProblem(query);
         return list;
     }
 

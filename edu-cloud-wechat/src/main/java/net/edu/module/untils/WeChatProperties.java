@@ -18,27 +18,27 @@ public class WeChatProperties implements InitializingBean {
 
 
     @Value("${wechat.appid}")
-    public String app_id;
+    public String appId;
 
     @Value("${wechat.appSecret}")
-    public String app_secret;
+    public String appSecret;
 
     @Value("${wechat.mini.appid}")
-    public String mini_app_id;
+    public String miniAppId;
 
     @Value("${wechat.mini.appSecret}")
-    public String mini_app_secret;
+    public String miniAppSecret;
 
 
     @Value("${wechat.judgeToken}")
-    public String judge_token;
+    public String judgeToken;
 
     //公众号菜单入口
     @Value("${wechat.redirectClassUrl}")
-    public String redirect_class_url;
+    public String redirectClassUrl;
 
     @Value("${wechat.accountUrl}")
-    public String account_url;
+    public String accountUrl;
 
 
     public static String APP_ID;
@@ -61,12 +61,12 @@ public class WeChatProperties implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        APP_ID = app_id;
-        APP_SECRET = app_secret;
-        MINI_APP_ID = mini_app_id;
-        MINI_APP_SECRET = mini_app_secret;
-        JUDGE_TOKEN = judge_token;
-        REDIRECT_CLASS_URL = redirect_class_url;
-        ACCOUNT_URL = account_url;
+        APP_ID = appId;
+        APP_SECRET = appSecret;
+        MINI_APP_ID = miniAppId;
+        MINI_APP_SECRET = miniAppSecret;
+        JUDGE_TOKEN = judgeToken;
+        REDIRECT_CLASS_URL = redirectClassUrl;
+        ACCOUNT_URL = accountUrl;
     }
 }

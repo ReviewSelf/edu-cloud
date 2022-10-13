@@ -84,4 +84,7 @@ public class EnrollUserVO implements Serializable {
 
 	@Schema(description = "老师反馈")
 	private String teacherOpinion;
+
+	@Schema(description = "学生反馈")
+	private String parentOpinion;
 }

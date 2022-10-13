@@ -12,6 +12,7 @@ import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
 import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
+import net.edu.module.vo.TeachStudentVo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,13 +47,6 @@ public class TeachClassUserController {
     public Result<List<Long>> getUserIdList(  @PathVariable Long classId){
         List<Long> list = teachClassUserService.getUserIdList(classId);
         return Result.ok(list);
-    }
-
-    @GetMapping("getStudent/{id}")
-    @Operation(summary = "获取学生")
-    public Object getStudent(@PathVariable("id") Long id) {
-        List<TeachStudentEntity> entity = teachClassUserService.getStudent(id);
-        return Result.ok(entity);
     }
 
     @GetMapping("{id}")

@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
+import net.edu.module.entity.OrgEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
+import net.edu.module.vo.AffairTeacherVO;
 import net.edu.module.vo.AllTeacherVo;
 import net.edu.module.vo.OrgVo;
 import net.edu.module.vo.UserVO;
-import net.edu.module.vo.AffairTeacherVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -48,7 +49,9 @@ public interface UserDao extends BaseDao<UserEntity> {
 
 	String getStudentId(String unionId);
 
-	List<OrgVo> getOrgList();
+    List<OrgVo> getOrgList();
 
 	List<AffairTeacherVO> getAffairTeacherList(Map<String, Object> params);
+
+	IPage<TeachStudentVo> selectStudents(Page<TeachStudentVo> page, StudentsVo vo);
 }

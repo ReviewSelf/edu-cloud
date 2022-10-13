@@ -23,6 +23,8 @@ import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
 import net.edu.module.service.StudentService;
 import net.edu.module.vo.OrgVo;
+import net.edu.module.vo.StudentsVo;
+import net.edu.module.vo.TeachStudentVo;
 import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -206,6 +208,13 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         System.out.println(menuList);
 //            redisUtils.set(RedisKeys.getOrgKey(),menuList,RedisUtils.MIN_TEN_EXPIRE);
         return TreeUtils.build(menuList, Constant.ROOT);
+    }
+
+    @Override
+    public PageResult<TeachStudentVo> getStudents(StudentsVo vo) {
+        Page<TeachStudentVo> page = new Page<>(vo.getPage() , vo.getSize());
+        IPage<TeachStudentVo> list = userDao.selectStudents(page , vo);
+        return new PageResult<>(list.getRecords() , page.getTotal());
     }
 
 }

@@ -14,6 +14,8 @@ import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
 import net.edu.module.service.StudentService;
+import net.edu.module.vo.StudentsVo;
+import net.edu.module.vo.TeachStudentVo;
 import net.edu.module.vo.UserVO;
 import netscape.javascript.JSObject;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -48,11 +50,19 @@ public class TeachStudentController {
     @GetMapping("/page")
     @Operation(summary = "分页")
     public Result<PageResult<UserVO>> StudentPage( @Valid UserQuery query){
-         System.out.println(query);
-        System.out.println(query.getOrgArr());
         PageResult<UserVO> page = userService.SelectStudentList(query);
         return Result.ok(page);
-//        return null;
+    }
+
+    @PostMapping("/getStudents")
+    @Operation(summary = "学生列表")
+
+    public Object getStudents(@RequestBody StudentsVo vo){
+
+        System.out.println(vo);
+        PageResult<TeachStudentVo> page = userService.getStudents(vo);
+
+        return Result.ok(page);
     }
 
     @GetMapping("/{id}")

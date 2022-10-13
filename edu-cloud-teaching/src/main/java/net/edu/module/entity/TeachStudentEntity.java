@@ -30,7 +30,7 @@ public class TeachStudentEntity extends BaseEntity {
     /**
      *  学生id
      */
-    private Long userId;
+    private String userId;
 
     /**
      *  班级id

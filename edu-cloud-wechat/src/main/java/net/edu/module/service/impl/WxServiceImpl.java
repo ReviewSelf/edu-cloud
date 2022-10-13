@@ -4,9 +4,11 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
+import net.edu.module.dao.SysUserDao;
 import net.edu.module.entity.*;
 import net.edu.module.service.WxService;
 import net.edu.module.vo.WxToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.UnsupportedEncodingException;
@@ -19,6 +21,8 @@ import java.net.URLEncoder;
 @Slf4j
 @Service
 public class WxServiceImpl implements WxService {
+
+
 
     @Override
     public void getAccessToken(){
@@ -40,33 +44,43 @@ public class WxServiceImpl implements WxService {
     public String createMenu(){
         String accessToken = WxToken.token;
         String url = WxFinalValue.MENU_URL + accessToken;
-        String redirectUrl = "http://www.proshaonian.com/#/class";
-        // 创建菜单的请求体
-        String CodeUrl;
+        String redirectClassUrl = WxFinalValue.classUrl;
+        String redirectAccountUrl = WxFinalValue.accountUrl;
+        String EnrollmentUrl,AccountBindUrl;
         try {
-            CodeUrl = WxFinalValue.AUTH_BASE_URL.replace("APPID",WxFinalValue.APPID)
-                    .replace("REDIRECT_URI", URLEncoder.encode(redirectUrl, "UTF-8"))
+            EnrollmentUrl = WxFinalValue.AUTH_BASE_URL.replace("APPID",WxFinalValue.APPID)
+                    .replace("REDIRECT_URI", URLEncoder.encode(redirectClassUrl, "UTF-8"))
+                    .replace("SCOPE",WxFinalValue.SCOPE);
+            AccountBindUrl = WxFinalValue.AUTH_BASE_URL.replace("APPID",WxFinalValue.APPID)
+                    .replace("REDIRECT_URI", URLEncoder.encode(redirectAccountUrl, "UTF-8"))
                     .replace("SCOPE",WxFinalValue.SCOPE);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-
-        System.out.println("codeURL"+CodeUrl);
-//https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf824deebaddd5375&redirect_uri=http%3A%2F%2F124.71.130.128%2F%23%2Fclass&response_type=code&scope=snsapi_userinfo#wechat_redirect
-
-
+        System.out.println(AccountBindUrl);
         CommonButton mainBtn2 = new CommonButton();
-
         mainBtn2.setName("课程报名");
-
         mainBtn2.setType("view");
+        mainBtn2.setUrl(EnrollmentUrl);
 
-        mainBtn2.setUrl(CodeUrl);
+        ComplexButton mainBtn1 = new ComplexButton();
+        mainBtn1.setName("我的账号");
+
+        CommonButton sub_Btn11 = new CommonButton();
+        sub_Btn11.setName("账号绑定");
+        sub_Btn11.setType("view");
+        sub_Btn11.setUrl(AccountBindUrl);
+
+        CommonButton sub_Btn12 = new CommonButton();
+        sub_Btn12.setName("账号解绑");
+        sub_Btn12.setType("click");
+        sub_Btn12.setKey("12");
+        mainBtn1.setSub_button(new CommonButton[] {sub_Btn11,sub_Btn12});
 
 
         Menu menu = new Menu();
 
-        menu.setButton(new Button[] {mainBtn2});
+        menu.setButton(new Button[] {mainBtn1,mainBtn2});
 
         JSONObject object = new JSONObject(menu);
 
@@ -113,5 +127,7 @@ public class WxServiceImpl implements WxService {
         String openId = jsonObject.getStr("openid");
         return openId;
     }
+
+
 
 }

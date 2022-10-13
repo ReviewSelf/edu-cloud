@@ -38,7 +38,6 @@ public class TeachClassController {
     public Result<PageResult<TeachClassVO>> page(@Valid TeachClassQuery query){
         System.out.println(query);
         PageResult<TeachClassVO> page = teachClassService.page(query);
-
         return Result.ok(page);
     }
 
@@ -65,8 +64,7 @@ public class TeachClassController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<TeachClassVO> get(@PathVariable("id") Long id){
-        TeachClassEntity entity = teachClassService.getById(id);
-        return Result.ok(TeachClassConvert.INSTANCE.convert(entity));
+        return Result.ok(teachClassService.getClassById(id));
     }
 
     @PostMapping
@@ -80,6 +78,7 @@ public class TeachClassController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid TeachClassVO vo){
+        System.out.println(vo);
         teachClassService.update(vo);
 
         return Result.ok();

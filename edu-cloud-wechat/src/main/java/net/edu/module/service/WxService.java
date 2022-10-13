@@ -14,6 +14,6 @@ public interface WxService {
     String createMenu();
     String getUnionId(String openId);
     void template();
-
     String getOpenId(String code);
+
 }

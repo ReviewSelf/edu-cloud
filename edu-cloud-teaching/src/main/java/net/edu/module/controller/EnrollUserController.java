@@ -50,6 +50,7 @@ public class EnrollUserController {
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody EnrollUserVO vo){
+        System.out.println(vo);
         enrollUserService.save(vo);
 
         return Result.ok();

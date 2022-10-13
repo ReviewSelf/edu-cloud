@@ -8,10 +8,12 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.*;
+import net.edu.module.service.SysUserService;
 import net.edu.module.service.TemplateService;
 import net.edu.module.service.WxService;
 import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ import java.util.List;
 @AllArgsConstructor
 public class WxController {
 
-
+    private final PasswordEncoder passwordEncoder;
     @Autowired
     private EduTeachApi eduTeachApi;
 
@@ -37,6 +39,8 @@ public class WxController {
     private WxService wxService;
     @Autowired
     private TemplateService templateService;
+    @Autowired
+    private SysUserService sysUserService;
 
 
     /**
@@ -136,7 +140,13 @@ public class WxController {
                 outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
             }
             else if("CLICK".equals(event)){
-
+                String eventKey = inMessage.getEventKey();
+                System.out.println(eventKey);
+                if(eventKey.equals("12")){
+                    System.out.println("点击了账号解绑");
+                    String openId = inMessage.getFromUserName();
+                    sysUserService.updateOpenIdByUsername(null,null,openId);
+                }
             }
 
         }
@@ -222,28 +232,25 @@ public class WxController {
         templateService.insertMsgLogWorkDeadlineTemplate(vo);
         return Result.ok();
     }
+
+    /**
+     * 账号绑定
+     * @param username
+     * @param password
+     * @return
+     */
+    @PutMapping("account")
+    public Result<Integer> updateOpenIdByUsername(@RequestParam("username") String username,
+                                                  @RequestParam("password") String password,
+                                                  @RequestParam("openId") String openId){
+        //将得到的密码加密
+        password = passwordEncoder.encode(password);
+        return Result.ok(sysUserService.updateOpenIdByUsername(username,password,openId));
+    }
 }
 
 
-/**
- * 接受数据格式样例，为ArrayList
- [
- {
- "lessonName":"贪心算法",
- "lessonTime":"2022-10-10 18:50:00",
- "lessonLocation":"翠柏校区",
- "sendTime":"2022-10-10 17:50:00",
- "userId":10020
- },
- {
- "lessonName":"贪心算法",
- "lessonTime":"2022-10-10 18:50:00",
- "lessonLocation":"翠柏校区",
- "sendTime":"2022-10-10 17:50:00",
- "userId":10043
- }
- ]
- */
+
 
 
 

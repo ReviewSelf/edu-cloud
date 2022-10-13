@@ -33,7 +33,6 @@ public class ExamController {
     @Operation(summary = "分页")
     public Result<PageResult<ExamVO>> page(@Valid ExamQuery query){
         PageResult<ExamVO> page = examService.page(query);
-        System.out.println(query);
         return Result.ok(page);
     }
 
@@ -42,7 +41,6 @@ public class ExamController {
     public Result<PageResult<ExamVO>> studentPage(@Valid ExamQuery query){
         query.setUserId(SecurityUser.getUserId());
         PageResult<ExamVO> page = examService.studentPage(query);
-        System.out.println(SecurityUser.getUserId());
         return Result.ok(page);
     }
 

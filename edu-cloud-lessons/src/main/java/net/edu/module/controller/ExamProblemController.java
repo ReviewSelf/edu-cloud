@@ -27,59 +27,62 @@ import java.util.List;
 public class ExamProblemController {
     private final ExamProblemService examProblemService;
 
-    @GetMapping("list")
+    @GetMapping("list/{examId}")
     @Operation(summary = "获取考试题目信息")
-    public Result<List<ExamProblemVO>> list(@Valid ExamProblemQuery query){
-        List<ExamProblemVO> page = examProblemService.list(query);
+    public Result<List<ExamProblemEntity>> list(@PathVariable("examId") Long examId){
 
-        return Result.ok(page);
+        return Result.ok(examProblemService.list(examId));
     }
 
-    @GetMapping("{id}")
-    @Operation(summary = "信息")
-    public Result<ExamProblemVO> get(@PathVariable("id") Long id){
-        ExamProblemEntity entity = examProblemService.getById(id);
 
-        return Result.ok(ExamProblemConvert.INSTANCE.convert(entity));
-    }
-
-    @PostMapping
-    @Operation(summary = "保存")
-    public Result<String> save(@RequestBody ExamProblemVO vo){
-        examProblemService.save(vo);
-
-        return Result.ok();
-    }
-
-    @PutMapping
-    @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid ExamProblemVO vo){
-        examProblemService.update(vo);
-
-        return Result.ok();
-    }
-
-    @DeleteMapping
-    @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
-        examProblemService.delete(idList);
-
-        return Result.ok();
-    }
-
-    @PostMapping("/updateProblemTime")
-    @Operation(summary = "更新课堂练习开始时间结束时间")
-    public Result<String> updateProblemTime(@RequestBody List<ExamProblemVO> examProblemList){
-        examProblemService.updateProblemTime(examProblemList);
-        return Result.ok();
-    }
-
-    @PostMapping("/batchInsertExamProblem")
-    @Operation(summary = "批量新增课堂题")
-    public Result<String> batchInsertExamProblem(@RequestBody Object obj){
-
-        return Result.ok();
-    }
+//
+//
+//
+//    @GetMapping("{id}")
+//    @Operation(summary = "信息")
+//    public Result<ExamProblemVO> get(@PathVariable("id") Long id){
+//        ExamProblemEntity entity = examProblemService.getById(id);
+//
+//        return Result.ok(ExamProblemConvert.INSTANCE.convert(entity));
+//    }
+//
+//    @PostMapping
+//    @Operation(summary = "保存")
+//    public Result<String> save(@RequestBody ExamProblemVO vo){
+//        examProblemService.save(vo);
+//
+//        return Result.ok();
+//    }
+//
+//    @PutMapping
+//    @Operation(summary = "修改")
+//    public Result<String> update(@RequestBody @Valid ExamProblemVO vo){
+//        examProblemService.update(vo);
+//
+//        return Result.ok();
+//    }
+//
+//    @DeleteMapping
+//    @Operation(summary = "删除")
+//    public Result<String> delete(@RequestBody List<Long> idList){
+//        examProblemService.delete(idList);
+//
+//        return Result.ok();
+//    }
+//
+//    @PostMapping("/updateProblemTime")
+//    @Operation(summary = "更新课堂练习开始时间结束时间")
+//    public Result<String> updateProblemTime(@RequestBody List<ExamProblemVO> examProblemList){
+//        examProblemService.updateProblemTime(examProblemList);
+//        return Result.ok();
+//    }
+//
+//    @PostMapping("/batchInsertExamProblem")
+//    @Operation(summary = "批量新增课堂题")
+//    public Result<String> batchInsertExamProblem(@RequestBody Object obj){
+//
+//        return Result.ok();
+//    }
 
 
 

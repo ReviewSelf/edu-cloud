@@ -17,15 +17,17 @@ import java.util.List;
  */
 public interface ExamProblemService extends BaseService<ExamProblemEntity> {
 
-    List<ExamProblemVO> list(ExamProblemQuery query);
+    List<ExamProblemEntity> list(Long examId);
 
-    void save(ExamProblemVO vo);
+    void copyFromPaper(Long paperId,Long examId);
 
-    void update(ExamProblemVO vo);
-
-    void delete(List<Long> idList);
-
-    void updateProblemTime(List<ExamProblemVO> lessonProblemList);
-
-    void insertProblemListByTeacher(List<ProblemPaperItemEntity> list, Long lessonId);
+//    void save(ExamProblemVO vo);
+//
+//    void update(ExamProblemVO vo);
+//
+//    void delete(List<Long> idList);
+//
+//    void updateProblemTime(List<ExamProblemVO> lessonProblemList);
+//
+//    void insertProblemListByTeacher(List<ProblemPaperItemEntity> list, Long lessonId);
 }

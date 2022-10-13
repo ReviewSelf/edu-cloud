@@ -20,31 +20,43 @@ public class ExamAttendLogController {
 
     private final ExamAttendLogService examAttendLogService;
 
-    @GetMapping("students/list")
+
+    @GetMapping("user/{examId}")
     @Operation(summary = "教师点名获取课次中的学生")
-    public Result<List<ExamAttendLogVO>> studentsList(@Valid ExamAttendLogQuery query) {
-        return Result.ok(examAttendLogService.list(query));
+    public Result<ExamAttendLogVO> studentsList(@PathVariable("examId") Long examId) {
+
+        return Result.ok(examAttendLogService.getUserExamAttend(examId));
     }
 
-    @PutMapping("students/update")
-    @Operation(summary = "教师确认课堂学生名单")
-    public Result<String> updateStudents(@RequestBody ExamAttendLogVO vo) {
-        examAttendLogService.updateStudents(vo);
-        return Result.ok();
-    }
 
-    @PostMapping("lesson")
-    @Operation(summary = "根据学生id批量插入课程id")
-    public Result insertExamList(@RequestBody ExamAttendLogVO vo){
 
-        return Result.ok();
-    }
 
-    @DeleteMapping("lesson")
-    @Operation(summary = "根据学生id批量删除课程id")
-    public Result deleteExamList(@RequestBody ExamAttendLogVO vo){
-        System.out.println(vo);
 
-        return Result.ok();
-    }
+//    @GetMapping("students/list")
+//    @Operation(summary = "教师点名获取课次中的学生")
+//    public Result<List<ExamAttendLogVO>> studentsList(@Valid ExamAttendLogQuery query) {
+//        return Result.ok(examAttendLogService.list(query));
+//    }
+//
+//    @PutMapping("students/update")
+//    @Operation(summary = "教师确认课堂学生名单")
+//    public Result<String> updateStudents(@RequestBody ExamAttendLogVO vo) {
+//        examAttendLogService.updateStudents(vo);
+//        return Result.ok();
+//    }
+
+//    @PostMapping("lesson")
+//    @Operation(summary = "根据学生id批量插入课程id")
+//    public Result insertExamList(@RequestBody ExamAttendLogVO vo) {
+//
+//        return Result.ok();
+//    }
+//
+//    @DeleteMapping("lesson")
+//    @Operation(summary = "根据学生id批量删除课程id")
+//    public Result deleteExamList(@RequestBody ExamAttendLogVO vo) {
+//        System.out.println(vo);
+//
+//        return Result.ok();
+//    }
 }

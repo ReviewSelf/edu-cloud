@@ -31,4 +31,6 @@ public interface JudgeRecordDao {
     JudgeRecordSubmitVO selectRecordAndAnswer(JudgeRecordSubmitVO vo);
 
     int updateReasonAndStatus(JudgeRecordSubmitVO vo);
+
+    List<ExamJudgeRecordVo> selectExamRecord(Long examId, Integer type);
 }

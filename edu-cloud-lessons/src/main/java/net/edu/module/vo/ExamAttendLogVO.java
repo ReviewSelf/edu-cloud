@@ -47,13 +47,30 @@ public class ExamAttendLogVO implements Serializable {
 	@Schema(description = "是否完成批改")
 	private Integer isCorrecting;
 
-	@Schema(description = "创建时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date createTime;
 
-	@Schema(description = "更新时间")
+	@Schema(description = "考试开始时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date updateTime;
+	private Date beginTime;
+
+	@Schema(description = "考试结束时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date endTime;
+
+
+	@Schema(description = "考试时限")
+	private Integer timeLimit;
+
+	@Schema(description = "考试名称")
+	private String examName;
+
+
+
+	@Schema(description = "得分")
+	private Integer totalScore;
+
+	@Schema(description = "预计考试结束时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date finishExamTime;
 
 
 

@@ -18,22 +18,21 @@ import java.util.List;
 */
 @Mapper
 public interface ExamAttendLogDao extends BaseDao<ExamAttendLogEntity> {
+    ExamAttendLogVO selectUserAttendById(Long userId,Long examId);
 
-    void insertUserList(@Param("list") List<Long> list,Long lessonId);
+    List<ExamAttendLogVO> selectUserAttend(Long examId);
 
-    /**
-     * 根据学生id批量插入课程id
-     * @param list
-     * @param stuId
-     */
-    void insertExamList(@Param("list") List<Long> list,Long stuId);
 
-    /**
-     * 根据学生id批量退出课程
-     */
-    void deleteExamList(@Param("list") List<Long> list,Long stuId);
 
-    List<ExamAttendLogVO> selectStudentsList(@Param("query") ExamAttendLogQuery query);
+//
+//    void insertUserList(@Param("list") List<Long> list,Long lessonId);
+//
+//
+//
+//
+//    List<ExamAttendLogVO> selectStudentsList(@Param("query") ExamAttendLogQuery query);
+//
+//    int updateStudents(@Param("vo") ExamAttendLogVO vo);
 
-    int updateStudents(@Param("vo") ExamAttendLogVO vo);
+    int insertAttendLogFromClass(@Param("userList") List<Long> userList,Long examId);
 }

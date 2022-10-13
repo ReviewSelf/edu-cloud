@@ -16,19 +16,23 @@ import java.util.List;
  */
 public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
 
-    List<ExamAttendLogVO> list(ExamAttendLogQuery query);
+    ExamAttendLogVO getUserExamAttend(Long examId);
 
-    Boolean attendance(Long userId, ExamEntity lessonEntity);
+    List<ExamAttendLogVO> list(Long examId);
 
-    void save(ExamAttendLogVO vo);
+    Boolean attendance(Long examId);
 
+//    void save(ExamAttendLogVO vo);
+//
     void update(ExamAttendLogVO vo);
 
-    void delete(List<Long> idList);
-
-    void copyUserFromClassUser(List<Long> userList,Long lessonId);
-
-    void updateStudents(ExamAttendLogVO vo);
+    void copyFromClass(Long classId,Long examId);
+//
+//    void delete(List<Long> idList);
+//
+//    void copyUserFromClassUser(List<Long> userList,Long lessonId);
+//
+//    void updateStudents(ExamAttendLogVO vo);
 
 
 }

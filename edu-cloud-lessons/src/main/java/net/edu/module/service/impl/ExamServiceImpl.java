@@ -16,7 +16,10 @@ import net.edu.module.convert.ExamConvert;
 import net.edu.module.dao.ExamDao;
 import net.edu.module.entity.ExamEntity;
 import net.edu.module.query.ExamQuery;
+import net.edu.module.service.ExamAttendLogService;
+import net.edu.module.service.ExamProblemService;
 import net.edu.module.service.ExamService;
+import net.edu.module.vo.ExamAttendLogVO;
 import net.edu.module.vo.ExamVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +38,10 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
 
     private final RedisUtils redisUtils;
+
+    private final ExamAttendLogService examAttendLogService;
+
+    private final ExamProblemService examProblemService;
 
     @Override
     public PageResult<ExamVO> page(ExamQuery query) {
@@ -58,10 +65,19 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(ExamVO vo) {
         ExamEntity entity = ExamConvert.INSTANCE.convert(vo);
 
-        baseMapper.insert(entity);
+         baseMapper.insert(entity);
+
+        //插入题目
+        examProblemService.copyFromPaper(vo.getPaperId(),entity.getId());
+
+        //插入名单
+        examAttendLogService.copyFromClass(vo.getClassId(),entity.getId());
+
+
 
 
     }

@@ -74,5 +74,9 @@ public class ExamEntity extends BaseEntity {
 	 * 问题数量
 	 */
 	private Integer problemNum;
+	/**
+	 * 考试时长
+	 */
+	private Integer timeLimit;
 
 }

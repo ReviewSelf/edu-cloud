@@ -11,10 +11,7 @@ import net.edu.module.entity.LessonAttendLogEntity;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonAttendLogQuery;
 import net.edu.module.query.LessonIPQuery;
-import net.edu.module.service.LessonAttendLogService;
-import net.edu.module.service.LessonIPService;
-import net.edu.module.service.LessonService;
-import net.edu.module.service.StudentLessonService;
+import net.edu.module.service.*;
 import net.edu.module.vo.LessonAttendLogVO;
 import net.edu.module.vo.LessonIPVO;
 import org.springframework.stereotype.Service;
@@ -36,6 +33,11 @@ public class StudentLessonServiceImpl implements StudentLessonService {
     private final LessonAttendLogService lessonAttendLogService;
 
     private final LessonService lessonService;
+
+
+    private final ExamIPService examIPService;
+
+
 
     @Override
     public Result<String> attendLesson(Long lessonId) {
@@ -59,13 +61,18 @@ public class StudentLessonServiceImpl implements StudentLessonService {
 
     @Override
     public Result<String> attendExam(Long examId) {
+        //自身校验
+
+
+
+
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         assert request != null;
         String ip = IpUtils.getIpAddr(request);
         //ip校验
-//        if(!lessonIPService.ipJudge(lessonId,ip)){
-//            return Result.error("不在ip白名单中，不可进入此班级,当前ip:"+ip);
-//        }
+        if(!examIPService.ipJudge(examId,ip)){
+            return Result.error("不在ip白名单中，不可进入此考试,当前ip:"+ip);
+        }
         //名单校验
         Long userId = SecurityUser.getUserId();
 

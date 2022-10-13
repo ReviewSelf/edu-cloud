@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("attend")
+@RequestMapping("exam/attend")
 @Tag(name = "课程表")
 @AllArgsConstructor
 public class ExamAttendLogController {

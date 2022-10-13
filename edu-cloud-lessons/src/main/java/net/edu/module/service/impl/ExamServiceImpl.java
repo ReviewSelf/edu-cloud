@@ -33,7 +33,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implements ExamService {
 
-    private final ExamDao examDao;
+
     private final RedisUtils redisUtils;
 
     @Override
@@ -46,13 +46,13 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     @Override
     public PageResult<ExamVO> studentPage(ExamQuery query){
         Page<ExamVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<ExamVO> list = examDao.studentPage(page, query);
+        IPage<ExamVO> list = baseMapper.studentPage(page, query);
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
     @Override
     public List<ExamVO> getExamingList(Long userId){
-        List<ExamVO> list = examDao.getExamingList(userId);
+        List<ExamVO> list = baseMapper.getExamingList(userId);
         System.out.println(list);
         return list;
     }
@@ -62,6 +62,8 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         ExamEntity entity = ExamConvert.INSTANCE.convert(vo);
 
         baseMapper.insert(entity);
+
+
     }
 
     @Override

@@ -7,10 +7,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.OrgEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
-import net.edu.module.vo.AffairTeacherVO;
-import net.edu.module.vo.AllTeacherVo;
-import net.edu.module.vo.OrgVo;
-import net.edu.module.vo.UserVO;
+import net.edu.module.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,5 +1,6 @@
 package net.edu.module.service;
 
+import net.edu.module.vo.UserVO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,4 +11,6 @@ import org.springframework.stereotype.Service;
 public interface SysUserService {
 
     int updateOpenIdByUsername(String username,String password,String openId);
+
+    UserVO getUserInfo(String openId);
 }

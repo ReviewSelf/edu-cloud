@@ -34,8 +34,8 @@ public class WxFinalValue {
     //允许的范围
     public static final String SCOPE = "snsapi_userinfo";
 
-    public static final String classUrl = "http://www.proshaonian.com/#/class";
+    public static final String classUrl = "http://edu.proshaonian.com/#/class";
 
-    public static final String accountUrl = "http://www.proshaonian.com/#/account";
+    public static final String accountUrl = "http://edu.proshaonian.com/#/account";
 
 }

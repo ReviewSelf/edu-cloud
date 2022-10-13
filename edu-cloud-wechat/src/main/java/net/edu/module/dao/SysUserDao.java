@@ -1,5 +1,6 @@
 package net.edu.module.dao;
 
+import net.edu.module.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -11,8 +12,11 @@ public interface SysUserDao {
     /**
      * 账号绑定
      * @param username
-     * @param password
      * @return
      */
-    int updateOpenIdByUsername(String username,String password,String openId);
+    int updateOpenIdByUsername(String username,String openId);
+
+    UserVO selectUserInfoByOpenId(String openId);
+
+    String selectOpenIdByUsername(String username);
 }

@@ -107,4 +107,17 @@ public class SysAuthServiceImpl implements SysAuthService {
         // 保存登录日志
         sysLogLoginService.save(user.getUsername(), Constant.SUCCESS, LoginOperationEnum.LOGOUT_SUCCESS.getValue());
     }
+
+    @Override
+    public Boolean checkUserAndPassword(String username, String password) {
+        Authentication authentication;
+        try {
+            // 用户认证
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password));
+        } catch (BadCredentialsException e) {
+            return false;
+        }
+        return true;
+    }
 }

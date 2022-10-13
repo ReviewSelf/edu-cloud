@@ -1,5 +1,6 @@
 package net.edu.system.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -51,6 +52,11 @@ public class SysAuthController {
         return Result.ok(token);
     }
 
+
+    @GetMapping("checkUser")
+    public Result<Boolean> checkUserAndPassword(String username,String password) {
+        return Result.ok(sysAuthService.checkUserAndPassword(username,password));
+    }
 
 
 

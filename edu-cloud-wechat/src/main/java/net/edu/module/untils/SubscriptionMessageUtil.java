@@ -1,8 +1,11 @@
 package net.edu.module.untils;
 
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSON;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.nacos.api.naming.pojo.healthcheck.impl.Http;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
@@ -11,10 +14,10 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import net.edu.module.dao.TemplateDao;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class SubscriptionMessageUtil {
 
@@ -274,6 +277,35 @@ public class SubscriptionMessageUtil {
             System.out.println("推送失败：" + e.getMessage());
         }
     }
+
+    /**
+     * 消息群发
+     */
+    public static String GroupMessage(String token,String content,String person) {
+        System.out.println(content);
+        // 接口地址
+        String sendMsgApi = "https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token="+token;
+        //整体参数map
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        //相关map
+        Map<String, Object> dataMap1 = new HashMap<String, Object>();
+        Map<String, String> dataMap2 = new HashMap<String, String>();
+        if(person.equals("3")){
+            System.out.println("群发");
+            dataMap1.put("is_to_all",true);//用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户，选择false可根据tag_id发送给指定群组的用户
+        }
+
+        else dataMap1.put("is_to_all",false);
+        dataMap1.put("tag_id",1);//群发到的标签的tag_id，参见用户管理中用户分组接口，若is_to_all值为true，可不填写tag_id
+        dataMap2.put("content",content);//要推送的内容
+        paramMap.put("filter",dataMap1);//用于设定图文消息的接收者
+        paramMap.put("text", dataMap2);//文本内容
+        paramMap.put("msgtype","text");//群发的消息类型，图文消息为mpnews，文本消息为text，语音为voice，音乐为music，图片为image，视频为video，卡券为wxcard
+        String back= HttpUtil.post(sendMsgApi,paramMap);
+        System.out.println("back:"+back);
+        return back;
+    }
+
 }
 
 

@@ -5,9 +5,13 @@
 
     <select id="selectUserAttendById" resultType="net.edu.module.vo.ExamAttendLogVO">
         select exam_id,b.description,b.begin_time as beginTime,b.end_time as endTime,b.name as examName,b.time_limit as timeLimit,b.score as totalScore,a.score,join_time as joinTime,
-               quit_time as quitTime,status from exam_attend_log a join exam b on a.exam_id=b.id and b.id=#{examId}
+               quit_time as quitTime,status,if(status=1 and 	DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE),'%Y-%m-%d %H:%i:%s') &lt; end_time,DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE),'%Y-%m-%d %H:%i:%s'),end_time) as finishExamTime from exam_attend_log a join exam b on a.exam_id=b.id and b.id=#{examId}
             and a.user_id=#{userId}
     </select>
 
-
+    <select id="selectUserAttend" resultType="net.edu.module.vo.ExamAttendLogVO">
+        select exam_id,b.description,(select real_name from sys_user where id=user_id)as name,b.begin_time as beginTime,b.end_time as endTime,b.name as examName,b.time_limit as timeLimit,b.score as totalScore,a.score,join_time as joinTime,
+               quit_time as quitTime,status,if(status=1 and 	DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE),'%Y-%m-%d %H:%i:%s') &lt; end_time,DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE),'%Y-%m-%d %H:%i:%s'),end_time) as finishExamTime from exam_attend_log a join exam b on a.exam_id=b.id and b.id=#{examId}
+            from exam_attend_log a join exam b on a.exam_id=b.id and b.id=#{examId}
+    </select>
 </mapper>

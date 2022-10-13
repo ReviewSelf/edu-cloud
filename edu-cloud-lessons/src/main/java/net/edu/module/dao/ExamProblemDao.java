@@ -19,8 +19,8 @@ import java.util.List;
 @Mapper
 public interface ExamProblemDao extends BaseDao<ExamProblemEntity> {
 
-    int insertProblemList(@Param("list") List<ProblemPaperItemEntity> problemList, Integer paperType, Long lessonId);
-
-
-    int insertProblemListByTeacher(@Param("list") List<ProblemPaperItemEntity> problemList,Long lessonId);
+//    int insertProblemList(@Param("list") List<ProblemPaperItemEntity> problemList, Integer paperType, Long lessonId);
+//
+//
+//    int insertProblemListByTeacher(@Param("list") List<ProblemPaperItemEntity> problemList,Long lessonId);
 }

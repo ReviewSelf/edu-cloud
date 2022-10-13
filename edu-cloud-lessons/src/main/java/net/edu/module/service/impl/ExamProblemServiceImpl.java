@@ -49,39 +49,39 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
     }
 
 
-    @Override
-    public void save(ExamProblemVO vo) {
-        ExamProblemEntity entity = ExamProblemConvert.INSTANCE.convert(vo);
-        baseMapper.insert(entity);
-    }
-
-    @Override
-    public void update(ExamProblemVO vo) {
-        ExamProblemEntity entity = ExamProblemConvert.INSTANCE.convert(vo);
-        updateById(entity);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        ExamProblemEntity entity=baseMapper.selectById(idList.get(0));
-        removeByIds(idList);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateProblemTime(List<ExamProblemVO> lessonProblemList) {
-        if (!CollectionUtil.isEmpty(lessonProblemList)){
-            for (ExamProblemVO vo:lessonProblemList){
-                update(vo);
-            }
-        }
-    }
-
-    @Override
-    public void insertProblemListByTeacher(List<ProblemPaperItemEntity> list,Long lessonId){
-        baseMapper.insertProblemListByTeacher(list,lessonId);
-    }
+//    @Override
+//    public void save(ExamProblemVO vo) {
+//        ExamProblemEntity entity = ExamProblemConvert.INSTANCE.convert(vo);
+//        baseMapper.insert(entity);
+//    }
+//
+//    @Override
+//    public void update(ExamProblemVO vo) {
+//        ExamProblemEntity entity = ExamProblemConvert.INSTANCE.convert(vo);
+//        updateById(entity);
+//    }
+//
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public void delete(List<Long> idList) {
+//        ExamProblemEntity entity=baseMapper.selectById(idList.get(0));
+//        removeByIds(idList);
+//    }
+//
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public void updateProblemTime(List<ExamProblemVO> lessonProblemList) {
+//        if (!CollectionUtil.isEmpty(lessonProblemList)){
+//            for (ExamProblemVO vo:lessonProblemList){
+//                update(vo);
+//            }
+//        }
+//    }
+//
+//    @Override
+//    public void insertProblemListByTeacher(List<ProblemPaperItemEntity> list,Long lessonId){
+//        baseMapper.insertProblemListByTeacher(list,lessonId);
+//    }
 
 
 }

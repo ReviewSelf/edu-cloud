@@ -49,13 +49,12 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
 
 
     @Override
-    public List<ExamAttendLogVO> list(ExamAttendLogQuery query) {
-
+    public List<ExamAttendLogVO> list(Long examId) {
         List<ExamAttendLogVO> list = null;
-        list = (List<ExamAttendLogVO>) redisUtils.get(RedisKeys.getExamAttendLog(query.getExamId()), RedisUtils.MIN_TEN_EXPIRE);
+        list = (List<ExamAttendLogVO>) redisUtils.get(RedisKeys.getExamAttendLog(examId), RedisUtils.MIN_TEN_EXPIRE);
         if (CollectionUtil.isEmpty(list)) {
-            list = baseMapper.selectStudentsList(query);
-            redisUtils.set(RedisKeys.getExamAttendLog(query.getExamId()), list, RedisUtils.MIN_TEN_EXPIRE);
+            list = baseMapper.selectUserAttend(examId);
+            redisUtils.set(RedisKeys.getExamAttendLog(examId), list, RedisUtils.MIN_TEN_EXPIRE);
         }
         return list;
     }
@@ -77,7 +76,8 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
                     //加入考试
                     vo.setStatus(1);
                     vo.setJoinTime(new Date());
-                    save(vo);
+                    update(vo);
+                    return true;
                 }
                 else if(vo.getStatus()==1){
                     //进行中
@@ -121,44 +121,43 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     }
 
 
-    @Override
-    public void save(ExamAttendLogVO vo) {
-        ExamAttendLogEntity entity = ExamAttendLogConvert.INSTANCE.convert(vo);
-        baseMapper.insert(entity);
-        redisUtils.del(RedisKeys.getExamAttendLog(vo.getExamId()));
+//    @Override
+//    public void save(ExamAttendLogVO vo) {
+//        ExamAttendLogEntity entity = ExamAttendLogConvert.INSTANCE.convert(vo);
+//        baseMapper.insert(entity);
+//    }
 
-    }
-
+//
     @Override
     public void update(ExamAttendLogVO vo) {
         ExamAttendLogEntity entity = ExamAttendLogConvert.INSTANCE.convert(vo);
         updateById(entity);
         redisUtils.del(RedisKeys.getExamAttendLog(vo.getExamId()));
     }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        removeByIds(idList);
-    }
-
-    @Override
-    public void copyUserFromClassUser(List<Long> userList, Long lessonId) {
-        if (!CollectionUtil.isEmpty(userList)) {
-            baseMapper.insertUserList(userList, lessonId);
-        }
-        redisUtils.del(RedisKeys.getExamAttendLog(lessonId));
-    }
-
-    @Override
-    public void updateStudents(ExamAttendLogVO vo) {
-        // vo.setUpdateTime(new Date());
-        if (vo.getUserId() == null) {
-            vo.setUserId(SecurityUser.getUserId());
-        }
-        //根据学生id和课堂id找到唯一的记录进行修改
-        lessonAttendLogDao.updateStudents(vo);
-        redisUtils.del(RedisKeys.getExamAttendLog(vo.getExamId()));
-    }
+//
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public void delete(List<Long> idList) {
+//        removeByIds(idList);
+//    }
+//
+//    @Override
+//    public void copyUserFromClassUser(List<Long> userList, Long lessonId) {
+//        if (!CollectionUtil.isEmpty(userList)) {
+//            baseMapper.insertUserList(userList, lessonId);
+//        }
+//        redisUtils.del(RedisKeys.getExamAttendLog(lessonId));
+//    }
+//
+//    @Override
+//    public void updateStudents(ExamAttendLogVO vo) {
+//        // vo.setUpdateTime(new Date());
+//        if (vo.getUserId() == null) {
+//            vo.setUserId(SecurityUser.getUserId());
+//        }
+//        //根据学生id和课堂id找到唯一的记录进行修改
+//        lessonAttendLogDao.updateStudents(vo);
+//        redisUtils.del(RedisKeys.getExamAttendLog(vo.getExamId()));
+//    }
 
 }

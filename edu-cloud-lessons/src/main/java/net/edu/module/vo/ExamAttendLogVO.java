@@ -68,7 +68,7 @@ public class ExamAttendLogVO implements Serializable {
 	@Schema(description = "得分")
 	private Integer totalScore;
 
-	@Schema(description = "考试结束时间")
+	@Schema(description = "预计考试结束时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date finishExamTime;
 

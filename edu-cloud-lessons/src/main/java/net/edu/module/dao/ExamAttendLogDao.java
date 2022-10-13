@@ -20,17 +20,17 @@ import java.util.List;
 public interface ExamAttendLogDao extends BaseDao<ExamAttendLogEntity> {
     ExamAttendLogVO selectUserAttendById(Long userId,Long examId);
 
+    List<ExamAttendLogVO> selectUserAttend(Long examId);
 
 
 
-
-
-    void insertUserList(@Param("list") List<Long> list,Long lessonId);
-
-
-
-
-    List<ExamAttendLogVO> selectStudentsList(@Param("query") ExamAttendLogQuery query);
-
-    int updateStudents(@Param("vo") ExamAttendLogVO vo);
+//
+//    void insertUserList(@Param("list") List<Long> list,Long lessonId);
+//
+//
+//
+//
+//    List<ExamAttendLogVO> selectStudentsList(@Param("query") ExamAttendLogQuery query);
+//
+//    int updateStudents(@Param("vo") ExamAttendLogVO vo);
 }

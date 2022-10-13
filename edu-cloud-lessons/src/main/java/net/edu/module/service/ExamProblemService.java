@@ -19,13 +19,13 @@ public interface ExamProblemService extends BaseService<ExamProblemEntity> {
 
     List<ExamProblemEntity> list(Long examId);
 
-    void save(ExamProblemVO vo);
-
-    void update(ExamProblemVO vo);
-
-    void delete(List<Long> idList);
-
-    void updateProblemTime(List<ExamProblemVO> lessonProblemList);
-
-    void insertProblemListByTeacher(List<ProblemPaperItemEntity> list, Long lessonId);
+//    void save(ExamProblemVO vo);
+//
+//    void update(ExamProblemVO vo);
+//
+//    void delete(List<Long> idList);
+//
+//    void updateProblemTime(List<ExamProblemVO> lessonProblemList);
+//
+//    void insertProblemListByTeacher(List<ProblemPaperItemEntity> list, Long lessonId);
 }

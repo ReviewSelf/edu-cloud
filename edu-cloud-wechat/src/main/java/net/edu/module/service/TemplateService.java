@@ -1,5 +1,6 @@
 package net.edu.module.service;
 
+import cn.hutool.json.JSONObject;
 import net.edu.module.entity.MsgLogEntity;
 import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,15 @@ import java.util.List;
 @Service
 public interface TemplateService {
 
+    /**
+     * 自动发送
+     */
     void sentTemplate();
 
+    /**
+     * 网页批量发送
+     * @param msgLogEntity
+     */
     void sentMessage(MsgLogEntity msgLogEntity);
 
     int insertMsgLogClassOpenTemplate(List<ClassOpenVO> list);
@@ -26,4 +34,11 @@ public interface TemplateService {
     int insertMsgLogSignSuccessTemplate(List<SignSuccessVO> list);
 
     int insertMsgLogWorkDeadlineTemplate(List<WorkDeadlineVO> list);
+
+    /**
+     * 消息群发
+     * @param obje
+     * @return
+     */
+    String sentBatchMessage(JSONObject obje);
 }

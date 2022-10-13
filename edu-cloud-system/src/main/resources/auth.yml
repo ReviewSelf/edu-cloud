@@ -6,3 +6,4 @@ auth:
     - /auth/send/code
     - /auth/mobile
     - /upload/**
+    - /auth/checkUser

@@ -2,17 +2,23 @@ package net.edu.module.controller;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
+import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.*;
 import net.edu.module.service.SysUserService;
 import net.edu.module.service.TemplateService;
 import net.edu.module.service.WxService;
+import net.edu.module.untils.SubscriptionMessageUtil;
 import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -199,8 +205,12 @@ public class WxController {
      */
     @GetMapping("code")
     public Result<String> getOpenId(@RequestParam("code") String code){
-        System.out.println(code);
         return Result.ok(wxService.getOpenId(code));
+    }
+
+    @GetMapping("info")
+    public Result<UserVO> getUserInfo(@RequestParam("openId") String openId){
+        return Result.ok(sysUserService.getUserInfo(openId));
     }
 
     @PostMapping("classOpen")
@@ -234,6 +244,19 @@ public class WxController {
     }
 
     /**
+     * 消息群发
+     * @param obje
+     * @return
+     */
+    @PostMapping(value="groupMessage",produces ="application/json;charset=utf-8")
+    public Result<String> Message(@RequestBody(required=false)JSONObject obje) {
+        System.out.println(obje);
+        String s = templateService.sentBatchMessage(obje);
+        return Result.ok();
+    }
+
+
+    /**
      * 账号绑定
      * @param username
      * @param password
@@ -244,7 +267,6 @@ public class WxController {
                                                   @RequestParam("password") String password,
                                                   @RequestParam("openId") String openId){
         //将得到的密码加密
-        password = passwordEncoder.encode(password);
         return Result.ok(sysUserService.updateOpenIdByUsername(username,password,openId));
     }
 }

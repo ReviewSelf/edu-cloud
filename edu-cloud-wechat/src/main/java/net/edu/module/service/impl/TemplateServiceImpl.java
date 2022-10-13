@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.json.JSONObject;
 import net.edu.module.dao.MessageDao;
 import net.edu.module.dao.TemplateDao;
 import net.edu.module.entity.MsgLogEntity;
@@ -84,16 +85,13 @@ public class TemplateServiceImpl implements TemplateService {
     }
     @Override
     public int insertMsgLogClassOpenTemplate(List<ClassOpenVO> list) {
-
         for (ClassOpenVO vo: list) {
             String content = vo.toJsonString();
             String sendTime = vo.getSendTime();
             Long userId = vo.getUserId();
             templateDao.insertMsgLogClassOpenTemplate(content,sendTime,userId);
         }
-
         return 1;
-
     }
 
 
@@ -105,7 +103,6 @@ public class TemplateServiceImpl implements TemplateService {
             Long userId = vo.getUserId();
             templateDao.insertMsgLogWorkPublishTemplate(content,sendTime,userId);
         }
-
         return 1;
     }
 
@@ -141,5 +138,14 @@ public class TemplateServiceImpl implements TemplateService {
         }
 
         return 1;
+    }
+
+    @Override
+    public String sentBatchMessage(JSONObject obje) {
+        String accessToken = WxToken.token;
+        String content = obje.getStr("content");//群发内容
+        String person = obje.getStr("person");
+        String code = SubscriptionMessageUtil.GroupMessage(accessToken, content,person);//群发消息
+        return code;
     }
 }

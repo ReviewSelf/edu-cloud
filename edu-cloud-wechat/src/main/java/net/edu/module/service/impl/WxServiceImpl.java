@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.edu.module.dao.SysUserDao;
 import net.edu.module.entity.*;
 import net.edu.module.service.WxService;
+import net.edu.module.vo.UserVO;
 import net.edu.module.vo.WxToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,6 @@ import java.net.URLEncoder;
 @Slf4j
 @Service
 public class WxServiceImpl implements WxService {
-
-
 
     @Override
     public void getAccessToken(){
@@ -63,24 +62,15 @@ public class WxServiceImpl implements WxService {
         mainBtn2.setType("view");
         mainBtn2.setUrl(EnrollmentUrl);
 
-        ComplexButton mainBtn1 = new ComplexButton();
+        CommonButton mainBtn1 = new CommonButton();
         mainBtn1.setName("我的账号");
-
-        CommonButton sub_Btn11 = new CommonButton();
-        sub_Btn11.setName("账号绑定");
-        sub_Btn11.setType("view");
-        sub_Btn11.setUrl(AccountBindUrl);
-
-        CommonButton sub_Btn12 = new CommonButton();
-        sub_Btn12.setName("账号解绑");
-        sub_Btn12.setType("click");
-        sub_Btn12.setKey("12");
-        mainBtn1.setSub_button(new CommonButton[] {sub_Btn11,sub_Btn12});
+        mainBtn1.setType("view");
+        mainBtn1.setUrl(AccountBindUrl);
 
 
         Menu menu = new Menu();
 
-        menu.setButton(new Button[] {mainBtn1,mainBtn2});
+        menu.setButton(new Button[] {mainBtn2,mainBtn1});
 
         JSONObject object = new JSONObject(menu);
 
@@ -100,20 +90,7 @@ public class WxServiceImpl implements WxService {
         return unionId;
     }
 
-    @Override
-    public void template(){
-        String accessToken = WxToken.token;
-        String setUrl = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=" + accessToken;
-        String body="{\n" +
-                "    \"industry_id1\":\"16\",\n" +
-                "    \"industry_id2\":\"17\"\n" +
-                "}";
-        String result = HttpUtil.post(setUrl, body);
-        String getUrl = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=" + accessToken;
-        String info = HttpUtil.get(getUrl);
-        String getTemplateIdUrl = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=" + accessToken;
-        System.out.println(info);
-    }
+
 
     @Override
     public String getOpenId(String code) {
@@ -127,6 +104,7 @@ public class WxServiceImpl implements WxService {
         String openId = jsonObject.getStr("openid");
         return openId;
     }
+
 
 
 

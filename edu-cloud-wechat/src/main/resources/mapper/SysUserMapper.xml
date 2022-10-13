@@ -4,22 +4,24 @@
 <mapper namespace="net.edu.module.dao.SysUserDao">
 
     <update id="updateOpenIdByUsername">
-        update  sys_user set open_id =
-        <if test="username==null and password==null">
-            null
-        </if>
-        <if test="openId!=null and openId!=''">
-            #{openId}
-        </if>
-        where 1=1
-        <if test="username!=null and username!=''">
-            and username = #{username}
-        </if>
-         <if test="password!=null and password!=''">
-             and password = #{password}
-         </if>
-
+        update  sys_user set open_id = #{openId}
+        where username = #{username}
     </update>
 
+    <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.UserVO">
+        select
+            username,
+            real_name as realName,
+            password,
+            org_id as orgId,
+            (select name from sys_org where id=org_id) as orgName,
+            status
+        from sys_user
+        where
+             open_id = #{openId}
+    </select>
 
+    <select id="selectOpenIdByUsername" resultType="java.lang.String">
+        select open_id from sys_user where username = #{username}
+    </select>
 </mapper>

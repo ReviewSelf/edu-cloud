@@ -52,7 +52,7 @@
     <update id="save">
         UPDATE enroll_user
         set
-        phone = #{phone}
+        phone = #{phone} ,status = 1
         <if test="name!=null and name!=''">
             ,name = #{name}
         </if>

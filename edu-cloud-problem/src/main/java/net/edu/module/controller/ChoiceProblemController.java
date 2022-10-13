@@ -48,7 +48,6 @@ public class ChoiceProblemController {
     @Operation(summary = "新增选择题时保存")
     public Result<String> save(@RequestBody ChoiceProblemVO vo) {
         choiceProblemService.save(vo);
-
         return Result.ok();
     }
 

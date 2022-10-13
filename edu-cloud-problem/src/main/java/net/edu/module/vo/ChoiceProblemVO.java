@@ -12,7 +12,7 @@ import java.util.List;
 /**
 * 选择题库表
 *
-* @author 马佳浩 
+* @author 马佳浩
 * @since 1.0.0 2022-09-05
 */
 @Data
@@ -46,8 +46,6 @@ public class ChoiceProblemVO implements Serializable {
 
 	@Schema(description = "难度")
 	private Integer difficulty;
-
-
 
 	@Schema(description = "知识点代码")
 	private String kpCode;

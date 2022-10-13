@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-@TableName("lesson_problem")
+@TableName("exam_problem")
 public class ExamProblemEntity {
 	/**
 	 * ID

@@ -27,13 +27,16 @@ import java.util.List;
 public class ExamProblemController {
     private final ExamProblemService examProblemService;
 
-    @GetMapping("list")
+    @GetMapping("list/{examId}")
     @Operation(summary = "获取考试题目信息")
-    public Result<List<ExamProblemVO>> list(@Valid ExamProblemQuery query){
-        List<ExamProblemVO> page = examProblemService.list(query);
+    public Result<List<ExamProblemEntity>> list(@PathVariable("examId") Long examId){
 
-        return Result.ok(page);
+        return Result.ok(examProblemService.list(examId));
     }
+
+
+
+
 
     @GetMapping("{id}")
     @Operation(summary = "信息")

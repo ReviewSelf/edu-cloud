@@ -84,4 +84,12 @@
             and   a.end_time &gt;= now()
     </select>
 
+
+
+
+
+
+
+
+
 </mapper>

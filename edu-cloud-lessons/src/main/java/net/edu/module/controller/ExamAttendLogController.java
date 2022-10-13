@@ -20,6 +20,18 @@ public class ExamAttendLogController {
 
     private final ExamAttendLogService examAttendLogService;
 
+
+    @GetMapping("user/{examId}")
+    @Operation(summary = "教师点名获取课次中的学生")
+    public Result<ExamAttendLogVO> studentsList(@PathVariable("examId") Long examId) {
+
+        return Result.ok(examAttendLogService.getUserExamAttend(examId));
+    }
+
+
+
+
+
     @GetMapping("students/list")
     @Operation(summary = "教师点名获取课次中的学生")
     public Result<List<ExamAttendLogVO>> studentsList(@Valid ExamAttendLogQuery query) {
@@ -35,14 +47,14 @@ public class ExamAttendLogController {
 
     @PostMapping("lesson")
     @Operation(summary = "根据学生id批量插入课程id")
-    public Result insertExamList(@RequestBody ExamAttendLogVO vo){
+    public Result insertExamList(@RequestBody ExamAttendLogVO vo) {
 
         return Result.ok();
     }
 
     @DeleteMapping("lesson")
     @Operation(summary = "根据学生id批量删除课程id")
-    public Result deleteExamList(@RequestBody ExamAttendLogVO vo){
+    public Result deleteExamList(@RequestBody ExamAttendLogVO vo) {
         System.out.println(vo);
 
         return Result.ok();

@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * 代码题库表
  *
- * @author 马佳浩 
+ * @author 马佳浩
  * @since 1.0.0 2022-09-05
  */
 @Service
@@ -119,6 +119,5 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
             vo.setMemoryLimit(vo.getMemoryLimit()* 1024);
             save(vo);
         }
-
     }
 }

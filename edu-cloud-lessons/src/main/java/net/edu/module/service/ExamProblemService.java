@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface ExamProblemService extends BaseService<ExamProblemEntity> {
 
-    List<ExamProblemVO> list(ExamProblemQuery query);
+    List<ExamProblemEntity> list(Long examId);
 
     void save(ExamProblemVO vo);
 

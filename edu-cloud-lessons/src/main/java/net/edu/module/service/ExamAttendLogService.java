@@ -16,9 +16,11 @@ import java.util.List;
  */
 public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
 
+    ExamAttendLogVO getUserExamAttend(Long examId);
+
     List<ExamAttendLogVO> list(ExamAttendLogQuery query);
 
-    Boolean attendance(Long userId, ExamEntity lessonEntity);
+    Boolean attendance(Long examId);
 
     void save(ExamAttendLogVO vo);
 

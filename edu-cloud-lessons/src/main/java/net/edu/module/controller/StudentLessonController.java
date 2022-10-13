@@ -35,7 +35,7 @@ public class StudentLessonController {
     }
 
 
-    @GetMapping("{examId}")
+    @GetMapping("exam/{examId}")
     @Operation(summary = "参加考试")
     public Result<String> attendExam( @PathVariable Long examId){
         return studentLessonService.attendExam(examId);

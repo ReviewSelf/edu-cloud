@@ -19,6 +19,8 @@ public interface ExamProblemService extends BaseService<ExamProblemEntity> {
 
     List<ExamProblemEntity> list(Long examId);
 
+    void copyFromPaper(Long paperId);
+
 //    void save(ExamProblemVO vo);
 //
 //    void update(ExamProblemVO vo);

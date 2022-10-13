@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
@@ -7,6 +8,7 @@ import net.edu.framework.common.utils.DateUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.ExamAttendLogConvert;
 import net.edu.module.dao.ExamAttendLogDao;
 import net.edu.module.entity.ExamAttendLogEntity;
@@ -31,7 +33,8 @@ import java.util.List;
 public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, ExamAttendLogEntity> implements ExamAttendLogService {
 
     private final RedisUtils redisUtils;
-    private final ExamAttendLogDao lessonAttendLogDao;
+
+    private final EduTeachApi eduTeachApi;
 
     @Override
     public ExamAttendLogVO getUserExamAttend(Long examId) {
@@ -133,6 +136,14 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
         ExamAttendLogEntity entity = ExamAttendLogConvert.INSTANCE.convert(vo);
         updateById(entity);
         redisUtils.del(RedisKeys.getExamAttendLog(vo.getExamId()));
+    }
+
+    @Override
+    public void copyFromClass(Long classId) {
+        List<Long> userList=eduTeachApi.list(classId).getData();
+        if(!CollUtil.isEmpty(userList)){
+            //insert
+        }
     }
 //
 //    @Override

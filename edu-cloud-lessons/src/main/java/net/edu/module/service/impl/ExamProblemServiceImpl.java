@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -27,25 +28,33 @@ import java.util.List;
 /**
  * 课堂练习表
  *
- * @author 马佳浩 
+ * @author 马佳浩
  * @since 1.0.0 2022-09-15
  */
 @Service
 @AllArgsConstructor
 public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, ExamProblemEntity> implements ExamProblemService {
 
-    private final EduTeachApi eduTeachApi;
     private final EduProblemApi eduProblemApi;
 
 
     @Override
-    public List<ExamProblemEntity> list(Long examId ) {
-        List<ExamProblemEntity> list= new LambdaQueryChainWrapper<>(baseMapper)
+    public List<ExamProblemEntity> list(Long examId) {
+        List<ExamProblemEntity> list = new LambdaQueryChainWrapper<>(baseMapper)
                 .eq(ExamProblemEntity::getExamId, examId).list();
         //打乱
         Collections.shuffle(list);
 
         return list;
+    }
+
+    @Override
+    public void copyFromPaper(Long paperId) {
+        List<ProblemPaperItemEntity> problemList = eduProblemApi.getPaperProblem(paperId).getData();
+        if(!CollUtil.isEmpty(problemList)){
+            //insert
+        }
+
     }
 
 

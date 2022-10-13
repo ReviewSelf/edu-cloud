@@ -40,17 +40,7 @@
     <select id="selectUserIdList" resultType="java.lang.Long">
         select user_id from teach_class_user where  class_id = #{classId} and deleted=0 and status=1
     </select>
-    <select id="selectStudent" resultType="net.edu.module.entity.TeachStudentEntity">
-        select
-        t1.user_id as userId,
-        t1.class_id as classId,
-        t2.username,
-        t2.real_name,
-        t2.mobile
-        from teach_class_user t1
-        left join sys_user t2 on t1.user_id = t2.id
-        where t1.class_id = #{id}
-    </select>
+
 
     <select id="page" resultType="net.edu.module.vo.TeachClassUserVO">
         select a.user_id as userId,b.real_name as realName , join_lesson_times as joinLessonTimes, quit_lesson_times as quitLessonTimes , join_time as joinTime , quit_time as quitTime , a.status , late_times as lateTimes , homework_times as homeworkTimes , unfinished_problem_num as unfinishedProblemNum , payment_amount as paymentAmount , payment_times as paymentTimes , payment_true as paymentTrue from teach_class_user a join sys_user b on a.user_id = b.id

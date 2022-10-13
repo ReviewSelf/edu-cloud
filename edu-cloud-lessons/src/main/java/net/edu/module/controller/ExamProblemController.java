@@ -21,7 +21,7 @@ import java.util.List;
 * @since 1.0.0 2022-09-15
 */
 @RestController
-@RequestMapping("problem")
+@RequestMapping("exam/problem")
 @Tag(name="课堂练习表")
 @AllArgsConstructor
 public class ExamProblemController {

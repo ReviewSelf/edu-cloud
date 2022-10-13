@@ -3,6 +3,7 @@ package net.edu.module.service;
 import lombok.AllArgsConstructor;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.dao.JudgeRecordDao;
+import net.edu.module.vo.ExamJudgeRecordVo;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
 import net.edu.module.vo.ProblemCompletionVo;
@@ -44,5 +45,9 @@ public class RecordService {
     public int updateReasonAndStatus(JudgeRecordSubmitVO vo){
         vo.setJudgeUser(SecurityUser.getUserId());
         return judgeRecordDao.updateReasonAndStatus(vo);
+    }
+
+    public List<ExamJudgeRecordVo> getExamProblemRecord(Long examId, Integer type) {
+        return judgeRecordDao.selectExamRecord(examId,type);
     }
 }

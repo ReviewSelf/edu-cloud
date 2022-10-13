@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface SysUserService {
 
-    int updateOpenIdByUsername(String username,String password,String openId);
+    void updateOpenIdByUsername(String username,String password,String openId);
 
     UserVO getUserInfo(String openId);
 }

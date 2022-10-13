@@ -26,18 +26,18 @@ public class SysUserServiceImpl implements SysUserService {
     @Autowired
     SysUserDao sysUserDao;
     @Override
-    public int updateOpenIdByUsername(String username, String password,String openId) {
+    public void updateOpenIdByUsername(String username, String password,String openId) {
         Boolean flag = eduSysApi.checkUserAndPassword(username, password).getData();
         //如果账号和密码验证成功
         if(flag){
             //如果该账号没有openId，则进行更新
             String result = sysUserDao.selectOpenIdByUsername(username);
             if(result==null){
-                return sysUserDao.updateOpenIdByUsername(username,openId);
+                sysUserDao.updateOpenIdByUsername(username,openId);
             }
         }
         //否则，提示该账号已绑定
-        return 0;
+
     }
 
     @Override

@@ -21,10 +21,35 @@ import java.util.*;
 
 public class SubscriptionMessageUtil {
 
+
+    public static void chooseMsgTemplate(int type,String userOpenid,String tempId,String...content){
+
+        switch (type){
+            case 1:
+                sendClassOpenMsg(userOpenid,tempId,content[0]);
+                break;
+            case 2:
+                sendHomeWorkMsg(userOpenid,tempId,content[0],content[1]);
+                break;
+            case 3:
+                sendLessonOpenMsg(userOpenid,tempId,content[0]);
+                break;
+            case 4:
+                sendSignSuccessMsg(userOpenid,tempId,content[0],content[1]);
+                break;
+            case 5:
+                sendHomeworkSubmitMsg(userOpenid,tempId,content[0]);
+                break;
+        }
+    }
+
+
+
+
     /**
      * 作业发布提醒
      */
-    public static void sendHomeWorkMsg(String appid,String appSecret,String userOpenid,String tempId,String content,String userName) {
+    public static void sendHomeWorkMsg(String userOpenid,String tempId,String content,String userName) {
 
         /**
          *  {{first.DATA}}
@@ -42,8 +67,8 @@ public class SubscriptionMessageUtil {
         String task = jsonObject.getStr("task");
 
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
-        wxStorage.setAppId(appid);
-        wxStorage.setSecret(appSecret);
+        wxStorage.setAppId(WeChatProperties.APP_ID);
+        wxStorage.setSecret(WeChatProperties.APP_SECRET);
 
         WxMpService wxMpService = new WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(wxStorage);
@@ -75,7 +100,7 @@ public class SubscriptionMessageUtil {
      * 课程发布提醒
 
      */
-    public static void sendClassOpenMsg(String appid, String appSecret, String userOpenid,String tempId,String content) {
+    public static void sendClassOpenMsg( String userOpenid,String tempId,String content) {
         /**
          * {{first.DATA}}
          * 课程名称：{{keyword1.DATA}}
@@ -95,8 +120,8 @@ public class SubscriptionMessageUtil {
         String location = jsonObject.getStr("location");
 
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
-        wxStorage.setAppId(appid);
-        wxStorage.setSecret(appSecret);
+        wxStorage.setAppId(WeChatProperties.APP_ID);
+        wxStorage.setSecret(WeChatProperties.APP_SECRET);
 
         WxMpService wxMpService = new WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(wxStorage);
@@ -127,7 +152,7 @@ public class SubscriptionMessageUtil {
     /**
      * 作业及时提交提醒
      */
-    public static void sendHomeworkSubmitMsg(String appid, String appSecret, String userOpenid,String tempId,String content) {
+    public static void sendHomeworkSubmitMsg( String userOpenid,String tempId,String content) {
         /**
          * {{first.DATA}}
          * 截止时间：{{keyword1.DATA}}
@@ -143,8 +168,8 @@ public class SubscriptionMessageUtil {
 
 
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
-        wxStorage.setAppId(appid);
-        wxStorage.setSecret(appSecret);
+        wxStorage.setAppId(WeChatProperties.APP_ID);
+        wxStorage.setSecret(WeChatProperties.APP_SECRET);
 
         WxMpService wxMpService = new WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(wxStorage);
@@ -173,7 +198,7 @@ public class SubscriptionMessageUtil {
     /**
      * 上课签到成功提醒
      */
-    public static void sendSignSuccessMsg(String appid, String appSecret, String userOpenid,String tempId,String content,String userName) {
+    public static void sendSignSuccessMsg( String userOpenid,String tempId,String content,String userName) {
 
         /**
          * {{first.DATA}}
@@ -195,8 +220,8 @@ public class SubscriptionMessageUtil {
         String lessonLocation = jsonObject.getStr("lessonLocation");
 
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
-        wxStorage.setAppId(appid);
-        wxStorage.setSecret(appSecret);
+        wxStorage.setAppId(WeChatProperties.APP_ID);
+        wxStorage.setSecret(WeChatProperties.APP_SECRET);
 
         WxMpService wxMpService = new WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(wxStorage);
@@ -229,7 +254,7 @@ public class SubscriptionMessageUtil {
     /**
      *上课前提醒
      */
-    public static void sendLessonOpenMsg(String appid, String appSecret, String userOpenid,String tempId,String content) {
+    public static void sendLessonOpenMsg(  String userOpenid,String tempId,String content) {
 
         /**
          * {{first.DATA}}
@@ -249,8 +274,8 @@ public class SubscriptionMessageUtil {
         String lessonLocation = jsonObject.getStr("lessonLocation");
 
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
-        wxStorage.setAppId(appid);
-        wxStorage.setSecret(appSecret);
+        wxStorage.setAppId(WeChatProperties.APP_ID);
+        wxStorage.setSecret(WeChatProperties.APP_SECRET);
 
         WxMpService wxMpService = new WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(wxStorage);
@@ -295,7 +320,9 @@ public class SubscriptionMessageUtil {
             dataMap1.put("is_to_all",true);//用于设定是否向全部用户发送，值为true或false，选择true该消息群发给所有用户，选择false可根据tag_id发送给指定群组的用户
         }
 
-        else dataMap1.put("is_to_all",false);
+        else {
+            dataMap1.put("is_to_all",false);
+        }
         dataMap1.put("tag_id",1);//群发到的标签的tag_id，参见用户管理中用户分组接口，若is_to_all值为true，可不填写tag_id
         dataMap2.put("content",content);//要推送的内容
         paramMap.put("filter",dataMap1);//用于设定图文消息的接收者

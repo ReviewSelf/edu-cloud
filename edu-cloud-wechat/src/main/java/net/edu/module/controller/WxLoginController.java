@@ -1,13 +1,10 @@
 package net.edu.module.controller;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.untils.WxPropertiesUtils;
+import net.edu.module.untils.WeChatProperties;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URLEncoder;
@@ -31,9 +28,9 @@ public class WxLoginController {
     @GetMapping("genQRCode")
     public Result<Map> genQRCode(){
         Map<String,Object> map=new HashMap<>();
-        map.put("appid", WxPropertiesUtils.WX_APP_ID);
+        map.put("appid", WeChatProperties.APP_ID);
         map.put("scope","snsapi_login");
-        map.put("redirect_uri", URLEncoder.encode((WxPropertiesUtils.WX_REDIRECT_URL),"UTF-8"));
+//        map.put("redirect_uri", URLEncoder.encode((WeChatProperties.REDIRECT_URL),"UTF-8"));
         map.put("state",System.currentTimeMillis());
         return Result.ok(map);
     }

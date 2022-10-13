@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2022/9/26 - 15:35
  **/
 @Service
-public interface TemplateService {
+public interface WeChatMsgService {
 
     /**
      * 自动发送
@@ -25,20 +25,20 @@ public interface TemplateService {
      */
     void sentMessage(MsgLogEntity msgLogEntity);
 
-    int insertMsgLogClassOpenTemplate(List<ClassOpenVO> list);
+    void insertMsgLogClassOpenTemplate(List<ClassOpenVO> list);
 
-    int insertMsgLogWorkPublishTemplate(List<WorkPublishVO> list);
+    void insertMsgLogWorkPublishTemplate(List<WorkPublishVO> list);
 
-    int insertMsgLogLessonOpenTemplate(List<LessonOpenVO> list);
+    void insertMsgLogLessonOpenTemplate(List<LessonOpenVO> list);
 
-    int insertMsgLogSignSuccessTemplate(List<SignSuccessVO> list);
+    void insertMsgLogSignSuccessTemplate(List<SignSuccessVO> list);
 
-    int insertMsgLogWorkDeadlineTemplate(List<WorkDeadlineVO> list);
+    void insertMsgLogWorkDeadlineTemplate(List<WorkDeadlineVO> list);
 
     /**
      * 消息群发
-     * @param obje
+     * @param obj
      * @return
      */
-    String sentBatchMessage(JSONObject obje);
+    String sentBatchMessage(JSONObject obj);
 }

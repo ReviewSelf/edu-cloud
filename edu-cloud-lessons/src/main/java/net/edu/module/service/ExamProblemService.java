@@ -19,7 +19,7 @@ public interface ExamProblemService extends BaseService<ExamProblemEntity> {
 
     List<ExamProblemEntity> list(Long examId);
 
-    void copyFromPaper(Long paperId);
+    void copyFromPaper(Long paperId,Long examId);
 
 //    void save(ExamProblemVO vo);
 //

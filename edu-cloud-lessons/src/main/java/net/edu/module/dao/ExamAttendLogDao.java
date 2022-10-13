@@ -33,4 +33,6 @@ public interface ExamAttendLogDao extends BaseDao<ExamAttendLogEntity> {
 //    List<ExamAttendLogVO> selectStudentsList(@Param("query") ExamAttendLogQuery query);
 //
 //    int updateStudents(@Param("vo") ExamAttendLogVO vo);
+
+    int insertAttendLogFromClass(@Param("userList") List<Long> userList,Long examId);
 }

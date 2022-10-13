@@ -26,7 +26,7 @@ public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
 //
     void update(ExamAttendLogVO vo);
 
-    void copyFromClass(Long classId);
+    void copyFromClass(Long classId,Long examId);
 //
 //    void delete(List<Long> idList);
 //

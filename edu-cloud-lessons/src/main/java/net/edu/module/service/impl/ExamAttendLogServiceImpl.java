@@ -36,6 +36,8 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
 
     private final EduTeachApi eduTeachApi;
 
+    private final ExamAttendLogDao examAttendLogDao;
+
     @Override
     public ExamAttendLogVO getUserExamAttend(Long examId) {
         Long userId = SecurityUser.getUserId();
@@ -139,10 +141,13 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     }
 
     @Override
-    public void copyFromClass(Long classId) {
+    public void copyFromClass(Long classId,Long examId) {
         List<Long> userList=eduTeachApi.list(classId).getData();
+        System.out.println(userList);
         if(!CollUtil.isEmpty(userList)){
             //insert
+            examAttendLogDao.insertAttendLogFromClass(userList,examId);
+
         }
     }
 //

@@ -37,9 +37,11 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
 
     private final EduProblemApi eduProblemApi;
 
+    private final ExamProblemDao examProblemDao;
+
 
     @Override
-    public List<ExamProblemEntity> list(Long examId) {
+    public List<ExamProblemEntity> list(Long examId ) {
         List<ExamProblemEntity> list = new LambdaQueryChainWrapper<>(baseMapper)
                 .eq(ExamProblemEntity::getExamId, examId).list();
         //打乱
@@ -49,10 +51,12 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
     }
 
     @Override
-    public void copyFromPaper(Long paperId) {
+    public void copyFromPaper(Long paperId,Long examId) {
         List<ProblemPaperItemEntity> problemList = eduProblemApi.getPaperProblem(paperId).getData();
+        System.out.println(problemList);
         if(!CollUtil.isEmpty(problemList)){
             //insert
+            examProblemDao.insertExamProblemFromPaper(problemList,examId);
         }
 
     }

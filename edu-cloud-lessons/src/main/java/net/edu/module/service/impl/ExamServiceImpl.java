@@ -65,16 +65,17 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(ExamVO vo) {
         ExamEntity entity = ExamConvert.INSTANCE.convert(vo);
 
-        baseMapper.insert(entity);
+         baseMapper.insert(entity);
 
         //插入题目
-        examProblemService.copyFromPaper(vo.getPaperId());
+        examProblemService.copyFromPaper(vo.getPaperId(),entity.getId());
 
         //插入名单
-        examAttendLogService.copyFromClass(vo.getClassId());
+        examAttendLogService.copyFromClass(vo.getClassId(),entity.getId());
 
 
 

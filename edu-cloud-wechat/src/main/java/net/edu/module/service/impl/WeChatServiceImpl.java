@@ -35,8 +35,7 @@ public class WeChatServiceImpl implements WeChatService {
     @Autowired
     private EduSysApi eduSysApi;
 
-    @Autowired
-    private SysUserService sysUserService;
+
 
     @Override
     public void getAccessToken(){
@@ -56,7 +55,7 @@ public class WeChatServiceImpl implements WeChatService {
      */
     @Override
     public String createMenu(){
-        return HttpUtil.post(WeChatApiUtils.MENU_URL, MenuUtils.setMenuBody());
+        return HttpUtil.post(WeChatApiUtils.getMenuUrl(), MenuUtils.setMenuBody());
     }
 
     @Override
@@ -104,19 +103,14 @@ public class WeChatServiceImpl implements WeChatService {
             //如果是关注事件
             if("subscribe".equals(event)){
                 String openId = inMessage.getFromUserName();
-//                String unionId = weChatService.getUnionId(openId);
+                System.out.println(openId);
+
                 eduTeachApi.insertOpenId(openId);
                 outMessage.setMsgType("text");
                 outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
             }
             else if("CLICK".equals(event)){
                 String eventKey = inMessage.getEventKey();
-                System.out.println(eventKey);
-                if(eventKey.equals("12")){
-                    System.out.println("点击了账号解绑");
-                    String openId = inMessage.getFromUserName();
-                    sysUserService.updateOpenIdByUsername(null,null,openId);
-                }
             }
 
         }

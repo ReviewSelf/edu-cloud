@@ -33,7 +33,4 @@ public class MenuUtils {
 
         return new JSONObject(menu).toString();
     }
-
-
-
 }

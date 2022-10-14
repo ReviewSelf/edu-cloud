@@ -80,6 +80,7 @@ public class WeChatServiceImpl implements WeChatService {
 
     @Override
     public Object handleMessage(InMessage inMessage) {
+        log.info(inMessage.toString());
         // 创建响应消息实体对象
         OutMessage outMessage = new OutMessage();
         // 把原来的接收方设置为发送方
@@ -103,7 +104,7 @@ public class WeChatServiceImpl implements WeChatService {
             //如果是关注事件
             if("subscribe".equals(event)){
                 String openId = inMessage.getFromUserName();
-                System.out.println(openId);
+                log.info(openId);
 
                 eduTeachApi.insertOpenId(openId);
                 outMessage.setMsgType("text");

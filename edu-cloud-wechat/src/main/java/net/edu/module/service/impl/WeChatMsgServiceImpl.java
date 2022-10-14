@@ -111,6 +111,10 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
         }
     }
 
+
+    /**
+     * 未完成
+     */
     @Override
     public String sentBatchMessage(JSONObject obj) {
         String content = obj.getStr("content");//群发内容

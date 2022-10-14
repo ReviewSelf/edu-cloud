@@ -125,8 +125,8 @@ public class WeChatController {
      * @return
      */
     @GetMapping("login/mini")
-    public Result<SysTokenVO> miniLogin(@RequestParam("code") String code){
-        return Result.ok(weChatService.miniLogin(code));
+    public Object miniLogin(@RequestParam("code") String code){
+        return  weChatService.miniLogin(code);
     }
 
 }

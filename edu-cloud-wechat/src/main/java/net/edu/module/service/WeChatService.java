@@ -15,5 +15,5 @@ public interface WeChatService {
 
     Object handleMessage(InMessage inMessage);
 
-    SysTokenVO miniLogin(String code);
+    Object miniLogin(String code);
 }

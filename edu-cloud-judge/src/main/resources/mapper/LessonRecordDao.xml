@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.edu.module.dao.LessonRecordDao">
+
+    <select id="selectLessonProblemRank" resultType="net.edu.module.vo.lesson.LessonProblemRankVO">
+        select
+             lesson_id as lessonId
+             , user_id as userId
+             , (SELECT real_name FROM sys_user WHERE id = user_id) as name
+             , sum(ISNULL(submit_status))                          as unansweredNum
+             , sum(1 - ISNULL(submit_status))                      as answeredNum
+             , sum(if(submit_status = 0, 1, 0))                    as undecidedNum
+             , sum(if(submit_status = 3, 1, 0))                    as correctNum
+             , sum(if(submit_status = 4, 1, 0))                    as errorNum
+        FROM (SELECT c.user_id, c.lesson_id, c.problem_name, c.problem_id, c.problem_type, c.type, submit_status
+              FROM (SELECT a.stu_id as user_id, a.lesson_id, b.problem_name, b.problem_id, b.problem_type, b.type
+                    FROM lesson_attend_log a
+                             left join lesson_problem b on b.lesson_id = a.lesson_id
+                    WHERE a.lesson_id = #{lessonId}) c
+                       left join (select user_id, problem_id, problem_type, source, submit_status
+                                  from judge_record jr1
+                                  where source_id = #{lessonId}
+                                    and not exists(select 1
+                                                   from judge_record jr2
+                                                   where source_id = #{lessonId}
+                                                     and jr1.problem_id = jr2.problem_id
+                                                     and jr1.problem_type = jr2.problem_type
+                                                     and jr1.source_id = jr2.source_id
+                                                     and jr1.user_id = jr2.user_id
+                                                     and jr1.source = jr2.source
+                                                     and jr1.id &lt; jr2.id)) d
+                                 on c.problem_id = d.problem_id and c.problem_type = d.problem_type and
+                                    c.type = d.source and c.user_id = d.user_id
+        <if test="type!=null">
+            where type=#{type}
+        </if>
+              ) tt
+        GROUP BY user_id
+        ORDER BY correctNum desc
+
+    </select>
+
+</mapper>

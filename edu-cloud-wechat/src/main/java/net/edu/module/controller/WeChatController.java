@@ -99,10 +99,10 @@ public class WeChatController {
      * @param openId
      * @return
      */
-    @GetMapping("union")
-    public String getUnionId(@RequestParam("openId") String openId){
-        return weChatService.getUnionId(openId);
-    }
+//    @GetMapping("union")
+//    public String getUnionId(@RequestParam("openId") String openId){
+//        return weChatService.getUnionId(openId);
+//    }
 
     /**
      * 通过code获取openId

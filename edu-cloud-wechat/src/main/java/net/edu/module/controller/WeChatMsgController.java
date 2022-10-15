@@ -9,6 +9,7 @@ import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.*;
 import net.edu.module.service.SysUserService;
 import net.edu.module.service.WeChatMsgService;
+import net.edu.module.service.WeChatService;
 import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,7 +35,9 @@ public class WeChatMsgController {
 
     @Autowired
     private WeChatMsgService weChatMsgService;
-    
+
+    @Autowired
+    private WeChatService weChatService;
     @Autowired
     private SysUserService sysUserService;
 
@@ -63,11 +66,13 @@ public class WeChatMsgController {
     @PostMapping("post")
     @Operation(summary = "注册")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
+        String openId = enrollUserVO.getOpenId();
+        String unionId = weChatService.getUnionId(openId);
+        enrollUserVO.setUnionId(unionId);
         eduTeachApi.post(enrollUserVO);
         System.out.println(enrollUserVO);
         if(enrollUserVO.getPurpose()=="" || enrollUserVO.getPurpose()==null){
             Integer classId = enrollUserVO.getClassId();
-            String openId = enrollUserVO.getOpenId();
             System.out.println(openId);
             eduTeachApi.insertClassUser(classId,openId);
 //            messageService.insertClassUser(classId,openId);

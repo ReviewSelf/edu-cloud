@@ -48,9 +48,14 @@ public class WeChatApiUtils {
                 "scope="+scope+"#wechat_redirect";
     }
 
-    public static String getUnionUrl( String openId){
+    public static String getUnionUrl(String openId){
         return "https://api.weixin.qq.com/cgi-bin/user/info?access_token="+WeChatProperties.TOKEN
                 +"&openid="+openId;
+    }
+
+    public static String getInfoBaseUrl(String openId,String accessToken){
+        return "https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken
+                +"&openid="+openId +"&lang=zh_CN";
     }
 
     @SneakyThrows

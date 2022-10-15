@@ -34,8 +34,8 @@ public class WeChatProperties implements InitializingBean {
     public String judgeToken;
 
     //公众号菜单入口
-    @Value("${wechat.redirectClassUrl}")
-    public String redirectClassUrl;
+    @Value("${wechat.classUrl}")
+    public String classUrl;
 
     @Value("${wechat.accountUrl}")
     public String accountUrl;
@@ -54,7 +54,7 @@ public class WeChatProperties implements InitializingBean {
 
     //公众号菜单入口
 
-    public static String REDIRECT_CLASS_URL;
+    public static String CLASS_URL;
 
     public static String ACCOUNT_URL;
 
@@ -66,7 +66,7 @@ public class WeChatProperties implements InitializingBean {
         MINI_APP_ID = miniAppId;
         MINI_APP_SECRET = miniAppSecret;
         JUDGE_TOKEN = judgeToken;
-        REDIRECT_CLASS_URL = redirectClassUrl;
+        CLASS_URL = classUrl;
         ACCOUNT_URL = accountUrl;
     }
 }

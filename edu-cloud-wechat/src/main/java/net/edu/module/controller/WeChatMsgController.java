@@ -62,19 +62,16 @@ public class WeChatMsgController {
         return Result.ok();
     }
 
-
-
-
-
-
     @PostMapping("post")
     @Operation(summary = "报名")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
         log.info(enrollUserVO.toString());
         eduTeachApi.post(enrollUserVO);
+        System.out.println(enrollUserVO);
         if(enrollUserVO.getPurpose()=="" || enrollUserVO.getPurpose()==null){
             Integer classId = enrollUserVO.getClassId();
             String openId = enrollUserVO.getOpenId();
+            System.out.println(openId);
             eduTeachApi.insertClassUser(classId,openId);
 //            messageService.insertClassUser(classId,openId);
         }
@@ -140,8 +137,7 @@ public class WeChatMsgController {
     public Result<Integer> updateOpenIdByUsername(@RequestParam("username") String username,
                                                   @RequestParam("password") String password,
                                                   @RequestParam("openId") String openId){
-        sysUserService.updateOpenIdByUsername(username,password,openId);
-        return Result.ok();
+        return Result.ok(sysUserService.updateOpenIdByUsername(username,password,openId));
     }
 }
 

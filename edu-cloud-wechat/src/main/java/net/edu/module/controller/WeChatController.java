@@ -2,6 +2,7 @@ package net.edu.module.controller;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
+import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class WeChatController {
     @GetMapping("/wxToken")
     public String wxToken(String signature, String timestamp, String nonce, String echostr) {
 
-        String token = "abc";
+        String token = WeChatProperties.JUDGE_TOKEN;
         List<String> strList = new ArrayList<>();
         strList.add(token);
         strList.add(timestamp);
@@ -108,7 +109,7 @@ public class WeChatController {
      * @return
      */
     @GetMapping("code")
-    public Result<String> getOpenId(@RequestParam("code") String code){
+    public Result<JSONObject> getOpenId(@RequestParam("code") String code){
         return Result.ok(weChatService.getOpenId(code));
     }
 

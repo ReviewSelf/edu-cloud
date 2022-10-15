@@ -67,14 +67,14 @@ public class WeChatServiceImpl implements WeChatService {
 
 
     @Override
-    public String getOpenId(String code) {
+    public JSONObject getOpenId(String code) {
         String url = WeChatApiUtils.getAccessTokenBaseUrl(code);
         String result = HttpUtil.get(url);
         JSONObject jsonObject = JSONUtil.parseObj(result);
         String accessToken = jsonObject.getStr("access_token");
         String openId = jsonObject.getStr("openid");
         System.out.println(openId);
-        return openId;
+        return jsonObject;
     }
 
     @Override

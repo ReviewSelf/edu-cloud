@@ -75,6 +75,7 @@ public class WeChatServiceImpl implements WeChatService {
         JSONObject jsonObject = JSONUtil.parseObj(result);
         String accessToken = jsonObject.getStr("access_token");
         String openId = jsonObject.getStr("openid");
+        System.out.println(openId);
         return openId;
     }
 

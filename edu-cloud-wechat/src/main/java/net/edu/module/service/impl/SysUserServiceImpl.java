@@ -23,10 +23,12 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public void updateOpenIdByUsername(String username, String password,String openId) {
         Boolean flag = eduSysApi.checkUserAndPassword(username, password).getData();
+        System.out.println(openId);
         //如果账号和密码验证成功
         if(flag){
             //如果该账号没有openId，则进行更新
             String result = sysUserDao.selectOpenIdByUsername(username);
+            System.out.println(result);
             if(result==null){
                 sysUserDao.updateOpenIdByUsername(username,openId);
             }

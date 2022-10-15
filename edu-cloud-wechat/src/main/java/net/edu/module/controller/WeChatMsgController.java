@@ -4,12 +4,12 @@ import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.*;
 import net.edu.module.service.SysUserService;
 import net.edu.module.service.WeChatMsgService;
+import net.edu.module.service.WeChatService;
 import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,7 +26,6 @@ import java.util.List;
 @RequestMapping("wx")
 @Tag(name="消息推送")
 @AllArgsConstructor
-@Slf4j
 public class WeChatMsgController {
 
 
@@ -37,6 +36,8 @@ public class WeChatMsgController {
     @Autowired
     private WeChatMsgService weChatMsgService;
 
+    @Autowired
+    private WeChatService weChatService;
     @Autowired
     private SysUserService sysUserService;
 
@@ -63,17 +64,19 @@ public class WeChatMsgController {
     }
 
     @PostMapping("post")
-    @Operation(summary = "报名")
+    @Operation(summary = "注册")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
-        log.info(enrollUserVO.toString());
+        String openId = enrollUserVO.getOpenId();
+        String unionId = weChatService.getUnionId(openId);
+        System.out.println(unionId);
+        enrollUserVO.setUnionId(unionId);
         eduTeachApi.post(enrollUserVO);
         System.out.println(enrollUserVO);
+        //如果用户填写的是报名意向
         if(enrollUserVO.getPurpose()=="" || enrollUserVO.getPurpose()==null){
             Integer classId = enrollUserVO.getClassId();
-            String openId = enrollUserVO.getOpenId();
             System.out.println(openId);
             eduTeachApi.insertClassUser(classId,openId);
-//            messageService.insertClassUser(classId,openId);
         }
         return Result.ok();
     }

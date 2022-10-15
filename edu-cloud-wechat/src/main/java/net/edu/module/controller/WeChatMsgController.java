@@ -4,6 +4,7 @@ import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.*;
@@ -25,6 +26,7 @@ import java.util.List;
 @RequestMapping("wx")
 @Tag(name="消息推送")
 @AllArgsConstructor
+@Slf4j
 public class WeChatMsgController {
 
 
@@ -34,7 +36,7 @@ public class WeChatMsgController {
 
     @Autowired
     private WeChatMsgService weChatMsgService;
-    
+
     @Autowired
     private SysUserService sysUserService;
 
@@ -66,8 +68,9 @@ public class WeChatMsgController {
 
 
     @PostMapping("post")
-    @Operation(summary = "注册")
+    @Operation(summary = "报名")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
+        log.info(enrollUserVO.toString());
         eduTeachApi.post(enrollUserVO);
         if(enrollUserVO.getPurpose()=="" || enrollUserVO.getPurpose()==null){
             Integer classId = enrollUserVO.getClassId();

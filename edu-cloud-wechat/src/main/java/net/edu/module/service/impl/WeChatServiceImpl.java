@@ -5,17 +5,14 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.exception.ServerException;
-import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduSysApi;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.InMessage;
 import net.edu.module.entity.OutMessage;
-import net.edu.module.service.SysUserService;
 import net.edu.module.service.WeChatService;
 import net.edu.module.untils.MenuUtils;
 import net.edu.module.untils.WeChatApiUtils;
 import net.edu.module.untils.WeChatProperties;
-import net.edu.module.vo.SysTokenVO;
 import net.edu.module.vo.SysWeChatLoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,13 +36,14 @@ public class WeChatServiceImpl implements WeChatService {
 
     @Override
     public void getAccessToken(){
-        log.debug("执行到service");
+        log.info("执行到service");
         String url = WeChatApiUtils.TOKEN_URL;
         // 利用hutool的http工具类请求获取access_token
         String result = HttpUtil.get(url);
         // 将结果解析为json
         JSONObject jsonObject = JSONUtil.parseObj(result);
         // 获取access_token
+        System.out.println(jsonObject.getStr("access_token"));
         WeChatProperties.TOKEN=jsonObject.getStr("access_token");
     }
 
@@ -121,7 +119,7 @@ public class WeChatServiceImpl implements WeChatService {
     }
 
     @Override
-    public SysTokenVO miniLogin(String code) {
+    public Object miniLogin(String code) {
         System.out.println(WeChatApiUtils.getMiniUserUrl(code));
         String result =  HttpUtil.get(WeChatApiUtils.getMiniUserUrl(code));
         System.out.println(result);
@@ -130,7 +128,7 @@ public class WeChatServiceImpl implements WeChatService {
         if(unionId!=null){
             SysWeChatLoginVO sysWeChatLoginVO=new SysWeChatLoginVO();
             sysWeChatLoginVO.setUnionId(unionId);
-            return eduSysApi.wxMini(sysWeChatLoginVO).getData();
+            return eduSysApi.wxMini(sysWeChatLoginVO);
         }else {
             throw new ServerException("unionId获取失败");
         }

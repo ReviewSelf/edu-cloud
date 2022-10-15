@@ -4,12 +4,11 @@ import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.entity.InMessage;
-import net.edu.module.entity.OutMessage;
 import net.edu.module.service.WeChatService;
 import net.edu.module.untils.WeChatProperties;
-import net.edu.module.vo.SysTokenVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +26,7 @@ import java.util.List;
 @RequestMapping("wx")
 @Tag(name="消息推送")
 @AllArgsConstructor
+@Slf4j
 public class WeChatController {
 
     @Autowired
@@ -79,6 +79,8 @@ public class WeChatController {
      */
     @GetMapping("getAccessToken")
     public void getAccessToken(){
+        System.out.println("2222222222");
+        log.info("执行到controller");
         weChatService.getAccessToken();
     }
 
@@ -89,6 +91,7 @@ public class WeChatController {
      */
     @GetMapping("createMenu")
     public String createMenu(){
+        System.out.println("1111111");
         return weChatService.createMenu();
     }
 
@@ -116,6 +119,7 @@ public class WeChatController {
      */
     @PostMapping(value="/wxToken",produces = "application/xml;charset=UTF-8")
     public Object  handleMessage(@RequestBody InMessage inMessage) {
+        System.out.println("WeChatController  handleMessage");
         return weChatService.handleMessage(inMessage);
     }
 
@@ -126,8 +130,8 @@ public class WeChatController {
      * @return
      */
     @GetMapping("login/mini")
-    public Result<SysTokenVO> miniLogin(@RequestParam("code") String code){
-        return Result.ok(weChatService.miniLogin(code));
+    public Object miniLogin(@RequestParam("code") String code){
+        return weChatService.miniLogin(code);
     }
 
 }

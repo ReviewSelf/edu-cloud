@@ -45,8 +45,9 @@ public class WeChatController {
     @GetMapping("/wxToken")
     public String wxToken(String signature, String timestamp, String nonce, String echostr) {
 
+        String token = "abc";
         List<String> strList = new ArrayList<>();
-        strList.add(WeChatProperties.TOKEN);
+        strList.add(token);
         strList.add(timestamp);
         strList.add(nonce);
         //对参数进行字典序排序

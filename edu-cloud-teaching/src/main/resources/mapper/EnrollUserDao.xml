@@ -80,6 +80,6 @@
     </update>
 
     <insert id="insertClassUser">
-        insert into enroll_class_user (enroll_class_id,open_id) values (#{classId},#{openId})
+        insert into enroll_class_user (enroll_class_id,open_id,create_time) values (#{classId},#{openId},now())
     </insert>
 </mapper>

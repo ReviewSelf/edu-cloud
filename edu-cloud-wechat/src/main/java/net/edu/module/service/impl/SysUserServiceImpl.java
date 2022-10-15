@@ -21,7 +21,7 @@ public class SysUserServiceImpl implements SysUserService {
     @Autowired
     SysUserDao sysUserDao;
     @Override
-    public void updateOpenIdByUsername(String username, String password,String openId) {
+    public int updateOpenIdByUsername(String username, String password,String openId) {
         Boolean flag = eduSysApi.checkUserAndPassword(username, password).getData();
         System.out.println(openId);
         //如果账号和密码验证成功
@@ -30,13 +30,12 @@ public class SysUserServiceImpl implements SysUserService {
             String result = sysUserDao.selectOpenIdByUsername(username);
             System.out.println(result);
             if(result==null){
-                sysUserDao.updateOpenIdByUsername(username,openId);
+                return sysUserDao.updateOpenIdByUsername(username,openId);
             }
             //否则，提示该账号已绑定
 //            前端没有接收到数据
         }
-
-
+        return 0;
     }
 
     @Override

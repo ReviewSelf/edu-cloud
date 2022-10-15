@@ -82,8 +82,8 @@ public class EnrollUserController {
 
     @GetMapping("insertClassUser")
     @Operation(summary = "添加班级学生")
-    public Result<String> insertClassUser(Integer classId, String openID){
-        enrollUserService.insertClassUser(classId,openID);
+    public Result<String> insertClassUser(@RequestParam("classId") Integer classId, @RequestParam("openId") String openId){
+        enrollUserService.insertClassUser(classId,openId);
         return Result.ok();
     }
 
@@ -96,7 +96,7 @@ public class EnrollUserController {
 
     @PostMapping("post")
     @Operation(summary = "修改班级学生")
-    public Result<String> post(EnrollUserVO enrollUserVO){
+    public Result<String> post(@RequestBody  EnrollUserVO enrollUserVO){
         enrollUserService.post(enrollUserVO);
         return Result.ok();
     }

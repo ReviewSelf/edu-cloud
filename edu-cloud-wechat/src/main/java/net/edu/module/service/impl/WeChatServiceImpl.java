@@ -63,7 +63,9 @@ public class WeChatServiceImpl implements WeChatService {
         String url = WeChatApiUtils.getUnionUrl(openId);
         String result = HttpUtil.get(url);
         JSONObject jsonObject = JSONUtil.parseObj(result);
-        return jsonObject.getStr("union_id");
+        String unionId = jsonObject.getStr("unionid");
+        System.out.println("Service"+unionId);
+        return unionId;
     }
 
 

@@ -68,14 +68,15 @@ public class WeChatMsgController {
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
         String openId = enrollUserVO.getOpenId();
         String unionId = weChatService.getUnionId(openId);
+        System.out.println(unionId);
         enrollUserVO.setUnionId(unionId);
         eduTeachApi.post(enrollUserVO);
         System.out.println(enrollUserVO);
+        //如果用户填写的是报名意向
         if(enrollUserVO.getPurpose()=="" || enrollUserVO.getPurpose()==null){
             Integer classId = enrollUserVO.getClassId();
             System.out.println(openId);
             eduTeachApi.insertClassUser(classId,openId);
-//            messageService.insertClassUser(classId,openId);
         }
         return Result.ok();
     }

@@ -46,7 +46,7 @@ public class WeChatController {
     @GetMapping("/wxToken")
     public String wxToken(String signature, String timestamp, String nonce, String echostr) {
 
-        String token = "abc";
+        String token = WeChatProperties.JUDGE_TOKEN;
         List<String> strList = new ArrayList<>();
         strList.add(token);
         strList.add(timestamp);

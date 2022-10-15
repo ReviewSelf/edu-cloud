@@ -20,7 +20,7 @@
         </if>
         <if test="query.getStatus() !=null ">
             <if test="query.getStatus() == 2">
-                and t1.status = 2 or status = 3
+                and (t1.status = 2 or t1.status = 3)
             </if>
             <if test="query.getStatus() == 1">
                 and t1.status = 1

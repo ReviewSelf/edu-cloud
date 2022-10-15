@@ -2,6 +2,7 @@ package net.edu.module.controller;
 
 import cn.hutool.crypto.digest.DigestAlgorithm;
 import cn.hutool.crypto.digest.Digester;
+import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
@@ -105,7 +106,7 @@ public class WeChatController {
      * @return
      */
     @GetMapping("code")
-    public Result<String> getOpenId(@RequestParam("code") String code){
+    public Result<JSONObject> getOpenId(@RequestParam("code") String code){
         return Result.ok(weChatService.getOpenId(code));
     }
 

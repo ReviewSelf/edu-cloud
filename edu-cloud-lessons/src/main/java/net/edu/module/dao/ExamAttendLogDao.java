@@ -1,10 +1,14 @@
 package net.edu.module.dao;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ExamAttendLogEntity;
 import net.edu.module.query.ExamAttendLogQuery;
+import net.edu.module.query.ExamQuery;
 import net.edu.module.vo.ExamAttendLogVO;
+import net.edu.module.vo.ExamVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,6 +22,8 @@ import java.util.List;
 */
 @Mapper
 public interface ExamAttendLogDao extends BaseDao<ExamAttendLogEntity> {
+
+    IPage<ExamAttendLogVO> page(Page<ExamAttendLogVO> page, @Param("query") ExamAttendLogQuery query);
     ExamAttendLogVO selectUserAttendById(Long userId,Long examId);
 
     List<ExamAttendLogVO> selectUserAttend(Long examId);

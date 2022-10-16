@@ -2,9 +2,12 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.exception.ServerException;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.DateUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
@@ -17,6 +20,7 @@ import net.edu.module.entity.ExamEntity;
 import net.edu.module.query.ExamAttendLogQuery;
 import net.edu.module.service.ExamAttendLogService;
 import net.edu.module.vo.ExamAttendLogVO;
+import net.edu.module.vo.ExamVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +42,26 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     private final EduTeachApi eduTeachApi;
 
     private final ExamAttendLogDao examAttendLogDao;
+
+    @Override
+    public PageResult<ExamAttendLogVO> page(ExamAttendLogQuery query) {
+        Page<ExamAttendLogVO> page = new Page<>(query.getPage(),query.getLimit());
+        IPage<ExamAttendLogVO> list = baseMapper.page(page,query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
+    @Override
+    public void save(ExamAttendLogVO vo) {
+        ExamAttendLogEntity entity = ExamAttendLogConvert.INSTANCE.convert(vo);
+
+        baseMapper.insert(entity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(List<Long> idList) {
+        removeByIds(idList);
+    }
 
     @Override
     public ExamAttendLogVO getUserExamAttend(Long examId) {

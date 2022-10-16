@@ -9,4 +9,6 @@ import java.util.List;
 @Mapper
 public interface LessonRecordDao {
     List<LessonProblemRankVO> selectLessonProblemRank(Long lessonId, Integer type);
+
+    List<LessonProblemRankVO> selectUserLessonRecord(List<Long> lessonList,Long userId, Integer type);
 }

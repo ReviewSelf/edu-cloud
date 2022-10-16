@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.ExamProblemConvert;
@@ -16,6 +17,7 @@ import net.edu.module.dao.ExamProblemDao;
 import net.edu.module.entity.ExamProblemEntity;
 import net.edu.module.query.ExamProblemQuery;
 import net.edu.module.service.ExamProblemService;
+import net.edu.module.vo.ExamPaperVo;
 import net.edu.module.vo.ExamProblemVO;
 import net.edu.module.vo.ProblemPaperItemEntity;
 import net.edu.module.vo.TeachPlanItemPaperVO;
@@ -39,16 +41,17 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
 
     private final ExamProblemDao examProblemDao;
 
+    private final RedisUtils redisUtils;
+
 
     @Override
     public List<ExamProblemEntity> list(Long examId ) {
         List<ExamProblemEntity> list = new LambdaQueryChainWrapper<>(baseMapper)
                 .eq(ExamProblemEntity::getExamId, examId).list();
-        //打乱
-        Collections.shuffle(list);
-
         return list;
     }
+
+
 
     @Override
     public void copyFromPaper(Long paperId,Long examId) {
@@ -62,39 +65,6 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
     }
 
 
-//    @Override
-//    public void save(ExamProblemVO vo) {
-//        ExamProblemEntity entity = ExamProblemConvert.INSTANCE.convert(vo);
-//        baseMapper.insert(entity);
-//    }
-//
-//    @Override
-//    public void update(ExamProblemVO vo) {
-//        ExamProblemEntity entity = ExamProblemConvert.INSTANCE.convert(vo);
-//        updateById(entity);
-//    }
-//
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public void delete(List<Long> idList) {
-//        ExamProblemEntity entity=baseMapper.selectById(idList.get(0));
-//        removeByIds(idList);
-//    }
-//
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public void updateProblemTime(List<ExamProblemVO> lessonProblemList) {
-//        if (!CollectionUtil.isEmpty(lessonProblemList)){
-//            for (ExamProblemVO vo:lessonProblemList){
-//                update(vo);
-//            }
-//        }
-//    }
-//
-//    @Override
-//    public void insertProblemListByTeacher(List<ProblemPaperItemEntity> list,Long lessonId){
-//        baseMapper.insertProblemListByTeacher(list,lessonId);
-//    }
 
 
 }

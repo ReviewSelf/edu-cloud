@@ -4,7 +4,7 @@
 <mapper namespace="net.edu.module.dao.ExamAttendLogDao">
 
     <select id="selectUserAttendById" resultType="net.edu.module.vo.ExamAttendLogVO">
-        select exam_id,
+        select a.id,exam_id as examId,
                b.description,
                b.begin_time                                                                                   as beginTime,
                b.end_time                                                                                     as endTime,

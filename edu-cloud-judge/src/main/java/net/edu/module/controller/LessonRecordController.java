@@ -1,5 +1,6 @@
 package net.edu.module.controller;
 
+import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -29,5 +30,14 @@ public class LessonRecordController {
     public Result<List<LessonProblemRankVO>> getLessonProblemRank(@RequestParam("lessonId") Long lessonId,
                                                                   @RequestParam(value = "type")Integer type){
         return Result.ok(lessonRecordService.getLessonProblemRank(lessonId,type));
+    }
+
+    @PostMapping("/getUserLessonRecord")
+    @Operation(summary = "获取学生各个课堂答题情况")
+    public Result<List<LessonProblemRankVO>> getUserLessonRecord(@RequestBody JSONObject jsonObject){
+        List<Long> lessonId=jsonObject.getBeanList("lessonList",Long.class);
+        Long userId=jsonObject.getLong("userId");
+        Integer type=jsonObject.getInt("type");
+        return Result.ok(lessonRecordService.getUserLessonRecord(lessonId,userId,type));
     }
 }

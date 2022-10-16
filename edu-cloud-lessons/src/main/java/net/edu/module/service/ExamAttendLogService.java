@@ -2,10 +2,9 @@ package net.edu.module.service;
 
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.ExamAttendLogEntity;
-import net.edu.module.entity.ExamEntity;
-import net.edu.module.query.ExamAttendLogQuery;
 import net.edu.module.vo.ExamAttendLogVO;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,7 +19,7 @@ public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
 
     List<ExamAttendLogVO> list(Long examId);
 
-    Boolean attendance(Long examId);
+    Boolean attendance(Long examId, Long userId);
 
 //    void save(ExamAttendLogVO vo);
 //

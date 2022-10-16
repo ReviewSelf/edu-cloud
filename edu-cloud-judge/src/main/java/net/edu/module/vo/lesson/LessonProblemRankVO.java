@@ -11,6 +11,8 @@ import lombok.Data;
 @Data
 public class LessonProblemRankVO {
     private Long userId;
+    private Long lessonId;
+    private String lessonName;
     private String name;
     private Integer rankNum;
     private Integer unansweredNum;

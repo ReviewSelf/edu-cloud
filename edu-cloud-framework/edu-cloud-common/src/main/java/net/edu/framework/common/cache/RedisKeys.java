@@ -8,9 +8,8 @@ package net.edu.framework.common.cache;
 public class RedisKeys {
 
 
-
-
     //*********************system***********************************************************
+
     /**
      * 验证码Key
      */
@@ -33,20 +32,19 @@ public class RedisKeys {
 
     //***********************************lesson***********************************************************
     public static String getLessonAttendLog(Long lessonId) {
-        if(lessonId!=null){
+        if (lessonId != null) {
             return "lesson:log:" + lessonId;
-        }
-        else {
+        } else {
             return "lesson:log:";
         }
 
     }
+
     public static String getExamAttendLog(Long examId) {
-        if(examId!=null){
+        if (examId != null) {
             return "exam:log:" + examId;
-        }
-        else {
-            return "lesson:log:";
+        } else {
+            return "exam:log:";
         }
 
     }
@@ -64,13 +62,13 @@ public class RedisKeys {
     public static String getLessonResources(Long lessonId) {
         return "lesson:resources:" + lessonId;
     }
-    public static String getLessonProblem(Long lessonId,Integer type) {
-        if(type!=null){
-            return   "lesson:problem:" + lessonId+":"+type;
+
+    public static String getLessonProblem(Long lessonId, Integer type) {
+        if (type != null) {
+            return "lesson:problem:" + lessonId + ":" + type;
         }
-        else {
-            return   "lesson:problem:" + lessonId;
-        }
+        return "lesson:problem:" + lessonId;
+
 
     }
 
@@ -81,10 +79,15 @@ public class RedisKeys {
     public static String getLessonPage(String key) {
         return "lesson:" + key;
     }
-    
-    
-    
-    
+
+
+    public static String getStuExam(Long examId, Long userId) {
+        if (examId == null && userId == null) {
+            return "exam:user:";
+        }
+        return "exam:user:" + examId + ":" + userId;
+    }
+
     //***********************************problem***********************************************************
     public static String getProblemInfo(Long problemId, String type) {
         return "problem:" + type + ":" + problemId;
@@ -93,6 +96,7 @@ public class RedisKeys {
     public static String getKnowledgePointKey() {
         return "problem:kp:";
     }
+
     public static String getOrgKey() {
         return "problem:org:";
     }
@@ -111,31 +115,20 @@ public class RedisKeys {
     }
 
 
-
-
 //***********************************teach***********************************************************
 
     public static String getTeachStatistics() {
-        return "teach:statistics" ;
+        return "teach:statistics";
     }
 
     public static String getActivityClass() {
-        return "teach:activityclass" ;
+        return "teach:activityclass";
     }
-
-
-
-
-
-
-
-
-
 
 
     //***********************************judge***********************************************************
     public static String getJudgeRecordFlag(Long userId, Long problemId, Integer problemType, Integer source, Long sourceId) {
-        return "judge:record:"+userId+":" +problemId+":"+problemType+":"+source+":"+sourceId;
+        return "judge:record:" + userId + ":" + problemId + ":" + problemType + ":" + source + ":" + sourceId;
     }
 
 

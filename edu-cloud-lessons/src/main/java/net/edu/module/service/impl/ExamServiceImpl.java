@@ -43,12 +43,24 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     private final ExamProblemService examProblemService;
 
+
+
+
     @Override
     public PageResult<ExamVO> page(ExamQuery query) {
         Page<ExamVO> page = new Page<>(query.getPage(),query.getLimit());
         IPage<ExamVO> list = baseMapper.page(page,query);
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
+
+
+    @Override
+    public ExamEntity get(Long examId) {
+        ExamEntity entity =baseMapper.selectById(examId);
+        return entity;
+    }
+
+
 
     @Override
     public PageResult<ExamVO> studentPage(ExamQuery query){

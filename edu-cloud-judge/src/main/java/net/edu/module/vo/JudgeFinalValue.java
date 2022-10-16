@@ -8,7 +8,7 @@ package net.edu.module.vo;
  * 判题请求常量
  */
 public class JudgeFinalValue {
-    public static final String SERVER_URL = "http://124.70.217.106:2358";
+    public static final String SERVER_URL = "http://101.34.86.238:2358";
 
     public static final String X_EDU_TOKEN = "8MFLJ6Dh0KITeG7SOmSTo38KWg7HEpnq";
 

@@ -44,4 +44,10 @@ public class LessonRecordService {
     }
 
 
+    public List<LessonProblemRankVO> getUserLessonRecord(List<Long> lessonList, Long userId, Integer type) {
+        if (CollUtil.isNotEmpty(lessonList)) {
+            return lessonRecordDao.selectUserLessonRecord(lessonList, userId, type);
+        }
+        return null;
+    }
 }

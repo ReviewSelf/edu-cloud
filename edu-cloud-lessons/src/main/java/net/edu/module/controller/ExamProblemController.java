@@ -30,13 +30,13 @@ public class ExamProblemController {
     private final ExamProblemService examProblemService;
 
 
-    @GetMapping("page")
-    @Operation(summary = "分页")
-    public Result<PageResult<ExamProblemVO>> page(@Valid ExamProblemQuery query){
-        PageResult<ExamProblemVO> page = examProblemService.page(query);
-
-        return Result.ok(page);
-    }
+//    @GetMapping("page")
+//    @Operation(summary = "分页")
+//    public Result<PageResult<ExamProblemVO>> page(@Valid ExamProblemQuery query){
+//        PageResult<ExamProblemVO> page = examProblemService.page(query);
+//
+//        return Result.ok(page);
+//    }
 
     @GetMapping("list/{examId}")
     @Operation(summary = "获取考试题目信息")

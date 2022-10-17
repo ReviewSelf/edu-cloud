@@ -3,22 +3,37 @@
 
 <mapper namespace="net.edu.module.dao.ExamAttendLogDao">
 
-    <select id="selectUserAttendById" resultType="net.edu.module.vo.ExamAttendLogVO">
-        select exam_id,
-               b.description,
-               b.begin_time                                                                                   as beginTime,
-               b.end_time                                                                                     as endTime,
-               b.name                                                                                         as examName,
-               b.time_limit                                                                                   as timeLimit,
-               b.score                                                                                        as totalScore,
+    <select id="page" resultType="net.edu.module.vo.ExamAttendLogVO">
+        select a.id,
+               a.user_id                                             as userId,
+               a.exam_id                                             as examId,
+               (select real_name from sys_user b where b.id = a.user_id) as name,
+               a.join_time                                           as joinTime,
+               a.quit_time                                           as quitTime,
+               a.status,
                a.score,
-               join_time                                                                                      as joinTime,
-               quit_time                                                                                      as quitTime,
+               a.is_correcting                                       as isCorrecting
+        from exam_attend_log a
+        where exam_id = #{query.examId}
+    </select>
+
+    <select id="selectUserAttendById" resultType="net.edu.module.vo.ExamAttendLogVO">
+        select a.id,
+               exam_id      as examId,
+               b.description,
+               b.begin_time as beginTime,
+               b.end_time   as endTime,
+               b.name       as examName,
+               b.time_limit as timeLimit,
+               b.score      as totalScore,
+               a.score,
+               join_time    as joinTime,
+               quit_time    as quitTime,
                status,
                if(status = 1 and
                   DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE), '%Y-%m-%d %H:%i:%s') &lt; end_time,
                   DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE), '%Y-%m-%d %H:%i:%s'),
-                  end_time)                                                                                   as finishExamTime
+                  end_time) as finishExamTime
         from exam_attend_log a
                  join exam b on a.exam_id = b.id and b.id = #{examId}
             and a.user_id = #{userId}
@@ -27,20 +42,20 @@
     <select id="selectUserAttend" resultType="net.edu.module.vo.ExamAttendLogVO">
         select exam_id,
                b.description,
-               (select real_name from sys_user where id = user_id)                                            as name,
-               b.begin_time                                                                                   as beginTime,
-               b.end_time                                                                                     as endTime,
-               b.name                                                                                         as examName,
-               b.time_limit                                                                                   as timeLimit,
-               b.score                                                                                        as totalScore,
+               (select real_name from sys_user where id = user_id) as name,
+               b.begin_time                                        as beginTime,
+               b.end_time                                          as endTime,
+               b.name                                              as examName,
+               b.time_limit                                        as timeLimit,
+               b.score                                             as totalScore,
                a.score,
-               join_time                                                                                      as joinTime,
-               quit_time                                                                                      as quitTime,
+               join_time                                           as joinTime,
+               quit_time                                           as quitTime,
                status,
                if(status = 1 and
                   DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE), '%Y-%m-%d %H:%i:%s') &lt; end_time,
                   DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE), '%Y-%m-%d %H:%i:%s'),
-                  end_time)                                                                                   as finishExamTime
+                  end_time)                                        as finishExamTime
         from exam_attend_log a
                  join exam b on a.exam_id = b.id and b.id = #{examId} from exam_attend_log a join exam b
         on a.exam_id=b.id and b.id=#{examId}

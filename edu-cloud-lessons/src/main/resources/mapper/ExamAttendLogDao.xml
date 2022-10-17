@@ -4,17 +4,37 @@
 <mapper namespace="net.edu.module.dao.ExamAttendLogDao">
 
     <select id="page" resultType="net.edu.module.vo.ExamAttendLogVO">
-        select a.id,
-               a.user_id                                             as userId,
-               a.exam_id                                             as examId,
-               (select real_name from sys_user b where b.id = a.user_id) as name,
-               a.join_time                                           as joinTime,
-               a.quit_time                                           as quitTime,
-               a.status,
-               a.score,
-               a.is_correcting                                       as isCorrecting
+        select t.id,
+        t.user_id as userId,
+        t.exam_id as examId,
+        t.name,
+        t.join_time as joinTime,
+        t.quit_time as quitTime,
+        t.status,
+        t.score,
+        t.is_correcting as isCorrecting
+        from (select a.id,
+        a.user_id,
+        a.exam_id,
+        (select real_name from sys_user b where b.id = a.user_id) as name,
+        a.join_time,
+        a.quit_time,
+        a.status,
+        a.score,
+        a.is_correcting
         from exam_attend_log a
-        where exam_id = #{query.examId}
+        where exam_id = #{query.examId}) t
+        where 1=1
+        <if test="query.name !='' and query.name != null">
+            and t.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.status !='' and query.status !=null">
+            and t.status = #{query.status}
+        </if>
+        <if test="query.isCorrecting != '' and query.isCorrecting != null">
+            and t.is_correcting=#{query.isCorrecting}
+        </if>
+
     </select>
 
     <select id="selectUserAttendById" resultType="net.edu.module.vo.ExamAttendLogVO">

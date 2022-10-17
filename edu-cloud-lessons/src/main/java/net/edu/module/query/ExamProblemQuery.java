@@ -3,6 +3,7 @@ package net.edu.module.query;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.edu.framework.common.query.Query;
 
 /**
 * 课堂练习表查询
@@ -13,7 +14,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "课堂练习表查询")
-public class ExamProblemQuery {
+public class ExamProblemQuery extends Query {
 
     @Schema(description = "课堂ID")
     private Long lessonId;

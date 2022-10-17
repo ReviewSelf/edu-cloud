@@ -60,7 +60,7 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
         CodeProblemEntity entity = CodeProblemConvert.INSTANCE.convert(vo);
 
         updateById(entity);
-        redisUtils.del();RedisKeys.getProblemInfo(vo.getId(),"code");
+        redisUtils.del(RedisKeys.getProblemInfo(vo.getId(),"code"));
     }
 
     @Override

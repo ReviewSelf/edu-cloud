@@ -9,6 +9,7 @@ import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.*;
 import net.edu.module.service.SysUserService;
 import net.edu.module.service.WeChatMsgService;
+import net.edu.module.service.WeChatService;
 import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,7 +35,9 @@ public class WeChatMsgController {
 
     @Autowired
     private WeChatMsgService weChatMsgService;
-    
+
+    @Autowired
+    private WeChatService weChatService;
     @Autowired
     private SysUserService sysUserService;
 
@@ -60,20 +63,20 @@ public class WeChatMsgController {
         return Result.ok();
     }
 
-
-
-
-
-
     @PostMapping("post")
     @Operation(summary = "注册")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
+        String openId = enrollUserVO.getOpenId();
+        String unionId = weChatService.getUnionId(openId);
+        System.out.println(unionId);
+        enrollUserVO.setUnionId(unionId);
         eduTeachApi.post(enrollUserVO);
+        System.out.println(enrollUserVO);
+        //如果用户填写的是报名意向
         if(enrollUserVO.getPurpose()=="" || enrollUserVO.getPurpose()==null){
             Integer classId = enrollUserVO.getClassId();
-            String openId = enrollUserVO.getOpenId();
+            System.out.println(openId);
             eduTeachApi.insertClassUser(classId,openId);
-//            messageService.insertClassUser(classId,openId);
         }
         return Result.ok();
     }
@@ -137,8 +140,7 @@ public class WeChatMsgController {
     public Result<Integer> updateOpenIdByUsername(@RequestParam("username") String username,
                                                   @RequestParam("password") String password,
                                                   @RequestParam("openId") String openId){
-        sysUserService.updateOpenIdByUsername(username,password,openId);
-        return Result.ok();
+        return Result.ok(sysUserService.updateOpenIdByUsername(username,password,openId));
     }
 }
 

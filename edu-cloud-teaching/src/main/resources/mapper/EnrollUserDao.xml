@@ -20,7 +20,7 @@
         </if>
         <if test="query.getStatus() !=null ">
             <if test="query.getStatus() == 2">
-                and t1.status = 2 or status = 3
+                and (t1.status = 2 or t1.status = 3)
             </if>
             <if test="query.getStatus() == 1">
                 and t1.status = 1
@@ -53,7 +53,7 @@
     <update id="save">
         UPDATE enroll_user
         set
-        phone = #{phone} ,status = 1
+        phone = #{phone} ,status = 1 ,union_id = #{unionId}
         <if test="name!=null and name!=''">
             ,name = #{name}
         </if>
@@ -80,6 +80,6 @@
     </update>
 
     <insert id="insertClassUser">
-        insert into enroll_class_user (enroll_class_id,open_id) values (#{classId},#{openId})
+        insert into enroll_class_user (enroll_class_id,open_id,create_time) values (#{classId},#{openId},now())
     </insert>
 </mapper>

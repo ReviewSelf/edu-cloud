@@ -5,17 +5,14 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.exception.ServerException;
-import net.edu.framework.common.utils.Result;
 import net.edu.module.api.EduSysApi;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.entity.InMessage;
 import net.edu.module.entity.OutMessage;
-import net.edu.module.service.SysUserService;
 import net.edu.module.service.WeChatService;
 import net.edu.module.untils.MenuUtils;
 import net.edu.module.untils.WeChatApiUtils;
 import net.edu.module.untils.WeChatProperties;
-import net.edu.module.vo.SysTokenVO;
 import net.edu.module.vo.SysWeChatLoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,18 +32,18 @@ public class WeChatServiceImpl implements WeChatService {
     @Autowired
     private EduSysApi eduSysApi;
 
-    @Autowired
-    private SysUserService sysUserService;
+
 
     @Override
     public void getAccessToken(){
-        log.debug("执行到service");
+        log.info("执行到service");
         String url = WeChatApiUtils.TOKEN_URL;
         // 利用hutool的http工具类请求获取access_token
         String result = HttpUtil.get(url);
         // 将结果解析为json
         JSONObject jsonObject = JSONUtil.parseObj(result);
         // 获取access_token
+        System.out.println(jsonObject.getStr("access_token"));
         WeChatProperties.TOKEN=jsonObject.getStr("access_token");
     }
 
@@ -56,7 +53,7 @@ public class WeChatServiceImpl implements WeChatService {
      */
     @Override
     public String createMenu(){
-        return HttpUtil.post(WeChatApiUtils.MENU_URL, MenuUtils.setMenuBody());
+        return HttpUtil.post(WeChatApiUtils.getMenuUrl(), MenuUtils.setMenuBody());
     }
 
     @Override
@@ -64,23 +61,27 @@ public class WeChatServiceImpl implements WeChatService {
         String url = WeChatApiUtils.getUnionUrl(openId);
         String result = HttpUtil.get(url);
         JSONObject jsonObject = JSONUtil.parseObj(result);
-        return jsonObject.getStr("union_id");
+        String unionId = jsonObject.getStr("unionid");
+        System.out.println("Service"+unionId);
+        return unionId;
     }
 
 
 
     @Override
-    public String getOpenId(String code) {
+    public JSONObject getOpenId(String code) {
         String url = WeChatApiUtils.getAccessTokenBaseUrl(code);
         String result = HttpUtil.get(url);
         JSONObject jsonObject = JSONUtil.parseObj(result);
         String accessToken = jsonObject.getStr("access_token");
         String openId = jsonObject.getStr("openid");
-        return openId;
+        System.out.println(openId);
+        return jsonObject;
     }
 
     @Override
     public Object handleMessage(InMessage inMessage) {
+        log.info(inMessage.toString());
         // 创建响应消息实体对象
         OutMessage outMessage = new OutMessage();
         // 把原来的接收方设置为发送方
@@ -104,19 +105,14 @@ public class WeChatServiceImpl implements WeChatService {
             //如果是关注事件
             if("subscribe".equals(event)){
                 String openId = inMessage.getFromUserName();
-//                String unionId = weChatService.getUnionId(openId);
+                log.info(openId);
+
                 eduTeachApi.insertOpenId(openId);
                 outMessage.setMsgType("text");
                 outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
             }
             else if("CLICK".equals(event)){
                 String eventKey = inMessage.getEventKey();
-                System.out.println(eventKey);
-                if(eventKey.equals("12")){
-                    System.out.println("点击了账号解绑");
-                    String openId = inMessage.getFromUserName();
-                    sysUserService.updateOpenIdByUsername(null,null,openId);
-                }
             }
 
         }

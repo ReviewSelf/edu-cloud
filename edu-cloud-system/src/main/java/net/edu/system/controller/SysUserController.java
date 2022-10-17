@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
@@ -34,6 +35,7 @@ import java.util.List;
 @RequestMapping("user")
 @AllArgsConstructor
 @Tag(name="用户管理")
+@Slf4j
 public class SysUserController {
     private final SysUserService sysUserService;
     private final SysUserRoleService sysUserRoleService;
@@ -73,6 +75,7 @@ public class SysUserController {
     public Result<SysUserVO> info(){
         SysUserVO user = SysUserConvert.INSTANCE.convert(SecurityUser.getUser());
 
+        log.info(user.toString());
         return Result.ok(user);
     }
 

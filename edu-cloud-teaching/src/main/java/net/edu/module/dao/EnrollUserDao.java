@@ -21,5 +21,5 @@ public interface EnrollUserDao extends BaseDao<EnrollUserEntity> {
     void updateConfirmEnrollUser(Integer id);
     void insertId(String openId);
     void save( EnrollUserEntity enrollUserEntity);
-    void insertClassUser(Integer classId, String openID);
+    void insertClassUser(Integer classId, String openId);
 }

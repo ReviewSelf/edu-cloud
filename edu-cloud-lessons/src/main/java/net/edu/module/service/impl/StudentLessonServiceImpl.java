@@ -101,14 +101,15 @@ public class StudentLessonServiceImpl implements StudentLessonService {
 
         if(vo==null){
             vo=new ExamPaperVo();
+            ExamAttendLogVO attendLogVO= examAttendLogService.getUserExamAttend(examId);
             //领取新试卷开始考试
             //需要优化
             vo.setPaperProblem(examProblemService.list(examId));
             vo.setProblemIndex(1);
             //考试结束时间
-            vo.setFinishExamTime(examAttendLogService.getUserExamAttend(examId).getFinishExamTime());
+            vo.setAttendLogVO(attendLogVO);
             //多5s前端响应时间
-            Long time=vo.getFinishExamTime().getTime()-System.currentTimeMillis()+5000L;
+            Long time=vo.getAttendLogVO().getFinishExamTime().getTime()-System.currentTimeMillis()+5000L;
             redisUtils.set(RedisKeys.getStuExam(examId,userId),vo,time/1000);
         }
         return vo;

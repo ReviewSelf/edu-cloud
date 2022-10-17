@@ -103,11 +103,13 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
                     update(vo);
                     return true;
                 } else if (vo.getStatus() == 1) {
-
-                    //考试截至，结束考试
-                    vo.setStatus(2);
-                    update(vo);
-                    throw new ServerException("已交卷");
+                    if(vo.getFinishExamTime().getTime()<System.currentTimeMillis()){
+                        //考试截至，结束考试
+                        vo.setStatus(2);
+                        update(vo);
+                        throw new ServerException("已交卷");
+                    }
+                    return true;
                 } else if (vo.getStatus() == 2) {
                     //已交卷
                     throw new ServerException("已交卷");

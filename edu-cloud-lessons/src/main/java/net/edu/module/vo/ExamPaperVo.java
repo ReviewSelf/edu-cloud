@@ -23,7 +23,5 @@ public class ExamPaperVo implements Serializable {
     //答题位置
     Integer problemIndex;
 
-    @Schema(description = "预计考试结束时间")
-    @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-    private Date finishExamTime;
+    ExamAttendLogVO attendLogVO;
 }

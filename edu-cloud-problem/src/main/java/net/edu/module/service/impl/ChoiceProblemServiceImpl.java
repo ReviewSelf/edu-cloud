@@ -69,7 +69,7 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
         }
         updateById(entity);
         redisUtils.del(RedisKeys.getChoiceOptions(vo.getId()));
-        redisUtils.del();RedisKeys.getProblemInfo(vo.getId(),"choice");
+        redisUtils.del(RedisKeys.getProblemInfo(vo.getId(),"choice"));
     }
 
     @Override

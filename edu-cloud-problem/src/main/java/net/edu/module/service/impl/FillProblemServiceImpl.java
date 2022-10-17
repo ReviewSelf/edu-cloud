@@ -55,8 +55,7 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
         FillProblemEntity entity = FillProblemConvert.INSTANCE.convert(vo);
 
         updateById(entity);
-        redisUtils.del();
-        RedisKeys.getProblemInfo(vo.getId(), "fill");
+        redisUtils.del(RedisKeys.getProblemInfo(vo.getId(), "fill"));
     }
 
     @Override

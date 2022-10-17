@@ -4,6 +4,7 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.utils.TokenUtils;
 import net.edu.system.service.SysAuthService;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("auth")
 @Tag(name = "认证管理")
 @AllArgsConstructor
+@Slf4j
 public class SysAuthController {
     private final SysCaptchaService sysCaptchaService;
     private final SysAuthService sysAuthService;
@@ -40,15 +42,17 @@ public class SysAuthController {
     @Operation(summary = "账号密码登录")
     public Result<SysTokenVO> login(@RequestBody SysAccountLoginVO login) {
         SysTokenVO token = sysAuthService.loginByAccount(login);
-
         return Result.ok(token);
     }
 
     @PostMapping("wxMini")
     @Operation(summary = "微信小程序登录")
     public Result<SysTokenVO> wxMini(@RequestBody SysWeChatLoginVO login) {
+
+        log.info(login.toString());
         SysTokenVO token = sysAuthService.loginByUnionId(login);
 
+        log.info(token.toString());
         return Result.ok(token);
     }
 

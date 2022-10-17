@@ -18,4 +18,10 @@ import net.edu.framework.common.query.Query;
 @Schema(description = "考试参加表查询")
 public class ExamAttendLogQuery extends Query {
     private Long examId;
+
+    private String name;
+
+    private Integer status;
+
+    private Integer isCorrecting;
 }

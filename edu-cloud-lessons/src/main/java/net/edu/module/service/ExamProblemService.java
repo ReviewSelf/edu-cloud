@@ -1,9 +1,12 @@
 package net.edu.module.service;
 
 
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.ExamProblemEntity;
+import net.edu.module.query.ExamAttendLogQuery;
 import net.edu.module.query.ExamProblemQuery;
+import net.edu.module.vo.ExamAttendLogVO;
 import net.edu.module.vo.ExamPaperVo;
 import net.edu.module.vo.ExamProblemVO;
 import net.edu.module.vo.ProblemPaperItemEntity;
@@ -17,6 +20,8 @@ import java.util.List;
  * @since 1.0.0 2022-09-15
  */
 public interface ExamProblemService extends BaseService<ExamProblemEntity> {
+
+    PageResult<ExamProblemVO> page(ExamProblemQuery query);
 
     List<ExamProblemEntity> list(Long examId);
 

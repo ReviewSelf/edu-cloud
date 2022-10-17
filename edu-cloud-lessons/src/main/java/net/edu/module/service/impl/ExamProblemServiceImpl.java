@@ -4,9 +4,12 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
@@ -17,10 +20,7 @@ import net.edu.module.dao.ExamProblemDao;
 import net.edu.module.entity.ExamProblemEntity;
 import net.edu.module.query.ExamProblemQuery;
 import net.edu.module.service.ExamProblemService;
-import net.edu.module.vo.ExamPaperVo;
-import net.edu.module.vo.ExamProblemVO;
-import net.edu.module.vo.ProblemPaperItemEntity;
-import net.edu.module.vo.TeachPlanItemPaperVO;
+import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +43,12 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
 
     private final RedisUtils redisUtils;
 
+    @Override
+    public PageResult<ExamProblemVO> page(ExamProblemQuery query) {
+        Page<ExamProblemVO> page = new Page<>(query.getPage(),query.getLimit());
+        IPage<ExamProblemVO> list = baseMapper.page(page,query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
 
     @Override
     public List<ExamProblemEntity> list(Long examId ) {

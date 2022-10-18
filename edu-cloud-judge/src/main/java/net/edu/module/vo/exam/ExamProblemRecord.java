@@ -2,6 +2,7 @@ package net.edu.module.vo.exam;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -16,6 +17,6 @@ public class ExamProblemRecord {
     private Date submitTime;
     private Date beginTime;
     private Integer score;
-    private Integer fraction;
+    private BigDecimal fraction;
     private Integer sort;
 }

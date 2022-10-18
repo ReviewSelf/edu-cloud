@@ -23,27 +23,48 @@
         </collection>
     </resultMap>
 
-    <select id="selectExamScore" resultMap="ExamRecord">
+    <select id="selectUserExamScore" resultMap="ExamRecord">
         SELECT c.user_id,c.score,c.sort,IFNULL(d.score,0) as fraction,(SELECT real_name FROM sys_user WHERE id=c.user_id) as name,c.exam_id,c.problem_id,c.problem_name,c.problem_type,d.id as
         record_id,d.submit_status,c.join_time,d.submit_time,timediff(submit_time,join_time)as spend_time FROM
         (SELECT a.user_id,a.exam_id,b.problem_id,b.problem_name,b.problem_type,b.score,b.sort,join_time FROM
         (select exam_id, user_id,join_time
         from exam_attend_log WHERE exam_id=#{examId}
-        <if test="userId!=null">
             and user_id=#{userId}
+        )a
+        left join exam_problem b on b.exam_id =a.exam_id ) c
+        left join (select id,submit_status,problem_id,problem_type,source_id,user_id,source,score,submit_time from
+        judge_record jr1
+        where source_id=#{examId} and source=3 and not exists (select 1 from judge_record jr2 where source_id=#{examId} and source=3
+        and jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
+        jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt; jr2.id ) ) d on
+        c.problem_id=d.problem_id and c.problem_type=d.problem_type
+        and d.source_id=c.exam_id and c.user_id=d.user_id
+        ORDER BY c.user_id,c.sort
+    </select>
+
+
+
+
+
+
+    <select id="selectExamRecordList" resultMap="ExamRecord">
+        SELECT c.user_id,c.score,c.sort,IFNULL(d.score,0) as fraction,(SELECT real_name FROM sys_user WHERE id=c.user_id) as name,c.exam_id,c.problem_id,c.problem_name,c.problem_type,d.id as
+        record_id,d.submit_status,c.join_time,d.submit_time,timediff(submit_time,join_time)as spend_time FROM
+        (SELECT a.user_id,a.exam_id,b.problem_id,b.problem_name,b.problem_type,b.score,b.sort,join_time FROM
+        (select exam_id, user_id,join_time
+        from exam_attend_log WHERE exam_id=#{query.examId}
+        <if test="query.status!=null">
+            and status=#{query.status}
         </if>
-        <if test="status!=null">
-            and status=#{status}
-        </if>
-        <if test="isCorrect!=null">
-            and is_correcting=#{isCorrect}
+        <if test="query.isCorrect!=null">
+            and is_correcting=#{query.isCorrect}
         </if>
 
         )a
         left join exam_problem b on b.exam_id =a.exam_id ) c
         left join (select id,submit_status,problem_id,problem_type,source_id,user_id,source,score,submit_time from
         judge_record jr1
-        where source_id=#{examId} and source=3 and not exists (select 1 from judge_record jr2 where source_id=#{examId} and source=3
+        where source_id=#{query.examId} and source=3 and not exists (select 1 from judge_record jr2 where source_id=#{query.examId} and source=3
         and jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
         jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt; jr2.id ) ) d on
         c.problem_id=d.problem_id and c.problem_type=d.problem_type

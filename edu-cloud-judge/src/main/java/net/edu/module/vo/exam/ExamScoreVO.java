@@ -2,6 +2,7 @@ package net.edu.module.vo.exam;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -15,7 +16,6 @@ public class ExamScoreVO {
     private Long userId;
     private String name;
     private Long examId;
-    private Integer totalScore;
     private List<ExamProblemRecord> problemRecords;
 
 

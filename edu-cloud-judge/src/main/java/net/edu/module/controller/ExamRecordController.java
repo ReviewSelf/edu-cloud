@@ -2,14 +2,18 @@ package net.edu.module.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.module.query.ExamRecordQuery;
 import net.edu.module.service.ExamRecordService;
 import net.edu.module.vo.exam.ExamScoreVO;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -28,18 +32,24 @@ public class ExamRecordController {
 
 
     /**
-     * 获取考场中每个人每题的答题记录
+     * 获取当前考生的答题记录
      * @param examId
      * @param userId
-     * @param status，0:未参与，1:参与，2:交卷
-     * @param isCorrect 是否批改完成
      * @return
      */
-    @GetMapping("/getExamScore")
-    public Result<List<ExamScoreVO>> getExamScore(@RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId,
-                                                  @RequestParam(value = "status", required = false) Integer status, @RequestParam(value = "isCorrect", required = false) Integer isCorrect){
-        return Result.ok(examRecordService.getExamScore(examId,userId,status,isCorrect));
+    @GetMapping("/getUserExamScore")
+    public Result<ExamScoreVO> getUserExamScore(@RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId){
+        return Result.ok(examRecordService.getUserExamScore(examId,userId));
     }
 
+    /**
+     * 获取考场中每个人每题的答题记录
+
+     * @return
+     */
+    @GetMapping("/getExamRecordList")
+    public Result<PageResult<ExamScoreVO>> getExamRecordList(@Valid ExamRecordQuery query ){
+        return Result.ok(examRecordService.getExamRecordList(query));
+    }
 
 }

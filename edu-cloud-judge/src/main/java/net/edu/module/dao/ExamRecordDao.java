@@ -1,7 +1,11 @@
 package net.edu.module.dao;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import net.edu.module.query.ExamRecordQuery;
 import net.edu.module.vo.exam.ExamScoreVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 
 import java.util.List;
@@ -14,5 +18,8 @@ import java.util.List;
  */
 @Mapper
 public interface ExamRecordDao {
-   List<ExamScoreVO> selectExamScore(Long examId, Long userId,Integer status,Integer isCorrect);
+   ExamScoreVO selectUserExamScore(Long examId, Long userId);
+
+
+   IPage<ExamScoreVO> selectExamRecordList(Page<ExamScoreVO> page, @Param("query")ExamRecordQuery query);
 }

@@ -44,24 +44,38 @@
     </select>
 
 
-
+    <select id="selectExamRecordListTotal" resultType="java.lang.Integer">
+        select count(1) from (  select exam_id, user_id,join_time, name,status FROM
+        (select exam_id, user_id,join_time,(SELECT real_name FROM sys_user WHERE id=user_id) as name,status
+        from exam_attend_log WHERE exam_id=#{query.examId}
+        )eal WHERE 1=1
+        <if test="query.status!=null">
+            and status=#{query.status}
+        </if>
+        <if test="query.name!=null">
+            and name like concat('%',#{query.name},'%')
+        </if>)t
+    </select>
 
 
 
     <select id="selectExamRecordList" resultMap="ExamRecord">
-        SELECT c.user_id,c.score,c.sort,IFNULL(d.score,0) as fraction,(SELECT real_name FROM sys_user WHERE id=c.user_id) as name,c.exam_id,c.problem_id,c.problem_name,c.problem_type,d.id as
+        SELECT c.user_id,c.score,c.sort,IFNULL(d.score,0) as fraction,c.name,c.exam_id,c.problem_id,c.problem_name,c.problem_type,d.id as
         record_id,d.submit_status,c.join_time,d.submit_time,timediff(submit_time,join_time)as spend_time FROM
-        (SELECT a.user_id,a.exam_id,b.problem_id,b.problem_name,b.problem_type,b.score,b.sort,join_time FROM
-        (select exam_id, user_id,join_time
+        (SELECT a.user_id,a.name,a.exam_id,b.problem_id,b.problem_name,b.problem_type,b.score,b.sort,join_time FROM
+        (
+        select exam_id, user_id,join_time, name,status FROM
+        (select exam_id, user_id,join_time,(SELECT real_name FROM sys_user WHERE id=user_id) as name,status
         from exam_attend_log WHERE exam_id=#{query.examId}
+        )eal WHERE 1=1
         <if test="query.status!=null">
             and status=#{query.status}
         </if>
-        <if test="query.isCorrect!=null">
-            and is_correcting=#{query.isCorrect}
+        <if test="query.name!=null">
+            and name like concat('%',#{query.name},'%')
         </if>
-
-        )a
+            limit ${(query.page-1)*query.limit},${query.limit}
+            )a
         left join exam_problem b on b.exam_id =a.exam_id ) c
         left join (select id,submit_status,problem_id,problem_type,source_id,user_id,source,score,submit_time from
         judge_record jr1

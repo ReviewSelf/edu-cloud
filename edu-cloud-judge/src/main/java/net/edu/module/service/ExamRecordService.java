@@ -34,9 +34,12 @@ public class ExamRecordService {
 
 
     public PageResult<ExamScoreVO> getExamRecordList(ExamRecordQuery query) {
-        Page<ExamScoreVO> page = new Page<>(query.getPage(),query.getLimit());
-        IPage<ExamScoreVO> list = examRecordDao.selectExamRecordList(page,query);
-        return new PageResult<>(list.getRecords(), list.getTotal());
+        int total=examRecordDao.selectExamRecordListTotal(query);
+        if(total>0){
+            List<ExamScoreVO> list = examRecordDao.selectExamRecordList(query);
+            return new PageResult<>(list, total);
+        }
+        return new PageResult<>();
     }
 
     //一键批卷

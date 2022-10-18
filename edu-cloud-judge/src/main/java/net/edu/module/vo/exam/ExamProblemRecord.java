@@ -19,4 +19,5 @@ public class ExamProblemRecord {
     private Integer score;
     private BigDecimal fraction;
     private Integer sort;
+    private BigDecimal passRate;
 }

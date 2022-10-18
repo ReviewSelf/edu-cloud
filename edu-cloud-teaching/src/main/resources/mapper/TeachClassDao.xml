@@ -63,7 +63,7 @@
             and plan_id =(select id from teach_plan where name=#{query.planName})
         </if>
         <if test="query.getUserId()!=null and query.getUserId()!=''">
-            and (SELECT count(*) FROM teach_class_user WHERE user_id=#{query.userId} and class_id=t1.id)=0
+            and (SELECT count(*) FROM teach_class_user WHERE user_id=#{query.userId} and class_id=t1.id and status=1)=0
             and status &lt; 3
         </if>
         ) t2

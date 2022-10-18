@@ -64,7 +64,7 @@ public class WeChatMsgController {
     }
 
     @PostMapping("post")
-    @Operation(summary = "注册")
+    @Operation(summary = "报名")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
         String openId = enrollUserVO.getOpenId();
         eduTeachApi.post(enrollUserVO);

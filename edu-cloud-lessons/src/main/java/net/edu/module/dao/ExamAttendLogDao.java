@@ -15,30 +15,22 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
-* 课堂签到表
-*
-* @author 马佳浩 
-* @since 1.0.0 2022-09-15
-*/
+ * 课堂签到表
+ *
+ * @author 马佳浩
+ * @since 1.0.0 2022-09-15
+ */
 @Mapper
 public interface ExamAttendLogDao extends BaseDao<ExamAttendLogEntity> {
 
     IPage<ExamAttendLogVO> page(Page<ExamAttendLogVO> page, @Param("query") ExamAttendLogQuery query);
-    ExamAttendLogVO selectUserAttendById(Long userId,Long examId);
+
+    ExamAttendLogVO selectUserAttendById(Long userId, Long examId);
 
     List<ExamAttendLogVO> selectUserAttend(Long examId);
 
 
+    int insertAttendLogFromClass(@Param("userList") List<Long> userList, Long examId);
 
-//
-//    void insertUserList(@Param("list") List<Long> list,Long lessonId);
-//
-//
-//
-//
-//    List<ExamAttendLogVO> selectStudentsList(@Param("query") ExamAttendLogQuery query);
-//
-//    int updateStudents(@Param("vo") ExamAttendLogVO vo);
-
-    int insertAttendLogFromClass(@Param("userList") List<Long> userList,Long examId);
+    int updateExamStatus(Integer status, Long examId, Long userId);
 }

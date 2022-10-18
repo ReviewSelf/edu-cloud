@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -44,7 +45,6 @@ public class ExamRecordController {
 
     /**
      * 获取考场中每个人每题的答题记录
-
      * @return
      */
     @GetMapping("/getExamRecordList")
@@ -52,4 +52,22 @@ public class ExamRecordController {
         return Result.ok(examRecordService.getExamRecordList(query));
     }
 
+
+    /**
+     * 一键批改
+     */
+    @GetMapping("/makePaper")
+    public Result<PageResult<ExamScoreVO>> makePaper(@RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId ){
+        examRecordService.makePaper(examId,userId);
+        return Result.ok();
+    }
+
+    /**
+     * 改分
+     */
+    @GetMapping("/changeProblemScore")
+    public Result<PageResult<ExamScoreVO>> changeProblemScore(@RequestParam("score") BigDecimal score, @RequestParam(value = "recordId") Long recordId ){
+        examRecordService.changeProblemScore(score,recordId);
+        return Result.ok();
+    }
 }

@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.LessonRecordService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
+import net.edu.module.vo.lesson.LessonJudgeRecordVo;
 import net.edu.module.vo.lesson.LessonProblemRankVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,13 @@ import java.util.List;
 public class LessonRecordController {
 
     private final LessonRecordService lessonRecordService;
+
+
+
+    @GetMapping("/getLessonProblemRecord")
+    public Result<List<LessonJudgeRecordVo>> getLessonProblemRecord(@RequestParam("lessonId") Long lessonId, @RequestParam(value = "type",required = false) Integer type){
+        return Result.ok(lessonRecordService.getLessonProblemRecord(lessonId,type));
+    }
 
     @GetMapping("/getLessonProblemRank")
     @Operation(summary = "获取课堂答题排名")

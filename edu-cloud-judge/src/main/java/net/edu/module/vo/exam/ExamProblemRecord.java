@@ -1,11 +1,11 @@
-package net.edu.module.vo;
+package net.edu.module.vo.exam;
 
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class LessonProblemRecord {
+public class ExamProblemRecord {
     private Long recordId;
     private String spendTime;
     private Integer submitStatus;
@@ -15,4 +15,7 @@ public class LessonProblemRecord {
     private Integer type;
     private Date submitTime;
     private Date beginTime;
+    private Integer score;
+    private Integer fraction;
+    private Integer sort;
 }

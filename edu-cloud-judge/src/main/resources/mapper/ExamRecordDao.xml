@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.edu.module.dao.ExamRecordDao">
+
+
+    <resultMap id="ExamRecord" type="net.edu.module.vo.exam.ExamScoreVO">
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="examId" column="exam_id"/>
+        <collection property="problemRecords"
+                    javaType="java.util.ArrayList"
+                    ofType="net.edu.module.vo.exam.ExamProblemRecord">
+            <id property="recordId" column="record_id"/>
+            <result property="problemId" column="problem_id"/>
+            <result property="problemName" column="problem_name"/>
+            <result property="problemType" column="problem_type"/>
+            <result property="submitStatus" column="submit_status"/>
+            <result property="sort" column="sort"/>
+            <result property="submitTime" column="submit_time"/>
+            <result property="spendTime" column="spend_time"/>
+            <result property="score" column="score"/>
+            <result property="fraction" column="fraction"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectExamScore" resultMap="ExamRecord">
+        SELECT c.user_id,c.score,c.sort,IFNULL(d.score,0) as fraction,(SELECT real_name FROM sys_user WHERE id=c.user_id) as name,c.exam_id,c.problem_id,c.problem_name,c.problem_type,d.id as
+        record_id,d.submit_status,c.join_time,d.submit_time,timediff(submit_time,join_time)as spend_time FROM
+        (SELECT a.user_id,a.exam_id,b.problem_id,b.problem_name,b.problem_type,b.score,b.sort,join_time FROM
+        (select exam_id, user_id,join_time
+        from exam_attend_log WHERE exam_id=#{examId}
+        <if test="userId!=null">
+            and user_id=#{userId}
+        </if> )a
+        left join exam_problem b on b.exam_id =a.exam_id ) c
+        left join (select id,submit_status,problem_id,problem_type,source_id,user_id,source,score,submit_time from
+        judge_record jr1
+        where source_id=#{examId} and source=3 and not exists (select 1 from judge_record jr2 where source_id=#{examId} and source=3
+        and jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
+        jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt; jr2.id ) ) d on
+        c.problem_id=d.problem_id and c.problem_type=d.problem_type
+        and d.source_id=c.exam_id and c.user_id=d.user_id
+        ORDER BY c.user_id,c.sort
+    </select>
+
+</mapper>

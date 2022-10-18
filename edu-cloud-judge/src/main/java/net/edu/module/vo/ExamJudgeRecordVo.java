@@ -1,6 +1,7 @@
 package net.edu.module.vo;
 
 import lombok.Data;
+import net.edu.module.vo.exam.ExamProblemRecord;
 
 import java.util.List;
 

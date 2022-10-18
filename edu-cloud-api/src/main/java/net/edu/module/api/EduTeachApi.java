@@ -55,7 +55,7 @@ public interface EduTeachApi {
 
     @PostMapping("enrollUser/insertOpenId")
     @Operation(summary = "添加班级学生openId")
-    Result<String> insertOpenId(@RequestParam(value = "openId")String openId);
+    Result<String> insertOpenId(@RequestParam(value = "openId")String openId,@RequestParam(value = "unionId")String unionId);
 
     @PostMapping("enrollUser/post")
     @Operation(summary = "修改班级学生")

@@ -9,7 +9,6 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.EnrollUserConvert;
 import net.edu.module.dao.EnrollUserDao;
 import net.edu.module.entity.EnrollUserEntity;
-import net.edu.module.entity.UserEntity;
 import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollUserService;
 import net.edu.module.vo.EnrollUserVO;
@@ -69,8 +68,8 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
     }
 
     @Override
-    public void insertOpenId(String openId) {
-        enrollUserDao.insertId(openId);
+    public void insertOpenId(String openId, String unionId) {
+        enrollUserDao.insertId(openId,unionId);
     }
 
     @Override

@@ -93,8 +93,8 @@ public class EnrollUserController {
 
     @PostMapping("insertOpenId")
     @Operation(summary = "添加班级学生openId")
-    public Result<String> insertOpenId(String openId){
-        enrollUserService.insertOpenId(openId);
+    public Result<String> insertOpenId(String openId,String unionId){
+        enrollUserService.insertOpenId(openId,unionId);
         return Result.ok();
     }
 

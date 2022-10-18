@@ -27,9 +27,11 @@ public interface EnrollUserService extends BaseService<EnrollUserEntity> {
 
     void confirm(Integer id);
 
-    void insertClassUser(Integer classId, String openId);
+    void insertClassUser(Integer classId, String id);
 
     void insertOpenId(String openId, String unionId);
 
     void post(EnrollUserVO enrollUserVO);
+
+    EnrollUserVO selectUserInfoByOpenId(String openId);
 }

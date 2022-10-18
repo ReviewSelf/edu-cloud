@@ -12,6 +12,7 @@ import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollUserService;
 import net.edu.module.vo.EnrollClassVO;
 import net.edu.module.vo.EnrollUserVO;
+import net.edu.module.vo.UserVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -82,8 +83,8 @@ public class EnrollUserController {
 
     @GetMapping("insertClassUser")
     @Operation(summary = "添加班级学生")
-    public Result<String> insertClassUser(@RequestParam("classId") Integer classId, @RequestParam("openId") String openId){
-        enrollUserService.insertClassUser(classId,openId);
+    public Result<String> insertClassUser(@RequestParam("classId") Integer classId, @RequestParam("id") String id){
+        enrollUserService.insertClassUser(classId,id);
         return Result.ok();
     }
 
@@ -99,5 +100,10 @@ public class EnrollUserController {
     public Result<String> post(@RequestBody  EnrollUserVO enrollUserVO){
         enrollUserService.post(enrollUserVO);
         return Result.ok();
+    }
+
+    @GetMapping("info")
+    public Result<EnrollUserVO> getUserInfo(@RequestParam("openId") String openId){
+        return Result.ok(enrollUserService.selectUserInfoByOpenId(openId));
     }
 }

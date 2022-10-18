@@ -77,8 +77,13 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
     }
 
     @Override
-    public void insertClassUser(Integer classId, String openId) {
-        enrollUserDao.insertClassUser(classId,openId);
+    public EnrollUserVO selectUserInfoByOpenId(String openId) {
+        return enrollUserDao.selectUserInfoByOpenId(openId);
+    }
+
+    @Override
+    public void insertClassUser(Integer classId, String id) {
+        enrollUserDao.insertClassUser(classId,id);
     }
 
 }

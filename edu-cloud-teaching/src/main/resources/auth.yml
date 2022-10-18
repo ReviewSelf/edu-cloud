@@ -15,4 +15,5 @@ auth:
     - /classUser/updateHomeworkTimes
     - /statistics/info
     - /enrollLesson/teacherOpinion
+    - /enrollUser/info
 

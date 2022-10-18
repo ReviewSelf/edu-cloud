@@ -62,6 +62,10 @@
         <if test="query.getPlanName()!=null and query.getPlanName()!=''">
             and plan_id =(select id from teach_plan where name=#{query.planName})
         </if>
+        <if test="query.getUserId()!=null and query.getUserId()!=''">
+            and (SELECT count(*) FROM teach_class_user WHERE user_id=#{query.userId} and class_id=t1.id)=0
+            and status &lt; 3
+        </if>
         ) t2
         <if test="query.getTeacher2Name()!=null and query.getTeacher2Name()!=''">
             where teacher2Name like concat('%',#{query.Teacher2Name},'%')

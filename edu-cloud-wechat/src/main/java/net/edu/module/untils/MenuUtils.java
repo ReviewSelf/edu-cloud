@@ -20,7 +20,7 @@ public class MenuUtils {
         String accountBindUrl = WeChatApiUtils.getAuthBaseUrl(WeChatProperties.ACCOUNT_URL,WeChatApiUtils.SNSAPI_USERINFO);
 
         CommonButton mainBtn2 = new CommonButton();
-        mainBtn2.setName("课程报");
+        mainBtn2.setName("课程报名");
         mainBtn2.setType("view");
         mainBtn2.setUrl(enrollmentUrl);
 

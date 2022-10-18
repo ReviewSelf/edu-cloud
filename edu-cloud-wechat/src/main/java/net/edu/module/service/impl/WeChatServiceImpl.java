@@ -39,7 +39,9 @@ public class WeChatServiceImpl implements WeChatService {
         log.info("执行到service");
         String url = WeChatApiUtils.TOKEN_URL;
         // 利用hutool的http工具类请求获取access_token
+        System.out.println(url);
         String result = HttpUtil.get(url);
+        System.out.println(result);
         // 将结果解析为json
         JSONObject jsonObject = JSONUtil.parseObj(result);
         // 获取access_token
@@ -60,6 +62,8 @@ public class WeChatServiceImpl implements WeChatService {
     public String getUnionId(String openId) {
         String url = WeChatApiUtils.getUnionUrl(openId);
         String result = HttpUtil.get(url);
+
+
         JSONObject jsonObject = JSONUtil.parseObj(result);
         String unionId = jsonObject.getStr("unionid");
         System.out.println("Service"+unionId);

@@ -28,6 +28,8 @@ public interface TeachClassUserService extends BaseService<TeachClassUserEntity>
 
     void save(TeachClassUserVO vo);
 
+    void insertClassUserOne(TeachClassUserVO vo);
+
     void update(TeachClassUserVO vo);
 
     void delete(List<Long> idList);

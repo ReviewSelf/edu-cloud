@@ -89,4 +89,8 @@
             (#{item},#{examId},0,0,0)
         </foreach>
     </insert>
+
+    <update id="updateExamStatus">
+        update exam_attend_log set status=#{status} where exam_id = #{examId} and user_id = #{userId}
+    </update>
 </mapper>

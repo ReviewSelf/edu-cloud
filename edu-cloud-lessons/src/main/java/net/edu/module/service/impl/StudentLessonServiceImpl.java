@@ -12,6 +12,7 @@ import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.entity.ExamEntity;
+import net.edu.module.entity.ExamProblemEntity;
 import net.edu.module.entity.LessonAttendLogEntity;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonAttendLogQuery;
@@ -24,6 +25,7 @@ import net.edu.module.vo.LessonIPVO;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -53,22 +55,21 @@ public class StudentLessonServiceImpl implements StudentLessonService {
     private final RedisUtils redisUtils;
 
 
-
     @Override
     public Result<String> attendLesson(Long lessonId) {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         assert request != null;
         String ip = IpUtils.getIpAddr(request);
         //ip校验
-       if(!lessonIPService.ipJudge(lessonId,ip)){
-          return Result.error("不在ip白名单中，不可进入此班级,当前ip:"+ip);
-       }
-       //名单校验
+        if (!lessonIPService.ipJudge(lessonId, ip)) {
+            return Result.error("不在ip白名单中，不可进入此班级,当前ip:" + ip);
+        }
+        //名单校验
         Long userId = SecurityUser.getUserId();
 
         //班级名单校验 + 签到
-        LessonEntity entity=lessonService.getById(lessonId);
-        if(!lessonAttendLogService.attendance(userId,entity)){
+        LessonEntity entity = lessonService.getById(lessonId);
+        if (!lessonAttendLogService.attendance(userId, entity)) {
             return Result.error("不在该课堂中，不可进入此班级");
         }
         return Result.ok();
@@ -81,36 +82,38 @@ public class StudentLessonServiceImpl implements StudentLessonService {
         assert request != null;
         String ip = IpUtils.getIpAddr(request);
         //ip校验
-        if(!examIPService.ipJudge(examId,ip)){
-            return Result.error("不在ip白名单中，不可进入此考试,当前ip:"+ip);
+        if (!examIPService.ipJudge(examId, ip)) {
+            return Result.error("不在ip白名单中，不可进入此考试,当前ip:" + ip);
         }
-        Long userId= SecurityUser.getUserId();
+        Long userId = SecurityUser.getUserId();
         //考试时间+名单校验
-        if(!examAttendLogService.attendance(examId,userId)){
+        if (!examAttendLogService.attendance(examId, userId)) {
             throw new ServerException("不在名单中，不可进入此考试");
         }
-        ExamPaperVo vo=getStuExamInfo(examId,userId);
+        ExamPaperVo vo = getStuExamInfo(examId, userId);
         return Result.ok(vo);
 
     }
 
     @Override
-    public ExamPaperVo getStuExamInfo(Long examId,Long userId) {
+    public ExamPaperVo getStuExamInfo(Long examId, Long userId) {
 
-        ExamPaperVo vo= (ExamPaperVo) redisUtils.get(RedisKeys.getStuExam(examId,userId));
+        ExamPaperVo vo = (ExamPaperVo) redisUtils.get(RedisKeys.getStuExam(examId, userId));
 
-        if(vo==null){
-            vo=new ExamPaperVo();
-            ExamAttendLogVO attendLogVO= examAttendLogService.getUserExamAttend(examId);
+        if (vo == null) {
+            vo = new ExamPaperVo();
+            ExamAttendLogVO attendLogVO = examAttendLogService.getUserExamAttend(examId);
             //领取新试卷开始考试
             //需要优化
-            vo.setPaperProblem(examProblemService.list(examId));
+            List<ExamProblemEntity> list = examProblemService.list(examId);
+            Collections.shuffle(list);
+            vo.setPaperProblem(list);
             vo.setProblemIndex(1);
             //考试结束时间
             vo.setAttendLogVO(attendLogVO);
             //多5s前端响应时间
-            Long time=vo.getAttendLogVO().getFinishExamTime().getTime()-System.currentTimeMillis()+5000L;
-            redisUtils.set(RedisKeys.getStuExam(examId,userId),vo,time/1000);
+            Long time = vo.getAttendLogVO().getFinishExamTime().getTime() - System.currentTimeMillis() + 5000L;
+            redisUtils.set(RedisKeys.getStuExam(examId, userId), vo, time / 1000);
         }
         return vo;
     }

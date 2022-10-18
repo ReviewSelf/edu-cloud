@@ -34,9 +34,16 @@
     </update>
     <update id="updateOpinion">
         update
-        enroll_evaluate set teacher_opinion = #{teacherOpinion}
+        enroll_evaluate
+        <if test="teacherOpinion !=null and teacherOpinion != ''">
+            set teacher_opinion = #{teacherOpinion}
+        </if>
+        <if test="parentOpinion !=null and parentOpinion != ''">
+            set parent_opinion = #{parentOpinion}
+        </if>
         where student_id = #{studentId}
     </update>
+
     <select id="selectEnrollLessonByPage" resultType="net.edu.module.vo.EnrollLessonVO">
         select
         t1.id,

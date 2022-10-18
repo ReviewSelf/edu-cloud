@@ -82,10 +82,11 @@ public class EnrollLessonController {
     @PostMapping("teacherOpinion")
     @Operation(summary = "教师评价")
     public Object updateOpinion(@RequestBody EnrollOpinionEntity entity) {
-        enrollLessonService.updateOpinion(entity);
-        if(entity.getTeacherOpinion() == null) {
+        System.out.println(entity);
+        if(entity.getTeacherOpinion() == null && entity.getParentOpinion() == null) {
             return Result.error();
         }
+        enrollLessonService.updateOpinion(entity);
         return Result.ok();
     }
 

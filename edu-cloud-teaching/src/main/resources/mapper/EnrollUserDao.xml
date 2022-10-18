@@ -47,13 +47,13 @@
     </update>
 
     <insert id="insertId">
-        INSERT INTO enroll_user (open_id) values (#{openId})
+        INSERT INTO enroll_user (open_id,union_id) values (#{openId},#{unionId})
     </insert>
 
     <update id="save">
         UPDATE enroll_user
         set
-        phone = #{phone} ,status = 1 ,union_id = #{unionId}
+        phone = #{phone} ,status = 1
         <if test="name!=null and name!=''">
             ,name = #{name}
         </if>
@@ -76,7 +76,7 @@
             ,purpose=#{purpose}
         </if>
         WHERE
-        open_id = #{openId}
+        id = #{id}
     </update>
 
     <insert id="insertClassUser">

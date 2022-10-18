@@ -67,9 +67,6 @@ public class WeChatMsgController {
     @Operation(summary = "注册")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
         String openId = enrollUserVO.getOpenId();
-        String unionId = weChatService.getUnionId(openId);
-        System.out.println(unionId);
-        enrollUserVO.setUnionId(unionId);
         eduTeachApi.post(enrollUserVO);
         System.out.println(enrollUserVO);
         //如果用户填写的是报名意向

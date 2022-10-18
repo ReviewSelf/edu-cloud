@@ -108,8 +108,8 @@ public class WeChatServiceImpl implements WeChatService {
             if("subscribe".equals(event)){
                 String openId = inMessage.getFromUserName();
                 log.info(openId);
-
-                eduTeachApi.insertOpenId(openId);
+                String unionId = getUnionId(openId);
+                eduTeachApi.insertOpenId(openId,unionId);
                 outMessage.setMsgType("text");
                 outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
             }

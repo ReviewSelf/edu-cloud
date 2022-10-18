@@ -10,6 +10,7 @@
 
     <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.UserVO">
         select
+            id,
             username,
             real_name as realName,
             password,

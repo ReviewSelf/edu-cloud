@@ -14,5 +14,5 @@ import java.util.List;
  */
 @Mapper
 public interface ExamRecordDao {
-   List<ExamScoreVO> selectExamScore(Long examId, Long userId);
+   List<ExamScoreVO> selectExamScore(Long examId, Long userId,Integer status,Integer isCorrect);
 }

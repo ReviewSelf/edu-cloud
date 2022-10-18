@@ -21,7 +21,8 @@ import java.util.List;
 public class ExamRecordService {
     private final ExamRecordDao examRecordDao;
 
-    public List<ExamScoreVO> getExamScore(Long examId, Long userId){
-       return examRecordDao.selectExamScore(examId,userId);
+    public List<ExamScoreVO> getExamScore(Long examId, Long userId,Integer status,Integer isCorrect){
+        List<ExamScoreVO> list=examRecordDao.selectExamScore(examId,userId,status,isCorrect);
+       return list;
     }
 }

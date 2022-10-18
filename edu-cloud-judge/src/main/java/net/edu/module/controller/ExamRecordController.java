@@ -26,15 +26,19 @@ public class ExamRecordController {
 
    private final   ExamRecordService examRecordService;
 
+
     /**
      * 获取考场中每个人每题的答题记录
      * @param examId
      * @param userId
+     * @param status，0:未参与，1:参与，2:交卷
+     * @param isCorrect 是否批改完成
      * @return
      */
     @GetMapping("/getExamScore")
-    public Result<List<ExamScoreVO>> getExamScore(@RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId){
-        return Result.ok(examRecordService.getExamScore(examId,userId));
+    public Result<List<ExamScoreVO>> getExamScore(@RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId,
+                                                  @RequestParam(value = "status", required = false) Integer status, @RequestParam(value = "isCorrect", required = false) Integer isCorrect){
+        return Result.ok(examRecordService.getExamScore(examId,userId,status,isCorrect));
     }
 
 

@@ -31,7 +31,15 @@
         from exam_attend_log WHERE exam_id=#{examId}
         <if test="userId!=null">
             and user_id=#{userId}
-        </if> )a
+        </if>
+        <if test="status!=null">
+            and status=#{status}
+        </if>
+        <if test="isCorrect!=null">
+            and is_correcting=#{isCorrect}
+        </if>
+
+        )a
         left join exam_problem b on b.exam_id =a.exam_id ) c
         left join (select id,submit_status,problem_id,problem_type,source_id,user_id,source,score,submit_time from
         judge_record jr1

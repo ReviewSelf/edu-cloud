@@ -3,6 +3,7 @@ package net.edu.module.service;
 import cn.hutool.core.collection.CollUtil;
 import lombok.AllArgsConstructor;
 import net.edu.module.dao.LessonRecordDao;
+import net.edu.module.vo.lesson.LessonJudgeRecordVo;
 import net.edu.module.vo.lesson.LessonProblemRankVO;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,11 @@ import java.util.stream.Collectors;
 public class LessonRecordService {
 
     private final LessonRecordDao lessonRecordDao;
+
+    public List<LessonJudgeRecordVo> getLessonProblemRecord(Long lessonId, Integer type) {
+
+        return lessonRecordDao.selectLessonRecord(lessonId,type);
+    }
 
 
     public List<LessonProblemRankVO> getLessonProblemRank(Long lessonId, Integer type) {

@@ -1,4 +1,4 @@
-package net.edu.module.vo;
+package net.edu.module.vo.lesson;
 
 import lombok.Data;
 

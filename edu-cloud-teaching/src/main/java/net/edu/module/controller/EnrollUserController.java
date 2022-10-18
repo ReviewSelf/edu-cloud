@@ -43,10 +43,12 @@ public class EnrollUserController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    public Result<EnrollUserVO> get(@PathVariable("id") Long id){
+    public Result<EnrollUserEntity> get(@PathVariable("id") Long id){
         EnrollUserEntity entity = enrollUserService.getById(id);
-
-        return Result.ok(EnrollUserConvert.INSTANCE.convert(entity));
+        System.out.println(entity);
+//
+        return Result.ok(entity);
+//        return null;
     }
 
     @PostMapping

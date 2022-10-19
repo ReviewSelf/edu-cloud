@@ -35,6 +35,8 @@ public interface WeChatMsgService {
 
     void insertMsgLogWorkDeadlineTemplate(List<WorkDeadlineVO> list);
 
+    void insertMsgLogLessonEvaluationTemplate(List<LessonEvaluationVO> list);
+
     /**
      * 消息群发
      * @param obj

@@ -82,7 +82,6 @@ public class WeChatMsgController {
 
     @GetMapping("info")
     public Result<UserVO> getUserInfo(@RequestParam("openId") String openId){
-        System.out.println("info"+openId);
         return Result.ok(sysUserService.getUserInfo(openId));
     }
 
@@ -113,6 +112,12 @@ public class WeChatMsgController {
     @PostMapping("workDeadline")
     public Result<String> insertWorkDeadlineTemplate(@RequestBody List<WorkDeadlineVO> vo){
         weChatMsgService.insertMsgLogWorkDeadlineTemplate(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("lessonEvaluation")
+    public Result<String> insertLessonEvaluationTemplate(@RequestBody List<LessonEvaluationVO> vo){
+        weChatMsgService.insertMsgLogLessonEvaluationTemplate(vo);
         return Result.ok();
     }
 

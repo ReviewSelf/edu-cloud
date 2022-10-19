@@ -2,8 +2,12 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.exception.ServerException;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.DateUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
@@ -16,6 +20,7 @@ import net.edu.module.entity.ExamEntity;
 import net.edu.module.query.ExamAttendLogQuery;
 import net.edu.module.service.ExamAttendLogService;
 import net.edu.module.vo.ExamAttendLogVO;
+import net.edu.module.vo.ExamVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,16 +44,30 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     private final ExamAttendLogDao examAttendLogDao;
 
     @Override
+    public PageResult<ExamAttendLogVO> page(ExamAttendLogQuery query) {
+        Page<ExamAttendLogVO> page = new Page<>(query.getPage(),query.getLimit());
+        IPage<ExamAttendLogVO> list = baseMapper.page(page,query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
+    @Override
+    public void save(ExamAttendLogVO vo) {
+        ExamAttendLogEntity entity = ExamAttendLogConvert.INSTANCE.convert(vo);
+
+        baseMapper.insert(entity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(List<Long> idList) {
+        removeByIds(idList);
+    }
+
+    @Override
     public ExamAttendLogVO getUserExamAttend(Long examId) {
         Long userId = SecurityUser.getUserId();
         ExamAttendLogVO vo = baseMapper.selectUserAttendById(userId, examId);
-
-        Long finishDate = vo.getJoinTime().getTime() + vo.getTimeLimit() * 60 * 1000L;
-        if (finishDate > vo.getEndTime().getTime()) {
-            vo.setFinishExamTime(vo.getEndTime());
-        } else {
-            vo.setFinishExamTime(new Date(finishDate));
-        }
+        System.out.println(vo);
         return vo;
     }
 
@@ -67,9 +86,9 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
 
     //名单校验加签到
     @Override
-    public Boolean attendance(Long examId) {
-        Long userId = SecurityUser.getUserId();
-        ExamAttendLogVO vo = baseMapper.selectUserAttendById(userId, examId);
+    public Boolean attendance(Long examId, Long userId) {
+        ExamAttendLogVO vo = baseMapper.selectUserAttendById( userId,examId);
+        System.out.println(vo);
         if (vo != null) {
             //存在考试
             Date date = new Date();
@@ -80,59 +99,30 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
 
                     //加入考试
                     vo.setStatus(1);
-                    vo.setJoinTime(new Date());
+                    vo.setJoinTime(date);
                     update(vo);
                     return true;
-                }
-                else if(vo.getStatus()==1){
-                    //进行中
+                } else if (vo.getStatus() == 1) {
+                    if(vo.getFinishExamTime().getTime()<System.currentTimeMillis()){
+                        //考试截至，结束考试
+                        vo.setStatus(2);
+                        update(vo);
+                        throw new ServerException("已交卷");
+                    }
                     return true;
-                }
-                else if(vo.getStatus()==2){
+                } else if (vo.getStatus() == 2) {
                     //已交卷
-                    return false;
+                    throw new ServerException("已交卷");
                 }
-
-            }else {
+            } else {
                 //非考试期间
-                return false;
+                throw new ServerException("不在考试期间，不可参加考试");
             }
 
-
         }
-//        Date date=new Date();
-//        List<ExamAttendLogVO> userList=list(new ExamAttendLogQuery(lessonEntity.getId()));
-//        if(!CollectionUtil.isEmpty(userList)){
-//            for (ExamAttendLogVO vo:userList){
-//                if(vo.getStuId().equals(userId)){
-//                    //在上课范围，签到判断
-//                    if(lessonEntity.getBeginTime().getTime()<=date.getTime() && lessonEntity.getEndTime().getTime()>=date.getTime()){
-//                        if(vo.getStatus()!=1){
-//                            vo.setStatus(1);
-//                            vo.setCheckinTime(new Date());
-//                            ExamAttendLogEntity entity = ExamAttendLogConvert.INSTANCE.convert(vo);
-//                            updateById(entity);
-//                            redisUtils.set(RedisKeys.getExamAttendLog(lessonEntity.getId()),userList,RedisUtils.MIN_TEN_EXPIRE);
-//                        }
-//                        //已签到返回
-//                        return true;
-//                    }
-//                    //不在上课时间内，直接返回
-//                    return true;
-//                }
-//            }
-//        }
         return false;
     }
 
-
-//    @Override
-//    public void save(ExamAttendLogVO vo) {
-//        ExamAttendLogEntity entity = ExamAttendLogConvert.INSTANCE.convert(vo);
-//        baseMapper.insert(entity);
-//    }
-
-//
     @Override
     public void update(ExamAttendLogVO vo) {
         ExamAttendLogEntity entity = ExamAttendLogConvert.INSTANCE.convert(vo);
@@ -141,39 +131,23 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     }
 
     @Override
-    public void copyFromClass(Long classId,Long examId) {
-        List<Long> userList=eduTeachApi.list(classId).getData();
-        System.out.println(userList);
-        if(!CollUtil.isEmpty(userList)){
+    public void copyFromClass(Long classId, Long examId) {
+        List<Long> userList = eduTeachApi.list(classId).getData();
+        if (!CollUtil.isEmpty(userList)) {
+            System.out.println(userList);
             //insert
-            examAttendLogDao.insertAttendLogFromClass(userList,examId);
-
+            examAttendLogDao.insertAttendLogFromClass(userList, examId);
         }
     }
-//
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public void delete(List<Long> idList) {
-//        removeByIds(idList);
-//    }
-//
-//    @Override
-//    public void copyUserFromClassUser(List<Long> userList, Long lessonId) {
-//        if (!CollectionUtil.isEmpty(userList)) {
-//            baseMapper.insertUserList(userList, lessonId);
-//        }
-//        redisUtils.del(RedisKeys.getExamAttendLog(lessonId));
-//    }
-//
-//    @Override
-//    public void updateStudents(ExamAttendLogVO vo) {
-//        // vo.setUpdateTime(new Date());
-//        if (vo.getUserId() == null) {
-//            vo.setUserId(SecurityUser.getUserId());
-//        }
-//        //根据学生id和课堂id找到唯一的记录进行修改
-//        lessonAttendLogDao.updateStudents(vo);
-//        redisUtils.del(RedisKeys.getExamAttendLog(vo.getExamId()));
-//    }
+
+
+    public void updateExamStatus(Integer status,Long examId,Long userId){
+        baseMapper.updateExamStatus(status,examId,userId);
+    }
+
+    @Override
+    public void updateAttendLog(ExamAttendLogVO vo) {
+        examAttendLogDao.updateAttendLog(vo);
+    }
 
 }

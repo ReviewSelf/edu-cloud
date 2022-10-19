@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.ExamProblemDao">
+
+    <select id="page" resultType="net.edu.module.vo.ExamProblemVO">
+        select exam_id as examId,
+               problem_id as problemId,
+               problem_name as problemName,
+               problem_type as problemType,
+               sort,
+               score
+        from exam_problem
+        where exam_id=#{query.examId}
+    </select>
+
     <insert id="insertExamProblemFromPaper">
         insert into exam_problem(exam_id,problem_id,problem_name,problem_type,sort,score,source)
         values

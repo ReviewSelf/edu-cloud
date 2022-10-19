@@ -1,5 +1,7 @@
 package net.edu.module.service;
 
+import cn.hutool.json.JSONObject;
+import net.edu.framework.common.utils.Result;
 import net.edu.module.entity.InMessage;
 
 public interface WeChatService {
@@ -9,7 +11,7 @@ public interface WeChatService {
 
     String getUnionId(String openId);
 
-    String getOpenId(String code);
+    JSONObject getOpenId(String code);
 
     Object handleMessage(InMessage inMessage);
 

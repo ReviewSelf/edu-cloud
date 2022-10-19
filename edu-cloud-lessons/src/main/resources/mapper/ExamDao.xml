@@ -50,12 +50,12 @@
     </select>
 
     <select id="studentPage" resultType="net.edu.module.vo.ExamVO">
-        select a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place , a.begin_time as beginTime,
+        select a.id,a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place , a.begin_time as beginTime,
         a.end_time as endTime , (select  real_name from sys_user where id=a.teacher_id) as teacherName , a.time_limit as timeLimit,
-        b.status
+        b.status,b.is_correcting as isCorrecting
         from exam a
-        join exam_attend_log b on b.user_id = #{query.userId}
-        where a.paper_id = b.exam_id and a.deleted = 0
+        join exam_attend_log b on  a.id = b.exam_id and  b.user_id = #{query.userId}
+        where  a.deleted = 0
         <if test="query.name != null and query.name != ''">
             and a.name = #{query.name}
         </if>
@@ -74,14 +74,19 @@
     </select>
 
     <select id="getExamingList" resultType="net.edu.module.vo.ExamVO">
-        select a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place , a.begin_time as beginTime,
+        select a.id,a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place , a.begin_time as beginTime,
                a.end_time as endTime , (select  real_name from sys_user where id=a.teacher_id) as teacherName , a.time_limit as timeLimit,
-               b.status
+               b.status , a.paper_id as paperId , a.problem_num as problemNum
         from exam a
-        join exam_attend_log b on b.user_id = #{userId}
-        where a.paper_id = b.exam_id
-          and a.deleted = 0
+        join exam_attend_log b on a.id = b.exam_id and  b.user_id = #{userId}
+        where  a.deleted = 0
             and   a.end_time &gt;= now()
+    </select>
+
+    <select id="selectPaperManage" resultType="net.edu.module.vo.ExamVO">
+        select name as name , begin_time as beginTime , end_time as endTime , score as score , time_limit as timeLimit , problem_num as problemNum
+        from exam
+        where paper_id = #{paperId} and deleted = 0
     </select>
 
 

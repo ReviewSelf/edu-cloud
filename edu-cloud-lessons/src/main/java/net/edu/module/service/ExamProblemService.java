@@ -1,9 +1,13 @@
 package net.edu.module.service;
 
 
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.ExamProblemEntity;
+import net.edu.module.query.ExamAttendLogQuery;
 import net.edu.module.query.ExamProblemQuery;
+import net.edu.module.vo.ExamAttendLogVO;
+import net.edu.module.vo.ExamPaperVo;
 import net.edu.module.vo.ExamProblemVO;
 import net.edu.module.vo.ProblemPaperItemEntity;
 
@@ -17,17 +21,14 @@ import java.util.List;
  */
 public interface ExamProblemService extends BaseService<ExamProblemEntity> {
 
+    PageResult<ExamProblemVO> page(ExamProblemQuery query);
+
     List<ExamProblemEntity> list(Long examId);
+
+
 
     void copyFromPaper(Long paperId,Long examId);
 
-//    void save(ExamProblemVO vo);
-//
-//    void update(ExamProblemVO vo);
-//
-//    void delete(List<Long> idList);
-//
-//    void updateProblemTime(List<ExamProblemVO> lessonProblemList);
-//
-//    void insertProblemListByTeacher(List<ProblemPaperItemEntity> list, Long lessonId);
+
+
 }

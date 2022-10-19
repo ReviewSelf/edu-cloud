@@ -22,7 +22,7 @@ public class LessonAttendLogController {
     private final LessonAttendLogService lessonAttendLogService;
 
     @GetMapping("students/list")
-    @Operation(summary = "教师点名获取课次中的学生")
+    @Operation(summary = "教师点名,获取课次中的学生")
     public Result<List<LessonAttendLogVO>> studentsList(@Valid LessonAttendLogQuery query) {
         return Result.ok(lessonAttendLogService.list(query));
     }

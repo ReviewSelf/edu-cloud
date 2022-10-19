@@ -18,6 +18,8 @@ public interface ExamService extends BaseService<ExamEntity> {
 
     PageResult<ExamVO> page(ExamQuery query);
 
+    ExamEntity get(Long examId);
+
     void save(ExamVO vo);
 
     void update(ExamVO vo);
@@ -27,4 +29,10 @@ public interface ExamService extends BaseService<ExamEntity> {
     PageResult<ExamVO> studentPage(ExamQuery query);
 
     List<ExamVO> getExamingList(Long userId);
+
+    ExamVO getPaper(Long id);
+
+    void updateExamIndex(Long examId);
+
+    void submitPaper(Long examId);
 }

@@ -1,6 +1,7 @@
 package net.edu.module.dao;
 
 import net.edu.module.vo.*;
+import net.edu.module.vo.lesson.LessonJudgeRecordVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -26,11 +27,10 @@ public interface JudgeRecordDao {
 
     JudgeRecordSubmitVO selectRecord(JudgeRecordSubmitVO vo);
 
-    List<LessonJudgeRecordVo> selectLessonRecord(Long lessonId,Integer type);
+
 
     JudgeRecordSubmitVO selectRecordAndAnswer(JudgeRecordSubmitVO vo);
 
     int updateReasonAndStatus(JudgeRecordSubmitVO vo);
 
-    List<ExamJudgeRecordVo> selectExamRecord(Long examId, Integer type);
 }

@@ -3,22 +3,58 @@
 
 <mapper namespace="net.edu.module.dao.ExamAttendLogDao">
 
+    <select id="page" resultType="net.edu.module.vo.ExamAttendLogVO">
+        select t.id,
+        t.user_id as userId,
+        t.exam_id as examId,
+        t.name,
+        t.join_time as joinTime,
+        t.quit_time as quitTime,
+        (select score from exam where id = #{query.examId}) as totalScore,
+        t.status,
+        t.score,
+        t.is_correcting as isCorrecting
+        from (select a.id,
+        a.user_id,
+        a.exam_id,
+        (select real_name from sys_user b where b.id = a.user_id) as name,
+        a.join_time,
+        a.quit_time,
+        a.status,
+        a.score,
+        a.is_correcting
+        from exam_attend_log a
+        where exam_id = #{query.examId}) t
+        where 1=1
+        <if test="query.name !='' and query.name != null">
+            and t.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.status !='' and query.status !=null">
+            and t.status = #{query.status}
+        </if>
+        <if test="query.isCorrecting != '' and query.isCorrecting != null">
+            and t.is_correcting=#{query.isCorrecting}
+        </if>
+        order by status , score desc
+    </select>
+
     <select id="selectUserAttendById" resultType="net.edu.module.vo.ExamAttendLogVO">
-        select exam_id,
+        select a.id,
+               exam_id      as examId,
                b.description,
-               b.begin_time                                                                                   as beginTime,
-               b.end_time                                                                                     as endTime,
-               b.name                                                                                         as examName,
-               b.time_limit                                                                                   as timeLimit,
-               b.score                                                                                        as totalScore,
+               b.begin_time as beginTime,
+               b.end_time   as endTime,
+               b.name       as examName,
+               b.time_limit as timeLimit,
+               b.score      as totalScore,
                a.score,
-               join_time                                                                                      as joinTime,
-               quit_time                                                                                      as quitTime,
+               join_time    as joinTime,
+               quit_time    as quitTime,
                status,
                if(status = 1 and
                   DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE), '%Y-%m-%d %H:%i:%s') &lt; end_time,
                   DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE), '%Y-%m-%d %H:%i:%s'),
-                  end_time)                                                                                   as finishExamTime
+                  end_time) as finishExamTime
         from exam_attend_log a
                  join exam b on a.exam_id = b.id and b.id = #{examId}
             and a.user_id = #{userId}
@@ -27,20 +63,20 @@
     <select id="selectUserAttend" resultType="net.edu.module.vo.ExamAttendLogVO">
         select exam_id,
                b.description,
-               (select real_name from sys_user where id = user_id)                                            as name,
-               b.begin_time                                                                                   as beginTime,
-               b.end_time                                                                                     as endTime,
-               b.name                                                                                         as examName,
-               b.time_limit                                                                                   as timeLimit,
-               b.score                                                                                        as totalScore,
+               (select real_name from sys_user where id = user_id) as name,
+               b.begin_time                                        as beginTime,
+               b.end_time                                          as endTime,
+               b.name                                              as examName,
+               b.time_limit                                        as timeLimit,
+               b.score                                             as totalScore,
                a.score,
-               join_time                                                                                      as joinTime,
-               quit_time                                                                                      as quitTime,
+               join_time                                           as joinTime,
+               quit_time                                           as quitTime,
                status,
                if(status = 1 and
                   DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE), '%Y-%m-%d %H:%i:%s') &lt; end_time,
                   DATE_FORMAT(ADDDATE(join_time, INTERVAL time_limit MINUTE), '%Y-%m-%d %H:%i:%s'),
-                  end_time)                                                                                   as finishExamTime
+                  end_time)                                        as finishExamTime
         from exam_attend_log a
                  join exam b on a.exam_id = b.id and b.id = #{examId} from exam_attend_log a join exam b
         on a.exam_id=b.id and b.id=#{examId}
@@ -53,4 +89,12 @@
             (#{item},#{examId},0,0,0)
         </foreach>
     </insert>
+
+    <update id="updateExamStatus">
+        update exam_attend_log set status=#{status} where exam_id = #{examId} and user_id = #{userId}
+    </update>
+
+    <update id="updateAttendLog">
+        update exam_attend_log set score = #{vo.score},is_correcting = #{vo.isCorrecting} where user_id = #{vo.userId} and exam_id = #{vo.examId}
+    </update>
 </mapper>

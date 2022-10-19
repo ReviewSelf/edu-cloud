@@ -41,5 +41,7 @@ public class JudgeRecordEntity {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Integer updateTime;
 
+    private BigDecimal score;
+
 
 }

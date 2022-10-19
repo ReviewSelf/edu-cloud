@@ -6,6 +6,8 @@ import net.edu.module.api.EduFileApi;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * @Author: 马佳浩
  * @Date: 2022/9/6 20:21

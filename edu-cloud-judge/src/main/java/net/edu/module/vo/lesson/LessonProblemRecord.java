@@ -1,11 +1,11 @@
-package net.edu.module.vo;
+package net.edu.module.vo.lesson;
 
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class ExamProblemRecord {
+public class LessonProblemRecord {
     private Long recordId;
     private String spendTime;
     private Integer submitStatus;

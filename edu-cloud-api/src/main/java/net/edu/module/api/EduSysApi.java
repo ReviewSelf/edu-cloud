@@ -1,5 +1,6 @@
 package net.edu.module.api;
 
+import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.fallback.EduProblemFallBack;
 import net.edu.module.vo.SysWeChatLoginVO;
@@ -20,5 +21,6 @@ public interface EduSysApi {
     Result<Boolean> checkUserAndPassword(@RequestParam(value="username") String username,@RequestParam(value="password") String password);
 
     @PostMapping("auth/wxMini")
-    Result<Object> wxMini(@RequestBody SysWeChatLoginVO login);
+    @Operation(summary = "微信小程序登录")
+    Object wxMini(@RequestBody SysWeChatLoginVO login);
 }

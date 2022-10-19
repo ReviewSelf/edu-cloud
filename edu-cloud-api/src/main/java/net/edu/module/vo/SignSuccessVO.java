@@ -4,15 +4,27 @@ import lombok.Data;
 
 /**
  * @author weng
- * @date 2022/10/10 - 15:26
+ * @date 2022/10/10 - 15:30
  **/
 @Data
-public class LessonOpenVO {
+public class SignSuccessVO {
+
+
 
     /**
-     * 课程名称
+     * 学生姓名
+     */
+    private String studentName;
+
+    /**
+     * 上课班级
      */
     private String lessonName;
+
+    /**
+     * 课程内容
+     */
+    private String lessonContent;
 
     /**
      * 上课时间
@@ -35,10 +47,10 @@ public class LessonOpenVO {
     private Long userId;
 
 
-
-
     public String toJsonString() {
-        return "{\"lessonName\":\""+lessonName
+        return "{\"studentName\":\""+studentName
+                +"\",\"lessonName\":\""+lessonName
+                +"\",\"lessonContent\":\""+lessonContent
                 +"\",\"lessonTime\":\""+lessonTime
                 +"\",\"lessonLocation\":\""+lessonLocation
                 +"\"}";

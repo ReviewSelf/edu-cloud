@@ -12,6 +12,7 @@ import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
 import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
+import net.edu.module.vo.TeachClassVO;
 import net.edu.module.vo.TeachStudentVo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,6 +64,14 @@ public class TeachClassUserController {
 
         teachClassUserService.save(vo);
 
+        return Result.ok();
+    }
+
+    @PostMapping("/insertClassUserOne")
+    @Operation(summary = "保存")
+    public Result<String> insertClassUserOne(@RequestBody TeachClassUserVO vo){
+        System.out.println(vo);
+        teachClassUserService.insertClassUserOne(vo);
         return Result.ok();
     }
 

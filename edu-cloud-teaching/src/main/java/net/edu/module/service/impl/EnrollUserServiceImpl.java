@@ -3,13 +3,11 @@ package net.edu.module.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.EnrollUserConvert;
 import net.edu.module.dao.EnrollUserDao;
 import net.edu.module.entity.EnrollUserEntity;
-import net.edu.module.entity.UserEntity;
 import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollUserService;
 import net.edu.module.vo.EnrollUserVO;
@@ -27,7 +25,6 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-@Slf4j
 public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, EnrollUserEntity> implements EnrollUserService {
 
     @Autowired
@@ -69,22 +66,24 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
     }
 
     @Override
-    public void insertOpenId(String openId) {
-        enrollUserDao.insertId(openId);
+    public void insertOpenId(String openId, String unionId) {
+        enrollUserDao.insertId(openId,unionId);
     }
 
     @Override
     public void post(EnrollUserVO enrollUserVO){
-        log.info(enrollUserVO.toString());
         EnrollUserEntity entity = EnrollUserConvert.INSTANCE.convert(enrollUserVO);
-        log.info(entity.toString());
         enrollUserDao.save(entity);
     }
 
     @Override
-    public void insertClassUser(Integer classId, String openId) {
-        log.info("insertClassUser"+classId.toString()+"and"+openId);
-        enrollUserDao.insertClassUser(classId,openId);
+    public EnrollUserVO selectUserInfoByOpenId(String openId) {
+        return enrollUserDao.selectUserInfoByOpenId(openId);
+    }
+
+    @Override
+    public void insertClassUser(Integer classId, Integer userId) {
+        enrollUserDao.insertClassUser(classId,userId);
     }
 
 }

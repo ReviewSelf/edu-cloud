@@ -66,14 +66,14 @@ public class WeChatMsgController {
     @PostMapping("post")
     @Operation(summary = "报名")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
-        String openId = enrollUserVO.getOpenId();
+        Integer userId = enrollUserVO.getId();
         eduTeachApi.post(enrollUserVO);
         System.out.println(enrollUserVO);
         //如果用户填写的是报名意向
         if(enrollUserVO.getPurpose()=="" || enrollUserVO.getPurpose()==null){
             Integer classId = enrollUserVO.getClassId();
-            System.out.println(openId);
-            eduTeachApi.insertClassUser(classId,openId);
+            System.out.println(userId);
+            eduTeachApi.insertClassUser(classId,userId);
         }
         return Result.ok();
     }
@@ -82,6 +82,7 @@ public class WeChatMsgController {
 
     @GetMapping("info")
     public Result<UserVO> getUserInfo(@RequestParam("openId") String openId){
+        System.out.println("info"+openId);
         return Result.ok(sysUserService.getUserInfo(openId));
     }
 

@@ -83,8 +83,8 @@ public class EnrollUserController {
 
     @GetMapping("insertClassUser")
     @Operation(summary = "添加班级学生")
-    public Result<String> insertClassUser(@RequestParam("classId") Integer classId, @RequestParam("id") String id){
-        enrollUserService.insertClassUser(classId,id);
+    public Result<String> insertClassUser(@RequestParam("classId") Integer classId, @RequestParam("userId") Integer userId){
+        enrollUserService.insertClassUser(classId,userId);
         return Result.ok();
     }
 
@@ -104,6 +104,7 @@ public class EnrollUserController {
 
     @GetMapping("info")
     public Result<EnrollUserVO> getUserInfo(@RequestParam("openId") String openId){
+        System.out.println("info"+openId);
         return Result.ok(enrollUserService.selectUserInfoByOpenId(openId));
     }
 }

@@ -82,8 +82,8 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
     }
 
     @Override
-    public void insertClassUser(Integer classId, String id) {
-        enrollUserDao.insertClassUser(classId,id);
+    public void insertClassUser(Integer classId, Integer userId) {
+        enrollUserDao.insertClassUser(classId,userId);
     }
 
 }

@@ -31,16 +31,8 @@ public class LessonEvaluateController {
 
     @GetMapping("list/{lessonId}")
     @Operation(summary = "列表")
-    public Result<List<LessonEvaluateEntity>> list(@PathVariable("lessonId") Long lessonId){
+    public Result<List<LessonEvaluateVO>> list(@PathVariable("lessonId") Long lessonId){
         return Result.ok(lessonEvaluateService.list(lessonId));
-    }
-
-    @GetMapping("{id}")
-    @Operation(summary = "信息")
-    public Result<LessonEvaluateVO> get(@PathVariable("id") Long id){
-        LessonEvaluateEntity entity = lessonEvaluateService.getById(id);
-
-        return Result.ok(LessonEvaluateConvert.INSTANCE.convert(entity));
     }
 
     @PostMapping
@@ -54,15 +46,7 @@ public class LessonEvaluateController {
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody LessonEvaluateVO vo){
         lessonEvaluateService.update(vo);
-
         return Result.ok();
     }
 
-    @DeleteMapping
-    @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
-        lessonEvaluateService.delete(idList);
-
-        return Result.ok();
-    }
 }

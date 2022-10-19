@@ -18,9 +18,9 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
-    <select id="save" >
+    <select id="save">
         insert into lesson_evaluate (user_id , lesson_id , rank_num , unanswered_num , answered_num ,
-                                     undecided_num , correct_num , error_num , content)
+        undecided_num , correct_num , error_num , content)
         values
         <foreach collection="list" item="item" index="index" separator=",">
             (
@@ -39,23 +39,28 @@
         content = VALUES( content )
     </select>
 
+    <select id="list" resultType="net.edu.module.vo.LessonEvaluateVO">
+        select id,
+               user_id,
+               (select real_name from sys_user where id = user_id) as name,
+               lesson_id,
+               rank_num,
+               unanswered_num,
+               answered_num,
+               undecided_num,
+               correct_num,
+               error_num,
+               content
+        from lesson_evaluate
+        where lesson_id = #{lessonId}
+        order by rank_num
+    </select>
+
     <select id="updateByUserId">
-        insert into lesson_evaluate (user_id , lesson_id , rank_num , unanswered_num , answered_num ,
-                                     undecided_num , correct_num , error_num , content)
-        values
-            (
-                #{userId},
-                #{lessonId},
-                #{rankNum},
-                #{unansweredNum},
-                #{answeredNum},
-                #{undecidedNum},
-                #{correctNum},
-                #{errorNum},
-                #{content}
-            )
-        on duplicate key update
-        content = VALUES( content )
+        update lesson_evaluate
+        set content=#{content}
+        where id = #{id}
+
     </select>
 
 

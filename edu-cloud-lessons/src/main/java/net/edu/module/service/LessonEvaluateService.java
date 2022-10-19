@@ -1,9 +1,9 @@
 package net.edu.module.service;
 
-import net.edu.framework.common.page.PageResult;
+
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.LessonEvaluateEntity;
-import net.edu.module.query.LessonEvaluateQuery;
+
 import net.edu.module.vo.LessonEvaluateVO;
 
 import java.util.List;
@@ -16,11 +16,10 @@ import java.util.List;
  */
 public interface LessonEvaluateService extends BaseService<LessonEvaluateEntity> {
 
-    List<LessonEvaluateEntity> list(Long lessonId);
+    List<LessonEvaluateVO> list(Long lessonId);
 
     void save(List<LessonEvaluateVO> list);
 
     void update(LessonEvaluateVO vo);
 
-    void delete(List<Long> idList);
 }

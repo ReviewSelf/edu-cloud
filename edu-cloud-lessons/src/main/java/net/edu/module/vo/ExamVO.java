@@ -70,6 +70,13 @@ public class ExamVO implements Serializable {
 	@Schema(description = "监考老师名字")
 	private String teacherName;
 
+	@Schema(description = "参加状态")
+	private Integer status;
+	@Schema(description = "是否批改")
+	private Integer  isCorrecting;
+
+
+
 
 
 

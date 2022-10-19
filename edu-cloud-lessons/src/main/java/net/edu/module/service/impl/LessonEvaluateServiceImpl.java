@@ -32,10 +32,8 @@ public class LessonEvaluateServiceImpl extends BaseServiceImpl<LessonEvaluateDao
     private LessonEvaluateDao lessonEvaluateDao;
 
     @Override
-    public List<LessonEvaluateEntity> list(Long lessonId) {
-        List<LessonEvaluateEntity> list = new LambdaQueryChainWrapper<>(baseMapper)
-                .eq(LessonEvaluateEntity::getLessonId, lessonId).list();
-        return list;
+    public List<LessonEvaluateVO> list(Long lessonId) {
+        return lessonEvaluateDao.list(lessonId);
     }
 
     @Override
@@ -47,12 +45,6 @@ public class LessonEvaluateServiceImpl extends BaseServiceImpl<LessonEvaluateDao
     @Override
     public void update(LessonEvaluateVO vo) {
         lessonEvaluateDao.updateByUserId(vo);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        removeByIds(idList);
     }
 
 }

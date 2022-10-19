@@ -20,4 +20,5 @@ public interface LessonEvaluateDao extends BaseDao<LessonEvaluateEntity> {
 
     void updateByUserId(LessonEvaluateVO vo);
 
+    List<LessonEvaluateVO> list(Long lessonId);
 }

@@ -27,5 +27,4 @@ public interface ExamDao extends BaseDao<ExamEntity> {
 
     List<ExamVO> getExamingList(@Param("userId") Long userId);
 
-    void updateExamStatus(@Param("examId") Long examId, @Param("userId") Long userId);
 }

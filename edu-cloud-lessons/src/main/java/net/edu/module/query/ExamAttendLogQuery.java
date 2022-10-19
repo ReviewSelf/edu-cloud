@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import net.edu.framework.common.query.Query;
 
 /**
  * 考试参加表查询
@@ -15,6 +16,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @Schema(description = "考试参加表查询")
-public class ExamAttendLogQuery {
+public class ExamAttendLogQuery extends Query {
     private Long examId;
+
+    private String name;
+
+    private Integer status;
+
+    private Integer isCorrecting;
 }

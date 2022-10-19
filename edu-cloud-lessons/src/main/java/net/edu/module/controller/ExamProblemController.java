@@ -3,11 +3,13 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.ExamProblemConvert;
 import net.edu.module.entity.ExamProblemEntity;
 import net.edu.module.query.ExamProblemQuery;
 import net.edu.module.service.ExamProblemService;
+import net.edu.module.vo.ExamAttendLogVO;
 import net.edu.module.vo.ExamProblemVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,15 @@ import java.util.List;
 @AllArgsConstructor
 public class ExamProblemController {
     private final ExamProblemService examProblemService;
+
+
+    @GetMapping("page")
+    @Operation(summary = "分页")
+    public Result<PageResult<ExamProblemVO>> page(@Valid ExamProblemQuery query){
+        PageResult<ExamProblemVO> page = examProblemService.page(query);
+
+        return Result.ok(page);
+    }
 
     @GetMapping("list/{examId}")
     @Operation(summary = "获取考试题目信息")

@@ -99,7 +99,7 @@
         left join lesson_problem b on b.lesson_id =a.lesson_id ORDER BY user_id,b.begin_time) c
         left join (select id,submit_status,submit_time,problem_id,problem_type,source_id,user_id,source from
         judge_record jr1
-        where source_id=#{lessonId} and not exists (select * from judge_record jr2 where source_id=#{lessonId} and
+        where source_id=#{lessonId} and not exists (select 1 from judge_record jr2 where source_id=#{lessonId} and
         jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
         jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt; jr2.id ) ) d on
         c.problem_id=d.problem_id and c.problem_type=d.problem_type

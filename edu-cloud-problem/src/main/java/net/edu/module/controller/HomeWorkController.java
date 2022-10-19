@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.dao.HomeWorkDao;
@@ -29,6 +30,7 @@ import java.util.List;
 @RequestMapping("homeWork")
 @Tag(name="消息推送")
 @AllArgsConstructor
+@Slf4j
 public class HomeWorkController {
     @Autowired
     private final HomeWorkService homeWorkService;
@@ -55,8 +57,13 @@ public class HomeWorkController {
      */
     @GetMapping("/homeWorkPage")
     public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@Valid HomeWorkQuery query){
+
+        log.info(query.toString());
         PageResult<HomeWorkVO> page=homeWorkService.getStudentHomeWorkPage(query);
+
+        log.info(page.toString());
         return Result.ok(page);
+
     }
 
     /**

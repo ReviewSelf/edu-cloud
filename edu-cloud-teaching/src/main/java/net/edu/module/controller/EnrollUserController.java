@@ -3,6 +3,7 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.EnrollUserConvert;
@@ -12,7 +13,6 @@ import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollUserService;
 import net.edu.module.vo.EnrollClassVO;
 import net.edu.module.vo.EnrollUserVO;
-import net.edu.module.vo.UserVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +28,7 @@ import java.util.List;
 @RequestMapping("enrollUser")
 @Tag(name="XinXiHeShi")
 @AllArgsConstructor
+@Slf4j
 public class EnrollUserController {
     private final EnrollUserService enrollUserService;
 
@@ -83,8 +84,8 @@ public class EnrollUserController {
 
     @GetMapping("insertClassUser")
     @Operation(summary = "添加班级学生")
-    public Result<String> insertClassUser(@RequestParam("classId") Integer classId, @RequestParam("id") String id){
-        enrollUserService.insertClassUser(classId,id);
+    public Result<String> insertClassUser(@RequestParam("classId")Integer classId,@RequestParam("openId") String openId){
+        enrollUserService.insertClassUser(classId,openId);
         return Result.ok();
     }
 
@@ -97,7 +98,8 @@ public class EnrollUserController {
 
     @PostMapping("post")
     @Operation(summary = "修改班级学生")
-    public Result<String> post(@RequestBody  EnrollUserVO enrollUserVO){
+    public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
+        log.info(enrollUserVO.toString());
         enrollUserService.post(enrollUserVO);
         return Result.ok();
     }

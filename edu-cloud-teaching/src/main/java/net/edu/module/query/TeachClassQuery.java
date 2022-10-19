@@ -17,6 +17,10 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "班级表查询")
 public class TeachClassQuery extends Query {
+
+    @Schema(description = "学生Id")
+    private String userId;
+
     @Schema(description = "班级名称")
     private String name;
 

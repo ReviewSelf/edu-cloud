@@ -88,6 +88,13 @@ public class RedisKeys {
         return "exam:user:" + examId + ":" + userId;
     }
 
+    public static String getHomeWorkKey(Long id) {
+        if (id == null ) {
+            return "homework:lessonId:";
+        }
+        return "homework:lessonId:" + id ;
+    }
+
     //***********************************problem***********************************************************
     public static String getProblemInfo(Long problemId, String type) {
         return "problem:" + type + ":" + problemId;
@@ -130,6 +137,7 @@ public class RedisKeys {
     public static String getJudgeRecordFlag(Long userId, Long problemId, Integer problemType, Integer source, Long sourceId) {
         return "judge:record:" + userId + ":" + problemId + ":" + problemType + ":" + source + ":" + sourceId;
     }
+
 
 
 }

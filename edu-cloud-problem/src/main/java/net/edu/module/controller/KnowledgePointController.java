@@ -43,10 +43,10 @@ public class KnowledgePointController {
         KnowledgePointEntity entity = knowledgePointService.getById(id);
         KnowledgePointVO vo = KnowledgePointConvert.INSTANCE.convert(entity);
         // 获取上级菜单名称
-        if(!Constant.ROOT.equals(entity.getPid())){
-            KnowledgePointEntity parentEntity = knowledgePointService.getById(entity.getPid());
-            vo.setParentName(parentEntity.getName());
-        }
+//        if(!Constant.ROOT.equals(entity.getPid())){
+//            KnowledgePointEntity parentEntity = knowledgePointService.getById(entity.getPid());
+//            vo.setParentName(parentEntity.getName());
+//        }
         return Result.ok(vo);
     }
 

@@ -88,8 +88,8 @@
     </select>
 
 
-    <update id="updateProblemScore" parameterType="net.edu.module.vo.exam.ExamProblemRecord">
-        update judge_record set socre=#{score}
+    <update id="updateProblemScore" >
+        update judge_record set score=#{score}
         where id=#{id}
     </update>
 

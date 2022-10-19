@@ -36,7 +36,7 @@ public class LessonEvaluateController {
     }
 
     @PostMapping
-    @Operation(summary = "保存")
+    @Operation(summary = "生成")
     public Result<String> save(@RequestBody List<LessonEvaluateVO> list){
         lessonEvaluateService.save(list);
         return Result.ok();

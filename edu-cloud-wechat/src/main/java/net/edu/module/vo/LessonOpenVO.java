@@ -35,6 +35,8 @@ public class LessonOpenVO {
     private Long userId;
 
 
+
+
     public String toJsonString() {
         return "{\"lessonName\":\""+lessonName
                 +"\",\"lessonTime\":\""+lessonTime

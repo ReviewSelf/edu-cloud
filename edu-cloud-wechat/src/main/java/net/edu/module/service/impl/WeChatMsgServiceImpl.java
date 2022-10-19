@@ -47,6 +47,7 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
     @Override
     public void sentMessage(MsgLogEntity msgLogEntity) {
         Long userId = msgLogEntity.getUserId();
+        //根据需要获取用户id和用户姓名，有些模板不需要用户姓名
         String userOpenid = messageDao.selectUserOpenIdById(userId);
         String userName = templateDao.selectUserNameById(userId);
         String content = msgLogEntity.getContent();
@@ -108,6 +109,50 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
             String sendTime = vo.getSendTime();
             Long userId = vo.getUserId();
             templateDao.insertMsgLogWorkDeadlineTemplate(content, sendTime, userId);
+        }
+    }
+
+    @Override
+    public void insertMsgLogLessonEvaluationTemplate(List<LessonEvaluationVO> list) {
+        System.out.println(list);
+        for (LessonEvaluationVO vo : list) {
+            String content = vo.toJsonString();
+            String sendTime = vo.getSendTime();
+            Long userId = vo.getUserId();
+            templateDao.insertMsgLogLessonEvaluationTemplate(content, sendTime, userId);
+        }
+    }
+
+    @Override
+    public void insertMsgLogLessonEvaluationTemplate(List<LessonEvaluationVO> list) {
+        System.out.println(list);
+        for (LessonEvaluationVO vo : list) {
+            String content = vo.toJsonString();
+            String sendTime = vo.getSendTime();
+            Long userId = vo.getUserId();
+            templateDao.insertMsgLogLessonEvaluationTemplate(content, sendTime, userId);
+        }
+    }
+
+    @Override
+    public void insertMsgLogLessonEvaluationTemplate(List<LessonEvaluationVO> list) {
+        System.out.println(list);
+        for (LessonEvaluationVO vo : list) {
+            String content = vo.toJsonString();
+            String sendTime = vo.getSendTime();
+            Long userId = vo.getUserId();
+            templateDao.insertMsgLogLessonEvaluationTemplate(content, sendTime, userId);
+        }
+    }
+
+    @Override
+    public void insertMsgLogLessonEvaluationTemplate(List<LessonEvaluationVO> list) {
+        System.out.println(list);
+        for (LessonEvaluationVO vo : list) {
+            String content = vo.toJsonString();
+            String sendTime = vo.getSendTime();
+            Long userId = vo.getUserId();
+            templateDao.insertMsgLogLessonEvaluationTemplate(content, sendTime, userId);
         }
     }
 

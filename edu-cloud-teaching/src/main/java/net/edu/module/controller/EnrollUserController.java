@@ -84,8 +84,8 @@ public class EnrollUserController {
 
     @GetMapping("insertClassUser")
     @Operation(summary = "添加班级学生")
-    public Result<String> insertClassUser(@RequestParam("classId")Integer classId,@RequestParam("openId") String openId){
-        enrollUserService.insertClassUser(classId,openId);
+    public Result<String> insertClassUser(@RequestParam("classId")Integer classId,@RequestParam("userId") Integer userId){
+        enrollUserService.insertClassUser(classId,userId);
         return Result.ok();
     }
 

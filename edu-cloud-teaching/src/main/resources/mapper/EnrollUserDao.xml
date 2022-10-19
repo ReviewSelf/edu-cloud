@@ -80,7 +80,7 @@
     </update>
 
     <insert id="insertClassUser">
-        insert into enroll_class_user (enroll_class_id,user_id,create_time) values (#{classId},#{id},now())
+        insert into enroll_class_user (enroll_class_id,user_id,create_time) values (#{classId},#{userId},now())
     </insert>
 
     <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.EnrollUserVO">

@@ -28,6 +28,8 @@ public interface TemplateDao {
 
     int insertMsgLogWorkDeadlineTemplate(String content, String sendTime, Long userId);
 
+    int insertMsgLogLessonEvaluationTemplate(String content, String sendTime, Long userId);
+
     /**
      * 根据id查找姓名
      * @param id

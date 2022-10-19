@@ -34,9 +34,12 @@ public class ExamRecordService {
 
 
     public PageResult<ExamScoreVO> getExamRecordList(ExamRecordQuery query) {
-        Page<ExamScoreVO> page = new Page<>(query.getPage(),query.getLimit());
-        IPage<ExamScoreVO> list = examRecordDao.selectExamRecordList(page,query);
-        return new PageResult<>(list.getRecords(), list.getTotal());
+        int total=examRecordDao.selectExamRecordListTotal(query);
+        if(total>0){
+            List<ExamScoreVO> list = examRecordDao.selectExamRecordList(query);
+            return new PageResult<>(list, total);
+        }
+        return new PageResult<>();
     }
 
     //一键批卷
@@ -46,15 +49,16 @@ public class ExamRecordService {
         if(vo!=null && CollUtil.isNotEmpty(vo.getProblemRecords())){
             for (ExamProblemRecord record: vo.getProblemRecords()){
                 if(record.getSubmitStatus()!=null){
+                    System.out.println(record.getRecordId());
                     BigDecimal score=BigDecimal.valueOf(0);
-                    if(record.getProblemType()==2){
+                    if(record.getProblemType()==3){
                         score=BigDecimal.valueOf(record.getScore()*record.getPassRate().doubleValue());
                     }else {
                         if(record.getSubmitStatus()==3){
                             score= BigDecimal.valueOf(record.getScore());
                         }
                     }
-                    record.setFraction(score);
+                    System.out.println(score);
                     //update
                     if(!score.equals(record.getFraction())){
                         changeProblemScore(score,record.getRecordId());

@@ -39,13 +39,10 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
             List<String> list = Arrays.asList(expiredKey.split(":"));
             //exam:user:59:10000考试完成
             log.info("{}考试完成", list.toString());
-            ExamAttendLogVO vo =new ExamAttendLogVO();
-            vo.setUserId(Long.valueOf(list.get(3)));
-            vo.setExamId(Long.valueOf(list.get(2)));
             //通过userId 和 examId 更新用户考试状态
-
+            examAttendLogService.updateExamStatus(2,
+                    Long.valueOf(list.get(2)),Long.valueOf(list.get(3)));
         }
-
     }
 
     public RedisKeyExpirationListener(RedisMessageListenerContainer redisMessageListenerContainer) {

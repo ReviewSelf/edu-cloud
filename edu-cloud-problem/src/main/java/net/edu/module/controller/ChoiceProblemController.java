@@ -7,9 +7,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ChoiceProblemService;
 import net.edu.module.query.ChoiceProblemQuery;
-import net.edu.module.service.HomeWorkService;
 import net.edu.module.vo.ChoiceProblemVO;
-import net.edu.module.vo.WxChoiceProblemVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,7 +26,7 @@ import java.util.List;
 public class ChoiceProblemController {
     private final ChoiceProblemService choiceProblemService;
 
-    private final HomeWorkService homeWorkService;
+
 
     @GetMapping("page")
     @Operation(summary = "获取选择题数据并分页")
@@ -105,14 +103,6 @@ public class ChoiceProblemController {
         return Result.ok(choiceProblemService.getChoiceProblemInfo(problemId));
     }
 
-    /**
-     * 小程序获取选择题目信息
-     */
-    @GetMapping("/choiceProblemInfo")
-    public List<WxChoiceProblemVO> getChoiceProblemInfo(String problemId){
-        List<WxChoiceProblemVO> wxChoiceProblemVOS=homeWorkService.getChoiceProblemInfo(problemId);
-        return wxChoiceProblemVOS;
-    }
 
 
 

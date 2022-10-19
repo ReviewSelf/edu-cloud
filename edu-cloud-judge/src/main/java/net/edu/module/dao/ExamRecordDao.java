@@ -22,8 +22,8 @@ import java.util.List;
 public interface ExamRecordDao {
    ExamScoreVO selectUserExamScore(Long examId, Long userId);
 
-
-   IPage<ExamScoreVO> selectExamRecordList(Page<ExamScoreVO> page, @Param("query")ExamRecordQuery query);
+   int selectExamRecordListTotal( @Param("query")ExamRecordQuery query);
+   List<ExamScoreVO> selectExamRecordList( @Param("query")ExamRecordQuery query);
 
    int updateProblemScore(BigDecimal score,Long id);
 }

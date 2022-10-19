@@ -60,6 +60,14 @@ public class ExamController {
         return Result.ok(ExamConvert.INSTANCE.convert(entity));
     }
 
+    @GetMapping("select/{paperId}")
+    @Operation(summary = "试卷信息")
+    public Result<ExamVO> getPaper(@PathVariable("paperId") Long paperId){
+        ExamVO examVO = examService.getPaper(paperId);
+        return Result.ok(examVO);
+    }
+
+
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ExamVO vo){
@@ -81,6 +89,20 @@ public class ExamController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         examService.delete(idList);
+        return Result.ok();
+    }
+
+    @GetMapping("updateExamIndex/{examId}")
+    @Operation(summary = "更新考试题目索引")
+    public Result<String> updateExamIndex(@PathVariable Long examId){
+        examService.updateExamIndex(examId);
+        return Result.ok();
+    }
+
+    @GetMapping("submitPaper/{examId}")
+    @Operation(summary = "交卷，删除缓存，更新考试状态")
+    public Result<String> submitPaper(@PathVariable Long examId){
+        examService.submitPaper(examId);
         return Result.ok();
     }
 }

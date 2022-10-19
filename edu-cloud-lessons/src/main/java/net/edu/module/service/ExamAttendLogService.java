@@ -38,4 +38,5 @@ public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
     void updateExamStatus(Integer status,Long examId,Long userId);
 
 
+    void updateAttendLog(ExamAttendLogVO vo);
 }

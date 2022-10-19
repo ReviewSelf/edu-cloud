@@ -93,4 +93,8 @@
     <update id="updateExamStatus">
         update exam_attend_log set status=#{status} where exam_id = #{examId} and user_id = #{userId}
     </update>
+
+    <update id="updateAttendLog">
+        update exam_attend_log set score = #{vo.score},is_correcting = #{vo.isCorrecting} where user_id = #{vo.userId} and exam_id = #{vo.examId}
+    </update>
 </mapper>

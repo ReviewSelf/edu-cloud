@@ -64,15 +64,17 @@ public class LessonController {
         return Result.ok();
     }
     
-    @GetMapping("list/{classId}")
-    @Operation(summary = "通过班级ID查找课表")
-    public Result<List<LessonVO>> ClassLesson(@PathVariable("classId") Long classId) {
-        List<LessonVO> list = lessonService.getListById(classId);
+    @GetMapping("list/notStart/{classId}")
+    @Operation(summary = "通过班级ID,查找未开始课表")
+    public Result<List<LessonVO>> getClassNotStartLesson(@PathVariable("classId") Long classId) {
+        List<LessonVO> list = lessonService.getClassNotStartLesson(classId);
         return Result.ok(list);
     }
+
+
     @PutMapping("/homework")
     @Operation(summary = "回家作业修改")
-    public Result<String> updateHomework(@RequestBody @Valid LessonVO vo) {
+    public Result<String> setHomework(@RequestBody @Valid LessonVO vo) {
         lessonService.updateHomework(vo);
         return Result.ok();
     }
@@ -83,13 +85,6 @@ public class LessonController {
         return Result.ok(lessonService.homeworkPage(query));
     }
 
-    @DeleteMapping
-    @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
-        lessonService.delete(idList);
-
-        return Result.ok();
-    }
 
     @GetMapping("/homework/deadline")
     @Operation(summary = "回家作业超时截止操作")

@@ -6,10 +6,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.entity.InMessage;
-import net.edu.module.entity.OutMessage;
 import net.edu.module.service.WeChatService;
 import net.edu.module.untils.WeChatProperties;
-import net.edu.module.vo.SysTokenVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -125,8 +123,8 @@ public class WeChatController {
      * @return
      */
     @GetMapping("login/mini")
-    public Result<SysTokenVO> miniLogin(@RequestParam("code") String code){
-        return Result.ok(weChatService.miniLogin(code));
+    public Object miniLogin(@RequestParam("code") String code){
+        return weChatService.miniLogin(code);
     }
 
 }

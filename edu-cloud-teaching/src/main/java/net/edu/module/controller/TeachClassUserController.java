@@ -75,30 +75,6 @@ public class TeachClassUserController {
         return Result.ok();
     }
 
-    @PostMapping("/insertClassUserOne")
-    @Operation(summary = "保存")
-    public Result<String> insertClassUserOne(@RequestBody TeachClassUserVO vo){
-        System.out.println(vo);
-        teachClassUserService.insertClassUserOne(vo);
-        return Result.ok();
-    }
-
-    @PostMapping("/insertClassUserOne")
-    @Operation(summary = "保存")
-    public Result<String> insertClassUserOne(@RequestBody TeachClassUserVO vo){
-        System.out.println(vo);
-        teachClassUserService.insertClassUserOne(vo);
-        return Result.ok();
-    }
-
-    @PostMapping("/insertClassUserOne")
-    @Operation(summary = "保存")
-    public Result<String> insertClassUserOne(@RequestBody TeachClassUserVO vo){
-        System.out.println(vo);
-        teachClassUserService.insertClassUserOne(vo);
-        return Result.ok();
-    }
-
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid TeachClassUserVO vo){

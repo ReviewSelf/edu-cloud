@@ -48,6 +48,13 @@ public class ExamAttendLogController {
         return Result.ok();
     }
 
+    @PutMapping
+    @Operation(summary = "更新")
+    public Result<String> updateAttendLog(@RequestBody ExamAttendLogVO vo){
+        examAttendLogService.updateAttendLog(vo);
+
+        return Result.ok();
+    }
 
     @GetMapping("user/{examId}")
     @Operation(summary = "教师点名获取课次中的学生")

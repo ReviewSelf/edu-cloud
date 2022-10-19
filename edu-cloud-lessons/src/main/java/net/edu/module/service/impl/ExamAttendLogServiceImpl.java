@@ -145,4 +145,9 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
         baseMapper.updateExamStatus(status,examId,userId);
     }
 
+    @Override
+    public void updateAttendLog(ExamAttendLogVO vo) {
+        examAttendLogDao.updateAttendLog(vo);
+    }
+
 }

@@ -31,4 +31,8 @@ public interface ExamService extends BaseService<ExamEntity> {
     List<ExamVO> getExamingList(Long userId);
 
     ExamVO getPaper(Long id);
+
+    void updateExamIndex(Long examId);
+
+    void submitPaper(Long examId);
 }

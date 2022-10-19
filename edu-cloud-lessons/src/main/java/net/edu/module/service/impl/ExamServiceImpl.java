@@ -12,6 +12,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.dao.ExamDao;
 import net.edu.module.entity.ExamEntity;
@@ -20,6 +21,7 @@ import net.edu.module.service.ExamAttendLogService;
 import net.edu.module.service.ExamProblemService;
 import net.edu.module.service.ExamService;
 import net.edu.module.vo.ExamAttendLogVO;
+import net.edu.module.vo.ExamPaperVo;
 import net.edu.module.vo.ExamVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,5 +116,28 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     public void delete(List<Long> idList) {
         removeByIds(idList);
     }
+
+
+    @Override
+    public void updateExamIndex(Long examId) {
+        Long userId = SecurityUser.getUserId();
+        ExamPaperVo vo= (ExamPaperVo) redisUtils.get(RedisKeys.getStuExam(examId,userId));
+        if (vo.getPaperProblem().size() >vo.getProblemIndex()){
+            vo.setProblemIndex(vo.getProblemIndex()+1);
+            Long time=vo.getAttendLogVO().getFinishExamTime().getTime()-System.currentTimeMillis()+5000L;
+            redisUtils.set(RedisKeys.getStuExam(examId,userId),vo,time/1000);
+        }
+
+
+
+    }
+
+    @Override
+    public void submitPaper(Long examId) {
+        Long userId = SecurityUser.getUserId();
+        examAttendLogService.updateExamStatus(2,examId,userId);
+        redisUtils.del(RedisKeys.getStuExam(examId,userId));
+    }
+
 
 }

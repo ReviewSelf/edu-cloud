@@ -26,4 +26,6 @@ public interface ExamDao extends BaseDao<ExamEntity> {
     IPage<ExamVO> studentPage(Page<ExamVO> page, @Param("query") ExamQuery query) ;
 
     List<ExamVO> getExamingList(@Param("userId") Long userId);
+
+    void updateExamStatus(@Param("examId") Long examId, @Param("userId") Long userId);
 }

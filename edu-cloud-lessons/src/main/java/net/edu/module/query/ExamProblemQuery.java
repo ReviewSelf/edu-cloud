@@ -13,11 +13,11 @@ import net.edu.framework.common.query.Query;
 */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "课堂练习表查询")
+@Schema(description = "考试题目表查询")
 public class ExamProblemQuery extends Query {
 
-    @Schema(description = "课堂ID")
-    private Long lessonId;
+    @Schema(description = "考场ID")
+    private Long examId;
 
     @Schema(description = "练习类型")
     private Integer type;

@@ -10,6 +10,7 @@
         t.name,
         t.join_time as joinTime,
         t.quit_time as quitTime,
+        (select score from exam where id = #{query.examId}) as totalScore,
         t.status,
         t.score,
         t.is_correcting as isCorrecting
@@ -34,7 +35,7 @@
         <if test="query.isCorrecting != '' and query.isCorrecting != null">
             and t.is_correcting=#{query.isCorrecting}
         </if>
-
+        order by status , score desc
     </select>
 
     <select id="selectUserAttendById" resultType="net.edu.module.vo.ExamAttendLogVO">
@@ -88,4 +89,8 @@
             (#{item},#{examId},0,0,0)
         </foreach>
     </insert>
+
+    <update id="updateExamStatus">
+        update exam_attend_log set status=#{status} where exam_id = #{examId} and user_id = #{userId}
+    </update>
 </mapper>

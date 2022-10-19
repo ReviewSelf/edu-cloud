@@ -1,21 +1,22 @@
-package net.edu.module.vo;
+package net.edu.module.vo.exam;
 
 import lombok.Data;
-import net.edu.module.vo.exam.ExamProblemRecord;
+
 
 import java.util.List;
 
 /**
- * @Author: 孤影照惊鸿1213
- * @Date: 2022/10/13 10:32
+ * @Author: 马佳浩
+ * @Date: 2022/10/18 9:55
  * @Version: 1.0
  * @Description:
  */
 @Data
-public class ExamJudgeRecordVo {
+public class ExamScoreVO {
     private Long userId;
     private String name;
     private Long examId;
     private List<ExamProblemRecord> problemRecords;
+
 
 }

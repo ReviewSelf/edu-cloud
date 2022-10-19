@@ -13,8 +13,13 @@
                 #{submitStatus})
     </insert>
     <select id="selectUpdateRecord" resultType="net.edu.module.vo.JudgeSampleResultVO">
-        select record_id as recordId,avg(runtime) as runtime,avg(memory) as memory,max(result_code) as resultCode,sum(if(result_code = 3, 1, 0)) / sum(1) as passRate from judge_record_sample
-            where record_id = #{recordId}
+        select record_id                               as recordId,
+               avg(runtime)                            as runtime,
+               avg(memory)                             as memory,
+               max(result_code)                        as resultCode,
+               sum(if(result_code = 3, 1, 0)) / sum(1) as passRate
+        from judge_record_sample
+        where record_id = #{recordId}
     </select>
 
     <update id="updateRecord" parameterType="net.edu.module.vo.JudgeSampleResultVO">
@@ -68,100 +73,31 @@
           and problem_type = #{problemType}
           and source = #{source}
           and source_id = #{sourceId}
-          and user_id=#{userId}
+          and user_id = #{userId}
         order by update_time desc limit 1
-    </select>
-
-    <resultMap id="LessonRecord" type="net.edu.module.vo.LessonJudgeRecordVo">
-        <result property="userId" column="user_id"/>
-        <result property="name" column="name"/>
-        <result property="lessonId" column="lesson_id"/>
-        <collection property="problemRecords"
-                    javaType="java.util.ArrayList"
-                    ofType="net.edu.module.vo.LessonProblemRecord">
-            <id property="recordId" column="record_id"/>
-            <result property="problemId" column="problem_id"/>
-            <result property="problemName" column="problem_name"/>
-            <result property="problemType" column="problem_type"/>
-            <result property="type" column="type"/>
-            <result property="submitStatus" column="submit_status"/>
-            <result property="submitTime" column="submit_time"/>
-            <result property="spendTime" column="spend_time"/>
-        </collection>
-    </resultMap>
-    <select id="selectLessonRecord" resultMap="LessonRecord">
-        SELECT timediff(submit_time,begin_time) as spend_time
-        ,c.user_id,c.name,c.lesson_id,c.problem_id,c.problem_name,c.problem_type,c.begin_time,c.type,d.id as
-        record_id,d.submit_status,d.submit_time FROM
-        (SELECT a.user_id,a.name,a.lesson_id,b.problem_id,b.problem_name,b.problem_type,b.begin_time,b.type FROM
-        (select lesson_id,stu_id as user_id,(SELECT real_name FROM sys_user WHERE id=stu_id) as name
-        from lesson_attend_log WHERE lesson_id=#{lessonId})a
-        left join lesson_problem b on b.lesson_id =a.lesson_id ORDER BY user_id,b.begin_time) c
-        left join (select id,submit_status,submit_time,problem_id,problem_type,source_id,user_id,source from
-        judge_record jr1
-        where source_id=#{lessonId} and not exists (select 1 from judge_record jr2 where source_id=#{lessonId} and
-        jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
-        jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt; jr2.id ) ) d on
-        c.problem_id=d.problem_id and c.problem_type=d.problem_type
-        and d.source_id=c.lesson_id and c.user_id=d.user_id and c.type=d.source
-        <if test="type!=null">
-            where type=#{type}
-        </if>
-    </select>
-    <resultMap id="ExamRecord" type="net.edu.module.vo.ExamJudgeRecordVo">
-        <result property="userId" column="user_id"/>
-        <result property="name" column="name"/>
-        <result property="examId" column="exam_id"/>
-        <collection property="problemRecords"
-                    javaType="java.util.ArrayList"
-                    ofType="net.edu.module.vo.ExamProblemRecord">
-            <id property="recordId" column="record_id"/>
-            <result property="problemId" column="problem_id"/>
-            <result property="problemName" column="problem_name"/>
-            <result property="problemType" column="problem_type"/>
-            <result property="submitStatus" column="submit_status"/>
-            <result property="submitTime" column="submit_time"/>
-            <result property="spendTime" column="spend_time"/>
-        </collection>
-    </resultMap>
-    <select id="selectExamRecord" resultMap="ExamRecord">
-        SELECT timediff(submit_time,begin_time) as spend_time
-        ,c.user_id,c.name,c.exam_id,c.problem_id,c.problem_name,c.problem_type,d.id as
-        record_id,d.submit_status,d.submit_time FROM
-        (SELECT a.user_id,a.name,a.exam_id ,b.problem_id,b.problem_name,b.problem_type FROM
-        (select exam_id, user_id,(SELECT real_name FROM sys_user WHERE id=user_id) as name
-        from exam_attend_log WHERE exam_id=#{examId})a
-        left join exam_problem b on b.exam_id =a.exam_id ORDER BY user_id) c
-        left join (select id,submit_status,submit_time,problem_id,problem_type,source_id,user_id,source from
-        judge_record jr1
-        where source_id=#{examId} and not exists (select * from judge_record jr2 where source_id=#{examId} and
-        jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
-        jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt; jr2.id ) ) d on
-        c.problem_id=d.problem_id and c.problem_type=d.problem_type
-        and d.source_id=c.exam_id and c.user_id=d.user_id and d.source =3
     </select>
 
 
     <resultMap id="judgeRecordAndAnswer" type="net.edu.module.vo.JudgeRecordSubmitVO">
-        <result property="id" column="id"></result>
-        <result property="problemId" column="problem_id"></result>
-        <result property="problemType" column="problem_type"></result>
-        <result property="source" column="source"></result>
-        <result property="sourceId" column="source_id"></result>
-        <result property="userId" column="user_id"></result>
-        <result property="submitContent" column="submit_content"></result>
-        <result property="submitImg" column="submit_img"></result>
-        <result property="submitTime" column="submit_time"></result>
-        <result property="submitStatus" column="submit_status"></result>
-        <result property="judgeType" column="judge_type"></result>
-        <result property="judgeReason" column="judge_reason"></result>
+        <id property="id" column="id"/>
+        <result property="problemId" column="problem_id"/>
+        <result property="problemType" column="problem_type"/>
+        <result property="source" column="source"/>
+        <result property="sourceId" column="source_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="submitContent" column="submit_content"/>
+        <result property="submitImg" column="submit_img"/>
+        <result property="submitTime" column="submit_time"/>
+        <result property="submitStatus" column="submit_status"/>
+        <result property="judgeType" column="judge_type"/>
+        <result property="judgeReason" column="judge_reason"/>
         <collection property="sampleVoList" javaType="java.util.ArrayList"
                     ofType="net.edu.module.vo.JudgeSampleResultVO">
-            <result property="recordId" column="record_id"></result>
-            <result property="sampleId" column="sample_id"></result>
-            <result property="memory" column="memory"></result>
-            <result property="runtime" column="runtime"></result>
-            <result property="resultCode" column="result_code"></result>
+            <result property="recordId" column="record_id"/>
+            <result property="sampleId" column="sample_id"/>
+            <result property="memory" column="memory"/>
+            <result property="runtime" column="runtime"/>
+            <result property="resultCode" column="result_code"/>
         </collection>
     </resultMap>
 
@@ -214,6 +150,6 @@
             t.judge_reason = #{judgeReason},
             t.submit_status = #{submitStatus},
             t.judge_user=#{judgeUser}
-        where t.id=#{id}
+        where t.id = #{id}
     </update>
 </mapper>

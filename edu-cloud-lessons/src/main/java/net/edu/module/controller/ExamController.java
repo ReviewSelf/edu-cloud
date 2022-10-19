@@ -91,4 +91,18 @@ public class ExamController {
         examService.delete(idList);
         return Result.ok();
     }
+
+    @GetMapping("updateExamIndex/{examId}")
+    @Operation(summary = "更新考试题目索引")
+    public Result<String> updateExamIndex(@PathVariable Long examId){
+        examService.updateExamIndex(examId);
+        return Result.ok();
+    }
+
+    @GetMapping("submitPaper/{examId}")
+    @Operation(summary = "交卷，删除缓存，更新考试状态")
+    public Result<String> submitPaper(@PathVariable Long examId){
+        examService.submitPaper(examId);
+        return Result.ok();
+    }
 }

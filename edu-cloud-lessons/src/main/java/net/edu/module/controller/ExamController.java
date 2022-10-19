@@ -60,6 +60,14 @@ public class ExamController {
         return Result.ok(ExamConvert.INSTANCE.convert(entity));
     }
 
+    @GetMapping("select/{paperId}")
+    @Operation(summary = "试卷信息")
+    public Result<ExamVO> getPaper(@PathVariable("paperId") Long paperId){
+        ExamVO examVO = examService.getPaper(paperId);
+        return Result.ok(examVO);
+    }
+
+
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ExamVO vo){

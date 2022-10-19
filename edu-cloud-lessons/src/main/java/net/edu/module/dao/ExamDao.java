@@ -19,6 +19,8 @@ import java.util.List;
 */
 @Mapper
 public interface ExamDao extends BaseDao<ExamEntity> {
+    ExamVO selectPaperManage(@Param("paperId") Long paperId);
+
     IPage<ExamVO> page(Page<ExamVO> page, @Param("query") ExamQuery query);
 
     IPage<ExamVO> studentPage(Page<ExamVO> page, @Param("query") ExamQuery query) ;

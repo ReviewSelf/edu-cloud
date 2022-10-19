@@ -46,6 +46,8 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
 
 
+    private final ExamDao examDao;
+
     @Override
     public PageResult<ExamVO> page(ExamQuery query) {
         Page<ExamVO> page = new Page<>(query.getPage(),query.getLimit());
@@ -72,8 +74,14 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     @Override
     public List<ExamVO> getExamingList(Long userId){
         List<ExamVO> list = baseMapper.getExamingList(userId);
-        System.out.println(list);
         return list;
+    }
+
+    @Override
+    public ExamVO getPaper(Long paperId){
+        ExamVO examVO = examDao.selectPaperManage(paperId);
+        System.out.println(examVO);
+        return examVO;
     }
 
     @Override

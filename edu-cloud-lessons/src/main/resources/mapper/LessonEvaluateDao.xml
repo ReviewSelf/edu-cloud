@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.LessonEvaluateDao">
+
+    <resultMap type="net.edu.module.entity.LessonEvaluateEntity" id="lessonEvaluateMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="lessonId" column="lesson_id"/>
+        <result property="rankNum" column="rank_num"/>
+        <result property="unansweredNum" column="unanswered_num"/>
+        <result property="answeredNum" column="answered_num"/>
+        <result property="undecidedNum" column="undecided_num"/>
+        <result property="correctNum" column="correct_num"/>
+        <result property="errorNum" column="error_num"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="save" >
+        insert into lesson_evaluate (user_id , lesson_id , rank_num , unanswered_num , answered_num ,
+                                     undecided_num , correct_num , error_num , content)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.userId},
+            #{item.lessonId},
+            #{item.rankNum},
+            #{item.unansweredNum},
+            #{item.answeredNum},
+            #{item.undecidedNum},
+            #{item.correctNum},
+            #{item.errorNum},
+            #{item.content}
+            )
+        </foreach>
+        on duplicate key update
+        content = VALUES( content )
+    </select>
+
+    <select id="updateByUserId">
+        insert into lesson_evaluate (user_id , lesson_id , rank_num , unanswered_num , answered_num ,
+                                     undecided_num , correct_num , error_num , content)
+        values
+            (
+                #{userId},
+                #{lessonId},
+                #{rankNum},
+                #{unansweredNum},
+                #{answeredNum},
+                #{undecidedNum},
+                #{correctNum},
+                #{errorNum},
+                #{content}
+            )
+        on duplicate key update
+        content = VALUES( content )
+    </select>
+
+
+</mapper>

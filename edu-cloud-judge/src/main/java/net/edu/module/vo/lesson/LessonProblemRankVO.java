@@ -20,4 +20,5 @@ public class LessonProblemRankVO {
     private Integer undecidedNum;
     private Integer correctNum;
     private Integer errorNum;
+    private String content;
 }

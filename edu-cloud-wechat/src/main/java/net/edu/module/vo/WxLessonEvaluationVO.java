@@ -30,6 +30,9 @@ public class WxLessonEvaluationVO {
     //名次加正确率为模板中的评价内容
 
     public String getAccuracy(Integer answerNum,Integer correctNum){
+        if(answerNum.intValue()==0){
+            return "未答题";
+        }
         return (correctNum*100/answerNum) + "%";
     }
     public String toJsonString() {

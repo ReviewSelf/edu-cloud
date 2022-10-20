@@ -1,15 +1,15 @@
-package net.edu.ability.controller;
+package net.edu.module.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.edu.ability.convert.GraduateRequireConvert;
-import net.edu.ability.entity.GraduateRequireEntity;
-import net.edu.ability.query.GraduateRequireQuery;
-import net.edu.ability.service.GraduateRequireService;
-import net.edu.ability.vo.GraduateRequireVO;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.module.convert.GraduateRequireConvert;
+import net.edu.module.entity.GraduateRequireEntity;
+import net.edu.module.query.GraduateRequireQuery;
+import net.edu.module.service.GraduateRequireService;
+import net.edu.module.vo.GraduateRequireVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

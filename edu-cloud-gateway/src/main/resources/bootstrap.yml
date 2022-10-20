@@ -72,7 +72,7 @@ spring:
             - StripPrefix=1
         - id: edu-cloud-archive
           uri: lb://edu-cloud-archive
-          order: 108
+          order: 109
           predicates:
             - Path=/archive/**
           filters:

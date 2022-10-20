@@ -14,7 +14,7 @@ import net.edu.framework.mybatis.entity.BaseEntity;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-@TableName("ability_graduate_require")
+@TableName("archive_graduate_require")
 public class GraduateRequireEntity extends BaseEntity {
 	/**
 	* 标题

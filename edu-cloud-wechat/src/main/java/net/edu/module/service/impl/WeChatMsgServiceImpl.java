@@ -62,8 +62,8 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
     }
 
     @Override
-    public void insertMsgLogClassOpenTemplate(List<ClassOpenVO> list) {
-        for (ClassOpenVO vo : list) {
+    public void insertMsgLogClassOpenTemplate(List<WxClassOpenVO> list) {
+        for (WxClassOpenVO vo : list) {
             String content = vo.toJsonString();
             String sendTime = vo.getSendTime();
             Long userId = vo.getUserId();
@@ -73,8 +73,8 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
 
 
     @Override
-    public void insertMsgLogWorkPublishTemplate(List<WorkPublishVO> list) {
-        for (WorkPublishVO vo : list) {
+    public void insertMsgLogWorkPublishTemplate(List<WxWorkPublishVO> list) {
+        for (WxWorkPublishVO vo : list) {
             String content = vo.toJsonString();
             String sendTime = vo.getSendTime();
             Long userId = vo.getUserId();
@@ -83,8 +83,8 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
     }
 
     @Override
-    public void insertMsgLogLessonOpenTemplate(List<LessonOpenVO> list) {
-        for (LessonOpenVO vo : list) {
+    public void insertMsgLogLessonOpenTemplate(List<WxLessonOpenVO> list) {
+        for (WxLessonOpenVO vo : list) {
             String content = vo.toJsonString();
             String sendTime = vo.getSendTime();
             Long userId = vo.getUserId();
@@ -93,8 +93,8 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
     }
 
     @Override
-    public void insertMsgLogSignSuccessTemplate(List<SignSuccessVO> list) {
-        for (SignSuccessVO vo : list) {
+    public void insertMsgLogSignSuccessTemplate(List<WxSignSuccessVO> list) {
+        for (WxSignSuccessVO vo : list) {
             String content = vo.toJsonString();
             String sendTime = vo.getSendTime();
             Long userId = vo.getUserId();
@@ -103,8 +103,8 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
     }
 
     @Override
-    public void insertMsgLogWorkDeadlineTemplate(List<WorkDeadlineVO> list) {
-        for (WorkDeadlineVO vo : list) {
+    public void insertMsgLogWorkDeadlineTemplate(List<WxWorkDeadlineVO> list) {
+        for (WxWorkDeadlineVO vo : list) {
             String content = vo.toJsonString();
             String sendTime = vo.getSendTime();
             Long userId = vo.getUserId();
@@ -113,9 +113,9 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
     }
 
     @Override
-    public void insertMsgLogLessonEvaluationTemplate(List<LessonEvaluationVO> list) {
+    public void insertMsgLogLessonEvaluationTemplate(List<WxLessonEvaluationVO> list) {
         System.out.println(list);
-        for (LessonEvaluationVO vo : list) {
+        for (WxLessonEvaluationVO vo : list) {
             String content = vo.toJsonString();
             String sendTime = vo.getSendTime();
             Long userId = vo.getUserId();

@@ -9,7 +9,7 @@ import java.util.Date;
  * @date 2022/10/9 - 16:15
  **/
 @Data
-public class ClassOpenVO  {
+public class WxClassOpenVO {
 
     /**
      * 课程名称

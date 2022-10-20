@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/10/10 - 15:15
  **/
 @Data
-public class WorkPublishVO {
+public class WxWorkPublishVO {
 
     /**
      * 学生姓名

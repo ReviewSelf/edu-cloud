@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/10/19 - 12:01
  **/
 @Data
-public class LessonEvaluationVO {
+public class WxLessonEvaluationVO {
 
     private String studentName;//学生姓名
 

@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/10/19 - 12:01
  **/
 @Data
-public class LessonEvaluationVO {
+public class WxLessonEvaluationVO {
 
     private String studentName;//学生姓名
 
@@ -21,12 +21,16 @@ public class LessonEvaluationVO {
 
     private Integer correctNum;  //正确量
 
-    private String Accuracy ;  //正确率
-
     private String sendTime;
 
     private Long userId;
 
+
+
+
+
+
+    private String Accuracy ;  //正确率
     //名次加正确率为模板中的评价内容
 
     public String getAccuracy(Integer answerNum,Integer correctNum){

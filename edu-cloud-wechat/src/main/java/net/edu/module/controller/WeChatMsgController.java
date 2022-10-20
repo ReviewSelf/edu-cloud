@@ -12,7 +12,6 @@ import net.edu.module.service.WeChatMsgService;
 import net.edu.module.service.WeChatService;
 import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -86,37 +85,37 @@ public class WeChatMsgController {
     }
 
     @PostMapping("classOpen")
-    public Result<String> insertClassOpenTemplate(@RequestBody List<ClassOpenVO> vo){
+    public Result<String> insertClassOpenTemplate(@RequestBody List<WxClassOpenVO> vo){
         weChatMsgService.insertMsgLogClassOpenTemplate(vo);
         return Result.ok();
     }
 
     @PostMapping("workPublish")
-    public Result<String> insertWorkPublishTemplate(@RequestBody List<WorkPublishVO> vo){
+    public Result<String> insertWorkPublishTemplate(@RequestBody List<WxWorkPublishVO> vo){
         weChatMsgService.insertMsgLogWorkPublishTemplate(vo);
         return Result.ok();
     }
 
     @PostMapping("lessonOpen")
-    public Result<String> insertLessonOpenTemplate(@RequestBody List<LessonOpenVO> vo){
+    public Result<String> insertLessonOpenTemplate(@RequestBody List<WxLessonOpenVO> vo){
         weChatMsgService.insertMsgLogLessonOpenTemplate(vo);
         return Result.ok();
     }
 
     @PostMapping("signSuccess")
-    public Result<String> insertSignSuccessTemplate(@RequestBody List<SignSuccessVO> vo){
+    public Result<String> insertSignSuccessTemplate(@RequestBody List<WxSignSuccessVO> vo){
         weChatMsgService.insertMsgLogSignSuccessTemplate(vo);
         return Result.ok();
     }
 
     @PostMapping("workDeadline")
-    public Result<String> insertWorkDeadlineTemplate(@RequestBody List<WorkDeadlineVO> vo){
+    public Result<String> insertWorkDeadlineTemplate(@RequestBody List<WxWorkDeadlineVO> vo){
         weChatMsgService.insertMsgLogWorkDeadlineTemplate(vo);
         return Result.ok();
     }
 
     @PostMapping("lessonEvaluation")
-    public Result<String> insertLessonEvaluationTemplate(@RequestBody List<LessonEvaluationVO> vo){
+    public Result<String> insertLessonEvaluationTemplate(@RequestBody List<WxLessonEvaluationVO> vo){
         weChatMsgService.insertMsgLogLessonEvaluationTemplate(vo);
         return Result.ok();
     }

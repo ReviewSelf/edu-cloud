@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/10/10 - 15:36
  **/
 @Data
-public class WorkDeadlineVO {
+public class WxWorkDeadlineVO {
 
     /**
      * 截止时间

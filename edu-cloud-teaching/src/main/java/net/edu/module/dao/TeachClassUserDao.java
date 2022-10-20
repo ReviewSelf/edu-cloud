@@ -10,6 +10,7 @@ import net.edu.module.entity.TeachStudentEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
+import net.edu.module.vo.TeachClassVO;
 import net.edu.module.vo.TeachStudentVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -35,4 +36,6 @@ public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
     List<Long> selectUserIdList(Long classId);
 
     int updateHomeworkTimes(Long userId, Long classId, Integer num);
+
+    void insertClassUserOne(TeachClassUserVO vo);
 }

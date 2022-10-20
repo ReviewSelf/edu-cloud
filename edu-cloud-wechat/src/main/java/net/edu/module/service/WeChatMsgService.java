@@ -25,15 +25,17 @@ public interface WeChatMsgService {
      */
     void sentMessage(MsgLogEntity msgLogEntity);
 
-    void insertMsgLogClassOpenTemplate(List<ClassOpenVO> list);
+    void insertMsgLogClassOpenTemplate(List<WxClassOpenVO> list);
 
-    void insertMsgLogWorkPublishTemplate(List<WorkPublishVO> list);
+    void insertMsgLogWorkPublishTemplate(List<WxWorkPublishVO> list);
 
-    void insertMsgLogLessonOpenTemplate(List<LessonOpenVO> list);
+    void insertMsgLogLessonOpenTemplate(List<WxLessonOpenVO> list);
 
-    void insertMsgLogSignSuccessTemplate(List<SignSuccessVO> list);
+    void insertMsgLogSignSuccessTemplate(List<WxSignSuccessVO> list);
 
-    void insertMsgLogWorkDeadlineTemplate(List<WorkDeadlineVO> list);
+    void insertMsgLogWorkDeadlineTemplate(List<WxWorkDeadlineVO> list);
+
+    void insertMsgLogLessonEvaluationTemplate(List<WxLessonEvaluationVO> list);
 
     /**
      * 消息群发

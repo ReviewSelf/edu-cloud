@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.framework.security.user.UserDetail;
@@ -46,9 +48,12 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final LessonDao lessonDao;
     private final EduJudgeApi eduJudgeApi;
 
+    private final RedisUtils redisUtils;
+
 
     /**
      * 获取学生/老师的课堂记录
+     *
      * @param query
      * @return
      */
@@ -84,20 +89,10 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     @Override
     public void update(LessonVO vo) {
+
         LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
         updateById(entity);
     }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateHomework(LessonVO vo) {
-        if (vo.getHomeworkStatus() == 2) {
-            closeLessonHomeWork(vo.getId());
-        } else {
-            baseMapper.updateHomework(vo);
-        }
-    }
-
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -130,6 +125,28 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         }
     }
 
+
+    @Override
+    public List<LessonVO> getClassNotStartLesson(Long classId) {
+        return lessonDao.getListById(classId);
+    }
+
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateHomework(LessonVO vo) {
+        if (vo.getHomeworkStatus() == 2) {
+            closeLessonHomeWork(vo.getId());
+            redisUtils.del(RedisKeys.getHomeWorkKey(vo.getId()));
+        } else {
+            baseMapper.updateHomework(vo);
+            Long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
+            if (time > 0) {
+                redisUtils.set(RedisKeys.getHomeWorkKey(vo.getId()), time, time / 1000);
+            }
+        }
+    }
+
     @Override
     public PageResult<LessonVO> homeworkPage(LessonQuery query) {
         Page<LessonVO> page = new Page<>(query.getPage(), query.getLimit());
@@ -141,32 +158,17 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
 
     @Override
-    public List<LessonVO> getClassNotStartLesson(Long classId) {
-        return lessonDao.getListById(classId);
-    }
-
-
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public void closeLessonHomeWork(Long lessonId) {
         LessonEntity entity = baseMapper.selectById(lessonId);
-        List<LessonJudgeRecordVo> users = eduJudgeApi.getLessonProblemRecord(entity.getId(), 2).getData();
+        List<LessonProblemRankVO> users = eduJudgeApi.getLessonProblemRank(entity.getId(), 2).getData();
         //遍历学生
-        //for
         if (!CollUtil.isEmpty(users)) {
-            for (LessonJudgeRecordVo user : users) {
+            for (LessonProblemRankVO user : users) {
                 //记录未完成的答题数
-                if (!CollUtil.isEmpty(user.getProblemRecords())) {
-                    int num = 0;
-                    for (LessonProblemRecord record : user.getProblemRecords()) {
-                        if (record.getSubmitStatus() == null) {
-                            num++;
-                        }
-                    }
-                    //更新class_user
-                    eduTeachApi.updateHomeworkTimes(user.getUserId(), entity.getClassId(), num);
-                }
+                int num = user.getUnansweredNum();
+                //更新class_user
+                eduTeachApi.updateHomeworkTimes(user.getUserId(), entity.getClassId(), num);
             }
         }
         //循环结束更新作业状态
@@ -191,28 +193,23 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         if (!CollUtil.isEmpty(list)) {
             for (LessonEntity item : list) {
                 //找出学生及其完成情况
-                List<LessonJudgeRecordVo> users = eduJudgeApi.getLessonProblemRecord(item.getId(), 2).getData();
+                List<LessonProblemRankVO> users = eduJudgeApi.getLessonProblemRank(item.getId(), 2).getData();
+
                 //遍历学生
                 //for
                 if (!CollUtil.isEmpty(users)) {
-                    for (LessonJudgeRecordVo user : users) {
+                    for (LessonProblemRankVO user : users) {
                         //记录未完成的答题数
-                        if (!CollUtil.isEmpty(user.getProblemRecords())) {
-                            int num = 0;
-                            for (LessonProblemRecord record : user.getProblemRecords()) {
-                                if (record.getSubmitStatus() == null) {
-                                    num++;
-                                }
-                            }
-                            //更新class_user
-                            eduTeachApi.updateHomeworkTimes(user.getUserId(), item.getClassId(), num);
-                        }
+                        int num = user.getUnansweredNum();
+                        //更新class_user
+                        eduTeachApi.updateHomeworkTimes(user.getUserId(), item.getClassId(), num);
                     }
                 }
                 //循环结束更新作业状态
                 item.setHomeworkStatus(2);
                 updateById(item);
             }
+
         }
 
     }

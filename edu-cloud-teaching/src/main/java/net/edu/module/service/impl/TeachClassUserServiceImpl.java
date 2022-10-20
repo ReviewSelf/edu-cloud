@@ -61,6 +61,11 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
     }
 
     @Override
+    public void insertClassUserOne(TeachClassUserVO vo) {
+        teachClassUserDao.insertClassUserOne(vo);
+    }
+
+    @Override
     public void update(TeachClassUserVO vo) {
         TeachClassUserEntity entity = TeachClassUserConvert.INSTANCE.convert(vo);
 

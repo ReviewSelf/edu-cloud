@@ -6,13 +6,14 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.query.FillProblemQuery;
 import net.edu.module.vo.FillProblemVO;
+import net.edu.module.vo.WxFillProblemVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
 * 填空题表
 *
-* @author 马佳浩 
+* @author 马佳浩
 * @since 1.0.0 2022-09-05
 */
 @Mapper
@@ -27,6 +28,8 @@ public interface FillProblemDao extends BaseDao<FillProblemEntity> {
     int updateSubmitTimes(@Param("id") Long id,@Param("isTrue") Boolean isTrue);
 
     FillProblemVO selectFillProblemInfo(@Param("id") Long id);
+
+    WxFillProblemVO GetFillProblemInfo(String problemId);
 
 
 }

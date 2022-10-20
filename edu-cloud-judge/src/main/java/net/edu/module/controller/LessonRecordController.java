@@ -41,7 +41,7 @@ public class LessonRecordController {
     }
 
     @PostMapping("/getUserLessonRecord")
-    @Operation(summary = "获取学生各个课堂答题情况")
+    @Operation(summary = "获取学生每个课堂答题情况")
     public Result<List<LessonProblemRankVO>> getUserLessonRecord(@RequestBody JSONObject jsonObject){
         List<Long> lessonId=jsonObject.getBeanList("lessonList",Long.class);
         Long userId=jsonObject.getLong("userId");

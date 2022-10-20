@@ -16,8 +16,12 @@ public class EnrollOpinionEntity extends BaseEntity {
     private Integer studentId;
 
     /**
-     * 任课老师
+     * 任课老师建议
      */
     private String teacherOpinion;
 
+    /**
+     * 家长建议
+     */
+    private String parentOpinion;
 }

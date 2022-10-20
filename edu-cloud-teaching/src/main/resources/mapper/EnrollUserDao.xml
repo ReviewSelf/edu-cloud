@@ -47,13 +47,13 @@
     </update>
 
     <insert id="insertId">
-        INSERT INTO enroll_user (open_id) values (#{openId})
+        INSERT INTO enroll_user (open_id,union_id) values (#{openId},#{unionId})
     </insert>
 
     <update id="save">
         UPDATE enroll_user
         set
-        phone = #{phone} ,status = 1 ,union_id = #{unionId}
+        phone = #{phone} ,status = 1
         <if test="name!=null and name!=''">
             ,name = #{name}
         </if>
@@ -76,10 +76,20 @@
             ,purpose=#{purpose}
         </if>
         WHERE
-        open_id = #{openId}
+        id = #{id}
     </update>
 
     <insert id="insertClassUser">
-        insert into enroll_class_user (enroll_class_id,open_id,create_time) values (#{classId},#{openId},now())
+        insert into enroll_class_user (enroll_class_id,user_id,create_time) values (#{classId},#{userId},now())
     </insert>
+
+    <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.EnrollUserVO">
+        select
+            id,
+            name,
+            status
+        from enroll_user
+        where
+            open_id = #{openId}
+    </select>
 </mapper>

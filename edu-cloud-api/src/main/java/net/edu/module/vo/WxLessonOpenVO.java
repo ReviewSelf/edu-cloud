@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/10/10 - 15:26
  **/
 @Data
-public class LessonOpenVO {
+public class WxLessonOpenVO {
 
     /**
      * 课程名称
@@ -33,6 +33,8 @@ public class LessonOpenVO {
      * 发送用户的id
      */
     private Long userId;
+
+
 
 
     public String toJsonString() {

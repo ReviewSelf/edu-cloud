@@ -39,7 +39,9 @@ public class WeChatServiceImpl implements WeChatService {
         log.info("执行到service");
         String url = WeChatApiUtils.TOKEN_URL;
         // 利用hutool的http工具类请求获取access_token
+        System.out.println(url);
         String result = HttpUtil.get(url);
+        System.out.println(result);
         // 将结果解析为json
         JSONObject jsonObject = JSONUtil.parseObj(result);
         // 获取access_token
@@ -59,7 +61,9 @@ public class WeChatServiceImpl implements WeChatService {
     @Override
     public String getUnionId(String openId) {
         String url = WeChatApiUtils.getUnionUrl(openId);
+        System.out.println("URL"+url);
         String result = HttpUtil.get(url);
+        System.out.println("result:"+result);
         JSONObject jsonObject = JSONUtil.parseObj(result);
         String unionId = jsonObject.getStr("unionid");
         System.out.println("Service"+unionId);
@@ -106,8 +110,8 @@ public class WeChatServiceImpl implements WeChatService {
             if("subscribe".equals(event)){
                 String openId = inMessage.getFromUserName();
                 log.info(openId);
-
-                eduTeachApi.insertOpenId(openId);
+                String unionId = getUnionId(openId);
+                eduTeachApi.insertOpenId(openId,unionId);
                 outMessage.setMsgType("text");
                 outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
             }

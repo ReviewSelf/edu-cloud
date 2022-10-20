@@ -2,14 +2,12 @@ package net.edu.module.vo;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * @author weng
  * @date 2022/10/9 - 16:15
  **/
 @Data
-public class ClassOpenVO  {
+public class WxClassOpenVO  {
 
     /**
      * 课程名称

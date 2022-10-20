@@ -7,12 +7,7 @@ import lombok.Data;
  * @date 2022/10/10 - 15:15
  **/
 @Data
-public class WorkPublishVO {
-
-    /**
-     * 学生姓名
-     */
-    private String studentName;
+public class WxWorkPublishVO {
 
     /**
      * 作业科目
@@ -34,6 +29,13 @@ public class WorkPublishVO {
      */
     private Long userId;
 
+
+
+
+    /**
+     * 学生姓名
+     */
+    private String studentName;
 
     public String toJsonString() {
         return "{\"studentName\":\""+studentName

@@ -81,7 +81,7 @@
         select
         lesson_id as lessonId
         ,(SELECT name FROM lesson WHERE id=lesson_id) as lessonName
-        , 10136 as userId
+        , #{userId} as userId
         , (SELECT real_name FROM sys_user WHERE id = user_id) as name
         , sum(ISNULL(submit_status)) as unansweredNum
         , sum(1 - ISNULL(submit_status)) as answeredNum

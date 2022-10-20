@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.ability.dao.GraduateRequireDao">
 
-    <resultMap type="net.edu.ability.entity.GraduateRequireEntity" id="certifyGraduateMap">
+    <resultMap type="net.edu.module.entity.GraduateRequireEntity" id="certifyGraduateMap">
         <result property="id" column="id"/>
         <result property="createTime" column="create_time"/>
         <result property="updateTime" column="update_time"/>

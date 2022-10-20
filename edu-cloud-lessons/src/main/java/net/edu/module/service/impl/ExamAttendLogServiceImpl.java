@@ -150,4 +150,10 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
         examAttendLogDao.updateAttendLog(vo);
     }
 
+    @Override
+    public List<ExamAttendLogVO> getList(Long examId,Integer status,Integer isCorrecting) {
+        List<ExamAttendLogVO> list = examAttendLogDao.selectList(examId,status,isCorrecting);
+        return list;
+    }
+
 }

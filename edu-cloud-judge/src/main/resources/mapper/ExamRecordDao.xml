@@ -73,9 +73,7 @@
         </if>
         <if test="query.name!=null">
             and name like concat('%',#{query.name},'%')
-        </if>
-            limit ${(query.page-1)*query.limit},${query.limit}
-            )a
+        </if>)a
         left join exam_problem b on b.exam_id =a.exam_id ) c
         left join (select id,submit_status,problem_id,problem_type,source_id,user_id,source,score,submit_time from
         judge_record jr1

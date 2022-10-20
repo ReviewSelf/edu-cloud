@@ -32,6 +32,14 @@ public class ExamAttendLogController {
         return Result.ok(page);
     }
 
+    @GetMapping("list")
+    @Operation(summary = "获取所有列表")
+
+    public Result<List<ExamAttendLogVO>> getList(@RequestParam("examId") Long examId,@RequestParam("status") Integer status,@RequestParam("isCorrecting") Integer isCorrecting){
+        List<ExamAttendLogVO> list = examAttendLogService.getList(examId,status,isCorrecting);
+        return Result.ok(list);
+    }
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<ExamAttendLogVO> get(@PathVariable("id") Long id){

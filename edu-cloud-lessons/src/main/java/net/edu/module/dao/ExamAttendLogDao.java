@@ -35,4 +35,6 @@ public interface ExamAttendLogDao extends BaseDao<ExamAttendLogEntity> {
     int updateExamStatus(Integer status, Long examId, Long userId);
 
     int updateAttendLog(@Param("vo") ExamAttendLogVO vo);
+
+    List<ExamAttendLogVO> selectList(Long examId,Integer status,Integer isCorrecting);
 }

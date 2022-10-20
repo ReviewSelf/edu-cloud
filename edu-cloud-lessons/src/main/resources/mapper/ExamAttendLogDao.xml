@@ -97,4 +97,36 @@
     <update id="updateAttendLog">
         update exam_attend_log set score = #{vo.score},is_correcting = #{vo.isCorrecting} where user_id = #{vo.userId} and exam_id = #{vo.examId}
     </update>
+
+    <select id="selectList" resultType="net.edu.module.vo.ExamAttendLogVO">
+        select t.id,
+        t.user_id as userId,
+        t.exam_id as examId,
+        t.name,
+        t.join_time as joinTime,
+        t.quit_time as quitTime,
+        (select score from exam where id = #{examId}) as totalScore,
+        t.status,
+        t.score,
+        t.is_correcting as isCorrecting
+        from (select a.id,
+        a.user_id,
+        a.exam_id,
+        (select real_name from sys_user b where b.id = a.user_id) as name,
+        a.join_time,
+        a.quit_time,
+        a.status,
+        a.score,
+        a.is_correcting
+        from exam_attend_log a
+        where exam_id = #{examId}) t
+        where 1=1
+        <if test="status !='' and status !=null">
+            and t.status = #{status}
+        </if>
+        <if test="isCorrecting != '' and isCorrecting != null">
+            and t.is_correcting=#{isCorrecting}
+        </if>
+        order by status , score desc
+    </select>
 </mapper>

@@ -81,14 +81,14 @@ public class ExamAttendLogController {
 
 
     @GetMapping("invitation")
-    public Result<String> genExamInvitationCode(@RequestParam("examId") Long examId,@RequestParam("time")Long time){
-        examAttendLogService.genExamInvitationCode(examId,time);
+    public Result<String> genExamInvitationCode(@RequestParam("examId") Long examId,@RequestParam("code") String code,@RequestParam("time")Long time){
+        examAttendLogService.genExamInvitationCode(examId,code,time);
         return Result.ok();
     }
 
     @GetMapping("receive")
-    public Result<String> receiveExamInvitation(@RequestParam("examId") Long examId){
-        examAttendLogService.receiveExamInvitation(examId);
+    public Result<String> receiveExamInvitation(@RequestParam("code") String code){
+        examAttendLogService.receiveExamInvitation(code);
         return Result.ok();
     }
 

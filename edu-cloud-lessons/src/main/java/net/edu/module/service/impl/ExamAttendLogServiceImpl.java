@@ -167,13 +167,13 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
 
     @Override
     public void receiveExamInvitation(Long code) {
-        Long examId= (Long) redisUtils.get(RedisKeys.getExamInvitation(code));
+        Integer examId= (Integer) redisUtils.get(RedisKeys.getExamInvitation(code));
         if(examId==null){
             throw new ServerException("邀请码错误");
         }else {
             Long userId=SecurityUser.getUserId();
             ExamAttendLogEntity entity=new ExamAttendLogEntity();
-            entity.setExamId(examId);
+            entity.setExamId(Long.valueOf(examId));
             entity.setUserId(userId);
             try {
                 baseMapper.insert(entity);

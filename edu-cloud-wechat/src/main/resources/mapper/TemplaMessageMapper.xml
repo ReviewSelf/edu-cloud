@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.TemplateDao">
-
+<!--查找离预定发送时间不到一小时的-->
    <select id="selectTemplate" resultType="net.edu.module.entity.MsgLogEntity">
        select
            id,

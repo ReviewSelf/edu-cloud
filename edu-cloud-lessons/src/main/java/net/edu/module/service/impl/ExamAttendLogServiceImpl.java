@@ -2,6 +2,9 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.HexUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
@@ -155,5 +158,25 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
         List<ExamAttendLogVO> list = examAttendLogDao.selectList(examId,status,isCorrecting);
         return list;
     }
+
+    @Override
+    public void genExamInvitationCode(Long examId,Long time) {
+        redisUtils.set(RedisKeys.getExamInvitation(examId),examId,time*60L);
+    }
+
+    @Override
+    public void receiveExamInvitation(Long code) {
+        Long examId= (Long) redisUtils.get(RedisKeys.getExamInvitation(code));
+        if(examId==null){
+            throw new RuntimeException("邀请码错误");
+        }else {
+            Long userId=SecurityUser.getUserId();
+            ExamAttendLogEntity entity=new ExamAttendLogEntity();
+            entity.setExamId(examId);
+            entity.setUserId(userId);
+            save(entity);
+        }
+    }
+
 
 }

@@ -45,32 +45,33 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
 
     @Override
     public PageResult<ExamProblemVO> page(ExamProblemQuery query) {
-        Page<ExamProblemVO> page = new Page<>(query.getPage(),query.getLimit());
-        IPage<ExamProblemVO> list = baseMapper.page(page,query);
+        Page<ExamProblemVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<ExamProblemVO> list = baseMapper.page(page, query);
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
     @Override
-    public List<ExamProblemEntity> list(Long examId ) {
-        List<ExamProblemEntity> list = new LambdaQueryChainWrapper<>(baseMapper)
-                .eq(ExamProblemEntity::getExamId, examId).orderByAsc(ExamProblemEntity::getScore).list();
+    public List<ExamProblemEntity> list(Long examId) {
+        List<ExamProblemEntity> list = null;
+        list = (List<ExamProblemEntity>) redisUtils.get(RedisKeys.getExamProblem(examId));
+        if (list == null) {
+            list = new LambdaQueryChainWrapper<>(baseMapper)
+                    .eq(ExamProblemEntity::getExamId, examId).orderByAsc(ExamProblemEntity::getScore).list();
+            redisUtils.set(RedisKeys.getExamProblem(examId), list, RedisUtils.HOUR_ONE_EXPIRE);
+        }
         return list;
     }
 
 
-
     @Override
-    public void copyFromPaper(Long paperId,Long examId) {
+    public void copyFromPaper(Long paperId, Long examId) {
         List<ProblemPaperItemEntity> problemList = eduProblemApi.getPaperProblem(paperId).getData();
-        System.out.println(problemList);
-        if(!CollUtil.isEmpty(problemList)){
+        if (!CollUtil.isEmpty(problemList)) {
             //insert
-            examProblemDao.insertExamProblemFromPaper(problemList,examId);
+            examProblemDao.insertExamProblemFromPaper(problemList, examId);
         }
 
     }
-
-
 
 
 }

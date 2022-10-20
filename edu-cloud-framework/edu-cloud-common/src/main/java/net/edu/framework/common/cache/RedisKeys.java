@@ -76,10 +76,11 @@ public class RedisKeys {
         return "lesson:class:" + classId;
     }
 
-    public static String getLessonPage(String key) {
-        return "lesson:" + key;
-    }
 
+
+    public static String getExamProblem(Long examId) {
+        return "exam:problem:" + examId;
+    }
 
     public static String getStuExam(Long examId, Long userId) {
         if (examId == null && userId == null) {
@@ -88,12 +89,17 @@ public class RedisKeys {
         return "exam:user:" + examId + ":" + userId;
     }
 
+    public static String getExamInvitation(Long examId) {
+        return "exam:invitation:user:"+examId;
+    }
+
     public static String getHomeWorkKey(Long id) {
         if (id == null ) {
             return "homework:lessonId:";
         }
         return "homework:lessonId:" + id ;
     }
+
 
     //***********************************problem***********************************************************
     public static String getProblemInfo(Long problemId, String type) {

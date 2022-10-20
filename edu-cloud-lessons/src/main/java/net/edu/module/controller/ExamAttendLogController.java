@@ -80,6 +80,18 @@ public class ExamAttendLogController {
 
 
 
+    @GetMapping("invitation")
+    public Result<String> genExamInvitationCode(@RequestParam("examId") Long examId,@RequestParam("time")Long time){
+        examAttendLogService.genExamInvitationCode(examId,time);
+        return Result.ok();
+    }
+
+    @GetMapping("receive")
+    public Result<String> receiveExamInvitation(@RequestParam("examId") Long examId){
+        examAttendLogService.receiveExamInvitation(examId);
+        return Result.ok();
+    }
+
 
 
 }

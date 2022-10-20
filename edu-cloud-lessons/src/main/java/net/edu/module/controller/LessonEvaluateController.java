@@ -49,4 +49,10 @@ public class LessonEvaluateController {
         return Result.ok();
     }
 
+    @GetMapping("send/{lessonId}")
+    @Operation(summary = "列表")
+    public Result<String> sendEvaluate(@PathVariable("lessonId") Long lessonId){
+        lessonEvaluateService.sendEvaluate(lessonId);
+        return Result.ok();
+    }
 }

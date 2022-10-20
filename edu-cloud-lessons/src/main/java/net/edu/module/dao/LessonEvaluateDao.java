@@ -3,6 +3,7 @@ package net.edu.module.dao;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.LessonEvaluateEntity;
 import net.edu.module.vo.LessonEvaluateVO;
+import net.edu.module.vo.WxLessonEvaluationVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface LessonEvaluateDao extends BaseDao<LessonEvaluateEntity> {
     void updateByUserId(LessonEvaluateVO vo);
 
     List<LessonEvaluateVO> list(Long lessonId);
+
+    List<WxLessonEvaluationVO> selectEvaluate(Long lessonId);
 }

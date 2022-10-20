@@ -14,6 +14,7 @@ public class WxWorkDeadlineVO {
      */
     private String deadline;
 
+
     /**
      * 提交方式
      */

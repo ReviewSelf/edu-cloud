@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.ability.dao.GraduateRequireDao">
+
+    <resultMap type="net.edu.ability.entity.GraduateRequireEntity" id="certifyGraduateMap">
+        <result property="id" column="id"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="creator" column="creator"/>
+        <result property="updater" column="updater"/>
+        <result property="version" column="version"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="major" column="major"/>
+        <result property="college" column="college"/>
+        <result property="school" column="school"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+</mapper>

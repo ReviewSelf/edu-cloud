@@ -9,6 +9,7 @@ import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.query.ChoiceProblemQuery;
 import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
+import net.edu.module.vo.WxChoiceProblemVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,14 +18,14 @@ import java.util.List;
 /**
 * 选择题库表
 *
-* @author 马佳浩 
+* @author 马佳浩
 * @since 1.0.0 2022-09-05
 */
 @Mapper
 public interface ChoiceProblemDao extends BaseDao<ChoiceProblemEntity> {
 
-    
 
+    List<WxChoiceProblemVO> getChoiceProblemInfo(String problemId);
     ChoiceProblemVO selectChoiceProblem(Long problemId);
 
 

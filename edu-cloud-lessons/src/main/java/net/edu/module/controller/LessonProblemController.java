@@ -37,29 +37,15 @@ public class LessonProblemController {
         return Result.ok(page);
     }
 
-    @GetMapping("{id}")
-    @Operation(summary = "信息")
-    public Result<LessonProblemVO> get(@PathVariable("id") Long id){
-        LessonProblemEntity entity = lessonProblemService.getById(id);
-
-        return Result.ok(LessonProblemConvert.INSTANCE.convert(entity));
-    }
 
     @PostMapping
-    @Operation(summary = "保存")
+    @Operation(summary = "课堂题拷贝至作业题")
     public Result<String> save(@RequestBody LessonProblemVO vo){
         lessonProblemService.save(vo);
 
         return Result.ok();
     }
 
-    @PutMapping
-    @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid LessonProblemVO vo){
-        lessonProblemService.update(vo);
-
-        return Result.ok();
-    }
 
     @DeleteMapping
     @Operation(summary = "删除")

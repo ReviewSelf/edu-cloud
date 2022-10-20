@@ -53,7 +53,7 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
     @Override
     public List<ExamProblemEntity> list(Long examId ) {
         List<ExamProblemEntity> list = new LambdaQueryChainWrapper<>(baseMapper)
-                .eq(ExamProblemEntity::getExamId, examId).list();
+                .eq(ExamProblemEntity::getExamId, examId).orderByAsc(ExamProblemEntity::getScore).list();
         return list;
     }
 

@@ -51,7 +51,7 @@ public interface EduTeachApi {
 
     @GetMapping("enrollUser/insertClassUser")
     @Operation(summary = "添加班级学生")
-    Result<String> insertClassUser(@RequestParam(value = "classId")Integer classId,@RequestParam(value = "id") Integer id);
+    Result<String> insertClassUser(@RequestParam(value = "classId")Integer classId,@RequestParam(value = "userId") Integer userId);
 
     @PostMapping("enrollUser/insertOpenId")
     @Operation(summary = "添加班级学生openId")

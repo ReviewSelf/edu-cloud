@@ -122,41 +122,6 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
             templateDao.insertMsgLogLessonEvaluationTemplate(content, sendTime, userId);
         }
     }
-
-    @Override
-    public void insertMsgLogLessonEvaluationTemplate(List<LessonEvaluationVO> list) {
-        System.out.println(list);
-        for (LessonEvaluationVO vo : list) {
-            String content = vo.toJsonString();
-            String sendTime = vo.getSendTime();
-            Long userId = vo.getUserId();
-            templateDao.insertMsgLogLessonEvaluationTemplate(content, sendTime, userId);
-        }
-    }
-
-    @Override
-    public void insertMsgLogLessonEvaluationTemplate(List<LessonEvaluationVO> list) {
-        System.out.println(list);
-        for (LessonEvaluationVO vo : list) {
-            String content = vo.toJsonString();
-            String sendTime = vo.getSendTime();
-            Long userId = vo.getUserId();
-            templateDao.insertMsgLogLessonEvaluationTemplate(content, sendTime, userId);
-        }
-    }
-
-    @Override
-    public void insertMsgLogLessonEvaluationTemplate(List<LessonEvaluationVO> list) {
-        System.out.println(list);
-        for (LessonEvaluationVO vo : list) {
-            String content = vo.toJsonString();
-            String sendTime = vo.getSendTime();
-            Long userId = vo.getUserId();
-            templateDao.insertMsgLogLessonEvaluationTemplate(content, sendTime, userId);
-        }
-    }
-
-
     /**
      * 未完成
      */

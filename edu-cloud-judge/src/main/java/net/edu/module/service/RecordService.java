@@ -5,8 +5,7 @@ import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.dao.JudgeRecordDao;
 import net.edu.module.vo.ExamJudgeRecordVo;
 import net.edu.module.vo.JudgeRecordSubmitVO;
-import net.edu.module.vo.LessonJudgeRecordVo;
-import net.edu.module.vo.ProblemCompletionVo;
+import net.edu.module.vo.lesson.LessonJudgeRecordVo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +22,7 @@ public class RecordService {
     private final JudgeRecordDao judgeRecordDao;
 
 
-    public List<LessonJudgeRecordVo> getLessonProblemRecord(Long lessonId, Integer type) {
 
-        return judgeRecordDao.selectLessonRecord(lessonId,type);
-    }
 
     public JudgeRecordSubmitVO getRecord(JudgeRecordSubmitVO vo){
         vo.setUserId(SecurityUser.getUserId());
@@ -47,7 +43,5 @@ public class RecordService {
         return judgeRecordDao.updateReasonAndStatus(vo);
     }
 
-    public List<ExamJudgeRecordVo> getExamProblemRecord(Long examId, Integer type) {
-        return judgeRecordDao.selectExamRecord(examId,type);
-    }
+
 }

@@ -9,9 +9,7 @@ import net.edu.module.convert.FillProblemConvert;
 import net.edu.module.entity.FillProblemEntity;
 import net.edu.module.service.FillProblemService;
 import net.edu.module.query.FillProblemQuery;
-import net.edu.module.service.HomeWorkService;
 import net.edu.module.vo.FillProblemVO;
-import net.edu.module.vo.WxFillProblemVO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,7 +29,7 @@ import java.util.List;
 public class FillProblemController {
     private final FillProblemService fillProblemService;
 
-    private final HomeWorkService homeWorkService;
+
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<FillProblemVO>> page(@Valid FillProblemQuery query){
@@ -115,14 +113,7 @@ public class FillProblemController {
         return Result.ok();
     }
 
-    /**
-     * 小程序获取填空题目信息
-     */
-    @GetMapping("/fillProblemInfo")
-    public WxFillProblemVO GetFillProblemInfo(String problemId){
-        WxFillProblemVO wxFillProblemVOS=homeWorkService.GetFillProblemInfo(problemId);
-        return wxFillProblemVOS;
-    }
+
 
 
 

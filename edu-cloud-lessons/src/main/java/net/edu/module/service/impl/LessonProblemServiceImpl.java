@@ -3,6 +3,7 @@ package net.edu.module.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.api.EduProblemApi;
@@ -53,7 +54,12 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
     @Override
     public void save(LessonProblemVO vo) {
         LessonProblemEntity entity = LessonProblemConvert.INSTANCE.convert(vo);
-        baseMapper.insert(entity);
+        try{
+            baseMapper.insert(entity);
+        }catch (Exception e){
+            throw new ServerException("已存在");
+        }
+
         redisUtils.delByPre(RedisKeys.getLessonProblem(vo.getLessonId(),null));
     }
 

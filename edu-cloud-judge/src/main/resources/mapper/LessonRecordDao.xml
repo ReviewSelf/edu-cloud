@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="net.edu.module.dao.LessonRecordDao">
+    <resultMap id="LessonRecord" type="net.edu.module.vo.lesson.LessonJudgeRecordVo">
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="lessonId" column="lesson_id"/>
+        <collection property="problemRecords"
+                    javaType="java.util.ArrayList"
+                    ofType="net.edu.module.vo.lesson.LessonProblemRecord">
+            <id property="recordId" column="record_id"/>
+            <result property="problemId" column="problem_id"/>
+            <result property="problemName" column="problem_name"/>
+            <result property="problemType" column="problem_type"/>
+            <result property="type" column="type"/>
+            <result property="submitStatus" column="submit_status"/>
+            <result property="submitTime" column="submit_time"/>
+            <result property="spendTime" column="spend_time"/>
+        </collection>
+    </resultMap>
+    <select id="selectLessonRecord" resultMap="LessonRecord">
+        SELECT timediff(submit_time,begin_time) as spend_time
+        ,c.user_id,c.name,c.lesson_id,c.problem_id,c.problem_name,c.problem_type,c.begin_time,c.type,d.id as
+        record_id,d.submit_status,d.submit_time FROM
+        (SELECT a.user_id,a.name,a.lesson_id,b.problem_id,b.problem_name,b.problem_type,b.begin_time,b.type FROM
+        (select lesson_id,stu_id as user_id,(SELECT real_name FROM sys_user WHERE id=stu_id) as name
+        from lesson_attend_log WHERE lesson_id=#{lessonId})a
+        left join lesson_problem b on b.lesson_id =a.lesson_id ORDER BY user_id,b.begin_time) c
+        left join (select id,submit_status,submit_time,problem_id,problem_type,source_id,user_id,source from
+        judge_record jr1
+        where source_id=#{lessonId} and not exists (select 1 from judge_record jr2 where source_id=#{lessonId} and
+        jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
+        jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt; jr2.id ) ) d on
+        c.problem_id=d.problem_id and c.problem_type=d.problem_type
+        and d.source_id=c.lesson_id and c.user_id=d.user_id and c.type=d.source
+        <if test="type!=null">
+            where type=#{type}
+        </if>
+    </select>
+
+
 
     <select id="selectLessonProblemRank" resultType="net.edu.module.vo.lesson.LessonProblemRankVO">
         select
@@ -43,7 +81,7 @@
         select
         lesson_id as lessonId
         ,(SELECT name FROM lesson WHERE id=lesson_id) as lessonName
-        , 10136 as userId
+        , #{userId} as userId
         , (SELECT real_name FROM sys_user WHERE id = user_id) as name
         , sum(ISNULL(submit_status)) as unansweredNum
         , sum(1 - ISNULL(submit_status)) as answeredNum

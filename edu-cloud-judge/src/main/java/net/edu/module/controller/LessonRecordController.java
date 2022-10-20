@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.LessonRecordService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
+import net.edu.module.vo.lesson.LessonJudgeRecordVo;
 import net.edu.module.vo.lesson.LessonProblemRankVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,13 @@ public class LessonRecordController {
 
     private final LessonRecordService lessonRecordService;
 
+
+
+    @GetMapping("/getLessonProblemRecord")
+    public Result<List<LessonJudgeRecordVo>> getLessonProblemRecord(@RequestParam("lessonId") Long lessonId, @RequestParam(value = "type",required = false) Integer type){
+        return Result.ok(lessonRecordService.getLessonProblemRecord(lessonId,type));
+    }
+
     @GetMapping("/getLessonProblemRank")
     @Operation(summary = "获取课堂答题排名")
     public Result<List<LessonProblemRankVO>> getLessonProblemRank(@RequestParam("lessonId") Long lessonId,
@@ -33,7 +41,7 @@ public class LessonRecordController {
     }
 
     @PostMapping("/getUserLessonRecord")
-    @Operation(summary = "获取学生各个课堂答题情况")
+    @Operation(summary = "获取学生每个课堂答题情况")
     public Result<List<LessonProblemRankVO>> getUserLessonRecord(@RequestBody JSONObject jsonObject){
         List<Long> lessonId=jsonObject.getBeanList("lessonList",Long.class);
         Long userId=jsonObject.getLong("userId");

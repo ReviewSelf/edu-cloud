@@ -32,6 +32,14 @@ public class ExamAttendLogController {
         return Result.ok(page);
     }
 
+    @GetMapping("list")
+    @Operation(summary = "获取所有列表")
+
+    public Result<List<ExamAttendLogVO>> getList(@RequestParam("examId") Long examId,@RequestParam("status") Integer status,@RequestParam("isCorrecting") Integer isCorrecting){
+        List<ExamAttendLogVO> list = examAttendLogService.getList(examId,status,isCorrecting);
+        return Result.ok(list);
+    }
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<ExamAttendLogVO> get(@PathVariable("id") Long id){
@@ -71,6 +79,18 @@ public class ExamAttendLogController {
     }
 
 
+
+    @GetMapping("invitation")
+    public Result<String> genExamInvitationCode(@RequestParam("examId") Long examId,@RequestParam("time")Long time){
+        examAttendLogService.genExamInvitationCode(examId,time);
+        return Result.ok();
+    }
+
+    @GetMapping("receive")
+    public Result<String> receiveExamInvitation(@RequestParam("examId") Long examId){
+        examAttendLogService.receiveExamInvitation(examId);
+        return Result.ok();
+    }
 
 
 

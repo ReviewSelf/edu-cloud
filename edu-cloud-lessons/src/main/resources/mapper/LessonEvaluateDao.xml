@@ -56,11 +56,15 @@
         order by rank_num
     </select>
 
-    <select id="updateByUserId">
+    <update id="updateByUserId">
         update lesson_evaluate
         set content=#{content}
         where id = #{id}
+    </update>
 
+
+    <select id="selectEvaluate" resultType="net.edu.module.vo.WxLessonEvaluationVO">
+        select user_id as userId,(select name from lesson where id=lesson_id)as lessonName,rank_num as rankNum,correct_num as correctNum,answered_num as answerNum,content as evaluationContent,now() as sendTime  from lesson_evaluate where lesson_id =#{lessonId}
     </select>
 
 

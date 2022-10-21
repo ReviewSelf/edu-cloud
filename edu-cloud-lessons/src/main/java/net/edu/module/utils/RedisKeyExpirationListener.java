@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.module.service.ExamAttendLogService;
+import net.edu.module.service.LessonService;
 import net.edu.module.vo.ExamAttendLogVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.Message;
@@ -29,10 +30,13 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
     @Autowired
     ExamAttendLogService examAttendLogService;
 
+    @Autowired
+    LessonService lessonService;
+
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
-        // 过期key
+        // 考试 过期key
         String expiredKey = message.toString();
         if (expiredKey.contains(RedisKeys.getStuExam(null, null))) {
             //监听到考试过期
@@ -42,6 +46,12 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
             //通过userId 和 examId 更新用户考试状态
             examAttendLogService.updateExamStatus(2,
                     Long.valueOf(list.get(2)),Long.valueOf(list.get(3)));
+        }
+        else if(expiredKey.contains(RedisKeys.getHomeWorkKey(null))){
+            //作业过期
+            List<String> list = Arrays.asList(expiredKey.split(":"));
+            log.info("{}作业截止", list.toString());
+            lessonService.closeLessonHomeWork(Long.valueOf(list.get(2)));
         }
     }
 

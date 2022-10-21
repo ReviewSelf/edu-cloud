@@ -2,6 +2,9 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.HexUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
@@ -24,6 +27,7 @@ import net.edu.module.vo.ExamVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -149,5 +153,39 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     public void updateAttendLog(ExamAttendLogVO vo) {
         examAttendLogDao.updateAttendLog(vo);
     }
+
+    @Override
+    public List<ExamAttendLogVO> getList(Long examId,Integer status,Integer isCorrecting) {
+        List<ExamAttendLogVO> list = examAttendLogDao.selectList(examId,status,isCorrecting);
+        return list;
+    }
+
+    @Override
+    public void genExamInvitationCode(Long examId,Long time) {
+        redisUtils.set(RedisKeys.getExamInvitation(examId),examId,time*60L);
+    }
+
+    @Override
+    public void receiveExamInvitation(Long code) {
+        Long examId= (Long) redisUtils.get(RedisKeys.getExamInvitation(code));
+        if(examId==null){
+            throw new ServerException("邀请码错误");
+        }else {
+            Long userId=SecurityUser.getUserId();
+            ExamAttendLogEntity entity=new ExamAttendLogEntity();
+            entity.setExamId(examId);
+            entity.setUserId(userId);
+            try {
+                baseMapper.insert(entity);
+            }catch (Exception e){
+                if(e.getCause() instanceof SQLIntegrityConstraintViolationException) {
+                    throw new ServerException("已加入此考试，请勿重复参加");
+                }
+            }
+
+
+        }
+    }
+
 
 }

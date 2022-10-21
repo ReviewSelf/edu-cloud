@@ -48,7 +48,7 @@ public class ExamRecordController {
      * @return
      */
     @GetMapping("/getExamRecordList")
-    public Result<PageResult<ExamScoreVO>> getExamRecordList(@Valid ExamRecordQuery query ){
+    public Result<List<ExamScoreVO>> getExamRecordList(@Valid ExamRecordQuery query ){
         return Result.ok(examRecordService.getExamRecordList(query));
     }
 

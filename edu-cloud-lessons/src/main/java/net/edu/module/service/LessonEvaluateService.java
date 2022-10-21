@@ -22,4 +22,6 @@ public interface LessonEvaluateService extends BaseService<LessonEvaluateEntity>
 
     void update(LessonEvaluateVO vo);
 
+     void sendEvaluate(Long lessonId);
+
 }

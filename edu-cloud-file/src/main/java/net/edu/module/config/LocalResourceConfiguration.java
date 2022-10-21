@@ -15,12 +15,12 @@ public class LocalResourceConfiguration implements WebMvcConfigurer {
 
     @Autowired
     LocalStorageProperties local;
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//
-//        registry.addResourceHandler("/" + local.getUrl() + "/**")
-//                .addResourceLocations("file:" + local.getPath() + "/");
-//    }
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        registry.addResourceHandler("/" + local.getUrl() + "/**")
+                .addResourceLocations("file:" + local.getPath() + "/");
+    }
 
 
 

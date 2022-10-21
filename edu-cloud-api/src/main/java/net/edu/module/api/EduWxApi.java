@@ -20,20 +20,20 @@ public interface EduWxApi {
     /****************************微信推送调用******************************************/
 
     @PostMapping("classOpen")
-    Result<String> insertClassOpenTemplate(@RequestBody List<ClassOpenVO> vo);
+    Result<String> insertClassOpenTemplate(@RequestBody List<WxClassOpenVO> vo);
 
     @PostMapping("workPublish")
-    Result<String> insertWorkPublishTemplate(@RequestBody List<WorkPublishVO> vo);
+    Result<String> insertWorkPublishTemplate(@RequestBody List<WxWorkPublishVO> vo);
 
     @PostMapping("lessonOpen")
-    Result<String> insertLessonOpenTemplate(@RequestBody List<LessonOpenVO> vo);
+    Result<String> insertLessonOpenTemplate(@RequestBody List<WxLessonOpenVO> vo);
 
     @PostMapping("signSuccess")
-    Result<String> insertSignSuccessTemplate(@RequestBody List<SignSuccessVO> vo);
+    Result<String> insertSignSuccessTemplate(@RequestBody List<WxSignSuccessVO> vo);
 
     @PostMapping("workDeadline")
-    Result<String> insertWorkDeadlineTemplate(@RequestBody List<WorkDeadlineVO> vo);
+    Result<String> insertWorkDeadlineTemplate(@RequestBody List<WxWorkDeadlineVO> vo);
 
-    @PostMapping("lessonEvaluation")
-    Result<String> insertLessonEvaluationTemplate(@RequestBody List<LessonEvaluationVO> vo);
+    @PostMapping("/wx/lessonEvaluation")
+    Result<String> insertLessonEvaluationTemplate(@RequestBody List<WxLessonEvaluationVO> vo);
 }

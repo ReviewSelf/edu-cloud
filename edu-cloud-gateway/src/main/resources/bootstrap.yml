@@ -70,6 +70,13 @@ spring:
             - Path=/schedule/**
           filters:
             - StripPrefix=1
+        - id: edu-cloud-archive
+          uri: lb://edu-cloud-archive
+          order: 109
+          predicates:
+            - Path=/archive/**
+          filters:
+            - StripPrefix=1
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

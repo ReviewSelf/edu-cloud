@@ -33,13 +33,8 @@ public class ExamRecordService {
     }
 
 
-    public PageResult<ExamScoreVO> getExamRecordList(ExamRecordQuery query) {
-        int total=examRecordDao.selectExamRecordListTotal(query);
-        if(total>0){
-            List<ExamScoreVO> list = examRecordDao.selectExamRecordList(query);
-            return new PageResult<>(list, total);
-        }
-        return new PageResult<>();
+    public List<ExamScoreVO> getExamRecordList(ExamRecordQuery query) {
+        return  examRecordDao.selectExamRecordList(query);
     }
 
     //一键批卷

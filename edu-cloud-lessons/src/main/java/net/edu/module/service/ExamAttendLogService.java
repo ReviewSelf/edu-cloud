@@ -39,4 +39,10 @@ public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
 
 
     void updateAttendLog(ExamAttendLogVO vo);
+
+    List<ExamAttendLogVO> getList(Long examId,Integer status,Integer isCorrecting);
+
+    void genExamInvitationCode(Long examId,Long time);
+
+    void receiveExamInvitation(Long code);
 }

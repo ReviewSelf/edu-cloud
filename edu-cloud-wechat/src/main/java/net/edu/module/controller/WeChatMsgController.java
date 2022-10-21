@@ -141,6 +141,7 @@ public class WeChatMsgController {
                                                   @RequestParam("openId") String openId){
         return Result.ok(sysUserService.updateOpenIdByUsername(username,password,openId));
     }
+
 }
 
 

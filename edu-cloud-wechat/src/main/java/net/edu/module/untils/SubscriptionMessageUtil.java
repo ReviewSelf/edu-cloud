@@ -55,7 +55,8 @@ public class SubscriptionMessageUtil {
 
         JSONObject jsonObject = JSONUtil.parseObj(content);
         Long lessonId = jsonObject.getLong("lessonId");
-        String lessonName = jsonObject.getStr("lessonName");
+        Long userId = jsonObject.getLong("userId");
+        String className = jsonObject.getStr("className");
 
         //备注
         String evaluationContent = jsonObject.getStr("evaluationContent");
@@ -71,13 +72,13 @@ public class SubscriptionMessageUtil {
         List<WxMpTemplateData> wxMpTemplateDataList = Arrays.asList(
                 new WxMpTemplateData("first", "您好，您的孩子今日表现如下:", "#000000"),
                 new WxMpTemplateData("keyword1", userName),
-                new WxMpTemplateData("keyword2", lessonName),
+                new WxMpTemplateData("keyword2", className),
                 new WxMpTemplateData("keyword3", evaluationContent),
                 new WxMpTemplateData("remark", "点击详情查看具体情况。")
         );
 
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                .url("http://edu.proshaonian.com/#/evaluation?lessonId="+lessonId)
+                .url("http://edu.proshaonian.com/#/evaluation/"+lessonId+"/"+userId)
                 .toUser(userOpenid)
                 .templateId(OrderMsgTemplateId)
                 .data(wxMpTemplateDataList)

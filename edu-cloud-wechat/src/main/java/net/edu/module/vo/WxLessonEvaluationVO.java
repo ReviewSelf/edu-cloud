@@ -38,9 +38,10 @@ public class WxLessonEvaluationVO {
 
     //名次加正确率为模板中的评价内容
     public String toJsonString() {
-        return "{\"lessonName\":\""+lessonName
-                +"\"lessonId\":\""+lessonId
+        return "{\"lessonName\":\""+className
+                +"\",\"lessonId\":\""+lessonId
                 +"\",\"evaluationContent\":\""+content
+                +"\",\"userId\":\""+userId
                 +"\"}";
     }
 }

@@ -54,6 +54,7 @@ public class SubscriptionMessageUtil {
 
 
         JSONObject jsonObject = JSONUtil.parseObj(content);
+        Long lessonId = jsonObject.getLong("lessonId");
         String lessonName = jsonObject.getStr("lessonName");
         Integer rankNum = jsonObject.getInt("rankNum");
         String Accuracy = jsonObject.getStr("Accuracy");
@@ -75,7 +76,7 @@ public class SubscriptionMessageUtil {
                 new WxMpTemplateData("keyword1", userName),
                 new WxMpTemplateData("keyword2", lessonName),
                 new WxMpTemplateData("keyword3", evaluationContent),
-                new WxMpTemplateData("remark", "点击查详情查看排名")
+                new WxMpTemplateData("remark", "点击详情查看具体情况。")
         );
 
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()

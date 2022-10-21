@@ -39,6 +39,9 @@
                a.place
         from exam a
         where deleted=0
+        <if test="query.teacherId !=null ">
+            and a.teacher_id &gt;=#{query.teacherId}
+        </if>
           <if test="query.beginTime !=null or query.endTime !=null">
             and begin_time &gt;=#{query.beginTime} and begin_time &lt;  DATE_ADD(#{query.endTime},INTERVAL 1 day)
           </if>

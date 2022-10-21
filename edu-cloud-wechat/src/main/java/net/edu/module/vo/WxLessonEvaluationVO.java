@@ -40,7 +40,6 @@ public class WxLessonEvaluationVO {
     public String toJsonString() {
         return "{\"lessonName\":\""+lessonName
                 +"\"lessonId\":\""+lessonId
-                +"\",\"rankNum\":\""+rankNum
                 +"\",\"evaluationContent\":\""+content
                 +"\"}";
     }

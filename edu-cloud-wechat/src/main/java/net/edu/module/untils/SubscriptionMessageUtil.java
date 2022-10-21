@@ -56,12 +56,9 @@ public class SubscriptionMessageUtil {
         JSONObject jsonObject = JSONUtil.parseObj(content);
         Long lessonId = jsonObject.getLong("lessonId");
         String lessonName = jsonObject.getStr("lessonName");
-        Integer rankNum = jsonObject.getInt("rankNum");
-        String Accuracy = jsonObject.getStr("Accuracy");
+
         //备注
         String evaluationContent = jsonObject.getStr("evaluationContent");
-        //评价内容
-//        String evaluation = "您的孩子在课堂中的名次为" + rankNum +"，此次做题的正确率为" + Accuracy;
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
 
         wxStorage.setAppId(WeChatProperties.APP_ID);
@@ -80,6 +77,7 @@ public class SubscriptionMessageUtil {
         );
 
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
+                .url("http://edu.proshaonian.com/#/evaluation?lessonId="+lessonId)
                 .toUser(userOpenid)
                 .templateId(OrderMsgTemplateId)
                 .data(wxMpTemplateDataList)

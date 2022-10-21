@@ -89,7 +89,7 @@ public class RedisKeys {
         return "exam:user:" + examId + ":" + userId;
     }
 
-    public static String getExamInvitation(Long examId) {
+    public static String getExamInvitation(String examId) {
         return "exam:invitation:user:"+examId;
     }
 

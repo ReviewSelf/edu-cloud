@@ -64,7 +64,20 @@
 
 
     <select id="selectEvaluate" resultType="net.edu.module.vo.WxLessonEvaluationVO">
-        select user_id as userId,(select name from lesson where id=lesson_id)as lessonName,rank_num as rankNum,correct_num as correctNum,answered_num as answerNum,content as evaluationContent,now() as sendTime  from lesson_evaluate where lesson_id =#{lessonId}
+        select user_id                                        as userId,
+               (select name from lesson where id = lesson_id) as lessonName,
+               (select a.name from teach_class a join  lesson b on  a.id=b.class_id and b.id =#{lessonId}) as className,
+               lesson_id                                      as lessonId,
+               rank_num                                       as rankNum,
+               correct_num                                    as correctNum,
+               answered_num                                   as answeredNum,
+               error_num                                      as errorNum,
+               unanswered_num                                 as unansweredNum,
+               undecided_num                                  as undecidedNum,
+               content,
+               now()                                          as sendTime
+        from lesson_evaluate
+        where lesson_id = #{lessonId}
     </select>
 
 

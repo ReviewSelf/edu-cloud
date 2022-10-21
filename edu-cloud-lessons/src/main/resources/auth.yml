@@ -4,3 +4,4 @@ auth:
   ignore_urls:
     - /test
     - /lesson/homework/deadline
+    - /evaluate/list

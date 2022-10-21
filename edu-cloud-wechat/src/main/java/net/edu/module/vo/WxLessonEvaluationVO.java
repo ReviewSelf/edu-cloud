@@ -13,6 +13,8 @@ public class WxLessonEvaluationVO {
 
     private String lessonName;//课程名称
 
+    private String className;
+
     private String content; //评价内容(备注)
 
     private Integer rankNum; //名次
@@ -25,7 +27,6 @@ public class WxLessonEvaluationVO {
 
     private Integer errorNum; //错题量
 
-    private String Accuracy ;  //正确率
 
     private Integer unansweredNum; //未答题
 

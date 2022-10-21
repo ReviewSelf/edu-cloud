@@ -1,10 +1,13 @@
 package net.edu.framework.security.cache;
 
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.cache.RedisCache;
+
 import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.security.user.UserDetail;
 import org.springframework.stereotype.Component;
+
+
 
 /**
  * 认证 Cache
@@ -14,20 +17,21 @@ import org.springframework.stereotype.Component;
 @Component
 @AllArgsConstructor
 public class TokenStoreCache {
-    private final RedisCache redisCache;
+    private final RedisUtils redisUtils;
 
     public void saveUser(String accessToken, UserDetail user) {
         String key = RedisKeys.getAccessTokenKey(accessToken);
-        redisCache.set(key, user);
+        redisUtils.delByPre(RedisKeys.getAccessTokenKey(null)+user.getUsername());
+        redisUtils.set(key,user);
     }
 
     public UserDetail getUser(String accessToken) {
         String key = RedisKeys.getAccessTokenKey(accessToken);
-        return (UserDetail) redisCache.get(key);
+        return (UserDetail) redisUtils.get(key);
     }
 
     public void deleteUser(String accessToken) {
         String key = RedisKeys.getAccessTokenKey(accessToken);
-        redisCache.delete(key);
+        redisUtils.del(key);
     }
 }

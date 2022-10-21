@@ -65,7 +65,7 @@ public class SysAuthServiceImpl implements SysAuthService {
         user.setRoleIdList(roleIdList);
 
         // 生成 accessToken
-        String accessToken = TokenUtils.generator();
+        String accessToken = TokenUtils.generator(user.getUsername());
 
         // 保存用户信息到缓存
         tokenStoreCache.saveUser(accessToken, user);
@@ -75,7 +75,6 @@ public class SysAuthServiceImpl implements SysAuthService {
 
     @Override
     public SysTokenVO loginByUnionId(SysWeChatLoginVO login) {
-        System.out.println(login.getUnionId());
         Authentication authentication;
         try {
             // 用户认证
@@ -87,7 +86,7 @@ public class SysAuthServiceImpl implements SysAuthService {
         // 用户信息
         UserDetail user = (UserDetail) authentication.getPrincipal();
         // 生成 accessToken
-        String accessToken = TokenUtils.generator();
+        String accessToken = TokenUtils.generator(null);
 
         // 保存用户信息到缓存
         tokenStoreCache.saveUser(accessToken, user);

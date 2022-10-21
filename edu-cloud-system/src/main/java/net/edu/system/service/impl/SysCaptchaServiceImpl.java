@@ -5,8 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.cache.RedisCache;
 import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.system.service.SysCaptchaService;
 import net.edu.system.vo.SysCaptchaVO;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class SysCaptchaServiceImpl implements SysCaptchaService {
-    private final RedisCache redisCache;
+
+    private final RedisUtils redisUtils;
 
     @Override
     public SysCaptchaVO generate() {
@@ -34,7 +35,7 @@ public class SysCaptchaServiceImpl implements SysCaptchaService {
 
         // 保存到缓存
         String redisKey = RedisKeys.getCaptchaKey(key);
-        redisCache.set(redisKey, captcha.text(), 300);
+        redisUtils.set(redisKey, captcha.text(), 300);
 
         // 封装返回数据
         SysCaptchaVO captchaVO = new SysCaptchaVO();
@@ -59,10 +60,10 @@ public class SysCaptchaServiceImpl implements SysCaptchaService {
 
     private String getCache(String key) {
         key = RedisKeys.getCaptchaKey(key);
-        String captcha = (String) redisCache.get(key);
+        String captcha = (String) redisUtils.get(key);
         // 删除验证码
         if (captcha != null) {
-            redisCache.delete(key);
+            redisUtils.del(key);
         }
 
         return captcha;

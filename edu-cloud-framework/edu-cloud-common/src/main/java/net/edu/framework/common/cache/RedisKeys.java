@@ -21,7 +21,14 @@ public class RedisKeys {
      * accessToken Key
      */
     public static String getAccessTokenKey(String accessToken) {
+        if(accessToken==null){
+            return "sys:access:";
+        }
         return "sys:access:" + accessToken;
+    }
+
+    public static String getDict() {
+        return "sys:dict";
     }
 
 

@@ -3,7 +3,9 @@ package net.edu.system.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +16,8 @@ import java.util.List;
  */
 @Data
 @Schema(description = "全部字典")
-public class SysDictVO {
+public class SysDictVO implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Schema(description = "字典类型")
     private String dictType;
 
@@ -23,8 +26,10 @@ public class SysDictVO {
 
     @Data
     @AllArgsConstructor
+    @NoArgsConstructor
     @Schema(description = "字典数据")
-    public static class DictData {
+    public static class DictData implements Serializable {
+        private static final long serialVersionUID = 1L;
         @Schema(description = "字典标签")
         private String dictLabel;
 

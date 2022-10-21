@@ -52,6 +52,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     public PageResult<ExamVO> page(ExamQuery query) {
+        query.setTeacherId(SecurityUser.getUserId());
         Page<ExamVO> page = new Page<>(query.getPage(),query.getLimit());
         IPage<ExamVO> list = baseMapper.page(page,query);
         return new PageResult<>(list.getRecords(), list.getTotal());

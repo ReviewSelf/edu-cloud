@@ -60,7 +60,7 @@ public class SubscriptionMessageUtil {
         //备注
         String evaluationContent = jsonObject.getStr("evaluationContent");
         //评价内容
-        String evaluation = "您的孩子在课堂中的名次为" + rankNum +"，此次做题的正确率为" + Accuracy;
+//        String evaluation = "您的孩子在课堂中的名次为" + rankNum +"，此次做题的正确率为" + Accuracy;
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
 
         wxStorage.setAppId(WeChatProperties.APP_ID);
@@ -74,8 +74,8 @@ public class SubscriptionMessageUtil {
                 new WxMpTemplateData("first", "您好，您的孩子今日表现如下:", "#000000"),
                 new WxMpTemplateData("keyword1", userName),
                 new WxMpTemplateData("keyword2", lessonName),
-                new WxMpTemplateData("keyword3", evaluation),
-                new WxMpTemplateData("remark", evaluationContent)
+                new WxMpTemplateData("keyword3", evaluationContent),
+                new WxMpTemplateData("remark", "点击查详情查看排名")
         );
 
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()

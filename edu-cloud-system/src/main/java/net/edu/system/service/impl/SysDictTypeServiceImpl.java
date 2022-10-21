@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.system.convert.SysDictTypeConvert;
 import net.edu.system.dao.SysDictDataDao;
@@ -34,6 +36,8 @@ import java.util.List;
 public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeDao, SysDictTypeEntity> implements SysDictTypeService {
     private final SysDictDataDao sysDictDataDao;
 
+    private final RedisUtils redisUtils;
+
     @Override
     public PageResult<SysDictTypeVO> page(SysDictTypeQuery query) {
         IPage<SysDictTypeEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
@@ -55,6 +59,7 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeDao, SysD
         SysDictTypeEntity entity = SysDictTypeConvert.INSTANCE.convert(vo);
 
         baseMapper.insert(entity);
+        redisUtils.del(RedisKeys.getDict());
     }
 
     @Override
@@ -63,39 +68,46 @@ public class SysDictTypeServiceImpl extends BaseServiceImpl<SysDictTypeDao, SysD
         SysDictTypeEntity entity = SysDictTypeConvert.INSTANCE.convert(vo);
 
         updateById(entity);
+        redisUtils.del(RedisKeys.getDict());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+        redisUtils.del(RedisKeys.getDict());
     }
 
     @Override
     public List<SysDictVO> getDictList() {
-        // 全部字典类型列表
-        List<SysDictTypeEntity> typeList = this.list(Wrappers.emptyWrapper());
+        List<SysDictVO> sysDictVOS=null;
 
-        // 全部字典数据列表
-        QueryWrapper<SysDictDataEntity> query = new QueryWrapper<SysDictDataEntity>().orderByAsc("sort");
-        List<SysDictDataEntity> dataList = sysDictDataDao.selectList(query);
+        sysDictVOS= (List<SysDictVO>) redisUtils.get(RedisKeys.getDict());
+        if(sysDictVOS==null){
+            // 全部字典类型列表
+            List<SysDictTypeEntity> typeList = this.list(Wrappers.emptyWrapper());
 
-        // 全部字典列表
-        List<SysDictVO> dictList = new ArrayList<>(typeList.size());
-        for (SysDictTypeEntity type : typeList){
-            SysDictVO dict = new SysDictVO();
-            dict.setDictType(type.getDictType());
+            // 全部字典数据列表
+            QueryWrapper<SysDictDataEntity> query = new QueryWrapper<SysDictDataEntity>().orderByAsc("sort");
+            List<SysDictDataEntity> dataList = sysDictDataDao.selectList(query);
 
-            for (SysDictDataEntity data : dataList){
-                if(type.getId().equals(data.getDictTypeId())){
-                    dict.getDataList().add(new SysDictVO.DictData(data.getDictLabel(), data.getDictValue()));
+            // 全部字典列表
+            sysDictVOS = new ArrayList<>(typeList.size());
+            for (SysDictTypeEntity type : typeList){
+                SysDictVO dict = new SysDictVO();
+                dict.setDictType(type.getDictType());
+
+                for (SysDictDataEntity data : dataList){
+                    if(type.getId().equals(data.getDictTypeId())){
+                        dict.getDataList().add(new SysDictVO.DictData(data.getDictLabel(), data.getDictValue()));
+                    }
                 }
+
+                sysDictVOS.add(dict);
             }
-
-            dictList.add(dict);
+            redisUtils.set(RedisKeys.getDict(),sysDictVOS,RedisUtils.HOUR_SIX_EXPIRE);
         }
-
-        return dictList;
+        return sysDictVOS;
     }
 
 }

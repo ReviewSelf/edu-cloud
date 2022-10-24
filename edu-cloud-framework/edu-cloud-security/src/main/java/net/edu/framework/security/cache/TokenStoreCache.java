@@ -21,7 +21,7 @@ public class TokenStoreCache {
 
     public void saveUser(String accessToken, UserDetail user) {
         String key = RedisKeys.getAccessTokenKey(accessToken);
-        redisUtils.delByPre(RedisKeys.getAccessTokenKey(null)+user.getUsername());
+        redisUtils.delByPre(RedisKeys.getAccessTokenKey(null)+user.getUsername()+"&");
         redisUtils.set(key,user);
     }
 

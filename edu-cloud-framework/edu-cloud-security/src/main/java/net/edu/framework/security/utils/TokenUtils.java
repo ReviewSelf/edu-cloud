@@ -19,7 +19,7 @@ public class TokenUtils {
         if(account==null){
             return UUID.fastUUID().toString(true);
         }
-        return account+UUID.fastUUID().toString(true);
+        return account+"&"+UUID.fastUUID().toString(true);
     }
 
     /**

@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.system.convert.SysDictDataConvert;
 import net.edu.system.dao.SysDictDataDao;
@@ -26,6 +28,7 @@ import java.util.List;
 @AllArgsConstructor
 public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataDao, SysDictDataEntity> implements SysDictDataService {
 
+    private final RedisUtils redisUtils;
     @Override
     public PageResult<SysDictDataVO> page(SysDictDataQuery query) {
         IPage<SysDictDataEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
@@ -47,6 +50,7 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataDao, SysD
         SysDictDataEntity entity = SysDictDataConvert.INSTANCE.convert(vo);
 
         baseMapper.insert(entity);
+        redisUtils.del(RedisKeys.getDict());
     }
 
     @Override
@@ -55,12 +59,14 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataDao, SysD
         SysDictDataEntity entity = SysDictDataConvert.INSTANCE.convert(vo);
 
         updateById(entity);
+        redisUtils.del(RedisKeys.getDict());
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+        redisUtils.del(RedisKeys.getDict());
     }
 
 }

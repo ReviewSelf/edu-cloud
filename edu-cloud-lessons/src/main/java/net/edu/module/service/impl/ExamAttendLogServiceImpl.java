@@ -161,12 +161,12 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     }
 
     @Override
-    public void genExamInvitationCode(Long examId,Long time) {
-        redisUtils.set(RedisKeys.getExamInvitation(examId),examId,time*60L);
+    public void genExamInvitationCode(Long examId,String code,Long time) {
+        redisUtils.set(RedisKeys.getExamInvitation(code),examId,time*60L);
     }
 
     @Override
-    public void receiveExamInvitation(Long code) {
+    public void receiveExamInvitation(String code) {
         Integer examId= (Integer) redisUtils.get(RedisKeys.getExamInvitation(code));
         if(examId==null){
             throw new ServerException("邀请码错误");

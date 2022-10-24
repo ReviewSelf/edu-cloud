@@ -15,8 +15,11 @@ public class TokenUtils {
     /**
      * 生成 AccessToken
      */
-    public static String generator() {
-        return UUID.fastUUID().toString(true);
+    public static String generator(String account) {
+        if(account==null){
+            return UUID.fastUUID().toString(true);
+        }
+        return account+"&"+UUID.fastUUID().toString(true);
     }
 
     /**

@@ -74,10 +74,10 @@ public class EnrollUserEntity extends BaseEntity {
 	private Integer status;
 
 
-//	/**
-//	 * 老师反馈
-//	 */
-//	private String teacherOpinion;
+	/**
+	 * 老师反馈
+	 */
+	private String teacherOpinion;
 
 	/**
 	* 登录时间

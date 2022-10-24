@@ -30,7 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping("user")
 @AllArgsConstructor
-@Tag(name="用户管理")
+@Tag(name="老师管理")
 public class TeacherController {
     private final TeacherService teacherService;
     private final RoleService roleService;

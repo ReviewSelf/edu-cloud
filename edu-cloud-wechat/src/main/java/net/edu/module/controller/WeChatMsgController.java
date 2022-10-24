@@ -68,12 +68,9 @@ public class WeChatMsgController {
         Integer userId = enrollUserVO.getId();
         eduTeachApi.post(enrollUserVO);
         System.out.println(enrollUserVO);
-        //如果用户填写的是报名意向
-        if(enrollUserVO.getPurpose()=="" || enrollUserVO.getPurpose()==null){
-            Integer classId = enrollUserVO.getClassId();
-            System.out.println(userId);
-            eduTeachApi.insertClassUser(classId,userId);
-        }
+        Integer classId = enrollUserVO.getClassId();
+        System.out.println(userId);
+        eduTeachApi.insertClassUser(classId,userId);
         return Result.ok();
     }
 
@@ -144,6 +141,7 @@ public class WeChatMsgController {
                                                   @RequestParam("openId") String openId){
         return Result.ok(sysUserService.updateOpenIdByUsername(username,password,openId));
     }
+
 }
 
 

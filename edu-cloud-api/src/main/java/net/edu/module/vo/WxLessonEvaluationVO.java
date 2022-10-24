@@ -13,37 +13,35 @@ public class WxLessonEvaluationVO {
 
     private String lessonName;//课程名称
 
-    private String evaluationContent; //评价内容(备注)
+    private String className;
+
+    private String content; //评价内容(备注)
 
     private Integer rankNum; //名次
 
-    private Integer answerNum; //答题量
+    private Integer answeredNum; //答题量
 
     private Integer correctNum;  //正确量
 
+    private Integer undecidedNum; //未判量
+
+    private Integer errorNum; //错题量
+
+
+    private Integer unansweredNum; //未答题
+
     private String sendTime;
+
+    private Integer lessonId;
 
     private Long userId;
 
-
-
-
-
-
-    private String Accuracy ;  //正确率
     //名次加正确率为模板中的评价内容
-
-    public String getAccuracy(Integer answerNum,Integer correctNum){
-        if(answerNum.intValue()==0){
-            return "未答题";
-        }
-        return (correctNum*100/answerNum) + "%";
-    }
     public String toJsonString() {
-        return "{\"lessonName\":\""+lessonName
-                +"\",\"rankNum\":\""+rankNum
-                +"\",\"Accuracy\":\""+getAccuracy(answerNum,correctNum)
-                +"\",\"evaluationContent\":\""+evaluationContent
+        return "{\"lessonName\":\""+className
+                +"\",\"lessonId\":\""+lessonId
+                +"\",\"evaluationContent\":\""+content
+                +"\",\"userId\":\""+userId
                 +"\"}";
     }
 }

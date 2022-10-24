@@ -3,4 +3,5 @@ auth:
   #免验证
   ignore_urls:
     - /test
-    - /lesson/homework/deadline
+    - /lesson/homework/deadlines
+    - /evaluate/list/**

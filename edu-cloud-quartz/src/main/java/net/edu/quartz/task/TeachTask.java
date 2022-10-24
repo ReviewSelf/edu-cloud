@@ -14,6 +14,6 @@ public class TeachTask {
 
     public void statisticsHomeInfo(String str){
         eduTeachApi.statisticsHomeInfo();
-        log.debug("回家作业截止操作执行了");
+        log.debug("每日统计操作执行了");
     }
 }

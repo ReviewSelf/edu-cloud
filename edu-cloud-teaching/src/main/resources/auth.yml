@@ -16,5 +16,4 @@ auth:
     - /statistics/info
     - /enrollLesson/teacherOpinion
     - /enrollUser/info
-    - /user/teacherPage
 

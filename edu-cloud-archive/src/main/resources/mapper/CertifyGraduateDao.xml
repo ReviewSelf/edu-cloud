@@ -18,4 +18,29 @@
         <result property="deleted" column="deleted"/>
     </resultMap>
 
+
+    <select id="selectGraduateRequireByPage" resultType="net.edu.module.vo.GraduateRequireVO">
+        select
+            id,
+            title,
+            content,
+            major,
+            college,
+            school
+        from archive_graduate_require
+        where deleted = 0
+        <if test="query.getTitle() !=null and query.getTitle()!=''">
+            and title like concat('%',#{query.title},'%')
+        </if>
+        <if test="query.getMajor() !=null and query.getMajor()!=''">
+            and major like concat('%',#{query.major},'%')
+        </if>
+        <if test="query.getCollege() !=null and query.getCollege()!=''">
+            and college like concat('%',#{query.college},'%')
+        </if>
+        <if test="query.getSchool() !=null and query.getSchool()!=''">
+            and school like concat('%',#{query.school},'%')
+        </if>
+        order by update_time desc
+    </select>
 </mapper>

@@ -78,7 +78,7 @@ public class SubscriptionMessageUtil {
         );
 
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
-                .url(WeChatProperties.EVALUATION_Url+lessonId+"/"+userId)
+                .url(WeChatProperties.EVALUATION_Url+"/"+lessonId+"/"+userId)
                 .toUser(userOpenid)
                 .templateId(OrderMsgTemplateId)
                 .data(wxMpTemplateDataList)

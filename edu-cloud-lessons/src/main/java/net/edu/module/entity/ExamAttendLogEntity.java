@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.common.utils.DateUtils;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -44,7 +45,7 @@ public class ExamAttendLogEntity {
 	private Integer status;
 
 	@Schema(description = "得分")
-	private Integer score;
+	private BigDecimal score;
 
 	@Schema(description = "是否完成批改")
 	private Integer isCorrecting;

@@ -91,10 +91,14 @@
     </insert>
 
     <update id="updateExamStatus">
-        update exam_attend_log set status=#{status} where exam_id = #{examId} and user_id = #{userId}
+        update exam_attend_log set status=#{status}
+                               <if test="quitTime!=null">
+                                   ,quit_time=#{quitTime}
+                               </if>
+                               where exam_id = #{examId} and user_id = #{userId}
     </update>
 
-    <update id="updateAttendLog">
+    <update id="updateAttendLogScore">
         update exam_attend_log set score = #{vo.score},is_correcting = #{vo.isCorrecting} where user_id = #{vo.userId} and exam_id = #{vo.examId}
     </update>
 

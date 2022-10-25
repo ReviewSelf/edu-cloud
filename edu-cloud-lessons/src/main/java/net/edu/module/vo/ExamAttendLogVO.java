@@ -6,6 +6,7 @@ import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -42,7 +43,7 @@ public class ExamAttendLogVO implements Serializable {
 	private Integer status;
 
 	@Schema(description = "得分")
-	private Integer score;
+	private BigDecimal score;
 
 	@Schema(description = "是否完成批改")
 	private Integer isCorrecting;
@@ -65,7 +66,7 @@ public class ExamAttendLogVO implements Serializable {
 
 
 
-	@Schema(description = "得分")
+	@Schema(description = "总分")
 	private Integer totalScore;
 
 	@Schema(description = "预计考试结束时间")

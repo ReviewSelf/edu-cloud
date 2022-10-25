@@ -8,6 +8,7 @@ import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
@@ -144,14 +145,14 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
         }
     }
 
-
-    public void updateExamStatus(Integer status,Long examId,Long userId){
-        baseMapper.updateExamStatus(status,examId,userId);
+    @Override
+    public void updateExamStatus(Integer status, Long examId, Long userId, Date quitTime){
+        baseMapper.updateExamStatus(status,examId,userId,quitTime);
     }
 
     @Override
-    public void updateAttendLog(ExamAttendLogVO vo) {
-        examAttendLogDao.updateAttendLog(vo);
+    public void updateAttendLogScore(ExamAttendLogVO vo) {
+        examAttendLogDao.updateAttendLogScore(vo);
     }
 
     @Override

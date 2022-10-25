@@ -31,6 +31,7 @@ public class GraduateRequireController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<GraduateRequireVO>> page(@Valid GraduateRequireQuery query){
+        System.out.println(query);
         PageResult<GraduateRequireVO> page = graduateRequireService.page(query);
         return Result.ok(page);
     }

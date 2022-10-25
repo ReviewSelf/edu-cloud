@@ -16,4 +16,12 @@ import net.edu.framework.common.query.Query;
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "毕业要求查询")
 public class GraduateRequireQuery extends Query {
+
+    private String title;
+
+    private String  schoolName;
+
+    private String collegeName;
+
+    private String majorName;
 }

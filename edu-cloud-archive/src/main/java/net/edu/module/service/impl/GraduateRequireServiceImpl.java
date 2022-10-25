@@ -33,6 +33,12 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
     private GraduateRequireDao graduateRequireDao;
     @Override
     public PageResult<GraduateRequireVO> page(GraduateRequireQuery query) {
+        try {
+            query.setTitle(java.net.URLDecoder.decode
+                    (query.getTitle(),"utf-8"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         Page<GraduateRequireVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<GraduateRequireVO> list =graduateRequireDao.selectGraduateRequireByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());

@@ -24,26 +24,26 @@
         title,
         content,
         major,
+        grade,
         (select name from sys_org t1 where major = t1.id)as majorName,
         college,
         (select name from sys_org t1 where college = t1.id)as collegeName,
         school,
         (select name from sys_org t1 where school = t1.id)as schoolName
         from archive_graduate_require t2
-
         where t2.deleted = 0
         <if test="query.getTitle() !=null and query.getTitle()!=''">
             and title like concat('%',#{query.title},'%')
         </if>
-        <if test="query.getMajorName() !=null and query.getMajorName()!=''">
-            and (select name from sys_org t1 where major = t1.id) like concat('%',#{query.majorName},'%')
+        <if test="query.getOrgId() !=null and query.getOrgId().size() > 0">
+             and major =  #{query.orgId[2]}
+             and college = #{query.orgId[1]}
+             and school = #{query.orgId[0]}
         </if>
-        <if test="query.getCollegeName() !=null and query.getCollegeName()!=''">
-            and (select name from sys_org t1 where college = t1.id) like concat('%',#{query.collegeName},'%')
-        </if>
-        <if test="query.getSchoolName() !=null and query.getSchoolName()!=''">
-            and (select name from sys_org t1 where school = t1.id) like concat('%',#{query.schoolName},'%')
+        <if test="query.getGrade() !=null and query.getGrade()!=''">
+            and grade = #{query.grade}
         </if>
         order by update_time desc
     </select>
 </mapper>
+

@@ -26,6 +26,9 @@ public class GraduateRequireVO implements Serializable {
 	@Schema(description = "描述")
 	private String content;
 
+	@Schema(description = "年份")
+	private String grade;
+
 	@Schema(description = "专业")
 	private Long major;
 

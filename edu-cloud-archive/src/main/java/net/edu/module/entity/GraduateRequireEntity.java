@@ -27,6 +27,11 @@ public class GraduateRequireEntity extends BaseEntity {
 	private String content;
 
 	/**
+	 * 年份
+	 */
+	private String grade;
+
+	/**
 	* 专业
 	*/
 	private Long major;

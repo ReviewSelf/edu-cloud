@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveCourseDao">
+
+    <resultMap type="net.edu.module.entity.ArchiveCourseEntity" id="archiveCourseMap">
+        <result property="id" column="id"/>
+        <result property="sysId" column="sys_id"/>
+        <result property="name" column="name"/>
+        <result property="creditHours" column="credit_hours"/>
+        <result property="weeklyCreditHours" column="weekly_credit_hours"/>
+        <result property="courseCategory" column="course_category"/>
+        <result property="type" column="type"/>
+        <result property="semester" column="semester"/>
+        <result property="grade" column="grade"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="creator" column="creator"/>
+        <result property="version" column="version"/>
+        <result property="updater" column="updater"/>
+    </resultMap>
+
+</mapper>

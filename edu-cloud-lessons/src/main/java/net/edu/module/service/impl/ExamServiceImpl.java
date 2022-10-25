@@ -26,6 +26,7 @@ import net.edu.module.vo.ExamVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -136,7 +137,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     @Override
     public void submitPaper(Long examId) {
         Long userId = SecurityUser.getUserId();
-        examAttendLogService.updateExamStatus(2,examId,userId);
+        examAttendLogService.updateExamStatus(2,examId,userId,new Date());
         redisUtils.del(RedisKeys.getStuExam(examId,userId));
     }
 

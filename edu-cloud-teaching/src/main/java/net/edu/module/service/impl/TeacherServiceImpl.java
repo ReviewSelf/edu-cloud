@@ -1,6 +1,7 @@
 package net.edu.module.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
@@ -14,6 +15,7 @@ import net.edu.module.service.RoleService;
 import net.edu.module.service.TeacherService;
 import net.edu.module.vo.AllTeacherVo;
 import net.edu.module.vo.TeacherVO;
+import net.edu.module.vo.UserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,21 +35,12 @@ public class TeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     private final RoleService roleService;
 
 
+
     @Override
     public PageResult<TeacherVO> TeacherPage(TeacherQuery query) {
-        System.out.println(query);
-        // 查询参数
-        Map<String, Object> params = getParams(query);
-
-        // 分页查询
-        IPage<UserEntity> page = getPage(query);
-        params.put(Constant.PAGE, page);
-
-        // 数据列表
-        System.out.println(params);
-        List<UserEntity> list = baseMapper.getTeacherList(params);
-
-        return new PageResult<>(TeacherConvert.INSTANCE.convertList(list), page.getTotal());
+        Page<TeacherVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<TeacherVO> list = baseMapper.selectTeacherList(page,query);
+        return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
     private Map<String, Object> getParams(TeacherQuery query) {

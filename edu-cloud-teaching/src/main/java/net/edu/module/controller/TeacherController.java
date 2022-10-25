@@ -40,7 +40,9 @@ public class TeacherController {
     @GetMapping("teacherPage")
     @Operation(summary = "分页")
     public Result<PageResult<TeacherVO>> TeacherPage(@Valid TeacherQuery query) {
+        System.out.println(query);
         PageResult<TeacherVO> page = teacherService.TeacherPage(query);
+        System.out.println(page);
         return Result.ok(page);
     }
 

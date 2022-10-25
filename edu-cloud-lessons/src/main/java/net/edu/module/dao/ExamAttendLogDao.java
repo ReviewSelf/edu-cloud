@@ -6,12 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ExamAttendLogEntity;
 import net.edu.module.query.ExamAttendLogQuery;
-import net.edu.module.query.ExamQuery;
 import net.edu.module.vo.ExamAttendLogVO;
-import net.edu.module.vo.ExamVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,9 +31,9 @@ public interface ExamAttendLogDao extends BaseDao<ExamAttendLogEntity> {
 
     int insertAttendLogFromClass(@Param("userList") List<Long> userList, Long examId);
 
-    int updateExamStatus(Integer status, Long examId, Long userId);
+    int updateExamStatus(Integer status, Long examId, Long userId, Date quitTime);
 
-    int updateAttendLog(@Param("vo") ExamAttendLogVO vo);
+    int updateAttendLogScore(@Param("vo") ExamAttendLogVO vo);
 
     List<ExamAttendLogVO> selectList(Long examId,Integer status,Integer isCorrecting);
 }

@@ -21,4 +21,31 @@
         <result property="updater" column="updater"/>
     </resultMap>
 
+    <select id="selectArchiveCourseByPage" resultMap="archiveCourseMap">
+        select
+            id,
+            sys_id,
+            name,
+            credit_hours,
+            weekly_credit_hours,
+            course_category,
+            type,
+            semester,
+            grade
+        from archive_course
+        where deleted = 0
+        <if test="query.getName() !=null and query.getName()!=''">
+            and name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getCourseCategory() !=null and query.getCourseCategory()!=''">
+            and course_category = #{query.courseCategory}
+        </if>
+        <if test="query.getType() !=null and query.getType()!=''">
+            and type = #{query.type}
+        </if>
+        <if test="query.getGrade()!=null and query.getGrade()!=''">
+            and grade = #{query.grade}
+        </if>
+        order by update_time desc
+    </select>
 </mapper>

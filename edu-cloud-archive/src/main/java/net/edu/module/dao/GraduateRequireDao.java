@@ -20,4 +20,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface GraduateRequireDao extends BaseDao<GraduateRequireEntity> {
 
     IPage<GraduateRequireVO> selectGraduateRequireByPage(Page<GraduateRequireVO> page, GraduateRequireQuery query);
+
+    Integer insertGraduateRequire(GraduateRequireVO vo);
 }

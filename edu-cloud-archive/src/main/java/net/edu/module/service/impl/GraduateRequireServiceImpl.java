@@ -51,9 +51,7 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
 
     @Override
     public void save(GraduateRequireVO vo) {
-        GraduateRequireEntity entity = GraduateRequireConvert.INSTANCE.convert(vo);
-
-        baseMapper.insert(entity);
+        graduateRequireDao.insertGraduateRequire(vo);
     }
 
     @Override

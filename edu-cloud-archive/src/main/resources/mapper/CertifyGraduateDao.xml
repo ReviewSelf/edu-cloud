@@ -45,5 +45,11 @@
         </if>
         order by update_time desc
     </select>
+
+    <insert id="insertGraduateRequire">
+        INSERT INTO archive_graduate_require (title,content,major,college,school,grade,create_time,creator,version)
+        VALUES (#{title},#{content},#{major},#{college},#{school},#{grade},now(),'10000',0)
+        ON DUPLICATE KEY UPDATE content = #{content} ;
+    </insert>
 </mapper>
 

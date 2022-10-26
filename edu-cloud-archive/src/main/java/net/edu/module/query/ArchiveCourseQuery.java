@@ -27,4 +27,6 @@ public class ArchiveCourseQuery extends Query {
     @Schema(description = "课程类型")
     private String type;
 
+    @Schema(description = "面向年级")
+    private String grade;
 }

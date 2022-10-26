@@ -3,6 +3,7 @@ package net.edu.module.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
@@ -12,6 +13,7 @@ import net.edu.module.query.ArchiveCourseQuery;
 import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.dao.ArchiveCourseDao;
 import net.edu.module.service.ArchiveCourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,11 +29,14 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, ArchiveCourseEntity> implements ArchiveCourseService {
 
+    @Autowired
+    private ArchiveCourseDao archiveCourseDao;
     @Override
     public PageResult<ArchiveCourseVO> page(ArchiveCourseQuery query) {
-        IPage<ArchiveCourseEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
+        Page<ArchiveCourseVO> page = new Page<>(query.getPage(),query.getLimit());
+        IPage<ArchiveCourseVO> list = archiveCourseDao.selectArchiveCourseByPage(page,query);
 
-        return new PageResult<>(ArchiveCourseConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        return new PageResult<>(list.getRecords(),page.getTotal());
     }
 
     private LambdaQueryWrapper<ArchiveCourseEntity> getWrapper(ArchiveCourseQuery query){

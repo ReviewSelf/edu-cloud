@@ -38,9 +38,15 @@ public class ArchiveTargetEntity extends BaseEntity {
 	*/
 	private String content;
 
+	/**
+	 * 毕业要求
+	 */
+	private String graduateTitle;
 
-
-
+	/**
+	 * 年级
+	 */
+	private String grade;
 
 
 

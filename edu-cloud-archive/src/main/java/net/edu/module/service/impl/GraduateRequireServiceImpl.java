@@ -67,4 +67,9 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
         removeByIds(idList);
     }
 
+    @Override
+    public List<GraduateRequireEntity> selectGraduateByGrade(String grade) {
+        return graduateRequireDao.selectGraduateByGrade(grade);
+    }
+
 }

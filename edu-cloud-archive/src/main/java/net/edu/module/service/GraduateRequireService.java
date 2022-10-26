@@ -25,4 +25,6 @@ public interface GraduateRequireService extends BaseService<GraduateRequireEntit
     void update(GraduateRequireVO vo);
 
     void delete(List<Long> idList);
+
+    List<GraduateRequireEntity> selectGraduateByGrade(String grade);
 }

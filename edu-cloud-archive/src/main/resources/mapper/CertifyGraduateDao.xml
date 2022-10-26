@@ -51,5 +51,9 @@
         VALUES (#{title},#{content},#{major},#{college},#{school},#{grade},now(),'10000',0)
         ON DUPLICATE KEY UPDATE content = #{content} ;
     </insert>
+
+    <select id="selectGraduateByGrade" resultType="net.edu.module.entity.GraduateRequireEntity">
+        select id,title from archive_graduate_require where grade = #{grade}
+    </select>
 </mapper>
 

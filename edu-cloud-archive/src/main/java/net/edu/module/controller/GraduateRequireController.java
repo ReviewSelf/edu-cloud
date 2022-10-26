@@ -66,4 +66,10 @@ public class GraduateRequireController {
 
         return Result.ok();
     }
+
+    @GetMapping("graduate")
+    public Result<List<GraduateRequireEntity>> selectGraduateRequireList(@RequestParam("grade")String grade){
+        return Result.ok(graduateRequireService.selectGraduateByGrade(grade));
+    }
+
 }

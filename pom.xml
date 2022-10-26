@@ -28,7 +28,6 @@
         <module>edu-cloud-teaching</module>
         <module>edu-cloud-lessons</module>
         <module>edu-cloud-api</module>
-        <module>edu-cloud-archive</module>
     </modules>
 
     <properties>
@@ -95,13 +94,11 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--            mybatis-plus工具-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatisplus.version}</version>
             </dependency>
-            <!--            Swagger，API工具-->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-springdoc-ui</artifactId>
@@ -122,13 +119,11 @@
                 <artifactId>springdoc-openapi-webflux-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
-            <!--            图形验证码工具-->
             <dependency>
                 <groupId>com.github.whvcse</groupId>
                 <artifactId>easy-captcha</artifactId>
                 <version>${captcha.version}</version>
             </dependency>
-            <!--            类字段转换器-->
             <dependency>
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct</artifactId>
@@ -219,22 +214,22 @@
                 <!--默认激活配置-->
                 <activeByDefault>true</activeByDefault>
             </activation>
-                                    <properties>
-                                        <!--当前环境,生产环境为空-->
-                                        <profile.name>dev</profile.name>
-                                        <!--Nacos配置中心地址-->
-                                        <config.server-addr>127.0.0.1:8848</config.server-addr>
-                                        <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
-                                        <config.namespace></config.namespace>
-                                        <!--Nacos用户名-->
-                                        <config.username>nacos</config.username>
-                                        <!--Nacos密码-->
-                                        <config.password>nacos</config.password>
-                                        <!--Nacos配置分组名称-->
-                                        <config.group>DEFAULT_GROUP</config.group>
-                                        <!--Nacos服务发现地址-->
-                                        <discovery.server-addr>127.0.0.1:8848</discovery.server-addr>
-                                    </properties>
+                        <properties>
+                            <!--当前环境,生产环境为空-->
+                            <profile.name>dev</profile.name>
+                            <!--Nacos配置中心地址-->
+                            <config.server-addr>127.0.0.1:8848</config.server-addr>
+                            <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
+                            <config.namespace></config.namespace>
+                            <!--Nacos用户名-->
+                            <config.username>nacos</config.username>
+                            <!--Nacos密码-->
+                            <config.password>nacos</config.password>
+                            <!--Nacos配置分组名称-->
+                            <config.group>DEFAULT_GROUP</config.group>
+                            <!--Nacos服务发现地址-->
+                            <discovery.server-addr>127.0.0.1:8848</discovery.server-addr>
+                        </properties>
 <!--            <properties>-->
 <!--                &lt;!&ndash;当前环境,生产环境为空&ndash;&gt;-->
 <!--                <profile.name>dev</profile.name>-->

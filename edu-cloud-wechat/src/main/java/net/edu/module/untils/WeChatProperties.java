@@ -43,6 +43,8 @@ public class WeChatProperties implements InitializingBean {
     @Value("${wechat.feedbackUrl}")
     public String feedbackUrl;
 
+    @Value("${wechat.evaluationUrl}")
+    public String evaluationUrl;
 
     public static String APP_ID;
 
@@ -63,6 +65,8 @@ public class WeChatProperties implements InitializingBean {
 
     public static String FEEDBACK_URL;
 
+    public static String EVALUATION_Url;
+
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -74,5 +78,6 @@ public class WeChatProperties implements InitializingBean {
         CLASS_URL = classUrl;
         ACCOUNT_URL = accountUrl;
         FEEDBACK_URL = feedbackUrl;
+        EVALUATION_Url = evaluationUrl;
     }
 }

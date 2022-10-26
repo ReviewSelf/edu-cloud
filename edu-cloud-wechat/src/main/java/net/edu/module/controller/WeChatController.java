@@ -80,7 +80,7 @@ public class WeChatController {
      */
     @GetMapping("getAccessToken")
     public void getAccessToken(){
-        System.out.println("2222222222");
+        System.out.println(WeChatProperties.EVALUATION_Url);
         log.info("执行到controller");
         weChatService.getAccessToken();
     }

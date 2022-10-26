@@ -50,6 +50,7 @@ public class TeachStudentController {
     @GetMapping("/page")
     @Operation(summary = "分页")
     public Result<PageResult<UserVO>> StudentPage( @Valid UserQuery query){
+        System.out.println(query);
         PageResult<UserVO> page = userService.SelectStudentList(query);
         return Result.ok(page);
     }

@@ -57,9 +57,9 @@ public class ExamAttendLogController {
     }
 
     @PutMapping
-    @Operation(summary = "更新")
-    public Result<String> updateAttendLog(@RequestBody ExamAttendLogVO vo){
-        examAttendLogService.updateAttendLog(vo);
+    @Operation(summary = "更新分数")
+    public Result<String> updateAttendLogScore(@RequestBody ExamAttendLogVO vo){
+        examAttendLogService.updateAttendLogScore(vo);
 
         return Result.ok();
     }

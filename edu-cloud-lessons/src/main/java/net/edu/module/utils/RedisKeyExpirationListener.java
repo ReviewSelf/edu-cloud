@@ -13,6 +13,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,7 +46,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
             log.info("{}考试完成", list.toString());
             //通过userId 和 examId 更新用户考试状态
             examAttendLogService.updateExamStatus(2,
-                    Long.valueOf(list.get(2)),Long.valueOf(list.get(3)));
+                    Long.valueOf(list.get(2)),Long.valueOf(list.get(3)),new Date());
         }
         else if(expiredKey.contains(RedisKeys.getHomeWorkKey(null))){
             //作业过期

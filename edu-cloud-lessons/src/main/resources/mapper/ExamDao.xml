@@ -19,8 +19,8 @@
         <result property="updater" column="updater"/>
         <result property="deleted" column="deleted"/>
         <result property="name" column="name"/>
-        <result property="classId" column="class_id"></result>
-        <result property="problemNum" column="problem_num"></result>
+        <result property="classId" column="class_id"/>
+        <result property="problemNum" column="problem_num"/>
         <result property="place" column="place"/>
     </resultMap>
     <select id="page" resultType="net.edu.module.vo.ExamVO">
@@ -40,7 +40,7 @@
         from exam a
         where deleted=0
         <if test="query.teacherId !=null ">
-            and a.teacher_id &gt;=#{query.teacherId}
+            and a.teacher_id =#{query.teacherId}
         </if>
           <if test="query.beginTime !=null or query.endTime !=null">
             and begin_time &gt;=#{query.beginTime} and begin_time &lt;  DATE_ADD(#{query.endTime},INTERVAL 1 day)

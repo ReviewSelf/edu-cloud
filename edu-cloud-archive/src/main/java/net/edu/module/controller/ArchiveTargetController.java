@@ -39,9 +39,7 @@ public class ArchiveTargetController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<ArchiveTargetVO> get(@PathVariable("id") Long id){
-        ArchiveTargetEntity entity = archiveTargetService.getById(id);
-
-        return Result.ok(ArchiveTargetConvert.INSTANCE.convert(entity));
+        return Result.ok(archiveTargetService.selectArchiveTargetById(id));
     }
 
     @PostMapping
@@ -56,7 +54,6 @@ public class ArchiveTargetController {
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ArchiveTargetVO vo){
         archiveTargetService.update(vo);
-
         return Result.ok();
     }
 

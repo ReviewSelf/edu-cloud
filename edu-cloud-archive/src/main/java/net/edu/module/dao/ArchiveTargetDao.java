@@ -18,6 +18,11 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ArchiveTargetDao extends BaseDao<ArchiveTargetEntity> {
 
-    IPage<ArchiveTargetVO> page(Page<ArchiveTargetVO> page, @Param("query") ArchiveTargetQuery query);
+    IPage<ArchiveTargetVO> selectArchiveTargetByPage(Page<ArchiveTargetVO> page, @Param("query") ArchiveTargetQuery query);
 
+    ArchiveTargetVO selectArchiveTargetById(Long id);
+
+    void updateArchiveTarget(ArchiveTargetVO vo);
+
+    void insertArchiveTarget(ArchiveTargetVO vo);
 }

@@ -29,7 +29,7 @@ public interface FillProblemDao extends BaseDao<FillProblemEntity> {
 
     FillProblemVO selectFillProblemInfo(@Param("id") Long id);
 
-    WxFillProblemVO GetFillProblemInfo(String problemId);
+
 
 
 }

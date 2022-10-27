@@ -3,20 +3,14 @@
 
 <mapper namespace="net.edu.module.dao.ArchiveAssessDao">
 
-    <resultMap type="net.edu.module.entity.ArchiveAssessEntity" id="archiveAssessMap">
-        <result property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="grade" column="grade"/>
-        <result property="deleted" column="deleted"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="creator" column="creator"/>
-        <result property="version" column="version"/>
-        <result property="updater" column="updater"/>
-    </resultMap>
+    <insert id="insertArchiveAccess">
+        insert into archive_assess (name,target_id,course_id,deleted,create_time)
+        values (#{name},#{targetId},#{firstKnowledgeId},0,now())
+    </insert>
 
     <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">
         select
+        t1.id,
         name,
         target_id AS targetId,
         course_id AS courseId,
@@ -44,6 +38,6 @@
         <if test="query.getFirstKnowledgeName()!=null and query.getFirstKnowledgeName()!=''">
             and ( SELECT name FROM archive_first_knowledge t3 WHERE t1.course_id = t3.id ) like concat('%',#{query.firstKnowledgeName},'%')
         </if>
-
+        order by id desc
     </select>
 </mapper>

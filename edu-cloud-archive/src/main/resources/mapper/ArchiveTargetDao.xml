@@ -30,5 +30,12 @@
         </if>
         order by id desc
     </select>
+    <select id="selectName" resultType="net.edu.module.vo.ArchiveTargetVO">
+        SELECT
+            id,
+            name
+        FROM
+	        archive_target
+    </select>
 
 </mapper>

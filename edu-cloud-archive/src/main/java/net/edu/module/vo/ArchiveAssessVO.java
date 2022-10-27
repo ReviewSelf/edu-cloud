@@ -28,6 +28,12 @@ public class ArchiveAssessVO implements Serializable {
 	@Schema(description = "年级")
 	private String grade;
 
+	@Schema(description = "指标点编号")
+	private Integer targetId;
+
+	@Schema(description = "一级课程编号")
+	private Integer firstKnowledgeId;
+
 	@Schema(description = "删除")
 	private Integer deleted;
 

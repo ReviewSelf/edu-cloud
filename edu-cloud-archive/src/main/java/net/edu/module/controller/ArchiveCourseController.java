@@ -10,6 +10,7 @@ import net.edu.module.entity.ArchiveCourseEntity;
 import net.edu.module.service.ArchiveCourseService;
 import net.edu.module.query.ArchiveCourseQuery;
 import net.edu.module.vo.ArchiveCourseVO;
+import net.edu.module.vo.ArchiveTargetVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -41,6 +42,12 @@ public class ArchiveCourseController {
     public Result<ArchiveCourseVO> get(@PathVariable("id") Long id){
         ArchiveCourseEntity entity = archiveCourseService.getById(id);
         return Result.ok(ArchiveCourseConvert.INSTANCE.convert(entity));
+    }
+
+    @GetMapping("firstKnowledgeId")
+    @Operation(summary = "一级课程名称")
+    public Result<List<ArchiveCourseVO>> getName(){
+        return Result.ok(archiveCourseService.getName());
     }
 
     @PostMapping

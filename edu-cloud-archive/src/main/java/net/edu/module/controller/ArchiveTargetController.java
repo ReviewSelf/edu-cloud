@@ -44,11 +44,16 @@ public class ArchiveTargetController {
         return Result.ok(ArchiveTargetConvert.INSTANCE.convert(entity));
     }
 
+    @GetMapping("targetId")
+    @Operation(summary = "指标点名称")
+    public Result<List<ArchiveTargetVO>> getName(){
+        return Result.ok(archiveTargetService.getName());
+    }
+
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ArchiveTargetVO vo){
         archiveTargetService.save(vo);
-
         return Result.ok();
     }
 

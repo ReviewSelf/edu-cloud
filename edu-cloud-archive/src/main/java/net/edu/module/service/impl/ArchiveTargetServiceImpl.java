@@ -34,6 +34,13 @@ public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
+    @Override
+    public List<ArchiveTargetVO> getName() {
+        List<ArchiveTargetVO> targetVOList=baseMapper.selectName();
+        System.out.println(targetVOList);
+        return targetVOList;
+    }
+
     private LambdaQueryWrapper<ArchiveTargetEntity> getWrapper(ArchiveTargetQuery query){
         LambdaQueryWrapper<ArchiveTargetEntity> wrapper = Wrappers.lambdaQuery();
         return wrapper;

@@ -17,6 +17,8 @@ public interface ArchiveTargetService extends BaseService<ArchiveTargetEntity> {
 
     PageResult<ArchiveTargetVO> page(ArchiveTargetQuery query);
 
+    List<ArchiveTargetVO> getName();
+
     void save(ArchiveTargetVO vo);
 
     void update(ArchiveTargetVO vo);

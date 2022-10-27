@@ -48,4 +48,11 @@
         </if>
         order by update_time desc
     </select>
+    <select id="selectName" resultType="net.edu.module.vo.ArchiveCourseVO">
+        select
+            id,
+            name
+        from
+            archive_first_knowledge
+    </select>
 </mapper>

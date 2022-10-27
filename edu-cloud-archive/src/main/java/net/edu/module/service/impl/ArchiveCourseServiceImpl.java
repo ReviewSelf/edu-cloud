@@ -13,6 +13,7 @@ import net.edu.module.query.ArchiveCourseQuery;
 import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.dao.ArchiveCourseDao;
 import net.edu.module.service.ArchiveCourseService;
+import net.edu.module.vo.ArchiveTargetVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,12 @@ public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, 
         IPage<ArchiveCourseVO> list = archiveCourseDao.selectArchiveCourseByPage(page,query);
 
         return new PageResult<>(list.getRecords(),page.getTotal());
+    }
+
+    @Override
+    public List<ArchiveCourseVO> getName() {
+        List<ArchiveCourseVO> courseVOList=baseMapper.selectName();
+        return courseVOList;
     }
 
     private LambdaQueryWrapper<ArchiveCourseEntity> getWrapper(ArchiveCourseQuery query){

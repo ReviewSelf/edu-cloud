@@ -7,6 +7,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveAssessEntity;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.vo.ArchiveAssessVO;
+import net.edu.module.vo.GraduateRequireVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -19,4 +20,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
 
     IPage<ArchiveAssessVO> selectArchiveAssessByPage(Page<ArchiveAssessVO> page, ArchiveAssessQuery query);
+
+    Integer insertArchiveAccess(ArchiveAssessVO vo);
+
 }

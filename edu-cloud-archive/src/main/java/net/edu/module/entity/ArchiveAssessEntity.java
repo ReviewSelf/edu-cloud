@@ -26,10 +26,10 @@ public class ArchiveAssessEntity {
 	*/
 	private String name;
 
-	/**
-	* 年级
-	*/
-	private String grade;
+//	/**
+//	* 年级
+//	*/
+//	private String grade;
 
 	/**
 	* 删除

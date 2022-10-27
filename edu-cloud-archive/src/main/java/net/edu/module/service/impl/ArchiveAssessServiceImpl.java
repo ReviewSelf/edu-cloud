@@ -50,9 +50,7 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
 
     @Override
     public void save(ArchiveAssessVO vo) {
-        ArchiveAssessEntity entity = ArchiveAssessConvert.INSTANCE.convert(vo);
-
-        baseMapper.insert(entity);
+        archiveAssessDao.insertArchiveAccess(vo);
     }
 
     @Override

@@ -3,6 +3,7 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.flogger.Flogger;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.ArchiveAssessConvert;
@@ -41,7 +42,6 @@ public class ArchiveAssessController {
     @Operation(summary = "信息")
     public Result<ArchiveAssessVO> get(@PathVariable("id") Long id){
         ArchiveAssessEntity entity = archiveAssessService.getById(id);
-
         return Result.ok(ArchiveAssessConvert.INSTANCE.convert(entity));
     }
 
@@ -49,7 +49,6 @@ public class ArchiveAssessController {
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ArchiveAssessVO vo){
         archiveAssessService.save(vo);
-
         return Result.ok();
     }
 

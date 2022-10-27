@@ -152,4 +152,30 @@
             t.judge_user=#{judgeUser}
         where t.id = #{id}
     </update>
+
+    <select id="selectUserRecord" resultType="java.lang.Integer">
+        select count(1)
+        from judge_record
+        where problem_id=#{vo.problem_id} and problem_type= #{vo.problemType} and user_id = #{vo.userId} and submit_status =3
+        GROUP BY problem_id, problem_type
+    </select>
+
+    <insert id="statisticsUserRecord" >
+        insert into user_record_statistic(user_id,kp_code,difficulty,num)
+        select #{vo.userId},a.code,b.difficulty,1
+        from problem_knowledge_point a join
+        <choose>
+            <when test="problemType == 1">
+                problem_choice b
+            </when>
+            <when test="problemType == 2">
+                problem_fill b
+            </when>
+            <when test="problemType == 3">
+                problem_code b
+            </when>
+        </choose>
+        on a.id = b.kp_id and b.id = #{vo.problemId}
+        ON DUPLICATE KEY UPDATE num = num +1
+    </insert>
 </mapper>

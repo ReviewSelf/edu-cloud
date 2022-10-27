@@ -3,6 +3,7 @@ package net.edu.module.dao;
 import net.edu.module.vo.*;
 import net.edu.module.vo.lesson.LessonJudgeRecordVo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -33,4 +34,7 @@ public interface JudgeRecordDao {
 
     int updateReasonAndStatus(JudgeRecordSubmitVO vo);
 
+    int statisticsUserRecord(@Param("vo") JudgeRecordSubmitVO vo);
+
+    int selectUserRecord(@Param("vo") JudgeRecordSubmitVO vo);
 }

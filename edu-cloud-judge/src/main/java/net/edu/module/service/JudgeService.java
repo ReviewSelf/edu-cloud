@@ -172,7 +172,7 @@ public class JudgeService {
         } else {
             eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 0);
         }
-
+        statisticsUserRecord(vo);
 
     }
 
@@ -187,6 +187,15 @@ public class JudgeService {
                 .execute().body();
         return new JSONObject(result);
     }
+
+    public void statisticsUserRecord(JudgeRecordSubmitVO vo){
+        if(vo.getSubmitStatus() == JudgeStatusCode.AC){
+            if(judgeRecordDao.selectUserRecord(vo) == 1){
+                judgeRecordDao.statisticsUserRecord(vo);
+            }
+        }
+    }
+
 
 
 }

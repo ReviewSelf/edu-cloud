@@ -18,6 +18,8 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
 
     PageResult<ArchiveAssessVO> page(ArchiveAssessQuery query);
 
+
+
     void save(ArchiveAssessVO vo);
 
     void update(ArchiveAssessVO vo);

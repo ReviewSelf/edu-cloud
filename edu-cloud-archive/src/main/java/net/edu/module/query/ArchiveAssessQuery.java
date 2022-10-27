@@ -26,4 +26,10 @@ public class ArchiveAssessQuery extends Query {
     @Schema(description = "年级")
     private String grade;
 
+    @Schema(description = "指标点名称")
+    private String targetName;
+
+    @Schema(description = "一级课程名称")
+    private String firstKnowledgeName;
+
 }

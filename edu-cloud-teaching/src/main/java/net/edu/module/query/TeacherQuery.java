@@ -25,4 +25,7 @@ public class TeacherQuery extends Query {
 
     @Schema(description = "角色")
     private Long roleId;
+
+    @Schema(description = "姓名")
+    private String realName;
 }

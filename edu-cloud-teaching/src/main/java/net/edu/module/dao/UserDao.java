@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.OrgEntity;
 import net.edu.module.entity.UserEntity;
+import net.edu.module.query.TeacherQuery;
 import net.edu.module.query.UserQuery;
 import net.edu.module.vo.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -24,7 +25,7 @@ public interface UserDao extends BaseDao<UserEntity> {
 
 //	List<UserEntity> getList(Map<String, Object> params);
 
-	List<UserEntity> getTeacherList(Map<String, Object> params);
+	IPage<TeacherVO> selectTeacherList(Page<TeacherVO> page, TeacherQuery query);
 
 	IPage<UserVO> selectStudentList(Page<UserVO> page, UserQuery query);
 

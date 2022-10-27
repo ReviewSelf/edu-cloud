@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.UserDao">
 
-	<select id="getTeacherList" resultType="net.edu.module.entity.UserEntity">
+	<select id="selectTeacherList" resultType="net.edu.module.vo.TeacherVO">
 		SELECT
 		t1.id,
 		t1.username,
@@ -29,17 +29,15 @@
 		WHERE
 		t1.super_admin = 0
 		AND t1.deleted = 0
-		<if test="username != null and username.trim() != ''">
-			and t1.username like concat('%',#{username},'%')
+		AND t2.role_id = 1
+		<if test="query.getUsername() != null and query.getUsername() != ''">
+			and t1.username like concat(#{query.username},'%')
 		</if>
-		<if test="mobile != null and mobile.trim() != ''">
-			and t1.mobile = #{mobile}
+		<if test="query.getMobile() != null and query.getMobile() != ''">
+			and t1.mobile like concat(#{query.mobile},'%')
 		</if>
-		<if test="gender != null">
-			and t1.gender = #{gender}
-		</if>
-		<if test="roleId != null">
-			AND t2.role_id = #{roleId}
+		<if test="query.getRealName() != null and query.getRealName() != ''">
+			and t1.real_name like concat(#{query.realName},'%')
 		</if>
 	</select>
 	<select id="selectStudentList" resultType="net.edu.module.entity.UserEntity">

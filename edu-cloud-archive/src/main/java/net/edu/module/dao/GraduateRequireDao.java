@@ -2,8 +2,12 @@ package net.edu.module.dao;
 
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.GraduateRequireEntity;
+import net.edu.module.query.GraduateRequireQuery;
+import net.edu.module.vo.GraduateRequireVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -15,4 +19,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface GraduateRequireDao extends BaseDao<GraduateRequireEntity> {
 
+    IPage<GraduateRequireVO> selectGraduateRequireByPage(Page<GraduateRequireVO> page, GraduateRequireQuery query);
+
+    Integer insertGraduateRequire(GraduateRequireVO vo);
 }

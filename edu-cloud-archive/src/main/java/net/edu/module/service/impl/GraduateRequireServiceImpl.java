@@ -1,8 +1,8 @@
 package net.edu.module.service.impl;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
@@ -12,6 +12,7 @@ import net.edu.module.entity.GraduateRequireEntity;
 import net.edu.module.query.GraduateRequireQuery;
 import net.edu.module.service.GraduateRequireService;
 import net.edu.module.vo.GraduateRequireVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,11 +28,19 @@ import java.util.List;
 @AllArgsConstructor
 public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireDao, GraduateRequireEntity> implements GraduateRequireService {
 
+    @Autowired
+    private GraduateRequireDao graduateRequireDao;
     @Override
     public PageResult<GraduateRequireVO> page(GraduateRequireQuery query) {
-        IPage<GraduateRequireEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
-
-        return new PageResult<>(GraduateRequireConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        try {
+            query.setTitle(java.net.URLDecoder.decode
+                    (query.getTitle(),"utf-8"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        Page<GraduateRequireVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<GraduateRequireVO> list =graduateRequireDao.selectGraduateRequireByPage(page,query);
+        return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
     private LambdaQueryWrapper<GraduateRequireEntity> getWrapper(GraduateRequireQuery query){
@@ -42,9 +51,7 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
 
     @Override
     public void save(GraduateRequireVO vo) {
-        GraduateRequireEntity entity = GraduateRequireConvert.INSTANCE.convert(vo);
-
-        baseMapper.insert(entity);
+        graduateRequireDao.insertGraduateRequire(vo);
     }
 
     @Override

@@ -101,6 +101,7 @@ public class JudgeService {
             }
         }
         judgeRecordDao.insertSubmitRecord(vo);
+
         judgeAfter(vo.getId(), vo.getProblemId(), choiceType);
     }
 
@@ -153,6 +154,7 @@ public class JudgeService {
     }
 
 
+
     public void judgeAfter(Long recordId, Long problemId, int type) {
         JudgeRecordSubmitVO vo = judgeRecordDao.selectResult(recordId);
         //更新题目回答次数/正确次数
@@ -170,6 +172,7 @@ public class JudgeService {
         } else {
             eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 0);
         }
+
 
     }
 

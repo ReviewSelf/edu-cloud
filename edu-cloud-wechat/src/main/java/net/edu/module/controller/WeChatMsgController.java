@@ -65,11 +65,16 @@ public class WeChatMsgController {
     @PostMapping("post")
     @Operation(summary = "报名")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
-        Integer userId = enrollUserVO.getId();
-        eduTeachApi.post(enrollUserVO);
         System.out.println(enrollUserVO);
-        Integer classId = enrollUserVO.getClassId();
+        Integer userId = enrollUserVO.getId();
+        if(userId==null){
+            System.out.println("新增操作");
+            userId=eduTeachApi.insertEnrollUser(enrollUserVO).getData();
+        }else{
+            eduTeachApi.post(enrollUserVO);
+        }
         System.out.println(userId);
+        Integer classId = enrollUserVO.getClassId();
         eduTeachApi.insertClassUser(classId,userId);
         return Result.ok();
     }

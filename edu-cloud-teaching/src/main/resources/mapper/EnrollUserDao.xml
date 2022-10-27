@@ -83,6 +83,13 @@
         insert into enroll_class_user (enroll_class_id,user_id,create_time) values (#{classId},#{userId},now())
     </insert>
 
+    <insert id="insertEnrollUser" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+            enroll_user
+            (phone,name,area,grade,status)
+        VALUES(#{phone},#{name},#{area},#{grade},1)
+    </insert>
+
     <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.EnrollUserVO">
         select
             id,

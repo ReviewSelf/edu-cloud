@@ -1,5 +1,4 @@
 package net.edu.module.service.impl;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -33,6 +32,12 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
     private GraduateRequireDao graduateRequireDao;
     @Override
     public PageResult<GraduateRequireVO> page(GraduateRequireQuery query) {
+        try {
+            query.setTitle(java.net.URLDecoder.decode
+                    (query.getTitle(),"utf-8"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         Page<GraduateRequireVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<GraduateRequireVO> list =graduateRequireDao.selectGraduateRequireByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
@@ -46,9 +51,7 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
 
     @Override
     public void save(GraduateRequireVO vo) {
-        GraduateRequireEntity entity = GraduateRequireConvert.INSTANCE.convert(vo);
-
-        baseMapper.insert(entity);
+        graduateRequireDao.insertGraduateRequire(vo);
     }
 
     @Override
@@ -62,6 +65,11 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+    }
+
+    @Override
+    public List<GraduateRequireEntity> selectGraduateByGrade(String grade) {
+        return graduateRequireDao.selectGraduateByGrade(grade);
     }
 
 }

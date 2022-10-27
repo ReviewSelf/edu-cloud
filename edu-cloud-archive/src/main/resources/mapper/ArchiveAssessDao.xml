@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveAssessDao">
+
+    <resultMap type="net.edu.module.entity.ArchiveAssessEntity" id="archiveAssessMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="grade" column="grade"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="creator" column="creator"/>
+        <result property="version" column="version"/>
+        <result property="updater" column="updater"/>
+    </resultMap>
+
+    <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">
+        select
+        name,
+        target_id AS targetId,
+        course_id AS courseId,
+        weight,
+        ( SELECT name FROM archive_target t2 WHERE t1.target_id = t2.id ) AS targetName,
+        ( SELECT name FROM archive_first_knowledge t3 WHERE t1.course_id = t3.id ) AS firstKnowledgeName,
+        ( SELECT grade FROM archive_target t2 WHERE t1.target_id = t2.id) AS grade,
+        weight_explain AS weightExplain,
+        creator,
+        version,
+        updater
+        FROM
+        archive_assess t1
+        WHERE
+        deleted = 0
+        <if test="query.getName()!=null and query.getName()!=''">
+            and name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getGrade()!=null and query.getGrade()!=''">
+            and ( SELECT grade FROM archive_target t2 WHERE t1.target_id = t2.id) = #{query.grade}
+        </if>
+        <if test="query.getTargetName()!=null and query.getTargetName()!=''">
+            and ( SELECT name FROM archive_target t2 WHERE t1.target_id = t2.id ) like concat('%',#{query.targetName},'%')
+        </if>
+        <if test="query.getFirstKnowledgeName()!=null and query.getFirstKnowledgeName()!=''">
+            and ( SELECT name FROM archive_first_knowledge t3 WHERE t1.course_id = t3.id ) like concat('%',#{query.firstKnowledgeName},'%')
+        </if>
+
+    </select>
+</mapper>

@@ -43,6 +43,7 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
         baseMapper.insert(entity);
     }
 
+
     @Override
     public void update(EnrollUserVO vo) {
         EnrollUserEntity entity = EnrollUserConvert.INSTANCE.convert(vo);
@@ -72,8 +73,15 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
 
     @Override
     public void post(EnrollUserVO enrollUserVO){
+        System.out.println(enrollUserVO);
         EnrollUserEntity entity = EnrollUserConvert.INSTANCE.convert(enrollUserVO);
         enrollUserDao.save(entity);
+    }
+
+    @Override
+    public Integer insertEnrollUser(EnrollUserVO enrollUserVO) {
+        enrollUserDao.insertEnrollUser(enrollUserVO);
+        return enrollUserVO.getId();
     }
 
     @Override

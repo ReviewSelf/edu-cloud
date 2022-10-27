@@ -23,7 +23,7 @@ import java.util.List;
 */
 @RestController
 @RequestMapping("ip")
-@Tag(name="1")
+@Tag(name="课堂ip管理")
 @AllArgsConstructor
 public class LessonIPController {
     private final LessonIPService lessonIpService;

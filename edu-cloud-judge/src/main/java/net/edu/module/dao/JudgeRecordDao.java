@@ -34,7 +34,7 @@ public interface JudgeRecordDao {
 
     int updateReasonAndStatus(JudgeRecordSubmitVO vo);
 
-    int statisticsUserRecord(@Param("vo") JudgeRecordSubmitVO vo);
+    int statisticsUserRecord(Long problemId ,Integer type,Long userId);
 
-    int selectUserRecord(@Param("vo") JudgeRecordSubmitVO vo);
+    int selectUserRecord(Long problemId ,Integer type,Long userId);
 }

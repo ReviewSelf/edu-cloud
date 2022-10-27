@@ -22,8 +22,8 @@ public class SwaggerConfig{
     @Bean
     public GroupedOpenApi userApi(){
         String[] paths = { "/**" };
-        String[] packagedToMatch = { "net.maku" };
-        return GroupedOpenApi.builder().group("MakuCloud")
+        String[] packagedToMatch = { "net.edu" };
+        return GroupedOpenApi.builder().group("eduCloud")
                 .pathsToMatch(paths)
                 .packagesToScan(packagedToMatch).build();
     }
@@ -31,16 +31,16 @@ public class SwaggerConfig{
     @Bean
     public OpenAPI customOpenAPI() {
         Contact contact= new Contact();
-        contact.setName("阿沐 babamu@126.com");
+        contact.setName("1771605689@qq.com");
 
         OpenAPI openapi = new OpenAPI().info(new Info()
-            .title("MakuCloud")
-            .description( "MakuCloud")
+            .title("eduCloud")
+            .description( "eduCloud")
             .contact(contact)
-            .version("1.0")
-            .termsOfService("https://maku.net")
-            .license(new License().name("MIT")
-            .url("https://maku.net")));
+            .version("1.0"));
+//            .termsOfService("https://edu.net")
+//            .license(new License().name("MIT")
+//            .url("https://edu.net")));
 
         openapi.addSecurityItem(new SecurityRequirement().addList("api_key"))
             .components(new Components().addSecuritySchemes("api_key",

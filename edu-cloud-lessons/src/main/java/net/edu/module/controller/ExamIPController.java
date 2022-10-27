@@ -22,7 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/exam/ip")
-@Tag(name="examIP")
+@Tag(name="考试ip管理")
 @AllArgsConstructor
 public class ExamIPController {
     private final ExamIPService examIpService;

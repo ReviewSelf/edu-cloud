@@ -8,10 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Author: 马佳浩
- * @Date: 2022/9/3 23:22
- * @Version: 1.0
- * @Description:
+ * author:  马佳浩
+ * date: 2022/9/3 23:22
+ * version: 1.0
  */
 @Configuration
 public class RabbitMQConfig {

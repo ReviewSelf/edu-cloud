@@ -19,6 +19,7 @@ import net.edu.module.dao.JudgeRecordDao;
 import net.edu.module.dao.JudgeRecordSampleDao;
 import net.edu.module.vo.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -155,7 +156,10 @@ public class JudgeService {
 
 
 
+
+    @Async
     public void judgeAfter(Long recordId, Long problemId, int type) {
+        System.out.println(1111);
         JudgeRecordSubmitVO vo = judgeRecordDao.selectResult(recordId);
         //更新题目回答次数/正确次数
         if (type == choiceType) {

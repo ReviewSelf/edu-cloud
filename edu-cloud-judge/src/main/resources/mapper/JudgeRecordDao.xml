@@ -175,7 +175,7 @@
                 problem_code b
             </when>
         </choose>
-        on a.id = b.kp_id and b.id = #{vo.problemId}
+        on a.code = b.kp_code and b.id = #{vo.problemId}
         ON DUPLICATE KEY UPDATE num = num +1
     </insert>
 </mapper>

@@ -45,4 +45,6 @@ public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
     void genExamInvitationCode(Long examId,String code,Long time);
 
     void receiveExamInvitation(String code);
+
+    ExamAttendLogVO getUserExamInfo(Long userId,Long examId);
 }

@@ -11,7 +11,6 @@
     <select id="selectArchiveTargetByPage" resultType="net.edu.module.vo.ArchiveTargetVO">
         SELECT
 	        id,
-            number,
             graduate_id AS graduateId,
             name,
             content,
@@ -38,7 +37,6 @@
     <select id="selectArchiveTargetById" resultType="net.edu.module.vo.ArchiveTargetVO">
         SELECT
         id,
-        number,
         graduate_id AS graduateId,
         name,
         content,

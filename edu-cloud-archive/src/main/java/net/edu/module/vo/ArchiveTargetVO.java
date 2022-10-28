@@ -22,9 +22,6 @@ public class ArchiveTargetVO implements Serializable {
 	@Schema(description = "编号")
 	private Long id;
 
-	@Schema(description = "指标点编号")
-	private Integer number;
-
 	@Schema(description = "毕业要求编号")
 	private Long graduateId;
 

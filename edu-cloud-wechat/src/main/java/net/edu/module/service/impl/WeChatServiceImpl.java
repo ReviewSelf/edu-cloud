@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.module.api.EduSysApi;
 import net.edu.module.api.EduTeachApi;
+import net.edu.module.entity.Articles;
 import net.edu.module.entity.InMessage;
 import net.edu.module.entity.OutMessage;
 import net.edu.module.service.WeChatService;
@@ -16,6 +17,9 @@ import net.edu.module.untils.WeChatProperties;
 import net.edu.module.vo.SysWeChatLoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: 马佳浩
@@ -108,12 +112,18 @@ public class WeChatServiceImpl implements WeChatService {
             String event = inMessage.getEvent();
             //如果是关注事件
             if("subscribe".equals(event)){
+                //插入openId————start
                 String openId = inMessage.getFromUserName();
                 log.info(openId);
                 String unionId = getUnionId(openId);
                 eduTeachApi.insertOpenId(openId,unionId);
+                //插入openId————end
+                //设定回复内容
                 outMessage.setMsgType("text");
-                outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
+                String enrollmentUrl = WeChatApiUtils.getAuthBaseUrl(WeChatProperties.CLASS_URL,WeChatApiUtils.SNSAPI_USERINFO);
+                String url = "<a href='"+enrollmentUrl+"'>【课程报名】</a>" ;
+                System.out.println(url);
+                outMessage.setContent("家长您好，欢迎关注编程少年公众号，点击"+url+"免费参与精品编程试听课，快来与我们一起学习吧！");
             }
             else if("CLICK".equals(event)){
                 String eventKey = inMessage.getEventKey();

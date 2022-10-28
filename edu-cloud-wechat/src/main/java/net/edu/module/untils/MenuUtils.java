@@ -29,6 +29,7 @@ public class MenuUtils {
         CommonButton sub_Btn21 = new CommonButton();
         sub_Btn21.setName("课程报名");
         sub_Btn21.setType("view");
+        System.out.println(enrollmentUrl);
         sub_Btn21.setUrl(enrollmentUrl);
 
         CommonButton sub_Btn22 = new CommonButton();

@@ -124,7 +124,7 @@ public class WeChatController {
      */
     @PostMapping(value="/wxToken",produces = "application/xml;charset=UTF-8")
     public Object  handleMessage(@RequestBody InMessage inMessage) {
-        System.out.println("WeChatController  handleMessage");
+        System.out.println("WeChatController  handleMessage"+inMessage);
         return weChatService.handleMessage(inMessage);
     }
 

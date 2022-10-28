@@ -82,7 +82,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(UserVO vo) {
+    public Long save(UserVO vo) {
         UserEntity entity = UserConvert.INSTANCE.convert(vo);
 
         // 判断用户名是否存在
@@ -102,6 +102,8 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
         // 保存用户角色关系
         userRoleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
+
+        return entity.getId();
 
     }
 

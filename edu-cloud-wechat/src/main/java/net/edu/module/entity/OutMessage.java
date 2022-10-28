@@ -58,5 +58,7 @@ public class OutMessage {
     @XmlElement(name = "MediaId")
     private String[] mediaId;
 
+    @XmlElement(name="PicUrl")
+    private String PicUrl;
 
 }

@@ -139,7 +139,7 @@
                exam_id as examId,
                (select real_name from sys_user where id = user_id) as name,
                join_time as joinTime,
-               quit_time as quiteTime,
+               quit_time as quitTime,
                status,
                is_correcting as isCorrecting,
                score

@@ -8,6 +8,8 @@ import net.edu.module.query.ArchiveCourseQuery;
 import net.edu.module.vo.ArchiveCourseVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
 * 能力课程
 *
@@ -18,4 +20,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ArchiveCourseDao extends BaseDao<ArchiveCourseEntity> {
 
     IPage<ArchiveCourseVO> selectArchiveCourseByPage(Page<ArchiveCourseVO> page, ArchiveCourseQuery query);
+
+    List<ArchiveCourseVO> selectArchiveCourseAll();
 }

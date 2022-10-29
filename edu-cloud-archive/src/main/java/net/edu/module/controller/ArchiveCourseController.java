@@ -66,4 +66,10 @@ public class ArchiveCourseController {
 
         return Result.ok();
     }
+
+    @GetMapping("course")
+    @Operation(summary = "课程信息")
+    public Result<List<ArchiveCourseVO>> selectArchiveCourseAll(){
+        return Result.ok(archiveCourseService.selectArchiveCourseAll());
+    }
 }

@@ -12,6 +12,7 @@ import net.edu.module.query.ArchiveTargetQuery;
 import net.edu.module.vo.ArchiveTargetVO;
 import net.edu.module.dao.ArchiveTargetDao;
 import net.edu.module.service.ArchiveTargetService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,7 @@ public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, 
 
     @Autowired
     private ArchiveTargetDao archiveTargetDao;
+
     @Override
     public PageResult<ArchiveTargetVO> page(ArchiveTargetQuery query) {
         Page<ArchiveTargetVO> page = new Page<>(query.getPage(),query.getLimit());

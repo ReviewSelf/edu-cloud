@@ -9,36 +9,33 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-* 考核点
+* 一级知识点权重
 *
 * @author 阿沐 babamu@126.com
-* @since 1.0.0 2022-10-26
+* @since 1.0.0 2022-10-29
 */
 @Data
-@Schema(description = "考核点")
-public class ArchiveAssessVO implements Serializable {
+@Schema(description = "一级知识点权重")
+public class ArchiveWeightTargetKnowledgeVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Schema(description = "考核点编号")
+	@Schema(description = "支撑矩阵编号")
 	private Long id;
 
-	@Schema(description = "考核点名称")
-	private String name;
+	@Schema(description = "指标点编号")
+	private Long targetId;
 
-	@Schema(description = "年级")
-	private String grade;
+	@Schema(description = "一级知识点编号")
+	private Long courseId;
 
-	@Schema(description = "课程id")
-	private Integer courseId;
+	@Schema(description = "一级知识点名称")
+	private String courseName;
+
+	@Schema(description = "权重")
+	private Double weight;
 
 	@Schema(description = "删除")
 	private Integer deleted;
-
-	@Schema(description = "指标点名称")
-	private String targetName;
-
-	@Schema(description = "一级课程名称")
-	private String firstKnowledgeName;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

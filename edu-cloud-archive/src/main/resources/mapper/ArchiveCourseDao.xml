@@ -48,4 +48,12 @@
         </if>
         order by update_time desc
     </select>
+
+    <select id="selectArchiveCourseAll" resultMap="archiveCourseMap">
+        select
+        id,
+        name
+        from archive_course
+        where deleted = 0
+    </select>
 </mapper>

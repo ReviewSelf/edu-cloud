@@ -26,7 +26,7 @@ public interface ArchiveWeightTargetAssessService extends BaseService<ArchiveWei
 
     void delete(List<Long> idList);
 
-    List<ArchiveWeightTargetAssessVO> selectAssessByTargetId(Long targetId);
+    List<ArchiveWeightTargetAssessVO> selectAssessByCourseId(Long courseId);
 
     Integer insertAssessWeight(List<ArchiveWeightTargetAssessVO> assessVOS);
 }

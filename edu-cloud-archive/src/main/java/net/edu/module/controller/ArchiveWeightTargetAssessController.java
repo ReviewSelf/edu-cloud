@@ -75,15 +75,16 @@ public class ArchiveWeightTargetAssessController {
         return Result.ok();
     }
 
-    @GetMapping("target")
-    @Operation(summary = "根据指标点id获取权重")
-    public Result<List<ArchiveWeightTargetAssessVO>> selectKnowledgeByTargetId(Long targetId){
-        return Result.ok(archiveWeightTargetAssessService.selectAssessByTargetId(targetId));
+    @GetMapping("course")
+    @Operation(summary = "根据课程id获取权重")
+    public Result<List<ArchiveWeightTargetAssessVO>> selectKnowledgeByTargetId(Long courseId){
+        return Result.ok(archiveWeightTargetAssessService.selectAssessByCourseId(courseId));
     }
 
     @PostMapping("target")
     @Operation(summary = "插入指标点id以及对应课程id和权重")
     public Result<String> insertKnowledgeWeight(@RequestBody List<ArchiveWeightTargetAssessVO> vo){
+        System.out.println("123"+vo);
         archiveWeightTargetAssessService.insertAssessWeight(vo);
         return Result.ok();
     }

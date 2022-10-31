@@ -26,19 +26,19 @@ public class ArchiveWeightTargetAssessVO implements Serializable {
 	private Long assessId;
 
 	@Schema(description = "考核点名称")
-	private Long assessName;
+	private String assessName;
 
 	@Schema(description = "指标点编号")
 	private Long targetId;
 
 	@Schema(description = "指标点名称")
-	private Long targetName;
+	private String targetName;
 
 	@Schema(description = "课程编号")
 	private Long courseId;
 
 	@Schema(description = "课程名称")
-	private Long courseName;
+	private String courseName;
 
 	@Schema(description = "支撑度（百分比）")
 	private Double weight;

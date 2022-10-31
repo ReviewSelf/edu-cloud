@@ -16,7 +16,7 @@ import java.util.List;
 @Mapper
 public interface ArchiveWeightTargetAssessDao extends BaseDao<ArchiveWeightTargetAssessEntity> {
 
-    List<ArchiveWeightTargetAssessVO> selectAssessByTargetId(Long targetId);
+    List<ArchiveWeightTargetAssessVO> selectAssessByCourseId(Long courseId);
 
     Integer insertAssessWeight(List<ArchiveWeightTargetAssessVO> assessVOS);
 }

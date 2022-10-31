@@ -23,4 +23,6 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
     void update(ArchiveAssessVO vo);
 
     void delete(List<Long> idList);
+
+
 }

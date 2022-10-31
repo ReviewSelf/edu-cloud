@@ -68,4 +68,6 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
         removeByIds(idList);
     }
 
+
+
 }

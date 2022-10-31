@@ -64,8 +64,8 @@ public class ArchiveWeightTargetAssessServiceImpl extends BaseServiceImpl<Archiv
     }
 
     @Override
-    public List<ArchiveWeightTargetAssessVO> selectAssessByTargetId(Long targetId) {
-        return archiveWeightTargetAssessDao.selectAssessByTargetId(targetId);
+    public List<ArchiveWeightTargetAssessVO> selectAssessByCourseId(Long courseId) {
+        return archiveWeightTargetAssessDao.selectAssessByCourseId(courseId);
     }
 
     @Override

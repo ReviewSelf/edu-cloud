@@ -9,9 +9,7 @@ import net.edu.module.query.HomeWorkQuery;
 import net.edu.module.service.HomeWorkService;
 import net.edu.module.vo.HomeWorkVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -34,9 +32,10 @@ public class HomeWorkController {
      * 根据学生id分页获取对应课后作业
      *
      */
-    @GetMapping("/homeWorkPage")
-    public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@Valid HomeWorkQuery query){
+    @PostMapping("/homeWorkPage")
+    public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@RequestBody HomeWorkQuery query){
 
+        System.out.println(query);
         log.info(query.toString());
         PageResult<HomeWorkVO> page=homeWorkService.getStudentHomeWorkPage(query);
 

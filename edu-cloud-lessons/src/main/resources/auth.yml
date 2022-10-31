@@ -6,3 +6,4 @@ auth:
     - /lesson/homework/deadlines
     - /evaluate/list/**
     - /lesson
+    - /homeWork/homeWorkPage

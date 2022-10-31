@@ -6,13 +6,17 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.module.api.EduLessonApi;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.entity.ExamEntity;
 import net.edu.module.service.ExamService;
 import net.edu.module.query.ExamQuery;
+import net.edu.module.vo.ExamRecordQuery;
+import net.edu.module.vo.ExamScoreVO;
 import net.edu.module.vo.ExamVO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -28,6 +32,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ExamController {
     private final ExamService examService;
+
 
     @GetMapping("page")
     @Operation(summary = "分页")
@@ -104,6 +109,12 @@ public class ExamController {
     public Result<String> submitPaper(@PathVariable Long examId){
         examService.submitPaper(examId);
         return Result.ok();
+    }
+
+    @GetMapping("exportExam")
+    @Operation(summary = "导出excel")
+    public void exportExam(@Valid ExamRecordQuery query, HttpServletResponse response){
+         examService.exportExam(query,response);
     }
 
 

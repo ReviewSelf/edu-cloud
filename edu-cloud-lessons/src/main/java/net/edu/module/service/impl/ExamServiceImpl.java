@@ -13,6 +13,7 @@ import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.module.api.EduLessonApi;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.dao.ExamDao;
 import net.edu.module.entity.ExamEntity;
@@ -20,12 +21,14 @@ import net.edu.module.query.ExamQuery;
 import net.edu.module.service.ExamAttendLogService;
 import net.edu.module.service.ExamProblemService;
 import net.edu.module.service.ExamService;
-import net.edu.module.vo.ExamAttendLogVO;
-import net.edu.module.vo.ExamPaperVo;
-import net.edu.module.vo.ExamVO;
+import net.edu.module.utils.ExamExcel;
+import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,6 +49,9 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     private final ExamProblemService examProblemService;
 
+    private final EduLessonApi eduLessonApi;
+
+    private final ExamExcel examExcel;
 
 
 
@@ -141,5 +147,16 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         redisUtils.del(RedisKeys.getStuExam(examId,userId));
     }
 
+    @Override
+    public void exportExam(ExamRecordQuery query, HttpServletResponse response) throws IOException {
+        List<ExamScoreVO> data =  eduLessonApi.getExamRecordList(query).getData();
+        List<String> header = new ArrayList<>();
+        for (int i = 0 ; i<data.size();i++){
+            for (int j = 0;j<data.get(i).getProblemRecords().size();j++){
+                header.add(data.get(i).getProblemRecords().get(j).getProblemName());
+            }
 
+        }
+        examExcel.examExportExcel(header,data,"xx考试",response);
+    }
 }

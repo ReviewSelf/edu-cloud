@@ -26,6 +26,8 @@ import java.util.List;
 @AllArgsConstructor
 public class AbilityPointController {
 
+
+
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<AbilityVO>> page(@Valid AbilityQuery query){

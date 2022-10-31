@@ -53,6 +53,6 @@
             id,
             name
         from
-            archive_first_knowledge
+            archive_course
     </select>
 </mapper>

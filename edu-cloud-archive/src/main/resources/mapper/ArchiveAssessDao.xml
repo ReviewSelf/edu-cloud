@@ -9,35 +9,37 @@
     </insert>
 
     <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">
-        select
-        t1.id,
-        name,
-        target_id AS targetId,
-        course_id AS courseId,
-        weight,
-        ( SELECT name FROM archive_target t2 WHERE t1.target_id = t2.id ) AS targetName,
-        ( SELECT name FROM archive_first_knowledge t3 WHERE t1.course_id = t3.id ) AS firstKnowledgeName,
-        ( SELECT grade FROM archive_target t2 WHERE t1.target_id = t2.id) AS grade,
-        weight_explain AS weightExplain,
-        creator,
-        version,
-        updater
+        SELECT
+        t1.id AS id,
+        t1.name AS name ,
+        t3.target_id AS targetId,
+        t3.course_id AS courseId,
+        t3.weight AS weight,
+        ( SELECT name FROM archive_target t2 WHERE t3.target_id = t2.id ) AS targetName,
+        ( SELECT name FROM archive_course t4 WHERE t3.course_id = t4.id ) AS courseName,
+        ( SELECT grade FROM archive_target t2 WHERE t3.target_id = t2.id ) AS grade,
+        t3.weight_explain AS weightExplain,
+        t1.creator,
+        t1.version,
+        t1.updater
         FROM
         archive_assess t1
+        JOIN archive_weight_target_assess t3
         WHERE
-        deleted = 0
+        t1.deleted = 0
+        AND t1.id = t3.assess_id
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
         </if>
         <if test="query.getGrade()!=null and query.getGrade()!=''">
-            and ( SELECT grade FROM archive_target t2 WHERE t1.target_id = t2.id) = #{query.grade}
+            and ( SELECT grade FROM archive_target t2 WHERE t3.target_id = t2.id) = #{query.grade}
         </if>
         <if test="query.getTargetName()!=null and query.getTargetName()!=''">
-            and ( SELECT name FROM archive_target t2 WHERE t1.target_id = t2.id ) like concat('%',#{query.targetName},'%')
+            and ( SELECT name FROM archive_target t2 WHERE t3.target_id = t2.id ) like concat('%',#{query.targetName},'%')
         </if>
         <if test="query.getFirstKnowledgeName()!=null and query.getFirstKnowledgeName()!=''">
-            and ( SELECT name FROM archive_first_knowledge t3 WHERE t1.course_id = t3.id ) like concat('%',#{query.firstKnowledgeName},'%')
+            and ( SELECT name FROM archive_course t4 WHERE t3.course_id = t4.id ) like concat('%',#{query.courseName},'%')
         </if>
-        order by id desc
+        order by t1.id desc
     </select>
 </mapper>

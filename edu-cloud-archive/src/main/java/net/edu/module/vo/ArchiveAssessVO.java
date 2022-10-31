@@ -40,8 +40,8 @@ public class ArchiveAssessVO implements Serializable {
 	@Schema(description = "指标点名称")
 	private String targetName;
 
-	@Schema(description = "一级课程名称")
-	private String firstKnowledgeName;
+	@Schema(description = "课程名称")
+	private String courseName;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

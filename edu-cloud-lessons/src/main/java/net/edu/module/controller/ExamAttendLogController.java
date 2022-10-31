@@ -93,5 +93,11 @@ public class ExamAttendLogController {
     }
 
 
+    @GetMapping("getUserExamInfo")
+    public Result<ExamAttendLogVO> getUserExamInfo(@RequestParam("userId") Long userId,@RequestParam("examId") Long examId){
+        return Result.ok(examAttendLogService.getUserExamInfo(userId,examId));
+    }
+
+
 
 }

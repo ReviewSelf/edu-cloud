@@ -23,7 +23,7 @@ public interface StudentService extends BaseService<UserEntity> {
 
     PageResult<UserVO> SelectStudentList(UserQuery query);
 
-    void save(UserVO vo);
+    Long save(UserVO vo);
 
     void update(UserVO vo);
 

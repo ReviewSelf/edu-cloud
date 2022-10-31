@@ -119,4 +119,11 @@ public class EnrollUserController {
         System.out.println("info"+openId);
         return Result.ok(enrollUserService.selectUserInfoByOpenId(openId));
     }
+
+    @GetMapping("insertSysUser")
+    public Result<String> insertSysUser(@RequestParam("id") Integer id) {
+        System.out.println(id);
+        enrollUserService.insertSysUser(id);
+        return Result.ok();
+    }
 }

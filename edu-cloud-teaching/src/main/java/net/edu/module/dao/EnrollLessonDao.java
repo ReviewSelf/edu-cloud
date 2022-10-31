@@ -34,5 +34,5 @@ public interface EnrollLessonDao extends BaseDao<EnrollLessonEntity> {
 
     void updateOpinion(EnrollOpinionEntity entity);
 
-    void joinLessonLog(Integer studentId, Integer tryLesson);
+    void joinLessonLog(Long studentId, Integer tryLesson);
 }

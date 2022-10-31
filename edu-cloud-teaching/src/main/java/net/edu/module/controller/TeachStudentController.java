@@ -1,8 +1,6 @@
 package net.edu.module.controller;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -17,7 +15,6 @@ import net.edu.module.service.StudentService;
 import net.edu.module.vo.StudentsVo;
 import net.edu.module.vo.TeachStudentVo;
 import net.edu.module.vo.UserVO;
-import netscape.javascript.JSObject;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

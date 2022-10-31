@@ -25,4 +25,5 @@ public interface EnrollLessonService extends BaseService<EnrollLessonEntity> {
     void joinLesson(EnrollJoinLessonEntity entity);
 
     void updateOpinion(EnrollOpinionEntity entity);
+
 }

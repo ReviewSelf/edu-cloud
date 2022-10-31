@@ -64,7 +64,9 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
     public void save(TeachClassVO vo) {
         TeachClassEntity entity = TeachClassConvert.INSTANCE.convert(vo);
         baseMapper.insert(entity);
-        teachClassUserDao.insertClassUser(vo.getUserIdList(), entity.getId());
+        if(vo.getUserIdList().size()>0){
+            teachClassUserDao.insertClassUser(vo.getUserIdList(), entity.getId());
+        }
         teachPlanService.updateUsedNum(entity.getPlanId());
     }
 

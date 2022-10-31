@@ -19,6 +19,7 @@ import java.util.Date;
 @TableName("enroll_user")
 public class EnrollUserEntity extends BaseEntity {
 
+
 	/**
 	* 微信昵称
 	*/
@@ -73,12 +74,6 @@ public class EnrollUserEntity extends BaseEntity {
 	* 0为未报名状态，1为报名信息状态，2为未试听状态，3位试听完成状态，4为已缴费状态
 	*/
 	private Integer status;
-
-
-	/**
-	 * 老师反馈
-	 */
-	private String teacherOpinion;
 
 	/**
 	* 登录时间

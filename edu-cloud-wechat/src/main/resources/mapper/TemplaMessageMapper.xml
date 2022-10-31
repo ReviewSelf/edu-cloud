@@ -48,7 +48,7 @@
         values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,4,"jwKnhcbeGq171pU7v-1r14ZnBKSLnsje5H61eAys5ek")
     </insert>
 
-    <!--插入上课签到成功提醒模板消息-->
+    <!--插入作业提醒模板消息-->
     <insert id="insertMsgLogWorkDeadlineTemplate">
         insert into wx_msg_log
         (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)

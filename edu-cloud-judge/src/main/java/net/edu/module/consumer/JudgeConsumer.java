@@ -39,7 +39,7 @@ public class JudgeConsumer {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-            log.error("判题出错记录号：{}",msg);
+            log.error("判题出错记录号：{}\n{}",msg,e);
         }
     }
 

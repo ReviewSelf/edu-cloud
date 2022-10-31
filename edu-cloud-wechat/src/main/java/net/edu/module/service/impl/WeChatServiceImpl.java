@@ -85,6 +85,7 @@ public class WeChatServiceImpl implements WeChatService {
 
     @Override
     public Object handleMessage(InMessage inMessage) {
+        String enrollmentUrl = WeChatApiUtils.getAuthBaseUrl(WeChatProperties.CLASS_URL,WeChatApiUtils.SNSAPI_USERINFO);
         log.info(inMessage.toString());
         // 创建响应消息实体对象
         OutMessage outMessage = new OutMessage();
@@ -114,6 +115,8 @@ public class WeChatServiceImpl implements WeChatService {
                 eduTeachApi.insertOpenId(openId,unionId);
                 outMessage.setMsgType("text");
                 outMessage.setContent("欢迎关注编程少年公众号~~~点击下方报名课程可以了解我们的课程并进行报名");
+
+
             }
             else if("CLICK".equals(event)){
                 String eventKey = inMessage.getEventKey();

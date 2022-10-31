@@ -92,4 +92,12 @@ public class LessonController {
         lessonService.homeWorkDeadline();
         return Result.ok();
     }
+
+    @DeleteMapping
+    @Operation(summary = "删除")
+    public Result<String> delete(@RequestBody Long classId){
+        lessonService.delete(classId);
+        return Result.ok();
+    }
+
 }

@@ -6,11 +6,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.module.convert.EnrollClassConvert;
 import net.edu.module.entity.*;
 import net.edu.module.query.EnrollLessonQuery;
 import net.edu.module.service.EnrollLessonService;
 import net.edu.module.service.EnrollUserService;
+import net.edu.module.vo.EnrollClassVO;
 import net.edu.module.vo.EnrollLessonVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -89,5 +92,6 @@ public class EnrollLessonController {
         enrollLessonService.updateOpinion(entity);
         return Result.ok();
     }
+
 
 }

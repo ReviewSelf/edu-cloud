@@ -105,9 +105,25 @@ public class EnrollUserController {
         return Result.ok();
     }
 
+    @PostMapping("insertEnrollUser")
+    @Operation(summary = "新增班级学生")
+    public Result<Integer> insertEnrollUser(@RequestBody  EnrollUserVO enrollUserVO){
+        System.out.println("11111111111111");
+        System.out.println(enrollUserVO);
+        int userId= enrollUserService.insertEnrollUser(enrollUserVO);
+        return Result.ok(userId);
+    }
+
     @GetMapping("info")
     public Result<EnrollUserVO> getUserInfo(@RequestParam("openId") String openId){
         System.out.println("info"+openId);
         return Result.ok(enrollUserService.selectUserInfoByOpenId(openId));
+    }
+
+    @GetMapping("insertSysUser")
+    public Result<String> insertSysUser(@RequestParam("id") Integer id) {
+        System.out.println(id);
+        enrollUserService.insertSysUser(id);
+        return Result.ok();
     }
 }

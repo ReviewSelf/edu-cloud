@@ -19,6 +19,7 @@ import net.edu.module.dao.JudgeRecordDao;
 import net.edu.module.dao.JudgeRecordSampleDao;
 import net.edu.module.vo.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +37,9 @@ import java.util.List;
 @Slf4j
 public class JudgeService {
 
-    private final int choiceType=1;
-    private final int fillType=2;
-    private final int codeType=3;
+    private final int choiceType = 1;
+    private final int fillType = 2;
+    private final int codeType = 3;
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -60,9 +61,9 @@ public class JudgeService {
     public void judgeBefore(JudgeRecordSubmitVO vo) {
 
         //提交频率限制
-        Long second= (Long) redisUtils.getExpire(RedisKeys.getJudgeRecordFlag(vo.getUserId(),vo.getProblemId(),vo.getProblemType(),vo.getSource(),vo.getSourceId()));
-        if(second>0L){
-            throw new ServerException("提交冷却中，请"+second+"秒后重新提交");
+        Long second = (Long) redisUtils.getExpire(RedisKeys.getJudgeRecordFlag(vo.getUserId(), vo.getProblemId(), vo.getProblemType(), vo.getSource(), vo.getSourceId()));
+        if (second > 0L) {
+            throw new ServerException("提交冷却中，请" + second + "秒后重新提交");
         }
 
 
@@ -82,7 +83,7 @@ public class JudgeService {
             }
         }
 
-        redisUtils.set(RedisKeys.getJudgeRecordFlag(vo.getUserId(),vo.getProblemId(),vo.getProblemType(),vo.getSource(),vo.getSourceId()),System.currentTimeMillis(),RedisUtils.SECOND_TWENTY_EXPIRE);
+        redisUtils.set(RedisKeys.getJudgeRecordFlag(vo.getUserId(), vo.getProblemId(), vo.getProblemType(), vo.getSource(), vo.getSourceId()), System.currentTimeMillis(), RedisUtils.SECOND_TWENTY_EXPIRE);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -101,11 +102,12 @@ public class JudgeService {
             }
         }
         judgeRecordDao.insertSubmitRecord(vo);
+
         judgeAfter(vo.getId(), vo.getProblemId(), choiceType);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void judgeCode(Long recordId) throws Exception{
+    public void judgeCode(Long recordId) throws Exception {
 //        获取判题内容，时间限制，空间限制
         CodeProblemSubmitVO vo = judgeRecordDao.selectCodeProblemSubmit(recordId);
         vo.setSubmitCode(EncryptUtils.encryptByBase64(vo.getSubmitCode()));
@@ -122,7 +124,7 @@ public class JudgeService {
                     .sourceCode(vo.getSubmitCode())
                     .build();
             JSONObject result = Judge0Http(judgeCommitVO);
-            log.info("提交记录号：{},结果{}",recordId,result);
+            log.info("提交记录号：{},结果{}", recordId, result);
             JudgeSampleResultVO resultVO = JudgeSampleResultVO.builder()
                     .runtime(result.getBigDecimal("time"))
                     .resultCode(result.getInt("status_id"))
@@ -130,20 +132,20 @@ public class JudgeService {
                     .recordId(recordId)
                     .sampleId(item.getId())
                     .build();
-            if(resultVO.getResultCode()!=null){
+            if (resultVO.getResultCode() != null) {
                 //写入样例运行结果
                 judgeRecordSampleDao.insert(resultVO);
-            }else {
+            } else {
                 //判题机报错，抛异常结束判题
-                throw new RuntimeException("判题错误："+result.toString());
+                throw new RuntimeException("判题错误：" + result.toString());
             }
 
         });
         //更新运行结果
-        JudgeSampleResultVO resultVO=judgeRecordDao.selectUpdateRecord(recordId);
+        JudgeSampleResultVO resultVO = judgeRecordDao.selectUpdateRecord(recordId);
 
-        if(resultVO!=null){
-            if(resultVO.getResultCode()>=JudgeStatusCode.WA){
+        if (resultVO != null) {
+            if (resultVO.getResultCode() >= JudgeStatusCode.WA) {
                 resultVO.setResultCode(JudgeStatusCode.WA);
             }
             judgeRecordDao.updateRecord(resultVO);
@@ -153,6 +155,7 @@ public class JudgeService {
     }
 
 
+    @Async
     public void judgeAfter(Long recordId, Long problemId, int type) {
         JudgeRecordSubmitVO vo = judgeRecordDao.selectResult(recordId);
         //更新题目回答次数/正确次数
@@ -166,7 +169,12 @@ public class JudgeService {
 
         //结束判题更新用户答题次数/准确次数
         if (vo.getSubmitStatus() == JudgeStatusCode.AC) {
-             eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 1);
+            eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 1);
+            //记录答题量
+            if (judgeRecordDao.selectUserRecord(problemId, type, vo.getUserId()) == 1) {
+                judgeRecordDao.statisticsUserRecord(problemId, type, vo.getUserId());
+            }
+
         } else {
             eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 0);
         }
@@ -184,6 +192,7 @@ public class JudgeService {
                 .execute().body();
         return new JSONObject(result);
     }
+
 
 
 }

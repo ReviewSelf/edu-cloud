@@ -21,6 +21,8 @@ public interface EnrollUserService extends BaseService<EnrollUserEntity> {
 
     void save(EnrollUserVO vo);
 
+    Integer insertEnrollUser(EnrollUserVO vo);
+
     void update(EnrollUserVO vo);
 
     void delete(List<Long> idList);
@@ -34,4 +36,6 @@ public interface EnrollUserService extends BaseService<EnrollUserEntity> {
     void post(EnrollUserVO enrollUserVO);
 
     EnrollUserVO selectUserInfoByOpenId(String openId);
+
+    void insertSysUser(Integer id);
 }

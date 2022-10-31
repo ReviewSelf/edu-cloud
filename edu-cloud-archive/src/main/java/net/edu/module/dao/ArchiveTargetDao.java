@@ -9,8 +9,6 @@ import net.edu.module.vo.ArchiveTargetVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 /**
 * target
 *
@@ -20,8 +18,13 @@ import java.util.List;
 @Mapper
 public interface ArchiveTargetDao extends BaseDao<ArchiveTargetEntity> {
 
-    IPage<ArchiveTargetVO> page(Page<ArchiveTargetVO> page, @Param("query") ArchiveTargetQuery query);
+    IPage<ArchiveTargetVO> selectArchiveTargetByPage(Page<ArchiveTargetVO> page, @Param("query") ArchiveTargetQuery query);
 
+    ArchiveTargetVO selectArchiveTargetById(Long id);
+
+    void updateArchiveTarget(ArchiveTargetVO vo);
+
+    void insertArchiveTarget(ArchiveTargetVO vo);
     List<ArchiveTargetVO> selectName();
 
 }

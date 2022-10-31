@@ -1,6 +1,7 @@
 package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import net.edu.module.api.EduLessonApi;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -42,6 +43,7 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
     private final TeachClassUserDao teachClassUserDao;
     private final TeachPlanService teachPlanService;
     private final TeachPlanItemService teachPlanItemService;
+    private final EduLessonApi eduLessonApi;
 
     private final RedisUtils redisUtils;
 
@@ -64,7 +66,9 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
     public void save(TeachClassVO vo) {
         TeachClassEntity entity = TeachClassConvert.INSTANCE.convert(vo);
         baseMapper.insert(entity);
-        teachClassUserDao.insertClassUser(vo.getUserIdList(), entity.getId());
+        if(vo.getUserIdList().size()>0){
+            teachClassUserDao.insertClassUser(vo.getUserIdList(), entity.getId());
+        }
         teachPlanService.updateUsedNum(entity.getPlanId());
     }
 
@@ -81,6 +85,10 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+        for(int i=0;i<idList.size();i++){
+            System.out.println(idList.get(i));
+            System.out.println(eduLessonApi.delete(idList.get(i)));
+        }
         redisUtils.del(RedisKeys.getActivityClass());
     }
 

@@ -78,7 +78,8 @@ public class TeachClassController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid TeachClassVO vo){
-        System.out.println(vo);
+        System.out.println("6666");
+        System.out.println(vo.getBeginTime());
         teachClassService.update(vo);
 
         return Result.ok();
@@ -127,4 +128,7 @@ public class TeachClassController {
     public Result<List<TeachClassVO>> getOpenClassesList(){
         return Result.ok(teachClassService.getOpenClassesList());
     }
+
+
+
 }

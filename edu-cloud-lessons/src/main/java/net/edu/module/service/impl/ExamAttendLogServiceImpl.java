@@ -188,5 +188,8 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
         }
     }
 
-
+    @Override
+    public ExamAttendLogVO getUserExamInfo(Long userId, Long examId) {
+        return baseMapper.selectUserExamInfo(userId,examId);
+    }
 }

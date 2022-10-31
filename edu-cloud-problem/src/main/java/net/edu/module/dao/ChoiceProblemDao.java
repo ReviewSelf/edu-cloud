@@ -25,7 +25,7 @@ import java.util.List;
 public interface ChoiceProblemDao extends BaseDao<ChoiceProblemEntity> {
 
 
-    List<WxChoiceProblemVO> getChoiceProblemInfo(String problemId);
+
     ChoiceProblemVO selectChoiceProblem(Long problemId);
 
 

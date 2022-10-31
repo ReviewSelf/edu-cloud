@@ -27,11 +27,18 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, ArchiveTargetEntity> implements ArchiveTargetService {
 
+    @Autowired
+    private ArchiveTargetDao archiveTargetDao;
     @Override
     public PageResult<ArchiveTargetVO> page(ArchiveTargetQuery query) {
         Page<ArchiveTargetVO> page = new Page<>(query.getPage(),query.getLimit());
-        IPage<ArchiveTargetVO> list = baseMapper.page(page,query);
+        IPage<ArchiveTargetVO> list = archiveTargetDao.selectArchiveTargetByPage(page,query);
         return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
+    @Override
+    public ArchiveTargetVO selectArchiveTargetById(Long id) {
+        return archiveTargetDao.selectArchiveTargetById(id);
     }
 
     @Override
@@ -48,16 +55,12 @@ public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, 
 
     @Override
     public void save(ArchiveTargetVO vo) {
-        ArchiveTargetEntity entity = ArchiveTargetConvert.INSTANCE.convert(vo);
-
-        baseMapper.insert(entity);
+        archiveTargetDao.insertArchiveTarget(vo);
     }
 
     @Override
     public void update(ArchiveTargetVO vo) {
-        ArchiveTargetEntity entity = ArchiveTargetConvert.INSTANCE.convert(vo);
-
-        updateById(entity);
+        archiveTargetDao.updateArchiveTarget(vo);
     }
 
     @Override

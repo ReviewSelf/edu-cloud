@@ -46,6 +46,12 @@
         where id=#{id}
     </update>
 
+
+    <update id="updateStatus3">
+        update enroll_user set status=3
+        where id=#{id}
+    </update>
+
     <insert id="insertId">
         INSERT INTO enroll_user (open_id,union_id) values (#{openId},#{unionId})
     </insert>
@@ -81,6 +87,13 @@
 
     <insert id="insertClassUser">
         insert into enroll_class_user (enroll_class_id,user_id,create_time) values (#{classId},#{userId},now())
+    </insert>
+
+    <insert id="insertEnrollUser" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO
+            enroll_user
+            (phone,name,area,grade,status)
+        VALUES(#{phone},#{name},#{area},#{grade},1)
     </insert>
 
     <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.EnrollUserVO">

@@ -12,6 +12,7 @@ auth:
     - /enrollUser/insertOpenId
     - /enrollUser/insertClassUser
     - /enrollUser/post
+    - /enrollUser/insertEnrollUser
     - /classUser/updateHomeworkTimes
     - /statistics/info
     - /enrollLesson/teacherOpinion

@@ -2,12 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.ArchiveTargetDao">
+    <insert id="insertArchiveTarget">
+        insert into archive_target
+            (graduate_id, name, content, grade, creator, create_time)
+        values (#{graduateId},#{name},#{content},#{grade},"10000",now())
+    </insert>
 
-
-    <select id="page" resultType="net.edu.module.vo.ArchiveTargetVO">
+    <select id="selectArchiveTargetByPage" resultType="net.edu.module.vo.ArchiveTargetVO">
         SELECT
 	        id,
-            number,
             graduate_id AS graduateId,
             name,
             content,
@@ -38,4 +41,26 @@
 	        archive_target
     </select>
 
+    <select id="selectArchiveTargetById" resultType="net.edu.module.vo.ArchiveTargetVO">
+        SELECT
+        id,
+        number,
+        graduate_id AS graduateId,
+        name,
+        content,
+        version,
+        updater,
+        grade,
+        (select title from archive_graduate_require t1 where t1.id=t2.graduate_id) as graduateTitle
+        FROM
+        archive_target t2
+        WHERE
+        id = #{id}
+    </select>
+
+    <update id="updateArchiveTarget">
+        update archive_target
+        set name = #{name},content = #{content},grade = #{grade}
+        where id = #{id}
+    </update>
 </mapper>

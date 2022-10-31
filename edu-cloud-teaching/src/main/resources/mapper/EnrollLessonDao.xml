@@ -7,10 +7,10 @@
         lesson(teacher_id , name , place , begin_time , end_time , class_id , plan_item_id)
         values(#{teacherId}, #{name} , #{place} , #{beginTime} , #{endTime} , 0 , #{planItemId})
     </insert>
-    <insert id="joinLessonSys" parameterType="net.edu.module.entity.EnrollUserEntity">
+    <insert id="joinLessonSys" parameterType="net.edu.module.entity.EnrollUserEntity" keyProperty="id" useGeneratedKeys="true">
         insert into
         sys_user(username , real_name , mobile , union_id , open_id , area , age , grade , version , integral , balance , password)
-        values(#{wxName} , #{name} , #{phone} , #{unionId} , #{openId} , #{area} , #{age} , #{grade} , #{version} , #{integral} , #{balance} , '123456')
+        values(#{phone} , #{name} , #{phone} , #{unionId} , #{openId} , #{area} , #{age} , #{grade} , #{version} , #{integral} , #{balance} , '123456')
     </insert>
     <insert id="joinLessonEvalute">
     insert into

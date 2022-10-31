@@ -12,6 +12,7 @@ import net.edu.module.query.ArchiveWeightTargetAssessQuery;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import net.edu.module.dao.ArchiveWeightTargetAssessDao;
 import net.edu.module.service.ArchiveWeightTargetAssessService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveWeightTargetAssessServiceImpl extends BaseServiceImpl<ArchiveWeightTargetAssessDao, ArchiveWeightTargetAssessEntity> implements ArchiveWeightTargetAssessService {
 
+    @Autowired
+    private ArchiveWeightTargetAssessDao archiveWeightTargetAssessDao;
     @Override
     public PageResult<ArchiveWeightTargetAssessVO> page(ArchiveWeightTargetAssessQuery query) {
         IPage<ArchiveWeightTargetAssessEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
@@ -58,6 +61,16 @@ public class ArchiveWeightTargetAssessServiceImpl extends BaseServiceImpl<Archiv
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+    }
+
+    @Override
+    public List<ArchiveWeightTargetAssessVO> selectAssessByTargetId(Long targetId) {
+        return archiveWeightTargetAssessDao.selectAssessByTargetId(targetId);
+    }
+
+    @Override
+    public Integer insertAssessWeight(List<ArchiveWeightTargetAssessVO> assessVOS) {
+        return archiveWeightTargetAssessDao.insertAssessWeight(assessVOS);
     }
 
 }

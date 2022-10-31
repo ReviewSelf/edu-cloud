@@ -10,6 +10,7 @@ import net.edu.module.entity.ArchiveWeightTargetAssessEntity;
 import net.edu.module.service.ArchiveWeightTargetAssessService;
 import net.edu.module.query.ArchiveWeightTargetAssessQuery;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
+import net.edu.module.vo.ArchiveWeightTargetKnowledgeVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,6 +72,19 @@ public class ArchiveWeightTargetAssessController {
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveWeightTargetAssessService.delete(idList);
 
+        return Result.ok();
+    }
+
+    @GetMapping("target")
+    @Operation(summary = "根据指标点id获取权重")
+    public Result<List<ArchiveWeightTargetAssessVO>> selectKnowledgeByTargetId(Long targetId){
+        return Result.ok(archiveWeightTargetAssessService.selectAssessByTargetId(targetId));
+    }
+
+    @PostMapping("target")
+    @Operation(summary = "插入指标点id以及对应课程id和权重")
+    public Result<String> insertKnowledgeWeight(@RequestBody List<ArchiveWeightTargetAssessVO> vo){
+        archiveWeightTargetAssessService.insertAssessWeight(vo);
         return Result.ok();
     }
 }

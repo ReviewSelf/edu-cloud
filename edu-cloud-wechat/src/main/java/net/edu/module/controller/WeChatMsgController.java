@@ -120,7 +120,7 @@ public class WeChatMsgController {
         return Result.ok();
     }
 
-//    <!--作业提醒模板消息-->
+//    <!--课堂评价提醒-->
     @PostMapping("lessonEvaluation")
     public Result<String> insertLessonEvaluationTemplate(@RequestBody List<WxLessonEvaluationVO> vo){
         weChatMsgService.insertMsgLogLessonEvaluationTemplate(vo);

@@ -86,18 +86,21 @@ public class WeChatMsgController {
         return Result.ok(sysUserService.getUserInfo(openId));
     }
 
+//    <!--插入开课提醒模板消息-->
     @PostMapping("classOpen")
     public Result<String> insertClassOpenTemplate(@RequestBody List<WxClassOpenVO> vo){
         weChatMsgService.insertMsgLogClassOpenTemplate(vo);
         return Result.ok();
     }
 
+//    <!--插入作业发布提醒模板消息-->
     @PostMapping("workPublish")
     public Result<String> insertWorkPublishTemplate(@RequestBody List<WxWorkPublishVO> vo){
         weChatMsgService.insertMsgLogWorkPublishTemplate(vo);
         return Result.ok();
     }
 
+//    <!--插入上课前提醒模板消息-->
     @PostMapping("lessonOpen")
     public Result<String> insertLessonOpenTemplate(@RequestBody List<WxLessonOpenVO> vo){
         weChatMsgService.insertMsgLogLessonOpenTemplate(vo);
@@ -110,12 +113,14 @@ public class WeChatMsgController {
         return Result.ok();
     }
 
+//    <!--作业提醒模板消息-->
     @PostMapping("workDeadline")
     public Result<String> insertWorkDeadlineTemplate(@RequestBody List<WxWorkDeadlineVO> vo){
         weChatMsgService.insertMsgLogWorkDeadlineTemplate(vo);
         return Result.ok();
     }
 
+//    <!--作业提醒模板消息-->
     @PostMapping("lessonEvaluation")
     public Result<String> insertLessonEvaluationTemplate(@RequestBody List<WxLessonEvaluationVO> vo){
         weChatMsgService.insertMsgLogLessonEvaluationTemplate(vo);

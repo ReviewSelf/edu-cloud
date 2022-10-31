@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.xml.bind.annotation.*;
+import java.util.List;
 
 /**
  * @author weng
@@ -41,6 +42,7 @@ public class OutMessage {
      * voice 语音消息
      * video 视频消息
      * music 音乐消息
+     * news 图文消息
      */
     @XmlElement(name="MsgType")
     protected String msgType;
@@ -58,7 +60,22 @@ public class OutMessage {
     @XmlElement(name = "MediaId")
     private String[] mediaId;
 
-    @XmlElement(name="PicUrl")
-    private String PicUrl;
+    /**
+     * 图文消息信息
+     */
+    @XmlElement(name="Articles")
+    private String articles;
+
+    /**
+     * 图文消息个数
+     */
+    @XmlElement(name="ArticleCount")
+    private Integer articleCount;
+
+    /**
+     * 图文消息个数
+     */
+    @XmlElement(name="Articles")
+    private List<Articles> articlesList;
 
 }

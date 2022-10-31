@@ -44,7 +44,6 @@
     <select id="selectArchiveTargetById" resultType="net.edu.module.vo.ArchiveTargetVO">
         SELECT
         id,
-        number,
         graduate_id AS graduateId,
         name,
         content,
@@ -60,7 +59,7 @@
 
     <update id="updateArchiveTarget">
         update archive_target
-        set name = #{name},content = #{content},grade = #{grade}
+        set name = #{name},content = #{content},grade = #{grade},graduate_id = #{graduateId}
         where id = #{id}
     </update>
 </mapper>

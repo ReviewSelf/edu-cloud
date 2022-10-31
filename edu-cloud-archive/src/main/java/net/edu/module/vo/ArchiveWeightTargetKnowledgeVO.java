@@ -9,42 +9,30 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-* 能力课程
+* 一级知识点权重
 *
 * @author 阿沐 babamu@126.com
-* @since 1.0.0 2022-10-25
+* @since 1.0.0 2022-10-29
 */
 @Data
-@Schema(description = "能力课程")
-public class ArchiveCourseVO implements Serializable {
+@Schema(description = "一级知识点权重")
+public class ArchiveWeightTargetKnowledgeVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Schema(description = "课程编号")
+	@Schema(description = "支撑矩阵编号")
 	private Long id;
 
-	@Schema(description = "外部系统编号")
-	private Long sysId;
+	@Schema(description = "指标点编号")
+	private Long targetId;
 
-	@Schema(description = "名称")
-	private String name;
+	@Schema(description = "一级知识点编号")
+	private Long courseId;
 
-	@Schema(description = "学时")
-	private Integer creditHours;
+	@Schema(description = "一级知识点名称")
+	private String courseName;
 
-	@Schema(description = "周学时")
-	private Integer weeklyCreditHours;
-
-	@Schema(description = "课程类别")
-	private String courseCategory;
-
-	@Schema(description = "课程类型")
-	private String type;
-
-	@Schema(description = "开设学期")
-	private String semester;
-
-	@Schema(description = "年级")
-	private String grade;
+	@Schema(description = "权重")
+	private Double weight;
 
 	@Schema(description = "删除")
 	private Integer deleted;

@@ -72,4 +72,9 @@ public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, 
         removeByIds(idList);
     }
 
+    @Override
+    public List<ArchiveCourseVO> selectArchiveCourseAll() {
+        return archiveCourseDao.selectArchiveCourseAll();
+    }
+
 }

@@ -58,6 +58,7 @@ public class ArchiveTargetController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ArchiveTargetVO vo){
+        System.out.println("修改"+vo);
         archiveTargetService.update(vo);
         return Result.ok();
     }

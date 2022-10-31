@@ -8,6 +8,7 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.AbilityConvert;
 import net.edu.module.entity.AbilityEntity;
 import net.edu.module.query.AbilityQuery;
+import net.edu.module.service.AbilityService;
 import net.edu.module.vo.AbilityVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AbilityPointController {
 
-
+    private final AbilityService abilityService;
 
     @GetMapping("page")
     @Operation(summary = "分页")

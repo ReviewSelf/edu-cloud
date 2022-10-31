@@ -10,7 +10,6 @@ import net.edu.module.entity.ArchiveCourseEntity;
 import net.edu.module.service.ArchiveCourseService;
 import net.edu.module.query.ArchiveCourseQuery;
 import net.edu.module.vo.ArchiveCourseVO;
-import net.edu.module.vo.ArchiveTargetVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -72,5 +71,11 @@ public class ArchiveCourseController {
         archiveCourseService.delete(idList);
 
         return Result.ok();
+    }
+
+    @GetMapping("course")
+    @Operation(summary = "课程信息")
+    public Result<List<ArchiveCourseVO>> selectArchiveCourseAll(){
+        return Result.ok(archiveCourseService.selectArchiveCourseAll());
     }
 }

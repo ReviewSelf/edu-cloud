@@ -38,4 +38,6 @@ public interface LessonService extends BaseService<LessonEntity> {
     void  closeLessonHomeWork(Long lessonId);
 
     void homeWorkDeadline();
+
+    void delete(Long classId);
 }

@@ -5,3 +5,4 @@ auth:
     - /test
     - /lesson/homework/deadlines
     - /evaluate/list/**
+    - /lessons/lesson

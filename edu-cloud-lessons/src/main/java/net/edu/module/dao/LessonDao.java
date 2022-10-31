@@ -28,7 +28,8 @@ public interface LessonDao extends BaseDao<LessonEntity> {
 
     IPage<LessonVO> selectHomeworkPage(Page<LessonVO> page, @Param("query") LessonQuery query);
 
-    List<LessonVO> selectLessonIdList();
 
     List<LessonVO> getListById(Long classId);
+
+    int deleteByClassId(Long classId);
 }

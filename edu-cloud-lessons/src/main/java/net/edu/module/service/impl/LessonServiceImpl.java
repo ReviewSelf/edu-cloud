@@ -214,4 +214,9 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     }
 
+    @Override
+    public void delete(Long classId) {
+        baseMapper.deleteByClassId(classId);
+    }
+
 }

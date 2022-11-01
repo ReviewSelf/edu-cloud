@@ -15,6 +15,7 @@ import net.edu.framework.security.user.SecurityUser;
 import net.edu.framework.security.user.UserDetail;
 import net.edu.module.api.EduJudgeApi;
 import net.edu.module.api.EduTeachApi;
+import net.edu.module.api.EduWxApi;
 import net.edu.module.convert.LessonConvert;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
@@ -24,6 +25,7 @@ import net.edu.module.service.LessonResourceService;
 import net.edu.module.vo.*;
 import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +51,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final EduJudgeApi eduJudgeApi;
 
     private final RedisUtils redisUtils;
+
+    EduWxApi eduWxApi;
 
 
     /**
@@ -140,12 +144,21 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
             redisUtils.del(RedisKeys.getHomeWorkKey(vo.getId()));
         } else {
             baseMapper.updateHomework(vo);
+            sendHomeworkBegin(vo.getId());
             Long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
             if (time > 0) {
                 redisUtils.set(RedisKeys.getHomeWorkKey(vo.getId()), time, time / 1000);
             }
         }
     }
+
+   // @Async
+    @Override
+    public void sendHomeworkBegin(Long lessonId){
+        List<WxWorkPublishVO> list = lessonDao.selectHomeworkBegin(lessonId);
+        eduWxApi.insertWorkPublishTemplate(list);
+    }
+
 
     @Override
     public PageResult<LessonVO> homeworkPage(LessonQuery query) {

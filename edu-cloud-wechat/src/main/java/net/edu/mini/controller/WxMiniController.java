@@ -24,11 +24,9 @@ public class WxMiniController {
     private EduLessonApi eduLessonApi;
 
     @GetMapping("/homeWorkPage")
-    public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@RequestBody HomeWorkQuery query){
+    public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@Valid HomeWorkQuery query){
 
-        System.out.println(query);
-        System.out.println(eduLessonApi.getStudentHomeWorkPage(query));
-        return Result.ok(eduLessonApi.getStudentHomeWorkPage(query).getData());
+        return Result.ok(eduLessonApi.getStudentHomeWorkPage(query.getStudentId(),query.getLimit(),query.getPage()).getData());
     }
 
 }

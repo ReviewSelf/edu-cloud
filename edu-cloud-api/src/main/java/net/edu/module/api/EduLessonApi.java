@@ -9,10 +9,7 @@ import net.edu.module.fallback.EduLessonApiFallBack;
 import net.edu.module.vo.HomeWorkQuery;
 import net.edu.module.vo.HomeWorkVO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -30,6 +27,6 @@ public interface EduLessonApi {
 
 
     /****************************WxMini调用******************************************/
-    @PostMapping("/homeWork/homeWorkPage")
-    Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@RequestBody HomeWorkQuery query);
+    @GetMapping("/homeWork/homeWorkPage")
+    Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@RequestParam String studentId,@RequestParam(value = "limit")Integer limit,@RequestParam(value="page")Integer page);
 }

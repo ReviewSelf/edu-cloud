@@ -39,7 +39,6 @@ public class HomeWorkController {
         log.info(query.toString());
         PageResult<HomeWorkVO> page=homeWorkService.getStudentHomeWorkPage(query);
 
-        log.info(page.toString());
         return Result.ok(page);
 
     }

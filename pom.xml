@@ -29,6 +29,7 @@
         <module>edu-cloud-lessons</module>
         <module>edu-cloud-archive</module>
         <module>edu-cloud-api</module>
+        <module>edu-cloud-archive</module>
     </modules>
 
     <properties>

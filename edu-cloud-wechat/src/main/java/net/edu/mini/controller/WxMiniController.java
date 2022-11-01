@@ -23,7 +23,7 @@ public class WxMiniController {
     @Autowired
     private EduLessonApi eduLessonApi;
 
-    @GetMapping("/homeWorkPage")
+    @PostMapping("/homeWorkPage")
     public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@RequestBody HomeWorkQuery query){
 
         System.out.println(query);

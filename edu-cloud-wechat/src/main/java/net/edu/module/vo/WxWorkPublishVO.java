@@ -10,19 +10,19 @@ import lombok.Data;
 public class WxWorkPublishVO {
 
     /**
-     * 学生姓名
+     * 截止时间
      */
-    private String studentName;
-
-    /**
-     * 作业科目
-     */
-    private String subject;
+    private String keyword1;
 
     /**
      * 作业内容
      */
-    private String task;
+    private String keyword2;
+
+    /**
+     * 作业内容
+     */
+    private String keyword3;
 
     /**
      * 发送时间
@@ -36,9 +36,9 @@ public class WxWorkPublishVO {
 
 
     public String toJsonString() {
-        return "{\"studentName\":\""+studentName
-                +"\",\"subject\":\""+subject
-                +"\",\"task\":\""+task
+        return "{\"keyword1\":\""+keyword1
+                +"\",\"keyword2\":\""+keyword2
+                +"\",\"keyword3\":\""+keyword3
                 +"\"}";
     }
 }

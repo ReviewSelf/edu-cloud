@@ -34,12 +34,12 @@ public class ArchiveCourseEntity {
 	/**
 	* 学时
 	*/
-	private String creditHours;
+	private Integer creditHours;
 
 	/**
 	* 周学时
 	*/
-	private String weeklyCreditHours;
+	private Integer weeklyCreditHours;
 
 	/**
 	* 课程类别

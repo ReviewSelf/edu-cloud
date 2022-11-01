@@ -31,7 +31,7 @@
     <insert id="insertMsgLogWorkPublishTemplate">
         insert into wx_msg_log
         (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
-        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,2,"NzaepBC0pI3Y4ANnOuKvCcujyQc8fjR0EbnpF1di_NA")
+        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,2,"rxOno-8c3Gv_uWEGO1urOnTq2cyQGGiR-054hUfOJOo")
     </insert>
 
     <!--插入上课前提醒模板消息-->

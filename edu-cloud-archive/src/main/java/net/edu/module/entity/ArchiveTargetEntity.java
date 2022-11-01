@@ -18,10 +18,6 @@ import net.edu.framework.mybatis.entity.BaseEntity;
 @TableName("archive_target")
 public class ArchiveTargetEntity extends BaseEntity {
 
-	/**
-	* 指标点编号
-	*/
-	private Integer number;
 
 	/**
 	* 毕业要求编号

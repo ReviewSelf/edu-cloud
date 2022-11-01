@@ -27,8 +27,7 @@ public interface EduLessonApi {
     @DeleteMapping("/lesson")
     Result<String> delete(@RequestBody Long classId);
 
-    @GetMapping("/getExamRecordList")
-    Result<List<ExamScoreVO>> getExamRecordList(@Valid ExamRecordQuery query );
+
 
 
 }

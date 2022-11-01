@@ -40,5 +40,5 @@ public interface ExamService extends BaseService<ExamEntity> {
 
     void submitPaper(Long examId);
 
-    void exportExam(@Valid ExamRecordQuery query, HttpServletResponse response) throws IOException;
+    void exportExam(Long examId, HttpServletResponse response) throws IOException;
 }

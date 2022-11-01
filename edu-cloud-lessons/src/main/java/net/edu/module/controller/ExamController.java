@@ -14,10 +14,13 @@ import net.edu.module.query.ExamQuery;
 import net.edu.module.vo.ExamRecordQuery;
 import net.edu.module.vo.ExamScoreVO;
 import net.edu.module.vo.ExamVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -113,8 +116,10 @@ public class ExamController {
 
     @GetMapping("exportExam")
     @Operation(summary = "导出excel")
-    public void exportExam(@Valid ExamRecordQuery query, HttpServletResponse response){
-         examService.exportExam(query,response);
+    public void exportExam(@RequestParam(value = "examId") Long examId, HttpServletResponse response) throws IOException {
+        System.out.println(examId);
+
+         examService.exportExam(examId,response);
     }
 
 

@@ -56,11 +56,11 @@
 
     <select id="selectHomeworkBegin" resultType="net.edu.module.vo.WxWorkPublishVO">
         SELECT
-            concat(className,lessonName,"课后作业") as subject,
-            concat("本次作业共",num,"题，请按时完成") as task,
+            concat(className,lessonName,"课后作业") as content,
+            concat("本次作业共",num,"题，请按时完成") as demand,
             userId ,
-            studentName ,
-            t3.homework_end_time FROM
+            now() as sendTime ,
+            t3.homework_end_time as endTime FROM
             (
                 SELECT t1.stu_id as userId,
                        (SELECT real_name FROM sys_user where id= t1.stu_id)as studentName,

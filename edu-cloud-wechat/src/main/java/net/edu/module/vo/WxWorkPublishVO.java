@@ -12,17 +12,17 @@ public class WxWorkPublishVO {
     /**
      * 截止时间
      */
-    private String keyword1;
+    private String endTime;
 
     /**
      * 作业内容
      */
-    private String keyword2;
+    private String content;
 
     /**
      * 作业内容
      */
-    private String keyword3;
+    private String demand;
 
     /**
      * 发送时间
@@ -36,9 +36,9 @@ public class WxWorkPublishVO {
 
 
     public String toJsonString() {
-        return "{\"keyword1\":\""+keyword1
-                +"\",\"keyword2\":\""+keyword2
-                +"\",\"keyword3\":\""+keyword3
+        return "{\"endTime\":\""+endTime
+                +"\",\"content\":\""+content
+                +"\",\"demand\":\""+demand
                 +"\"}";
     }
 }

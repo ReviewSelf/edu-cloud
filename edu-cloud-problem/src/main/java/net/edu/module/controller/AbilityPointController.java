@@ -1,0 +1,71 @@
+package net.edu.module.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
+import net.edu.module.convert.AbilityConvert;
+import net.edu.module.entity.AbilityEntity;
+import net.edu.module.query.AbilityQuery;
+import net.edu.module.service.AbilityService;
+import net.edu.module.vo.AbilityVO;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+
+/**
+ * 能力纬度图
+ *
+ * @author sqw
+ * @since 1.0.0 2022-10-27
+ */
+@RestController
+@RequestMapping("ability/point")
+@Tag(name="能力点管理")
+@AllArgsConstructor
+public class AbilityPointController {
+
+    private final AbilityService abilityService;
+
+    @GetMapping("page")
+    @Operation(summary = "分页")
+    public Result<PageResult<AbilityVO>> page(@Valid AbilityQuery query){
+        PageResult<AbilityVO> page = abilityService.page(query);
+
+        return Result.ok(page);
+    }
+
+    @GetMapping("{id}")
+    @Operation(summary = "信息")
+    public Result<AbilityVO> get(@PathVariable("id") Long id){
+        AbilityEntity entity = abilityService.getById(id);
+
+        return Result.ok(AbilityConvert.INSTANCE.convert(entity));
+    }
+
+    @PostMapping
+    @Operation(summary = "保存")
+    public Result<String> save(@RequestBody AbilityVO vo){
+        abilityService.save(vo);
+
+        return Result.ok();
+    }
+
+    @PutMapping
+    @Operation(summary = "修改")
+    public Result<String> update(@RequestBody @Valid AbilityVO vo){
+        abilityService.update(vo);
+
+        return Result.ok();
+    }
+
+    @DeleteMapping
+    @Operation(summary = "删除")
+    public Result<String> delete(@RequestBody List<Long> idList){
+        abilityService.delete(idList);
+
+        return Result.ok();
+    }
+}

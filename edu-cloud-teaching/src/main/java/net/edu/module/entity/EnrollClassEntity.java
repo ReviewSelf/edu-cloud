@@ -8,7 +8,7 @@ import net.edu.framework.mybatis.entity.BaseEntity;
 /**
  * 班级发布
  *
- * @author 翁瑞辰 
+ * @author 翁瑞辰
  * @since  2022-09-06
  */
 @Data
@@ -61,4 +61,9 @@ public class EnrollClassEntity extends BaseEntity {
 	 * 结课日期
 	 */
 	private String classEnd;
+
+	/**
+	 * 价格
+	 */
+	private String price;
 }

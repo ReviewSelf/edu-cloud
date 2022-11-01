@@ -2,11 +2,13 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
@@ -15,6 +17,7 @@ import net.edu.framework.security.user.SecurityUser;
 import net.edu.framework.security.user.UserDetail;
 import net.edu.module.api.EduJudgeApi;
 import net.edu.module.api.EduTeachApi;
+import net.edu.module.api.EduWxApi;
 import net.edu.module.convert.LessonConvert;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
@@ -24,6 +27,7 @@ import net.edu.module.service.LessonResourceService;
 import net.edu.module.vo.*;
 import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +43,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> implements LessonService {
 
     private final LessonProblemService lessonProblemService;
@@ -49,6 +54,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final EduJudgeApi eduJudgeApi;
 
     private final RedisUtils redisUtils;
+
+    EduWxApi eduWxApi;
 
 
     /**
@@ -133,19 +140,34 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void updateHomework(LessonVO vo) {
         if (vo.getHomeworkStatus() == 2) {
             closeLessonHomeWork(vo.getId());
             redisUtils.del(RedisKeys.getHomeWorkKey(vo.getId()));
         } else {
             baseMapper.updateHomework(vo);
+
+
+            LessonService lessonService= SpringUtil.getBean(LessonService.class);
+            lessonService.sendHomeworkBegin(vo.getId());
+
+
             Long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
             if (time > 0) {
                 redisUtils.set(RedisKeys.getHomeWorkKey(vo.getId()), time, time / 1000);
             }
         }
     }
+
+    @Async
+    public void sendHomeworkBegin(Long lessonId){
+        List<WxWorkPublishVO> list = lessonDao.selectHomeworkBegin(lessonId);
+        eduWxApi.insertWorkPublishTemplate(list);
+
+
+        //
+    }
+
 
     @Override
     public PageResult<LessonVO> homeworkPage(LessonQuery query) {

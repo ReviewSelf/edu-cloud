@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveWeightTargetAssessDao">
+
+    <resultMap type="net.edu.module.entity.ArchiveWeightTargetAssessEntity" id="archiveWeightTargetAssessMap">
+        <result property="id" column="id"/>
+        <result property="assessId" column="assess_id"/>
+        <result property="targetId" column="target_id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="weight" column="weight"/>
+        <result property="weightExplain" column="weight_explain"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="creator" column="creator"/>
+        <result property="version" column="version"/>
+        <result property="updater" column="updater"/>
+    </resultMap>
+
+    <select id="selectAssessByCourseId" resultType="net.edu.module.vo.ArchiveWeightTargetAssessVO">
+        select
+            id,
+            target_id as targetId,
+            (select name from archive_target t1 where t1.id = targetId and t1.deleted = 0) as targetName,
+            assess_id as assessId,
+            (select name from archive_assess t1 where t1.id = assessId and t1.deleted = 0) as assessName,
+            course_id as courseId,
+            (select name from archive_course t1 where t1.id = courseId and t1.deleted = 0) as courseName,
+            weight
+        from archive_weight_target_assess
+        where deleted = 0
+          and course_id = #{courseId}
+    </select>
+
+    <update id="insertAssessWeight" parameterType="java.util.List">
+        <foreach collection="list" item="item"  separator=";">
+            update archive_weight_target_assess
+            <set>
+                weight = #{item.weight}
+            </set>
+            where assess_id = #{item.assessId}
+        </foreach>
+    </update>
+</mapper>

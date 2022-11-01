@@ -54,6 +54,24 @@
         WHERE id=#{vo.id} AND deleted=0
     </update>
 
+    <select id="selectHomeworkBegin" resultType="net.edu.module.vo.WxWorkPublishVO">
+        SELECT
+            concat(className,lessonName,"课后作业") as content,
+            concat("本次作业共",num,"题，请按时完成") as demand,
+            userId ,
+            now() as sendTime ,
+            t3.homework_end_time as endTime FROM
+            (
+                SELECT t1.stu_id as userId,
+                       (SELECT real_name FROM sys_user where id= t1.stu_id)as studentName,
+                       (SELECT name FROM teach_class WHERE id=t1.class_id) as className,t1.lessonName,t2.num,t1.homework_end_time
+                FROM
+                    (select  b.stu_id ,a.name as lessonName,a.class_id , a.homework_end_time
+                     from lesson a LEFT JOIN lesson_attend_log b on b.lesson_id=a.id
+                     where a.id = #{lessonId}) t1,(SELECT count(1) as num FROM lesson_problem WHERE lesson_id=#{lessonId}) t2
+            ) t3
+    </select>
+
     <select id="selectHomeworkPage" resultMap="lessonMap">
         select b.id,b.teacher_id ,b.name,b.status,(select real_name from sys_user where id=b.teacher_id) as teacherName,b.class_id,
                (select name from teach_class where id=b.class_id) as className,b.place,b.begin_time ,b.end_time,

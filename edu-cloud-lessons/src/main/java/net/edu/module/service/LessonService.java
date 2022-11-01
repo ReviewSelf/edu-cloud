@@ -29,6 +29,7 @@ public interface LessonService extends BaseService<LessonEntity> {
 
     void createLessons(List<LessonVO> voList);
 
+    void sendHomeworkBegin(Long lessonId);
 
     PageResult<LessonVO> homeworkPage(LessonQuery query);
 

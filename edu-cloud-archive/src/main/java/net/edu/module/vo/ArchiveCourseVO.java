@@ -29,10 +29,10 @@ public class ArchiveCourseVO implements Serializable {
 	private String name;
 
 	@Schema(description = "学时")
-	private String creditHours;
+	private Integer creditHours;
 
 	@Schema(description = "周学时")
-	private String weeklyCreditHours;
+	private Integer weeklyCreditHours;
 
 	@Schema(description = "课程类别")
 	private String courseCategory;

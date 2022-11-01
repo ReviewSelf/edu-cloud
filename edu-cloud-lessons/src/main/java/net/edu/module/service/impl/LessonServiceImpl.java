@@ -2,11 +2,13 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
@@ -41,6 +43,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> implements LessonService {
 
     private final LessonProblemService lessonProblemService;
@@ -137,14 +140,18 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void updateHomework(LessonVO vo) {
         if (vo.getHomeworkStatus() == 2) {
             closeLessonHomeWork(vo.getId());
             redisUtils.del(RedisKeys.getHomeWorkKey(vo.getId()));
         } else {
             baseMapper.updateHomework(vo);
-            sendHomeworkBegin(vo.getId());
+
+
+            LessonService lessonService= SpringUtil.getBean(LessonService.class);
+            lessonService.sendHomeworkBegin(vo.getId());
+
+
             Long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
             if (time > 0) {
                 redisUtils.set(RedisKeys.getHomeWorkKey(vo.getId()), time, time / 1000);
@@ -152,11 +159,13 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         }
     }
 
-   // @Async
-    @Override
+    @Async
     public void sendHomeworkBegin(Long lessonId){
         List<WxWorkPublishVO> list = lessonDao.selectHomeworkBegin(lessonId);
         eduWxApi.insertWorkPublishTemplate(list);
+
+
+        //
     }
 
 

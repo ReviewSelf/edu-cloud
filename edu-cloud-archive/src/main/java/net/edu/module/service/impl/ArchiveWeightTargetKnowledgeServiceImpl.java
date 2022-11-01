@@ -60,9 +60,8 @@ public class ArchiveWeightTargetKnowledgeServiceImpl extends BaseServiceImpl<Arc
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        removeByIds(idList);
+    public void delete(Long targetId,Long courseId) {
+        archiveWeightTargetKnowledgeDao.updateDeleted(targetId,courseId);
     }
 
     @Override
@@ -74,5 +73,7 @@ public class ArchiveWeightTargetKnowledgeServiceImpl extends BaseServiceImpl<Arc
     public Integer insertKnowledgeWeight(List<ArchiveWeightTargetKnowledgeVO> archiveWeightTargetKnowledgeVO) {
         return archiveWeightTargetKnowledgeDao.insertKnowledgeWeight(archiveWeightTargetKnowledgeVO);
     }
+
+
 
 }

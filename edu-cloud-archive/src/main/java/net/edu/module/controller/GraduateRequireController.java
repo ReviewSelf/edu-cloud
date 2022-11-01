@@ -11,6 +11,7 @@ import net.edu.module.query.GraduateRequireQuery;
 import net.edu.module.service.GraduateRequireService;
 import net.edu.module.vo.GraduateRequireVO;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -70,6 +71,12 @@ public class GraduateRequireController {
     @GetMapping("graduate")
     public Result<List<GraduateRequireEntity>> selectGraduateRequireList(@RequestParam("grade")String grade){
         return Result.ok(graduateRequireService.selectGraduateByGrade(grade));
+    }
+
+    @PostMapping("/import")
+    public Result<String> studentFromExcel(@RequestParam("file") MultipartFile file) {
+        graduateRequireService.importArchive(file);
+        return Result.ok();
     }
 
 }

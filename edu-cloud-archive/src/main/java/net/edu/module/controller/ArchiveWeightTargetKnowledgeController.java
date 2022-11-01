@@ -65,11 +65,10 @@ public class ArchiveWeightTargetKnowledgeController {
         return Result.ok();
     }
 
-    @DeleteMapping
+    @DeleteMapping("")
     @Operation(summary = "删除")
-    @PreAuthorize("hasAuthority('archiveweighttargetknowledge:delete')")
-    public Result<String> delete(@RequestBody List<Long> idList){
-        archiveWeightTargetKnowledgeService.delete(idList);
+    public Result<String> delete(@RequestParam("targetId")Long targetId,@RequestParam("courseId")Long courseId){
+        archiveWeightTargetKnowledgeService.delete(targetId,courseId);
 
         return Result.ok();
     }

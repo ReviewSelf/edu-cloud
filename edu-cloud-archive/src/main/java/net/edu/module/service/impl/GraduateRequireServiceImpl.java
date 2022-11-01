@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.GraduateRequireConvert;
@@ -15,7 +16,9 @@ import net.edu.module.vo.GraduateRequireVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.web.multipart.MultipartFile;
+import com.alibaba.excel.EasyExcel;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -70,6 +73,17 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
     @Override
     public List<GraduateRequireEntity> selectGraduateByGrade(String grade) {
         return graduateRequireDao.selectGraduateByGrade(grade);
+    }
+
+    @SneakyThrows
+    @Override
+    public void importArchive(MultipartFile file) {
+        List<GraduateRequireVO> list= EasyExcel.read(file.getInputStream()).head(GraduateRequireVO.class)
+                .sheet().headRowNumber(2).doReadSync();
+        for (GraduateRequireVO vo:list){
+            System.out.println(vo);
+            save(vo);
+        }
     }
 
 }

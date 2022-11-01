@@ -7,7 +7,16 @@
         insert into archive_assess (name,create_time)
         values (#{name},now())
     </insert>
-
+    <update id="updateArchiveAssess1">
+        update archive_assess
+        set name=#{name}
+        where id=#{id}
+    </update>
+    <update id="updateArchiveAssess2">
+        update archive_weight_target_assess
+        set assess_id=#{assessId},target_id=#{targetId},course_id=#{courseId}
+        where assess_id=#{id}
+    </update>
 
 
     <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">
@@ -27,10 +36,10 @@
         t1.updater
         FROM
         archive_assess t1
-        JOIN archive_weight_target_assess t3
+        LEFT JOIN archive_weight_target_assess t3
+        ON t1.id = t3.assess_id
         WHERE
         t1.deleted = 0
-        AND t1.id = t3.assess_id
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
         </if>
@@ -43,7 +52,7 @@
         <if test="query.getCourseName()!=null and query.getCourseName()!=''">
             and ( SELECT name FROM archive_course t4 WHERE t3.course_id = t4.id ) like concat('%',#{query.courseName},'%')
         </if>
-        order by t1.id desc
+        order by grade desc
     </select>
     <select id="selectName" resultType="net.edu.module.vo.ArchiveAssessVO">
         SELECT
@@ -53,5 +62,27 @@
 	        archive_assess
         WHERE
 	        deleted =0
+    </select>
+    <select id="selectArchiveAssessById" resultType="net.edu.module.vo.ArchiveAssessVO">
+        SELECT
+        t1.id AS id,
+        t1.name AS name ,
+        t3.target_id AS targetId,
+        t3.course_id AS courseId,
+        t3.weight AS weight,
+        t3.assess_id as assessId,
+        ( SELECT name FROM archive_target t2 WHERE t3.target_id = t2.id ) AS targetName,
+        ( SELECT name FROM archive_course t4 WHERE t3.course_id = t4.id ) AS courseName,
+        ( SELECT grade FROM archive_target t2 WHERE t3.target_id = t2.id ) AS grade,
+        t3.weight_explain AS weightExplain,
+        t1.creator,
+        t1.version,
+        t1.updater
+        FROM
+        archive_assess t1
+        LEFT JOIN archive_weight_target_assess t3
+        ON t1.id = t3.assess_id
+        WHERE
+        t1.id=#{id}
     </select>
 </mapper>

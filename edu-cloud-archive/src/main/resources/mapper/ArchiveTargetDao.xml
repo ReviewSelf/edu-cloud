@@ -39,6 +39,8 @@
             name
         FROM
 	        archive_target
+	    where
+	        deleted=0 and grade=#{grade}
     </select>
 
     <select id="selectArchiveTargetById" resultType="net.edu.module.vo.ArchiveTargetVO">

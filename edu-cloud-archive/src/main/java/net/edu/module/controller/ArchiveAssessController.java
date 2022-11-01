@@ -31,6 +31,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveAssessController {
     private final ArchiveAssessService archiveAssessService;
+    private final ArchiveWeightTargetKnowledgeController archiveWeightTargetKnowledgeController;
 
     @GetMapping("page")
     @Operation(summary = "分页")
@@ -43,8 +44,7 @@ public class ArchiveAssessController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<ArchiveAssessVO> get(@PathVariable("id") Long id){
-        ArchiveAssessEntity entity = archiveAssessService.getById(id);
-        return Result.ok(ArchiveAssessConvert.INSTANCE.convert(entity));
+        return Result.ok(archiveAssessService.selectArchiveAssessById(id));
     }
 
 

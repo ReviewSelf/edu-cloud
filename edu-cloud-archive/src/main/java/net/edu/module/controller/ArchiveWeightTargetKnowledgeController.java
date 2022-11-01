@@ -76,7 +76,7 @@ public class ArchiveWeightTargetKnowledgeController {
 
     @GetMapping("target")
     @Operation(summary = "根据指标点id获取权重")
-    public Result<List<ArchiveWeightTargetKnowledgeVO>> selectKnowledgeByTargetId(Long targetId){
+    public Result<List<ArchiveWeightTargetKnowledgeVO>> selectKnowledgeByTargetId(@RequestParam("targetId") Long targetId){
         return Result.ok(archiveWeightTargetKnowledgeService.selectKnowledgeByTargetId(targetId));
     }
 

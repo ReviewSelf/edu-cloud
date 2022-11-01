@@ -24,12 +24,12 @@
             course_id as courseId,
             (select name from archive_course t1 where t1.id = courseId) as courseName,
             weight
-        from archive_weight_target_knowledge
+        from archive_weight_target_course
         where deleted = 0 and target_id = #{targetId}
     </select>
 
     <insert id="insertKnowledgeWeight">
-        insert into archive_weight_target_knowledge(target_id,course_id,weight)
+        insert into archive_weight_target_course(target_id,course_id,weight)
         values
             <foreach collection="list" item="item" separator=",">
                 (#{item.targetId},#{item.courseId},#{item.weight})

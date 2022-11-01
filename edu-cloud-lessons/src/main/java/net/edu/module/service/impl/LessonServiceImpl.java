@@ -219,4 +219,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         baseMapper.deleteByClassId(classId);
     }
 
+    @Override
+    public void updateList(List<LessonVO> list) {
+        for(int i=0;i<list.size();i++){
+            System.out.println(list.get(i));
+            baseMapper.updateList(list.get(i));
+        }
+    }
 }

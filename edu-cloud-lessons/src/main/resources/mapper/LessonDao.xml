@@ -81,7 +81,7 @@
             place,
             begin_time,
             end_time
-        from lesson where class_id = #{classId} and end_time > date_format(now(),'%Y-%m-%d')
+        from lesson where class_id = #{classId} and end_time > now()
     </select>
 
 
@@ -89,4 +89,7 @@
         update lesson set deleted=1 where class_id = #{classId}
     </update>
 
+    <update id="updateList" parameterType="net.edu.module.vo.LessonVO">
+        update lesson set begin_time=#{beginTime},end_time=#{endTime} where id = #{id}
+    </update>
 </mapper>

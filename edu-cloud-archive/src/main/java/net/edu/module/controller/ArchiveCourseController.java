@@ -43,11 +43,6 @@ public class ArchiveCourseController {
         return Result.ok(ArchiveCourseConvert.INSTANCE.convert(entity));
     }
 
-    @GetMapping("firstKnowledgeId")
-    @Operation(summary = "一级课程名称")
-    public Result<List<ArchiveCourseVO>> getName(){
-        return Result.ok(archiveCourseService.getName());
-    }
 
     @PostMapping
     @Operation(summary = "保存")

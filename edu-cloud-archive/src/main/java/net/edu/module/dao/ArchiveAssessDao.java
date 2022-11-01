@@ -9,6 +9,8 @@ import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.vo.ArchiveAssessVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
 * 考核点
 *
@@ -20,8 +22,8 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
 
     IPage<ArchiveAssessVO> selectArchiveAssessByPage(Page<ArchiveAssessVO> page, ArchiveAssessQuery query);
 
-    Integer insertArchiveAccess(ArchiveAssessVO vo);
+    List<ArchiveAssessVO> selectName();
 
-
+    Integer insertArchiveAccess1(ArchiveAssessEntity vo);
 
 }

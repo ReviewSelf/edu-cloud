@@ -46,7 +46,6 @@ public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, 
     @Override
     public List<ArchiveTargetVO> getName() {
         List<ArchiveTargetVO> targetVOList=baseMapper.selectName();
-        System.out.println(targetVOList);
         return targetVOList;
     }
 

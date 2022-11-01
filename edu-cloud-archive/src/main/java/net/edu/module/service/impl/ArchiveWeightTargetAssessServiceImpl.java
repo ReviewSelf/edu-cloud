@@ -73,4 +73,9 @@ public class ArchiveWeightTargetAssessServiceImpl extends BaseServiceImpl<Archiv
         return archiveWeightTargetAssessDao.insertAssessWeight(assessVOS);
     }
 
+    @Override
+    public Integer insertArchiveAccess2(ArchiveWeightTargetAssessVO vo) {
+        return archiveWeightTargetAssessDao.insertArchiveAccess2(vo);
+    }
+
 }

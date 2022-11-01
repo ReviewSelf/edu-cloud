@@ -5,6 +5,7 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.entity.ArchiveAssessEntity;
+import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 
 import java.util.List;
 
@@ -18,11 +19,11 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
 
     PageResult<ArchiveAssessVO> page(ArchiveAssessQuery query);
 
-    void save(ArchiveAssessVO vo);
+
+    void save(ArchiveWeightTargetAssessVO vo);
 
     void update(ArchiveAssessVO vo);
 
     void delete(List<Long> idList);
-
 
 }

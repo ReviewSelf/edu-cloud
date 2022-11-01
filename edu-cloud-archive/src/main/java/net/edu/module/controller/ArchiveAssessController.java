@@ -12,6 +12,7 @@ import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.vo.ArchiveCourseVO;
+import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,9 +47,10 @@ public class ArchiveAssessController {
         return Result.ok(ArchiveAssessConvert.INSTANCE.convert(entity));
     }
 
+
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody ArchiveAssessVO vo){
+    public Result<String> save(@RequestBody ArchiveWeightTargetAssessVO vo){
         archiveAssessService.save(vo);
         return Result.ok();
     }
@@ -57,7 +59,6 @@ public class ArchiveAssessController {
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ArchiveAssessVO vo){
         archiveAssessService.update(vo);
-
         return Result.ok();
     }
 

@@ -19,4 +19,6 @@ public interface ArchiveWeightTargetAssessDao extends BaseDao<ArchiveWeightTarge
     List<ArchiveWeightTargetAssessVO> selectAssessByCourseId(Long courseId);
 
     Integer insertAssessWeight(List<ArchiveWeightTargetAssessVO> assessVOS);
+
+    Integer insertArchiveAccess2(ArchiveWeightTargetAssessVO vo);
 }

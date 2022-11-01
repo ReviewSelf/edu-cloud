@@ -40,11 +40,7 @@ public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, 
         return new PageResult<>(list.getRecords(),page.getTotal());
     }
 
-    @Override
-    public List<ArchiveCourseVO> getName() {
-        List<ArchiveCourseVO> courseVOList=baseMapper.selectName();
-        return courseVOList;
-    }
+
 
     private LambdaQueryWrapper<ArchiveCourseEntity> getWrapper(ArchiveCourseQuery query){
         LambdaQueryWrapper<ArchiveCourseEntity> wrapper = Wrappers.lambdaQuery();

@@ -30,6 +30,6 @@ public class ArchiveAssessQuery extends Query {
     private String targetName;
 
     @Schema(description = "一级课程名称")
-    private String firstKnowledgeName;
+    private String courseName;
 
 }

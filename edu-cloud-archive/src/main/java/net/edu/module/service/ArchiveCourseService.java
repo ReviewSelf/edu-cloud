@@ -19,8 +19,6 @@ public interface ArchiveCourseService extends BaseService<ArchiveCourseEntity> {
 
     PageResult<ArchiveCourseVO> page(ArchiveCourseQuery query);
 
-    List<ArchiveCourseVO> getName();
-
     void save(ArchiveCourseVO vo);
 
     void update(ArchiveCourseVO vo);

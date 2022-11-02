@@ -11,8 +11,9 @@ nohup java -jar edu-cloud-judge.jar >/dev/null 2>&1 &
 
 
 nohup java -jar edu-cloud-quartz.jar >/dev/null 2>&1 &
+nohup java -jar edu-cloud-quartz.jar >/dev/null 2>&1 &
 nohup java -jar edu-cloud-system.jar >/dev/null 2>&1 &
-nohup java -jar edu-cloud-gateway.jar >/dev/null 2>&1 &
+nohup java -jar edu-cloud-wechat.jar >/dev/null 2>&1 &
 
 
 

@@ -73,21 +73,34 @@
     </select>
 
     <select id="selectHomeworkEnd" resultType="net.edu.module.vo.WxWorkDeadlineVO">
-        SELECT
-            "手机端或电脑端" as submitMethod,
-            userId ,
-            now() as sendTime ,
-            t3.homework_end_time as deadline FROM
-            (
-                SELECT t1.stu_id as userId,
-                       (SELECT real_name FROM sys_user where id= t1.stu_id)as studentName,
-                       (SELECT name FROM teach_class WHERE id=t1.class_id) as className,t1.lessonName,t1.homework_end_time
-                FROM
-                    (select  b.stu_id ,a.name as lessonName,a.class_id , a.homework_end_time
-                     from lesson a LEFT JOIN lesson_attend_log b on b.lesson_id=a.id
-                     where a.id = #{lessonId}) t1
-                     where a.id = #{lessonId}) t1,(SELECT count(1) as num FROM lesson_problem WHERE lesson_id=#{lessonId} and type=2) t2
-            ) t3
+        select
+        "手机端或电脑端" as submitMethod
+        , user_id as userId
+        , CONCAT("还有" , sum(ISNULL(submit_status)) , "道题未完成") as unansweredNum
+        , now() as sendTime
+        , end_time as deadline
+        FROM (SELECT c.user_id, c.lesson_id, c.problem_name, c.problem_id, c.problem_type, c.type, submit_status , c.end_time
+        FROM (SELECT a.stu_id as user_id, a.lesson_id, b.problem_name, b.problem_id, b.problem_type, b.type , b.end_time
+        FROM lesson_attend_log a
+        left join lesson_problem b on b.lesson_id = a.lesson_id
+        WHERE a.lesson_id = #{lessonId}) c
+        left join (select user_id, problem_id, problem_type, source, submit_status
+        from judge_record jr1
+        where source_id = #{lessonId}
+        and not exists(select 1
+        from judge_record jr2
+        where source_id = #{lessonId}
+        and jr1.problem_id = jr2.problem_id
+        and jr1.problem_type = jr2.problem_type
+        and jr1.source_id = jr2.source_id
+        and jr1.user_id = jr2.user_id
+        and jr1.source = jr2.source
+        and jr1.id &lt; jr2.id)) d
+        on c.problem_id = d.problem_id and c.problem_type = d.problem_type and
+        c.type = d.source and c.user_id = d.user_id
+        where type=2
+        ) tt
+        GROUP BY user_id , end_time
     </select>
 
     <select id="selectHomeworkPage" resultMap="lessonMap">
@@ -123,6 +136,10 @@
 
     <update id="deleteByClassId">
         update lesson set deleted=1 where class_id = #{classId}
+    </update>
+
+    <update id="updateList" parameterType="net.edu.module.vo.LessonVO">
+        update lesson set begin_time=#{beginTime},end_time=#{endTime} where id = #{id}
     </update>
 
 </mapper>

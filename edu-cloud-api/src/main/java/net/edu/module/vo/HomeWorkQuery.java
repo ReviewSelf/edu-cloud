@@ -16,5 +16,5 @@ import net.edu.framework.common.query.Query;
 public class HomeWorkQuery extends Query {
 
     @Schema(description = "学生id")
-    private String StudentId;
+    private String studentId;
 }

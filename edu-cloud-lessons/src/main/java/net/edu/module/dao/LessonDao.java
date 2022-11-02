@@ -16,7 +16,7 @@ import java.util.List;
 /**
 * 课程表
 *
-* @author 马佳浩 
+* @author 马佳浩
 * @since 1.0.0 2022-09-15
 */
 @Mapper
@@ -35,4 +35,6 @@ public interface LessonDao extends BaseDao<LessonEntity> {
     int deleteByClassId(Long classId);
 
     List<WxWorkPublishVO> selectHomeworkBegin(Long lessonId);
+
+    int updateList(LessonVO vo);
 }

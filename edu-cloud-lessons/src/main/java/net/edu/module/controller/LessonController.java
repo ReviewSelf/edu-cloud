@@ -63,7 +63,7 @@ public class LessonController {
 
         return Result.ok();
     }
-    
+
     @GetMapping("list/notStart/{classId}")
     @Operation(summary = "通过班级ID,查找未开始课表")
     public Result<List<LessonVO>> getClassNotStartLesson(@PathVariable("classId") Long classId) {
@@ -99,5 +99,14 @@ public class LessonController {
         lessonService.delete(classId);
         return Result.ok();
     }
+
+    @PostMapping("updateList")
+    @Operation(summary = "批量修改")
+    public Result<String> updateList(@RequestBody List<LessonVO> list){
+        System.out.println(list);
+        lessonService.updateList(list);
+        return Result.ok();
+    }
+
 
 }

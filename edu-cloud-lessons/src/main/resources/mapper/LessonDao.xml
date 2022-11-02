@@ -68,7 +68,7 @@
                 FROM
                     (select  b.stu_id ,a.name as lessonName,a.class_id , a.homework_end_time
                      from lesson a LEFT JOIN lesson_attend_log b on b.lesson_id=a.id
-                     where a.id = #{lessonId}) t1,(SELECT count(1) as num FROM lesson_problem WHERE lesson_id=#{lessonId}) t2
+                     where a.id = #{lessonId}) t1,(SELECT count(1) as num FROM lesson_problem WHERE lesson_id=#{lessonId} and type=2) t2
             ) t3
     </select>
 
@@ -107,4 +107,7 @@
         update lesson set deleted=1 where class_id = #{classId}
     </update>
 
+    <update id="updateList" parameterType="net.edu.module.vo.LessonVO">
+        update lesson set begin_time=#{beginTime},end_time=#{endTime} where id = #{id}
+    </update>
 </mapper>

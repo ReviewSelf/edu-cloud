@@ -76,7 +76,7 @@
         select
         "手机端或电脑端" as submitMethod
         , user_id as userId
-        , CONCAT("还有" , sum(ISNULL(submit_status)) , "道题未完成") as remark
+        , CONCAT("还有" , sum(ISNULL(submit_status)) , "道题未完成，请抓紧时间完成") as remark
         , now() as sendTime
         , end_time as deadline
         FROM (SELECT c.user_id, c.lesson_id, c.problem_name, c.problem_id, c.problem_type, c.type, submit_status , c.end_time

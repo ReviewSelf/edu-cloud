@@ -17,6 +17,4 @@ public class ExamScoreVO {
     private String name;
     private Long examId;
     private List<ExamProblemRecord> problemRecords;
-
-
 }

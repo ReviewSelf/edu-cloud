@@ -24,4 +24,6 @@ public interface ArchiveCourseService extends BaseService<ArchiveCourseEntity> {
     void update(ArchiveCourseVO vo);
 
     void delete(List<Long> idList);
+
+    List<ArchiveCourseVO> selectArchiveCourseAll();
 }

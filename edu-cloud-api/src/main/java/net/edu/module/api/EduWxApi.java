@@ -22,7 +22,7 @@ public interface EduWxApi {
     @PostMapping("classOpen")
     Result<String> insertClassOpenTemplate(@RequestBody List<WxClassOpenVO> vo);
 
-    @PostMapping("workPublish")
+    @PostMapping("/wx/workPublish")
     Result<String> insertWorkPublishTemplate(@RequestBody List<WxWorkPublishVO> vo);
 
     @PostMapping("lessonOpen")

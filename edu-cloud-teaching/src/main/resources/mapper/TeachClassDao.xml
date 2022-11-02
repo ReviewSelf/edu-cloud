@@ -122,8 +122,9 @@
         from teach_class a
         JOIN teach_class_user b on a.id = b.class_id and b.user_id = #{userId}
         left join lesson c on a.next_lesson=c.id
+        where a.deleted=0
         <if test="status!=null">
-            where a.status=#{status}
+            and a.status=#{status}
         </if>
         order by lessonStartTime is null asc ,lessonStartTime asc
     </select>
@@ -149,6 +150,7 @@
         from teach_class a
         left join lesson c on a.next_lesson=c.id
         where ( a.teacher1_id=#{userId} or a.teacher2_id=#{userId} )
+          and  a.deleted=0
         <if test="status!=null">
             and a.status=#{status}
         </if>

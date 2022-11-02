@@ -11,7 +11,7 @@ import java.util.Date;
 /**
 * 班级发布
 *
-* @author 翁瑞辰 
+* @author 翁瑞辰
 * @since  2022-09-06
 */
 @Data
@@ -61,6 +61,9 @@ public class EnrollClassVO implements Serializable {
 
 	@Schema(description = "课程目标")
 	private String target;
+
+	@Schema(description = "课程价格")
+	private String price;
 
 	@Schema(description = "是否删除")
 	private Integer deleted;

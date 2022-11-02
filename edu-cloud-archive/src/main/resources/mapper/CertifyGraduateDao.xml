@@ -46,7 +46,7 @@
         order by grade desc
     </select>
 
-    <insert id="insertGraduateRequire">
+    <insert id="insertGraduateRequire" useGeneratedKeys="true" keyProperty="id">
         replace INTO archive_graduate_require (title,content,major,college,school,grade,create_time,creator,version)
         VALUES (#{title},#{content},#{major},#{college},#{school},#{grade},now(),'10000',0)
     </insert>

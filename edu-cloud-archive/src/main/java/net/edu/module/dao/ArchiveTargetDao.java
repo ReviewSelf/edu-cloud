@@ -29,4 +29,6 @@ public interface ArchiveTargetDao extends BaseDao<ArchiveTargetEntity> {
     void insertArchiveTarget(ArchiveTargetVO vo);
     List<ArchiveTargetVO> selectName();
 
+    List<ArchiveTargetVO> selectArchiveTargetByGraduateId(Long graduateId);
+
 }

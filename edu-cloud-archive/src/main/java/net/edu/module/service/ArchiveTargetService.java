@@ -26,4 +26,6 @@ public interface ArchiveTargetService extends BaseService<ArchiveTargetEntity> {
     void update(ArchiveTargetVO vo);
 
     void delete(List<Long> idList);
+
+
 }

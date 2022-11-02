@@ -8,6 +8,7 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.GraduateRequireConvert;
 import net.edu.module.entity.GraduateRequireEntity;
 import net.edu.module.query.GraduateRequireQuery;
+import net.edu.module.service.ArchiveTargetService;
 import net.edu.module.service.GraduateRequireService;
 import net.edu.module.vo.GraduateRequireVO;
 import org.springframework.web.bind.annotation.*;
@@ -76,6 +77,14 @@ public class GraduateRequireController {
     @PostMapping("/import")
     public Result<String> studentFromExcel(@RequestParam("file") MultipartFile file) {
         graduateRequireService.importArchive(file);
+        return Result.ok();
+    }
+
+    @PostMapping("batch")
+    @Operation(summary = "年度毕业要求生成")
+    public Result<String> saveBatchRequire(@RequestBody GraduateRequireVO vo){
+        graduateRequireService.saveBatchRequire(vo);
+
         return Result.ok();
     }
 

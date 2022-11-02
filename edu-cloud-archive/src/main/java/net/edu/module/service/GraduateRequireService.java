@@ -30,4 +30,6 @@ public interface GraduateRequireService extends BaseService<GraduateRequireEntit
     List<GraduateRequireEntity> selectGraduateByGrade(String grade);
 
     void importArchive(MultipartFile file);
+
+    void saveBatchRequire(GraduateRequireVO vo);
 }

@@ -8,10 +8,12 @@ import lombok.SneakyThrows;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.GraduateRequireConvert;
+import net.edu.module.dao.ArchiveTargetDao;
 import net.edu.module.dao.GraduateRequireDao;
 import net.edu.module.entity.GraduateRequireEntity;
 import net.edu.module.query.GraduateRequireQuery;
 import net.edu.module.service.GraduateRequireService;
+import net.edu.module.vo.ArchiveTargetVO;
 import net.edu.module.vo.GraduateRequireVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,9 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
 
     @Autowired
     private GraduateRequireDao graduateRequireDao;
+
+    @Autowired
+    private ArchiveTargetDao archiveTargetDao;
     @Override
     public PageResult<GraduateRequireVO> page(GraduateRequireQuery query) {
         try {
@@ -84,6 +89,21 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
             System.out.println(vo);
             save(vo);
         }
+    }
+
+    @Override
+    public void saveBatchRequire(GraduateRequireVO vo) {
+        Long graduateId = vo.getId();
+        save(vo);
+        List<ArchiveTargetVO> list = archiveTargetDao.selectArchiveTargetByGraduateId(graduateId);
+        System.out.println(list);
+        for (ArchiveTargetVO archiveVOS: list
+             ) {
+            archiveVOS.setGrade(vo.getGrade());
+            archiveVOS.setGraduateId(vo.getId());
+            archiveTargetDao.insertArchiveTarget(archiveVOS);
+        }
+
     }
 
 }

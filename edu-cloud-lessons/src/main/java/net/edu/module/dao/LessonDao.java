@@ -7,6 +7,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
 import net.edu.module.vo.LessonVO;
+import net.edu.module.vo.WxWorkDeadlineVO;
 import net.edu.module.vo.WxWorkPublishVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -35,4 +36,6 @@ public interface LessonDao extends BaseDao<LessonEntity> {
     int deleteByClassId(Long classId);
 
     List<WxWorkPublishVO> selectHomeworkBegin(Long lessonId);
+
+    List<WxWorkDeadlineVO> selectHomeworkEnd(Long lessonId);
 }

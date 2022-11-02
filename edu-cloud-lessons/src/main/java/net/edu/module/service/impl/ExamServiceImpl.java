@@ -3,6 +3,7 @@ package net.edu.module.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
@@ -19,6 +20,7 @@ import net.edu.module.service.ExamAttendLogService;
 import net.edu.module.service.ExamProblemService;
 import net.edu.module.service.ExamService;
 import net.edu.module.utils.ExamExcelUtil;
+import net.edu.module.utils.ExamProblemInfoExcelUtil;
 import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +54,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     private final ExamExcelUtil examExcelUtil;
 
+    private final ExamProblemInfoExcelUtil examProblemInfoExcelUtil;
 
 
     private final ExamDao examDao;
@@ -157,5 +160,17 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         ExamEntity entity =baseMapper.selectById(examId);
         String bigTitle = "《"+entity.getName()+"》"+"\r\n"+ " 总分："+entity.getScore()+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")";
         examExcelUtil.examExportExcel(header,data,bigTitle,response);
+    }
+
+    @Override
+    public void exportUserExam(Long examId, List<Long> userIdList,HttpServletResponse response) throws IOException {
+
+        List<ExamUserExcelVo> data = eduJudgeApi.getExamProblemInfoList(examId,userIdList).getData();
+        List<String> bigTitleList =new ArrayList<>();
+        ExamEntity entity =baseMapper.selectById(examId);
+        for (int i = 0 ; i<data.size();i++){
+            bigTitleList.add("《"+entity.getName()+"》"+"姓名："+data.get(i).getName()+"\r\n"+ " 总分："+entity.getScore()+" 得分："+""+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")");
+        }
+        examProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
     }
 }

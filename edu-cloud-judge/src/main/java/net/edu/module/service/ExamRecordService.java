@@ -10,6 +10,7 @@ import net.edu.module.dao.ExamRecordDao;
 import net.edu.module.query.ExamRecordQuery;
 import net.edu.module.vo.exam.ExamProblemRecord;
 import net.edu.module.vo.exam.ExamScoreVO;
+import net.edu.module.vo.exam.ExamUserExcelVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +68,10 @@ public class ExamRecordService {
 
     public void changeProblemScore(BigDecimal score,Long id){
         examRecordDao.updateProblemScore(score,id);
+    }
+
+
+    public List<ExamUserExcelVo> getExamProblemInfoList(Long examId,List<Long> userIdList){
+        return examRecordDao.selectExamProblemInfoList(examId,userIdList);
     }
 }

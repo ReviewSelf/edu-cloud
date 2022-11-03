@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.module.query.ExamRecordQuery;
 import net.edu.module.vo.exam.ExamProblemRecord;
 import net.edu.module.vo.exam.ExamScoreVO;
+import net.edu.module.vo.exam.ExamUserExcelVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,4 +26,6 @@ public interface ExamRecordDao {
    List<ExamScoreVO> selectExamRecordList( @Param("query")ExamRecordQuery query);
 
    int updateProblemScore(BigDecimal score,Long id);
+
+   List<ExamUserExcelVo> selectExamProblemInfoList(@Param("examId") Long examId,@Param("userIdList") List<Long> userIdList);
 }

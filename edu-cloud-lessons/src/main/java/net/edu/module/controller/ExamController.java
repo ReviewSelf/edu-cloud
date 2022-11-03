@@ -9,6 +9,7 @@ import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.api.EduLessonApi;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.entity.ExamEntity;
+import net.edu.module.query.ExamUserExcelQuery;
 import net.edu.module.service.ExamService;
 import net.edu.module.query.ExamQuery;
 import net.edu.module.vo.ExamRecordQuery;
@@ -114,12 +115,16 @@ public class ExamController {
         return Result.ok();
     }
 
-    @GetMapping("exportExam")
-    @Operation(summary = "导出excel")
+    @GetMapping("/exportExam")
+    @Operation(summary = "导出考试excel")
     public void exportExam(@RequestParam(value = "examId") Long examId, HttpServletResponse response) throws IOException {
-        System.out.println(examId);
-
          examService.exportExam(examId,response);
+    }
+
+    @PostMapping("/exportUserExam")
+    @Operation(summary = "导出单个用户考试excel")
+    public void exportUserExam(@RequestBody ExamUserExcelQuery query, HttpServletResponse response) throws IOException {
+        examService.exportUserExam(query.getExamId(), query.getUserIdList(),response);
     }
 
 

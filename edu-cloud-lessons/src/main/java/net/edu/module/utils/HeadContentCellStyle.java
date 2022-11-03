@@ -21,6 +21,7 @@ public class HeadContentCellStyle {
         //表头前景设置白色
         headWriteCellStyle.setFillForegroundColor(IndexedColors.WHITE1.getIndex());
         WriteFont headWriteFont = new WriteFont();
+
         headWriteFont.setBold(true);
         headWriteFont.setFontName("宋体");
         headWriteFont.setFontHeightInPoints((short)11);
@@ -39,7 +40,7 @@ public class HeadContentCellStyle {
         //背景设置白色（这里一定要设置表格内容的背景色WPS下载下来的文件没有问题，但是office下载下来的文件表格内容会变成黑色）
         contentWriteCellStyle.setFillForegroundColor(IndexedColors.WHITE1.getIndex());
         //设置自动换行
-        contentWriteCellStyle.setWrapped(true);
+       // contentWriteCellStyle.setWrapped(true);
         //设置垂直居中
         contentWriteCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         // 头默认了 FillPatternType所以可以不指定。

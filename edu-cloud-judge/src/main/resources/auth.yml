@@ -4,3 +4,5 @@ auth:
   ignore_urls:
     - /test
     - /lesson/record/getLessonProblemRank
+    - /exam/record/getExamRecordList
+    - /exam/record/getExamProblemInfoList

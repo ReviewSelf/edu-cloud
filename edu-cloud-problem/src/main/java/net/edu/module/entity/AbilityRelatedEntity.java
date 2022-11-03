@@ -11,8 +11,8 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-@TableName("abilityPoint")
-public class abilityRelatedEntity {
+@TableName("ability_kp_related")
+public class AbilityRelatedEntity {
     /**
      * 自增主键
      */
@@ -20,14 +20,20 @@ public class abilityRelatedEntity {
     private Long id;
 
     /**
+     * 能力点主键
+     */
+    private Long pointId;
+
+
+    /**
      * 能力图主键
      */
     private Long abilityId;
 
     /**
-     * 知识点代码
+     * 来源知识点代码
      */
-    private String code;
+    private String sourceCode;
 
     /**
      * 来源
@@ -35,7 +41,12 @@ public class abilityRelatedEntity {
     private Long source;
 
     /**
-     * 来源
+     * 去向知识点代码
+     */
+    private String targetCode;
+
+    /**
+     * 去向
      */
     private Long target;
 

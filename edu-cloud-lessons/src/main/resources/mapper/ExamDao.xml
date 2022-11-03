@@ -92,12 +92,4 @@
         where paper_id = #{paperId} and deleted = 0
     </select>
 
-
-
-
-
-
-
-
-
 </mapper>

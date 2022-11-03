@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,8 +12,8 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper=false)
-@TableName("abilityPoint")
-public class abilityPointEntity {
+@TableName("ability_kp")
+public class AbilityPointEntity {
     /**
      * 自增主键
      */
@@ -40,9 +41,29 @@ public class abilityPointEntity {
     private Integer coordinateY;
 
     /**
-     * 来源
+     * 指标1
      */
-    private Long target;
+    private Integer lv1Num;
+
+    /**
+     * 指标2
+     */
+    private Integer lv2Num;
+
+    /**
+     * 指标3
+     */
+    private Integer lv3Num;
+
+    /**
+     * 指标4
+     */
+    private Integer lv4Num;
+
+    /**
+     * 指标5
+     */
+    private Integer lv5Num;
 
     /**
      * 创建时间

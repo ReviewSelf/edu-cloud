@@ -5,3 +5,4 @@ auth:
     - /wx/**
     - /genQRCode
     - /wx/login/mini
+    - /mini/homeWorkPage

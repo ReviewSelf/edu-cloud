@@ -27,6 +27,11 @@ public class WxWorkDeadlineVO {
     private String sendTime;
 
     /**
+     * 备注
+     */
+    private String remark;
+
+    /**
      * 发送用户的id
      */
     private Long userId;
@@ -35,6 +40,7 @@ public class WxWorkDeadlineVO {
     public String toJsonString() {
         return "{\"deadline\":\""+deadline
                 +"\",\"submitMethod\":\""+submitMethod
+                +"\",\"submitMethod\":\""+remark
                 +"\"}";
     }
 }

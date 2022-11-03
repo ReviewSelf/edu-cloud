@@ -28,7 +28,7 @@ public class WxMiniController {
 
         System.out.println(query);
         System.out.println(eduLessonApi.getStudentHomeWorkPage(query));
-        return Result.ok();
+        return Result.ok(eduLessonApi.getStudentHomeWorkPage(query).getData());
     }
 
 }

@@ -7,6 +7,7 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.query.ExamRecordQuery;
 import net.edu.module.service.ExamRecordService;
 import net.edu.module.vo.exam.ExamScoreVO;
+import net.edu.module.vo.exam.ExamUserExcelVo;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,5 +70,11 @@ public class ExamRecordController {
     public Result<PageResult<ExamScoreVO>> changeProblemScore(@RequestParam("score") BigDecimal score, @RequestParam(value = "recordId") Long recordId ){
         examRecordService.changeProblemScore(score,recordId);
         return Result.ok();
+    }
+
+
+    @GetMapping("/getExamProblemInfoList")
+    public Result<List<ExamUserExcelVo>> getExamProblemInfoList(@RequestParam(value = "examId") Long examId,@RequestParam(value = "userIdList") List<Long> userIdList){
+        return Result.ok(examRecordService.getExamProblemInfoList(examId,userIdList));
     }
 }

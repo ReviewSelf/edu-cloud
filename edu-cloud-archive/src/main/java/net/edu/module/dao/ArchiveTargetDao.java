@@ -30,4 +30,6 @@ public interface ArchiveTargetDao extends BaseDao<ArchiveTargetEntity> {
 
     List<ArchiveTargetVO> selectName(String grade);
 
+    List<ArchiveTargetVO> selectArchiveTargetByGraduateId(Long graduateId);
+
 }

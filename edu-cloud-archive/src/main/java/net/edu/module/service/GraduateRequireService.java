@@ -7,6 +7,7 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.GraduateRequireEntity;
 import net.edu.module.query.GraduateRequireQuery;
 import net.edu.module.vo.GraduateRequireVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,4 +28,8 @@ public interface GraduateRequireService extends BaseService<GraduateRequireEntit
     void delete(List<Long> idList);
 
     List<GraduateRequireEntity> selectGraduateByGrade(String grade);
+
+    void importArchive(MultipartFile file);
+
+    void saveBatchRequire(GraduateRequireVO vo);
 }

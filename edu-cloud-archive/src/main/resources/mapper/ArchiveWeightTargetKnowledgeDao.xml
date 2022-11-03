@@ -29,12 +29,15 @@
     </select>
 
     <insert id="insertKnowledgeWeight">
-        insert into archive_weight_target_course(target_id,course_id,weight)
+        replace into archive_weight_target_course(target_id,course_id,weight)
         values
             <foreach collection="list" item="item" separator=",">
                 (#{item.targetId},#{item.courseId},#{item.weight})
             </foreach>
     </insert>
 
-
+    <update id="updateDeleted">
+        update archive_weight_target_course set deleted = 1
+        where target_id = #{targetId} and course_id = #{courseId}
+    </update>
 </mapper>

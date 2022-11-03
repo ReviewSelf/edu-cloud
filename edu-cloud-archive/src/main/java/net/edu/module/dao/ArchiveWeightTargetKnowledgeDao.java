@@ -20,4 +20,7 @@ public interface ArchiveWeightTargetKnowledgeDao extends BaseDao<ArchiveWeightTa
     List<ArchiveWeightTargetKnowledgeVO> selectKnowledgeByTargetId(Long targetId);
 
     Integer insertKnowledgeWeight(List<ArchiveWeightTargetKnowledgeVO> archiveWeightTargetKnowledgeVO);
+
+
+    void updateDeleted(Long targetId,Long courseId);
 }

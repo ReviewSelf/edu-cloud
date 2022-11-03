@@ -23,10 +23,12 @@ public interface ArchiveWeightTargetKnowledgeService extends BaseService<Archive
 
     void update(ArchiveWeightTargetKnowledgeVO vo);
 
-    void delete(List<Long> idList);
+    void delete(Long targetId,Long courseId);
 
     List<ArchiveWeightTargetKnowledgeVO> selectKnowledgeByTargetId(Long targetId);
 
     Integer insertKnowledgeWeight(List<ArchiveWeightTargetKnowledgeVO> archiveWeightTargetKnowledgeVO);
+
+
 
 }

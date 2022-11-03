@@ -59,6 +59,20 @@
         id = #{id}
     </select>
 
+    <select id="selectArchiveTargetByGraduateId" resultType="net.edu.module.vo.ArchiveTargetVO">
+        SELECT
+            id,
+            graduate_id AS graduateId,
+            name,
+            content,
+            grade,
+            (select title from archive_graduate_require t1 where t1.id=t2.graduate_id) as graduateTitle
+        FROM
+            archive_target t2
+        WHERE
+            graduate_id = #{graduateId}
+    </select>
+
     <update id="updateArchiveTarget">
         update archive_target
         set name = #{name},content = #{content},grade = #{grade},graduate_id = #{graduateId}

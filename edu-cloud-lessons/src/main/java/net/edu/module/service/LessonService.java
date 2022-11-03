@@ -35,6 +35,7 @@ public interface LessonService extends BaseService<LessonEntity> {
 
     List<LessonVO> getClassNotStartLesson(Long classId);
 
+    List<LessonVO> getClassAllLesson(Long classId);
 
     void  closeLessonHomeWork(Long lessonId);
 

@@ -32,6 +32,8 @@ public interface LessonDao extends BaseDao<LessonEntity> {
 
     List<LessonVO> getListById(Long classId);
 
+    List<LessonVO> getClassAllLesson(Long classId);
+
     int deleteByClassId(Long classId);
 
     List<WxWorkPublishVO> selectHomeworkBegin(Long lessonId);

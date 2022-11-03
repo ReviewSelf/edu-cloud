@@ -71,6 +71,13 @@ public class LessonController {
         return Result.ok(list);
     }
 
+    @GetMapping("list/getClassAllLesson/{classId}")
+    @Operation(summary = "通过班级ID,查找所有课表")
+    public Result<List<LessonVO>> getClassAllLesson(@PathVariable("classId") Long classId) {
+        List<LessonVO> list = lessonService.getClassAllLesson(classId);
+        return Result.ok(list);
+    }
+
 
     @PutMapping("/homework")
     @Operation(summary = "回家作业修改")

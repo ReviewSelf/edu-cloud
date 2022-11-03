@@ -138,6 +138,10 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return lessonDao.getListById(classId);
     }
 
+    @Override
+    public List<LessonVO> getClassAllLesson(Long classId) {
+        return lessonDao.getClassAllLesson(classId);
+    }
 
     @Override
     public void updateHomework(LessonVO vo) {

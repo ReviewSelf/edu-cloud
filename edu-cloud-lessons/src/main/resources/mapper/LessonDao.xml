@@ -102,6 +102,16 @@
         from lesson where class_id = #{classId} and end_time > date_format(now(),'%Y-%m-%d')
     </select>
 
+    <select id="getClassAllLesson" resultType="net.edu.module.vo.LessonVO">
+        select
+            id,
+            name,
+            teacher_id,
+            place,
+            begin_time,
+            end_time
+        from lesson where class_id = #{classId}
+    </select>
 
     <update id="deleteByClassId">
         update lesson set deleted=1 where class_id = #{classId}

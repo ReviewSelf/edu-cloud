@@ -19,11 +19,13 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
 
     PageResult<ArchiveAssessVO> page(ArchiveAssessQuery query);
 
+    ArchiveAssessVO selectArchiveAssessById(Long id);
 
     void save(ArchiveWeightTargetAssessVO vo);
 
     void update(ArchiveAssessVO vo);
 
     void delete(List<Long> idList);
+
 
 }

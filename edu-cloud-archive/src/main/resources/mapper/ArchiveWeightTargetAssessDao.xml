@@ -17,6 +17,11 @@
         <result property="version" column="version"/>
         <result property="updater" column="updater"/>
     </resultMap>
+    <update id="deleteByAssessId">
+        update archive_weight_target_assess set deleted=1
+        where assess_id=#{assessId}
+    </update>
+
 
     <select id="selectAssessByCourseId" resultType="net.edu.module.vo.ArchiveWeightTargetAssessVO">
         select

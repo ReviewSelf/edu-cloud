@@ -43,8 +43,7 @@ public class ArchiveAssessController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<ArchiveAssessVO> get(@PathVariable("id") Long id){
-        ArchiveAssessEntity entity = archiveAssessService.getById(id);
-        return Result.ok(ArchiveAssessConvert.INSTANCE.convert(entity));
+        return Result.ok(archiveAssessService.selectArchiveAssessById(id));
     }
 
 
@@ -66,7 +65,6 @@ public class ArchiveAssessController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveAssessService.delete(idList);
-
         return Result.ok();
     }
 

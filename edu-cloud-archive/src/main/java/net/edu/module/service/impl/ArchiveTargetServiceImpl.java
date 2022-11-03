@@ -44,8 +44,8 @@ public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, 
     }
 
     @Override
-    public List<ArchiveTargetVO> getName() {
-        List<ArchiveTargetVO> targetVOList=baseMapper.selectName();
+    public List<ArchiveTargetVO> getName(String grade) {
+        List<ArchiveTargetVO> targetVOList=baseMapper.selectName(grade);
         return targetVOList;
     }
 

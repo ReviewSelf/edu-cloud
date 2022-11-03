@@ -46,7 +46,7 @@
         <if test="query.getGrade()!=null and query.getGrade()!=''">
             and grade = #{query.grade}
         </if>
-        order by update_time desc
+        order by grade desc
     </select>
 
 

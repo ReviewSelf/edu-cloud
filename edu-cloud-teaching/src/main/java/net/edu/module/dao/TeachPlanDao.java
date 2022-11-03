@@ -9,6 +9,8 @@ import net.edu.module.vo.TeachPlanVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
 * 教学计划表
 *
@@ -25,4 +27,6 @@ public interface TeachPlanDao extends BaseDao<TeachPlanEntity> {
     int updateUsedNum(@Param("id") Long id);
 
     int updateLessonNum(@Param("id") Long id);
+
+    List<TeachPlanVO> getAllByStatusTeachPlanVos();
 }

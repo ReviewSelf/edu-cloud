@@ -64,4 +64,7 @@ public interface EduTeachApi {
     @PostMapping("enrollUser/insertEnrollUser")
     @Operation(summary = "新增班级学生")
     Result<Integer> insertEnrollUser(EnrollUserVO enrollUserVO);
+
+
+
 }

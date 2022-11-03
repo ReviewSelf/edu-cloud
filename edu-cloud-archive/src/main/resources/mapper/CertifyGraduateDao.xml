@@ -21,6 +21,7 @@
     <select id="selectGraduateRequireByPage" resultType="net.edu.module.vo.GraduateRequireVO">
         select
         t2.id,
+        (select name from archive_target where t2.id = id)
         title,
         content,
         major,

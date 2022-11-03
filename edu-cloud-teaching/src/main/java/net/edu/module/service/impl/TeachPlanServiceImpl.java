@@ -71,4 +71,9 @@ public class TeachPlanServiceImpl extends BaseServiceImpl<TeachPlanDao, TeachPla
         teachPlanDao.updateLessonNum(id);
     }
 
+    @Override
+    public List<TeachPlanVO> getAllByStatusTeachPlanVos(){
+        return teachPlanDao.getAllByStatusTeachPlanVos();
+    }
+
 }

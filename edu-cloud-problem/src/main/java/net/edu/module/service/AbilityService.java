@@ -3,7 +3,7 @@ package net.edu.module.service;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.AbilityEntity;
-import net.edu.module.query.AbilityQuery;
+
 import net.edu.module.vo.AbilityVO;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public interface AbilityService extends BaseService<AbilityEntity> {
 
-    PageResult<AbilityVO> page(AbilityQuery query);
+    List<AbilityEntity> list();
 
     void save(AbilityVO vo);
 

@@ -17,6 +17,11 @@
         <result property="version" column="version"/>
         <result property="updater" column="updater"/>
     </resultMap>
+    <update id="deleteByAssessId">
+        update archive_weight_target_assess set deleted=1
+        where assess_id=#{assessId}
+    </update>
+
 
     <select id="selectAssessByCourseId" resultType="net.edu.module.vo.ArchiveWeightTargetAssessVO">
         select
@@ -42,4 +47,9 @@
             where assess_id = #{item.assessId}
         </foreach>
     </update>
+
+    <insert id="insertArchiveAccess2" parameterType="net.edu.module.vo.ArchiveWeightTargetAssessVO">
+        insert into archive_weight_target_assess (target_id,course_id,assess_id,create_time)
+        values (#{targetId},#{courseId},#{assessId},now())
+    </insert>
 </mapper>

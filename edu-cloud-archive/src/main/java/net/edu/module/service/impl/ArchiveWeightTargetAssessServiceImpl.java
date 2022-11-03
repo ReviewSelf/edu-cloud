@@ -64,6 +64,11 @@ public class ArchiveWeightTargetAssessServiceImpl extends BaseServiceImpl<Archiv
     }
 
     @Override
+    public Integer deleteByAssessId(Long id) {
+        return archiveWeightTargetAssessDao.deleteByAssessId(id);
+    }
+
+    @Override
     public List<ArchiveWeightTargetAssessVO> selectAssessByCourseId(Long courseId) {
         return archiveWeightTargetAssessDao.selectAssessByCourseId(courseId);
     }
@@ -71,6 +76,11 @@ public class ArchiveWeightTargetAssessServiceImpl extends BaseServiceImpl<Archiv
     @Override
     public Integer insertAssessWeight(List<ArchiveWeightTargetAssessVO> assessVOS) {
         return archiveWeightTargetAssessDao.insertAssessWeight(assessVOS);
+    }
+
+    @Override
+    public Integer insertArchiveAccess2(ArchiveWeightTargetAssessVO vo) {
+        return archiveWeightTargetAssessDao.insertArchiveAccess2(vo);
     }
 
 }

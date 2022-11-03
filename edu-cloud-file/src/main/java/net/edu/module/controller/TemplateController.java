@@ -34,4 +34,9 @@ public class TemplateController {
         templateService.downloadStudentImportExcel(response);
     }
 
+    @GetMapping("/archiveExcel")
+    public void  downloadArchiveImportExcel(HttpServletResponse response){
+        templateService.downloadArchiveImportExcel(response);
+    }
+
 }

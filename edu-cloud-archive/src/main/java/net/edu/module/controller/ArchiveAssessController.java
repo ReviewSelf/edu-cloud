@@ -3,6 +3,7 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.flogger.Flogger;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.ArchiveAssessConvert;
@@ -11,6 +12,7 @@ import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.vo.ArchiveCourseVO;
+import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,16 +43,14 @@ public class ArchiveAssessController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<ArchiveAssessVO> get(@PathVariable("id") Long id){
-        ArchiveAssessEntity entity = archiveAssessService.getById(id);
-
-        return Result.ok(ArchiveAssessConvert.INSTANCE.convert(entity));
+        return Result.ok(archiveAssessService.selectArchiveAssessById(id));
     }
+
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody ArchiveAssessVO vo){
+    public Result<String> save(@RequestBody ArchiveWeightTargetAssessVO vo){
         archiveAssessService.save(vo);
-
         return Result.ok();
     }
 
@@ -58,7 +58,6 @@ public class ArchiveAssessController {
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ArchiveAssessVO vo){
         archiveAssessService.update(vo);
-
         return Result.ok();
     }
 
@@ -66,7 +65,6 @@ public class ArchiveAssessController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveAssessService.delete(idList);
-
         return Result.ok();
     }
 

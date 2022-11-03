@@ -43,6 +43,7 @@ public class ArchiveCourseController {
         return Result.ok(ArchiveCourseConvert.INSTANCE.convert(entity));
     }
 
+
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ArchiveCourseVO vo){
@@ -54,6 +55,7 @@ public class ArchiveCourseController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ArchiveCourseVO vo){
+        System.out.println(vo);
         archiveCourseService.update(vo);
 
         return Result.ok();

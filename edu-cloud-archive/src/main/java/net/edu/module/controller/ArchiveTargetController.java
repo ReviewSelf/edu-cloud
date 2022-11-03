@@ -42,11 +42,16 @@ public class ArchiveTargetController {
         return Result.ok(archiveTargetService.selectArchiveTargetById(id));
     }
 
+    @GetMapping("targetId")
+    @Operation(summary = "指标点名称")
+    public Result<List<ArchiveTargetVO>> getName(@RequestParam("grade") String grade){
+        return Result.ok(archiveTargetService.getName(grade));
+    }
+
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ArchiveTargetVO vo){
         archiveTargetService.save(vo);
-
         return Result.ok();
     }
 

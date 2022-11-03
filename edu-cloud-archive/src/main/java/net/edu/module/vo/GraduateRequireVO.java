@@ -1,5 +1,6 @@
 package net.edu.module.vo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -20,21 +21,26 @@ public class GraduateRequireVO implements Serializable {
 	@Schema(description = "毕业要求id")
 	private Long id;
 
+	@ExcelProperty(index = 0)
 	@Schema(description = "标题")
 	private String title;
 
+	@ExcelProperty(index = 1)
 	@Schema(description = "描述")
 	private String content;
 
+	@ExcelProperty(index = 5)
 	@Schema(description = "年份")
 	private String grade;
 
+	@ExcelProperty(index = 2)
 	@Schema(description = "专业")
 	private Long major;
 
 	@Schema(description = "专业名称")
 	private String majorName;
 
+	@ExcelProperty(index = 3)
 	@Schema(description = "学院")
 	private Long college;
 
@@ -44,6 +50,7 @@ public class GraduateRequireVO implements Serializable {
 	@Schema(description = "学校名称")
 	private String schoolName;
 
+	@ExcelProperty(index = 4)
 	@Schema(description = "学校")
 	private Long school;
 

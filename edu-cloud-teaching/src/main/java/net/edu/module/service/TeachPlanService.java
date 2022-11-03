@@ -29,4 +29,6 @@ public interface TeachPlanService extends BaseService<TeachPlanEntity> {
     void updateUsedNum(Long id);
 
     void updatePlanNum(Long id);
+
+    List<TeachPlanVO> getAllByStatusTeachPlanVos();
 }

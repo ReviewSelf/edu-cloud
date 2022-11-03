@@ -4,18 +4,23 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.GraduateRequireConvert;
+import net.edu.module.dao.ArchiveTargetDao;
 import net.edu.module.dao.GraduateRequireDao;
 import net.edu.module.entity.GraduateRequireEntity;
 import net.edu.module.query.GraduateRequireQuery;
 import net.edu.module.service.GraduateRequireService;
+import net.edu.module.vo.ArchiveTargetVO;
 import net.edu.module.vo.GraduateRequireVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.web.multipart.MultipartFile;
+import com.alibaba.excel.EasyExcel;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,6 +35,9 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
 
     @Autowired
     private GraduateRequireDao graduateRequireDao;
+
+    @Autowired
+    private ArchiveTargetDao archiveTargetDao;
     @Override
     public PageResult<GraduateRequireVO> page(GraduateRequireQuery query) {
         try {
@@ -70,6 +78,32 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
     @Override
     public List<GraduateRequireEntity> selectGraduateByGrade(String grade) {
         return graduateRequireDao.selectGraduateByGrade(grade);
+    }
+
+    @SneakyThrows
+    @Override
+    public void importArchive(MultipartFile file) {
+        List<GraduateRequireVO> list= EasyExcel.read(file.getInputStream()).head(GraduateRequireVO.class)
+                .sheet().headRowNumber(2).doReadSync();
+        for (GraduateRequireVO vo:list){
+            System.out.println(vo);
+            save(vo);
+        }
+    }
+
+    @Override
+    public void saveBatchRequire(GraduateRequireVO vo) {
+        Long graduateId = vo.getId();
+        save(vo);
+        List<ArchiveTargetVO> list = archiveTargetDao.selectArchiveTargetByGraduateId(graduateId);
+        System.out.println(list);
+        for (ArchiveTargetVO archiveVOS: list
+             ) {
+            archiveVOS.setGrade(vo.getGrade());
+            archiveVOS.setGraduateId(vo.getId());
+            archiveTargetDao.insertArchiveTarget(archiveVOS);
+        }
+
     }
 
 }

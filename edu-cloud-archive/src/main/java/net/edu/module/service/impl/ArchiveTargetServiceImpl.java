@@ -30,6 +30,7 @@ public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, 
 
     @Autowired
     private ArchiveTargetDao archiveTargetDao;
+
     @Override
     public PageResult<ArchiveTargetVO> page(ArchiveTargetQuery query) {
         Page<ArchiveTargetVO> page = new Page<>(query.getPage(),query.getLimit());
@@ -40,6 +41,12 @@ public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, 
     @Override
     public ArchiveTargetVO selectArchiveTargetById(Long id) {
         return archiveTargetDao.selectArchiveTargetById(id);
+    }
+
+    @Override
+    public List<ArchiveTargetVO> getName(String grade) {
+        List<ArchiveTargetVO> targetVOList=baseMapper.selectName(grade);
+        return targetVOList;
     }
 
     private LambdaQueryWrapper<ArchiveTargetEntity> getWrapper(ArchiveTargetQuery query){
@@ -62,5 +69,7 @@ public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, 
     public void delete(List<Long> idList) {
         removeByIds(idList);
     }
+
+
 
 }

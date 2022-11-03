@@ -22,5 +22,13 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
 
     IPage<ArchiveAssessVO> selectArchiveAssessByPage(Page<ArchiveAssessVO> page, ArchiveAssessQuery query);
 
+    List<ArchiveAssessVO> selectName();
 
+    Integer insertArchiveAccess1(ArchiveAssessEntity vo);
+
+    ArchiveAssessVO selectArchiveAssessById(Long id);
+
+    void updateArchiveAssess1(ArchiveAssessVO vo);
+
+    void updateArchiveAssess2(ArchiveAssessVO vo);
 }

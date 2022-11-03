@@ -29,7 +29,13 @@ public class ArchiveAssessVO implements Serializable {
 	private String grade;
 
 	@Schema(description = "课程id")
-	private Integer courseId;
+	private Long courseId;
+
+	@Schema(description = "考核点编号2")
+	private Long assessId;
+
+	@Schema(description = "指标点编号")
+	private Long targetId;
 
 	@Schema(description = "删除")
 	private Integer deleted;
@@ -37,8 +43,8 @@ public class ArchiveAssessVO implements Serializable {
 	@Schema(description = "指标点名称")
 	private String targetName;
 
-	@Schema(description = "一级课程名称")
-	private String firstKnowledgeName;
+	@Schema(description = "课程名称")
+	private String courseName;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

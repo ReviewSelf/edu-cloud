@@ -9,6 +9,8 @@ import net.edu.module.vo.ArchiveTargetVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
 * target
 *
@@ -25,4 +27,9 @@ public interface ArchiveTargetDao extends BaseDao<ArchiveTargetEntity> {
     void updateArchiveTarget(ArchiveTargetVO vo);
 
     void insertArchiveTarget(ArchiveTargetVO vo);
+
+    List<ArchiveTargetVO> selectName(String grade);
+
+    List<ArchiveTargetVO> selectArchiveTargetByGraduateId(Long graduateId);
+
 }

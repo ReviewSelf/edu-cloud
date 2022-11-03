@@ -34,6 +34,9 @@ public class ArchiveWeightTargetAssessVO implements Serializable {
 	@Schema(description = "指标点名称")
 	private String targetName;
 
+	@Schema(description = "年级")
+	private String grade;
+
 	@Schema(description = "课程编号")
 	private Long courseId;
 

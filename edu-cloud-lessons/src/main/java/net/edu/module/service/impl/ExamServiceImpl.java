@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -169,7 +170,11 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         List<String> bigTitleList =new ArrayList<>();
         ExamEntity entity =baseMapper.selectById(examId);
         for (int i = 0 ; i<data.size();i++){
-            bigTitleList.add("《"+entity.getName()+"》"+"姓名："+data.get(i).getName()+"\r\n"+ " 总分："+entity.getScore()+" 得分："+""+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")");
+            BigDecimal sum = new BigDecimal(0.00);
+            for (int j = 0 ; j<data.get(i).getProblemInfoList().size();j++){
+                sum = sum.add(data.get(i).getProblemInfoList().get(j).getFraction());
+            }
+            bigTitleList.add("《"+entity.getName()+"》"+"姓名："+data.get(i).getName()+"\r\n"+ " 总分："+entity.getScore()+" 得分："+sum+""+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")");
         }
         examProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
     }

@@ -3,6 +3,7 @@ package net.edu.module.utils;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.module.vo.ExamExcelVo;
 import net.edu.module.vo.ExamUserExcelVo;
@@ -22,9 +23,9 @@ import java.util.List;
 public class ExamProblemInfoExcelUtil {
 
     public void examExportExcel(List<ExamUserExcelVo> data, List<String> bigTitleList, HttpServletResponse response) throws IOException {
-        //String name = StringUtils.substringBetween(bigTitleList, "《", "》");
+        String name = StringUtils.substringBetween(bigTitleList.get(0), "《", "》");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("name.xlsx", "UTF-8"));
+        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name+"部分学生.xlsx", "UTF-8"));
         response.setContentType("application/vnd.ms-excel; charset=utf-8");
         response.setCharacterEncoding("utf-8");
 
@@ -36,7 +37,7 @@ public class ExamProblemInfoExcelUtil {
             List<String> childHead = new ArrayList<>();
             //设置表头
             childHead.add(bigTitleList.get(i));
-            childHead.add("题目内容");
+            childHead.add("题目");
             head.add(childHead);
             childHead = new ArrayList<>();
             childHead.add(bigTitleList.get(i));
@@ -47,7 +48,12 @@ public class ExamProblemInfoExcelUtil {
             childHead.add("得分");
             head.add(childHead);
             //写入表头
-            WriteSheet writeSheet = EasyExcel.writerSheet(i, data.get(i).getName()).head(head).build();
+            WriteSheet writeSheet = EasyExcel.writerSheet(i, data.get(i).getName()).
+                    head(head)
+                    .registerWriteHandler(new CellRowHeightStyleStrategy())
+                    .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
+                    .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
+                    .build();
             //设置内容
             for (int j = 0; j < data.get(i).getProblemInfoList().size(); j++) {
                 List<String> list = new ArrayList<>();

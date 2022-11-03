@@ -107,6 +107,13 @@ public class RedisKeys {
         return "homework:lessonId:" + id ;
     }
 
+    public static String getHomeworkEndKey(Long id) {
+        if(id == null) {
+            return "homeworkEndTime:lessonId:";
+        }
+        return "homeworkEndTime:lessonId:" + id;
+    }
+
 
     //***********************************problem***********************************************************
     public static String getProblemInfo(Long problemId, String type) {

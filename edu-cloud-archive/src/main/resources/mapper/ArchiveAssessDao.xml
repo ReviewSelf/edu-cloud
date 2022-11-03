@@ -52,7 +52,10 @@
         <if test="query.getCourseName()!=null and query.getCourseName()!=''">
             and ( SELECT name FROM archive_course t4 WHERE t3.course_id = t4.id ) like concat('%',#{query.courseName},'%')
         </if>
-        order by grade desc
+        order by
+        grade desc,
+        targetName asc,
+        courseName asc
     </select>
     <select id="selectName" resultType="net.edu.module.vo.ArchiveAssessVO">
         SELECT

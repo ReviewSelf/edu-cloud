@@ -65,7 +65,6 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
 
     @Override
     public void save(ArchiveWeightTargetAssessVO vo) {
-
         ArchiveAssessEntity entity=new ArchiveAssessEntity();
 //        ArchiveAssessVO assessVO = new ArchiveAssessVO();
         entity.setName(vo.getAssessName());
@@ -87,6 +86,11 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     public void delete(List<Long> idList) {
         removeByIds(idList);
         archiveWeightTargetAssessService.delete(idList);
+
+        for(int i=0;i<idList.size();i++){
+            archiveWeightTargetAssessService.deleteByAssessId(idList.get(i));
+        }
+
     }
 
 

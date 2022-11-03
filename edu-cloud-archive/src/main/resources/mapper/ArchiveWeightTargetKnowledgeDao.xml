@@ -35,4 +35,6 @@
                 (#{item.targetId},#{item.courseId},#{item.weight})
             </foreach>
     </insert>
+
+
 </mapper>

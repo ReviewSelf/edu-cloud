@@ -31,7 +31,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveAssessController {
     private final ArchiveAssessService archiveAssessService;
-    private final ArchiveWeightTargetKnowledgeController archiveWeightTargetKnowledgeController;
 
     @GetMapping("page")
     @Operation(summary = "分页")
@@ -66,7 +65,6 @@ public class ArchiveAssessController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveAssessService.delete(idList);
-
         return Result.ok();
     }
 

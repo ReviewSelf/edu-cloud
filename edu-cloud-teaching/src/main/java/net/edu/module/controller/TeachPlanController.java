@@ -84,4 +84,11 @@ public class TeachPlanController {
 
         return Result.ok();
     }
+
+    @GetMapping("all")
+    @Operation(summary = "所有计划")
+    public Result<List<TeachPlanVO>> getAllByStatusTeachPlanVos(){
+        List<TeachPlanVO> planVos = teachPlanService.getAllByStatusTeachPlanVos();
+        return Result.ok(planVos);
+    }
 }

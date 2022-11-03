@@ -27,6 +27,11 @@ public class ArchiveCourseEntity {
 	private Long sysId;
 
 	/**
+	 * 教学计划id
+	 */
+	private Long teachPlanId;
+
+	/**
 	* 名称
 	*/
 	private String name;

@@ -29,12 +29,10 @@ import java.util.List;
 public class AbilityController {
     private final AbilityService abilityService;
 
-    @GetMapping("page")
+    @GetMapping("list")
     @Operation(summary = "分页")
-    public Result<PageResult<AbilityVO>> page(@Valid AbilityQuery query){
-        PageResult<AbilityVO> page = abilityService.page(query);
-
-        return Result.ok(page);
+    public Result<List<AbilityEntity>> list(){
+        return Result.ok(abilityService.list());
     }
 
     @GetMapping("{id}")

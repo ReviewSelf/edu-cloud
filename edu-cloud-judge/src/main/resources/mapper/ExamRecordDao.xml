@@ -25,28 +25,67 @@
     </resultMap>
 
     <select id="selectUserExamScore" resultMap="ExamRecord">
-        SELECT c.user_id,c.score,c.sort,IFNULL(d.score,0) as fraction,(SELECT real_name FROM sys_user WHERE id=c.user_id) as name,c.exam_id,c.problem_id,c.problem_name,c.problem_type,d.id as
-        record_id,d.submit_status,c.join_time,d.submit_time,timediff(submit_time,join_time)as spend_time,pass_rate as passRate FROM
-        (SELECT a.user_id,a.exam_id,b.problem_id,b.problem_name,b.problem_type,b.score,b.sort,join_time FROM
-        (select exam_id, user_id,join_time
-        from exam_attend_log WHERE exam_id=#{examId}
-            and user_id=#{userId}
-        )a
-        left join exam_problem b on b.exam_id =a.exam_id ) c
-        left join (select id,submit_status,problem_id,problem_type,source_id,user_id,source,score,submit_time,pass_rate from
-        judge_record jr1
-        where source_id=#{examId} and source=3 and not exists (select 1 from judge_record jr2 where source_id=#{examId} and source=3
-        and jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
-        jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt; jr2.id ) ) d on
-        c.problem_id=d.problem_id and c.problem_type=d.problem_type
-        and d.source_id=c.exam_id and c.user_id=d.user_id
-        ORDER BY c.user_id,c.sort
+        SELECT c.user_id,
+               c.score,
+               c.sort,
+               IFNULL(d.score, 0)                                    as fraction,
+               (SELECT real_name FROM sys_user WHERE id = c.user_id) as name,
+               c.exam_id,
+               c.problem_id,
+               c.problem_name,
+               c.problem_type,
+               d.id                                                  as
+                                                                        record_id,
+               d.submit_status,
+               c.join_time,
+               d.submit_time,
+               timediff(submit_time, join_time)                      as spend_time,
+               pass_rate                                             as passRate
+        FROM (SELECT a.user_id,
+                     a.exam_id,
+                     b.problem_id,
+                     b.problem_name,
+                     b.problem_type,
+                     b.score,
+                     b.sort,
+                     join_time
+              FROM (select exam_id, user_id, join_time
+                    from exam_attend_log
+                    WHERE exam_id = #{examId}
+                      and user_id = #{userId}) a
+                       left join exam_problem b on b.exam_id = a.exam_id) c
+                 left join (select id,
+                                   submit_status,
+                                   problem_id,
+                                   problem_type,
+                                   source_id,
+                                   user_id,
+                                   source,
+                                   score,
+                                   submit_time,
+                                   pass_rate
+                            from judge_record jr1
+                            where source_id = #{examId}
+                              and source = 3
+                              and not exists(select 1
+                                             from judge_record jr2
+                                             where source_id = #{examId}
+                                               and source = 3
+                                               and jr1.problem_id = jr2.problem_id
+                                               and jr1.problem_type = jr2.problem_type
+                                               and jr1.source_id = jr2.source_id
+                                               and jr1.user_id = jr2.user_id
+                                               and jr1.source = jr2.source
+                                               and jr1.id &lt; jr2.id)) d on
+                    c.problem_id = d.problem_id and c.problem_type = d.problem_type
+                and d.source_id = c.exam_id and c.user_id = d.user_id
+        ORDER BY c.user_id, c.sort
     </select>
 
 
-
     <select id="selectExamRecordList" resultMap="ExamRecord">
-        SELECT c.user_id,c.score,c.sort,IFNULL(d.score,0) as fraction,c.name,c.exam_id,c.problem_id,c.problem_name,c.problem_type,d.id as
+        SELECT c.user_id,c.score,c.sort,IFNULL(d.score,0) as
+        fraction,c.name,c.exam_id,c.problem_id,c.problem_name,c.problem_type,d.id as
         record_id,d.submit_status,c.join_time,d.submit_time,timediff(submit_time,join_time)as spend_time FROM
         (SELECT a.user_id,a.name,a.exam_id,b.problem_id,b.problem_name,b.problem_type,b.score,b.sort,join_time FROM
         (
@@ -63,7 +102,8 @@
         left join exam_problem b on b.exam_id =a.exam_id ) c
         left join (select id,submit_status,problem_id,problem_type,source_id,user_id,source,score,submit_time from
         judge_record jr1
-        where source_id=#{query.examId} and source=3 and not exists (select 1 from judge_record jr2 where source_id=#{query.examId} and source=3
+        where source_id=#{query.examId} and source=3 and not exists (select 1 from judge_record jr2 where
+        source_id=#{query.examId} and source=3
         and jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
         jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt; jr2.id ) ) d on
         c.problem_id=d.problem_id and c.problem_type=d.problem_type
@@ -72,9 +112,43 @@
     </select>
 
 
-    <update id="updateProblemScore" >
-        update judge_record set score=#{score}
-        where id=#{id}
+    <update id="updateProblemScore">
+        update judge_record
+        set score=#{score}
+        where id = #{id}
     </update>
+
+    <resultMap id="ExamExcelRecord" type="net.edu.module.vo.exam.ExamUserExcelVo">
+        <result property="userId" column="userId"/>
+        <result property="name" column="name"/>
+        <result property="examId" column="exam_id"/>
+        <collection property="problemInfoList"
+                    javaType="java.util.ArrayList"
+                    ofType="net.edu.module.vo.exam.ExamExcelVo">
+            <result property="problemName" column="problem_name"></result>
+            <result property="submitContent" column="submit_content"></result>
+            <result property="fraction" column="fraction"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectExamProblemInfoList" resultMap="ExamExcelRecord">
+
+        select
+        ( select real_name from sys_user where id = c.user_id ) as name,
+        a.exam_id as examId,
+        a.problem_name,
+        c.submit_content,
+        c.score as fraction
+        from
+        exam_problem a
+        join judge_record c on a.problem_id = c.problem_id
+        and c.user_id in
+        <foreach collection="userIdList" separator="," item="item" open="(" close=")">
+            #{item}
+        </foreach>
+        and c.source_id = a.exam_id
+        where
+        a.exam_id = #{examId}
+    </select>
 
 </mapper>

@@ -5,3 +5,4 @@ auth:
     - /test
     - /lesson/record/getLessonProblemRank
     - /exam/record/getExamRecordList
+    - /exam/record/getExamProblemInfoList

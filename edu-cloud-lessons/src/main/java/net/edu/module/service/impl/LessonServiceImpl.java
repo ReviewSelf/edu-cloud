@@ -156,6 +156,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
             lessonService.sendHomeworkBegin(vo.getId());
 
 
+            Long deadLineTime = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis() - 1000*60*60*24L;
+            if(deadLineTime > 0) {
+                redisUtils.set(RedisKeys.getHomeworkEndKey(vo.getId()) , deadLineTime , deadLineTime / 1000);
+            }
+
             Long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
             if (time > 0) {
                 redisUtils.set(RedisKeys.getHomeWorkKey(vo.getId()), time, time / 1000);
@@ -165,11 +170,13 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     @Async
     public void sendHomeworkBegin(Long lessonId){
-        List<WxWorkPublishVO> list = lessonDao.selectHomeworkBegin(lessonId);
-        eduWxApi.insertWorkPublishTemplate(list);
+        List<WxWorkPublishVO> list1 = lessonDao.selectHomeworkBegin(lessonId);
+        eduWxApi.insertWorkPublishTemplate(list1);
+    }
 
-
-        //
+    public void sendHomeworkEnd(Long lessonId) {
+        List<WxWorkDeadlineVO> list2 = lessonDao.selectHomeworkEnd(lessonId);
+        eduWxApi.insertWorkDeadlineTemplate(list2);
     }
 
 

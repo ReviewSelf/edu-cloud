@@ -92,24 +92,4 @@
         where paper_id = #{paperId} and deleted = 0
     </select>
 
-    <select id="selectExamProblemInfo" resultType="net.edu.module.vo.ExamExcelVo">
-        SELECT
-            a.problem_name AS problemName,
-            c.submit_content AS submitContent,
-            c.score AS fraction
-        FROM
-            exam_problem a
-                JOIN judge_record c ON a.problem_id = c.problem_id
-                AND c.user_id = #{userId}
-                AND c.source_id = a.exam_id
-        WHERE
-            exam_id = #{examId}
-    </select>
-
-
-
-
-
-
-
 </mapper>

@@ -141,6 +141,10 @@ public class RedisKeys {
         return "sample:" + path;
     }
 
+    public static String getAbilityMap(Long id) {
+        return "ability:map:" + id;
+    }
+
 
 //***********************************teach***********************************************************
 

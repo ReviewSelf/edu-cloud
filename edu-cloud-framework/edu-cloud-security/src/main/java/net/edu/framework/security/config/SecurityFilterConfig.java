@@ -44,6 +44,7 @@ public class SecurityFilterConfig {
                 .and().exceptionHandling().authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
                 .and().headers().frameOptions().disable()
                 .and().csrf().disable()
+
         ;
 
         return http.build();
@@ -53,4 +54,6 @@ public class SecurityFilterConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring().antMatchers(HttpMethod.OPTIONS);
     }
+
+
 }

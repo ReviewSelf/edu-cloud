@@ -13,5 +13,6 @@ public interface AbilityRelatedDao {
 
     int insertRelated(@Param("vo") AbilityRelatedVO vo);
 
-    List<AbilityPointVO> selectRelated(Long id);
+    List<AbilityRelatedVO> selectRelatedList(Long id);
+    AbilityRelatedVO selectRelated(Long id);
 }

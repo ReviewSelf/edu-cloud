@@ -21,8 +21,5 @@ import java.util.List;
 public interface ArchiveCourseDao extends BaseDao<ArchiveCourseEntity> {
 
     IPage<ArchiveCourseVO> selectArchiveCourseByPage(Page<ArchiveCourseVO> page, ArchiveCourseQuery query);
-
-
-
     List<ArchiveCourseVO> selectArchiveCourseAll();
 }

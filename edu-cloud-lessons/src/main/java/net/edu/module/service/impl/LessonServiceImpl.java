@@ -151,17 +151,17 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         } else {
             baseMapper.updateHomework(vo);
 
-
+            //作业发布微信推送
             LessonService lessonService= SpringUtil.getBean(LessonService.class);
             lessonService.sendHomeworkBegin(vo.getId());
 
-
-            Long deadLineTime = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis() - 1000*60*60*24L;
+            //作业截止微信推送
+            long deadLineTime = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis() - 1000*60*60*24L;
             if(deadLineTime > 0) {
                 redisUtils.set(RedisKeys.getHomeworkEndKey(vo.getId()) , deadLineTime , deadLineTime / 1000);
             }
 
-            Long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
+            long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
             if (time > 0) {
                 redisUtils.set(RedisKeys.getHomeWorkKey(vo.getId()), time, time / 1000);
             }

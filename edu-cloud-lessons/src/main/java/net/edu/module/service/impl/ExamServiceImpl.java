@@ -71,8 +71,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     public ExamEntity get(Long examId) {
-        ExamEntity entity =baseMapper.selectById(examId);
-        return entity;
+        return baseMapper.selectById(examId);
     }
 
 
@@ -86,8 +85,8 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     public List<ExamVO> getExamingList(Long userId){
-        List<ExamVO> list = baseMapper.getExamingList(userId);
-        return list;
+        return baseMapper.getExamingList(userId);
+
     }
 
     @Override
@@ -109,8 +108,6 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
         //插入名单
         examAttendLogService.copyFromClass(vo.getClassId(),entity.getId());
-
-
 
 
     }

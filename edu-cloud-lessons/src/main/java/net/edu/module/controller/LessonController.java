@@ -110,7 +110,6 @@ public class LessonController {
     @PostMapping("updateList")
     @Operation(summary = "批量修改")
     public Result<String> updateList(@RequestBody List<LessonVO> list){
-        System.out.println(list);
         lessonService.updateList(list);
         return Result.ok();
     }

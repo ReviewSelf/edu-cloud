@@ -122,7 +122,7 @@ public class ExamController {
     }
 
     @PostMapping("/exportUserExam")
-    @Operation(summary = "导出单个用户考试excel")
+    @Operation(summary = "导出多个用户考试excel")
     public void exportUserExam(@RequestBody ExamUserExcelQuery query, HttpServletResponse response) throws IOException {
         examService.exportUserExam(query.getExamId(), query.getUserIdList(),response);
     }

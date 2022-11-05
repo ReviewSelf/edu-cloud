@@ -17,10 +17,10 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
     <insert id="insertProblemList" parameterType="net.edu.module.vo.ProblemPaperItemEntity">
-        insert ignore into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type) values
+        insert ignore into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type,sort) values
         <foreach collection="list" item="item" separator=",">
             (
-            #{lessonId},#{item.score},#{item.problemId},#{item.problemName},#{item.problemType},1,#{paperType}
+            #{lessonId},#{item.score},#{item.problemId},#{item.problemName},#{item.problemType},1,#{paperType},#{item.sort}
             )
         </foreach>
     </insert>
@@ -36,10 +36,10 @@
     </select>
 
     <insert id="insertProblemListByTeacher" parameterType="net.edu.module.vo.ProblemPaperItemEntity">
-        insert ignore into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type) values
+        insert ignore into  lesson_problem(lesson_id,score,problem_id,problem_name,problem_type,source,type,sort) values
         <foreach collection="list" item="item" separator=",">
             (
-            #{lessonId},#{item.score},#{item.problemId},#{item.problemName},#{item.problemType},#{item.source},#{item.type}
+            #{lessonId},#{item.score},#{item.problemId},#{item.problemName},#{item.problemType},#{item.source},#{item.type},#{item.sort}
             )
         </foreach>
     </insert>

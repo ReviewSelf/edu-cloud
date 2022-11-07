@@ -149,14 +149,17 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     public void exportExam(Long examId, HttpServletResponse response) throws IOException {
+        //查询学生考试情况数据
         List<ExamScoreVO> data =  eduJudgeApi.getExamRecordList(examId).getData();
-
+        //遍历考试题目
         List<String> header = new ArrayList<>();
         for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
             header.add(data.get(0).getProblemRecords().get(j).getProblemName());
         }
+        //设置excel大表头
         ExamEntity entity =baseMapper.selectById(examId);
         String bigTitle = "《"+entity.getName()+"》"+"\r\n"+ " 总分："+entity.getScore()+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")";
+        //传入题目，考试数据生成excel
         examExcelUtil.examExportExcel(header,data,bigTitle,response);
     }
 

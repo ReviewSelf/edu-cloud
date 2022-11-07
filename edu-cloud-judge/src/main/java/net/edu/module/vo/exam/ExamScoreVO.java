@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Data
 public class ExamScoreVO {
+    private String username;
     private Long userId;
     private String name;
     private Long examId;

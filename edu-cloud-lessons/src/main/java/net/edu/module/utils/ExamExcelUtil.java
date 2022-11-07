@@ -48,8 +48,13 @@ public class ExamExcelUtil {
         List<List<String>> head = new ArrayList<>();
         List<String> childHead = new ArrayList<>();
         childHead.add(bigTitle);
+        childHead.add("学号");
+        head.add(childHead);
+        childHead = new ArrayList<>();
+        childHead.add(bigTitle);
         childHead.add("姓名");
         head.add(childHead);
+
         for (String i : header) {
             childHead = new ArrayList<>();
             childHead.add(bigTitle);
@@ -71,9 +76,9 @@ public class ExamExcelUtil {
      */
     public List<List<String>> getExamExcelData(List<ExamScoreVO> vo) {
         List<List<String>> dataList = new ArrayList<>();
-
         for (int i = 0; i < vo.size(); i++) {
             List<String> list = new ArrayList<>();
+            list.add(vo.get(i).getUsername());
             list.add(vo.get(i).getName());
             BigDecimal sum = new BigDecimal(0.00);
             for (int j = 0; j < vo.get(i).getProblemRecords().size(); j++) {

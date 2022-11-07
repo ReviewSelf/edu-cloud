@@ -36,9 +36,36 @@ public class AbilityPointServiceImpl implements AbilityPointService {
         if(userId==null){
             return abilityMapVO;
         }
-        //用户各个指标
+        //用户各个指标 达标情况
         for (int i=0;i<abilityMapVO.getAbilityPointVOS().size();i++){
-            AbilityPointVO userAbilityPointVO=abilityPointDao.selectUserPoint(abilityMapVO.getAbilityPointVOS().get(i).getCode(),userId);
+            AbilityPointVO vo=abilityMapVO.getAbilityPointVOS().get(i);
+            AbilityPointVO userAbilityPointVO=abilityPointDao.selectUserPoint(vo.getCode(),userId);
+            int num =0;
+            if (vo.getLv1Num() <= userAbilityPointVO.getLv1Num()) {
+                num++;
+            }
+            if (vo.getLv2Num() <= userAbilityPointVO.getLv2Num()) {
+                num++;
+            }
+            if (vo.getLv3Num() <= userAbilityPointVO.getLv3Num()) {
+                num++;
+            }
+            if (vo.getLv4Num() <= userAbilityPointVO.getLv4Num()) {
+                num++;
+            }
+            if (vo.getLv5Num() <= userAbilityPointVO.getLv5Num()) {
+                num++;
+            }
+            if(num<=3){
+                vo.setStandard(0);
+            }
+            else if (num<5){
+                vo.setStandard(1);
+            }
+            else {
+                vo.setStandard(2);
+            }
+
             abilityMapVO.getAbilityPointVOS().get(i).setUserAbilityPointVO(userAbilityPointVO);
         }
         return abilityMapVO;

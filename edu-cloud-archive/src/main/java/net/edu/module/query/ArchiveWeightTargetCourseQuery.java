@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
 
-
-import java.util.Date;
-
 /**
 * 一级知识点权重查询
 *
@@ -17,5 +14,5 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "一级知识点权重查询")
-public class ArchiveWeightTargetKnowledgeQuery extends Query {
+public class ArchiveWeightTargetCourseQuery extends Query {
 }

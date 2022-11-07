@@ -88,4 +88,15 @@ public class GraduateRequireController {
         return Result.ok();
     }
 
+
+    /**
+     * 根据毕业要求id获取毕业要求对应的课程权重。暂不用
+     * @param id
+     * @return
+     */
+//    @GetMapping("weight")
+//    @Operation(summary = "权重")
+//    public Result<List<GraduateRequireVO>> getWeight(@RequestParam("id")Long id){
+//        return Result.ok(graduateRequireService.selectWeight(id));
+//    }
 }

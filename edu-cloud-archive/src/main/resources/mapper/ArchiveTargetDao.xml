@@ -78,4 +78,9 @@
         set name = #{name},content = #{content},grade = #{grade},graduate_id = #{graduateId}
         where id = #{id}
     </update>
+
+    <update id="updateDeleted">
+        update archive_target set deleted = 1
+        where graduate_id = #{graduateId}
+    </update>
 </mapper>

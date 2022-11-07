@@ -8,12 +8,15 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveCourseConvert;
+import net.edu.module.dao.ArchiveAssessDao;
+import net.edu.module.dao.ArchiveWeightTargetAssessDao;
 import net.edu.module.entity.ArchiveCourseEntity;
 import net.edu.module.query.ArchiveCourseQuery;
 import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.dao.ArchiveCourseDao;
 import net.edu.module.service.ArchiveCourseService;
 import net.edu.module.vo.ArchiveTargetVO;
+import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +35,12 @@ public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, 
 
     @Autowired
     private ArchiveCourseDao archiveCourseDao;
+
+    @Autowired
+    private ArchiveAssessDao archiveAssessDao;
+
+    @Autowired
+    private ArchiveWeightTargetAssessDao archiveWeightTargetAssessDao;
     @Override
     public PageResult<ArchiveCourseVO> page(ArchiveCourseQuery query) {
         Page<ArchiveCourseVO> page = new Page<>(query.getPage(),query.getLimit());
@@ -65,7 +74,19 @@ public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
+        //删除课程
         removeByIds(idList);
+        for (Long id:idList
+             ) {
+            List<ArchiveWeightTargetAssessVO> archiveWeightTargetAssessVOS = archiveWeightTargetAssessDao.selectAssessByCourseId(id);
+            for (ArchiveWeightTargetAssessVO vos: archiveWeightTargetAssessVOS
+                 ) {
+                //删除考核点
+                archiveAssessDao.deleteById(vos.getAssessId());
+            }
+            //删除关联表
+            archiveWeightTargetAssessDao.deleteByCourseId(id);
+        }
     }
 
     @Override

@@ -17,4 +17,6 @@ public interface AbilityPointDao {
     List<AbilityPointVO> selectList(Long id);
 
     AbilityPointVO selectPointInfo(Long id);
+
+    AbilityPointVO selectUserPoint(String code,Long userId);
 }

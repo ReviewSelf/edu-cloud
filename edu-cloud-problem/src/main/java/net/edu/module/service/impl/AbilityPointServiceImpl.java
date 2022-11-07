@@ -24,7 +24,7 @@ public class AbilityPointServiceImpl implements AbilityPointService {
     private final RedisUtils redisUtils;
 
     @Override
-    public AbilityMapVO getAbilityMap(Long id){
+    public AbilityMapVO getAbilityMap(Long id,Long userId){
         AbilityMapVO abilityMapVO=null;
         abilityMapVO= (AbilityMapVO) redisUtils.get(RedisKeys.getAbilityMap(id));
         if(abilityMapVO==null){
@@ -33,8 +33,15 @@ public class AbilityPointServiceImpl implements AbilityPointService {
             abilityMapVO.setAbilityRelatedVOS(abilityRelatedDao.selectRelatedList(id));
             redisUtils.set(RedisKeys.getAbilityMap(id),abilityMapVO,RedisUtils.HOUR_ONE_EXPIRE);
         }
+        if(userId==null){
+            return abilityMapVO;
+        }
+        //用户各个指标
+        for (int i=0;i<abilityMapVO.getAbilityPointVOS().size();i++){
+            AbilityPointVO userAbilityPointVO=abilityPointDao.selectUserPoint(abilityMapVO.getAbilityPointVOS().get(i).getCode(),userId);
+            abilityMapVO.getAbilityPointVOS().get(i).setUserAbilityPointVO(userAbilityPointVO);
+        }
         return abilityMapVO;
-
     }
 
 
@@ -83,4 +90,9 @@ public class AbilityPointServiceImpl implements AbilityPointService {
         }
         redisUtils.del(RedisKeys.getAbilityMap(list.get(0).getAbilityId()));
     }
+
+//    @Override
+//    public List<AbilityPointVO> getUserAbilityPoint(Long id) {
+//        return abilityPointDao.selectUserList(getAbilityMap(id).getAbilityPointVOS());
+//    }
 }

@@ -4,20 +4,28 @@ package net.edu.module.service.impl;
 
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.common.utils.YouBianCodeUtil;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.KnowledgePointConvert;
 import net.edu.module.dao.KnowledgePointDao;
 import net.edu.module.entity.KnowledgePointEntity;
+import net.edu.module.query.KpProblemQuery;
 import net.edu.module.service.KnowledgePointService;
+import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.vo.KnowledgePointVO;
+import net.edu.module.vo.KpProblemVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -107,6 +115,17 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
     @Override
     public Long getSubKpCount(Long pid) {
         return count(new LambdaQueryWrapper<KnowledgePointEntity>().eq(KnowledgePointEntity::getPid, pid));
+    }
+
+    @Override
+    public PageResult<KpProblemVO> getKpProblem(KpProblemQuery query) {
+        if(StrUtil.isEmpty(query.getCode())){
+            return new PageResult<>(null, 0L);
+        }
+        query.setUserId(SecurityUser.getUserId());
+        Page<KpProblemVO> page = new Page<>(query.getPage(),query.getLimit());
+        IPage<KpProblemVO> list = baseMapper.selectKpProblem(page,query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
 }

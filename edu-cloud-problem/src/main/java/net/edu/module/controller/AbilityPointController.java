@@ -4,12 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.service.AbilityPointService;
-import net.edu.module.vo.AbilityMapVO;
-import net.edu.module.vo.AbilityPointVO;
-import net.edu.module.vo.AbilityRelatedVO;
+import net.edu.module.vo.*;
 import org.springframework.web.bind.annotation.*;
-import net.edu.module.vo.AbilityBatchImportVO;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -30,9 +29,13 @@ public class AbilityPointController {
     @GetMapping("/{id}")
     @Operation(summary = "获取能力点列表")
     public Result<AbilityMapVO> getAbilityMap(@PathVariable("id") Long id){
-        return Result.ok(abilityPointService.getAbilityMap(id));
+        return Result.ok(abilityPointService.getAbilityMap(id,null));
     }
 
+    @GetMapping("user/{id}")
+    public Result<AbilityMapVO> getUserAbilityMap(@PathVariable("id") Long id){
+        return Result.ok(abilityPointService.getAbilityMap(id, SecurityUser.getUserId()));
+    }
 
     @PostMapping("/point")
     @Operation(summary = "保存")

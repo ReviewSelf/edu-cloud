@@ -25,9 +25,9 @@ public interface ArchiveWeightTargetCourseService extends BaseService<ArchiveWei
 
     void delete(Long targetId,Long courseId);
 
-    List<ArchiveWeightTargetCourseVO> selectKnowledgeByTargetId(Long targetId);
+    List<ArchiveWeightTargetCourseVO> selectCourseByTargetId(Long targetId);
 
-    Integer insertKnowledgeWeight(List<ArchiveWeightTargetCourseVO> archiveWeightTargetCourseVO);
+    Integer insertCourseWeight(List<ArchiveWeightTargetCourseVO> archiveWeightTargetCourseVO);
 
 
 

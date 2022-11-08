@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.ArchiveWeightTargetCourseDao">
 
-    <resultMap type="net.edu.module.entity.ArchiveWeightTargetCourseEntity" id="archiveWeightTargetKnowledgeMap">
+    <resultMap type="net.edu.module.entity.ArchiveWeightTargetCourseEntity" id="archiveWeightTargetCourseMap">
         <result property="id" column="id"/>
         <result property="targetId" column="target_id"/>
         <result property="courseId" column="course_id"/>
@@ -17,7 +17,7 @@
     </resultMap>
 
 
-    <select id="selectKnowledgeByTargetId" resultType="net.edu.module.vo.ArchiveWeightTargetCourseVO">
+    <select id="selectCourseByTargetId" resultType="net.edu.module.vo.ArchiveWeightTargetCourseVO">
         select
             id,
             target_id as targetId,
@@ -28,7 +28,7 @@
         where deleted = 0 and target_id = #{targetId}
     </select>
 
-    <insert id="insertKnowledgeWeight">
+    <insert id="insertCourseWeight">
         replace into archive_weight_target_course(target_id,course_id,weight)
         values
             <foreach collection="list" item="item" separator=",">

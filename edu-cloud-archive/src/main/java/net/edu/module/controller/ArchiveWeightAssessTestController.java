@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveWeightAssessTestService;
 import net.edu.module.vo.ArchiveWeightAssessTestVO;
-import net.edu.module.vo.ArchiveWeightTargetKnowledgeVO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

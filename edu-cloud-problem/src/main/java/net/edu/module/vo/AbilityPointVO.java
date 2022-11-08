@@ -52,8 +52,8 @@ public class AbilityPointVO implements Serializable {
 	@Schema(description = "纵坐标")
 	private Integer coordinateY;
 
-	@Schema(description = "0:未达标，1:达标，2:完成")
-	private Integer standard;
+	@Schema(description = "0-2:未达标，3-4:达标，5:完成")
+	private Integer standardNum;
 
 	private AbilityPointVO userAbilityPointVO;
 

@@ -56,15 +56,7 @@ public class AbilityPointServiceImpl implements AbilityPointService {
             if (vo.getLv5Num() <= userAbilityPointVO.getLv5Num()) {
                 num++;
             }
-            if(num<=3){
-                vo.setStandard(0);
-            }
-            else if (num<5){
-                vo.setStandard(1);
-            }
-            else {
-                vo.setStandard(2);
-            }
+            vo.setStandardNum(num);
 
             abilityMapVO.getAbilityPointVOS().get(i).setUserAbilityPointVO(userAbilityPointVO);
         }

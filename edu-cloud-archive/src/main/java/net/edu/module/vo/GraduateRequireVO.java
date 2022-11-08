@@ -54,5 +54,13 @@ public class GraduateRequireVO implements Serializable {
 	@Schema(description = "学校")
 	private Long school;
 
+	@Schema(description = "指标点名称")
+	private String targetName;
+
+	@Schema(description = "课程名称")
+	private String courseName;
+
+	@Schema(description = "权重")
+	private String weight;
 
 }

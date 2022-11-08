@@ -15,7 +15,7 @@ import net.edu.framework.mybatis.entity.BaseEntity;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("archive_weight_target_knowledge")
-public class ArchiveWeightTargetKnowledgeEntity extends BaseEntity {
+public class ArchiveWeightTargetCourseEntity extends BaseEntity {
 	/**
 	* 指标点编号
 	*/

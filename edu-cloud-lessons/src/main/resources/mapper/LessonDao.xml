@@ -72,37 +72,6 @@
             ) t3
     </select>
 
-    <select id="selectHomeworkEnd" resultType="net.edu.module.vo.WxWorkDeadlineVO">
-        select
-        "手机端或电脑端" as submitMethod
-        , user_id as userId
-        , CONCAT("还有" , sum(ISNULL(submit_status)) , "道题未完成，请抓紧时间完成") as remark
-        , now() as sendTime
-        , end_time as deadline
-        FROM (SELECT c.user_id, c.lesson_id, c.problem_name, c.problem_id, c.problem_type, c.type, submit_status , c.end_time
-        FROM (SELECT a.stu_id as user_id, a.lesson_id, b.problem_name, b.problem_id, b.problem_type, b.type , b.end_time
-        FROM lesson_attend_log a
-        left join lesson_problem b on b.lesson_id = a.lesson_id
-        WHERE a.lesson_id = #{lessonId}) c
-        left join (select user_id, problem_id, problem_type, source, submit_status
-        from judge_record jr1
-        where source_id = #{lessonId}
-        and not exists(select 1
-        from judge_record jr2
-        where source_id = #{lessonId}
-        and jr1.problem_id = jr2.problem_id
-        and jr1.problem_type = jr2.problem_type
-        and jr1.source_id = jr2.source_id
-        and jr1.user_id = jr2.user_id
-        and jr1.source = jr2.source
-        and jr1.id &lt; jr2.id)) d
-        on c.problem_id = d.problem_id and c.problem_type = d.problem_type and
-        c.type = d.source and c.user_id = d.user_id
-        where type=2
-        ) tt
-        GROUP BY user_id , end_time
-    </select>
-
     <select id="selectHomeworkPage" resultMap="lessonMap">
         select b.id,b.teacher_id ,b.name,b.status,(select real_name from sys_user where id=b.teacher_id) as teacherName,b.class_id,
                (select name from teach_class where id=b.class_id) as className,b.place,b.begin_time ,b.end_time,

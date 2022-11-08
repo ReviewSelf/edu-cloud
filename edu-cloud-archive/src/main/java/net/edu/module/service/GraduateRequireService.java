@@ -32,4 +32,6 @@ public interface GraduateRequireService extends BaseService<GraduateRequireEntit
     void importArchive(MultipartFile file);
 
     void saveBatchRequire(GraduateRequireVO vo);
+
+    List<GraduateRequireVO> selectWeight(Long id);
 }

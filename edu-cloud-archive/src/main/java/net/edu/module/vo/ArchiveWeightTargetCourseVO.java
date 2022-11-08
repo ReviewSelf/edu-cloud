@@ -16,7 +16,7 @@ import java.util.Date;
 */
 @Data
 @Schema(description = "一级知识点权重")
-public class ArchiveWeightTargetKnowledgeVO implements Serializable {
+public class ArchiveWeightTargetCourseVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(description = "支撑矩阵编号")

@@ -34,8 +34,6 @@ public class HomeWorkController {
      */
     @PostMapping("/homeWorkPage")
     public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@RequestBody HomeWorkQuery query){
-
-        System.out.println(query);
         log.info(query.toString());
         PageResult<HomeWorkVO> page=homeWorkService.getStudentHomeWorkPage(query);
 

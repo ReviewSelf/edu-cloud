@@ -44,7 +44,6 @@ public class LessonAttendLogController {
     @DeleteMapping("lesson")
     @Operation(summary = "根据学生id批量删除课程id")
     public Result deleteLessonList(@RequestBody LessonStudentVO vo){
-        System.out.println(vo);
         lessonAttendLogService.deleteLessonList(vo);
         return Result.ok();
     }

@@ -26,4 +26,8 @@ public interface GraduateRequireDao extends BaseDao<GraduateRequireEntity> {
     Integer insertGraduateRequire(GraduateRequireVO vo);
 
     List<GraduateRequireEntity> selectGraduateByGrade(String grade);
+
+    List<GraduateRequireVO> selectWeight(Long id);
+
+    Integer deleteGraduate(Long id);
 }

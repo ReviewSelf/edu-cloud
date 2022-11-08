@@ -22,6 +22,14 @@
         where assess_id=#{assessId}
     </update>
 
+    <update id="deleteByTargetId">
+        update archive_weight_target_assess set deleted=1
+        where target_id=#{targetId}
+    </update>
+    <update id="deleteByCourseId">
+        update archive_weight_target_assess set deleted=1
+        where course_id=#{courseId}
+    </update>
 
     <select id="selectAssessByCourseId" resultType="net.edu.module.vo.ArchiveWeightTargetAssessVO">
         select

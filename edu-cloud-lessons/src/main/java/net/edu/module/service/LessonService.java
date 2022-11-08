@@ -31,7 +31,7 @@ public interface LessonService extends BaseService<LessonEntity> {
 
     void sendHomeworkBegin(Long lessonId);
 
-    void sendHomeworkEnd(Long lessonId);
+    void sendHomeworkEnd(Long lessonId , String endTime);
 
     PageResult<LessonVO> homeworkPage(LessonQuery query);
 

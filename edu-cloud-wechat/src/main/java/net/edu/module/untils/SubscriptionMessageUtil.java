@@ -263,6 +263,7 @@ public class SubscriptionMessageUtil {
         JSONObject jsonObject = JSONUtil.parseObj(content);
         String deadline = jsonObject.getStr("deadline");
         String submitMethod = jsonObject.getStr("submitMethod");
+        String remark = jsonObject.getStr("remark");
 
 
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
@@ -277,7 +278,7 @@ public class SubscriptionMessageUtil {
                 new WxMpTemplateData("first", "您好，本次课程的课后作业需要您的孩子及时提交", "#000000"),
                 new WxMpTemplateData("keyword1", deadline),
                 new WxMpTemplateData("keyword2", submitMethod),
-                new WxMpTemplateData("remark", "如有疑问，请及时联系课程老师。")
+                new WxMpTemplateData("remark", remark)
         );
 
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()

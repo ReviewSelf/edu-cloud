@@ -1,6 +1,7 @@
 package net.edu.framework.security.filter;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.security.cache.TokenStoreCache;
 import net.edu.framework.security.user.UserDetail;
 import net.edu.framework.security.utils.TokenUtils;
@@ -24,6 +25,7 @@ import java.io.IOException;
  * @author 阿沐 babamu@126.com
  */
 @Component
+@Slf4j
 @AllArgsConstructor
 public class AuthenticationTokenFilter extends OncePerRequestFilter {
     private final TokenStoreCache tokenStoreCache;
@@ -39,6 +41,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
         // 获取登录用户信息
         UserDetail user = tokenStoreCache.getUser(accessToken);
+
         if (user == null) {
             chain.doFilter(request, response);
             return;
@@ -46,6 +49,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
         // 用户存在
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        //保存用户token
 
         // 新建 SecurityContext
         SecurityContext context = SecurityContextHolder.createEmptyContext();
@@ -54,4 +58,7 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
         chain.doFilter(request, response);
     }
+
+
+
 }

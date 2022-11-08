@@ -4,14 +4,15 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.AbilityEntity;
 import net.edu.module.query.AbilityQuery;
-import net.edu.module.vo.AbilityPointVO;
-import net.edu.module.vo.AbilityRelatedVO;
-import net.edu.module.vo.AbilityVO;
+import net.edu.module.vo.*;
 
 import java.util.List;
 
 public interface AbilityPointService   {
-    List<AbilityPointVO> getList(Long id);
+
+
+    AbilityMapVO getAbilityMap(Long id,Long userId);
+
 
     void save(List<String> list,Long id);
 
@@ -19,13 +20,12 @@ public interface AbilityPointService   {
 
     void delete(Long id);
 
-    AbilityPointVO getPointInfo(Long id);
 
     void deleteRelated(Long id);
 
     void saveRelated(AbilityRelatedVO vo);
 
-    List<AbilityPointVO> relatedList(Long id);
 
     void updateList(List<AbilityPointVO> list);
+
 }

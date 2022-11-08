@@ -4,11 +4,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.constant.Constant;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.KnowledgePointConvert;
 import net.edu.module.entity.KnowledgePointEntity;
+import net.edu.module.query.KpProblemQuery;
 import net.edu.module.service.KnowledgePointService;
 import net.edu.module.vo.KnowledgePointVO;
+import net.edu.module.vo.KpProblemVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -82,5 +85,13 @@ public class KnowledgePointController {
     public Result<String> getName(@PathVariable("id") Long id){
         KnowledgePointEntity entity = knowledgePointService.getById(id);
         return Result.ok(entity.getName());
+    }
+
+
+    @GetMapping("/getKpProblem")
+    @Operation(summary = "查找知识点相关问题")
+    public Result<PageResult<KpProblemVO>> getKpProblem(@Valid KpProblemQuery query){
+
+        return Result.ok(knowledgePointService.getKpProblem(query));
     }
 }

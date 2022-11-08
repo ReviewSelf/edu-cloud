@@ -14,4 +14,6 @@ import java.util.List;
 public interface ArchiveWeightAssessTestService extends BaseService<ArchiveWeightAssessTestEntity> {
 
     Integer insertTestWeight(List<ArchiveWeightAssessTestVO> VOS);
+
+    List<ArchiveWeightAssessTestVO> selectAssessTest(Long assessId);
 }

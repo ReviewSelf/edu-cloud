@@ -7,10 +7,7 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveWeightAssessTestService;
 import net.edu.module.vo.ArchiveWeightAssessTestVO;
 import net.edu.module.vo.ArchiveWeightTargetKnowledgeVO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +27,11 @@ public class ArchiveWeightAssessTestController {
     @Operation(summary = "插入评测点权重")
     public Result<Integer> insertTestWeight(@RequestBody List<ArchiveWeightAssessTestVO> vos){
         return Result.ok(archiveWeightAssessTestService.insertTestWeight(vos));
+    }
+
+    @GetMapping("assess")
+    @Operation(summary = "获取评测点")
+    public Result<List<ArchiveWeightAssessTestVO>> getAssessTest(@RequestParam("assessId") Long assessId){
+        return Result.ok(archiveWeightAssessTestService.selectAssessTest(assessId));
     }
 }

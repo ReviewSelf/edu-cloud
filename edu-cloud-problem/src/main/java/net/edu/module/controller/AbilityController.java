@@ -9,6 +9,7 @@ import net.edu.module.convert.AbilityConvert;
 import net.edu.module.entity.AbilityEntity;
 import net.edu.module.query.AbilityQuery;
 import net.edu.module.service.AbilityService;
+import net.edu.module.vo.AbilityListVO;
 import net.edu.module.vo.AbilityVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,11 +30,19 @@ import java.util.List;
 public class AbilityController {
     private final AbilityService abilityService;
 
+
+
     @GetMapping("list")
-    @Operation(summary = "分页")
-    public Result<List<AbilityEntity>> list(){
-        return Result.ok(abilityService.list());
+    public Result<List<AbilityVO>> getAbilityList(){
+        return Result.ok(abilityService.getAbilityList());
     }
+
+
+    @GetMapping("item/list/{id}")
+    public Result<List<AbilityVO>> getAbilityItemList(@PathVariable("id") Long id){
+        return Result.ok(abilityService.getAbilityItemList(id));
+    }
+
 
     @GetMapping("{id}")
     @Operation(summary = "信息")

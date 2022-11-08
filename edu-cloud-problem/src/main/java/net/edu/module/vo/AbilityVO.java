@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
+import net.edu.framework.common.utils.TreeNode;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,11 +17,9 @@ import java.util.Date;
 */
 @Data
 @Schema(description = "能力纬度图")
-public class AbilityVO implements Serializable {
+public class AbilityVO extends TreeNode<AbilityVO> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Schema(description = "自增主键")
-	private Long id;
 
 	@Schema(description = "能力图名称")
 	private String name;
@@ -31,22 +30,11 @@ public class AbilityVO implements Serializable {
 	@Schema(description = "是否删除")
 	private Integer deleted;
 
+	private String parentName;
+
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date createTime;
-
-	@Schema(description = "创建人")
-	private Long creator;
-
-	@Schema(description = "更新时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date updateTime;
-
-	@Schema(description = "更新者")
-	private Long updater;
-
-	@Schema(description = "版本")
-	private Integer version;
 
 
 }

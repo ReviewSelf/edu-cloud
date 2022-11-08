@@ -1,6 +1,11 @@
 package net.edu.module.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.constant.Constant;
+import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.AbilityConvert;
 import net.edu.module.dao.AbilityDao;
@@ -23,10 +28,21 @@ import java.util.List;
 public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntity> implements AbilityService {
 
     @Override
-    public List<AbilityEntity> list() {
-        List<AbilityEntity> list = baseMapper.selectList(null);
+    public List<AbilityVO> getAbilityList() {
+        List<AbilityEntity> list=baseMapper.selectList(null);
 
-        return list;
+        return TreeUtils.build(AbilityConvert.INSTANCE.convertList(list), Constant.ROOT);
+    }
+
+    @Override
+    public List<AbilityVO> getAbilityItemList(Long id) {
+//        LambdaQueryWrapper<AbilityEntity> wrapper = new QueryWrapper<AbilityEntity>().lambda();
+//        wrapper.eq(AbilityEntity::getPid, id);
+//        List<AbilityEntity> list=baseMapper.selectList(wrapper);
+//        List<AbilityEntity> list=new LambdaQueryChainWrapper<>(baseMapper)
+//                .eq(AbilityEntity::getPid, id)
+//                .list();
+        return  baseMapper.selectAbilityItemList(id);
     }
 
 

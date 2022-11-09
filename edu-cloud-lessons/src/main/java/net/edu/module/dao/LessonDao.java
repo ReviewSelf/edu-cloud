@@ -39,6 +39,6 @@ public interface LessonDao extends BaseDao<LessonEntity> {
 
     List<WxWorkPublishVO> selectHomeworkBegin(Long lessonId);
 
-    int updateList(LessonVO vo);
+    int updateLessonTime(LessonVO vo);
 
 }

@@ -92,4 +92,12 @@
         where paper_id = #{paperId} and deleted = 0
     </select>
 
+    <select id="selectExamArrangement" resultType="net.edu.module.vo.WxExamArrangementVO">
+        select a.name as examName , concat(a.begin_time,'-',a.end_time) as examTime , a.place as examPlace ,
+               (select real_name from sys_user where id = #{vo.teacherId}) as teacher ,
+               now() as sendTime,
+               b.stu_id as userId
+        from exam a left join lesson_attend_log b on b.lesson_id = #{vo.classId} where deleted = 0 and a.name = #{vo.name}
+    </select>
+
 </mapper>

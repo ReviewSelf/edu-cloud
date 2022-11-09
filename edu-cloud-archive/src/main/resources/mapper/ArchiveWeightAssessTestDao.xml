@@ -2,14 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.ArchiveWeightAssessTestDao">
-    <update id="insertTestWeight" parameterType="java.util.List">
-        <foreach collection="list" item="item"  separator=";">
-            update archive_weight_assess_test
-            <set>
-                weight = #{item.weight}
-            </set>
-            where assess_id = #{item.assessId}
+    <insert id="insertTestWeight" parameterType="java.util.List">
+
+            insert into archive_weight_assess_test
+            (source,test_id,assess_id,weight) values
+        <foreach collection="list" item="item"  separator=",">
+            ("考试",#{item.testId},#{item.assessId},#{item.weight})
         </foreach>
-    </update>
+    </insert>
+    <select id="selectTestName" resultType="net.edu.module.vo.ArchiveWeightAssessTestVO">
+        SELECT
+            id as testId,
+            name
+        FROM
+	        exam
+        WHERE
+            deleted = 0
+            AND class_id IN (
+            SELECT
+                id
+            FROM
+                teach_class
+            WHERE
+                deleted = 0
+            AND plan_id = ( SELECT teach_plan_id FROM archive_course WHERE deleted = 0 AND id = ( SELECT course_id FROM archive_weight_target_assess WHERE assess_id = #{assessId} AND deleted = 0 ) )
+            )
+    </select>
+
 
 </mapper>

@@ -20,6 +20,9 @@ public class ArchiveWeightAssessTestVO {
     @Schema(description = "来源")
     private String source;
 
+    @Schema(description = "名字")
+    private String name;
+
     @Schema(description = "评测点id")
     private Long testId;
 

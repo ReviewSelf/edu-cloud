@@ -54,11 +54,11 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
             log.info("{}作业截止", list.toString());
             lessonService.closeLessonHomeWork(Long.valueOf(list.get(2)));
         }
-        else if(expiredKey.contains(RedisKeys.getHomeworkEndKey(null , null))) {
+        else if(expiredKey.contains(RedisKeys.getHomeworkEndKey(null ))) {
             //作业截止前24小时
             List<String> list = Arrays.asList(expiredKey.split(":"));
             log.info("{}作业截止前24小时" , list.toString());
-            lessonService.sendHomeworkEnd(Long.valueOf(list.get(2)) , list.get(3));
+            lessonService.sendHomeworkEnd(Long.valueOf(list.get(3)));
         }
     }
 

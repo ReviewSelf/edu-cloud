@@ -64,13 +64,13 @@ public class ArchiveWeightTargetCourseServiceImpl extends BaseServiceImpl<Archiv
     }
 
     @Override
-    public List<ArchiveWeightTargetCourseVO> selectKnowledgeByTargetId(Long targetId) {
-        return archiveWeightTargetCourseDao.selectKnowledgeByTargetId(targetId);
+    public List<ArchiveWeightTargetCourseVO> selectCourseByTargetId(Long targetId) {
+        return archiveWeightTargetCourseDao.selectCourseByTargetId(targetId);
     }
 
     @Override
-    public Integer insertKnowledgeWeight(List<ArchiveWeightTargetCourseVO> archiveWeightTargetCourseVO) {
-        return archiveWeightTargetCourseDao.insertKnowledgeWeight(archiveWeightTargetCourseVO);
+    public Integer insertCourseWeight(List<ArchiveWeightTargetCourseVO> archiveWeightTargetCourseVO) {
+        return archiveWeightTargetCourseDao.insertCourseWeight(archiveWeightTargetCourseVO);
     }
 
 

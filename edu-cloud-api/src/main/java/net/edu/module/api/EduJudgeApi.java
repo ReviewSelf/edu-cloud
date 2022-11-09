@@ -26,4 +26,7 @@ public interface EduJudgeApi {
     @GetMapping("/exam/record/getExamProblemInfoList")
     Result<List<ExamUserExcelVo>> getExamProblemInfoList(@RequestParam(value = "examId") Long examId, @RequestParam(value = "userIdList") List<Long> userIdList);
 
+    @GetMapping("/lesson/record/getLessonProblemRecord")
+    Result<List<LessonJudgeRecordVo>> getLessonProblemRecord(@RequestParam("lessonId") Long lessonId);
+
 }

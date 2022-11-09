@@ -18,11 +18,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * @Author: 樊磊
+ * @Date: 2022/10/31 15:51
+ * @Version: 2.0
+ * @Description:考试详情excel相关工具类
+ */
 @Component
 @Slf4j
 public class ExamProblemInfoExcelUtil {
 
-    public void examExportExcel(List<ExamUserExcelVo> data, List<String> bigTitleList, HttpServletResponse response) throws IOException {
+    public static void examExportExcel(List<ExamUserExcelVo> data, List<String> bigTitleList, HttpServletResponse response) throws IOException {
         String name = StringUtils.substringBetween(bigTitleList.get(0), "《", "》");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name+"部分学生.xlsx", "UTF-8"));
@@ -33,20 +40,8 @@ public class ExamProblemInfoExcelUtil {
 
         List<List<String>> dataList = new ArrayList<>();
         for (int i = 0; i < bigTitleList.size(); i++) {
-            List<List<String>> head = new ArrayList<>();
-            List<String> childHead = new ArrayList<>();
             //设置表头
-            childHead.add(bigTitleList.get(i));
-            childHead.add("题目");
-            head.add(childHead);
-            childHead = new ArrayList<>();
-            childHead.add(bigTitleList.get(i));
-            childHead.add("答题内容");
-            head.add(childHead);
-            childHead = new ArrayList<>();
-            childHead.add(bigTitleList.get(i));
-            childHead.add("得分");
-            head.add(childHead);
+            List<List<String>> head =  setHead(bigTitleList.get(i));
             //写入表头
             WriteSheet writeSheet = EasyExcel.writerSheet(i, data.get(i).getName()).
                     head(head)
@@ -70,4 +65,24 @@ public class ExamProblemInfoExcelUtil {
         excelWriter.finish();
         response.flushBuffer();
     }
+
+    public static List<List<String>> setHead(String bigTitleItem){
+        List<List<String>> head = new ArrayList<>();
+        List<String> childHead = new ArrayList<>();
+        //设置表头
+        childHead.add(bigTitleItem);
+        childHead.add("题目");
+        head.add(childHead);
+        childHead = new ArrayList<>();
+        childHead.add(bigTitleItem);
+        childHead.add("答题内容");
+        head.add(childHead);
+        childHead = new ArrayList<>();
+        childHead.add(bigTitleItem);
+        childHead.add("得分");
+        head.add(childHead);
+        return head;
+    }
+
+
 }

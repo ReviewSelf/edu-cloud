@@ -9,12 +9,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.DateUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.framework.security.user.UserDetail;
 import net.edu.module.api.EduJudgeApi;
 import net.edu.module.api.EduTeachApi;
+import net.edu.module.api.EduWxApi;
 import net.edu.module.convert.LessonConvert;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,6 +52,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final EduJudgeApi eduJudgeApi;
 
     private final RedisUtils redisUtils;
+
+    EduWxApi eduWxApi;
 
 
     /**
@@ -78,6 +83,25 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
+    @Override
+    public void sendHomeworkEnd(Long lessonId) {
+        List<LessonProblemRankVO> rankList = eduJudgeApi.getLessonProblemRank(lessonId, 2).getData();
+        List<WxWorkDeadlineVO> msg = new ArrayList<>();
+        LessonEntity entity=getById(lessonId);
+        String date= DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN);
+        String deadline=DateUtils.format(entity.getHomeworkEndTime(),DateUtils.DATE_TIME_PATTERN);
+        for(int i = 0; i < rankList.size(); i++) {
+            LessonProblemRankVO lessonProblemRankVO = rankList.get(i);
+            WxWorkDeadlineVO wxWorkDeadlineVO = new WxWorkDeadlineVO();
+            wxWorkDeadlineVO.setSubmitMethod("手机端或电脑端");
+            wxWorkDeadlineVO.setUserId(lessonProblemRankVO.getUserId());
+            wxWorkDeadlineVO.setRemark("还有" + lessonProblemRankVO.getUnansweredNum() + "道题未完成，请及时完成作业！");
+            wxWorkDeadlineVO.setDeadline(deadline);
+            wxWorkDeadlineVO.setSendTime(date);
+            msg.add(wxWorkDeadlineVO);
+        }
+        eduWxApi.insertWorkDeadlineTemplate(msg);
+    }
     @Override
     public List<LessonVO> list(LessonQuery query) {
         LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();

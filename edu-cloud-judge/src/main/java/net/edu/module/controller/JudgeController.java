@@ -33,6 +33,7 @@ public class JudgeController {
 
     @PostMapping("/record")
     public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo) {
+
         vo.setSubmitStatus(0);
         vo.setUserId(SecurityUser.getUserId());
         if (StrUtil.isEmpty(vo.getSubmitImg())) {

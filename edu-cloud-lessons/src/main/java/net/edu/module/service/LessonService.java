@@ -42,4 +42,6 @@ public interface LessonService extends BaseService<LessonEntity> {
     void delete(Long classId);
 
     void updateList(List<LessonVO> list);
+
+    void sendHomeworkEnd(Long lessonId);
 }

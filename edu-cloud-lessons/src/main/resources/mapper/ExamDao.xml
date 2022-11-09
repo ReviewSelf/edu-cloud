@@ -74,6 +74,7 @@
         <if test="query.teacherName != null and query.teacherName != ''">
             and d.real_name = #{query.teacherName}
         </if>
+
     </select>
 
     <select id="getExamingList" resultType="net.edu.module.vo.ExamVO">

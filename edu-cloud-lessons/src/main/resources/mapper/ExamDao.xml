@@ -55,7 +55,7 @@
     <select id="studentPage" resultType="net.edu.module.vo.ExamVO">
         select a.id,a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place , a.begin_time as beginTime,
         a.end_time as endTime , (select  real_name from sys_user where id=a.teacher_id) as teacherName , a.time_limit as timeLimit,
-        b.status,b.is_correcting as isCorrecting
+        b.status,b.is_correcting as isCorrecting,b.score as grade
         from exam a
         join exam_attend_log b on  a.id = b.exam_id and  b.user_id = #{query.userId}
         where  a.deleted = 0

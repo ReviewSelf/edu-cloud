@@ -1,11 +1,13 @@
 package net.edu.mini.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.api.EduLessonApi;
+import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
-import net.edu.module.vo.HomeWorkQuery;
-import net.edu.module.vo.HomeWorkVO;
+import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +25,34 @@ public class WxMiniController {
     @Autowired
     private EduLessonApi eduLessonApi;
 
+    @Autowired
+    private EduProblemApi eduProblemApi;
+
     @GetMapping("/homeWorkPage")
     public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@Valid HomeWorkQuery query){
 
-        return Result.ok(eduLessonApi.getStudentHomeWorkPage(query.getStudentId(),query.getLimit(),query.getPage()).getData());
+        return eduLessonApi.getStudentHomeWorkPage(query.getStudentId(),query.getLimit(),query.getPage());
+    }
+
+    @GetMapping("/studentPage")
+    public Result<PageResult<ExamVO>> studentPage(@RequestParam(value = "limit")Integer limit,@RequestParam(value="page")Integer page){
+        Long userId=SecurityUser.getUserId();
+        return eduLessonApi.studentPage(limit, page,userId);
+    }
+
+    @GetMapping("/choice/{problemId}")
+    public Result<ChoiceProblemVO> getChoiceProblemInfo(@PathVariable("problemId") Long problemId) {
+        return eduProblemApi.getChoiceProblemInfo(problemId);
+    }
+
+    @GetMapping("/code/{problemId}")
+    public Result<CodeProblemVO> getCodeProblemInfo(@PathVariable("problemId") Long problemId) {
+        return eduProblemApi.getCodeProblemInfo(problemId);
+    }
+
+    @GetMapping("/fill/{problemId}")
+    public Result<FillProblemVO> getFillProblemInfo(@PathVariable("problemId")  Long problemId){
+        return eduProblemApi.getFillProblemInfo(problemId);
     }
 
 }

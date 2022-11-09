@@ -7,3 +7,4 @@ auth:
     - /evaluate/list/**
     - /lesson
     - /homeWork/homeWorkPage
+    - /exam/studentPage

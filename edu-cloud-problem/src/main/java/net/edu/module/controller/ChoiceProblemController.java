@@ -38,6 +38,7 @@ public class ChoiceProblemController {
     @GetMapping("{id}")
     @Operation(summary = "修改选择题时获取原有信息")
     public Result<ChoiceProblemVO> get(@PathVariable("id") Long id) {
+        System.out.println(id);
         ChoiceProblemVO vo = choiceProblemService.getChoiceProblem(id);
         return Result.ok(vo);
     }

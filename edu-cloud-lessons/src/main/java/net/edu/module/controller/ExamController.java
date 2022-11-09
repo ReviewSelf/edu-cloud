@@ -49,7 +49,10 @@ public class ExamController {
     @GetMapping("studentPage")
     @Operation(summary = "学生端分页")
     public Result<PageResult<ExamVO>> studentPage(@Valid ExamQuery query){
-        query.setUserId(SecurityUser.getUserId());
+        System.out.println(query.getLimit()+" "+query.getPage());
+        if(query.getUserId()==null){
+            query.setUserId(SecurityUser.getUserId());
+        }
         PageResult<ExamVO> page = examService.studentPage(query);
         return Result.ok(page);
     }

@@ -1,11 +1,11 @@
 package net.edu.module.api;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.utils.Result;
 
 import net.edu.module.fallback.EduProblemFallBack;
-import net.edu.module.vo.CodeSampleVO;
-import net.edu.module.vo.ProblemPaperItemEntity;
+import net.edu.module.vo.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,4 +36,13 @@ public interface EduProblemApi {
     /****************************lessons调用******************************************/
     @GetMapping("paperItem/{paperId}")
     Result<List<ProblemPaperItemEntity>> getPaperProblem(@PathVariable(value = "paperId") Long paperId);
+
+    @GetMapping("choice/problemInfo/{problemId}")
+    Result<ChoiceProblemVO> getChoiceProblemInfo(@PathVariable("problemId") Long problemId);
+
+    @GetMapping("code/problemInfo/{problemId}")
+    Result<CodeProblemVO> getCodeProblemInfo(@PathVariable("problemId") Long problemId);
+
+    @GetMapping("fill/problemInfo/{problemId}")
+    Result<FillProblemVO> getFillProblemInfo(@PathVariable("problemId")  Long problemId);
 }

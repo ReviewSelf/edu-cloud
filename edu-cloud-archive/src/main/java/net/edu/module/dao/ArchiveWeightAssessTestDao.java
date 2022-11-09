@@ -13,5 +13,7 @@ import java.util.List;
 @Mapper
 public interface ArchiveWeightAssessTestDao {
 
+    List<ArchiveWeightAssessTestVO> selectTestName(Long assessId);
+
     Integer insertTestWeight(List<ArchiveWeightAssessTestVO> VOS);
 }

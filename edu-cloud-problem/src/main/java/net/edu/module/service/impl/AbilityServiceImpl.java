@@ -36,12 +36,6 @@ public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntit
 
     @Override
     public List<AbilityVO> getAbilityItemList(Long id) {
-//        LambdaQueryWrapper<AbilityEntity> wrapper = new QueryWrapper<AbilityEntity>().lambda();
-//        wrapper.eq(AbilityEntity::getPid, id);
-//        List<AbilityEntity> list=baseMapper.selectList(wrapper);
-//        List<AbilityEntity> list=new LambdaQueryChainWrapper<>(baseMapper)
-//                .eq(AbilityEntity::getPid, id)
-//                .list();
         return  baseMapper.selectAbilityItemList(id);
     }
 

@@ -29,13 +29,16 @@ import net.edu.module.vo.*;
 import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 课程表
@@ -51,6 +54,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final LessonProblemService lessonProblemService;
     private final LessonResourceService lessonResourceService;
     private final LessonAttendLogService lessonAttendLogService;
+
+    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
     private final EduTeachApi eduTeachApi;
     private final LessonDao lessonDao;
     private final EduJudgeApi eduJudgeApi;
@@ -153,10 +158,18 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         } else {
             baseMapper.updateHomework(vo);
 
-            //作业发布微信推送
-            LessonService lessonService= SpringUtil.getBean(LessonService.class);
+            //作业发布微信推送 异步
+            RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(),true);
+//            LessonService lessonService= SpringUtil.getBean(LessonService.class);
             long deadLineTime = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis() - 1000*60*60*24L;
-            lessonService.sendHomeworkBegin(vo.getId(),deadLineTime);
+
+            threadPoolTaskExecutor.submit(new Thread(()->{
+                sendHomeworkBegin(vo.getId(),deadLineTime);
+            }));
+
+
+
+
 
             long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
             if (time > 0) {
@@ -165,9 +178,10 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         }
     }
 
-    @Async
     @Override
     public void sendHomeworkBegin(Long lessonId,long deadLineTime){
+        //从主线程获取所有request数据
+
         List<WxWorkPublishVO> list1 = lessonDao.selectHomeworkBegin(lessonId);
         eduWxApi.insertWorkPublishTemplate(list1);
         //作业截止微信推送判断

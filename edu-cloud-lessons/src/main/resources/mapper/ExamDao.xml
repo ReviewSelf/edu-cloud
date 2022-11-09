@@ -93,7 +93,7 @@
     </select>
 
     <select id="selectExamArrangement" resultType="net.edu.module.vo.WxExamArrangementVO">
-        select a.name as examName , a.begin_time as examTime , a.place as examPlace ,
+        select a.name as examName , concat(a.begin_time,'-',a.end_time) as examTime , a.place as examPlace ,
                (select real_name from sys_user where id = #{vo.teacherId}) as teacher ,
                now() as sendTime,
                b.stu_id as userId

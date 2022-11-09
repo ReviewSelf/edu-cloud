@@ -22,7 +22,7 @@ import java.util.List;
 @Slf4j
 public class ExamExcelUtil {
 
-    public void examExportExcel(List<String> header, List<ExamScoreVO> data, String bigTitle, HttpServletResponse response) throws IOException {
+    public static void examExportExcel(List<String> header, List<ExamScoreVO> data, String bigTitle, HttpServletResponse response) throws IOException {
         String name = StringUtils.substringBetween(bigTitle, "《", "》");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name + "课堂答题情况.xlsx", "UTF-8"));
@@ -43,7 +43,7 @@ public class ExamExcelUtil {
      * @param bigTitle
      * @return
      */
-    public List<List<String>> getExcelHeader(List<String> header, String bigTitle) {
+    public static List<List<String>> getExcelHeader(List<String> header, String bigTitle) {
         List<List<String>> head = new ArrayList<>();
         List<String> childHead = new ArrayList<>();
         childHead.add(bigTitle);
@@ -73,7 +73,7 @@ public class ExamExcelUtil {
      * @param vo
      * @return
      */
-    public List<List<String>> getExamExcelData(List<ExamScoreVO> vo) {
+    public static List<List<String>> getExamExcelData(List<ExamScoreVO> vo) {
         List<List<String>> dataList = new ArrayList<>();
         for (int i = 0; i < vo.size(); i++) {
             List<String> list = new ArrayList<>();

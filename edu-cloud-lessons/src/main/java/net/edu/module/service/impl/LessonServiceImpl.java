@@ -25,6 +25,7 @@ import net.edu.module.query.LessonQuery;
 import net.edu.module.service.LessonAttendLogService;
 import net.edu.module.service.LessonProblemService;
 import net.edu.module.service.LessonResourceService;
+import net.edu.module.utils.LessonExcelUtil;
 import net.edu.module.vo.*;
 import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
@@ -34,6 +35,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -289,6 +292,23 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         for(int i=0;i<list.size();i++){
             baseMapper.updateLessonTime(list.get(i));
         }
+    }
+
+    @Override
+    public void exportLesson(Long lessonId, HttpServletResponse response) throws IOException {
+        System.out.println(eduJudgeApi.getLessonProblemRecord(lessonId));
+        System.out.println(111111);
+        List<LessonJudgeRecordVo> data =  eduJudgeApi.getLessonProblemRecord(lessonId).getData();
+
+        List<String> header = new ArrayList<>();
+        for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
+            header.add(data.get(0).getProblemRecords().get(j).getProblemName());
+        }
+
+        LessonEntity entity = baseMapper.selectById(lessonId);
+        String bigTitle = "《"+entity.getName()+"》"+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")";
+
+        LessonExcelUtil.examExportExcel(header,data,bigTitle,response);
     }
 
 }

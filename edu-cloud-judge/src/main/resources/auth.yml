@@ -6,4 +6,3 @@ auth:
     - /lesson/record/getLessonProblemRank
     - /exam/record/getExamRecordList
     - /exam/record/getExamProblemInfoList
-    - /lesson/record/getLessonProblemRecord

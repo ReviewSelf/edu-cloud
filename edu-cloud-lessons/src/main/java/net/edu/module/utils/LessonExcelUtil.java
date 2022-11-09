@@ -5,6 +5,7 @@ import com.alibaba.excel.EasyExcel;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.module.vo.ExamScoreVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
+import net.edu.module.vo.LessonProblemRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +25,7 @@ import java.util.List;
 @Component
 @Slf4j
 public class LessonExcelUtil {
-    public void examExportExcel(List<String> header, List<LessonJudgeRecordVo> data, String bigTitle, HttpServletResponse response) throws IOException {
+    public static void examExportExcel(List<String> header, List<LessonJudgeRecordVo> data, String bigTitle, HttpServletResponse response) throws IOException {
         String name = StringUtils.substringBetween(bigTitle, "《", "》");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name + "成绩详情.xlsx", "UTF-8"));
@@ -45,7 +46,7 @@ public class LessonExcelUtil {
      * @param bigTitle
      * @return
      */
-    public List<List<String>> getExcelHeader(List<String> header, String bigTitle) {
+    public static List<List<String>> getExcelHeader(List<String> header, String bigTitle) {
         List<List<String>> head = new ArrayList<>();
         List<String> childHead = new ArrayList<>();
         childHead.add(bigTitle);
@@ -71,23 +72,25 @@ public class LessonExcelUtil {
      * @param vo
      * @return
      */
-    public List<List<String>> getExamExcelData(List<LessonJudgeRecordVo> vo) {
+    public static List<List<String>> getExamExcelData(List<LessonJudgeRecordVo> vo) {
         List<List<String>> dataList = new ArrayList<>();
         for (int i = 0; i < vo.size(); i++) {
             List<String> list = new ArrayList<>();
             list.add("20401010127");
 //            list.add(vo.get(i).getUsername());
             list.add(vo.get(i).getName());
-            for (int j = 0; j < vo.get(i).getProblemRecords().size(); j++) {
-                if (vo.get(i).getProblemRecords().get(j).getSubmitStatus()==0){
-                    list.add("未判题");
-                }else if(vo.get(i).getProblemRecords().get(j).getSubmitStatus()==3){
-                    list.add("正确");
-                }else if (vo.get(i).getProblemRecords().get(j).getSubmitStatus()==3){
-                    list.add("错误");
-                }else {
-                    list.add(" ");
+            List<LessonProblemRecord> records=vo.get(i).getProblemRecords();
+            for (int j = 0; j < records.size(); j++) {
+                if(records.get(j).getSubmitStatus()!=null){
+                    if (records.get(j).getSubmitStatus()==0){
+                        list.add("未判题");
+                    }else if(records.get(j).getSubmitStatus()==3){
+                        list.add("正确");
+                    }else if (records.get(j).getSubmitStatus()==3){
+                        list.add("错误");
+                    }
                 }
+                list.add(" ");
             }
             dataList.add(list);
         }

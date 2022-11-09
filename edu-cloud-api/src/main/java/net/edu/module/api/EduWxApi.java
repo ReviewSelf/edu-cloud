@@ -37,6 +37,6 @@ public interface EduWxApi {
     @PostMapping("/wx/lessonEvaluation")
     Result<String> insertLessonEvaluationTemplate(@RequestBody List<WxLessonEvaluationVO> vo);
 
-    @PostMapping("wx/examArrangement")
+    @PostMapping("/wx/examArrangement")
     Result<String> insertExamArrangementTemplate(@RequestBody List<WxExamArrangementVO> vo);
 }

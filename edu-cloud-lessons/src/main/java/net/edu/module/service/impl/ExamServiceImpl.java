@@ -12,6 +12,7 @@ import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.api.EduJudgeApi;
+import net.edu.module.api.EduWxApi;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.dao.ExamDao;
 import net.edu.module.entity.ExamEntity;
@@ -59,6 +60,8 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
 
     private final ExamDao examDao;
+
+    EduWxApi eduWxApi;
 
     @Override
     public PageResult<ExamVO> page(ExamQuery query) {
@@ -109,7 +112,8 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         //插入名单
         examAttendLogService.copyFromClass(vo.getClassId(),entity.getId());
 
-
+        List<WxExamArrangementVO> list = examDao.selectExamArrangement(vo);
+        eduWxApi.insertExamArrangementTemplate(list);
     }
 
     @Override

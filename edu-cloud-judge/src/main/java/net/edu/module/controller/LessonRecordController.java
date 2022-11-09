@@ -48,4 +48,5 @@ public class LessonRecordController {
         Integer type=jsonObject.getInt("type");
         return Result.ok(lessonRecordService.getUserLessonRecord(lessonId,userId,type));
     }
+
 }

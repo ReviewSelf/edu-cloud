@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.edu.module.dao.ArchiveWeightTargetKnowledgeDao">
+<mapper namespace="net.edu.module.dao.ArchiveWeightTargetCourseDao">
 
-    <resultMap type="net.edu.module.entity.ArchiveWeightTargetKnowledgeEntity" id="archiveWeightTargetKnowledgeMap">
+    <resultMap type="net.edu.module.entity.ArchiveWeightTargetCourseEntity" id="archiveWeightTargetCourseMap">
         <result property="id" column="id"/>
         <result property="targetId" column="target_id"/>
         <result property="courseId" column="course_id"/>
@@ -17,22 +17,32 @@
     </resultMap>
 
 
-    <select id="selectKnowledgeByTargetId" resultType="net.edu.module.vo.ArchiveWeightTargetKnowledgeVO">
+    <select id="selectCourseByTargetId" resultType="net.edu.module.vo.ArchiveWeightTargetCourseVO">
         select
             id,
             target_id as targetId,
             course_id as courseId,
             (select name from archive_course t1 where t1.id = courseId) as courseName,
             weight
-        from archive_weight_target_knowledge
+        from archive_weight_target_course
         where deleted = 0 and target_id = #{targetId}
     </select>
 
-    <insert id="insertKnowledgeWeight">
-        insert into archive_weight_target_knowledge(target_id,course_id,weight)
+    <insert id="insertCourseWeight">
+        replace into archive_weight_target_course(target_id,course_id,weight)
         values
             <foreach collection="list" item="item" separator=",">
                 (#{item.targetId},#{item.courseId},#{item.weight})
             </foreach>
     </insert>
+
+    <update id="updateDeleted">
+        update archive_weight_target_course set deleted = 1
+        where target_id = #{targetId} and course_id = #{courseId}
+    </update>
+
+    <update id="updateDeletedByTarget">
+        update archive_weight_target_course set deleted = 1
+        where target_id = #{targetId}
+    </update>
 </mapper>

@@ -10,7 +10,6 @@ import net.edu.module.entity.ArchiveWeightTargetAssessEntity;
 import net.edu.module.service.ArchiveWeightTargetAssessService;
 import net.edu.module.query.ArchiveWeightTargetAssessQuery;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
-import net.edu.module.vo.ArchiveWeightTargetKnowledgeVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

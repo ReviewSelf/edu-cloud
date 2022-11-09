@@ -23,6 +23,7 @@ import java.util.List;
  * @Version: 1.0
  * @Description:
  */
+
 @RestController
 @RequestMapping("wx")
 @Tag(name="消息推送")

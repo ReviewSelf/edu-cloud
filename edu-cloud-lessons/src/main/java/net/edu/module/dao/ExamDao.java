@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ExamEntity;
 import net.edu.module.query.ExamQuery;
+import net.edu.module.vo.ExamExcelVo;
 import net.edu.module.vo.ExamVO;
+import net.edu.module.vo.WxExamArrangementVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +29,7 @@ public interface ExamDao extends BaseDao<ExamEntity> {
 
     List<ExamVO> getExamingList(@Param("userId") Long userId);
 
+    List<ExamExcelVo> selectExamProblemInfo(@Param("examId") Long examId,@Param("userId") Long userId);
+
+    List<WxExamArrangementVO> selectExamArrangement(@Param("vo") ExamVO vo);
 }

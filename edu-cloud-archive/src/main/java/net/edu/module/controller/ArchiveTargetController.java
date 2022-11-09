@@ -44,8 +44,8 @@ public class ArchiveTargetController {
 
     @GetMapping("targetId")
     @Operation(summary = "指标点名称")
-    public Result<List<ArchiveTargetVO>> getName(){
-        return Result.ok(archiveTargetService.getName());
+    public Result<List<ArchiveTargetVO>> getName(@RequestParam("grade") String grade){
+        return Result.ok(archiveTargetService.getName(grade));
     }
 
     @PostMapping

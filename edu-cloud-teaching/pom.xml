@@ -28,6 +28,12 @@
             <artifactId>edu-cloud-api</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>net.edu</groupId>
+            <artifactId>edu-cloud-api</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

@@ -17,7 +17,7 @@ public interface ArchiveTargetService extends BaseService<ArchiveTargetEntity> {
 
     PageResult<ArchiveTargetVO> page(ArchiveTargetQuery query);
 
-    List<ArchiveTargetVO> getName();
+    List<ArchiveTargetVO> getName(String grade);
 
     ArchiveTargetVO selectArchiveTargetById(Long id);
 
@@ -26,4 +26,6 @@ public interface ArchiveTargetService extends BaseService<ArchiveTargetEntity> {
     void update(ArchiveTargetVO vo);
 
     void delete(List<Long> idList);
+
+
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.AbilityRelatedDao">
+
+    <select id="selectRelatedList" resultType="net.edu.module.vo.AbilityRelatedVO">
+        select id,ability_id as abilityId,source_code as sourceCode,
+               (select name from problem_knowledge_point b where b.code= a.source_code ) as source,
+               target_code as targetCode,(select name from problem_knowledge_point c where c.code = a.target_code) as target
+        from ability_kp_related a where ability_id = #{id}
+    </select>
+
+    <select id="selectRelated" resultType="net.edu.module.vo.AbilityRelatedVO">
+        select id,ability_id as abilityId,source_code as sourceCode,
+               (select name from problem_knowledge_point b where b.code= a.source_code ) as source,
+               target_code as targetCode,(select name from problem_knowledge_point c where c.code = a.target_code) as target
+        from ability_kp_related a where id = #{id}
+    </select>
+
+
+    <insert id="insertRelated">
+        insert into ability_kp_related(ability_id,source_code,target_code) values(#{vo.abilityId},#{vo.sourceCode},#{vo.targetCode})
+    </insert>
+
+    <delete id="deleteRelated">
+        delete from ability_kp_related where id = #{id}
+    </delete>
+</mapper>

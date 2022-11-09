@@ -25,6 +25,9 @@ public class ArchiveCourseVO implements Serializable {
 	@Schema(description = "外部系统编号")
 	private Long sysId;
 
+	@Schema(description = "教学计划id")
+	private Long teachPlanId;
+
 	@Schema(description = "名称")
 	private String name;
 

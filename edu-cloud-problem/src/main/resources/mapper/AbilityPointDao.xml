@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.AbilityPointDao">
+
+    <select id="selectList" resultType="net.edu.module.vo.AbilityPointVO">
+        select a.id,
+               a.ability_id   as abilityId,
+               a.code,
+               a.lv1_num as lv1Num,
+               a.lv2_num as lv2Num,
+               a.lv3_num as lv3Num,
+               a.lv4_num as lv4Num,
+               a.lv5_num as lv5Num,
+               b.name         as kpName,
+               a.coordinate_x as coordinateX,
+               a.coordinate_y as coordinateY
+        from ability_kp a
+                 join problem_knowledge_point b on a.code = b.code
+        where a.ability_id = #{id}
+    </select>
+
+
+
+
+    <select id="selectUserPoint" resultType="net.edu.module.vo.AbilityPointVO">
+        SELECT #{code} as code,
+        ifnull(SUM(IF(difficulty = 1 ,num,0)),0) AS lv1Num,
+        ifnull(SUM(IF(difficulty = 2 ,num,0)),0) AS lv2Num,
+        ifnull(SUM(IF(difficulty = 3 ,num,0)),0) AS lv3Num,
+        ifnull(SUM(IF(difficulty = 4 ,num,0)),0) AS lv4Num,
+        ifnull(SUM(IF(difficulty = 5 ,num,0)),0) AS lv5Num
+        FROM
+        (
+        SELECT difficulty,sum(num) as num from user_record_statistic
+        WHERE user_id=#{userId} and kp_code like concat(#{code},'%') GROUP BY difficulty)t
+    </select>
+
+
+    <select id="selectPointInfo" resultType="net.edu.module.vo.AbilityPointVO">
+        select id, ability_id as abilityId, code, coordinate_x as coordinateX, coordinate_y as coordinateY
+        from ability_kp
+        where id = #{id}
+    </select>
+
+
+    <insert id="insertPoint">
+        insert ignore into ability_kp(ability_id,code)
+        values
+        <foreach item="item" collection="list" separator=",">
+            (#{id},#{item})
+        </foreach>
+    </insert>
+    <update id="updatePoint">
+        update ability_kp
+        <set>
+            <if test="vo.getCoordinateX() != null">
+                coordinate_x = #{vo.coordinateX},
+            </if>
+            <if test="vo.getCoordinateY() != null">
+                coordinate_y = #{vo.coordinateY},
+            </if>
+            <if test="vo.getLv1Num() != null">
+                lv1_num = #{vo.lv1Num},
+            </if>
+            <if test="vo.getLv2Num() != null">
+                lv2_num = #{vo.lv2Num},
+            </if>
+            <if test="vo.getLv3Num() != null">
+                lv3_num = #{vo.lv3Num},
+            </if>
+            <if test="vo.getLv4Num() != null">
+                lv4_num = #{vo.lv4Num},
+            </if>
+            <if test="vo.getLv5Num() != null">
+                lv5_num = #{vo.lv5Num},
+            </if>
+        </set>
+        where id = #{vo.id}
+    </update>
+
+    <delete id="deletePoint">
+        delete
+        from ability_kp
+        where id = #{id}
+    </delete>
+</mapper>

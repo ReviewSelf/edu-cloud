@@ -27,6 +27,11 @@ public interface ArchiveTargetDao extends BaseDao<ArchiveTargetEntity> {
     void updateArchiveTarget(ArchiveTargetVO vo);
 
     void insertArchiveTarget(ArchiveTargetVO vo);
-    List<ArchiveTargetVO> selectName();
+
+    List<ArchiveTargetVO> selectName(String grade);
+
+    List<ArchiveTargetVO> selectArchiveTargetByGraduateId(Long graduateId);
+
+    Integer updateDeleted(Long graduateId);
 
 }

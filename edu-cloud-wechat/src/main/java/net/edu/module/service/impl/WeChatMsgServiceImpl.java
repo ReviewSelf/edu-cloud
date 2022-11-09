@@ -122,6 +122,17 @@ public class WeChatMsgServiceImpl implements WeChatMsgService {
             templateDao.insertMsgLogLessonEvaluationTemplate(content, sendTime, userId);
         }
     }
+
+    @Override
+    public void insertMsgLogExamArrangementTemplate(List<WxExamArrangementVO> list) {
+        for (WxExamArrangementVO vo : list) {
+            String content = vo.toJsonString();
+            String sendTime = vo.getSendTime();
+            Long userId = vo.getUserId();
+            templateDao.insertMsgLogExamArrangementTemplate(content, sendTime, userId);
+        }
+    }
+
     /**
      * 未完成
      */

@@ -1,5 +1,7 @@
 package net.edu.framework.common.cache;
 
+import java.util.Date;
+
 /**
  * Redis Key管理
  *
@@ -107,6 +109,13 @@ public class RedisKeys {
         return "homework:lessonId:" + id ;
     }
 
+    public static String getHomeworkEndKey(Long id ) {
+        if(id == null) {
+            return "homework:endRemind:lessonId:";
+        }
+        return "homework:endRemind:lessonId:" + id;
+    }
+
 
     //***********************************problem***********************************************************
     public static String getProblemInfo(Long problemId, String type) {
@@ -132,6 +141,10 @@ public class RedisKeys {
 
     public static String getSampleFile(String path) {
         return "sample:" + path;
+    }
+
+    public static String getAbilityMap(Long id) {
+        return "ability:map:" + id;
     }
 
 

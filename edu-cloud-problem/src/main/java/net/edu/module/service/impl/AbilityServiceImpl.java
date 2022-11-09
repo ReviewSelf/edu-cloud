@@ -1,15 +1,15 @@
 package net.edu.module.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.constant.Constant;
+import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.AbilityConvert;
 import net.edu.module.dao.AbilityDao;
 import net.edu.module.entity.AbilityEntity;
-import net.edu.module.query.AbilityQuery;
 import net.edu.module.service.AbilityService;
 import net.edu.module.vo.AbilityVO;
 import org.springframework.stereotype.Service;
@@ -28,17 +28,17 @@ import java.util.List;
 public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntity> implements AbilityService {
 
     @Override
-    public PageResult<AbilityVO> page(AbilityQuery query) {
-        IPage<AbilityEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
+    public List<AbilityVO> getAbilityList() {
+        List<AbilityEntity> list=baseMapper.selectList(null);
 
-        return new PageResult<>(AbilityConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        return TreeUtils.build(AbilityConvert.INSTANCE.convertList(list), Constant.ROOT);
     }
 
-    private LambdaQueryWrapper<AbilityEntity> getWrapper(AbilityQuery query){
-        LambdaQueryWrapper<AbilityEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
+    @Override
+    public List<AbilityVO> getAbilityItemList(Long id) {
+        return  baseMapper.selectAbilityItemList(id);
     }
+
 
     @Override
     public void save(AbilityVO vo) {

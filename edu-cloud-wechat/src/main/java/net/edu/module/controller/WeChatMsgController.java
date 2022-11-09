@@ -127,6 +127,13 @@ public class WeChatMsgController {
         return Result.ok();
     }
 
+    //    <!--考试安排提醒-->
+    @PostMapping("examArrangement")
+    public Result<String> insertExamArrangementTemplate(@RequestBody List<WxExamArrangementVO> vo){
+        weChatMsgService.insertMsgLogExamArrangementTemplate(vo);
+        return Result.ok();
+    }
+
     /**
      * 消息群发
      * @param obj

@@ -37,6 +37,8 @@ public interface WeChatMsgService {
 
     void insertMsgLogLessonEvaluationTemplate(List<WxLessonEvaluationVO> list);
 
+    void insertMsgLogExamArrangementTemplate(List<WxExamArrangementVO> list);
+
     /**
      * 消息群发
      * @param obj

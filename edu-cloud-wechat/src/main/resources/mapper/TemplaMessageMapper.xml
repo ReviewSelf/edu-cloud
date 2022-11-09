@@ -31,7 +31,7 @@
     <insert id="insertMsgLogWorkPublishTemplate">
         insert into wx_msg_log
         (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
-        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,2,"NzaepBC0pI3Y4ANnOuKvCcujyQc8fjR0EbnpF1di_NA")
+        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,2,"rxOno-8c3Gv_uWEGO1urOnTq2cyQGGiR-054hUfOJOo")
     </insert>
 
     <!--插入上课前提醒模板消息-->
@@ -60,6 +60,13 @@
         insert into wx_msg_log
         (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
         values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,6,"6v40QEgvhUD48mBKdkZM-nTiw0fk276yXw6SZ7_00uI")
+    </insert>
+
+    <!--插入考试安排提醒模板消息-->
+    <insert id="insertMsgLogExamArrangementTemplate">
+        insert into wx_msg_log
+        (create_time,content,source,send_time,user_id,user_type,is_push,is_receive,type,template_id)
+        values (now(),#{content},"PC端",#{sendTime},#{userId},1,0,0,7,"l0Ra64ka4Wk6qL3q_VP8LkR5ekx_2J7PMbcD547-Duw")
     </insert>
 
     <select id="selectUserNameById" resultType="java.lang.String">

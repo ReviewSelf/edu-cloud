@@ -1,18 +1,18 @@
 package net.edu.module.service.impl;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
-import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
-import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.module.api.EduJudgeApi;
+import net.edu.module.api.EduWxApi;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.dao.ExamDao;
 import net.edu.module.entity.ExamEntity;
@@ -20,12 +20,17 @@ import net.edu.module.query.ExamQuery;
 import net.edu.module.service.ExamAttendLogService;
 import net.edu.module.service.ExamProblemService;
 import net.edu.module.service.ExamService;
-import net.edu.module.vo.ExamAttendLogVO;
-import net.edu.module.vo.ExamPaperVo;
-import net.edu.module.vo.ExamVO;
+import net.edu.module.utils.ExamExcelUtil;
+import net.edu.module.utils.ExamProblemInfoExcelUtil;
+import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +42,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implements ExamService {
 
 
@@ -46,10 +52,16 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     private final ExamProblemService examProblemService;
 
+    private final EduJudgeApi eduJudgeApi;
 
+    private final ExamExcelUtil examExcelUtil;
+
+    private final ExamProblemInfoExcelUtil examProblemInfoExcelUtil;
 
 
     private final ExamDao examDao;
+
+    EduWxApi eduWxApi;
 
     @Override
     public PageResult<ExamVO> page(ExamQuery query) {
@@ -62,8 +74,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     public ExamEntity get(Long examId) {
-        ExamEntity entity =baseMapper.selectById(examId);
-        return entity;
+        return baseMapper.selectById(examId);
     }
 
 
@@ -77,8 +88,8 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     public List<ExamVO> getExamingList(Long userId){
-        List<ExamVO> list = baseMapper.getExamingList(userId);
-        return list;
+        return baseMapper.getExamingList(userId);
+
     }
 
     @Override
@@ -101,9 +112,8 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         //插入名单
         examAttendLogService.copyFromClass(vo.getClassId(),entity.getId());
 
-
-
-
+        List<WxExamArrangementVO> list = examDao.selectExamArrangement(vo);
+        eduWxApi.insertExamArrangementTemplate(list);
     }
 
     @Override
@@ -141,5 +151,35 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         redisUtils.del(RedisKeys.getStuExam(examId,userId));
     }
 
+    @Override
+    public void exportExam(Long examId, HttpServletResponse response) throws IOException {
+        //查询学生考试情况数据
+        List<ExamScoreVO> data =  eduJudgeApi.getExamRecordList(examId).getData();
+        //遍历考试题目
+        List<String> header = new ArrayList<>();
+        for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
+            header.add(data.get(0).getProblemRecords().get(j).getProblemName());
+        }
+        //设置excel大表头
+        ExamEntity entity =baseMapper.selectById(examId);
+        String bigTitle = "《"+entity.getName()+"》"+"\r\n"+ " 总分："+entity.getScore()+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")";
+        //传入题目，考试数据生成excel
+        examExcelUtil.examExportExcel(header,data,bigTitle,response);
+    }
 
+    @Override
+    public void exportUserExam(Long examId, List<Long> userIdList,HttpServletResponse response) throws IOException {
+
+        List<ExamUserExcelVo> data = eduJudgeApi.getExamProblemInfoList(examId,userIdList).getData();
+        List<String> bigTitleList =new ArrayList<>();
+        ExamEntity entity =baseMapper.selectById(examId);
+        for (int i = 0 ; i<data.size();i++){
+            BigDecimal sum = new BigDecimal(0.00);
+            for (int j = 0 ; j<data.get(i).getProblemInfoList().size();j++){
+                sum = sum.add(data.get(i).getProblemInfoList().get(j).getFraction());
+            }
+            bigTitleList.add("《"+entity.getName()+"》"+"姓名："+data.get(i).getName()+"\r\n"+ " 总分："+entity.getScore()+" 得分："+sum+""+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")");
+        }
+        examProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
+    }
 }

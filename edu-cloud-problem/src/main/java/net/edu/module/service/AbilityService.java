@@ -1,9 +1,10 @@
 package net.edu.module.service;
 
-import net.edu.framework.common.page.PageResult;
+
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.AbilityEntity;
-import net.edu.module.query.AbilityQuery;
+
+import net.edu.module.vo.AbilityListVO;
 import net.edu.module.vo.AbilityVO;
 
 import java.util.List;
@@ -16,11 +17,14 @@ import java.util.List;
  */
 public interface AbilityService extends BaseService<AbilityEntity> {
 
-    PageResult<AbilityVO> page(AbilityQuery query);
+    List<AbilityVO> getAbilityList();
+    List<AbilityVO>  getAbilityItemList(Long id);
 
     void save(AbilityVO vo);
 
     void update(AbilityVO vo);
 
     void delete(List<Long> idList);
+
+
 }

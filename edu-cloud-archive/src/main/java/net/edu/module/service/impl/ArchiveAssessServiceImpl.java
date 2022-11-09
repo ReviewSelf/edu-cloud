@@ -50,6 +50,12 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
+    @Override
+    public ArchiveAssessVO selectArchiveAssessById(Long id) {
+        System.out.println(archiveAssessDao.selectArchiveAssessById(id));
+        return archiveAssessDao.selectArchiveAssessById(id);
+    }
+
 
     private LambdaQueryWrapper<ArchiveAssessEntity> getWrapper(ArchiveAssessQuery query){
         LambdaQueryWrapper<ArchiveAssessEntity> wrapper = Wrappers.lambdaQuery();
@@ -59,28 +65,32 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
 
     @Override
     public void save(ArchiveWeightTargetAssessVO vo) {
-
         ArchiveAssessEntity entity=new ArchiveAssessEntity();
 //        ArchiveAssessVO assessVO = new ArchiveAssessVO();
         entity.setName(vo.getAssessName());
-        System.out.println("新增前"+entity);
         archiveAssessDao.insertArchiveAccess1(entity);
-        System.out.println("新增后"+entity);
+
         vo.setAssessId(entity.getId());
         archiveWeightTargetAssessService.insertArchiveAccess2(vo);
     }
 
     @Override
     public void update(ArchiveAssessVO vo) {
-        ArchiveAssessEntity entity = ArchiveAssessConvert.INSTANCE.convert(vo);
-
-        updateById(entity);
+        System.out.println(vo);
+        archiveAssessDao.updateArchiveAssess1(vo);
+        archiveAssessDao.updateArchiveAssess2(vo);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+        archiveWeightTargetAssessService.delete(idList);
+
+        for(int i=0;i<idList.size();i++){
+            archiveWeightTargetAssessService.deleteByAssessId(idList.get(i));
+        }
+
     }
 
 

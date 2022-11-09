@@ -35,10 +35,63 @@ public class SubscriptionMessageUtil {
             case 6:
                 sendLessonEvaluationMsg(userOpenid, tempId, content[0], content[1]);
                 break;
-
+            case 7:
+                sendExamArrangementMsg(userOpenid, tempId, content[0]);
+                break;
         }
     }
 
+    //考试安排提醒
+    public static void sendExamArrangementMsg(String userOpenid, String tempId, String content) {
+
+        /**
+         * {{first.DATA}}
+         * 考试科目：{{keyword1.DATA}}
+         * 考试时间：{{keyword2.DATA}}
+         * 考试地点：{{keyword3.DATA}}
+         * 监考老师：{{keyword4.DATA}}
+         * {{remark.DATA}}
+         */
+        String OrderMsgTemplateId = tempId;
+
+
+        JSONObject jsonObject = JSONUtil.parseObj(content);
+        String examName = jsonObject.getStr("examName");
+        String examTime = jsonObject.getStr("examTime");
+        String examPlace = jsonObject.getStr("examPlace");
+        String teacher = jsonObject.getStr("teacher");
+
+
+        WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
+
+        wxStorage.setAppId(WeChatProperties.APP_ID);
+        wxStorage.setSecret(WeChatProperties.APP_SECRET);
+
+        WxMpService wxMpService = new WxMpServiceImpl();
+        wxMpService.setWxMpConfigStorage(wxStorage);
+
+        // 此处的 key/value 需和模板消息对应
+        List<WxMpTemplateData> wxMpTemplateDataList = Arrays.asList(
+                new WxMpTemplateData("first", "您好，您的孩子明天有考试安排如下：", "#000000"),
+                new WxMpTemplateData("keyword1", examName),
+                new WxMpTemplateData("keyword2", examTime),
+                new WxMpTemplateData("keyword3", examPlace),
+                new WxMpTemplateData("keyword4", teacher),
+                new WxMpTemplateData("remark", "请及时到场考试，做文明考生。")
+        );
+
+        WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
+                .toUser(userOpenid)
+                .templateId(OrderMsgTemplateId)
+                .data(wxMpTemplateDataList)
+                .build();
+
+        try {
+            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+        } catch (Exception e) {
+            System.out.println("推送失败：" + e.getMessage());
+        }
+    }
 
     //课堂评价消息
     public static void sendLessonEvaluationMsg(String userOpenid, String tempId, String content, String userName) {
@@ -98,18 +151,20 @@ public class SubscriptionMessageUtil {
 
         /**
          *  {{first.DATA}}
-         *  学生姓名：{{name.DATA}}
-         *  作业科目：{{subject.DATA}}
-         *  作业内容：{{content.DATA}}
-         *  {{remark.DATA}}
+         * 截止时间：{{keyword1.DATA}}
+         * 作业内容：{{keyword2.DATA}}
+         * 作业要求：{{keyword3.DATA}}
+         * {{remark.DATA}}
          */
 
         String OrderMsgTemplateId = tempId;
 
 
         JSONObject jsonObject = JSONUtil.parseObj(content);
-        String subject = jsonObject.getStr("subject");
-        String task = jsonObject.getStr("task");
+        String endTime = jsonObject.getStr("endTime");
+        String content1 = jsonObject.getStr("content");
+        String demand=jsonObject.getStr("demand");
+
 
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
         wxStorage.setAppId(WeChatProperties.APP_ID);
@@ -120,11 +175,11 @@ public class SubscriptionMessageUtil {
 
         // 此处的 key/value 需和模板消息对应
         List<WxMpTemplateData> wxMpTemplateDataList = Arrays.asList(
-                new WxMpTemplateData("first", "您好，您的孩子有新的作业，请查收", "#000000"),
-                new WxMpTemplateData("name", userName),
-                new WxMpTemplateData("subject", subject),
-                new WxMpTemplateData("content", task),
-                new WxMpTemplateData("remark", "感谢您的查阅，请及时监督孩子完成作业。")
+                new WxMpTemplateData("first", userName+"同学，你有新的作业，请查收", "#000000"),
+                new WxMpTemplateData("keyword1", endTime),
+                new WxMpTemplateData("keyword2", content1),
+                new WxMpTemplateData("keyword3", demand),
+                new WxMpTemplateData("remark", "")
         );
 
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
@@ -208,6 +263,7 @@ public class SubscriptionMessageUtil {
         JSONObject jsonObject = JSONUtil.parseObj(content);
         String deadline = jsonObject.getStr("deadline");
         String submitMethod = jsonObject.getStr("submitMethod");
+        String remark = jsonObject.getStr("remark");
 
 
         WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
@@ -222,7 +278,7 @@ public class SubscriptionMessageUtil {
                 new WxMpTemplateData("first", "您好，本次课程的课后作业需要您的孩子及时提交", "#000000"),
                 new WxMpTemplateData("keyword1", deadline),
                 new WxMpTemplateData("keyword2", submitMethod),
-                new WxMpTemplateData("remark", "如有疑问，请及时联系课程老师。")
+                new WxMpTemplateData("remark", remark)
         );
 
         WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()

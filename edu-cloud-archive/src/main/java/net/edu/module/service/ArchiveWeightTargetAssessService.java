@@ -6,7 +6,6 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import net.edu.module.query.ArchiveWeightTargetAssessQuery;
 import net.edu.module.entity.ArchiveWeightTargetAssessEntity;
-import net.edu.module.vo.ArchiveWeightTargetKnowledgeVO;
 
 import java.util.List;
 
@@ -25,6 +24,8 @@ public interface ArchiveWeightTargetAssessService extends BaseService<ArchiveWei
     void update(ArchiveWeightTargetAssessVO vo);
 
     void delete(List<Long> idList);
+
+    Integer deleteByAssessId(Long id);
 
     List<ArchiveWeightTargetAssessVO> selectAssessByCourseId(Long courseId);
 

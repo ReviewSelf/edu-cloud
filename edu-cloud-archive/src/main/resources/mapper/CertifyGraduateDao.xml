@@ -46,14 +46,31 @@
         order by grade desc
     </select>
 
-    <insert id="insertGraduateRequire">
-        INSERT INTO archive_graduate_require (title,content,major,college,school,grade,create_time,creator,version)
+    <insert id="insertGraduateRequire" useGeneratedKeys="true" keyProperty="id">
+        replace INTO archive_graduate_require (title,content,major,college,school,grade,create_time,creator,version)
         VALUES (#{title},#{content},#{major},#{college},#{school},#{grade},now(),'10000',0)
-        ON DUPLICATE KEY UPDATE content = #{content} ;
     </insert>
 
     <select id="selectGraduateByGrade" resultType="net.edu.module.entity.GraduateRequireEntity">
         select id,title from archive_graduate_require where grade = #{grade}
     </select>
+
+    <select id="selectWeight" resultType="net.edu.module.vo.GraduateRequireVO">
+        select
+            t1.id,
+            t1.title,
+            t2.name as targetName,
+            (select name from archive_course WHERE id = t3.course_id) as courseName,
+            t3.weight
+        from archive_graduate_require t1
+                 left join archive_target t2 on t2.graduate_id = t1.id
+                 left join archive_weight_target_course t3 on t3.target_id = t2.id
+        where t1.deleted = 0 and t1.id = #{id}
+    </select>
+
+    <update id="deleteGraduate">
+        update archive_graduate_require set deleted = 1
+        where id = #{id}
+    </update>
 </mapper>
 

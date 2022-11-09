@@ -25,7 +25,6 @@ public class ExamAttendLogController {
 
     @GetMapping("page")
     @Operation(summary = "分页")
-
     public Result<PageResult<ExamAttendLogVO>> page(@Valid ExamAttendLogQuery query){
         PageResult<ExamAttendLogVO> page = examAttendLogService.page(query);
 
@@ -34,7 +33,6 @@ public class ExamAttendLogController {
 
     @GetMapping("list")
     @Operation(summary = "获取所有列表")
-
     public Result<List<ExamAttendLogVO>> getList(@RequestParam("examId") Long examId,@RequestParam("status") Integer status,@RequestParam("isCorrecting") Integer isCorrecting){
         List<ExamAttendLogVO> list = examAttendLogService.getList(examId,status,isCorrecting);
         return Result.ok(list);

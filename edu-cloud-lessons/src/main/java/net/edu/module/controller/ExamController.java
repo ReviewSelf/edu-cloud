@@ -6,14 +6,22 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.module.api.EduLessonApi;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.entity.ExamEntity;
+import net.edu.module.query.ExamUserExcelQuery;
 import net.edu.module.service.ExamService;
 import net.edu.module.query.ExamQuery;
+import net.edu.module.vo.ExamRecordQuery;
+import net.edu.module.vo.ExamScoreVO;
 import net.edu.module.vo.ExamVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -28,6 +36,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ExamController {
     private final ExamService examService;
+
 
     @GetMapping("page")
     @Operation(summary = "分页")
@@ -106,6 +115,16 @@ public class ExamController {
         return Result.ok();
     }
 
+    @GetMapping("/exportExam")
+    @Operation(summary = "导出总体考试情况excel")
+    public void exportExam(@RequestParam(value = "examId") Long examId, HttpServletResponse response) throws IOException {
+         examService.exportExam(examId,response);
+    }
 
+    @PostMapping("/exportUserExam")
+    @Operation(summary = "导出单个或多个用户考试详情excel")
+    public void exportUserExam(@RequestBody ExamUserExcelQuery query, HttpServletResponse response) throws IOException {
+        examService.exportUserExam(query.getExamId(), query.getUserIdList(),response);
+    }
 
 }

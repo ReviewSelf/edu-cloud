@@ -156,11 +156,14 @@
     <select id="selectUserRecord" resultType="java.lang.Integer">
         select count(1)
         from judge_record
-        where problem_id=#{problemId} and problem_type= #{type} and user_id = #{userId} and submit_status =3
+        where problem_id = #{problemId}
+          and problem_type = #{type}
+          and user_id = #{userId}
+          and submit_status = 3
         GROUP BY problem_id, problem_type
     </select>
 
-    <insert id="statisticsUserRecord" >
+    <insert id="statisticsUserRecord">
         insert into user_record_statistic(user_id,kp_code,difficulty,num)
         select #{userId},a.code,b.difficulty,1
         from problem_knowledge_point a join
@@ -178,4 +181,44 @@
         on a.code = b.kp_code and b.id = #{problemId}
         ON DUPLICATE KEY UPDATE num = num +1
     </insert>
+
+    <delete id="deleteStatisticsUserRecord">
+        delete from user_record_statistic where user_id = #{userId}
+    </delete>
+
+    <insert id="statisticsUserJudgeRecord">
+        insert into user_record_statistic(user_id, kp_code, difficulty, num)
+        SELECT #{userId} as user_id, kp_code, difficulty, count(1) as num
+        from (
+                 SELECT kp_code, difficulty
+                 FROM problem_choice a
+                 WHERE EXISTS(SELECT 1
+                              FROM judge_record
+                              WHERE user_id = #{userId}
+                                and submit_status = 3
+                                and problem_type = 1
+                                and problem_id = a.id)
+                 union all
+                 SELECT kp_code, difficulty
+                 FROM problem_fill a
+                 WHERE EXISTS(SELECT 1
+                              FROM judge_record
+                              WHERE user_id = #{userId}
+                                and submit_status = 3
+                                and problem_type = 2
+                                and problem_id = a.id)
+                 union all
+                 SELECT kp_code, difficulty
+                 FROM problem_code a
+                 WHERE EXISTS(SELECT 1
+                              FROM judge_record
+                              WHERE user_id = #{userId}
+                                and submit_status = 3
+                                and problem_type = 3
+                                and problem_id = a.id)) t
+        where kp_code is not null
+        GROUP BY kp_code, difficulty
+    </insert>
+
+
 </mapper>

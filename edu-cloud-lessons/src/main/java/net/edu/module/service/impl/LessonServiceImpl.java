@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.DateUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
@@ -154,13 +155,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
             //作业发布微信推送
             LessonService lessonService= SpringUtil.getBean(LessonService.class);
-            lessonService.sendHomeworkBegin(vo.getId());
-
-            //作业截止微信推送
             long deadLineTime = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis() - 1000*60*60*24L;
-            if(deadLineTime > 0) {
-                redisUtils.set(RedisKeys.getHomeworkEndKey(vo.getId() , vo.getHomeworkEndTime()) , deadLineTime , deadLineTime / 1000);
-            }
+            lessonService.sendHomeworkBegin(vo.getId(),deadLineTime);
 
             long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
             if (time > 0) {
@@ -170,26 +166,35 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     }
 
     @Async
-    public void sendHomeworkBegin(Long lessonId){
+    @Override
+    public void sendHomeworkBegin(Long lessonId,long deadLineTime){
         List<WxWorkPublishVO> list1 = lessonDao.selectHomeworkBegin(lessonId);
         eduWxApi.insertWorkPublishTemplate(list1);
+        //作业截止微信推送判断
+        if(deadLineTime > 0) {
+            System.out.println(deadLineTime);
+            redisUtils.set(RedisKeys.getHomeworkEndKey(lessonId) , deadLineTime , deadLineTime / 1000);
+        }
     }
 
-    public void sendHomeworkEnd(Long lessonId , String endTime) {
-        List<LessonProblemRankVO> list1 = eduJudgeApi.getLessonProblemRank(lessonId, 2).getData();
-        List<WxWorkDeadlineVO> list2 = new ArrayList<>();
-        Date date = new Date();
-        for(int i = 0; i < list1.size(); i++) {
-            LessonProblemRankVO lessonProblemRankVO = list1.get(i);
+    @Override
+    public void sendHomeworkEnd(Long lessonId) {
+        List<LessonProblemRankVO> rankList = eduJudgeApi.getLessonProblemRank(lessonId, 2).getData();
+        List<WxWorkDeadlineVO> msg = new ArrayList<>();
+        LessonEntity entity=getById(lessonId);
+        String date=DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN);
+        String deadline=DateUtils.format(entity.getHomeworkEndTime(),DateUtils.DATE_TIME_PATTERN);
+        for(int i = 0; i < rankList.size(); i++) {
+            LessonProblemRankVO lessonProblemRankVO = rankList.get(i);
             WxWorkDeadlineVO wxWorkDeadlineVO = new WxWorkDeadlineVO();
             wxWorkDeadlineVO.setSubmitMethod("手机端或电脑端");
             wxWorkDeadlineVO.setUserId(lessonProblemRankVO.getUserId());
             wxWorkDeadlineVO.setRemark("还有" + lessonProblemRankVO.getUnansweredNum() + "道题未完成，请及时完成作业！");
-            wxWorkDeadlineVO.setDeadline(endTime);
-            wxWorkDeadlineVO.setSendTime(String.valueOf(date));
-            list2.add(wxWorkDeadlineVO);
+            wxWorkDeadlineVO.setDeadline(deadline);
+            wxWorkDeadlineVO.setSendTime(date);
+            msg.add(wxWorkDeadlineVO);
         }
-        eduWxApi.insertWorkDeadlineTemplate(list2);
+       eduWxApi.insertWorkDeadlineTemplate(msg);
     }
 
 
@@ -268,8 +273,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     @Override
     public void updateList(List<LessonVO> list) {
         for(int i=0;i<list.size();i++){
-            System.out.println(list.get(i));
-            baseMapper.updateList(list.get(i));
+            baseMapper.updateLessonTime(list.get(i));
         }
     }
 

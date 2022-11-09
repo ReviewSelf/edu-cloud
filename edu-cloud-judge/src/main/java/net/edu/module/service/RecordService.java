@@ -7,6 +7,7 @@ import net.edu.module.vo.ExamJudgeRecordVo;
 import net.edu.module.vo.JudgeRecordSubmitVO;
 import net.edu.module.vo.lesson.LessonJudgeRecordVo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -43,5 +44,12 @@ public class RecordService {
         return judgeRecordDao.updateReasonAndStatus(vo);
     }
 
-
+    @Transactional(rollbackFor = Exception.class)
+    public void statisticsUserJudgeRecord() {
+        Long userId = SecurityUser.getUserId();
+        //先删除原有统计信息
+        judgeRecordDao.deleteStatisticsUserRecord(userId);
+        //重新统计信息并插入
+        judgeRecordDao.statisticsUserJudgeRecord(userId);
+    }
 }

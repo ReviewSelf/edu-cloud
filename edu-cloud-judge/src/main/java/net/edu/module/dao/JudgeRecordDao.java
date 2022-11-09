@@ -37,4 +37,8 @@ public interface JudgeRecordDao {
     int statisticsUserRecord(Long problemId ,Integer type,Long userId);
 
     int selectUserRecord(Long problemId ,Integer type,Long userId);
+
+    int statisticsUserJudgeRecord(Long userId);
+
+    int deleteStatisticsUserRecord(Long userId);
 }

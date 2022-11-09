@@ -29,7 +29,7 @@ import java.util.List;
 @Slf4j
 public class ExamProblemInfoExcelUtil {
 
-    public void examExportExcel(List<ExamUserExcelVo> data, List<String> bigTitleList, HttpServletResponse response) throws IOException {
+    public static void examExportExcel(List<ExamUserExcelVo> data, List<String> bigTitleList, HttpServletResponse response) throws IOException {
         String name = StringUtils.substringBetween(bigTitleList.get(0), "《", "》");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name+"部分学生.xlsx", "UTF-8"));
@@ -66,7 +66,7 @@ public class ExamProblemInfoExcelUtil {
         response.flushBuffer();
     }
 
-    public List<List<String>> setHead(String bigTitleItem){
+    public static List<List<String>> setHead(String bigTitleItem){
         List<List<String>> head = new ArrayList<>();
         List<String> childHead = new ArrayList<>();
         //设置表头

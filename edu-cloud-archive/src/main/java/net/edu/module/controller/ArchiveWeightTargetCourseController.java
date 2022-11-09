@@ -23,7 +23,7 @@ import java.util.List;
 * @since 1.0.0 2022-10-29
 */
 @RestController
-@RequestMapping("weightKnowledge")
+@RequestMapping("weightCourse")
 @Tag(name="一级知识点权重")
 @AllArgsConstructor
 public class ArchiveWeightTargetCourseController {
@@ -31,7 +31,7 @@ public class ArchiveWeightTargetCourseController {
 
     @GetMapping("page")
     @Operation(summary = "分页")
-    @PreAuthorize("hasAuthority('archiveweighttargetknowledge:page')")
+    @PreAuthorize("hasAuthority('archiveweighttargetCourse:page')")
     public Result<PageResult<ArchiveWeightTargetCourseVO>> page(@Valid ArchiveWeightTargetCourseQuery query){
         PageResult<ArchiveWeightTargetCourseVO> page = archiveWeightTargetCourseService.page(query);
 
@@ -40,7 +40,7 @@ public class ArchiveWeightTargetCourseController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    @PreAuthorize("hasAuthority('archiveweighttargetknowledge:info')")
+    @PreAuthorize("hasAuthority('archiveweighttargetCourse:info')")
     public Result<ArchiveWeightTargetCourseVO> get(@PathVariable("id") Long id){
         ArchiveWeightTargetCourseEntity entity = archiveWeightTargetCourseService.getById(id);
 
@@ -49,7 +49,7 @@ public class ArchiveWeightTargetCourseController {
 
     @PostMapping
     @Operation(summary = "保存")
-    @PreAuthorize("hasAuthority('archiveweighttargetknowledge:save')")
+    @PreAuthorize("hasAuthority('archiveweighttargetCourse:save')")
     public Result<String> save(@RequestBody ArchiveWeightTargetCourseVO vo){
         archiveWeightTargetCourseService.save(vo);
 
@@ -58,7 +58,7 @@ public class ArchiveWeightTargetCourseController {
 
     @PutMapping
     @Operation(summary = "修改")
-    @PreAuthorize("hasAuthority('archiveweighttargetknowledge:update')")
+    @PreAuthorize("hasAuthority('archiveweighttargetCourse:update')")
     public Result<String> update(@RequestBody @Valid ArchiveWeightTargetCourseVO vo){
         archiveWeightTargetCourseService.update(vo);
 
@@ -75,14 +75,14 @@ public class ArchiveWeightTargetCourseController {
 
     @GetMapping("target")
     @Operation(summary = "根据指标点id获取权重")
-    public Result<List<ArchiveWeightTargetCourseVO>> selectKnowledgeByTargetId(@RequestParam("targetId") Long targetId){
-        return Result.ok(archiveWeightTargetCourseService.selectKnowledgeByTargetId(targetId));
+    public Result<List<ArchiveWeightTargetCourseVO>> selectCourseByTargetId(@RequestParam("targetId") Long targetId){
+        return Result.ok(archiveWeightTargetCourseService.selectCourseByTargetId(targetId));
     }
 
     @PostMapping("target")
     @Operation(summary = "插入指标点id以及对应课程id和权重")
-    public Result<String> insertKnowledgeWeight(@RequestBody List<ArchiveWeightTargetCourseVO> vo){
-        archiveWeightTargetCourseService.insertKnowledgeWeight(vo);
+    public Result<String> insertCourseWeight(@RequestBody List<ArchiveWeightTargetCourseVO> vo){
+        archiveWeightTargetCourseService.insertCourseWeight(vo);
         return Result.ok();
     }
 }

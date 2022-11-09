@@ -31,6 +31,11 @@ public class ArchiveWeightAssessTestServiceImpl implements ArchiveWeightAssessTe
     }
 
     @Override
+    public List<ArchiveWeightAssessTestVO> selectAssessTest(Long assessId) {
+        return archiveWeightAssessTestDao.selectTestName(assessId);
+    }
+
+    @Override
     public boolean saveBatch(Collection<ArchiveWeightAssessTestEntity> entityList, int batchSize) {
         return false;
     }

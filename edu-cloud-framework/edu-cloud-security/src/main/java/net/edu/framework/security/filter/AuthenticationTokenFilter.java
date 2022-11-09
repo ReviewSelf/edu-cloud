@@ -52,8 +52,8 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
         Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
         //保存用户token
         initUserInfo(accessToken);
-
-        SecurityContext context = SecurityContextHolder.getContext();
+        // 新建 SecurityContext
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
 

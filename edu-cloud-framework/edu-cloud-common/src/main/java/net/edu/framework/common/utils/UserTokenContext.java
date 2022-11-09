@@ -10,7 +10,7 @@ public class UserTokenContext {
     /**
      * 当前线程的TOKEN副本
      */
-    private static ThreadLocal<String> userToken = new ThreadLocal<String>();
+    private static ThreadLocal<String> userToken = new InheritableThreadLocal<String>();
 
     public UserTokenContext() {
     }

@@ -31,6 +31,8 @@ import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -162,7 +164,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
             baseMapper.updateHomework(vo);
 
             //作业发布微信推送 异步
-            RequestContextHolder.setRequestAttributes(RequestContextHolder.getRequestAttributes(),true);
 //            LessonService lessonService= SpringUtil.getBean(LessonService.class);
             long deadLineTime = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis() - 1000*60*60*24L;
 
@@ -189,7 +190,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         eduWxApi.insertWorkPublishTemplate(list1);
         //作业截止微信推送判断
         if(deadLineTime > 0) {
-            System.out.println(deadLineTime);
             redisUtils.set(RedisKeys.getHomeworkEndKey(lessonId) , deadLineTime , deadLineTime / 1000);
         }
     }

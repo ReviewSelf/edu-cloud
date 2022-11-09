@@ -81,4 +81,6 @@ public class SysUserVO implements Serializable {
     @Schema(description = "创建时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
     private Date createTime;
+
+    private Integer abilityId;
 }

@@ -1,10 +1,13 @@
 package net.edu.module.utils;
 
+
 import com.alibaba.excel.EasyExcel;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.module.vo.ExamScoreVO;
+import net.edu.module.vo.LessonJudgeRecordVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -14,18 +17,17 @@ import java.util.List;
 
 /**
  * @Author: 樊磊
- * @Date: 2022/10/31 15:51
+ * @Date: 2022/11/08 17:55
  * @Version: 1.0
- * @Description:考试excel相关工具类
+ * @Description:课堂excel相关工具类
  */
 @Component
 @Slf4j
-public class ExamExcelUtil {
-
-    public void examExportExcel(List<String> header, List<ExamScoreVO> data, String bigTitle, HttpServletResponse response) throws IOException {
+public class LessonExcelUtil {
+    public void examExportExcel(List<String> header, List<LessonJudgeRecordVo> data, String bigTitle, HttpServletResponse response) throws IOException {
         String name = StringUtils.substringBetween(bigTitle, "《", "》");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name + "课堂答题情况.xlsx", "UTF-8"));
+        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name + "成绩详情.xlsx", "UTF-8"));
         response.setContentType("application/vnd.ms-excel; charset=utf-8");
         response.setCharacterEncoding("utf-8");
 
@@ -60,10 +62,6 @@ public class ExamExcelUtil {
             childHead.add(i);
             head.add(childHead);
         }
-        childHead = new ArrayList<>();
-        childHead.add(bigTitle);
-        childHead.add("总分");
-        head.add(childHead);
         return head;
     }
 
@@ -73,24 +71,26 @@ public class ExamExcelUtil {
      * @param vo
      * @return
      */
-    public List<List<String>> getExamExcelData(List<ExamScoreVO> vo) {
+    public List<List<String>> getExamExcelData(List<LessonJudgeRecordVo> vo) {
         List<List<String>> dataList = new ArrayList<>();
         for (int i = 0; i < vo.size(); i++) {
             List<String> list = new ArrayList<>();
-            list.add(vo.get(i).getUsername());
+            list.add("20401010127");
+//            list.add(vo.get(i).getUsername());
             list.add(vo.get(i).getName());
-            BigDecimal sum = new BigDecimal(0.00);
             for (int j = 0; j < vo.get(i).getProblemRecords().size(); j++) {
-                //获取每道题分数
-                BigDecimal fraction = vo.get(i).getProblemRecords().get(j).getFraction();
-                //计算总分
-                list.add(String.valueOf(fraction));
-                sum = sum.add(fraction);
+                if (vo.get(i).getProblemRecords().get(j).getSubmitStatus()==0){
+                    list.add("未判题");
+                }else if(vo.get(i).getProblemRecords().get(j).getSubmitStatus()==3){
+                    list.add("正确");
+                }else if (vo.get(i).getProblemRecords().get(j).getSubmitStatus()==3){
+                    list.add("错误");
+                }else {
+                    list.add(" ");
+                }
             }
-            list.add(String.valueOf(sum));
             dataList.add(list);
         }
         return dataList;
     }
-
 }

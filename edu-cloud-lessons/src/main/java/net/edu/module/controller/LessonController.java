@@ -12,7 +12,9 @@ import net.edu.module.query.LessonQuery;
 import net.edu.module.vo.LessonVO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -113,6 +115,15 @@ public class LessonController {
         lessonService.updateList(list);
         return Result.ok();
     }
+
+
+    @GetMapping("/exportLesson")
+    @Operation(summary = "导出总体考试情况excel")
+    public void exportLesson(@RequestParam(value = "lessonId") Long lessonId, HttpServletResponse response) throws IOException {
+        lessonService.exportLesson(lessonId,response);
+    }
+
+
 
 
 }

@@ -3,16 +3,29 @@
 
 <mapper namespace="net.edu.module.dao.ArchiveWeightAssessTestDao">
     <insert id="insertTestWeight" parameterType="java.util.List">
-
             insert into archive_weight_assess_test
             (source,test_id,assess_id,weight) values
         <foreach collection="list" item="item"  separator=",">
             ("考试",#{item.testId},#{item.assessId},#{item.weight})
         </foreach>
     </insert>
+    <update id="updateDeleted">
+        update archive_weight_assess_test set deleted = 1
+        where test_id = #{testId}
+    </update>
     <select id="selectTestName" resultType="net.edu.module.vo.ArchiveWeightAssessTestVO">
+        select
+            id,
+            test_id as testId,
+            assess_id as assessId,
+            (select name from exam t1 where t1.id = testId) as name,
+            weight
+        from archive_weight_assess_test
+        where deleted = 0 and assess_id = #{assessId}
+    </select>
+    <select id="selectArchiveTestAll" resultType="net.edu.module.vo.ArchiveWeightAssessTestVO">
         SELECT
-            id as testId,
+            id,
             name
         FROM
 	        exam

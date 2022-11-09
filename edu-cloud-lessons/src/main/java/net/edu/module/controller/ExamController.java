@@ -42,7 +42,6 @@ public class ExamController {
     @Operation(summary = "分页")
     public Result<PageResult<ExamVO>> page(@Valid ExamQuery query){
         PageResult<ExamVO> page = examService.page(query);
-
         return Result.ok(page);
     }
 

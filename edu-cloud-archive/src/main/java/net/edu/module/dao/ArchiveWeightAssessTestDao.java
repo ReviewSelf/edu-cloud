@@ -16,4 +16,8 @@ public interface ArchiveWeightAssessTestDao {
     List<ArchiveWeightAssessTestVO> selectTestName(Long assessId);
 
     Integer insertTestWeight(List<ArchiveWeightAssessTestVO> VOS);
+
+    void updateDeleted(Long testId);
+
+    List<ArchiveWeightAssessTestVO> selectArchiveTestAll(Long assessId);
 }

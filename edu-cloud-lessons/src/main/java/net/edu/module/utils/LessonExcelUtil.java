@@ -2,6 +2,8 @@ package net.edu.module.utils;
 
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.merge.LoopMergeStrategy;
+import com.alibaba.excel.write.merge.OnceAbsoluteMergeStrategy;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.module.vo.ExamScoreVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
@@ -31,7 +33,6 @@ public class LessonExcelUtil {
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name + "成绩详情.xlsx", "UTF-8"));
         response.setContentType("application/vnd.ms-excel; charset=utf-8");
         response.setCharacterEncoding("utf-8");
-
         EasyExcel.write(response.getOutputStream())
                 .head(getExcelHeader(header, bigTitle))
                 .registerWriteHandler(new CellRowHeightStyleStrategy())
@@ -79,18 +80,19 @@ public class LessonExcelUtil {
             list.add("20401010127");
 //            list.add(vo.get(i).getUsername());
             list.add(vo.get(i).getName());
-            List<LessonProblemRecord> records=vo.get(i).getProblemRecords();
-            for (int j = 0; j < records.size(); j++) {
-                if(records.get(j).getSubmitStatus()!=null){
-                    if (records.get(j).getSubmitStatus()==0){
+            for (int j = 0; j < vo.get(i).getProblemRecords().size(); j++) {
+                if(vo.get(i).getProblemRecords().get(j).getSubmitStatus()!=null){
+                    Integer status = vo.get(i).getProblemRecords().get(j).getSubmitStatus();
+                    if (status==0){
                         list.add("未判题");
-                    }else if(records.get(j).getSubmitStatus()==3){
+                    }else if(status==3){
                         list.add("正确");
-                    }else if (records.get(j).getSubmitStatus()==3){
+                    }else {
                         list.add("错误");
                     }
+                }else {
+                    list.add(" ");
                 }
-                list.add(" ");
             }
             dataList.add(list);
         }

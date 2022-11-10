@@ -296,13 +296,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     @Override
     public void exportLesson(Long lessonId, HttpServletResponse response) throws IOException {
-        System.out.println(eduJudgeApi.getLessonProblemRecord(lessonId));
-        System.out.println(111111);
         List<LessonJudgeRecordVo> data =  eduJudgeApi.getLessonProblemRecord(lessonId).getData();
 
         List<String> header = new ArrayList<>();
         for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
-            header.add(data.get(0).getProblemRecords().get(j).getProblemName());
+            header.add(j+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
         }
 
         LessonEntity entity = baseMapper.selectById(lessonId);

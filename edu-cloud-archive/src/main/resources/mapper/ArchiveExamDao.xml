@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveExamDao">
+    <insert id="insertExam">
+        insert into archive_exam
+            (id,paper_id,name,description,begin_time,end_time,score,teacher_id,kp_code,create_time,
+             version,update_time,creator,updater,deleted,place,time_limit,class_id,problem_num)
+        select id,paper_id,name,description,begin_time,end_time,score,teacher_id,kp_code,create_time,
+               version,update_time,creator,updater,deleted,place,time_limit,class_id,problem_num
+        from exam
+        where create_time between date_sub(now(),interval 1 day) and now()
+    </insert>
+
+</mapper>

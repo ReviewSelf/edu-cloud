@@ -5,8 +5,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.service.LessonRecordService;
 import net.edu.module.vo.JudgeRecordSubmitVO;
+import net.edu.module.vo.ProblemFinishVo;
 import net.edu.module.vo.lesson.LessonJudgeRecordVo;
 import net.edu.module.vo.lesson.LessonProblemRankVO;
 import org.springframework.web.bind.annotation.*;
@@ -47,6 +49,16 @@ public class LessonRecordController {
         Long userId=jsonObject.getLong("userId");
         Integer type=jsonObject.getInt("type");
         return Result.ok(lessonRecordService.getUserLessonRecord(lessonId,userId,type));
+    }
+
+
+    @GetMapping("/getProblemFinish")
+    @Operation(summary = "获取已完成答题")
+    public Result<List<ProblemFinishVo>> getProblemFinish(@RequestParam("lessonId") Long lessonId,
+                                                          @RequestParam(value = "type")Integer type){
+        Long userId= SecurityUser.getUserId();
+
+        return Result.ok(lessonRecordService.getProblemFinish(lessonId,userId,type));
     }
 
 }

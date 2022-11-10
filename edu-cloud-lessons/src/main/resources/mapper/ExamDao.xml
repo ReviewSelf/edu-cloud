@@ -74,6 +74,10 @@
         <if test="query.teacherName != null and query.teacherName != ''">
             and d.real_name = #{query.teacherName}
         </if>
+        <if test="query.getStatus!=null and query.getStatus !=''">
+            and b.status=#{query.status}
+        </if>
+
 
     </select>
 

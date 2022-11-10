@@ -43,5 +43,5 @@ public interface LessonService extends BaseService<LessonEntity> {
 
     void updateList(List<LessonVO> list);
 
-    void sendHomeworkEnd(Long lessonId);
+    void sendHomeworkEnd(Long valueOf);
 }

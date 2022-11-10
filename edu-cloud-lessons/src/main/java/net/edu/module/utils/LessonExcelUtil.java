@@ -25,6 +25,7 @@ import java.util.List;
 @Component
 @Slf4j
 public class LessonExcelUtil {
+
     public static void examExportExcel(List<String> header, List<LessonJudgeRecordVo> data, String bigTitle, HttpServletResponse response) throws IOException {
         String name = StringUtils.substringBetween(bigTitle, "《", "》");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");

@@ -35,9 +35,9 @@ public class WxMiniController {
     }
 
     @GetMapping("/studentPage")
-    public Result<PageResult<ExamVO>> studentPage(@RequestParam(value = "limit")Integer limit,@RequestParam(value="page")Integer page){
+    public Result<PageResult<ExamVO>> studentPage(@RequestParam(value = "limit")Integer limit,@RequestParam(value="page")Integer page,@RequestParam(value="beginTime")String beginTime,@RequestParam(value="endTime")String endTime){
         Long userId=SecurityUser.getUserId();
-        return eduLessonApi.studentPage(limit, page,userId);
+        return eduLessonApi.studentPage(limit, page,userId,beginTime,endTime);
     }
 
     @GetMapping("/choice/{problemId}")

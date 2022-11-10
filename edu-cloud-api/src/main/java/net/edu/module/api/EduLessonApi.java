@@ -33,7 +33,7 @@ public interface EduLessonApi {
     Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@RequestParam String studentId, @RequestParam(value = "limit") Integer limit, @RequestParam(value = "page") Integer page);
 
     @GetMapping("/exam/studentPage")
-    Result<PageResult<ExamVO>> studentPage(@RequestParam(value = "limit") Integer limit, @RequestParam(value = "page") Integer page,@RequestParam(value="userId")Long userId);
+    Result<PageResult<ExamVO>> studentPage(@RequestParam(value = "limit") Integer limit, @RequestParam(value = "page") Integer page,@RequestParam(value="userId")Long userId,@RequestParam(value="beginTime")String beginTime,@RequestParam(value="endTime")String endTime);
 
 
 

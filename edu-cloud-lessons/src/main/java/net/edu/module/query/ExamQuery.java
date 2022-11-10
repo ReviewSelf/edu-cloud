@@ -48,4 +48,8 @@ public class ExamQuery extends Query {
     @Schema(description = "学生id")
     private Long userId;
 
+    @Schema(description = "考试状态")
+    private String status;
+
+
 }

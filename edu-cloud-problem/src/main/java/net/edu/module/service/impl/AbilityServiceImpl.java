@@ -1,16 +1,17 @@
 package net.edu.module.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.AbilityConvert;
 import net.edu.module.dao.AbilityDao;
+import net.edu.module.dao.UserAbilityDao;
 import net.edu.module.entity.AbilityEntity;
 import net.edu.module.service.AbilityService;
+import net.edu.module.vo.AbilityMapVO;
+import net.edu.module.vo.AbilityPointVO;
 import net.edu.module.vo.AbilityVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,9 @@ import java.util.List;
 @AllArgsConstructor
 public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntity> implements AbilityService {
 
+    private final AbilityPointServiceImpl abilityPointService;
+    private final UserAbilityDao userAbilityDao;
+
     @Override
     public List<AbilityVO> getAbilityList() {
         List<AbilityEntity> list=baseMapper.selectList(null);
@@ -35,8 +39,9 @@ public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntit
     }
 
     @Override
-    public List<AbilityVO> getAbilityItemList(Long id) {
-        return  baseMapper.selectAbilityItemList(id);
+    public List<AbilityVO> getAbilityItemList() {
+        List<AbilityVO> list = baseMapper.selectAbilityItemList(SecurityUser.getUser().getAbilityId(),SecurityUser.getUserId());
+        return  list;
     }
 
 
@@ -58,6 +63,26 @@ public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntit
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean judgeUnlockAbility(Long lastAbilityId,Long abilityId,Long userId) {
+        if(lastAbilityId == -1){
+            //如果当前用户要点亮当前大类中的第一个能力，直接解锁，将其插入user_ability表中
+            userAbilityDao.insertUserAbility(abilityId,userId);
+            return true;
+        }else{
+            AbilityMapVO abilityMapVO =  abilityPointService.getAbilityMap(abilityId,userId);
+            for(AbilityPointVO abilityPointVO:abilityMapVO.getAbilityPointVOS()){
+                if(abilityPointVO.getStandardNum()<3){
+                    return false;
+                }
+            }
+            //至此判断出能力已达标插入
+            userAbilityDao.insertUserAbility(abilityId,userId);
+            return true;
+        }
     }
 
 }

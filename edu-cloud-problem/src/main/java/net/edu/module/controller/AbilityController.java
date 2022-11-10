@@ -3,15 +3,12 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.AbilityConvert;
 import net.edu.module.entity.AbilityEntity;
-import net.edu.module.query.AbilityQuery;
 import net.edu.module.service.AbilityService;
-import net.edu.module.vo.AbilityListVO;
 import net.edu.module.vo.AbilityVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,10 +35,16 @@ public class AbilityController {
     }
 
 
-    @GetMapping("item/list/{id}")
-    public Result<List<AbilityVO>> getAbilityItemList(@PathVariable("id") Long id){
-        return Result.ok(abilityService.getAbilityItemList(id));
+    @GetMapping("item/list")
+    public Result<List<AbilityVO>> getAbilityItemList(){
+        return Result.ok(abilityService.getAbilityItemList());
     }
+
+    @GetMapping("judgeUnlockAbility")
+    public Result<Boolean>judgeUnlockAbility(@RequestParam("lastAbilityId") Long lastAbilityId,@RequestParam("abilityId") Long abilityId){
+        return Result.ok(abilityService.judgeUnlockAbility(lastAbilityId,abilityId,SecurityUser.getUserId()));
+    }
+
 
 
     @GetMapping("{id}")

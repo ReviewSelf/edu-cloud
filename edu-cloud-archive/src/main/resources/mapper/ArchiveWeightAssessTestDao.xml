@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.ArchiveWeightAssessTestDao">
     <insert id="insertTestWeight" parameterType="java.util.List">
-            insert into archive_weight_assess_test
+            replace into archive_weight_assess_test
             (source,test_id,assess_id,weight) values
         <foreach collection="list" item="item"  separator=",">
             ("考试",#{item.testId},#{item.assessId},#{item.weight})

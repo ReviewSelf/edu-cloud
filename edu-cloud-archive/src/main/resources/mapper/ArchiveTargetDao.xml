@@ -29,7 +29,10 @@
             and grade = #{query.grade}
         </if>
         <if test="query.getGraduateTitle()!='' and query.getGraduateTitle()!=null">
-            and graduateTitle like concat('%',#{query.graduateTitle},'%')
+            and (select title from archive_graduate_require t1 where t1.id=t2.graduate_id) like concat('%',#{query.graduateTitle},'%')
+        </if>
+        <if test="query.getCourseId()!='' and query.getCourseId()!=null">
+            and id in (select target_id as id from archive_weight_target_course where deleted=0 and course_id = #{query.courseId}  )
         </if>
         order by id desc
     </select>

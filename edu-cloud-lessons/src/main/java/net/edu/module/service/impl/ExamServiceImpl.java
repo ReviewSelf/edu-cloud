@@ -12,6 +12,7 @@ import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.api.EduJudgeApi;
+import net.edu.module.api.EduWxApi;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.dao.ExamDao;
 import net.edu.module.entity.ExamEntity;
@@ -22,6 +23,7 @@ import net.edu.module.service.ExamService;
 import net.edu.module.utils.ExamExcelUtil;
 import net.edu.module.utils.ExamProblemInfoExcelUtil;
 import net.edu.module.vo.*;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,21 +46,17 @@ import java.util.List;
 @Slf4j
 public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implements ExamService {
 
-
-    private final RedisUtils redisUtils;
-
     private final ExamAttendLogService examAttendLogService;
 
     private final ExamProblemService examProblemService;
 
     private final EduJudgeApi eduJudgeApi;
 
-    private final ExamExcelUtil examExcelUtil;
+    private final EduWxApi eduWxApi;
 
-    private final ExamProblemInfoExcelUtil examProblemInfoExcelUtil;
+    private final RedisUtils redisUtils;
 
-
-    private final ExamDao examDao;
+    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
     @Override
     public PageResult<ExamVO> page(ExamQuery query) {
@@ -91,8 +89,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     public ExamVO getPaper(Long paperId){
-        ExamVO examVO = examDao.selectPaperManage(paperId);
-        System.out.println(examVO);
+        ExamVO examVO = baseMapper.selectPaperManage(paperId);
         return examVO;
     }
 
@@ -109,6 +106,11 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         //插入名单
         examAttendLogService.copyFromClass(vo.getClassId(),entity.getId());
 
+        //异步线程推送至微信
+        threadPoolTaskExecutor.submit(new Thread(()->{
+            List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
+            eduWxApi.insertExamArrangementTemplate(list);
+        }));
 
     }
 
@@ -141,10 +143,27 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     }
 
     @Override
-    public void submitPaper(Long examId) {
-        Long userId = SecurityUser.getUserId();
+    public void submitPaper(Long examId,Long userId) {
         examAttendLogService.updateExamStatus(2,examId,userId,new Date());
         redisUtils.del(RedisKeys.getStuExam(examId,userId));
+
+        threadPoolTaskExecutor.submit(new Thread(()->{
+            //自动批卷
+            eduJudgeApi.makePaper(examId,userId);
+            //获取分数
+            ExamScoreVO vo=  eduJudgeApi.getUserExamScore(examId,userId).getData();
+            BigDecimal score=new BigDecimal(0);
+            for (ExamProblemRecord item:vo.getProblemRecords()){
+                score=score.add(item.getFraction());
+            }
+            //更新分数
+            ExamAttendLogVO attendLogVO=new ExamAttendLogVO();
+            attendLogVO.setExamId(examId);
+            attendLogVO.setUserId(userId);
+            attendLogVO.setScore(score);
+            attendLogVO.setIsCorrecting(0);
+            examAttendLogService.updateAttendLogScore(attendLogVO);
+        }));
     }
 
     @Override
@@ -160,7 +179,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         ExamEntity entity =baseMapper.selectById(examId);
         String bigTitle = "《"+entity.getName()+"》"+"\r\n"+ " 总分："+entity.getScore()+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")";
         //传入题目，考试数据生成excel
-        examExcelUtil.examExportExcel(header,data,bigTitle,response);
+        ExamExcelUtil.examExportExcel(header,data,bigTitle,response);
     }
 
     @Override
@@ -176,6 +195,6 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
             }
             bigTitleList.add("《"+entity.getName()+"》"+"姓名："+data.get(i).getName()+"\r\n"+ " 总分："+entity.getScore()+" 得分："+sum+""+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")");
         }
-        examProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
+        ExamProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
     }
 }

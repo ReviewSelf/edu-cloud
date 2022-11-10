@@ -55,19 +55,19 @@ public class HeadContentCellStyle {
         listCntWritCellSty.add(contentWriteCellStyle);
 
 //2 内容样式策略  样式二
-        WriteCellStyle contentWriteCellStyle2 = new WriteCellStyle();
-        // 这里需要指定 FillPatternType 为FillPatternType.SOLID_FOREGROUND 不然无法显示背景颜色。
-        // 头默认了 FillPatternType所以可以不指定。
-        contentWriteCellStyle2.setFillPatternType(FillPatternType.SOLID_FOREGROUND);
-        //背景设置白色
-        contentWriteCellStyle2.setFillForegroundColor(IndexedColors.WHITE1.getIndex());
-        // 背景绿色
-        contentWriteCellStyle2.setFillForegroundColor(IndexedColors.GREEN.getIndex());
-        //设置垂直居中
-        contentWriteCellStyle2.setVerticalAlignment(VerticalAlignment.CENTER);
-        //设置边框样式
-        setBorderStyle(contentWriteCellStyle2);
-        listCntWritCellSty.add(contentWriteCellStyle2);
+//        WriteCellStyle contentWriteCellStyle2 = new WriteCellStyle();
+//        // 这里需要指定 FillPatternType 为FillPatternType.SOLID_FOREGROUND 不然无法显示背景颜色。
+//        // 头默认了 FillPatternType所以可以不指定。
+//        contentWriteCellStyle2.setFillPatternType(FillPatternType.SOLID_FOREGROUND);
+//        //背景设置白色
+//        contentWriteCellStyle2.setFillForegroundColor(IndexedColors.WHITE1.getIndex());
+//        // 背景绿色
+//        contentWriteCellStyle2.setFillForegroundColor(IndexedColors.GREEN.getIndex());
+//        //设置垂直居中
+//        contentWriteCellStyle2.setVerticalAlignment(VerticalAlignment.CENTER);
+//        //设置边框样式
+//        setBorderStyle(contentWriteCellStyle2);
+//        listCntWritCellSty.add(contentWriteCellStyle2);
         // 水平单元格风格综合策略(表头 + 内容)
          return  new HorizontalCellStyleStrategy(headWriteCellStyle, contentWriteCellStyle);
         //return  new HorizontalCellStyleStrategy(headWriteCellStyle, listCntWritCellSty);

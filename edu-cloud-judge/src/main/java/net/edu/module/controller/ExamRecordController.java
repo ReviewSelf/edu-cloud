@@ -30,7 +30,7 @@ import java.util.List;
 @RequestMapping("/exam/record")
 public class ExamRecordController {
 
-   private final   ExamRecordService examRecordService;
+   private final  ExamRecordService examRecordService;
 
 
     /**

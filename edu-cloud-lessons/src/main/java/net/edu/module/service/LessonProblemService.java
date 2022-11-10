@@ -31,4 +31,6 @@ public interface LessonProblemService extends BaseService<LessonProblemEntity> {
     void updateProblemTime(List<LessonProblemVO> lessonProblemList);
 
     void insertProblemListByTeacher(List<ProblemPaperItemEntity> list, Long lessonId);
+
+    void updateHomeworkUsed(List<LessonProblemVO> list);
 }

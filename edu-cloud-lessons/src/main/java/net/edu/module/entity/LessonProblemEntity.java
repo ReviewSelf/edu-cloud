@@ -70,6 +70,10 @@ public class LessonProblemEntity {
 	 * 练习类型
 	 */
 	private Integer type;
+	/**
+	 * 是否使用
+	 */
+	private Integer used;
 
 	/**
 	 * 更新时间

@@ -25,7 +25,7 @@
         (SELECT a.user_id,a.name,a.lesson_id,b.problem_id,b.problem_name,b.problem_type,b.begin_time,b.type FROM
         (select lesson_id,stu_id as user_id,(SELECT real_name FROM sys_user WHERE id=stu_id) as name
         from lesson_attend_log WHERE lesson_id=#{lessonId})a
-        left join lesson_problem b on b.lesson_id =a.lesson_id ORDER BY user_id,b.begin_time) c
+        left join lesson_problem b on b.lesson_id =a.lesson_id and b.used=1 ORDER BY user_id,b.begin_time) c
         left join (select id,submit_status,submit_time,problem_id,problem_type,source_id,user_id,source from
         judge_record jr1
         where source_id=#{lessonId} and not exists (select 1 from judge_record jr2 where source_id=#{lessonId} and
@@ -53,7 +53,7 @@
         FROM (SELECT c.user_id, c.lesson_id, c.problem_name, c.problem_id, c.problem_type, c.type, submit_status
         FROM (SELECT a.stu_id as user_id, a.lesson_id, b.problem_name, b.problem_id, b.problem_type, b.type
         FROM lesson_attend_log a
-        left join lesson_problem b on b.lesson_id = a.lesson_id
+        left join lesson_problem b on b.lesson_id = a.lesson_id and b.used=1
         WHERE a.lesson_id = #{lessonId}) c
         left join (select user_id, problem_id, problem_type, source, submit_status
         from judge_record jr1
@@ -91,7 +91,7 @@
         FROM (SELECT c.user_id, c.lesson_id, c.problem_name, c.problem_id, c.problem_type, c.type, submit_status
         FROM (SELECT a.stu_id as user_id, a.lesson_id, b.problem_name, b.problem_id, b.problem_type, b.type
         FROM lesson_attend_log a
-        left join lesson_problem b on b.lesson_id = a.lesson_id
+        left join lesson_problem b on b.lesson_id = a.lesson_id and b.used=1
         WHERE stu_id=#{userId} and a.lesson_id in
        <foreach collection="lessonList" item="item" open="(" separator="," close=")">
            #{item}

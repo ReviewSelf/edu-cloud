@@ -81,12 +81,7 @@ public class LessonController {
     }
 
 
-    @PutMapping("/homework")
-    @Operation(summary = "回家作业修改")
-    public Result<String> setHomework(@RequestBody @Valid LessonVO vo) {
-        lessonService.updateHomework(vo);
-        return Result.ok();
-    }
+
 
     @GetMapping("homework/page")
     @Operation(summary = "课程列表")
@@ -123,6 +118,13 @@ public class LessonController {
         lessonService.exportLesson(lessonId,response);
     }
 
+
+    @PutMapping("/homework")
+    @Operation(summary = "回家作业发布、截止、修改")
+    public Result<String> setHomework(@RequestBody @Valid LessonVO vo) {
+        lessonService.updateHomework(vo);
+        return Result.ok();
+    }
 
 
 

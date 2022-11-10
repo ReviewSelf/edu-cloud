@@ -26,7 +26,7 @@
     </insert>
 
     <select id="selectLessonProblem" resultType="net.edu.module.vo.LessonProblemVO">
-        select id,lesson_id as lessonId,sort,score,problem_id as problemId,problem_name as problemName,
+        select id,lesson_id as lessonId,sort,score,problem_id as problemId,problem_name as problemName,used,
               problem_type as problemType,begin_time as beginTime,end_time as endTime,source,type
         from lesson_problem where lesson_id = #{query.lessonId}
             <if test="query.getType!=null">

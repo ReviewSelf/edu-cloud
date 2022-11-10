@@ -70,5 +70,10 @@ public class LessonProblemController {
     }
 
 
-
+    @PostMapping("/homework/used")
+    @Operation(summary = "作业启用情况更新")
+    public Result<String> updateHomeworkUsed(@RequestBody List<LessonProblemVO> list){
+        lessonProblemService.updateHomeworkUsed(list);
+        return Result.ok();
+    }
 }

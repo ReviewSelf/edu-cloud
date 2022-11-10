@@ -73,9 +73,10 @@ public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntit
             userAbilityDao.insertUserAbility(abilityId,userId);
             return true;
         }else{
-            AbilityMapVO abilityMapVO =  abilityPointService.getAbilityMap(abilityId,userId);
+            //获取当前要解锁能力图的上一个能力图，判断此能力图是否达标
+            AbilityMapVO abilityMapVO =  abilityPointService.getAbilityMap(lastAbilityId,userId);
             for(AbilityPointVO abilityPointVO:abilityMapVO.getAbilityPointVOS()){
-                if(abilityPointVO.getStandardNum()<3){
+                if(abilityPointVO.getStandardNum()<3 || abilityPointVO.getStandardNum() == null){
                     return false;
                 }
             }

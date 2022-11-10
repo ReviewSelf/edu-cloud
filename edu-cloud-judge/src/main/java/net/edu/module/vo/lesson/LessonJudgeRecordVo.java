@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 public class LessonJudgeRecordVo {
     private Long userId;
+    private String username;
     private String name;
     private Long lessonId;
     private List<LessonProblemRecord> problemRecords;

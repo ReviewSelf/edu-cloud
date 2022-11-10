@@ -67,6 +67,31 @@ public class ArchiveCourseEntity {
 	private String grade;
 
 	/**
+	 * 上课地点
+	 */
+	private String place;
+
+	/**
+	 * 教学班级
+	 */
+	private String teach_class;
+
+	/**
+	 * 任课老师
+	 */
+	private String teacher;
+
+	/**
+	 * 学分
+	 */
+	private String credit;
+
+	/**
+	 * 考核方式
+	 */
+	private String assessment;
+
+	/**
 	* 删除
 	*/
 	@TableLogic

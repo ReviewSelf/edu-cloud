@@ -22,7 +22,7 @@ public class ArchiveWeightTargetCourseEntity extends BaseEntity {
 	private Long targetId;
 
 	/**
-	* 一级知识点编号
+	* 课程编号
 	*/
 	private Long courseId;
 
@@ -30,5 +30,25 @@ public class ArchiveWeightTargetCourseEntity extends BaseEntity {
 	* 权重
 	*/
 	private Double weight;
+
+	/**
+	 * 教学目标
+	 */
+	private String teachTarget;
+
+	/**
+	 * 达成途径
+	 */
+	private String approach;
+
+	/**
+	 * 评价依据
+	 */
+	private String evaluationBasis;
+
+	/**
+	 * 评价方式
+	 */
+	private String evaluationMethod;
 
 }

@@ -83,7 +83,6 @@ public class LessonExcelUtil {
             List<String> list = new ArrayList<>();
             String username = vo.get(i).getUsername();
             list.add(username);
-//            list.add(vo.get(i).getUsername());
             int sum = 0;
             list.add(vo.get(i).getName());
             for (int j = 0; j < vo.get(i).getProblemRecords().size(); j++) {

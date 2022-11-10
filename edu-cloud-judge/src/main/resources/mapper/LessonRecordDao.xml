@@ -3,6 +3,7 @@
 <mapper namespace="net.edu.module.dao.LessonRecordDao">
     <resultMap id="LessonRecord" type="net.edu.module.vo.lesson.LessonJudgeRecordVo">
         <result property="userId" column="user_id"/>
+        <result property="username" column="username"></result>
         <result property="name" column="name"/>
         <result property="lessonId" column="lesson_id"/>
         <collection property="problemRecords"
@@ -19,7 +20,7 @@
         </collection>
     </resultMap>
     <select id="selectLessonRecord" resultMap="LessonRecord">
-        SELECT timediff(submit_time,begin_time) as spend_time
+        SELECT timediff(submit_time,begin_time) as spend_time,(SELECT username FROM sys_user WHERE id=c.user_id) as username
         ,c.user_id,c.name,c.lesson_id,c.problem_id,c.problem_name,c.problem_type,c.begin_time,c.type,d.id as
         record_id,d.submit_status,d.submit_time FROM
         (SELECT a.user_id,a.name,a.lesson_id,b.problem_id,b.problem_name,b.problem_type,b.begin_time,b.type FROM

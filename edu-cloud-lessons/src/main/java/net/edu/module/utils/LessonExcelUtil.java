@@ -64,6 +64,10 @@ public class LessonExcelUtil {
             childHead.add(i);
             head.add(childHead);
         }
+        childHead = new ArrayList<>();
+        childHead.add(bigTitle);
+        childHead.add("总数");
+        head.add(childHead);
         return head;
     }
 
@@ -77,8 +81,9 @@ public class LessonExcelUtil {
         List<List<String>> dataList = new ArrayList<>();
         for (int i = 0; i < vo.size(); i++) {
             List<String> list = new ArrayList<>();
-            list.add("20401010127");
-//            list.add(vo.get(i).getUsername());
+            String username = vo.get(i).getUsername();
+            list.add(username);
+            int sum = 0;
             list.add(vo.get(i).getName());
             for (int j = 0; j < vo.get(i).getProblemRecords().size(); j++) {
                 if(vo.get(i).getProblemRecords().get(j).getSubmitStatus()!=null){
@@ -87,6 +92,7 @@ public class LessonExcelUtil {
                         list.add("未判题");
                     }else if(status==3){
                         list.add("正确");
+                        sum = sum +1;
                     }else {
                         list.add("错误");
                     }
@@ -94,6 +100,7 @@ public class LessonExcelUtil {
                     list.add(" ");
                 }
             }
+            list.add(String.valueOf(sum));
             dataList.add(list);
         }
         return dataList;

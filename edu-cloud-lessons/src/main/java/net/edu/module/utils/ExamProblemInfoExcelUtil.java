@@ -5,17 +5,13 @@ import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
 import lombok.extern.slf4j.Slf4j;
-import net.edu.module.vo.ExamExcelVo;
 import net.edu.module.vo.ExamUserExcelVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 

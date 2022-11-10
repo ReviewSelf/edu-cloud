@@ -2,7 +2,6 @@
 auth:
   #免验证
   ignore_urls:
-    - /test
     - /lesson/record/getLessonProblemRank
-    - /exam/record/getExamRecordList
-    - /exam/record/getExamProblemInfoList
+    - /exam/record/makePaper
+    - /exam/record/getUserExamScore

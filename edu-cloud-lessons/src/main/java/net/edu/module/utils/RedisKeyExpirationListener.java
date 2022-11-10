@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.module.service.ExamAttendLogService;
+import net.edu.module.service.ExamService;
 import net.edu.module.service.LessonService;
 import net.edu.module.vo.ExamAttendLogVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
     ExamAttendLogService examAttendLogService;
 
     @Autowired
+    ExamService examService;
+
+    @Autowired
     LessonService lessonService;
 
 
@@ -45,8 +49,7 @@ public class RedisKeyExpirationListener extends KeyExpirationEventMessageListene
             //exam:user:59:10000考试完成
             log.info("{}考试完成", list.toString());
             //通过userId 和 examId 更新用户考试状态
-            examAttendLogService.updateExamStatus(2,
-                    Long.valueOf(list.get(2)),Long.valueOf(list.get(3)),new Date());
+            examService.submitPaper(Long.valueOf(list.get(2)),Long.valueOf(list.get(3)));
         }
         else if(expiredKey.contains(RedisKeys.getHomeWorkKey(null))){
             //作业过期

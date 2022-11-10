@@ -40,6 +40,7 @@ public class AbilityController {
 
     @GetMapping("item/list/{id}")
     public Result<List<AbilityVO>> getAbilityItemList(@PathVariable("id") Long id){
+
         return Result.ok(abilityService.getAbilityItemList(id));
     }
 

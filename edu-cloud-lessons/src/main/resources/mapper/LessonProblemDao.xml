@@ -32,7 +32,7 @@
             <if test="query.getType!=null">
                 and type =#{query.type}
             </if>
-        order by type asc,sort asc,id asc
+        order by type asc,used desc,sort asc,id asc
     </select>
 
     <insert id="insertProblemListByTeacher" parameterType="net.edu.module.vo.ProblemPaperItemEntity">

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.TeachPlanPaperDao">
+    <select id="selectTeachPlanPaper" resultType="net.edu.module.vo.TeachPlanPaperVo">
+        select (select name from problem_paper where id = t.paper_id) as paperName, t.paper_id, t.plan_id, t.remark
+        from teach_plan_paper t
+        where plan_id = #{planId}
+    </select>
+
+    <insert id="insertTeachPlanPaper">
+        insert into teach_plan_paper(paper_id,plan_id,remark)
+        values
+        <foreach collection="planPaperList" item="item" separator=",">
+            (#{item.paperId},#{item.planId},#{item.remark})
+        </foreach>
+    </insert>
+
+    <delete id="deleteTeachPlanPaper">
+        delete
+        from teach_plan_paper
+        where plan_id = #{planId}
+    </delete>
+
+</mapper>

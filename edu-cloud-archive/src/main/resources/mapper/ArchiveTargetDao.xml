@@ -13,6 +13,7 @@
 	        id,
 	        sort,
             graduate_id AS graduateId,
+            (select sort from archive_graduate_require t2 where t2.id=graduate_id) as graduateSort,
             name,
             content,
             version,

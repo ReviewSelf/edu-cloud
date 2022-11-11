@@ -29,6 +29,6 @@ public interface ArchiveWeightTargetCourseService extends BaseService<ArchiveWei
 
     Integer insertCourseWeight(List<ArchiveWeightTargetCourseVO> archiveWeightTargetCourseVO);
 
-
+    ArchiveWeightTargetCourseVO selectById(Long id);
 
 }

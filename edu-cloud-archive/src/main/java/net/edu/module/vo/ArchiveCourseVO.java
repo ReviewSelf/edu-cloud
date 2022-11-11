@@ -49,6 +49,26 @@ public class ArchiveCourseVO implements Serializable {
 	@Schema(description = "年级")
 	private String grade;
 
+
+	@Schema(description = "上课地点")
+	private String place;
+
+
+	@Schema(description = "教学班级")
+	private String teach_class;
+
+
+	@Schema(description = "任课老师")
+	private String teacher;
+
+
+	@Schema(description = "学分")
+	private String credit;
+
+
+	@Schema(description = "考核方式")
+	private String assessment;
+
 	@Schema(description = "删除")
 	private Integer deleted;
 

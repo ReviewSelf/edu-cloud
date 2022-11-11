@@ -40,25 +40,20 @@ public class ArchiveWeightTargetCourseController {
 
     @GetMapping("{id}")
     @Operation(summary = "信息")
-    @PreAuthorize("hasAuthority('archiveweighttargetCourse:info')")
     public Result<ArchiveWeightTargetCourseVO> get(@PathVariable("id") Long id){
-        ArchiveWeightTargetCourseEntity entity = archiveWeightTargetCourseService.getById(id);
-
-        return Result.ok(ArchiveWeightTargetCourseConvert.INSTANCE.convert(entity));
+        return Result.ok(archiveWeightTargetCourseService.selectById(id));
     }
 
     @PostMapping
     @Operation(summary = "保存")
-    @PreAuthorize("hasAuthority('archiveweighttargetCourse:save')")
     public Result<String> save(@RequestBody ArchiveWeightTargetCourseVO vo){
+        System.out.println(vo);
         archiveWeightTargetCourseService.save(vo);
-
         return Result.ok();
     }
 
     @PutMapping
     @Operation(summary = "修改")
-    @PreAuthorize("hasAuthority('archiveweighttargetCourse:update')")
     public Result<String> update(@RequestBody @Valid ArchiveWeightTargetCourseVO vo){
         archiveWeightTargetCourseService.update(vo);
 

@@ -111,8 +111,7 @@ public class ExamController {
     @GetMapping("submitPaper/{examId}")
     @Operation(summary = "交卷，删除缓存，更新考试状态")
     public Result<String> submitPaper(@PathVariable Long examId){
-        Long userId = SecurityUser.getUserId();
-        examService.submitPaper(examId,userId);
+        examService.submitPaper(examId);
         return Result.ok();
     }
 
@@ -127,5 +126,9 @@ public class ExamController {
     public void exportUserExam(@RequestBody ExamUserExcelQuery query, HttpServletResponse response) throws IOException {
         examService.exportUserExam(query.getExamId(), query.getUserIdList(),response);
     }
+
+
+
+
 
 }

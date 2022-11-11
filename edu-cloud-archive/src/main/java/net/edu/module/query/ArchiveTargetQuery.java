@@ -26,4 +26,7 @@ public class ArchiveTargetQuery extends Query {
     @Schema(description = "年级")
     private Integer grade;
 
+    @Schema(description = "课程名称Id")
+    private Long courseId;
+
 }

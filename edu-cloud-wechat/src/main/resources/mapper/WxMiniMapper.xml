@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.mini.dao.WxMiniDao">
+
+    <select id="selectLesson" resultType="net.edu.mini.vo.MyLessonVo">
+        SELECT
+        t2.name as lessonName,
+        t2.begin_time as lessonTime,
+        t2.end_time as lessonEnd,
+        t3.real_name as lessonTeacher
+        From
+        lesson_attend_log t1
+        right join lesson t2 on t1.lesson_id = t2.id
+        right join sys_user t3 on t3.id = t2.teacher_id
+        where t1.stu_id = #{userId} and t2.begin_time &gt; #{time} and t2.begin_time &lt; date_add(#{time} , interval 1 day )
+        and t2.status = 0
+    </select>
+    <select id="selectMessage" resultType="net.edu.mini.vo.MyMessage">
+        SELECT
+        avatar,
+        real_name as realName
+        FROM
+        sys_user
+        WHERE id = #{userId}
+    </select>
+</mapper>

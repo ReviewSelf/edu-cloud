@@ -1,6 +1,7 @@
 package net.edu.mini.dao;
 
 import net.edu.mini.vo.MyLessonVo;
+import net.edu.mini.vo.MyMessage;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,4 +10,6 @@ import java.util.List;
 public interface WxMiniDao {
 
     List<MyLessonVo> selectLesson(String time, String userId);
+
+    MyMessage selectMessage(String userId);
 }

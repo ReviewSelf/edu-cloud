@@ -5,6 +5,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.mini.service.WxMiniService;
 import net.edu.mini.vo.MyLessonVo;
+import net.edu.mini.vo.MyMessage;
 import net.edu.module.api.EduLessonApi;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.vo.HomeWorkQuery;
@@ -42,6 +43,12 @@ public class WxMiniController {
     public Result<List<MyLessonVo>> getMyLesson(@RequestParam String time, String userId) {
         List<MyLessonVo> list = wxMiniService.getLesson(time , userId);
         return Result.ok(list);
+    }
+
+    @GetMapping("/getMessage")
+    public Result<MyMessage> getMessage(@RequestParam String userId) {
+        MyMessage user = wxMiniService.getMessage(userId);
+        return Result.ok(user);
     }
 
 }

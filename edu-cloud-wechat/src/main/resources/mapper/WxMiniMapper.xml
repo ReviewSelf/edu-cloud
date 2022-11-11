@@ -16,4 +16,12 @@
         where t1.stu_id = #{userId} and t2.begin_time &gt; #{time} and t2.begin_time &lt; date_add(#{time} , interval 1 day )
         and t2.status = 0
     </select>
+    <select id="selectMessage" resultType="net.edu.mini.vo.MyMessage">
+        SELECT
+        avatar,
+        real_name as realName
+        FROM
+        sys_user
+        WHERE id = #{userId}
+    </select>
 </mapper>

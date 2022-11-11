@@ -115,8 +115,9 @@ public class GraduateRequireServiceImpl extends BaseServiceImpl<GraduateRequireD
     public void saveBatchRequire(GraduateRequireVO vo) {
         Long graduateId = vo.getId();
         save(vo);
+        System.out.println("1"+vo.getId());
         List<ArchiveTargetVO> list = archiveTargetDao.selectArchiveTargetByGraduateId(graduateId);
-        System.out.println(list);
+        System.out.println("2"+list);
         for (ArchiveTargetVO archiveVOS : list
         ) {
             archiveVOS.setGrade(vo.getGrade());

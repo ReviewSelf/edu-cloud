@@ -44,6 +44,9 @@ public class ArchiveTargetEntity extends BaseEntity {
 	 */
 	private String grade;
 
-
+	/**
+	 * 排序
+	 */
+	private Integer sort;
 
 }

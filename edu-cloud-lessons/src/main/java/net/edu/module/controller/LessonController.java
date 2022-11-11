@@ -12,7 +12,9 @@ import net.edu.module.query.LessonQuery;
 import net.edu.module.vo.LessonVO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -71,13 +73,15 @@ public class LessonController {
         return Result.ok(list);
     }
 
-
-    @PutMapping("/homework")
-    @Operation(summary = "回家作业修改")
-    public Result<String> setHomework(@RequestBody @Valid LessonVO vo) {
-        lessonService.updateHomework(vo);
-        return Result.ok();
+    @GetMapping("list/getClassAllLesson/{classId}")
+    @Operation(summary = "通过班级ID,查找所有课表")
+    public Result<List<LessonVO>> getClassAllLesson(@PathVariable("classId") Long classId) {
+        List<LessonVO> list = lessonService.getClassAllLesson(classId);
+        return Result.ok(list);
     }
+
+
+
 
     @GetMapping("homework/page")
     @Operation(summary = "课程列表")
@@ -103,9 +107,25 @@ public class LessonController {
     @PostMapping("updateList")
     @Operation(summary = "批量修改")
     public Result<String> updateList(@RequestBody List<LessonVO> list){
-        System.out.println(list);
         lessonService.updateList(list);
         return Result.ok();
     }
+
+
+    @GetMapping("/exportLesson")
+    @Operation(summary = "导出总体考试情况excel")
+    public void exportLesson(@RequestParam(value = "lessonId") Long lessonId, HttpServletResponse response) throws IOException {
+        lessonService.exportLesson(lessonId,response);
+    }
+
+
+    @PutMapping("/homework")
+    @Operation(summary = "回家作业发布、截止、修改")
+    public Result<String> setHomework(@RequestBody @Valid LessonVO vo) {
+        lessonService.updateHomework(vo);
+        return Result.ok();
+    }
+
+
 
 }

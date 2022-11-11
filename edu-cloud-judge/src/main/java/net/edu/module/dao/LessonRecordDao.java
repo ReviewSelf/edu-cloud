@@ -1,5 +1,6 @@
 package net.edu.module.dao;
 
+import net.edu.module.vo.ProblemFinishVo;
 import net.edu.module.vo.lesson.LessonJudgeRecordVo;
 import net.edu.module.vo.lesson.LessonProblemRankVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,4 +15,7 @@ public interface LessonRecordDao {
     List<LessonProblemRankVO> selectUserLessonRecord(List<Long> lessonList,Long userId, Integer type);
 
     List<LessonJudgeRecordVo> selectLessonRecord(Long lessonId, Integer type);
+
+
+    List<ProblemFinishVo> selectProblemFinish(Long lessonId, Long userId,Integer type);
 }

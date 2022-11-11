@@ -24,12 +24,9 @@ import java.util.List;
 @Tag(name = "代码题判题接口")
 @AllArgsConstructor
 public class JudgeController {
-
-
     private final JudgeService judgeService;
 
     private final RecordService recordService;
-
 
     @PostMapping("/record")
     public Result<Integer> judge(@RequestBody JudgeRecordSubmitVO vo) {

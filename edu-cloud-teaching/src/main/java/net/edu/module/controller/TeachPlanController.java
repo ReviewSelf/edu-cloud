@@ -8,7 +8,9 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.TeachPlanConvert;
 import net.edu.module.entity.TeachPlanEntity;
 import net.edu.module.query.TeachPlanQuery;
+import net.edu.module.service.TeachPlanPaperService;
 import net.edu.module.service.TeachPlanService;
+import net.edu.module.vo.TeachPlanPaperVo;
 import net.edu.module.vo.TeachPlanVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,4 +93,6 @@ public class TeachPlanController {
         List<TeachPlanVO> planVos = teachPlanService.getAllByStatusTeachPlanVos();
         return Result.ok(planVos);
     }
+
+
 }

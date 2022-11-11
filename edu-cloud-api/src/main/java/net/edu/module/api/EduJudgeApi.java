@@ -20,13 +20,23 @@ public interface EduJudgeApi {
     Result<List<LessonProblemRankVO>> getLessonProblemRank(@RequestParam( value ="lessonId") Long lessonId,
                                                                   @RequestParam(value = "type")Integer type);
 
-    @GetMapping("/exam/record/getExamRecordList")
-    Result<List<ExamScoreVO>> getExamRecordList( @RequestParam(value = "examId") Long examId);
+
 
     @GetMapping("/exam/record/getExamProblemInfoList")
     Result<List<ExamUserExcelVo>> getExamProblemInfoList(@RequestParam(value = "examId") Long examId, @RequestParam(value = "userIdList") List<Long> userIdList);
 
     @GetMapping("/lesson/record/getLessonProblemRecord")
     Result<List<LessonJudgeRecordVo>> getLessonProblemRecord(@RequestParam("lessonId") Long lessonId);
+
+
+    @GetMapping("/exam/record/makePaper")
+    Result<List<ExamScoreVO>> makePaper( @RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId);
+
+    @GetMapping("/exam/record/getExamRecordList")
+    Result<List<ExamScoreVO>> getExamRecordList( @RequestParam(value = "examId") Long examId);
+
+    @GetMapping("/exam/record/getUserExamScore")
+    Result<ExamScoreVO> getUserExamScore( @RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId);
+
 
 }

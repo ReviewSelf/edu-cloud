@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.DateUtils;
@@ -23,12 +24,16 @@ import net.edu.module.query.LessonQuery;
 import net.edu.module.service.LessonAttendLogService;
 import net.edu.module.service.LessonProblemService;
 import net.edu.module.service.LessonResourceService;
+import net.edu.module.utils.LessonExcelUtil;
 import net.edu.module.vo.*;
 import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,11 +47,14 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> implements LessonService {
 
     private final LessonProblemService lessonProblemService;
     private final LessonResourceService lessonResourceService;
     private final LessonAttendLogService lessonAttendLogService;
+
+    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
     private final EduTeachApi eduTeachApi;
     private final LessonDao lessonDao;
     private final EduJudgeApi eduJudgeApi;
@@ -83,25 +91,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
-    @Override
-    public void sendHomeworkEnd(Long lessonId) {
-        List<LessonProblemRankVO> rankList = eduJudgeApi.getLessonProblemRank(lessonId, 2).getData();
-        List<WxWorkDeadlineVO> msg = new ArrayList<>();
-        LessonEntity entity=getById(lessonId);
-        String date= DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN);
-        String deadline=DateUtils.format(entity.getHomeworkEndTime(),DateUtils.DATE_TIME_PATTERN);
-        for(int i = 0; i < rankList.size(); i++) {
-            LessonProblemRankVO lessonProblemRankVO = rankList.get(i);
-            WxWorkDeadlineVO wxWorkDeadlineVO = new WxWorkDeadlineVO();
-            wxWorkDeadlineVO.setSubmitMethod("手机端或电脑端");
-            wxWorkDeadlineVO.setUserId(lessonProblemRankVO.getUserId());
-            wxWorkDeadlineVO.setRemark("还有" + lessonProblemRankVO.getUnansweredNum() + "道题未完成，请及时完成作业！");
-            wxWorkDeadlineVO.setDeadline(deadline);
-            wxWorkDeadlineVO.setSendTime(date);
-            msg.add(wxWorkDeadlineVO);
-        }
-        eduWxApi.insertWorkDeadlineTemplate(msg);
-    }
     @Override
     public List<LessonVO> list(LessonQuery query) {
         LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
@@ -155,16 +144,32 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return lessonDao.getListById(classId);
     }
 
+    @Override
+    public List<LessonVO> getClassAllLesson(Long classId) {
+        return lessonDao.getClassAllLesson(classId);
+    }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void updateHomework(LessonVO vo) {
         if (vo.getHomeworkStatus() == 2) {
             closeLessonHomeWork(vo.getId());
             redisUtils.del(RedisKeys.getHomeWorkKey(vo.getId()));
         } else {
             baseMapper.updateHomework(vo);
-            Long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
+
+            //作业发布微信推送 异步
+//            LessonService lessonService= SpringUtil.getBean(LessonService.class);
+            long deadLineTime = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis() - 1000*60*60*24L;
+
+            threadPoolTaskExecutor.submit(new Thread(()->{
+                sendHomeworkBegin(vo.getId(),deadLineTime);
+            }));
+
+
+
+
+
+            long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
             if (time > 0) {
                 redisUtils.set(RedisKeys.getHomeWorkKey(vo.getId()), time, time / 1000);
             }
@@ -172,11 +177,59 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     }
 
     @Override
+    public void sendHomeworkBegin(Long lessonId,long deadLineTime){
+        //从主线程获取所有request数据
+
+        List<WxWorkPublishVO> list1 = lessonDao.selectHomeworkBegin(lessonId);
+        eduWxApi.insertWorkPublishTemplate(list1);
+        //作业截止微信推送判断
+        if(deadLineTime > 0) {
+            redisUtils.set(RedisKeys.getHomeworkEndKey(lessonId) , deadLineTime , deadLineTime / 1000);
+        }
+    }
+
+    @Override
+    public void sendHomeworkEnd(Long lessonId) {
+        List<LessonProblemRankVO> rankList = eduJudgeApi.getLessonProblemRank(lessonId, 2).getData();
+        List<WxWorkDeadlineVO> msg = new ArrayList<>();
+        LessonEntity entity=getById(lessonId);
+        String date=DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN);
+        String deadline=DateUtils.format(entity.getHomeworkEndTime(),DateUtils.DATE_TIME_PATTERN);
+        for(int i = 0; i < rankList.size(); i++) {
+            LessonProblemRankVO lessonProblemRankVO = rankList.get(i);
+            WxWorkDeadlineVO wxWorkDeadlineVO = new WxWorkDeadlineVO();
+            wxWorkDeadlineVO.setSubmitMethod("手机端或电脑端");
+            wxWorkDeadlineVO.setUserId(lessonProblemRankVO.getUserId());
+            wxWorkDeadlineVO.setRemark("还有" + lessonProblemRankVO.getUnansweredNum() + "道题未完成，请及时完成作业！");
+            wxWorkDeadlineVO.setDeadline(deadline);
+            wxWorkDeadlineVO.setSendTime(date);
+            msg.add(wxWorkDeadlineVO);
+        }
+       eduWxApi.insertWorkDeadlineTemplate(msg);
+    }
+
+
+    @Override
     public PageResult<LessonVO> homeworkPage(LessonQuery query) {
         Page<LessonVO> page = new Page<>(query.getPage(), query.getLimit());
-        query.setUserId(SecurityUser.getUserId());
         IPage<LessonVO> list;
-        list = baseMapper.selectHomeworkPage(page, query);
+        query.setUserId(SecurityUser.getUserId());
+        if(CollUtil.isNotEmpty(SecurityUser.getUser().getRoleIdList())){
+            query.setRole(SecurityUser.getUser().getRoleIdList().get(0));
+        }
+        if(query.getRole()==2){
+            //学生
+            list = baseMapper.selectStudentHomeworkPage(page, query);
+        }
+        else if(query.getRole()==1){
+            //老师
+            list = baseMapper.selectTeacherHomeworkPage(page, query);
+        }
+        else {
+            //其他
+            return new PageResult<>(null, 0);
+        }
+
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -246,8 +299,23 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     @Override
     public void updateList(List<LessonVO> list) {
         for(int i=0;i<list.size();i++){
-            System.out.println(list.get(i));
-            baseMapper.updateList(list.get(i));
+            baseMapper.updateLessonTime(list.get(i));
         }
     }
+
+    @Override
+    public void exportLesson(Long lessonId, HttpServletResponse response) throws IOException {
+        List<LessonJudgeRecordVo> data =  eduJudgeApi.getLessonProblemRecord(lessonId).getData();
+
+        List<String> header = new ArrayList<>();
+        for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
+            header.add(j+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
+        }
+
+        LessonEntity entity = baseMapper.selectById(lessonId);
+        String bigTitle = "《"+entity.getName()+"》"+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")";
+
+        LessonExcelUtil.examExportExcel(header,data,bigTitle,response);
+    }
+
 }

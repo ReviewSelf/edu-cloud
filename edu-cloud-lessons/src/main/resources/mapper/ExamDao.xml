@@ -79,6 +79,10 @@
         </if>
 
 
+        <if test="query.status != null ">
+            and b.status = #{query.status}
+        </if>
+        order by a.end_time &lt;= now() ,if(a.end_time &lt;= now(),0,a.end_time) ,a.end_time desc
     </select>
 
     <select id="getExamingList" resultType="net.edu.module.vo.ExamVO">
@@ -89,6 +93,7 @@
         join exam_attend_log b on a.id = b.exam_id and  b.user_id = #{userId}
         where  a.deleted = 0
             and   a.end_time &gt;= now()
+        order by a.begin_time
     </select>
 
     <select id="selectPaperManage" resultType="net.edu.module.vo.ExamVO">
@@ -106,3 +111,4 @@
     </select>
 
 </mapper>
+

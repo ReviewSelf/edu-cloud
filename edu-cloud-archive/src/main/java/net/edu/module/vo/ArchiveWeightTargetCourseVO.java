@@ -25,14 +25,29 @@ public class ArchiveWeightTargetCourseVO implements Serializable {
 	@Schema(description = "指标点编号")
 	private Long targetId;
 
-	@Schema(description = "一级知识点编号")
+	@Schema(description = "课程编号")
 	private Long courseId;
 
-	@Schema(description = "一级知识点名称")
+	@Schema(description = "课程名称")
 	private String courseName;
 
 	@Schema(description = "权重")
 	private Double weight;
+
+	@Schema(description = "教学目标")
+	private String teachTarget;
+
+
+	@Schema(description = "达成途径")
+	private String approach;
+
+
+	@Schema(description = "评价依据")
+	private String evaluationBasis;
+
+
+	@Schema(description = "评价方式")
+	private String evaluationMethod;
 
 	@Schema(description = "删除")
 	private Integer deleted;

@@ -80,7 +80,7 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateProblemTime(List<LessonProblemVO> lessonProblemList) {
+    public void updateProblem(List<LessonProblemVO> lessonProblemList) {
         if (!CollectionUtil.isEmpty(lessonProblemList)){
             for (LessonProblemVO vo:lessonProblemList){
                 update(vo);
@@ -93,6 +93,7 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
         baseMapper.insertProblemListByTeacher(list,lessonId);
         redisUtils.delByPre(RedisKeys.getLessonProblem(lessonId,null));
     }
+
 
 
 

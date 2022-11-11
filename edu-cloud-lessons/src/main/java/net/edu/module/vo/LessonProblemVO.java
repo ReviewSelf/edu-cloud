@@ -53,6 +53,6 @@ public class LessonProblemVO implements Serializable {
 	@Schema(description = "类型（课前，课中，课后）")
 	private Integer type;
 
-
+	private Integer used;
 
 }

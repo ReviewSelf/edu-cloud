@@ -143,10 +143,27 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     }
 
     @Override
-    public void submitPaper(Long examId) {
-        Long userId = SecurityUser.getUserId();
+    public void submitPaper(Long examId,Long userId) {
         examAttendLogService.updateExamStatus(2,examId,userId,new Date());
         redisUtils.del(RedisKeys.getStuExam(examId,userId));
+
+        threadPoolTaskExecutor.submit(new Thread(()->{
+            //自动批卷
+            eduJudgeApi.makePaper(examId,userId);
+            //获取分数
+            ExamScoreVO vo=  eduJudgeApi.getUserExamScore(examId,userId).getData();
+            BigDecimal score=new BigDecimal(0);
+            for (ExamProblemRecord item:vo.getProblemRecords()){
+                score=score.add(item.getFraction());
+            }
+            //更新分数
+            ExamAttendLogVO attendLogVO=new ExamAttendLogVO();
+            attendLogVO.setExamId(examId);
+            attendLogVO.setUserId(userId);
+            attendLogVO.setScore(score);
+            attendLogVO.setIsCorrecting(0);
+            examAttendLogService.updateAttendLogScore(attendLogVO);
+        }));
     }
 
     @Override
@@ -156,7 +173,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         //遍历考试题目
         List<String> header = new ArrayList<>();
         for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
-            header.add(data.get(0).getProblemRecords().get(j).getProblemName());
+            header.add(j+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
         }
         //设置excel大表头
         ExamEntity entity =baseMapper.selectById(examId);

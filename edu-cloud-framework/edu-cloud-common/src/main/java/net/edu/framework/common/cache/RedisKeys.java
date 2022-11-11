@@ -109,11 +109,11 @@ public class RedisKeys {
         return "homework:lessonId:" + id ;
     }
 
-    public static String getHomeworkEndKey(Long id , Date endTime) {
+    public static String getHomeworkEndKey(Long id ) {
         if(id == null) {
-            return "homeworkEndTime:lessonId:";
+            return "homework:endRemind:lessonId:";
         }
-        return "homeworkEndTime:lessonId:" + id + ":" + endTime;
+        return "homework:endRemind:lessonId:" + id;
     }
 
 

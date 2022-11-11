@@ -19,17 +19,17 @@
     <select id="selectKpProblem" resultType="net.edu.module.vo.KpProblemVO">
         select id,name,difficulty, problemType from (
 
-        select id,name,difficulty,1 as problemType from problem_choice where kp_code like concat(#{query.code},'%')
+        select id,name,difficulty,1 as problemType from problem_choice where deleted=0 and kp_code like concat(#{query.code},'%')
        <if test="query.difficulty!=null">
            and difficulty=#{query.difficulty}
        </if>
         union all
-        select id,name,difficulty,2 as problemType from problem_fill where kp_code like concat(#{query.code},'%')
+        select id,name,difficulty,2 as problemType from problem_fill where deleted=0 and  kp_code like concat(#{query.code},'%')
         <if test="query.difficulty!=null">
             and difficulty=#{query.difficulty}
         </if>
         union all
-        select id,name,difficulty,3 as problemType from problem_code where kp_code like concat(#{query.code},'%')
+        select id,name,difficulty,3 as problemType from problem_code where deleted=0 and  kp_code like concat(#{query.code},'%')
         <if test="query.difficulty!=null">
             and difficulty=#{query.difficulty}
         </if>

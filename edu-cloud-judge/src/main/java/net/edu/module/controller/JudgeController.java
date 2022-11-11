@@ -68,6 +68,13 @@ public class JudgeController {
     }
 
 
+    @GetMapping("/statisticsUserJudgeRecord")
+    @Operation(summary = "统计用户所有答题记录")
+    public Result<String> statisticsUserJudgeRecord(){
+        recordService.statisticsUserJudgeRecord();
+        return Result.ok();
+    }
+
 
 
 }

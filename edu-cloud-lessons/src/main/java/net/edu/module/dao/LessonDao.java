@@ -7,7 +7,6 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonQuery;
 import net.edu.module.vo.LessonVO;
-import net.edu.module.vo.WxWorkDeadlineVO;
 import net.edu.module.vo.WxWorkPublishVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -28,8 +27,9 @@ public interface LessonDao extends BaseDao<LessonEntity> {
 
     int updateHomework(@Param("vo") LessonVO vo);
 
-    IPage<LessonVO> selectHomeworkPage(Page<LessonVO> page, @Param("query") LessonQuery query);
+    IPage<LessonVO> selectStudentHomeworkPage(Page<LessonVO> page, @Param("query") LessonQuery query);
 
+    IPage<LessonVO> selectTeacherHomeworkPage(Page<LessonVO> page, LessonQuery query);
 
     List<LessonVO> getListById(Long classId);
 
@@ -40,5 +40,6 @@ public interface LessonDao extends BaseDao<LessonEntity> {
     List<WxWorkPublishVO> selectHomeworkBegin(Long lessonId);
 
     int updateLessonTime(LessonVO vo);
+
 
 }

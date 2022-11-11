@@ -45,4 +45,19 @@
         update archive_weight_target_course set deleted = 1
         where target_id = #{targetId}
     </update>
+
+    <select id="getById" resultType="net.edu.module.vo.ArchiveWeightTargetCourseVO">
+        select
+            id,
+            target_id as targetId,
+            course_id as courseId,
+            (select name from archive_course t1 where course_id = t1.id) as courseName,
+            weight,
+            approach,
+            teach_target as teachTarget,
+            evaluation_basis as evaluationBasis,
+            evaluation_method as evaluationMethod
+        from  archive_weight_target_course
+        where id=#{id}
+    </select>
 </mapper>

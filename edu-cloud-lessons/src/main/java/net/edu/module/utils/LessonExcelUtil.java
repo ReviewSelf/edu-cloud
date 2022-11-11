@@ -2,18 +2,12 @@ package net.edu.module.utils;
 
 
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.write.merge.LoopMergeStrategy;
-import com.alibaba.excel.write.merge.OnceAbsoluteMergeStrategy;
 import lombok.extern.slf4j.Slf4j;
-import net.edu.module.vo.ExamScoreVO;
 import net.edu.module.vo.LessonJudgeRecordVo;
-import net.edu.module.vo.LessonProblemRecord;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;

@@ -45,19 +45,21 @@ public class ExamRecordService {
         if(vo!=null && CollUtil.isNotEmpty(vo.getProblemRecords())){
             for (ExamProblemRecord record: vo.getProblemRecords()){
                 if(record.getSubmitStatus()!=null){
-                    System.out.println(record.getRecordId());
-                    BigDecimal score=BigDecimal.valueOf(0);
-                    if(record.getProblemType()==3){
-                        score=BigDecimal.valueOf(record.getScore()*record.getPassRate().doubleValue());
-                    }else {
+                    if(!record.getFraction().equals(new BigDecimal(0.00))){
+                        Double score=0D;
                         if(record.getSubmitStatus()==3){
-                            score= BigDecimal.valueOf(record.getScore());
+                            score= Double.valueOf(record.getScore());
                         }
-                    }
-                    System.out.println(score);
-                    //update
-                    if(!score.equals(record.getFraction())){
-                        changeProblemScore(score,record.getRecordId());
+                        else if(record.getProblemType()==3){
+                            if(record.getPassRate()==null){
+                                score=0D;
+                            }
+                            else {
+                                score=record.getScore()*record.getPassRate().doubleValue();
+                            }
+                        }
+                        //update
+                        changeProblemScore(new BigDecimal(score),record.getRecordId());
                     }
                 }
 

@@ -9,7 +9,7 @@
         select id,paper_id,name,description,begin_time,end_time,score,teacher_id,kp_code,create_time,
                version,update_time,creator,updater,deleted,place,time_limit,class_id,problem_num
         from exam
-        where create_time between date_sub(now(),interval 1 day) and now()
+        where create_time between date_sub(curdate(),interval 1 day) and curdate()
     </insert>
 
 </mapper>

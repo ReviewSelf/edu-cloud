@@ -214,7 +214,9 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         Page<LessonVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<LessonVO> list;
         query.setUserId(SecurityUser.getUserId());
-        query.setRole(SecurityUser.getUser().getRoleIdList().get(0));
+        if(CollUtil.isNotEmpty(SecurityUser.getUser().getRoleIdList())){
+            query.setRole(SecurityUser.getUser().getRoleIdList().get(0));
+        }
         if(query.getRole()==2){
             //学生
             list = baseMapper.selectStudentHomeworkPage(page, query);

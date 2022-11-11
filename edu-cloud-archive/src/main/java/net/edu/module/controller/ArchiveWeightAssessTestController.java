@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveWeightAssessTestService;
+import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.vo.ArchiveWeightAssessTestVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,5 +33,18 @@ public class ArchiveWeightAssessTestController {
     @Operation(summary = "获取评测点")
     public Result<List<ArchiveWeightAssessTestVO>> getAssessTest(@RequestParam("assessId") Long assessId){
         return Result.ok(archiveWeightAssessTestService.selectAssessTest(assessId));
+    }
+
+    @DeleteMapping("")
+    @Operation(summary = "删除")
+    public Result<String> delete(@RequestParam("testId")Long testId){
+        archiveWeightAssessTestService.delete(testId);
+        return Result.ok();
+    }
+
+    @GetMapping("testAll")
+    @Operation(summary = "课程信息")
+    public Result<List<ArchiveWeightAssessTestVO>> selectArchiveTestAll(@RequestParam("assessId") Long assessId){
+        return Result.ok(archiveWeightAssessTestService.selectArchiveTestAll(assessId));
     }
 }

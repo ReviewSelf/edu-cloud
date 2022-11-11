@@ -40,6 +40,7 @@ public class ArchiveCourseController {
     @Operation(summary = "信息")
     public Result<ArchiveCourseVO> get(@PathVariable("id") Long id){
         ArchiveCourseEntity entity = archiveCourseService.getById(id);
+        System.out.println("123"+entity);
         return Result.ok(ArchiveCourseConvert.INSTANCE.convert(entity));
     }
 

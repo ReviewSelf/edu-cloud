@@ -16,4 +16,8 @@ public interface ArchiveWeightAssessTestService extends BaseService<ArchiveWeigh
     Integer insertTestWeight(List<ArchiveWeightAssessTestVO> VOS);
 
     List<ArchiveWeightAssessTestVO> selectAssessTest(Long assessId);
+
+    void delete(Long testId);
+
+    List<ArchiveWeightAssessTestVO> selectArchiveTestAll(Long assessId);
 }

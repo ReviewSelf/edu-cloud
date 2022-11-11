@@ -128,5 +128,25 @@
         ORDER BY lesson_id
     </select>
 
+    <select id="selectProblemFinish" resultType="net.edu.module.vo.ProblemFinishVo">
+        SELECT a.problem_id,a.problem_type,b.submit_status
+        FROM lesson_problem a join (select user_id, problem_id, problem_type, source, submit_status
+        from judge_record jr1
+        where source_id = #{lessonId} and user_id=#{userId}
+        and not exists(select 1
+        from judge_record jr2
+        where
+        jr1.problem_id = jr2.problem_id
+        and jr1.problem_type = jr2.problem_type
+        and jr1.source_id = jr2.source_id
+        and jr1.user_id = jr2.user_id
+        and jr1.source = jr2.source
+        and jr1.id &lt; jr2.id))b on a.problem_id=b.problem_id and a.problem_type=b.problem_type
+        <if test="type!=null">
+            and b.source=#{type}
+        </if>
+        WHERE a.lesson_id=#{lessonId}
+    </select>
+
 
 </mapper>

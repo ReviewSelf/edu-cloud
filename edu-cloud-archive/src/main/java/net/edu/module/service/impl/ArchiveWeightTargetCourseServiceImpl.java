@@ -73,6 +73,10 @@ public class ArchiveWeightTargetCourseServiceImpl extends BaseServiceImpl<Archiv
         return archiveWeightTargetCourseDao.insertCourseWeight(archiveWeightTargetCourseVO);
     }
 
+    @Override
+    public ArchiveWeightTargetCourseVO selectById(Long id) {
+        return archiveWeightTargetCourseDao.getById(id);
+    }
 
 
 }

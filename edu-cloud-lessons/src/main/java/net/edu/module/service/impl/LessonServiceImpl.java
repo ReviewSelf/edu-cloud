@@ -2,7 +2,6 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -29,13 +28,9 @@ import net.edu.module.utils.LessonExcelUtil;
 import net.edu.module.vo.*;
 import net.edu.module.dao.LessonDao;
 import net.edu.module.service.LessonService;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -43,7 +38,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * 课程表
@@ -218,9 +212,22 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     @Override
     public PageResult<LessonVO> homeworkPage(LessonQuery query) {
         Page<LessonVO> page = new Page<>(query.getPage(), query.getLimit());
-        query.setUserId(SecurityUser.getUserId());
         IPage<LessonVO> list;
-        list = baseMapper.selectHomeworkPage(page, query);
+        query.setUserId(SecurityUser.getUserId());
+        query.setRole(SecurityUser.getUser().getRoleIdList().get(0));
+        if(query.getRole()==2){
+            //学生
+            list = baseMapper.selectStudentHomeworkPage(page, query);
+        }
+        else if(query.getRole()==1){
+            //老师
+            list = baseMapper.selectTeacherHomeworkPage(page, query);
+        }
+        else {
+            //其他
+            return new PageResult<>(null, 0);
+        }
+
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 

@@ -3,10 +3,7 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.convert.LessonProblemConvert;
-import net.edu.module.entity.LessonProblemEntity;
 import net.edu.module.service.LessonProblemService;
 import net.edu.module.query.LessonProblemQuery;
 import net.edu.module.vo.LessonAddVo;
@@ -55,10 +52,10 @@ public class LessonProblemController {
         return Result.ok();
     }
 
-    @PostMapping("/updateProblemTime")
+    @PostMapping("/update")
     @Operation(summary = "更新课堂练习开始时间结束时间")
-    public Result<String> updateProblemTime(@RequestBody List<LessonProblemVO> lessonProblemList){
-        lessonProblemService.updateProblemTime(lessonProblemList);
+    public Result<String> updateProblem(@RequestBody List<LessonProblemVO> lessonProblemList){
+        lessonProblemService.updateProblem(lessonProblemList);
         return Result.ok();
     }
 
@@ -70,10 +67,5 @@ public class LessonProblemController {
     }
 
 
-    @PostMapping("/homework/used")
-    @Operation(summary = "作业启用情况更新")
-    public Result<String> updateHomeworkUsed(@RequestBody List<LessonProblemVO> list){
-        lessonProblemService.updateHomeworkUsed(list);
-        return Result.ok();
-    }
+
 }

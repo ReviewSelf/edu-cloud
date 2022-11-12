@@ -32,4 +32,7 @@ public interface ExamDao extends BaseDao<ExamEntity> {
     List<ExamExcelVo> selectExamProblemInfo(@Param("examId") Long examId,@Param("userId") Long userId);
 
     List<WxExamArrangementVO> selectExamArrangement(@Param("vo") ExamVO vo);
+
+
+    List<ExamVO> selectPaperByClassId(List<Long> classIdList);
 }

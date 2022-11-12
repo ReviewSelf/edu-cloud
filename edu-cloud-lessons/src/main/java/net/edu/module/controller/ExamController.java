@@ -82,7 +82,6 @@ public class ExamController {
     public Result<String> save(@RequestBody ExamVO vo){
         vo.setTeacherId(SecurityUser.getUserId());
         examService.save(vo);
-
         return Result.ok();
     }
 
@@ -126,6 +125,11 @@ public class ExamController {
     @Operation(summary = "导出单个或多个用户考试详情excel")
     public void exportUserExam(@RequestBody ExamUserExcelQuery query, HttpServletResponse response) throws IOException {
         examService.exportUserExam(query.getExamId(), query.getUserIdList(),response);
+    }
+
+    @PostMapping("/getPaperByClassId")
+    public Result<List<ExamVO>> getPaperByClassId(@RequestBody List<Long> classIdList){
+        return Result.ok(examService.getPaperByClassId(classIdList));
     }
 
 

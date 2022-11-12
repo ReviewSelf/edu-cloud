@@ -173,7 +173,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         //遍历考试题目
         List<String> header = new ArrayList<>();
         for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
-            header.add(j+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
+            header.add(j+1+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
         }
         //设置excel大表头
         ExamEntity entity =baseMapper.selectById(examId);
@@ -196,5 +196,10 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
             bigTitleList.add("《"+entity.getName()+"》"+"姓名："+data.get(i).getName()+"\r\n"+ " 总分："+entity.getScore()+" 得分："+sum+""+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")");
         }
         ExamProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
+    }
+
+    @Override
+    public List<ExamVO> getPaperByClassId(List<Long> classIdList) {
+        return baseMapper.selectPaperByClassId(classIdList);
     }
 }

@@ -52,6 +52,20 @@
 
     </select>
 
+    <insert id="insertExam" keyColumn="id" keyProperty="id" parameterType="net.edu.module.vo.ExamAddVo">
+        insert into exam(id, paper_id, description, begin_time, end_time, score, teacher_id, kp_code ,deleted, name, place, time_limit, class_id, problem_num)
+        values <foreach collection="classIdList" item="item" separator="," open="(" close=")">
+        (#{id},#{paperId},#{description},#{beginTime},#{endTime},#{score},#{teacherId},#{kpCode},0,#{name},#{place},#{timeLimit},#{item},#{problemNum})
+    </foreach>
+    </insert>
+
+    <insert id="insertExamClass">
+        insert into exam_class(exam_id, class_id) VALUES
+        <foreach collection="classIdList" separator="," item="item" open="(" close=")">
+            (#{examId},#{item})
+        </foreach>
+    </insert>
+
     <select id="studentPage" resultType="net.edu.module.vo.ExamVO">
         select a.id,a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place
         , a.begin_time as beginTime,
@@ -126,7 +140,7 @@
           and a.name = #{vo.name}
     </select>
 
-    <select id="selectPaperByClassId" resultType="net.edu.module.vo.ExamVO">
+    <select id="selectPaperByClassId" resultType="net.edu.module.vo.ExamAddVo">
         SELECT
         t.id,
         t.name ,

@@ -95,22 +95,24 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(ExamVO vo) {
-        ExamEntity entity = ExamConvert.INSTANCE.convert(vo);
+    public void save(ExamAddVo vo) {
 
-         baseMapper.insert(entity);
+
+         Long id = baseMapper.insertExam(vo);
+
+         baseMapper.insertExamClass(id,vo.getClassIdList());
 
         //插入题目
-        examProblemService.copyFromPaper(vo.getPaperId(),entity.getId());
+        examProblemService.copyFromPaper(vo.getPaperId(),vo.getId());
 
         //插入名单
-        examAttendLogService.copyFromClass(vo.getClassId(),entity.getId());
+        examAttendLogService.copyFromClass(vo.getClassIdList(),vo.getId());
 
         //异步线程推送至微信
-        threadPoolTaskExecutor.submit(new Thread(()->{
-            List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
-            eduWxApi.insertExamArrangementTemplate(list);
-        }));
+//        threadPoolTaskExecutor.submit(new Thread(()->{
+//            List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
+//            eduWxApi.insertExamArrangementTemplate(list);
+//        }));
 
     }
 

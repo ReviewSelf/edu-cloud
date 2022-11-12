@@ -17,11 +17,13 @@ import java.util.List;
 @Mapper
 public interface LessonEvaluateDao extends BaseDao<LessonEvaluateEntity> {
 
-    void save(List<LessonEvaluateVO> list);
+    void generate(List<LessonEvaluateVO> list);
 
     void updateByUserId(LessonEvaluateVO vo);
 
     List<LessonEvaluateVO> list(Long lessonId);
 
     List<WxLessonEvaluationVO> selectEvaluate(Long lessonId);
+
+    Integer selectLastLessonId(Integer lessonId);
 }

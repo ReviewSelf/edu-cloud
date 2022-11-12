@@ -22,9 +22,10 @@ public class ArchiveExamController {
     @Autowired
     private ArchiveExamService archiveExamService;
 
-    @PostMapping
-    @Operation(summary = "插入")
+    @GetMapping("insertExam")
+    @Operation(summary = "数据迁移")
     public Result<Integer> insertExam(){
+        System.out.println("111");
         return Result.ok(archiveExamService.insertExam());
     }
 }

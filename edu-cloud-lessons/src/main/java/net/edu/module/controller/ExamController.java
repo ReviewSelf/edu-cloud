@@ -6,20 +6,15 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
-import net.edu.module.api.EduLessonApi;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.entity.ExamEntity;
 import net.edu.module.query.ExamUserExcelQuery;
 import net.edu.module.service.ExamService;
 import net.edu.module.query.ExamQuery;
-import net.edu.module.vo.ExamRecordQuery;
-import net.edu.module.vo.ExamScoreVO;
 import net.edu.module.vo.ExamVO;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -79,9 +74,12 @@ public class ExamController {
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody ExamVO vo){
-        vo.setTeacherId(SecurityUser.getUserId());
-        examService.save(vo);
+    public Result<String> save(@RequestBody List<ExamVO> voList){
+        System.out.println(voList);
+        for (int i = 0 ; i<voList.size();i++){
+            voList.get(i).setTeacherId(SecurityUser.getUserId());
+        }
+        examService.save(voList);
         return Result.ok();
     }
 

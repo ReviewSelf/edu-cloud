@@ -15,7 +15,7 @@
     </select>
 
     <insert id="insertExamProblemFromPaper">
-        insert into exam_problem(exam_id,problem_id,problem_name,problem_type,sort,score,source)
+        insert ignore into exam_problem(exam_id,problem_id,problem_name,problem_type,sort,score,source)
         values
         <foreach collection="problemList" item="item" index="index" separator=",">
             (#{examId},#{item.problemId},#{item.problemName},#{item.problemType},#{item.sort},#{item.score},1)

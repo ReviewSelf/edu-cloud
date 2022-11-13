@@ -75,6 +75,8 @@ public class ExamVO implements Serializable {
 	@Schema(description = "是否批改")
 	private Integer  isCorrecting;
 
+	private String remark;
+
 
 
 

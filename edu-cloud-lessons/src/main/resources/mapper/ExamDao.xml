@@ -54,11 +54,9 @@
 
     <insert id="insertExam" useGeneratedKeys="true" keyProperty="id" >
         insert into exam(paper_id, description, begin_time, end_time, score, teacher_id, kp_code ,deleted, name, place,
-        time_limit, class_id, problem_num)
+        time_limit, problem_num)
         values
-
-            (#{vo.paperId},#{vo.description},#{vo.beginTime},#{vo.endTime},#{vo.score},#{vo.teacherId},#{vo.kpCode},0,#{vo.name},#{vo.place},#{vo.timeLimit},#{vo.classId},#{vo.problemNum})
-
+            (#{vo.paperId},#{vo.description},#{vo.beginTime},#{vo.endTime},#{vo.score},#{vo.teacherId},#{vo.kpCode},0,#{vo.name},#{vo.place},#{vo.timeLimit},#{vo.problemNum})
     </insert>
 
     <insert id="insertExamClass">

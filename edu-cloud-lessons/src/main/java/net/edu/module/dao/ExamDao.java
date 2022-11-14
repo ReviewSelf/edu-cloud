@@ -20,7 +20,6 @@ import java.util.List;
 */
 @Mapper
 public interface ExamDao extends BaseDao<ExamEntity> {
-    ExamVO selectPaperManage(@Param("paperId") Long paperId);
 
     IPage<ExamVO> page(Page<ExamVO> page, @Param("query") ExamQuery query);
 
@@ -31,8 +30,6 @@ public interface ExamDao extends BaseDao<ExamEntity> {
 
     List<WxExamArrangementVO> selectExamArrangement(@Param("vo") ExamVO vo);
 
-
-    List<ExamVO> selectPaperByClassId(List<Long> classIdList);
 
     Long insertExam(@Param("vo") ExamVO vo);
 

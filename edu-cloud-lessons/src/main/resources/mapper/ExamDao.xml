@@ -114,18 +114,6 @@
         order by a.begin_time
     </select>
 
-    <select id="selectPaperManage" resultType="net.edu.module.vo.ExamVO">
-        select name        as name,
-               begin_time  as beginTime,
-               end_time    as endTime,
-               score       as score,
-               time_limit  as timeLimit,
-               problem_num as problemNum
-        from exam
-        where paper_id = #{paperId}
-          and deleted = 0
-    </select>
-
     <select id="selectExamArrangement" resultType="net.edu.module.vo.WxExamArrangementVO">
         select a.name                                                      as examName,
                concat(a.begin_time, '-', a.end_time)                       as examTime,
@@ -139,24 +127,6 @@
           and a.id=#{vo.id}
     </select>
 
-    <select id="selectPaperByClassId" resultType="net.edu.module.vo.ExamVO">
-        SELECT
-        t.id,
-        t.name ,
-        t.description,
-        t.difficulty,
-        t.problem_num,
-        t.score,
-        t.kp_code,
-        t.status,
-        c.remark
-        FROM
-        problem_paper t
-        JOIN teach_plan_paper c ON t.id = c.paper_id
-        AND c.plan_id IN ( SELECT b.plan_id FROM teach_plan_paper b JOIN teach_class a ON a.id IN <foreach
-            collection="classIdList" item="item" separator="," open="(" close=")">
-        #{item}
-    </foreach> GROUP BY b.plan_id )
-    </select>
+
 
 </mapper>

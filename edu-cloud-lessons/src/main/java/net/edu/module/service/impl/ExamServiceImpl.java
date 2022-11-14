@@ -93,11 +93,6 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     }
 
     @Override
-    public ExamVO getPaper(Long paperId){
-        return baseMapper.selectPaperManage(paperId);
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(ExamVO vo) {
 
@@ -205,8 +200,4 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         ExamProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
     }
 
-    @Override
-    public List<ExamVO> getPaperByClassId(List<Long> classIdList) {
-        return baseMapper.selectPaperByClassId(classIdList);
-    }
 }

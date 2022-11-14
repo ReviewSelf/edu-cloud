@@ -32,7 +32,6 @@ public interface ExamService extends BaseService<ExamEntity> {
 
     List<ExamVO> getExamingList(Long userId);
 
-    ExamVO getPaper(Long id);
 
     void updateExamIndex(Long examId);
 
@@ -42,5 +41,4 @@ public interface ExamService extends BaseService<ExamEntity> {
 
     void exportUserExam(Long examId,List<Long> userIdList,HttpServletResponse response) throws IOException;
 
-    List<ExamVO> getPaperByClassId(List<Long> classIdList);
 }

@@ -16,4 +16,5 @@ public interface TeachPlanPaperDao {
     void deleteTeachPlanPaper(@Param("planId") Long planId);
 
 
+    List<TeachPlanPaperVo> selectPaperByClassIdList(List<Long> classIdList);
 }

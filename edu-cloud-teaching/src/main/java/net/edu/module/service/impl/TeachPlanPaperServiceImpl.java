@@ -27,6 +27,11 @@ public class TeachPlanPaperServiceImpl implements TeachPlanPaperService {
     }
 
     @Override
+    public List<TeachPlanPaperVo> getPaperByClassIdList(List<Long> classIdList) {
+        return teachPlanPaperDao.selectPaperByClassIdList(classIdList);
+    }
+
+    @Override
     public void addTeachPlanPaper(List<TeachPlanPaperVo> planPaperList) {
         teachPlanPaperDao.insertTeachPlanPaper(planPaperList);
     }

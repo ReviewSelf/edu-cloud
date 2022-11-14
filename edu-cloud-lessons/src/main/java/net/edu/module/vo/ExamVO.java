@@ -75,6 +75,9 @@ public class ExamVO implements Serializable {
 	@Schema(description = "是否批改")
 	private Integer  isCorrecting;
 
+	@Schema(description = "分数")
+	private Integer  grade;
+
 
 
 

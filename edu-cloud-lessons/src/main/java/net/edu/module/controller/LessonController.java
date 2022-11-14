@@ -80,9 +80,6 @@ public class LessonController {
         return Result.ok(list);
     }
 
-
-
-
     @GetMapping("homework/page")
     @Operation(summary = "课程列表")
     public Result<PageResult<LessonVO>> homeworkPage(@Valid LessonQuery query) {

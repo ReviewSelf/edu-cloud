@@ -18,4 +18,10 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "123查询")
 public class ArchiveExamQuery extends Query {
+
+    private String name;
+
+    private String course;
+
+    private String clazz;
 }

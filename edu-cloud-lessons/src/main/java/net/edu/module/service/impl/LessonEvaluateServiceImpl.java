@@ -14,6 +14,7 @@ import net.edu.module.vo.LessonProblemRankVO;
 import net.edu.module.vo.WxLessonEvaluationVO;
 import org.springframework.stereotype.Service;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,6 +49,7 @@ public class LessonEvaluateServiceImpl extends BaseServiceImpl<LessonEvaluateDao
         if(lastLessonId!=null){
             lastHomework = eduJudgeApi.getLessonProblemRank(lastLessonId.longValue() , 2).getData();
         }
+        DecimalFormat df = new DecimalFormat("#.00");
         int total = list.size() + 1;
         double pre_excellent = total * excellent * 0.01;
         double pre_medium = pre_excellent + total * medium * 0.01;
@@ -62,7 +64,7 @@ public class LessonEvaluateServiceImpl extends BaseServiceImpl<LessonEvaluateDao
             Integer totalNum = vo.getAnsweredNum() + vo.getUnansweredNum() ;
             //获取正确率
             Double perCorrect = (correctNum * 1.0 / totalNum) * 100;
-            String content="本次课堂完成了" + vo.getAnsweredNum() + "题，正确率为" + perCorrect + "%.请继续努力！";
+            String content="本次课堂完成了" + vo.getAnsweredNum() + "题，正确率为" +df.format(perCorrect) + "%.请继续努力！";
 
             //排名情况
             //上中下
@@ -86,7 +88,7 @@ public class LessonEvaluateServiceImpl extends BaseServiceImpl<LessonEvaluateDao
             if(CollUtil.isNotEmpty(currentHomework)) {
                 for (int j = 0; j < currentHomework.size(); j++) {
                     if (Objects.equals(currentHomework.get(j).getUserId(), vo.getUserId())) {
-                        content += "本次课作业还有" + currentHomework.get(i).getUnansweredNum() + "题,请按时完成";
+                        content += "本次课作业布置了" + currentHomework.get(i).getUnansweredNum() + "题,请按时完成！";
                     }
                 }
             }

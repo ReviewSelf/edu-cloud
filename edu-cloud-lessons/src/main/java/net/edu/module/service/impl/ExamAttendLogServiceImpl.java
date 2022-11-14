@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -93,7 +94,6 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     @Override
     public Boolean attendance(Long examId, Long userId) {
         ExamAttendLogVO vo = baseMapper.selectUserAttendById(userId, examId);
-        System.out.println(vo);
         if (vo != null) {
             //存在考试
             Date date = new Date();
@@ -137,32 +137,16 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
 
     @Override
     public void copyFromClass(List<Long> classIdList, Long examId) {
-        System.out.println(classIdList);
         //查找班级对应的学生
-        List<Long> userList = null;
+        List<Long> userList = new ArrayList<>();
         for (int i = 0; i < classIdList.size(); i++) {
-            System.out.println(eduTeachApi.list(classIdList.get(i)).getData());
             Long classId = classIdList.get(i);
             userList.addAll(eduTeachApi.list(classId).getData());
         }
-        //去重
-        for (int i=0;i<classIdList.size();i++)
-        {
-            for (int j=i+1;j<classIdList.size();j++)
-            {
-                if(classIdList.get(i).equals(classIdList.get(j))){
-                    classIdList.remove(j);
-                }
-            }
-        }
-
         if (!CollUtil.isEmpty(userList)) {
-
-            //insert
+            //插入名单
             examAttendLogDao.insertAttendLogFromClass(userList, examId);
         }
-
-
     }
 
     @Override

@@ -111,10 +111,11 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
             examAttendLogService.copyFromClass(vo.getClassIdList(),vo.getId());
 
             //异步线程推送至微信
-//            threadPoolTaskExecutor.submit(new Thread(()->{
-//                List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
-//                eduWxApi.insertExamArrangementTemplate(list);
-//            }));
+            threadPoolTaskExecutor.submit(new Thread(()->{
+                List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
+                System.out.println(list);
+                eduWxApi.insertExamArrangementTemplate(list);
+            }));
 
 
 

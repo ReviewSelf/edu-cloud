@@ -196,7 +196,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
             wxWorkDeadlineVO.setSendTime(date);
             msg.add(wxWorkDeadlineVO);
         }
-       eduWxApi.insertWorkDeadlineTemplate(msg);
+        eduWxApi.insertWorkDeadlineTemplate(msg);
     }
 
 

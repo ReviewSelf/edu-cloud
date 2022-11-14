@@ -1,7 +1,6 @@
 package net.edu.mini.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.lettuce.core.dynamic.annotation.Param;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
@@ -38,9 +37,8 @@ public class WxMiniController {
     @GetMapping("/homeWorkPage")
     public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@Valid HomeWorkQuery query){
 
-
-
-
+        return eduLessonApi.getStudentHomeWorkPage(query.getStudentId(),query.getLimit(),query.getPage());
+    }
 
     @GetMapping("/studentPage")
     public Result<PageResult<ExamVO>> studentPage(@RequestParam(value = "limit")Integer limit,@RequestParam(value="page")Integer page,@RequestParam(value="beginTime")String beginTime,@RequestParam(value="endTime")String endTime){

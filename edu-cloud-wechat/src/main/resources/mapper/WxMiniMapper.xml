@@ -15,6 +15,7 @@
         right join sys_user t3 on t3.id = t2.teacher_id
         where t1.stu_id = #{userId} and t2.begin_time &gt; #{time} and t2.begin_time &lt; date_add(#{time} , interval 1 day )
         and t2.status = 0
+        order by begin_time asc
     </select>
     <select id="selectMessage" resultType="net.edu.mini.vo.MyMessage">
         SELECT

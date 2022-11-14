@@ -72,9 +72,7 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     @Override
     public ExamAttendLogVO getUserExamAttend(Long examId) {
         Long userId = SecurityUser.getUserId();
-        ExamAttendLogVO vo = baseMapper.selectUserAttendById(userId, examId);
-        System.out.println(vo);
-        return vo;
+        return baseMapper.selectUserAttendById(userId, examId);
     }
 
 

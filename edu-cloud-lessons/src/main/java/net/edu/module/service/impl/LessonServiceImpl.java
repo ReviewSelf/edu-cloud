@@ -309,7 +309,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
         List<String> header = new ArrayList<>();
         for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
-            header.add(j+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
+            header.add(j+1+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
         }
 
         LessonEntity entity = baseMapper.selectById(lessonId);
@@ -317,5 +317,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
         LessonExcelUtil.examExportExcel(header,data,bigTitle,response);
     }
+
 
 }

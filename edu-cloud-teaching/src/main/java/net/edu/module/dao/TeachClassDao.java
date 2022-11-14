@@ -6,6 +6,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.TeachClassEntity;
 import net.edu.module.query.TeachClassQuery;
 import net.edu.module.vo.TeachClassVO;
+import net.edu.module.vo.TeachPlanPaperVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

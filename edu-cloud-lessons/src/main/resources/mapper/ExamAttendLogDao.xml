@@ -83,7 +83,7 @@
     </select>
 
     <insert id="insertAttendLogFromClass">
-        insert into exam_attend_log (user_id,exam_id,status,score,is_correcting)
+        insert ignore into exam_attend_log (user_id,exam_id,status,score,is_correcting)
         values
         <foreach collection="userList" separator="," item="item" index="index">
             (#{item},#{examId},0,0,0)

@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -95,22 +96,29 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(ExamVO vo) {
-        ExamEntity entity = ExamConvert.INSTANCE.convert(vo);
+    public void save(ExamAddVo vo) {
 
-         baseMapper.insert(entity);
+            baseMapper.insertExam(vo);
+            for (int i =0;i<vo.getClassIdList().size();i++){
+                baseMapper.insertExamClass(vo.getId(),vo.getClassIdList().get(i));
+            }
 
-        //插入题目
-        examProblemService.copyFromPaper(vo.getPaperId(),entity.getId());
 
-        //插入名单
-        examAttendLogService.copyFromClass(vo.getClassId(),entity.getId());
+            //插入题目
+            examProblemService.copyFromPaper(vo.getPaperId(),vo.getId());
 
-        //异步线程推送至微信
-        threadPoolTaskExecutor.submit(new Thread(()->{
-            List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
-            eduWxApi.insertExamArrangementTemplate(list);
-        }));
+            //插入名单
+            examAttendLogService.copyFromClass(vo.getClassIdList(),vo.getId());
+
+            //异步线程推送至微信
+//            threadPoolTaskExecutor.submit(new Thread(()->{
+//                List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
+//                eduWxApi.insertExamArrangementTemplate(list);
+//            }));
+
+
+
+
 
     }
 
@@ -173,7 +181,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         //遍历考试题目
         List<String> header = new ArrayList<>();
         for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
-            header.add(j+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
+            header.add(j+1+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
         }
         //设置excel大表头
         ExamEntity entity =baseMapper.selectById(examId);
@@ -196,5 +204,10 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
             bigTitleList.add("《"+entity.getName()+"》"+"姓名："+data.get(i).getName()+"\r\n"+ " 总分："+entity.getScore()+" 得分："+sum+""+"\r\n"+"("+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getBeginTime()) +"-"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getEndTime())+")");
         }
         ExamProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
+    }
+
+    @Override
+    public List<ExamVO> getPaperByClassId(List<Long> classIdList) {
+        return baseMapper.selectPaperByClassId(classIdList);
     }
 }

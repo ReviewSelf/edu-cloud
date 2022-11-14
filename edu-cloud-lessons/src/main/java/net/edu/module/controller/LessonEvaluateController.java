@@ -7,6 +7,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.LessonEvaluateConvert;
 import net.edu.module.entity.LessonEvaluateEntity;
+import net.edu.module.query.EvaluateGenerateQuery;
 import net.edu.module.query.LessonEvaluateQuery;
 import net.edu.module.service.LessonEvaluateService;
 import net.edu.module.vo.LessonEvaluateVO;
@@ -37,8 +38,9 @@ public class LessonEvaluateController {
 
     @PostMapping
     @Operation(summary = "生成")
-    public Result<String> save(@RequestBody List<LessonEvaluateVO> list){
-        lessonEvaluateService.save(list);
+    public Result<String> generate(@RequestBody EvaluateGenerateQuery query){
+        System.out.println("Id:" + query.getLessonId());
+        lessonEvaluateService.generate(query.getLessonId() , query.getExcellent() , query.getMedium() , query.getFail());
         return Result.ok();
     }
 

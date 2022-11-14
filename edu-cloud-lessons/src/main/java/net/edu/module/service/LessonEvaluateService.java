@@ -18,7 +18,7 @@ public interface LessonEvaluateService extends BaseService<LessonEvaluateEntity>
 
     List<LessonEvaluateVO> list(Long lessonId);
 
-    void save(List<LessonEvaluateVO> list);
+    void generate(Long lessonId , Integer excellent , Integer medium , Integer fail);
 
     void update(LessonEvaluateVO vo);
 

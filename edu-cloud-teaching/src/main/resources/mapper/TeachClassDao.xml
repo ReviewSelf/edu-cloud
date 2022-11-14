@@ -73,30 +73,46 @@
         order by status asc
     </select>
     <select id="selectClassById" resultType="net.edu.module.vo.TeachClassVO">
-        select
-        id,name,description,
-        img,planName,plan_id,lessonNum,lessonPrice,frequency,
-        status,lessonBeginTime,lessonEndTime,beginTime,endTime,teacher1Id,teacher2Id,place,teacher1Name,teacher2Name
-        from(
-        select
-        id,name,description,img,
-        (select name from teach_plan where id=t1.plan_id) as planName,
-        plan_id,
-        lesson_num as lessonNum,
-        lesson_price as lessonPrice,
-        frequency,status,
-        lesson_begin_time as lessonBeginTime,
-        lesson_end_time as lessonEndTime,
-        begin_time as beginTime,
-        end_time as endTime,
-        teacher1_id as teacher1Id,
-        teacher2_id as teacher2Id,
-        place,
-        (select real_name from sys_user where id=teacher1Id) as teacher1Name,
-        (select real_name from sys_user where id=teacher2Id) as teacher2Name
-        from teach_class t1
-        where id=#{userId}
-        )t2
+        select id,
+               name,
+               description,
+               img,
+               planName,
+               plan_id,
+               lessonNum,
+               lessonPrice,
+               frequency,
+               status,
+               lessonBeginTime,
+               lessonEndTime,
+               beginTime,
+               endTime,
+               teacher1Id,
+               teacher2Id,
+               place,
+               teacher1Name,
+               teacher2Name
+        from (select id,
+                     name,
+                     description,
+                     img,
+                     (select name from teach_plan where id = t1.plan_id)    as planName,
+                     plan_id,
+                     lesson_num                                             as lessonNum,
+                     lesson_price                                           as lessonPrice,
+                     frequency,
+                     status,
+                     lesson_begin_time                                      as lessonBeginTime,
+                     lesson_end_time                                        as lessonEndTime,
+                     begin_time                                             as beginTime,
+                     end_time                                               as endTime,
+                     teacher1_id                                            as teacher1Id,
+                     teacher2_id                                            as teacher2Id,
+                     place,
+                     (select real_name from sys_user where id = teacher1Id) as teacher1Name,
+                     (select real_name from sys_user where id = teacher2Id) as teacher2Name
+              from teach_class t1
+              where id = #{userId}) t2
 
     </select>
 
@@ -150,7 +166,7 @@
         from teach_class a
         left join lesson c on a.next_lesson=c.id
         where ( a.teacher1_id=#{userId} or a.teacher2_id=#{userId} )
-          and  a.deleted=0
+        and a.deleted=0
         <if test="status!=null">
             and a.status=#{status}
         </if>
@@ -159,34 +175,34 @@
 
     <!--    获取学生在上的所有课程-->
     <select id="selectOldClassUser" resultType="net.edu.module.vo.TeachClassVO">
-        select
-            id,
-            name,
-            description,
-            img,
-            (select name from teach_plan where id=plan_id) as planName,
-            plan_id,
-            lesson_num,
-            lesson_begin_time,
-            lesson_end_time,
-            frequency,
-            status,
-            begin_time,
-            end_time,
-            teacher1_id as teacher1Id,
-            teacher2_id as teacher2Id,
-            next_lesson,
-            (select real_name from sys_user where id=teacher1Id) as teacher1Name,
-            (select real_name from sys_user where id=teacher2Id) as teacher2Name
+        select id,
+               name,
+               description,
+               img,
+               (select name from teach_plan where id = plan_id)       as planName,
+               plan_id,
+               lesson_num,
+               lesson_begin_time,
+               lesson_end_time,
+               frequency,
+               status,
+               begin_time,
+               end_time,
+               teacher1_id                                            as teacher1Id,
+               teacher2_id                                            as teacher2Id,
+               next_lesson,
+               (select real_name from sys_user where id = teacher1Id) as teacher1Name,
+               (select real_name from sys_user where id = teacher2Id) as teacher2Name
         from teach_class
-        where deleted =0 and id in (select class_id from teach_class_user where user_id = #{userId} and status = 1)
+        where deleted = 0
+          and id in (select class_id from teach_class_user where user_id = #{userId} and status = 1)
         order by status asc
     </select>
 
 
     <update id="updateNextLesson">
-        update teach_class set
-            next_lesson=#{nextLesson}
+        update teach_class
+        set next_lesson=#{nextLesson}
         where id = #{classId}
     </update>
     <update id="endingClass">
@@ -196,11 +212,12 @@
     </update>
 
     <select id="selectOpenClasses" resultType="net.edu.module.vo.TeachClassVO">
-        select name,id
+        select name, id
         from teach_class
         where deleted = 0
-            and status=2
+          and status = 2
     </select>
+
 
 
 </mapper>

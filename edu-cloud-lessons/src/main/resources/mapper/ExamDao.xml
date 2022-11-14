@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.ExamDao">
 
-    <resultMap type="net.edu.module.entity.ExamEntity" id="examMap">
+    <resultMap type="net.edu.module.vo.ExamVO" id="examMap">
         <result property="id" column="id"/>
         <result property="paperId" column="paper_id"/>
         <result property="description" column="description"/>
@@ -12,44 +12,48 @@
         <result property="score" column="score"/>
         <result property="teacherId" column="teacher_id"/>
         <result property="kpCode" column="kp_code"/>
-        <result property="createTime" column="create_time"/>
-        <result property="version" column="version"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="creator" column="creator"/>
-        <result property="updater" column="updater"/>
-        <result property="deleted" column="deleted"/>
         <result property="name" column="name"/>
-        <result property="classId" column="class_id"/>
         <result property="problemNum" column="problem_num"/>
         <result property="place" column="place"/>
+        <collection property="classListName"
+                    column="{examId=id}"
+                    select="selectExamClass"
+                />
     </resultMap>
-    <select id="page" resultType="net.edu.module.vo.ExamVO">
+    <select id="page" resultMap="examMap">
         select a.id,
-        (select name from teach_class b where b.id=a.class_id) as className,
         a.description,
-        a.begin_time as beginTime,
-        a.end_time as endTime,
+        a.begin_time,
+        a.end_time,
         a.score,
-        a.time_limit as timeLimit,
-        a.paper_id as paperId,
-        a.class_id as classId,
-        a.teacher_id as teacherId,
-        a.kp_code as kpCode,
+        a.time_limit,
+        a.paper_id ,
+        a.teacher_id ,
+        a.kp_code ,
         a.name,
         a.place
         from exam a
-        where deleted=0
+        where a.deleted=0
+        <if test="query.classId !=null">
+        and exists(select 1 from exam_class ec where ec.class_id=#{query.classId} and ec.exam_id=a.id)
+    </if>
         <if test="query.teacherId !=null ">
             and a.teacher_id =#{query.teacherId}
         </if>
         <if test="query.beginTime !=null or query.endTime !=null">
-            and begin_time &gt;=#{query.beginTime} and begin_time &lt; DATE_ADD(#{query.endTime},INTERVAL 1 day)
+            and a.begin_time &gt;=#{query.beginTime} and a.begin_time &lt; DATE_ADD(#{query.endTime},INTERVAL 1 day)
         </if>
         <if test="query.name != null">
-            and name like concat('%',#{query.name},'%')
+            and a.name like concat('%',#{query.name},'%')
         </if>
-        order by end_time &lt;= now() ,if(end_time &lt;= now(),0,end_time) ,end_time desc
 
+        order by a.end_time &lt;= now() ,if(a.end_time &lt;= now(),0,a.end_time) ,a.end_time desc
+
+    </select>
+
+    <select id="selectExamClass" resultType="java.lang.String">
+        select b.name from exam_class a join teach_class b
+        on a.class_id = b.id  where exam_id=#{examId}
     </select>
 
     <insert id="insertExam" useGeneratedKeys="true" keyProperty="id" >

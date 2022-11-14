@@ -4,7 +4,7 @@
 <mapper namespace="net.edu.module.dao.ArchiveExamAttendLogDao">
 
     <insert id="insertExamAttendLog">
-        insert into archive_exam_attend_log(id,user_id,exam_id,join_time,quit_time,status,score,is_correcting,create_time,update_time)
+        insert ignore into archive_exam_attend_log(id,user_id,exam_id,join_time,quit_time,status,score,is_correcting,create_time,update_time)
         select id,user_id,exam_id,join_time,quit_time,status,score,is_correcting,create_time,update_time
         from exam_attend_log
         where create_time between date_sub(curdate(),interval 1 day) and curdate()

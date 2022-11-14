@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.ArchiveExamDao">
     <insert id="insertExam">
-        insert into archive_exam
+        insert ignore into archive_exam
             (id,paper_id,name,description,begin_time,end_time,score,teacher_id,kp_code,create_time,
              version,update_time,creator,updater,deleted,place,time_limit,class_id,problem_num)
         select id,paper_id,name,description,begin_time,end_time,score,teacher_id,kp_code,create_time,

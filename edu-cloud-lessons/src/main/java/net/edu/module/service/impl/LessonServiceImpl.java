@@ -53,15 +53,16 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final LessonProblemService lessonProblemService;
     private final LessonResourceService lessonResourceService;
     private final LessonAttendLogService lessonAttendLogService;
-
     private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
     private final EduTeachApi eduTeachApi;
-    private final LessonDao lessonDao;
     private final EduJudgeApi eduJudgeApi;
+
+    private final EduWxApi eduWxApi;
 
     private final RedisUtils redisUtils;
 
-    private final EduWxApi eduWxApi;
+
 
 
     /**
@@ -131,12 +132,12 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     @Override
     public List<LessonVO> getClassNotStartLesson(Long classId) {
-        return lessonDao.getListById(classId);
+        return baseMapper.getListById(classId);
     }
 
     @Override
     public List<LessonVO> getClassAllLesson(Long classId) {
-        return lessonDao.getClassAllLesson(classId);
+        return baseMapper.getClassAllLesson(classId);
     }
 
     @Override
@@ -170,7 +171,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     public void sendHomeworkBegin(Long lessonId,long deadLineTime){
         //从主线程获取所有request数据
 
-        List<WxWorkPublishVO> list1 = lessonDao.selectHomeworkBegin(lessonId);
+        List<WxWorkPublishVO> list1 = baseMapper.selectHomeworkBegin(lessonId);
         eduWxApi.insertWorkPublishTemplate(list1);
         //作业截止微信推送判断
         if(deadLineTime > 0) {

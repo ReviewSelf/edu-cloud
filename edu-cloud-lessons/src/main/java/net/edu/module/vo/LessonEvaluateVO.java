@@ -22,7 +22,7 @@ public class LessonEvaluateVO implements Serializable {
 	private Long id;
 
 	@Schema(description = "学生id")
-	private Integer userId;
+	private Long userId;
 
 	@Schema(description = "课堂id")
 	private Integer lessonId;

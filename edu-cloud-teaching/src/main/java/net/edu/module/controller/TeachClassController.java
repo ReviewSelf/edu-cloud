@@ -13,6 +13,7 @@ import net.edu.module.query.TeachClassQuery;
 import net.edu.module.service.TeachClassService;
 import net.edu.module.vo.TeachClassVO;
 import net.edu.module.vo.TeachPlanItemVO;
+import net.edu.module.vo.TeachPlanPaperVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

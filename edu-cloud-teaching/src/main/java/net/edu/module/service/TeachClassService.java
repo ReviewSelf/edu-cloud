@@ -8,6 +8,7 @@ import net.edu.module.vo.TeachClassVO;
 import net.edu.module.query.TeachClassQuery;
 import net.edu.module.entity.TeachClassEntity;
 import net.edu.module.vo.TeachPlanItemVO;
+import net.edu.module.vo.TeachPlanPaperVo;
 import net.edu.module.vo.TeachPriceVO;
 import org.apache.ibatis.annotations.Param;
 

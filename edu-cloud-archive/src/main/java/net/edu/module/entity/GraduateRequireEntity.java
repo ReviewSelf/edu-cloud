@@ -46,4 +46,9 @@ public class GraduateRequireEntity extends BaseEntity {
 	*/
 	private Long school;
 
+	/**
+	 * 排序
+	 */
+	private Integer sort;
+
 }

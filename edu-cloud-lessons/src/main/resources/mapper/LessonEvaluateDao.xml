@@ -18,7 +18,7 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
-    <select id="save">
+    <select id="generate">
         insert into lesson_evaluate (user_id , lesson_id , rank_num , unanswered_num , answered_num ,
         undecided_num , correct_num , error_num , content)
         values
@@ -80,5 +80,10 @@
         where lesson_id = #{lessonId}
     </select>
 
+    <select id="selectLastLessonId" resultType="integer">
+        SELECT id from lesson where
+        class_id = (SELECT class_id from lesson where id = #{lessonId})  and id &lt; #{lessonId}
+        ORDER BY id desc limit 1
+    </select>
 
 </mapper>

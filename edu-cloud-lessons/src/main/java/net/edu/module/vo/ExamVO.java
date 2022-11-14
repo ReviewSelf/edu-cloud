@@ -6,8 +6,6 @@ import lombok.Data;
 import java.io.Serializable;
 
 import net.edu.framework.common.utils.DateUtils;
-
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -77,8 +75,6 @@ public class ExamVO implements Serializable {
 	@Schema(description = "是否批改")
 	private Integer  isCorrecting;
 
-	@Schema(description = "得分")
-	private BigDecimal grade;
 
 
 

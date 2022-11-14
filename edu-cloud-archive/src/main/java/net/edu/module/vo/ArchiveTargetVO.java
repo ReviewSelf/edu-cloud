@@ -44,4 +44,11 @@ public class ArchiveTargetVO implements Serializable {
 	@Schema(description = "年级")
 	private String grade;
 
+	@Schema(description = "排序")
+	private Integer sort;
+
+	@Schema(description = "毕业要求排序")
+	private Integer graduateSort;
+
+
 }

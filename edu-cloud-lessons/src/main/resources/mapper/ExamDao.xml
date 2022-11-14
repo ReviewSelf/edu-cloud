@@ -25,26 +25,26 @@
     </resultMap>
     <select id="page" resultType="net.edu.module.vo.ExamVO">
         select a.id,
-               (select name from teach_class b where b.id=a.class_id) as className,
-               a.description,
-               a.begin_time as beginTime,
-               a.end_time as endTime,
-               a.score,
-               a.time_limit as timeLimit,
-               a.paper_id as paperId,
-               a.class_id as classId,
-               a.teacher_id as teacherId,
-               a.kp_code as kpCode,
-               a.name,
-               a.place
+        (select name from teach_class b where b.id=a.class_id) as className,
+        a.description,
+        a.begin_time as beginTime,
+        a.end_time as endTime,
+        a.score,
+        a.time_limit as timeLimit,
+        a.paper_id as paperId,
+        a.class_id as classId,
+        a.teacher_id as teacherId,
+        a.kp_code as kpCode,
+        a.name,
+        a.place
         from exam a
         where deleted=0
         <if test="query.teacherId !=null ">
             and a.teacher_id =#{query.teacherId}
         </if>
-          <if test="query.beginTime !=null or query.endTime !=null">
-            and begin_time &gt;=#{query.beginTime} and begin_time &lt;  DATE_ADD(#{query.endTime},INTERVAL 1 day)
-          </if>
+        <if test="query.beginTime !=null or query.endTime !=null">
+            and begin_time &gt;=#{query.beginTime} and begin_time &lt; DATE_ADD(#{query.endTime},INTERVAL 1 day)
+        </if>
         <if test="query.name != null">
             and name like concat('%',#{query.name},'%')
         </if>
@@ -52,13 +52,28 @@
 
     </select>
 
+    <insert id="insertExam" useGeneratedKeys="true" keyProperty="id" >
+        insert into exam(paper_id, description, begin_time, end_time, score, teacher_id, kp_code ,deleted, name, place,
+        time_limit, problem_num)
+        values
+            (#{vo.paperId},#{vo.description},#{vo.beginTime},#{vo.endTime},#{vo.score},#{vo.teacherId},#{vo.kpCode},0,#{vo.name},#{vo.place},#{vo.timeLimit},#{vo.problemNum})
+    </insert>
+
+    <insert id="insertExamClass">
+        insert into exam_class(exam_id, class_id)
+        VALUES (#{id}, #{classId})
+
+    </insert>
+
     <select id="studentPage" resultType="net.edu.module.vo.ExamVO">
-        select a.id,a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place , a.begin_time as beginTime,
-        a.end_time as endTime , (select  real_name from sys_user where id=a.teacher_id) as teacherName , a.time_limit as timeLimit,
-        b.status,b.is_correcting as isCorrecting,b.score as grade
+        select a.id,a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place
+        , a.begin_time as beginTime,
+        a.end_time as endTime , (select real_name from sys_user where id=a.teacher_id) as teacherName , a.time_limit as
+        timeLimit,
+        b.status,b.is_correcting as isCorrecting
         from exam a
-        join exam_attend_log b on  a.id = b.exam_id and  b.user_id = #{query.userId}
-        where  a.deleted = 0
+        join exam_attend_log b on a.id = b.exam_id and b.user_id = #{query.userId}
+        where a.deleted = 0
         <if test="query.name != null and query.name != ''">
             and a.name = #{query.name}
         </if>
@@ -69,16 +84,11 @@
             and a.place = #{query.place}
         </if>
         <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
-            and a.begin_time between  #{query.beginTime} and #{query.endTime}
+            and a.begin_time between #{query.beginTime} and #{query.endTime}
         </if>
         <if test="query.teacherName != null and query.teacherName != ''">
             and d.real_name = #{query.teacherName}
         </if>
-        <if test="query.getStatus!=null and query.getStatus !=''">
-            and b.status=#{query.status}
-        </if>
-
-
         <if test="query.status != null ">
             and b.status = #{query.status}
         </if>
@@ -86,29 +96,67 @@
     </select>
 
     <select id="getExamingList" resultType="net.edu.module.vo.ExamVO">
-        select a.id,a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place , a.begin_time as beginTime,
-               a.end_time as endTime , (select  real_name from sys_user where id=a.teacher_id) as teacherName , a.time_limit as timeLimit,
-               b.status , a.paper_id as paperId , a.problem_num as problemNum
+        select a.id,
+               a.name                                                   as name,
+               (select name from teach_class where id = a.class_id)     as className,
+               a.place                                                  as place,
+               a.begin_time                                             as beginTime,
+               a.end_time                                               as endTime,
+               (select real_name from sys_user where id = a.teacher_id) as teacherName,
+               a.time_limit                                             as timeLimit,
+               b.status,
+               a.paper_id                                               as paperId,
+               a.problem_num                                            as problemNum
         from exam a
-        join exam_attend_log b on a.id = b.exam_id and  b.user_id = #{userId}
-        where  a.deleted = 0
-            and   a.end_time &gt;= now()
+                 join exam_attend_log b on a.id = b.exam_id and b.user_id = #{userId}
+        where a.deleted = 0
+          and a.end_time &gt;= now()
         order by a.begin_time
     </select>
 
     <select id="selectPaperManage" resultType="net.edu.module.vo.ExamVO">
-        select name as name , begin_time as beginTime , end_time as endTime , score as score , time_limit as timeLimit , problem_num as problemNum
+        select name        as name,
+               begin_time  as beginTime,
+               end_time    as endTime,
+               score       as score,
+               time_limit  as timeLimit,
+               problem_num as problemNum
         from exam
-        where paper_id = #{paperId} and deleted = 0
+        where paper_id = #{paperId}
+          and deleted = 0
     </select>
 
     <select id="selectExamArrangement" resultType="net.edu.module.vo.WxExamArrangementVO">
-        select a.name as examName , concat(a.begin_time,'-',a.end_time) as examTime , a.place as examPlace ,
-               (select real_name from sys_user where id = #{vo.teacherId}) as teacher ,
-               now() as sendTime,
-               b.stu_id as userId
-        from exam a left join lesson_attend_log b on b.lesson_id = #{vo.classId} where deleted = 0 and a.name = #{vo.name}
+        select a.name                                                      as examName,
+               concat(a.begin_time, '-', a.end_time)                       as examTime,
+               a.place                                                     as examPlace,
+               (select real_name from sys_user where id = #{vo.teacherId}) as teacher,
+               now()                                                       as sendTime,
+               b.user_id                                                    as userId
+        from exam a
+                 left join exam_attend_log b on b.exam_id = a.id
+        where deleted = 0
+          and a.id=#{vo.id}
+    </select>
+
+    <select id="selectPaperByClassId" resultType="net.edu.module.vo.ExamVO">
+        SELECT
+        t.id,
+        t.name ,
+        t.description,
+        t.difficulty,
+        t.problem_num,
+        t.score,
+        t.kp_code,
+        t.status,
+        c.remark
+        FROM
+        problem_paper t
+        JOIN teach_plan_paper c ON t.id = c.paper_id
+        AND c.plan_id IN ( SELECT b.plan_id FROM teach_plan_paper b JOIN teach_class a ON a.id IN <foreach
+            collection="classIdList" item="item" separator="," open="(" close=")">
+        #{item}
+    </foreach> GROUP BY b.plan_id )
     </select>
 
 </mapper>
-

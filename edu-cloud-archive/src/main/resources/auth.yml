@@ -2,3 +2,6 @@
 auth:
   #免验证
   ignore_urls:
+    - /sample/**
+    - /upload/**
+    - /exam/insertExam

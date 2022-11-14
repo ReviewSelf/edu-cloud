@@ -23,6 +23,7 @@ import net.edu.module.service.TeachPlanService;
 import net.edu.module.vo.TeachClassVO;
 import net.edu.module.service.TeachClassService;
 import net.edu.module.vo.TeachPlanItemVO;
+import net.edu.module.vo.TeachPlanPaperVo;
 import net.edu.module.vo.TeachPriceVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

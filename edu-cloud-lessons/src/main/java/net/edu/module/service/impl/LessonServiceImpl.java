@@ -53,15 +53,16 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final LessonProblemService lessonProblemService;
     private final LessonResourceService lessonResourceService;
     private final LessonAttendLogService lessonAttendLogService;
-
     private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
     private final EduTeachApi eduTeachApi;
-    private final LessonDao lessonDao;
     private final EduJudgeApi eduJudgeApi;
+
+    private final EduWxApi eduWxApi;
 
     private final RedisUtils redisUtils;
 
-    EduWxApi eduWxApi;
+
 
 
     /**
@@ -110,43 +111,33 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createLessons(List<LessonVO> voList) {
-
         if (!CollectionUtil.isEmpty(voList)) {
             //班级学生列表
             List<Long> userList = eduTeachApi.list(voList.get(0).getClassId()).getData();
-            //第一堂课状态设置进行中
-            voList.get(0).setStatus(0);
-
             for (int i = 0; i < voList.size(); i++) {
                 LessonVO item = voList.get(i);
                 //插入课程
                 LessonEntity entity = LessonConvert.INSTANCE.convert(item);
                 baseMapper.insert(entity);
-                //生成第一堂课的学生签到表//插入签到表
+                //生成签到表
                 lessonAttendLogService.copyUserFromClassUser(userList, entity.getId());
-                if (i == 0) {
-                    //更新课堂下一堂课指向
-                    eduTeachApi.updateNextLesson(entity.getId(), item.getClassId());
-                }
                 //拷贝教学题目，生成课堂题目
                 lessonProblemService.copyFromPlanItem(item.getPlanItemId(), entity.getId());
                 //拷贝教学资源，生成课堂资源
                 lessonResourceService.copyFromPlanItem(item.getPlanItemId(), entity.getId());
             }
-
-
         }
     }
 
 
     @Override
     public List<LessonVO> getClassNotStartLesson(Long classId) {
-        return lessonDao.getListById(classId);
+        return baseMapper.getListById(classId);
     }
 
     @Override
     public List<LessonVO> getClassAllLesson(Long classId) {
-        return lessonDao.getClassAllLesson(classId);
+        return baseMapper.getClassAllLesson(classId);
     }
 
     @Override
@@ -180,7 +171,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     public void sendHomeworkBegin(Long lessonId,long deadLineTime){
         //从主线程获取所有request数据
 
-        List<WxWorkPublishVO> list1 = lessonDao.selectHomeworkBegin(lessonId);
+        List<WxWorkPublishVO> list1 = baseMapper.selectHomeworkBegin(lessonId);
         eduWxApi.insertWorkPublishTemplate(list1);
         //作业截止微信推送判断
         if(deadLineTime > 0) {
@@ -309,7 +300,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
         List<String> header = new ArrayList<>();
         for (int j = 0;j<data.get(0).getProblemRecords().size();j++){
-            header.add(j+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
+            header.add(j+1+"、"+data.get(0).getProblemRecords().get(j).getProblemName());
         }
 
         LessonEntity entity = baseMapper.selectById(lessonId);
@@ -317,5 +308,6 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
         LessonExcelUtil.examExportExcel(header,data,bigTitle,response);
     }
+
 
 }

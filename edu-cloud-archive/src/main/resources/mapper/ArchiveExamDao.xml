@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.ArchiveExamDao">
     <insert id="insertExam">
-        insert into archive_exam
+        insert ignore into archive_exam
             (id,paper_id,name,description,begin_time,end_time,score,teacher_id,kp_code,create_time,
              version,update_time,creator,updater,deleted,place,time_limit,class_id,problem_num)
         select id,paper_id,name,description,begin_time,end_time,score,teacher_id,kp_code,create_time,
@@ -12,4 +12,47 @@
         where create_time between date_sub(curdate(),interval 1 day) and curdate()
     </insert>
 
+    <select id="selectExamByPage" resultType="net.edu.module.vo.ArchiveExamVO">
+        select
+            id,paper_id,name,description,begin_time,end_time,score,teacher_id,
+            (select real_name  from sys_user t1 where teacher_id = t1.id ) as teacherName,
+            kp_code,
+            create_time,
+            version,
+            update_time,
+            creator,
+            updater,
+            deleted,
+            place,
+            time_limit,
+            class_id,
+            (select name from teach_class t2 where t2.id = class_id) as className,
+            problem_num
+        from archive_exam
+
+    </select>
+
+    <select id="selectExamById" resultType="net.edu.module.vo.ArchiveExamVO">
+        select
+            id,
+            paper_id,
+            (select name from problem_paper t3 where t3.id = paper_id) as paperName,
+            name,description,begin_time,end_time,score,teacher_id,
+            (select real_name  from sys_user t1 where teacher_id = t1.id ) as teacherName,
+            kp_code,
+            (select name from problem_knowledge_point t4 where t4.code = kp_code) as kpName,
+            create_time,
+            version,
+            update_time,
+            creator,
+            updater,
+            deleted,
+            place,
+            time_limit,
+            class_id,
+            (select name from teach_class t2 where t2.id = class_id) as className,
+            problem_num
+        from archive_exam
+        where id = #{id}
+    </select>
 </mapper>

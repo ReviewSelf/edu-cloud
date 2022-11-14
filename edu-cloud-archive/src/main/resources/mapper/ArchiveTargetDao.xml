@@ -4,14 +4,16 @@
 <mapper namespace="net.edu.module.dao.ArchiveTargetDao">
     <insert id="insertArchiveTarget">
         insert into archive_target
-            (graduate_id, name, content, grade, creator, create_time)
-        values (#{graduateId},#{name},#{content},#{grade},"10000",now())
+            (graduate_id, name, content, grade,sort, creator, create_time)
+        values (#{graduateId},#{name},#{content},#{grade},#{sort},"10000",now())
     </insert>
 
     <select id="selectArchiveTargetByPage" resultType="net.edu.module.vo.ArchiveTargetVO">
         SELECT
 	        id,
+	        sort,
             graduate_id AS graduateId,
+            (select sort from archive_graduate_require t2 where t2.id=graduate_id) as graduateSort,
             name,
             content,
             version,
@@ -49,6 +51,7 @@
     <select id="selectArchiveTargetById" resultType="net.edu.module.vo.ArchiveTargetVO">
         SELECT
         id,
+        sort,
         graduate_id AS graduateId,
         name,
         content,
@@ -65,6 +68,7 @@
     <select id="selectArchiveTargetByGraduateId" resultType="net.edu.module.vo.ArchiveTargetVO">
         SELECT
             id,
+            sort,
             graduate_id AS graduateId,
             name,
             content,
@@ -78,7 +82,7 @@
 
     <update id="updateArchiveTarget">
         update archive_target
-        set name = #{name},content = #{content},grade = #{grade},graduate_id = #{graduateId}
+        set name = #{name},content = #{content},grade = #{grade},graduate_id = #{graduateId},sort=#{sort}
         where id = #{id}
     </update>
 

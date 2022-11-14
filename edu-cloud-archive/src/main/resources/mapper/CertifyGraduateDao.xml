@@ -22,6 +22,7 @@
         select
         t2.id,
         title,
+        sort,
         content,
         major,
         grade,
@@ -43,12 +44,12 @@
         <if test="query.getGrade() !=null and query.getGrade()!=''">
             and grade = #{query.grade}
         </if>
-        order by grade desc
+        order by grade desc,sort asc
     </select>
 
     <insert id="insertGraduateRequire" useGeneratedKeys="true" keyProperty="id">
-        replace INTO archive_graduate_require (title,content,major,college,school,grade,create_time,creator,version)
-        VALUES (#{title},#{content},#{major},#{college},#{school},#{grade},now(),'10000',0)
+        replace INTO archive_graduate_require (title,content,major,college,school,grade,sort,create_time,creator,version)
+        VALUES (#{title},#{content},#{major},#{college},#{school},#{grade},#{sort},now(),'10000',0)
     </insert>
 
     <select id="selectGraduateByGrade" resultType="net.edu.module.entity.GraduateRequireEntity">

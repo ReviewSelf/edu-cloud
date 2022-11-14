@@ -63,4 +63,7 @@ public class GraduateRequireVO implements Serializable {
 	@Schema(description = "权重")
 	private String weight;
 
+	@Schema(description = "排序")
+	private Integer sort;
+
 }

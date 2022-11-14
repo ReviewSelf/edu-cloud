@@ -70,7 +70,7 @@
     </insert>
 
     <select id="studentPage" resultType="net.edu.module.vo.ExamVO">
-        select a.id,a.name as name , (select name from teach_class where id=a.class_id) as className , a.place as place
+        select a.id,a.name as name , a.place as place
         , a.begin_time as beginTime,
         a.end_time as endTime , (select real_name from sys_user where id=a.teacher_id) as teacherName , a.time_limit as
         timeLimit,
@@ -81,11 +81,8 @@
         <if test="query.name != null and query.name != ''">
             and a.name = #{query.name}
         </if>
-        <if test="query.className != null and query.className != ''">
-            and c.name = #{query.className}
-        </if>
-        <if test="query.getPlace() != null and query.getPlace()  != ''">
-            and a.place = #{query.place}
+        <if test="query.classId !=null">
+            and exists(select 1 from exam_class ec where ec.class_id=#{query.classId} and ec.exam_id=a.id)
         </if>
         <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
             and a.begin_time between #{query.beginTime} and #{query.endTime}
@@ -102,7 +99,6 @@
     <select id="getExamingList" resultType="net.edu.module.vo.ExamVO">
         select a.id,
                a.name                                                   as name,
-               (select name from teach_class where id = a.class_id)     as className,
                a.place                                                  as place,
                a.begin_time                                             as beginTime,
                a.end_time                                               as endTime,

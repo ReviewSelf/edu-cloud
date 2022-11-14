@@ -80,6 +80,9 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     public PageResult<ExamVO> studentPage(ExamQuery query){
         Page<ExamVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<ExamVO> list = baseMapper.studentPage(page, query);
+        for (int i=0;i<list.getRecords().size();i++){
+            list.getRecords().get(i).setClassListName(baseMapper.selectExamClass(list.getRecords().get(i).getId()));
+        }
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -91,8 +94,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     public ExamVO getPaper(Long paperId){
-        ExamVO examVO = baseMapper.selectPaperManage(paperId);
-        return examVO;
+        return baseMapper.selectPaperManage(paperId);
     }
 
     @Override
@@ -104,7 +106,6 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
                 baseMapper.insertExamClass(vo.getId(),vo.getClassIdList().get(i));
             }
 
-
             //插入题目
             examProblemService.copyFromPaper(vo.getPaperId(),vo.getId());
 
@@ -114,12 +115,8 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
             //异步线程推送至微信
             threadPoolTaskExecutor.submit(new Thread(()->{
                 List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
-                System.out.println(list);
                 eduWxApi.insertExamArrangementTemplate(list);
             }));
-
-
-
 
 
     }

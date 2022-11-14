@@ -61,7 +61,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     private final RedisUtils redisUtils;
 
-    EduWxApi eduWxApi;
+    private final EduWxApi eduWxApi;
 
 
     /**
@@ -110,31 +110,21 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void createLessons(List<LessonVO> voList) {
-
         if (!CollectionUtil.isEmpty(voList)) {
             //班级学生列表
             List<Long> userList = eduTeachApi.list(voList.get(0).getClassId()).getData();
-            //第一堂课状态设置进行中
-            voList.get(0).setStatus(0);
-
             for (int i = 0; i < voList.size(); i++) {
                 LessonVO item = voList.get(i);
                 //插入课程
                 LessonEntity entity = LessonConvert.INSTANCE.convert(item);
                 baseMapper.insert(entity);
-                //生成第一堂课的学生签到表//插入签到表
+                //生成签到表
                 lessonAttendLogService.copyUserFromClassUser(userList, entity.getId());
-                if (i == 0) {
-                    //更新课堂下一堂课指向
-                    eduTeachApi.updateNextLesson(entity.getId(), item.getClassId());
-                }
                 //拷贝教学题目，生成课堂题目
                 lessonProblemService.copyFromPlanItem(item.getPlanItemId(), entity.getId());
                 //拷贝教学资源，生成课堂资源
                 lessonResourceService.copyFromPlanItem(item.getPlanItemId(), entity.getId());
             }
-
-
         }
     }
 

@@ -4,3 +4,4 @@ auth:
   ignore_urls:
     - /sample/**
     - /upload/**
+    - /exam/insertExam

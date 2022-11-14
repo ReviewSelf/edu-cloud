@@ -11,7 +11,6 @@ import net.edu.module.entity.ExamEntity;
 import net.edu.module.query.ExamUserExcelQuery;
 import net.edu.module.service.ExamService;
 import net.edu.module.query.ExamQuery;
-import net.edu.module.vo.ExamAddVo;
 import net.edu.module.vo.ExamVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,7 +74,7 @@ public class ExamController {
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody ExamAddVo vo) {
+    public Result<String> save(@RequestBody ExamVO vo) {
 
         vo.setTeacherId(SecurityUser.getUserId());
 

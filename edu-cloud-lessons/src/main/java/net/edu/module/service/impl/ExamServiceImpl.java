@@ -64,6 +64,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         query.setTeacherId(SecurityUser.getUserId());
         Page<ExamVO> page = new Page<>(query.getPage(),query.getLimit());
         IPage<ExamVO> list = baseMapper.page(page,query);
+        System.out.println(list.getRecords());
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -96,7 +97,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(ExamAddVo vo) {
+    public void save(ExamVO vo) {
 
             baseMapper.insertExam(vo);
             for (int i =0;i<vo.getClassIdList().size();i++){

@@ -42,6 +42,8 @@ public class ExamQuery extends Query {
     @Schema(description = "班级名字")
     private String className;
 
+    @Schema(description = "班级id")
+    private Long classId;
     @Schema(description = "监考老师名字")
     private String teacherName;
 

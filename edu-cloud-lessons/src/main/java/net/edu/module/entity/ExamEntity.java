@@ -65,10 +65,6 @@ public class ExamEntity extends BaseEntity {
 	*/
 	private String place;
 
-	/**
-	 * 班级ID
-	 */
-	private Long classId;
 
 	/**
 	 * 问题数量

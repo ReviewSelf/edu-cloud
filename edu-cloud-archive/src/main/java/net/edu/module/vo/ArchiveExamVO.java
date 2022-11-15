@@ -91,5 +91,7 @@ public class ArchiveExamVO implements Serializable {
 	@Schema(description = "题目数量")
 	private Integer problemNum;
 
+	@Schema(description = "考试课程")
+	private String courseName;
 
 }

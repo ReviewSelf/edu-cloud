@@ -35,7 +35,6 @@ public class ArchiveExamAttendLogEntity extends BaseEntity {
 	private String examId;
 
 
-
 	/**
 	 * 开始时间
 	 */

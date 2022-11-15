@@ -41,5 +41,4 @@ public interface LessonDao extends BaseDao<LessonEntity> {
 
     int updateLessonTime(LessonVO vo);
 
-
 }

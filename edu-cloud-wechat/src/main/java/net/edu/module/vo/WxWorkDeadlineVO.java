@@ -40,7 +40,7 @@ public class WxWorkDeadlineVO {
     public String toJsonString() {
         return "{\"deadline\":\""+deadline
                 +"\",\"submitMethod\":\""+submitMethod
-                +"\",\"submitMethod\":\""+remark
+                +"\",\"remark\":\""+remark
                 +"\"}";
     }
 }

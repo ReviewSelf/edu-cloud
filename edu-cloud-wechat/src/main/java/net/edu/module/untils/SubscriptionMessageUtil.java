@@ -275,7 +275,7 @@ public class SubscriptionMessageUtil {
 
         // 此处的 key/value 需和模板消息对应
         List<WxMpTemplateData> wxMpTemplateDataList = Arrays.asList(
-                new WxMpTemplateData("first", "您好，本次课程的课后作业需要您的孩子及时提交", "#000000"),
+                new WxMpTemplateData("first", "您好，本次课程的课后作业还有24小时截止，请您及时提交", "#000000"),
                 new WxMpTemplateData("keyword1", deadline),
                 new WxMpTemplateData("keyword2", submitMethod),
                 new WxMpTemplateData("remark", remark)

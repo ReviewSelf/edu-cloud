@@ -3,15 +3,15 @@ package net.edu.module.api;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.fallback.EduProblemFallBack;
 import net.edu.module.fallback.EduTeachApiFallBack;
-import net.edu.module.vo.EnrollUserVO;
-import net.edu.module.vo.TeachPlanItemPaperVO;
-import net.edu.module.vo.TeachPlanItemResourceVO;
+import net.edu.module.vo.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @FeignClient(value = "edu-cloud-teaching", fallbackFactory = EduTeachApiFallBack.class)
@@ -65,6 +65,10 @@ public interface EduTeachApi {
     @Operation(summary = "新增班级学生")
     Result<Integer> insertEnrollUser(EnrollUserVO enrollUserVO);
 
-
+    @GetMapping("enrollClass/page")
+    @Operation(summary = "分页")
+     Result<PageResult<EnrollClassVO>> page(@RequestParam(value = "limit") Integer limit,
+                                            @RequestParam(value = "page") Integer page,
+                                            @RequestParam(value = "className")String className);
 
 }

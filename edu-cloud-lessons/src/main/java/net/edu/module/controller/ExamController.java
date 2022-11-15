@@ -11,6 +11,7 @@ import net.edu.module.entity.ExamEntity;
 import net.edu.module.query.ExamUserExcelQuery;
 import net.edu.module.service.ExamService;
 import net.edu.module.query.ExamQuery;
+import net.edu.module.vo.ExamAddVo;
 import net.edu.module.vo.ExamVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,10 +65,17 @@ public class ExamController {
         return Result.ok(ExamConvert.INSTANCE.convert(entity));
     }
 
+    @GetMapping("select/{paperId}")
+    @Operation(summary = "试卷信息")
+    public Result<ExamVO> getPaper(@PathVariable("paperId") Long paperId) {
+        ExamVO examVO = examService.getPaper(paperId);
+        return Result.ok(examVO);
+    }
+
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody ExamVO vo) {
+    public Result<String> save(@RequestBody ExamAddVo vo) {
 
         vo.setTeacherId(SecurityUser.getUserId());
 
@@ -117,6 +125,10 @@ public class ExamController {
         examService.exportUserExam(query.getExamId(), query.getUserIdList(), response);
     }
 
+    @PostMapping("/getPaperByClassId")
+    public Result<List<ExamVO>> getPaperByClassId(@RequestBody List<Long> classIdList) {
+        return Result.ok(examService.getPaperByClassId(classIdList));
+    }
 
 
 }

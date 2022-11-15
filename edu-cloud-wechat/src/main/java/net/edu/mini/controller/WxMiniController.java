@@ -32,19 +32,16 @@ public class WxMiniController {
     @Autowired
     private EduProblemApi eduProblemApi;
     @Autowired
+    private EduTeachApi eduTeachApi;
+    @Autowired
     private WxMiniService wxMiniService;
-
     @GetMapping("/homeWorkPage")
-    public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@Valid HomeWorkQuery query){
-
-        return eduLessonApi.getStudentHomeWorkPage(query.getStudentId(),query.getLimit(),query.getPage());
-    }
-
-    @GetMapping("/studentPage")
-    public Result<PageResult<ExamVO>> studentPage(@RequestParam(value = "limit")Integer limit,@RequestParam(value="page")Integer page,@RequestParam(value="beginTime")String beginTime,@RequestParam(value="endTime")String endTime){
+    public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@RequestParam(value = "limit") Integer limit, @RequestParam(value = "page") Integer page){
         Long userId=SecurityUser.getUserId();
-        return eduLessonApi.studentPage(limit, page,userId,beginTime,endTime);
+        return eduLessonApi.getStudentHomeWorkPage(userId,limit,page);
     }
+
+
 
     @GetMapping("/choice/{problemId}")
     public Result<ChoiceProblemVO> getChoiceProblemInfo(@PathVariable("problemId") Long problemId) {
@@ -71,6 +68,34 @@ public class WxMiniController {
     public Result<MyMessage> getMessage(@RequestParam String userId) {
         MyMessage user = wxMiniService.getMessage(userId);
         return Result.ok(user);
+    }
+
+
+    @GetMapping("/enrollClass/page")
+    @Operation(summary = "分页")
+    public Result<PageResult<EnrollClassVO>> page(@RequestParam(value = "limit") Integer limit,
+                                                  @RequestParam(value = "page") Integer page,
+                                                  @RequestParam(value = "className")String className){
+        return eduTeachApi.page(limit,page,className);
+    }
+
+    @GetMapping("/exam/studentPage")
+    @Operation(summary = "学生端分页")
+    public Result<PageResult<ExamVO>> studentPage(@RequestParam(value = "limit") Integer limit,
+                                                  @RequestParam(value = "page") Integer page,
+                                                  @RequestParam(value="beginTime")String beginTime,
+                                                  @RequestParam(value="endTime")String endTime,
+                                                  @RequestParam(value = "status")String status){
+        Long userId=SecurityUser.getUserId();
+        return eduLessonApi.studentPage(limit,page,userId,beginTime,endTime,status);
+    }
+
+
+    @GetMapping("/exam/problem/list/{examId}")
+    @Operation(summary = "获取考试题目信息")
+    public Result<List<ExamProblemEntity>> list(@PathVariable("examId") Long examId){
+
+        return eduLessonApi.getExamList(examId);
     }
 
 }

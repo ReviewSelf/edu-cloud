@@ -1,4 +1,4 @@
-package net.edu.module.utils;
+package net.edu.framework.common.utils;
 
 import lombok.SneakyThrows;
 
@@ -11,7 +11,7 @@ import java.net.URLEncoder;
  * @Version: 1.0
  * @Description:
  */
-public class ResponseUtils {
+public class ResponseHeadUtils {
     @SneakyThrows
     public static void responseFileHead(HttpServletResponse response, String name) {
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");

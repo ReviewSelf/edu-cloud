@@ -1,27 +1,17 @@
 package net.edu.module.controller;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.file.FileNameUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.SneakyThrows;
-import net.edu.framework.common.exception.ServerException;
-import net.edu.framework.common.utils.EncryptUtils;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.SampleUploadService;
-import net.edu.module.utils.ResponseUtils;
 import net.edu.module.vo.FileUploadVO;
 import net.edu.module.vo.SampleVO;
-import org.apache.ibatis.javassist.tools.reflect.Sample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

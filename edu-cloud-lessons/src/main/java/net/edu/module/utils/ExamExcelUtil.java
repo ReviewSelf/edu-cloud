@@ -2,6 +2,8 @@ package net.edu.module.utils;
 
 import com.alibaba.excel.EasyExcel;
 import lombok.extern.slf4j.Slf4j;
+import net.edu.framework.common.excel.HeadContentCellStyle;
+import net.edu.framework.common.utils.ResponseHeadUtils;
 import net.edu.module.vo.ExamScoreVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -23,11 +25,8 @@ import java.util.List;
 public class ExamExcelUtil {
 
     public static void examExportExcel(List<String> header, List<ExamScoreVO> data, String bigTitle, HttpServletResponse response) throws IOException {
-        String name = StringUtils.substringBetween(bigTitle, "《", "》");
-        response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
-        response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(name + "课堂答题情况.xlsx", "UTF-8"));
-        response.setContentType("application/vnd.ms-excel; charset=utf-8");
-        response.setCharacterEncoding("utf-8");
+        String name = StringUtils.substringBetween(bigTitle, "《", "》") + "考试情况.xlsx";
+        ResponseHeadUtils.responseEXCELHead(response,name);
 
         EasyExcel.write(response.getOutputStream())
                 .head(getExcelHeader(header, bigTitle))

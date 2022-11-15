@@ -4,7 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.file.FileNameUtil;
 import lombok.SneakyThrows;
 import net.edu.framework.common.exception.ServerException;
-import net.edu.module.utils.ResponseUtils;
+import net.edu.framework.common.utils.ResponseHeadUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -99,7 +99,7 @@ public abstract class StorageService {
         byte[] buffer = new byte[fis.available()];
         fis.read(buffer);
         fis.close();
-        ResponseUtils.responsePDFHead(response, file.getName());
+        ResponseHeadUtils.responsePDFHead(response, file.getName());
         OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
         outputStream.write(buffer);
         outputStream.flush();

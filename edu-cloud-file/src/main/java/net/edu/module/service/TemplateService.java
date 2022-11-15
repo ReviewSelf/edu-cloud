@@ -2,7 +2,8 @@ package net.edu.module.service;
 
 import lombok.SneakyThrows;
 import net.edu.framework.common.exception.ServerException;
-import net.edu.module.utils.ResponseUtils;
+import net.edu.framework.common.utils.ResponseHeadUtils;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class TemplateService {
         byte[] buffer = new byte[fis.available()];
         fis.read(buffer);
         fis.close();
-        ResponseUtils.responseEXCELHead(response, name);
+        ResponseHeadUtils.responseEXCELHead(response, name);
         OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
         outputStream.write(buffer);
         outputStream.flush();
@@ -56,7 +57,7 @@ public class TemplateService {
         byte[] buffer = new byte[fis.available()];
         fis.read(buffer);
         fis.close();
-        ResponseUtils.responseEXCELHead(response, name);
+        ResponseHeadUtils.responseEXCELHead(response, name);
         OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
         outputStream.write(buffer);
         outputStream.flush();
@@ -88,7 +89,7 @@ public class TemplateService {
         byte[] buffer = new byte[fis.available()];
         fis.read(buffer);
         fis.close();
-        ResponseUtils.responseEXCELHead(response, name);
+        ResponseHeadUtils.responseEXCELHead(response, name);
         OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
         outputStream.write(buffer);
         outputStream.flush();

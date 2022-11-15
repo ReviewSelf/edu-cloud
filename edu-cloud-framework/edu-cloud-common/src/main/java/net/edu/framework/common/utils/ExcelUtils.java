@@ -108,6 +108,27 @@ public class ExcelUtils {
 
 
     /**
+     * 读取excel文件 同步
+     *
+     * @param <T>       数据类型
+     * @param file      文件
+     * @param clazz     模板类
+     * @param rowNum    数据开始行 1
+     * @param sheetNo   第几张表
+     * @param excelType 数据表格式类型
+     * @return java.util.List list
+     */
+    public static <T> List<T> readSync(MultipartFile file, Class<T> clazz, Integer rowNum, Integer sheetNo, ExcelTypeEnum excelType) {
+        try {
+            return EasyExcel.read(file.getInputStream()).headRowNumber(rowNum).excelType(excelType).head(clazz).sheet(sheetNo).doReadSync();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
      * 导出数据到文件
      *
      * @param <T>  数据类型

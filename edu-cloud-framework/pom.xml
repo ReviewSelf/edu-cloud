@@ -9,11 +9,11 @@
 	<packaging>pom</packaging>
 
 	<modules>
-	    <module>edu-cloud-common</module>
+		<module>edu-cloud-common</module>
 		<module>edu-cloud-security</module>
 		<module>edu-cloud-mybatis</module>
 		<module>edu-cloud-starter</module>
-    </modules>
+	</modules>
 
 
 </project>

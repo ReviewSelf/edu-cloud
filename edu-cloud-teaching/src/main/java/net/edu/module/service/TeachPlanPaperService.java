@@ -14,4 +14,5 @@ public interface TeachPlanPaperService {
     void deleteTeachPlanPaper(@Param("planId") Long planId);
 
 
+    List<TeachPlanPaperVo> getPaperByClassIdList(List<Long> classIdList);
 }

@@ -13,4 +13,10 @@ public class TeachPlanPaperVo {
     private String paperName;
 
     private String remark;
+
+    private Integer problemNum;
+
+    private Integer score;
+
+    private String description;
 }

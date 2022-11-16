@@ -10,4 +10,17 @@
         where create_time between date_sub(curdate(),interval 1 day) and curdate()
     </insert>
 
+    <select id="selectExamAttendLogByExamId" resultType="net.edu.module.vo.ArchiveExamAttendLogVO">
+        select
+            user_id,
+            (select username from sys_user t1 where t1.id = user_id) as userNumber,
+            (select real_name from sys_user t1 where t1.id = user_id) as userName,
+            exam_id,
+            join_time,quit_time,
+            status,
+            score,
+            is_correcting
+        from archive_exam_attend_log
+        where exam_id = #{examId}
+    </select>
 </mapper>

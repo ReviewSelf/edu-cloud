@@ -64,6 +64,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         query.setTeacherId(SecurityUser.getUserId());
         Page<ExamVO> page = new Page<>(query.getPage(),query.getLimit());
         IPage<ExamVO> list = baseMapper.page(page,query);
+        System.out.println(list.getRecords());
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -79,6 +80,9 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     public PageResult<ExamVO> studentPage(ExamQuery query){
         Page<ExamVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<ExamVO> list = baseMapper.studentPage(page, query);
+        for (int i=0;i<list.getRecords().size();i++){
+            list.getRecords().get(i).setClassListName(baseMapper.selectExamClass(list.getRecords().get(i).getId()));
+        }
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -89,36 +93,25 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     }
 
     @Override
-    public ExamVO getPaper(Long paperId){
-        ExamVO examVO = baseMapper.selectPaperManage(paperId);
-        return examVO;
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(ExamAddVo vo) {
+    public void save(ExamVO vo) {
 
-            baseMapper.insertExam(vo);
-            for (int i =0;i<vo.getClassIdList().size();i++){
-                baseMapper.insertExamClass(vo.getId(),vo.getClassIdList().get(i));
-            }
+        baseMapper.insertExam(vo);
+        for (int i =0;i<vo.getClassIdList().size();i++){
+            baseMapper.insertExamClass(vo.getId(),vo.getClassIdList().get(i));
+        }
 
+        //插入题目
+        examProblemService.copyFromPaper(vo.getPaperId(),vo.getId());
 
-            //插入题目
-            examProblemService.copyFromPaper(vo.getPaperId(),vo.getId());
+        //插入名单
+        examAttendLogService.copyFromClass(vo.getClassIdList(),vo.getId());
 
-            //插入名单
-            examAttendLogService.copyFromClass(vo.getClassIdList(),vo.getId());
-
-            //异步线程推送至微信
-            threadPoolTaskExecutor.submit(new Thread(()->{
-                List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
-                System.out.println(list);
-                eduWxApi.insertExamArrangementTemplate(list);
-            }));
-
-
-
+        //异步线程推送至微信
+        threadPoolTaskExecutor.submit(new Thread(()->{
+            List<WxExamArrangementVO> list = baseMapper.selectExamArrangement(vo);
+            eduWxApi.insertExamArrangementTemplate(list);
+        }));
 
 
     }
@@ -207,8 +200,4 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         ExamProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
     }
 
-    @Override
-    public List<ExamVO> getPaperByClassId(List<Long> classIdList) {
-        return baseMapper.selectPaperByClassId(classIdList);
-    }
 }

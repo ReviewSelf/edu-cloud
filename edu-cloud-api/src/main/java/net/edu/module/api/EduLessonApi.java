@@ -5,7 +5,6 @@ package net.edu.module.api;
 import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.fallback.EduLessonApiFallBack;
 import net.edu.module.vo.*;
 import org.springframework.cloud.openfeign.FeignClient;

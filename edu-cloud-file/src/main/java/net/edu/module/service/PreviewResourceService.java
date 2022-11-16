@@ -1,11 +1,10 @@
 package net.edu.module.service;
 
 import lombok.SneakyThrows;
-import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.utils.EncryptUtils;
 import net.edu.framework.common.utils.RedisUtils;
-import net.edu.module.utils.ResponseUtils;
+import net.edu.framework.common.utils.ResponseHeadUtils;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
@@ -48,7 +47,7 @@ public class PreviewResourceService {
         fis.read(buffer);
         fis.close();
         bufferString = new String(buffer);
-        ResponseUtils.responsePDFHead(response, new File(path).getName());
+        ResponseHeadUtils.responsePDFHead(response, new File(path).getName());
         OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
         outputStream.write(buffer);
         outputStream.flush();

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.TeachPlanPaperService;
+import net.edu.module.vo.ExamVO;
 import net.edu.module.vo.TeachPlanPaperVo;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,4 +37,10 @@ public class TeachPlanPaperController {
         teachPlanPaperService.deleteTeachPlanPaper(planId);
         return Result.ok();
     }
+
+    @PostMapping("/getPaperByClassIdList")
+    public Result<List<TeachPlanPaperVo>> getPaperByClassIdList(@RequestBody List<Long> classIdList) {
+        return Result.ok(teachPlanPaperService.getPaperByClassIdList(classIdList));
+    }
+
 }

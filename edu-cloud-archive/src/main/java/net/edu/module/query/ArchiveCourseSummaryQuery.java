@@ -6,22 +6,14 @@ import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
 
 
-import java.util.Date;
-
 /**
-* 123查询
+* 课程总结查询
 *
 * @author 阿沐 babamu@126.com
-* @since 1.0.0 2022-11-11
+* @since 1.0.0 2022-11-14
 */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "123查询")
-public class ArchiveExamQuery extends Query {
-
-    private String name;
-
-    private String course;
-
-    private String clazz;
+@Schema(description = "课程总结查询")
+public class ArchiveCourseSummaryQuery extends Query {
 }

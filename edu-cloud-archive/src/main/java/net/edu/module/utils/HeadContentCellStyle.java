@@ -24,7 +24,7 @@ public class HeadContentCellStyle {
 
         headWriteFont.setBold(true);
         headWriteFont.setFontName("宋体");
-        headWriteFont.setFontHeightInPoints((short)11);
+        headWriteFont.setFontHeightInPoints((short)12);
         headWriteCellStyle.setWriteFont(headWriteFont);
 
         //内容样式  多个样式则隔行换色

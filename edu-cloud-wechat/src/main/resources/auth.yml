@@ -5,3 +5,7 @@ auth:
     - /wx/workDeadline
     - /wx/login/mini
     - /mini/homeWorkPage
+    - /wx/code
+    - /wx/post
+    - /wx/getAccessToken
+    - /wx/send

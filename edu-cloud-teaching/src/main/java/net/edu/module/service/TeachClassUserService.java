@@ -3,10 +3,8 @@ package net.edu.module.service;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.TeachClassUserEntity;
-import net.edu.module.entity.TeachStudentEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.vo.TeachClassUserVO;
-import net.edu.module.vo.TeachStudentVo;
 import org.springframework.stereotype.Service;
 
 

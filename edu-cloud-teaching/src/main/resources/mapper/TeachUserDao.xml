@@ -138,7 +138,7 @@
 		</if>
 	</select>
 
-	<select id="getTeacher" resultType="net.edu.module.vo.AllTeacherVo">
+	<select id="getTeacher" resultType="net.edu.module.vo.AllTeacherVO">
 		select t1.id,real_name
 		from sys_user t1
 				 LEFT JOIN sys_user_role t2 ON t1.id=t2.user_id
@@ -165,7 +165,7 @@
 		order by sort asc
 	</select>
 
-    <select id="selectStudents" resultType="net.edu.module.vo.TeachStudentVo">
+    <select id="selectStudents" resultType="net.edu.module.vo.TeachStudentVO">
 		select
 		t1.user_id as userId,
 		t2.username,

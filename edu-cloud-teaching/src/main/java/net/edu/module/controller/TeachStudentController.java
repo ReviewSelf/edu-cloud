@@ -12,8 +12,8 @@ import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
 import net.edu.module.service.StudentService;
-import net.edu.module.vo.StudentsVo;
-import net.edu.module.vo.TeachStudentVo;
+import net.edu.module.vo.StudentsVO;
+import net.edu.module.vo.TeachStudentVO;
 import net.edu.module.vo.UserVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -55,10 +55,10 @@ public class TeachStudentController {
     @PostMapping("/getStudents")
     @Operation(summary = "学生列表")
 
-    public Object getStudents(@RequestBody StudentsVo vo){
+    public Object getStudents(@RequestBody StudentsVO vo){
 
         System.out.println(vo);
-        PageResult<TeachStudentVo> page = userService.getStudents(vo);
+        PageResult<TeachStudentVO> page = userService.getStudents(vo);
 
         return Result.ok(page);
     }

@@ -7,18 +7,12 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.TeachClassUserConvert;
 import net.edu.module.entity.TeachClassUserEntity;
-import net.edu.module.entity.TeachStudentEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
-import net.edu.module.vo.TeachClassStudentVo;
 import net.edu.module.vo.TeachClassUserVO;
-import net.edu.module.vo.TeachClassVO;
-import net.edu.module.vo.TeachStudentVo;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 
 /**

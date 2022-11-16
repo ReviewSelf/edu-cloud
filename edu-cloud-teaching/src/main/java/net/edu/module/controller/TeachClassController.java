@@ -7,14 +7,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.convert.TeachClassConvert;
 import net.edu.module.entity.TeachClassEntity;
 import net.edu.module.query.TeachClassQuery;
 import net.edu.module.service.TeachClassService;
 import net.edu.module.vo.TeachClassVO;
 import net.edu.module.vo.TeachPlanItemVO;
-import net.edu.module.vo.TeachPlanPaperVo;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

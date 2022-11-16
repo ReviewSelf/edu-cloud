@@ -2,8 +2,6 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import net.edu.module.api.EduLessonApi;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
@@ -15,7 +13,6 @@ import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.TeachClassConvert;
 import net.edu.module.dao.TeachClassDao;
 import net.edu.module.dao.TeachClassUserDao;
-import net.edu.module.dao.TeachPlanItemDao;
 import net.edu.module.entity.TeachClassEntity;
 import net.edu.module.query.TeachClassQuery;
 import net.edu.module.service.TeachPlanItemService;
@@ -23,8 +20,6 @@ import net.edu.module.service.TeachPlanService;
 import net.edu.module.vo.TeachClassVO;
 import net.edu.module.service.TeachClassService;
 import net.edu.module.vo.TeachPlanItemVO;
-import net.edu.module.vo.TeachPlanPaperVo;
-import net.edu.module.vo.TeachPriceVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

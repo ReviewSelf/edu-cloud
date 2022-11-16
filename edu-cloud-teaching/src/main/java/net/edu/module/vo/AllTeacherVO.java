@@ -3,8 +3,6 @@ package net.edu.module.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * {@code @Description:} TODO
  * {@code @author:} sl
@@ -12,7 +10,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @Schema(description = "所有老师")
-public class AllTeacherVo {
+public class AllTeacherVO {
     @Schema(description = "id")
     private Long id;
 

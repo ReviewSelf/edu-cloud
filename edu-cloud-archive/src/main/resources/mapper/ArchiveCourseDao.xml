@@ -55,6 +55,7 @@
     <select id="selectArchiveCourseAll" resultMap="archiveCourseMap">
         select
         id,
+        sys_id,
         name
         from archive_course
         where deleted = 0

@@ -30,8 +30,7 @@ public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
 
     Boolean attendance(Long examId, Long userId);
 
-//    void save(ExamAttendLogVO vo);
-//
+
     void update(ExamAttendLogVO vo);
 
     void copyFromClass(List<Long> classIdList,Long examId);

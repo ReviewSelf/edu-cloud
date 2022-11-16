@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.DateUtils;
 import net.edu.framework.common.utils.RedisUtils;
@@ -63,6 +64,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     private final RedisUtils redisUtils;
 
 
+    private  final int  HOMEWORK_FINISH=2;
+
 
 
     /**
@@ -84,7 +87,7 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         Page<LessonVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<LessonVO> list;
         //判断是否为学生
-        if (query.getRole() == 2L) {
+        if (Constant.STU_ROLE.equals(query.getRole())) {
             list = baseMapper.selectStudentPage(page, query);
         } else {
             list = baseMapper.selectTeacherPage(page, query);
@@ -142,23 +145,17 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     @Override
     public void updateHomework(LessonVO vo) {
-        if (vo.getHomeworkStatus() == 2) {
+        if (vo.getHomeworkStatus() == HOMEWORK_FINISH) {
             closeLessonHomeWork(vo.getId());
             redisUtils.del(RedisKeys.getHomeWorkKey(vo.getId()));
         } else {
             baseMapper.updateHomework(vo);
 
             //作业发布微信推送 异步
-//            LessonService lessonService= SpringUtil.getBean(LessonService.class);
-            long deadLineTime = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis() - 1000*60*60*24L;
-
             threadPoolTaskExecutor.submit(new Thread(()->{
+                long deadLineTime = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis() - 1000*60*60*24L;
                 sendHomeworkBegin(vo.getId(),deadLineTime);
             }));
-
-
-
-
 
             long time = vo.getHomeworkEndTime().getTime() - System.currentTimeMillis();
             if (time > 0) {
@@ -208,11 +205,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         if(CollUtil.isNotEmpty(SecurityUser.getUser().getRoleIdList())){
             query.setRole(SecurityUser.getUser().getRoleIdList().get(0));
         }
-        if(query.getRole()==2){
+        if(Constant.STU_ROLE.equals(query.getRole())){
             //学生
             list = baseMapper.selectStudentHomeworkPage(page, query);
         }
-        else if(query.getRole()==1){
+        else if(Constant.TEA_ROLE.equals(query.getRole())){
             //老师
             list = baseMapper.selectTeacherHomeworkPage(page, query);
         }

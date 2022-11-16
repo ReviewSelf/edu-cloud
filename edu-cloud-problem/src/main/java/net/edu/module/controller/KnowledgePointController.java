@@ -3,7 +3,6 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.KnowledgePointConvert;
@@ -45,11 +44,6 @@ public class KnowledgePointController {
     public Result<KnowledgePointVO> get(@PathVariable("id") Long id){
         KnowledgePointEntity entity = knowledgePointService.getById(id);
         KnowledgePointVO vo = KnowledgePointConvert.INSTANCE.convert(entity);
-        // 获取上级菜单名称
-//        if(!Constant.ROOT.equals(entity.getPid())){
-//            KnowledgePointEntity parentEntity = knowledgePointService.getById(entity.getPid());
-//            vo.setParentName(parentEntity.getName());
-//        }
         return Result.ok(vo);
     }
 

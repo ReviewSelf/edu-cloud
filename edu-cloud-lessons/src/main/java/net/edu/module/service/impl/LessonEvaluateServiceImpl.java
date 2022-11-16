@@ -51,10 +51,9 @@ public class LessonEvaluateServiceImpl extends BaseServiceImpl<LessonEvaluateDao
         }
         DecimalFormat df = new DecimalFormat("#.00");
         int total = list.size() + 1;
-        double pre_excellent = total * excellent * 0.01;
-        double pre_medium = pre_excellent + total * medium * 0.01;
-        double pre_fail = pre_medium + total * fail * 0.01;
-        System.out.println(pre_excellent + " " + pre_medium + " " + pre_fail);
+        double preExcellent = total * excellent * 0.01;
+        double preMedium = preExcellent + total * medium * 0.01;
+        double preFail = preMedium + total * fail * 0.01;
         for(int i = 0; i < list.size(); i++){
 
             LessonEvaluateVO vo = list.get(i);
@@ -68,11 +67,11 @@ public class LessonEvaluateServiceImpl extends BaseServiceImpl<LessonEvaluateDao
 
             //排名情况
             //上中下
-            if(vo.getRankNum() < pre_excellent){
+            if(vo.getRankNum() < preExcellent){
                 content += "最近状态位于班级上游，表现优秀，继续保持哦！";
-            }else if(vo.getRankNum() < pre_medium){
+            }else if(vo.getRankNum() < preMedium){
                 content += "最近状态位于班级中游，表现平平，期待你后面亮眼的表现哦！";
-            }else if(vo.getRankNum() < pre_fail){
+            }else if(vo.getRankNum() < preFail){
                 content += "最近状态位于班级下游，表现不是很好，需要再加把劲啊！";
             }
 

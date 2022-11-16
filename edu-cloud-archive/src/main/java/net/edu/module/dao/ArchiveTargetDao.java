@@ -34,4 +34,5 @@ public interface ArchiveTargetDao extends BaseDao<ArchiveTargetEntity> {
 
     Integer updateDeleted(Long graduateId);
 
+    List<ArchiveTargetVO> getTargetName(Integer courseId);
 }

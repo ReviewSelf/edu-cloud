@@ -3,17 +3,12 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.extern.flogger.Flogger;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.convert.ArchiveAssessConvert;
-import net.edu.module.entity.ArchiveAssessEntity;
 import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.vo.ArchiveAssessVO;
-import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,7 +42,6 @@ public class ArchiveAssessController {
         return Result.ok(archiveAssessService.selectArchiveAssessById(id));
     }
 
-
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ArchiveWeightTargetAssessVO vo){
@@ -74,6 +68,4 @@ public class ArchiveAssessController {
         archiveAssessService.assessFromExcel(file);
         return Result.ok();
     }
-
-
 }

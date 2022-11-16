@@ -15,6 +15,7 @@ import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -65,6 +66,12 @@ public class ArchiveAssessController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveAssessService.delete(idList);
+        return Result.ok();
+    }
+
+    @PostMapping("/import")
+    public Result<String> assessFromExcel(@RequestParam("file") MultipartFile file) {
+        archiveAssessService.assessFromExcel(file);
         return Result.ok();
     }
 

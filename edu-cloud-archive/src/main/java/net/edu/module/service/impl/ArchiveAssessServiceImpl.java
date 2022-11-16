@@ -1,11 +1,14 @@
 package net.edu.module.service.impl;
 
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveAssessConvert;
@@ -13,6 +16,7 @@ import net.edu.module.dao.ArchiveWeightTargetAssessDao;
 import net.edu.module.entity.ArchiveAssessEntity;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.service.ArchiveWeightTargetAssessService;
+import net.edu.module.vo.ArchiveAssessExcelVO;
 import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.dao.ArchiveAssessDao;
 import net.edu.module.service.ArchiveAssessService;
@@ -22,8 +26,12 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * 考核点
@@ -92,6 +100,37 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
         }
 
     }
+
+
+    @SneakyThrows
+    @Override
+    public void assessFromExcel(MultipartFile file) {
+        List<Long> list1=new ArrayList<>();
+        list1.add(2L);
+        List<ArchiveAssessExcelVO> list= EasyExcel.read(file.getInputStream()).head(ArchiveAssessExcelVO.class).sheet().headRowNumber(3).doReadSync();
+        for (ArchiveAssessExcelVO vo:list){
+
+
+        }
+    }
+
+//    @Override
+//    @Transactional(rollbackFor = Exception.class)
+//    public Long save(ArchiveAssessExcelVO vo) {
+////        UserEntity entity = UserConvert.INSTANCE.convert(vo);
+////
+////        // 判断用户名是否存在
+////
+////
+////        // 保存用户
+////        baseMapper.insert(entity);
+////
+////        // 保存用户角色关系
+////        userRoleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
+////
+////        return entity.getId();
+//
+//    }
 
 
 

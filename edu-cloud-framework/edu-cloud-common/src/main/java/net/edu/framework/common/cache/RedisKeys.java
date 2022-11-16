@@ -153,6 +153,9 @@ public class RedisKeys {
     public static String getTeachStatistics() {
         return "teach:statistics";
     }
+    public static String getTeachStatisticsAdd() {
+        return "teach:statisticsAdd";
+    }
 
     public static String getActivityClass() {
         return "teach:activityclass";

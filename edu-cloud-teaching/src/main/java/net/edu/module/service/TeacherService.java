@@ -4,10 +4,8 @@ package net.edu.module.service;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.UserEntity;
-import net.edu.module.query.RoleQuery;
 import net.edu.module.query.TeacherQuery;
-import net.edu.module.vo.AllTeacherVo;
-import net.edu.module.vo.TeachPlanPaperVo;
+import net.edu.module.vo.AllTeacherVO;
 import net.edu.module.vo.TeacherVO;
 
 import java.util.List;
@@ -45,6 +43,6 @@ public interface TeacherService extends BaseService<UserEntity> {
 
     void resetPassword(String id,String password);
 
-    List<AllTeacherVo> GetTeacher();
+    List<AllTeacherVO> GetTeacher();
 
 }

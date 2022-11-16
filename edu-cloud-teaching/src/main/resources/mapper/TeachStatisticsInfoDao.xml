@@ -3,7 +3,7 @@
 
 <mapper namespace="net.edu.module.dao.TeachStatisticsDao">
 
-    <resultMap id="StatisticsInfo" type="net.edu.module.entity.TeachStatisticsInfoEntity">
+    <resultMap id="StatisticsInfo" type="net.edu.module.vo.TeachStatisticsInfoVO">
         <id column="statisticsDate" property="statisticsDate"/>
         <result column="questionNum" property="questionNum"/>
         <result column="userNum" property="userNum"/>
@@ -43,6 +43,43 @@
         FROM teach_home_statistics
         WHERE statistics_date &gt;= DATE_FORMAT(DATE_SUB(now(), INTERVAL #{day} DAY), "%Y-%m-%d")
         ORDER BY statistics_date asc
+    </select>
+    <select id="selectStatisticsAddInfo" resultType="net.edu.module.vo.TeachStatisticsAddInfoVO">
+        SELECT DATE_FORMAT(now(), "%Y-%m-%d") AS statisticsDate,
+               IFNULL(t1.num, 0) AS questionNum,
+               IFNULL(t2.num, 0) AS problemSubmitNum,
+               IFNULL(t3.num, 0) AS userNum,
+               IFNULL(t4.num, 0) AS userActivity
+        FROM (SELECT sum(IFNULL(num, 0)) as num
+              FROM (SELECT count(1) AS num
+                    FROM problem_code
+                    WHERE DATE_FORMAT(create_time, "%Y-%m-%d") =
+                          DATE_FORMAT(now(), "%Y-%m-%d")
+                      and deleted = 0
+                    UNION ALL
+                    SELECT count(1) AS num
+                    FROM problem_choice
+                    WHERE DATE_FORMAT(create_time, "%Y-%m-%d") =
+                          DATE_FORMAT(now(), "%Y-%m-%d")
+                      and deleted = 0
+                    UNION ALL
+                    SELECT count(1) AS num
+                    FROM problem_fill
+                    WHERE DATE_FORMAT(create_time, "%Y-%m-%d") =
+                          DATE_FORMAT(now(), "%Y-%m-%d")
+                      and deleted = 0) t) t1,
+             (SELECT count(1) AS num
+              FROM judge_record
+              WHERE DATE_FORMAT(submit_time, "%Y-%m-%d") = DATE_FORMAT(now(), "%Y-%m-%d")) t2,
+             (SELECT count(1) AS num
+              FROM sys_user
+              WHERE DATE_FORMAT(create_time, "%Y-%m-%d") = DATE_FORMAT(now(), "%Y-%m-%d")) t3,
+             (SELECT count(1) as num
+              FROM (SELECT COUNT(1)
+                    FROM sys_log_login
+                    WHERE DATE_FORMAT(create_time, "%Y-%m-%d") =
+                          DATE_FORMAT(now(), "%Y-%m-%d")
+                    GROUP BY username) t) t4
     </select>
 
     <insert id="insertStatisticsInfo">

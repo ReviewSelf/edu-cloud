@@ -9,16 +9,13 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachClassUserConvert;
 import net.edu.module.dao.TeachClassUserDao;
 import net.edu.module.entity.TeachClassUserEntity;
-import net.edu.module.entity.TeachStudentEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
 import net.edu.module.vo.TeachClassUserVO;
-import net.edu.module.vo.TeachStudentVo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import net.edu.framework.common.page.PageResult;
 
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 

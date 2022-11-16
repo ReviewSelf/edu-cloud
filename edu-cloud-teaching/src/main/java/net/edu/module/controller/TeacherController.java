@@ -12,7 +12,7 @@ import net.edu.module.entity.UserEntity;
 import net.edu.module.query.TeacherQuery;
 import net.edu.module.service.RoleService;
 import net.edu.module.service.TeacherService;
-import net.edu.module.vo.AllTeacherVo;
+import net.edu.module.vo.AllTeacherVO;
 import net.edu.module.vo.PasswordVo;
 import net.edu.module.vo.TeacherVO;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -119,8 +119,8 @@ public class TeacherController {
 
     @GetMapping("GetTeacher")
     @Operation(summary= "获取全部老师")
-    public Result<List<AllTeacherVo>> GetTeacher(){
-        List<AllTeacherVo> allTeacherVo=teacherService.GetTeacher();
+    public Result<List<AllTeacherVO>> GetTeacher(){
+        List<AllTeacherVO> allTeacherVo=teacherService.GetTeacher();
         return Result.ok(allTeacherVo);
     }
 

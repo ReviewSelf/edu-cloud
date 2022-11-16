@@ -4,7 +4,7 @@ package net.edu.module.service.impl;
 import lombok.AllArgsConstructor;
 import net.edu.module.dao.TeachPlanPaperDao;
 import net.edu.module.service.TeachPlanPaperService;
-import net.edu.module.vo.TeachPlanPaperVo;
+import net.edu.module.vo.TeachPlanPaperVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +16,7 @@ public class TeachPlanPaperServiceImpl implements TeachPlanPaperService {
     private final TeachPlanPaperDao teachPlanPaperDao;
 
     @Override
-    public List<TeachPlanPaperVo> getTeachPlanPaper(Long planId) {
+    public List<TeachPlanPaperVO> getTeachPlanPaper(Long planId) {
         return teachPlanPaperDao.selectTeachPlanPaper(planId);
     }
 
@@ -27,12 +27,12 @@ public class TeachPlanPaperServiceImpl implements TeachPlanPaperService {
     }
 
     @Override
-    public List<TeachPlanPaperVo> getPaperByClassIdList(List<Long> classIdList) {
+    public List<TeachPlanPaperVO> getPaperByClassIdList(List<Long> classIdList) {
         return teachPlanPaperDao.selectPaperByClassIdList(classIdList);
     }
 
     @Override
-    public void addTeachPlanPaper(List<TeachPlanPaperVo> planPaperList) {
+    public void addTeachPlanPaper(List<TeachPlanPaperVO> planPaperList) {
         teachPlanPaperDao.insertTeachPlanPaper(planPaperList);
     }
 }

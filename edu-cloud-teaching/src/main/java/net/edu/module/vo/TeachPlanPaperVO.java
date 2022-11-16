@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Schema(description = "教学计划关联试卷表")
-public class TeachPlanPaperVo {
+public class TeachPlanPaperVO {
     private Long paperId;
 
     private Long planId;

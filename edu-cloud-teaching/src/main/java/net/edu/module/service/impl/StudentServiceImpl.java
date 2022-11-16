@@ -1,30 +1,26 @@
 package net.edu.module.service.impl;
 
-import cn.hutool.core.net.URLDecoder;
 import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
-import net.edu.module.convert.OrgConvert;
 import net.edu.module.convert.UserConvert;
 import net.edu.module.dao.UserDao;
-import net.edu.module.entity.OrgEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.RoleUserQuery;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
 import net.edu.module.service.StudentService;
 import net.edu.module.vo.OrgVo;
-import net.edu.module.vo.StudentsVo;
-import net.edu.module.vo.TeachStudentVo;
+import net.edu.module.vo.StudentsVO;
+import net.edu.module.vo.TeachStudentVO;
 import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -213,9 +209,9 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     }
 
     @Override
-    public PageResult<TeachStudentVo> getStudents(StudentsVo vo) {
-        Page<TeachStudentVo> page = new Page<>(vo.getPage() , vo.getSize());
-        IPage<TeachStudentVo> list = userDao.selectStudents(page , vo);
+    public PageResult<TeachStudentVO> getStudents(StudentsVO vo) {
+        Page<TeachStudentVO> page = new Page<>(vo.getPage() , vo.getSize());
+        IPage<TeachStudentVO> list = userDao.selectStudents(page , vo);
         return new PageResult<>(list.getRecords() , page.getTotal());
     }
 

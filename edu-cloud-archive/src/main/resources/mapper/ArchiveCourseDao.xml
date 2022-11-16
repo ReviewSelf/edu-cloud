@@ -60,4 +60,6 @@
         from archive_course
         where deleted = 0
     </select>
+
+
 </mapper>

@@ -30,6 +30,7 @@
             (select name from archive_course t4 where t4.teach_plan_id =
                                                       (select plan_id from teach_class t5 where t5.id = class_id)
                                                 ) as courseName,
+
             problem_num
         from archive_exam
         where deleted = 0
@@ -68,5 +69,25 @@
             problem_num
         from archive_exam
         where id = #{id}
+    </select>
+
+    <select id="selectExamByCourseId" resultType="net.edu.module.vo.ArchiveExamVO">
+        select
+            id,name,description,begin_time,end_time,score,
+            (select real_name  from sys_user t1 where teacher_id = t1.id ) as teacherName,
+            (select name from problem_knowledge_point t4 where t4.code = kp_code) as kpName,
+            class_id,
+            (select name from teach_class t2 where t2.id = class_id) as className
+        from archive_exam
+        where (select id from archive_course t4 where t4.teach_plan_id =
+                                                      (select plan_id from teach_class t5 where t5.id = class_id)
+              ) = #{courseId} and class_id = #{classId}
+
+    </select>
+
+    <select id="selectClassByCourseId" resultType="net.edu.module.vo.ClassVO">
+        select id,name as className from teach_class
+                  where deleted = 0 and plan_id =
+        (select teach_plan_id from archive_course where deleted = 0 and id =  #{courseId})
     </select>
 </mapper>

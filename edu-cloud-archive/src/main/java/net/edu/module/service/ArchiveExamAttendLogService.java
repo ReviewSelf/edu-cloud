@@ -19,5 +19,5 @@ public interface ArchiveExamAttendLogService extends BaseService<ArchiveExamAtte
 
     List<ArchiveExamAttendLogVO> selectExamAttendLogByExamId(Long examId);
 
-    void exportExam(Long examId, HttpServletResponse response) throws IOException;
+    void exportExam(List<Long> examId, HttpServletResponse response) throws IOException;
 }

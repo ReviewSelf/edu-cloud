@@ -10,6 +10,7 @@ import net.edu.module.entity.ArchiveExamEntity;
 import net.edu.module.query.ArchiveExamQuery;
 import net.edu.module.service.ArchiveExamService;
 import net.edu.module.vo.ArchiveExamVO;
+import net.edu.module.vo.ClassVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,5 +50,15 @@ public class ArchiveExamController {
         return Result.ok(archiveExamService.selectExamById(id));
     }
 
+    @GetMapping("course/{courseId}/{classId}")
+    @Operation(summary = "信息")
+    public Result<List<ArchiveExamVO>> selectExamByCourseId(@PathVariable("courseId") Long courseId,@PathVariable("classId") Long classId){
+        return Result.ok(archiveExamService.selectExamByCourseId(courseId,classId));
+    }
 
+    @GetMapping("course/{courseId}")
+    @Operation(summary = "信息")
+    public Result<List<ClassVO>> selectExamByCourseId(@PathVariable("courseId") Long courseId){
+        return Result.ok(archiveExamService.selectClassByCourseId(courseId));
+    }
 }

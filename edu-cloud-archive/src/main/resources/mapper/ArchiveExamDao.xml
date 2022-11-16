@@ -27,9 +27,23 @@
             time_limit,
             class_id,
             (select name from teach_class t2 where t2.id = class_id) as className,
+            (select name from archive_course t4 where t4.teach_plan_id =
+                                                      (select plan_id from teach_class t5 where t5.id = class_id)
+                                                ) as courseName,
             problem_num
         from archive_exam
-
+        where deleted = 0
+        <if test="query.getName()!='' and query.getName()!=null">
+            and  name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getCourse()!='' and query.getCourse()!=null">
+            and  (select name from archive_course t4 where t4.teach_plan_id =
+            (select plan_id from teach_class t5 where t5.id = class_id)
+            ) like concat('%',#{query.course},'%')
+        </if>
+        <if test="query.getClazz()!='' and query.getClazz()!=null">
+            and  (select name from teach_class t2 where t2.id = class_id) like concat('%',#{query.clazz},'%')
+        </if>
     </select>
 
     <select id="selectExamById" resultType="net.edu.module.vo.ArchiveExamVO">

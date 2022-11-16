@@ -73,12 +73,13 @@ public class ExamVO implements Serializable {
 	@Schema(description = "班级名字")
 	private List<String> classListName;
 
+	@Schema(description = "分数")
+	private Integer  grade;
+
+
 	@Schema(description = "班级ID")
 	private List<Long> classIdList;
 
 	private String remark;
-
-
-
 
 }

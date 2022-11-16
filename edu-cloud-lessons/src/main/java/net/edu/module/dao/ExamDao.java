@@ -13,11 +13,11 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
-* 考试
-*
-* @author 小樊 babamu@126.com
-* @since 1.0.0 2022-10-09
-*/
+ * 考试
+ *
+ * @author 小樊 babamu@126.com
+ * @since 1.0.0 2022-10-09
+ */
 @Mapper
 public interface ExamDao extends BaseDao<ExamEntity> {
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveCourseSummaryDao">
+
+    <resultMap type="net.edu.module.entity.ArchiveCourseSummaryEntity" id="archiveCourseSummaryMap">
+        <result property="id" column="id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="problemAnalysis" column="problem_analysis"/>
+        <result property="improvement" column="improvement"/>
+        <result property="analysisDescription" column="analysis_description"/>
+        <result property="problem" column="problem"/>
+        <result property="measures" column="measures"/>
+        <result property="others" column="others"/>
+    </resultMap>
+
+</mapper>

@@ -18,7 +18,7 @@
         <collection property="classListName"
                     column="{examId=id}"
                     select="selectExamClass"
-                />
+        />
     </resultMap>
     <select id="page" resultMap="examMap">
         select a.id,
@@ -35,8 +35,8 @@
         from exam a
         where a.deleted=0
         <if test="query.classId !=null">
-        and exists(select 1 from exam_class ec where ec.class_id=#{query.classId} and ec.exam_id=a.id)
-    </if>
+            and exists(select 1 from exam_class ec where ec.class_id=#{query.classId} and ec.exam_id=a.id)
+        </if>
         <if test="query.teacherId !=null ">
             and a.teacher_id =#{query.teacherId}
         </if>
@@ -53,14 +53,14 @@
 
     <select id="selectExamClass" resultType="java.lang.String">
         select b.name from exam_class a join teach_class b
-        on a.class_id = b.id  where exam_id=#{examId}
+                                             on a.class_id = b.id  where exam_id=#{examId}
     </select>
 
     <insert id="insertExam" useGeneratedKeys="true" keyProperty="id" >
         insert into exam(paper_id, description, begin_time, end_time, score, teacher_id, kp_code ,deleted, name, place,
-        time_limit, problem_num)
+                         time_limit, problem_num)
         values
-            (#{vo.paperId},#{vo.description},#{vo.beginTime},#{vo.endTime},#{vo.score},#{vo.teacherId},#{vo.kpCode},0,#{vo.name},#{vo.place},#{vo.timeLimit},#{vo.problemNum})
+        (#{vo.paperId},#{vo.description},#{vo.beginTime},#{vo.endTime},#{vo.score},#{vo.teacherId},#{vo.kpCode},0,#{vo.name},#{vo.place},#{vo.timeLimit},#{vo.problemNum})
     </insert>
 
     <insert id="insertExamClass">

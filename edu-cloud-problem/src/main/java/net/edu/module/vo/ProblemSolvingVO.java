@@ -22,7 +22,7 @@ public class ProblemSolvingVO implements Serializable {
     private Integer problemType;
 
     @Schema(description = "标题")
-    private Integer title;
+    private String title;
 
     @Schema(description = "内容")
     private String content;

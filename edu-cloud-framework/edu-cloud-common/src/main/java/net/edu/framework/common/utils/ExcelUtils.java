@@ -3,9 +3,10 @@ package net.edu.framework.common.utils;
 
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.read.listener.ReadListener;
 import com.alibaba.excel.support.ExcelTypeEnum;
 import com.alibaba.excel.util.StringUtils;
-import net.edu.framework.common.excel.ExcelDataListener;
+import net.edu.framework.common.excel.ExcelAsyncDataListener;
 import net.edu.framework.common.excel.ExcelFinishCallBack;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,7 +57,7 @@ public class ExcelUtils {
      */
     public static <T> void readAnalysis(MultipartFile file, Class<T> head, ExcelFinishCallBack<T> callBack) {
         try {
-            EasyExcel.read(file.getInputStream(), head, new ExcelDataListener<>(callBack)).sheet().doRead();
+            EasyExcel.read(file.getInputStream(), head, new ExcelAsyncDataListener<>(callBack)).sheet().doRead();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -73,7 +74,7 @@ public class ExcelUtils {
      */
     public static <T> void readAnalysis(File file, Class<T> head, ExcelFinishCallBack<T> callBack) {
         try {
-            EasyExcel.read(new FileInputStream(file), head, new ExcelDataListener<>(callBack)).sheet().doRead();
+            EasyExcel.read(new FileInputStream(file), head, new ExcelAsyncDataListener<>(callBack)).sheet().doRead();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,6 +91,20 @@ public class ExcelUtils {
     public static <T> List<T> readSync(File file, Class<T> clazz) {
         return readSync(file, clazz, 1, 0, ExcelTypeEnum.XLSX);
     }
+
+
+    /**
+     * 读取excel文件 同步 自定义监听器
+     * @param file
+     * @param readListener
+     * @param rowNum
+     * @param sheetNo
+     */
+    public static void readSync(File file, ReadListener readListener, Integer rowNum, Integer sheetNo) {
+        EasyExcel.read(file, readListener).sheet(sheetNo).headRowNumber(rowNum).doRead();
+    }
+
+
 
     /**
      * 读取excel文件 同步

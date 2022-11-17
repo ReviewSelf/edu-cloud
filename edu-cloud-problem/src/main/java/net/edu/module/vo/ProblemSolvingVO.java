@@ -40,4 +40,6 @@ public class ProblemSolvingVO implements Serializable {
     @Schema(description = "创建人名称")
     private String creatorName;
 
+    @Schema(description = "创建人头像")
+    private String creatorAvatar;
 }

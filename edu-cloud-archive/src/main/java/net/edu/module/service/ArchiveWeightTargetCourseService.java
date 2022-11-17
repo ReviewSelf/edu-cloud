@@ -31,4 +31,5 @@ public interface ArchiveWeightTargetCourseService extends BaseService<ArchiveWei
 
     ArchiveWeightTargetCourseVO selectById(Long id);
 
+    List<ArchiveWeightTargetCourseVO> selectCourseByCourseId(Long courseId);
 }

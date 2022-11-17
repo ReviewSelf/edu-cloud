@@ -60,4 +60,19 @@
         from  archive_weight_target_course
         where id=#{id}
     </select>
+
+    <select id="selectCourseByCourseId" resultType="net.edu.module.vo.ArchiveWeightTargetCourseVO">
+        select
+            id,
+            target_id as targetId,
+            course_id as courseId,
+            (select name from archive_course t1 where t1.id = courseId) as courseName,
+            weight,
+            approach,
+            teach_target,
+            evaluation_basis,
+            evaluation_method
+        from archive_weight_target_course
+        where deleted = 0 and course_id = #{courseId}
+    </select>
 </mapper>

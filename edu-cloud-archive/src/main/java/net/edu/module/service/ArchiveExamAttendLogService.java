@@ -6,6 +6,7 @@ import net.edu.module.vo.ArchiveExamAttendLogVO;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.List;
 
 
@@ -19,5 +20,5 @@ public interface ArchiveExamAttendLogService extends BaseService<ArchiveExamAtte
 
     List<ArchiveExamAttendLogVO> selectExamAttendLogByExamId(Long examId);
 
-    void exportExam(List<Long> examId, HttpServletResponse response) throws IOException;
+    void exportExam(String[] examId , String[]  classId , HttpServletResponse response) throws IOException;
 }

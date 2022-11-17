@@ -49,24 +49,33 @@ public class ArchiveTestScoreServiceImpl extends BaseServiceImpl<ArchiveTestScor
 
     @Override
     public List<ArchiveTestScoreVO> selectTestScoreByCourseId(Long courseId) {
-        List<ArchiveTestScoreVO> vos = null;
+        List<ArchiveTestScoreVO> vos = new ArrayList<>();
+
+        //查出这堂课所有的考试记录
         List<ArchiveTestScoreEntity> list = archiveTestScoreDao.selectTestScoreByCourseId(courseId);
+
+        //查出课程下的所有考核点
         List<ArchiveWeightTargetAssessVO> archiveWeightTargetAssessVOS = archiveWeightTargetAssessDao.selectAssessByCourseId(courseId);
-        Long assessId = archiveWeightTargetAssessVOS.get(0).getAssessId();
-        List<ArchiveWeightAssessTestVO> archiveWeightAssessTestVOS = archiveWeightAssessTestDao.selectTestName(assessId);
-        int size = archiveWeightAssessTestVOS.size();
+        //统计共有多少个测试点
+        int size = 0;
+        for (int i = 0; i < archiveWeightTargetAssessVOS.size(); i++) {
+            Long assessId = archiveWeightTargetAssessVOS.get(i).getAssessId();
+            //查出考核点下的所有测试点
+            List<ArchiveWeightAssessTestVO> archiveWeightAssessTestVOS = archiveWeightAssessTestDao.selectTestName(assessId);
+            size += archiveWeightAssessTestVOS.size();
+        }
+        //遍历所有考试记录
         for (int i = 0; i < list.size(); i+=size) {
-            int k=0;
-            List<String> score = null;
-            ArchiveTestScoreVO vo = null;
+            List<String> score = new ArrayList<>();
+            ArchiveTestScoreVO vo = new ArchiveTestScoreVO();
+            //遍历所有测试点
             for (int j = 0; j < size; j++) {
                 vo.setStuId(list.get(i).getStuId());
                 vo.setStuName(list.get(i).getStuName());
                 score.set(j,list.get(i+j).getScore());
             }
             vo.setScore(score);
-            vos.set(k,vo);
-            k++;
+            vos.add(vo);
         }
         return vos;
     }

@@ -1,5 +1,6 @@
 package net.edu.module.controller;
 
+import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -44,8 +47,11 @@ public class ArchiveExamAttendLogController {
 
     @PostMapping("exportExam")
     @Operation(summary = "导出总体考试情况excel")
-    public void exportExam(@RequestBody List<Long> examId, HttpServletResponse response) throws IOException {
-        System.out.println(examId);
-        archiveExamAttendLogService.exportExam(examId, response);
+    public void exportExam(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
+        String a = object.getStr("examId");
+        String b = object.getStr("classId");
+        String[] examId = a.substring(1, a.length() - 1).split(",");
+        String[] classId = b.substring(1, b.length() - 1).split(",");
+        archiveExamAttendLogService.exportExam(examId, classId,response);
     }
 }

@@ -27,4 +27,6 @@ public interface ArchiveWeightTargetCourseDao extends BaseDao<ArchiveWeightTarge
     Integer updateDeletedByTarget(Long targetId);
 
     ArchiveWeightTargetCourseVO getById(Long id);
+
+    List<ArchiveWeightTargetCourseVO> selectCourseByCourseId(Long courseId);
 }

@@ -12,8 +12,11 @@ import net.edu.module.query.ArchiveExamQuery;
 import net.edu.module.service.ArchiveExamService;
 import net.edu.module.vo.ArchiveExamVO;
 import net.edu.module.vo.ArchiveTargetVO;
+import net.edu.module.vo.ClassVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author weng
@@ -36,6 +39,16 @@ public class ArchiveExamServiceImpl extends BaseServiceImpl<ArchiveExamDao, Arch
     @Override
     public ArchiveExamVO selectExamById(Long id) {
         return archiveExamDao.selectExamById(id);
+    }
+
+    @Override
+    public List<ArchiveExamVO> selectExamByCourseId(Long courseId,Long classId) {
+        return archiveExamDao.selectExamByCourseId(courseId,classId);
+    }
+
+    @Override
+    public List<ClassVO> selectClassByCourseId(Long courseId) {
+        return archiveExamDao.selectClassByCourseId(courseId);
     }
 
     @Override

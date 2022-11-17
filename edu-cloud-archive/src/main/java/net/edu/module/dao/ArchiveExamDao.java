@@ -8,8 +8,11 @@ import net.edu.module.query.ArchiveExamQuery;
 import net.edu.module.query.ArchiveTargetQuery;
 import net.edu.module.vo.ArchiveExamVO;
 import net.edu.module.vo.ArchiveTargetVO;
+import net.edu.module.vo.ClassVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author weng
@@ -23,4 +26,8 @@ public interface ArchiveExamDao extends BaseDao<ArchiveExamEntity> {
     IPage<ArchiveExamVO> selectExamByPage(Page<ArchiveExamVO> page, @Param("query") ArchiveExamQuery query);
 
     ArchiveExamVO selectExamById(Long id);
+
+    List<ArchiveExamVO> selectExamByCourseId(Long courseId,Long classId);
+
+    List<ClassVO> selectClassByCourseId(Long courseId);
 }

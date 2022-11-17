@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: 樊磊
@@ -24,7 +25,7 @@ import java.util.List;
 @Slf4j
 public class ExamExcelUtil {
 
-    public static void examExportExcel(List<String> header, List<ArchiveExamAttendLogVO> data, String bigTitle, HttpServletResponse response) throws IOException {
+    public static void examExportExcel(List<String> header, List<List<ArchiveExamAttendLogVO>> data, String bigTitle, HttpServletResponse response) throws IOException {
         String name = StringUtils.substringBetween(bigTitle, "《", "》");
         response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode("考试成绩.xlsx", "UTF-8"));
@@ -36,7 +37,8 @@ public class ExamExcelUtil {
                 .registerWriteHandler(new CellRowHeightStyleStrategy())
                 .registerWriteHandler(new SimpleColumnWidthStyleStrategy(20))
                 .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
-                .sheet(name).doWrite(getExamExcelData(data));
+                .sheet(name)
+                .doWrite(getExamExcelData(data));
     }
 
     /**
@@ -47,6 +49,7 @@ public class ExamExcelUtil {
      * @return
      */
     public static List<List<String>> getExcelHeader(List<String> header, String bigTitle) {
+        System.out.println(header);
         List<List<String>> head = new ArrayList<>();
 
         List<String> childHead = new ArrayList<>();
@@ -60,10 +63,14 @@ public class ExamExcelUtil {
         head.add(childHead);
 
 
-        childHead = new ArrayList<>();
-        childHead.add(bigTitle);
-        childHead.add("总分");
-        head.add(childHead);
+        for (String i : header) {
+            childHead = new ArrayList<>();
+            childHead.add(bigTitle);
+            childHead.add(i);
+            head.add(childHead);
+        }
+
+        System.out.println(head);
         return head;
     }
 
@@ -73,16 +80,32 @@ public class ExamExcelUtil {
      * @param vo
      * @return
      */
-    public static List<List<String>> getExamExcelData(List<ArchiveExamAttendLogVO> vo) {
+    public static List<List<String>> getExamExcelData(List<List<ArchiveExamAttendLogVO>> vo) {
+        System.out.println(vo);
         List<List<String>> dataList = new ArrayList<>();
-        for (int i = 0; i < vo.size(); i++) {
-            List<String> list = new ArrayList<>();
-            list.add(vo.get(i).getUserNumber().toString());
-            list.add(vo.get(i).getUserName());
-            list.add(vo.get(i).getScore().toString());
-            dataList.add(list);
+
+        for (List<ArchiveExamAttendLogVO> archiveExamAttendLogVOS : vo) {
+
+            for (ArchiveExamAttendLogVO archiveExamAttendLogVO : archiveExamAttendLogVOS) {
+                List<String> list = new ArrayList<>();
+                list.add(archiveExamAttendLogVO.getUserNumber().toString());
+                list.add(archiveExamAttendLogVO.getUserName());
+                list.add(archiveExamAttendLogVO.getScore().toString());
+                dataList.add(list);
+            }
+
         }
-        return dataList;
+        int len = vo.get(0).size();
+//        System.out.println(dataList);
+        List<List<String>> ans = new ArrayList<>();
+        for (int i = 0; i < dataList.size()/vo.size(); i++) {
+            if(Objects.equals(dataList.get(i).get(0), dataList.get(i + len).get(0))){
+                dataList.get(i).add(dataList.get(i+len).get(2));
+                ans.add(dataList.get(i));
+            }
+        }
+        System.out.println(ans);
+        return ans;
     }
 
 }

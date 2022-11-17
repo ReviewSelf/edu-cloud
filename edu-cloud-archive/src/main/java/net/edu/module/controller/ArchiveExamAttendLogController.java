@@ -4,15 +4,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.dao.ArchiveExamAttendLogDao;
 import net.edu.module.service.ArchiveExamAttendLogService;
-import net.edu.module.service.ArchiveExamService;
 import net.edu.module.vo.ArchiveExamAttendLogVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -41,9 +39,10 @@ public class ArchiveExamAttendLogController {
         return Result.ok(archiveExamAttendLogService.selectExamAttendLogByExamId(examId));
     }
 
-    @GetMapping("exportExam")
+    @PostMapping("exportExam")
     @Operation(summary = "导出总体考试情况excel")
-    public void exportExam(@RequestParam(value = "examId") Long examId, HttpServletResponse response) throws IOException {
+    public void exportExam(@RequestBody List<Long> examId, HttpServletResponse response) throws IOException {
+        System.out.println(examId);
         archiveExamAttendLogService.exportExam(examId, response);
     }
 }

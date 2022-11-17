@@ -12,7 +12,7 @@ import java.util.List;
  * @Version: 1.0
  * @Description:excel读取监听器
  */
-public class ExcelDataListener<T> extends AnalysisEventListener<T> {
+public class ExcelAsyncDataListener<T> extends AnalysisEventListener<T> {
     /**
      * 定义一个保存Excel所有记录的集合
      */
@@ -23,13 +23,14 @@ public class ExcelDataListener<T> extends AnalysisEventListener<T> {
     private final ExcelFinishCallBack<T> callBack;
 
     /**
-     * 构造 ExcelFinishCallBack
+     * 构造 ExcelFinishCallBack 异步
      *
      * @param callBack ExcelFinishCallBack
      */
-    public ExcelDataListener(ExcelFinishCallBack<T> callBack) {
+    public ExcelAsyncDataListener(ExcelFinishCallBack<T> callBack) {
         this.callBack = callBack;
     }
+
 
 
     /**

@@ -32,11 +32,11 @@
         where test_id = #{examId}
     </select>
 
-    <insert id="insertArchiveTestScore" parameterType="java.util.List">
-        replace into archive_test_score
-        (stu_id,stu_name,test_id,score,test_id) values
+    <insert id="insertArchiveTestScore" parameterType="net.edu.module.entity.ArchiveTestScoreEntity">
+        insert into archive_test_score
+        (stu_id,stu_name,score,test_id) values
         <foreach collection="list" item="item"  separator=",">
-            (#{stuId},#{stuName},#{item.score},1)
+            (#{stuId},#{stuName},#{item.score},#{item.testId})
         </foreach>
     </insert>
 </mapper>

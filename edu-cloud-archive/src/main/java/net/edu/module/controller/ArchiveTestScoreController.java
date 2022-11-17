@@ -12,6 +12,7 @@ import net.edu.module.query.ArchiveTestScoreQuery;
 import net.edu.module.vo.ArchiveTestScoreVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -40,5 +41,11 @@ public class ArchiveTestScoreController {
         return Result.ok(vo);
     }
 
+    @PostMapping("/import")
+    public Result<String> scoreImportExcel(@RequestParam("courseId") String courseId,@RequestParam("file") MultipartFile file) {
+        System.out.println(courseId);
+        archiveTestScoreService.scoreImportExcel(file, Long.valueOf(courseId));
+        return Result.ok();
+    }
 
 }

@@ -105,6 +105,22 @@ public class ExcelUtils {
     }
 
 
+    /**
+     * 读取excel文件 同步 自定义监听器
+     * @param file
+     * @param readListener
+     * @param rowNum
+     * @param sheetNo
+     */
+    public static void readSync(MultipartFile file, ReadListener readListener, Integer rowNum, Integer sheetNo) {
+        try {
+            EasyExcel.read(file.getInputStream(), readListener).sheet(sheetNo).headRowNumber(rowNum).doRead();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * 读取excel文件 同步

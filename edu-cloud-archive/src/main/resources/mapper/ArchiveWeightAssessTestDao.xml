@@ -41,5 +41,11 @@
             )
     </select>
 
+    <insert id="insertAssessTest" parameterType="net.edu.module.entity.ArchiveWeightAssessTestEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into archive_weight_assess_test
+        (course_id,test_name) values
+        (#{courseId},#{testName})
+    </insert>
+
 
 </mapper>

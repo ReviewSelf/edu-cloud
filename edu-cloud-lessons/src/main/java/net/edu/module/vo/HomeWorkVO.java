@@ -19,4 +19,5 @@ public class HomeWorkVO {
     String endTime;
     String sort;
     String type;
+    String used;
 }

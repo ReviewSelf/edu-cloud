@@ -20,11 +20,6 @@ public class ArchiveWeightAssessTestEntity extends BaseEntity {
     private Long id;
 
     /**
-     * 评测点编号
-     */
-    private Long testId;
-
-    /**
      * 考核点编号
      */
     private Long assessId;
@@ -38,4 +33,14 @@ public class ArchiveWeightAssessTestEntity extends BaseEntity {
      * 来源
      */
     private String source;
+
+    /**
+     * 评测名称
+     */
+    private String testName;
+
+    /**
+     * 课程编号
+     */
+    private Long courseId;
 }

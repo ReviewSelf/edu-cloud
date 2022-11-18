@@ -4,6 +4,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveTestScoreEntity;
 import net.edu.module.vo.ArchiveExamAttendLogVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,7 +16,8 @@ import java.util.List;
  */
 @Mapper
 public interface ArchiveTestScoreDao extends BaseDao<ArchiveTestScoreEntity> {
-    int insertArchiveTestScore(String stuId, String stuName, List list);
+
+    int insertArchiveTestScore(String stuId, String stuName, @Param("list") List<ArchiveTestScoreEntity> testScoreList);
 
     List<ArchiveTestScoreEntity> selectTestScoreByCourseId(Long courseId);
 

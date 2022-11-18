@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ProblemSolvingDao">
+    <select id="selectSolvingList" resultType="net.edu.module.vo.ProblemSolvingVO">
+        select a.id,a.problem_id as problemId,a.problem_type as problemType,a.title,a.create_time as createTime,a.creator,b.username as creatorUserName,b.real_name as creatorName,b.avatar as creatorAvatar
+        from problem_solving a join sys_user b on a.creator = b.id  where a.deleted = 0 and a.problem_id = #{query.problemId} and a.problem_type = #{query.problemType}
+    </select>
+
+    <select id="selectSolving" resultType="net.edu.module.vo.ProblemSolvingVO">
+        select a.id,a.problem_id as problemId,a.problem_type as problemType,a.title,a.content,a.create_time as createTime,a.creator,b.username as creatorUserName,b.real_name as creatorName,b.avatar as creatorAvatar
+        from problem_solving a join sys_user b on a.creator = b.id  where a.deleted = 0 and a.id = #{id}
+    </select>
+
+    <delete id="deleteProblemSolving">
+        update problem_solving set deleted = 1  where id = #{id}
+    </delete>
+
+</mapper>

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author weng
@@ -49,7 +50,7 @@ public class ArchiveExamController {
 
     @GetMapping("course/{courseId}/{classId}")
     @Operation(summary = "信息")
-    public Result<List<ArchiveExamVO>> selectExamByCourseId(@PathVariable("courseId") Long courseId,@PathVariable("classId") Long classId){
+    public Result<List<ArchiveExamVO>> selectExamByCourseId(@PathVariable("courseId") Long courseId, @PathVariable("classId") Long classId){
         return Result.ok(archiveExamService.selectExamByCourseId(courseId,classId));
     }
 

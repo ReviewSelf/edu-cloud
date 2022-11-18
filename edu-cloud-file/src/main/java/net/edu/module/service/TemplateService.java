@@ -52,7 +52,7 @@ public class TemplateService {
         }
         else if(type==FILL_TYPE){
             path+="fillImportExcel.xlsx";
-            name="判断题导入模板文件.xlsx";
+            name="填空题导入模板文件.xlsx";
         }
         else if (type==CODE_TYPE) {
             path+="codeImportExcel.xlsx";

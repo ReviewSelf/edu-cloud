@@ -5,6 +5,7 @@ import cn.hutool.core.codec.Base64;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.MessageDigest;
 
 /**
  *
@@ -55,5 +56,27 @@ public class EncryptUtils {
         }
         // 返回 Base64 编码过的字节数组字符串
         return Base64.encode(data);
+    }
+
+
+    /**
+     * MD5加密
+     * @param data
+     * @return
+     */
+    public static String MD5(String data)  {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(data.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder();
+            for (byte item : array) {
+                sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
+            }
+
+            return sb.toString().toUpperCase();
+        } catch (Exception exception) {
+        }
+        return null;
+
     }
 }

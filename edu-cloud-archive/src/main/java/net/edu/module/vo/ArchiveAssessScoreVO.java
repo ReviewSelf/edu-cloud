@@ -1,7 +1,7 @@
 package net.edu.module.vo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 
@@ -17,7 +17,7 @@ import java.util.List;
 */
 @Data
 @Schema(description = "考试成绩表")
-public class ArchiveTestScoreVO implements Serializable {
+public class ArchiveAssessScoreVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(description = "自增id")
@@ -27,10 +27,10 @@ public class ArchiveTestScoreVO implements Serializable {
 	private String stuId;
 
 	@Schema(description = "得分")
-	private List<Double> score;
+	private List<String> score;
 
 	@Schema(description = "总分")
-	private Double total;
+	private String total;
 
 	@Schema(description = "删除")
 	private Integer deleted;

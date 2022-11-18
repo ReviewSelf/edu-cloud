@@ -47,5 +47,7 @@
         (#{courseId},#{testName})
     </insert>
 
-
+    <select id="selectTestByCourseId" resultType="java.lang.Double">
+        select weight  from archive_weight_assess_test where deleted = 0 and course_id = #{courseId}
+    </select>
 </mapper>

@@ -23,4 +23,6 @@ public interface ArchiveWeightAssessTestDao {
     List<ArchiveWeightAssessTestVO> selectArchiveTestAll(Long assessId);
 
     int insertAssessTest(ArchiveWeightAssessTestEntity archiveWeightAssessTestEntity);
+
+    List<Double> selectTestByCourseId(Long courseId);
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveWeightGoalDao">
+    <select id="selectGoalByCourseId" resultType="java.lang.Double">
+        select weight from archive_weight_goal
+        where deleted = 0 and target_id in
+                              (select id from archive_weight_target_course where deleted = 0 and course_id = #{courseId})
+    </select>
+
+</mapper>

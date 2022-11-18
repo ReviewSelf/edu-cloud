@@ -5,6 +5,7 @@ import net.edu.framework.common.excel.ExcelSyncDataListener;
 import net.edu.framework.common.utils.ExcelUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.dao.ArchiveWeightAssessTestDao;
+import net.edu.module.dao.ArchiveWeightGoalDao;
 import net.edu.module.dao.ArchiveWeightTargetAssessDao;
 import net.edu.module.entity.ArchiveTestScoreEntity;
 import net.edu.module.entity.ArchiveWeightAssessTestEntity;
@@ -37,39 +38,37 @@ public class ArchiveTestScoreServiceImpl extends BaseServiceImpl<ArchiveTestScor
     private ArchiveWeightAssessTestDao archiveWeightAssessTestDao;
     @Autowired
     private ArchiveWeightTargetAssessDao archiveWeightTargetAssessDao;
+    @Autowired
+    private ArchiveWeightGoalDao archiveWeightGoalDao;
 
-
+    /**
+     * 总评表
+     * @param courseId
+     * @return
+     */
     @Override
     public List<ArchiveTestScoreVO> selectTestScoreByCourseId(Long courseId) {
-        List<ArchiveTestScoreVO> vos = new ArrayList<>();
-
-        //查出这堂课所有的考试记录
-        List<ArchiveTestScoreEntity> list = archiveTestScoreDao.selectTestScoreByCourseId(courseId);
-
-        //查出课程下的所有考核点
-        List<ArchiveWeightTargetAssessVO> archiveWeightTargetAssessVOS = archiveWeightTargetAssessDao.selectAssessByCourseId(courseId);
-        //统计共有多少个测试点
-        int size = 0;
-        for (int i = 0; i < archiveWeightTargetAssessVOS.size(); i++) {
-            Long assessId = archiveWeightTargetAssessVOS.get(i).getAssessId();
-            //查出考核点下的所有测试点
-            List<ArchiveWeightAssessTestVO> archiveWeightAssessTestVOS = archiveWeightAssessTestDao.selectTestName(assessId);
-            size += archiveWeightAssessTestVOS.size();
-        }
-        //遍历所有考试记录
-        for (int i = 0; i < list.size(); i+=size) {
-            List<String> score = new ArrayList<>();
-            ArchiveTestScoreVO vo = new ArchiveTestScoreVO();
-            //遍历所有测试点
+        //所有学生的所有考试的成绩
+        List<ArchiveTestScoreEntity> scoreEntities = archiveTestScoreDao.selectTestScoreByCourseId(courseId);
+        List<Double> longs = archiveWeightAssessTestDao.selectTestByCourseId(courseId);
+        int size = longs.size();
+        List<ArchiveTestScoreVO> list = new ArrayList<>();
+        for (int i = 0; i < scoreEntities.size(); i+=size) {
+            double sumScore = 0;
+            List<Double> score = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                vo.setStuId(list.get(i).getStuId());
-                vo.setStuName(list.get(i).getStuName());
-                score.set(j,list.get(i+j).getScore());
+                score.add(Double.valueOf(scoreEntities.get(i+j).getScore()));
+                sumScore+=Double.parseDouble(scoreEntities.get(i+j).getScore());
             }
+            ArchiveTestScoreVO vo = new ArchiveTestScoreVO();
+            vo.setStuId(scoreEntities.get(i).getStuId());
+            vo.setStuName(scoreEntities.get(i).getStuName());
             vo.setScore(score);
-            vos.add(vo);
+            vo.setTotal(sumScore);
+            list.add(vo);
         }
-        return vos;
+
+        return list;
     }
 
     @Override

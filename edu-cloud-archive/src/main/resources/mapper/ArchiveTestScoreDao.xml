@@ -20,8 +20,7 @@
         select
             stu_id,stu_name,score,test_id
         from archive_test_score
-        where test_id in (select id from archive_weight_assess_test where deleted = 0 and assess_id in
-              (select assess_id from archive_weight_target_assess where deleted = 0 and course_id = #{courseId}))
+        where deleted = 0 and test_id in (select id from archive_weight_assess_test where deleted = 0 and course_id = #{courseId})
         order by stu_id
     </select>
 

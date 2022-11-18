@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.entity.TeachStatisticsInfoEntity;
+import net.edu.module.vo.TeachStatisticsInfoVO;
 import net.edu.module.service.TeachStatisticsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +20,8 @@ public class TeachStatisticsController {
 
     @GetMapping("")
     @Operation(summary = "获取统计结果信息")
-    public Result<TeachStatisticsInfoEntity> getStatisticsInfo() {
-        TeachStatisticsInfoEntity statisticsInfo = statisticsService.getStatisticsInfo();
+    public Result<TeachStatisticsInfoVO> getStatisticsInfo() {
+        TeachStatisticsInfoVO statisticsInfo = statisticsService.getStatisticsInfo();
         return Result.ok(statisticsInfo);
     }
 

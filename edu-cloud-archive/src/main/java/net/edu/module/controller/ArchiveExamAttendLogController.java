@@ -5,12 +5,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.dao.ArchiveExamAttendLogDao;
 import net.edu.module.service.ArchiveExamAttendLogService;
-import net.edu.module.service.ArchiveExamService;
 import net.edu.module.vo.ArchiveExamAttendLogVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;

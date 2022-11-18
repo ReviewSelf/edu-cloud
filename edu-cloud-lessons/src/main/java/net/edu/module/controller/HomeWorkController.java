@@ -32,11 +32,10 @@ public class HomeWorkController {
      * 根据学生id分页获取对应课后作业
      *
      */
-    @PostMapping("/homeWorkPage")
-    public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@RequestBody HomeWorkQuery query){
-        log.info(query.toString());
-        PageResult<HomeWorkVO> page=homeWorkService.getStudentHomeWorkPage(query);
+    @GetMapping("/homeWorkPage")
+    public Result<PageResult<HomeWorkVO>> getStudentHomeWorkPage(@Valid HomeWorkQuery query){
 
+        PageResult<HomeWorkVO> page=homeWorkService.getStudentHomeWorkPage(query);
         return Result.ok(page);
 
     }

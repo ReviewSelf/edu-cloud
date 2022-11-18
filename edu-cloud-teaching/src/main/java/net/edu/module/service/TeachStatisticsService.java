@@ -1,12 +1,13 @@
 package net.edu.module.service;
 
-import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.entity.TeachStatisticsInfoEntity;
+import net.edu.module.vo.TeachStatisticsAddInfoVO;
+import net.edu.module.vo.TeachStatisticsInfoVO;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public interface TeachStatisticsService {
-    TeachStatisticsInfoEntity getStatisticsInfo();
+    TeachStatisticsInfoVO getStatisticsInfo();
     void statisticsHomeInfo();
+    TeachStatisticsAddInfoVO getStatisticsAddInfo();
 }

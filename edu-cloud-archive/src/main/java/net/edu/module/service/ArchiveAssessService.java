@@ -2,10 +2,12 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
+import net.edu.module.vo.ArchiveAssessExcelVO;
 import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.entity.ArchiveAssessEntity;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,6 +28,10 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
     void update(ArchiveAssessVO vo);
 
     void delete(List<Long> idList);
+
+    void assessFromExcel(MultipartFile file);
+
+//    Long save(ArchiveAssessExcelVO vo);
 
 
 }

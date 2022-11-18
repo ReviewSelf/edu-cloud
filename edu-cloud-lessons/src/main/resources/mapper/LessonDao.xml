@@ -17,6 +17,7 @@
         <result property="homeworkEndTime" column="homework_end_time"/>
         <result property="homeworkStatus" column="homework_status"/>
     </resultMap>
+
     <select id="selectStudentPage" resultType="net.edu.module.vo.LessonVO">
         SELECT b.id,b.teacher_id as teacherId,b.name,b.status
         ,(select real_name from sys_user where id=b.teacher_id) as teacherName
@@ -34,11 +35,11 @@
 
     <select id="selectTeacherPage" resultType="net.edu.module.vo.LessonVO">
         select t.id,t.teacher_id ,name,status,(select real_name from sys_user where id=t.teacher_id) as teacherName,
-               t.class_id ,(select name from teach_class where id=t.class_id) as className,t.place,
-               t.begin_time as beginTime,t.end_time as endTime   from lesson t
-               where (exists (select 1 from teach_class a where a.deleted =0 and (a.teacher1_id=#{query.userId} or a.teacher2_id=#{query.userId} )
+        t.class_id ,(select name from teach_class where id=t.class_id) as className,t.place,
+        t.begin_time as beginTime,t.end_time as endTime   from lesson t
+        where (exists (select 1 from teach_class a where a.deleted =0 and (a.teacher1_id=#{query.userId} or a.teacher2_id=#{query.userId} )
         and a.id=t.class_id) or t.teacher_id=#{query.userId})
-                 and t.deleted=0
+        and t.deleted=0
 
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
@@ -74,8 +75,8 @@
 
     <select id="selectStudentHomeworkPage" resultMap="lessonMap">
         select b.id,b.teacher_id ,b.name,b.status,(select real_name from sys_user where id=b.teacher_id) as teacherName,b.class_id,
-               (select name from teach_class where id=b.class_id) as className,b.place,b.begin_time ,b.end_time,
-               b.homework_begin_time,b.homework_end_time,b.homework_status
+        (select name from teach_class where id=b.class_id) as className,b.place,b.begin_time ,b.end_time,
+        b.homework_begin_time,b.homework_end_time,b.homework_status
         FROM lesson_attend_log a join lesson b on a.lesson_id=b.id and b.deleted=0  where stu_id=#{query.userId}
         and  b.homework_status > 0
         <if test="query.getName()!=null and query.getName()!=''">
@@ -94,6 +95,7 @@
         where t.homework_status > 0 and (exists (select 1 from teach_class a where a.deleted =0 and (a.teacher1_id=#{query.userId} or a.teacher2_id=#{query.userId} )
         and a.id=t.class_id) or t.teacher_id=#{query.userId})
         and t.deleted=0
+
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
         </if>
@@ -101,14 +103,15 @@
             and t.class_id=#{query.classId}
         </if>
         order by t.homework_status ,t.homework_end_time &lt;= now() ,if(t.homework_end_time &lt;= now(),0,t.homework_end_time) ,t.homework_end_time desc
+
     </select>
 
 
 
 
-<!--    <select id="selectLessonIdList" resultType="net.edu.module.vo.LessonVO">-->
-<!--        select id,homework_end_time as homeworkEndTime from lesson where homework_status = 1 and deleted = 0-->
-<!--    </select>-->
+    <!--    <select id="selectLessonIdList" resultType="net.edu.module.vo.LessonVO">-->
+    <!--        select id,homework_end_time as homeworkEndTime from lesson where homework_status = 1 and deleted = 0-->
+    <!--    </select>-->
 
     <select id="getListById" resultType="net.edu.module.vo.LessonVO">
         select

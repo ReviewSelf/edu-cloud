@@ -5,8 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.convert.ArchiveExamConvert;
-import net.edu.module.entity.ArchiveExamEntity;
 import net.edu.module.query.ArchiveExamQuery;
 import net.edu.module.service.ArchiveExamService;
 import net.edu.module.vo.ArchiveExamVO;
@@ -52,7 +50,7 @@ public class ArchiveExamController {
 
     @GetMapping("course/{courseId}/{classId}")
     @Operation(summary = "信息")
-    public Result<List<ArchiveExamVO>> selectExamByCourseId(@PathVariable("courseId") Long courseId,@PathVariable("classId") Long classId){
+    public Result<List<ArchiveExamVO>> selectExamByCourseId(@PathVariable("courseId") Long courseId, @PathVariable("classId") Long classId){
         return Result.ok(archiveExamService.selectExamByCourseId(courseId,classId));
     }
 

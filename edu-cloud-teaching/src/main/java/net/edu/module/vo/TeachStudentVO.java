@@ -3,7 +3,7 @@ package net.edu.module.vo;
 import lombok.Data;
 
 @Data
-public class TeachStudentVo {
+public class TeachStudentVO {
     /**
      * 学生账号
      */

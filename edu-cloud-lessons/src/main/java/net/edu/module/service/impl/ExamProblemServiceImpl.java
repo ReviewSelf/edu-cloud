@@ -1,9 +1,6 @@
 package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.CollectionUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -12,19 +9,15 @@ import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
-import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.api.EduProblemApi;
-import net.edu.module.api.EduTeachApi;
-import net.edu.module.convert.ExamProblemConvert;
 import net.edu.module.dao.ExamProblemDao;
 import net.edu.module.entity.ExamProblemEntity;
 import net.edu.module.query.ExamProblemQuery;
 import net.edu.module.service.ExamProblemService;
 import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+
 import java.util.List;
 
 /**
@@ -53,11 +46,11 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
     @Override
     public List<ExamProblemEntity> list(Long examId) {
         List<ExamProblemEntity> list = null;
-        list = (List<ExamProblemEntity>) redisUtils.get(RedisKeys.getExamProblem(examId));
+//        list = (List<ExamProblemEntity>) redisUtils.get(RedisKeys.getExamProblem(examId));
         if (list == null) {
             list = new LambdaQueryChainWrapper<>(baseMapper)
-                    .eq(ExamProblemEntity::getExamId, examId).orderByAsc(ExamProblemEntity::getScore).list();
-            redisUtils.set(RedisKeys.getExamProblem(examId), list, RedisUtils.HOUR_ONE_EXPIRE);
+                    .eq(ExamProblemEntity::getExamId, examId).orderByAsc(ExamProblemEntity::getSort).list();
+//            redisUtils.set(RedisKeys.getExamProblem(examId), list, RedisUtils.HOUR_ONE_EXPIRE);
         }
         return list;
     }

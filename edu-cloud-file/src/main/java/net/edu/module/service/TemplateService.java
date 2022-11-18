@@ -2,7 +2,8 @@ package net.edu.module.service;
 
 import lombok.SneakyThrows;
 import net.edu.framework.common.exception.ServerException;
-import net.edu.module.utils.ResponseUtils;
+import net.edu.framework.common.utils.ResponseHeadUtils;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -20,65 +21,49 @@ public class TemplateService {
     @Value("${storage.local.templatePath}")
     String templatePath;
 
+    private final int CHOICE_TYPE=1;
+    private final int FILL_TYPE=2;
+    private final int CODE_TYPE=3;
+
+
     @SneakyThrows
     public void downloadArchiveImportExcel(HttpServletResponse response){
-        String path=templatePath+ File.separator;
-        String name="";
-        path+="archiveImportExcel.xlsx";
-        name="能力导入模板文件.xlsx";
-        File file = new File(path);
-        if (!file.exists()) {
-            throw new ServerException("文件不存在");
-        }
-        FileInputStream fileInputStream = new FileInputStream(file);
-        InputStream fis = new BufferedInputStream(fileInputStream);
-        byte[] buffer = new byte[fis.available()];
-        fis.read(buffer);
-        fis.close();
-        ResponseUtils.responseEXCELHead(response, name);
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(buffer);
-        outputStream.flush();
+        String path=templatePath+ File.separator+"archiveImportExcel.xlsx";
+        String name="能力导入模板文件.xlsx";
+        ResponseHeadUtils.responseEXCELHead(response, name);
+        outputFile(response,path);
     }
 
     @SneakyThrows
     public void downloadStudentImportExcel(HttpServletResponse response){
-        String path=templatePath+ File.separator;
-        String name="";
-        path+="studentImportExcel.xlsx";
-        name="学生导入模板文件.xlsx";
-        File file = new File(path);
-        if (!file.exists()) {
-            throw new ServerException("文件不存在");
-        }
-        FileInputStream fileInputStream = new FileInputStream(file);
-        InputStream fis = new BufferedInputStream(fileInputStream);
-        byte[] buffer = new byte[fis.available()];
-        fis.read(buffer);
-        fis.close();
-        ResponseUtils.responseEXCELHead(response, name);
-        OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
-        outputStream.write(buffer);
-        outputStream.flush();
+        String path=templatePath+ File.separator+"studentImportExcel.xlsx";
+        String name="学生导入模板文件.xlsx";
+        ResponseHeadUtils.responseEXCELHead(response, name);
+        outputFile(response,path);
     }
 
     @SneakyThrows
     public void downloadProblemImportExcel(Integer type, HttpServletResponse response){
         String path=templatePath+ File.separator;
         String name="";
-        if(type==1){
+        if(type==CHOICE_TYPE){
             path+="choiceImportExcel.xlsx";
             name="选择题导入模板文件.xlsx";
         }
-        else if(type==2){
+        else if(type==FILL_TYPE){
             path+="fillImportExcel.xlsx";
-            name="判断题导入模板文件.xlsx";
+            name="填空题导入模板文件.xlsx";
         }
-        else if (type==3) {
+        else if (type==CODE_TYPE) {
             path+="codeImportExcel.xlsx";
             name="代码题导入模板文件.xlsx";
         }
+        ResponseHeadUtils.responseEXCELHead(response, name);
+        outputFile(response,path);
+    }
 
+    @SneakyThrows
+    public void outputFile(HttpServletResponse response, String path){
         File file = new File(path);
         if (!file.exists()) {
             throw new ServerException("文件不存在");
@@ -88,7 +73,6 @@ public class TemplateService {
         byte[] buffer = new byte[fis.available()];
         fis.read(buffer);
         fis.close();
-        ResponseUtils.responseEXCELHead(response, name);
         OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
         outputStream.write(buffer);
         outputStream.flush();

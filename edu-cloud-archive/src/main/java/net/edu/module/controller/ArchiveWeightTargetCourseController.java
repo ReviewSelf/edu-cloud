@@ -5,10 +5,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.convert.ArchiveWeightTargetCourseConvert;
-import net.edu.module.entity.ArchiveWeightTargetCourseEntity;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
 import net.edu.module.query.ArchiveWeightTargetCourseQuery;
+import net.edu.module.vo.ArchivePointAndTargetVO;
 import net.edu.module.vo.ArchiveWeightTargetCourseVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -86,4 +85,12 @@ public class ArchiveWeightTargetCourseController {
         archiveWeightTargetCourseService.insertCourseWeight(vo);
         return Result.ok();
     }
+
+    @GetMapping("getPointAndTarget")
+    @Operation(summary = "获取指标点与教学目标信息")
+    public Result<List<ArchivePointAndTargetVO>> selectPointAndTarget(@RequestParam("courseId")Long courseId){
+        return Result.ok(archiveWeightTargetCourseService.selectPointAndTarget(courseId));
+    }
+
+
 }

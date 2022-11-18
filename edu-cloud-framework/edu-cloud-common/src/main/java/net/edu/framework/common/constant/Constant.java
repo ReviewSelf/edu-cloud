@@ -42,4 +42,10 @@ public interface Constant {
      * OK
      */
     String OK = "OK";
+
+    Long TEA_ROLE=1L;
+
+    Long STU_ROLE=2L;
+
+    Long ADM_ROLE=3L;
 }

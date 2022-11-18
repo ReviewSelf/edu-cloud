@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
-import net.edu.module.entity.OrgEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.TeacherQuery;
 import net.edu.module.query.UserQuery;
@@ -41,7 +40,7 @@ public interface UserDao extends BaseDao<UserEntity> {
 		return this.selectOne(new QueryWrapper<UserEntity>().eq("mobile", mobile));
 	}
 
-	List<AllTeacherVo> getTeacher();
+	List<AllTeacherVO> getTeacher();
 
 	void updateSubmitCorrectTimes(Long userId,Integer correct);
 
@@ -51,5 +50,5 @@ public interface UserDao extends BaseDao<UserEntity> {
 
 	List<AffairTeacherVO> getAffairTeacherList(Map<String, Object> params);
 
-	IPage<TeachStudentVo> selectStudents(Page<TeachStudentVo> page, StudentsVo vo);
+	IPage<TeachStudentVO> selectStudents(Page<TeachStudentVO> page, StudentsVO vo);
 }

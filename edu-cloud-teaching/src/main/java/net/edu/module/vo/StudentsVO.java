@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 @Data
 @Schema(description = "学生表")
-public class StudentsVo implements Serializable {
+public class StudentsVO implements Serializable {
 
     @Schema(description = "班级ID")
     private Integer classId;

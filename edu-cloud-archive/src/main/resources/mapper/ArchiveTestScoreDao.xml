@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.ArchiveTestScoreDao">
-
     <resultMap type="net.edu.module.entity.ArchiveTestScoreEntity" id="archiveTestScoreMap">
         <result property="id" column="id"/>
         <result property="stuId" column="stu_id"/>
@@ -32,4 +31,12 @@
         from archive_test_score
         where test_id = #{examId}
     </select>
+
+    <insert id="insertArchiveTestScore" parameterType="net.edu.module.entity.ArchiveTestScoreEntity">
+        insert into archive_test_score
+        (stu_id,stu_name,score,test_id) values
+        <foreach collection="list" item="item"  separator=",">
+            (#{stuId},#{stuName},#{item.score},#{item.testId})
+        </foreach>
+    </insert>
 </mapper>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.TeachPlanPaperDao">
-    <select id="selectTeachPlanPaper" resultType="net.edu.module.vo.TeachPlanPaperVo">
+    <select id="selectTeachPlanPaper" resultType="net.edu.module.vo.TeachPlanPaperVO">
         select (select name from problem_paper where id = t.paper_id) as paperName, t.paper_id, t.plan_id, t.remark
         from teach_plan_paper t
         where plan_id = #{planId}
@@ -21,5 +21,13 @@
         from teach_plan_paper
         where plan_id = #{planId}
     </delete>
+
+    <select id="selectPaperByClassIdList" resultType="net.edu.module.vo.TeachPlanPaperVO">
+        SELECT a.remark,a.paper_id as paperId,b.name as paperName,b.score,b.description,b.problem_num as problemNum FROM teach_plan_paper a  join  problem_paper b on a.paper_id=b.id
+        WHERE EXISTS (SELECT 1 FROM teach_class c WHERE c.plan_id =a.plan_id and c.id in
+         <foreach collection="classIdList" item="item" separator="," open="(" close=")">#{item}
+         </foreach>
+        )
+    </select>
 
 </mapper>

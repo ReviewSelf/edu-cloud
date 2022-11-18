@@ -4,6 +4,7 @@ package net.edu.module.service;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.ArchiveWeightTargetCourseEntity;
+import net.edu.module.vo.ArchivePointAndTargetVO;
 import net.edu.module.vo.ArchiveWeightTargetCourseVO;
 import net.edu.module.query.ArchiveWeightTargetCourseQuery;
 
@@ -30,6 +31,8 @@ public interface ArchiveWeightTargetCourseService extends BaseService<ArchiveWei
     Integer insertCourseWeight(List<ArchiveWeightTargetCourseVO> archiveWeightTargetCourseVO);
 
     ArchiveWeightTargetCourseVO selectById(Long id);
+
+    List<ArchivePointAndTargetVO> selectPointAndTarget(Long courseId);
 
     List<ArchiveWeightTargetCourseVO> selectCourseByCourseId(Long courseId);
 }

@@ -34,11 +34,14 @@
             and difficulty=#{query.difficulty}
         </if>
         )a
-        where
-        <if test="query.answered ==0 ">
-            not
+        <if test="query.answered!=null">
+            where
+            <if test="query.answered ==0 ">
+                not
+            </if>
+            exists(select 1 from judge_record b where a.id=b.problem_id and a.problemType=b.problem_type
+            and #{query.userId}=b.user_id and submit_status=3)
         </if>
-        exists(select 1 from judge_record b where a.id=b.problem_id and a.problemType=b.problem_type
-        and #{query.userId}=b.user_id and submit_status=3)
+
     </select>
 </mapper>

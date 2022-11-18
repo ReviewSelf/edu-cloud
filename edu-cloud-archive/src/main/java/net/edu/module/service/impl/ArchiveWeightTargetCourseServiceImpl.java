@@ -9,6 +9,7 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveWeightTargetCourseConvert;
 import net.edu.module.entity.ArchiveWeightTargetCourseEntity;
 import net.edu.module.query.ArchiveWeightTargetCourseQuery;
+import net.edu.module.vo.ArchivePointAndTargetVO;
 import net.edu.module.vo.ArchiveWeightTargetCourseVO;
 import net.edu.module.dao.ArchiveWeightTargetCourseDao;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
@@ -84,4 +85,8 @@ public class ArchiveWeightTargetCourseServiceImpl extends BaseServiceImpl<Archiv
     }
 
 
+    @Override
+    public  List<ArchivePointAndTargetVO> selectPointAndTarget(Long courseId){
+        return archiveWeightTargetCourseDao.selectPointAndTarget(courseId);
+    }
 }

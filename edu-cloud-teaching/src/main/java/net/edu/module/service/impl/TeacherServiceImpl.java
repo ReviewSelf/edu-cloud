@@ -13,9 +13,8 @@ import net.edu.module.entity.UserEntity;
 import net.edu.module.query.TeacherQuery;
 import net.edu.module.service.RoleService;
 import net.edu.module.service.TeacherService;
-import net.edu.module.vo.AllTeacherVo;
+import net.edu.module.vo.AllTeacherVO;
 import net.edu.module.vo.TeacherVO;
-import net.edu.module.vo.UserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -124,8 +123,8 @@ public class TeacherServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     }
 
     @Override
-    public List<AllTeacherVo> GetTeacher(){
-        List<AllTeacherVo> allTeacherVo=baseMapper.getTeacher();
+    public List<AllTeacherVO> GetTeacher(){
+        List<AllTeacherVO> allTeacherVo=baseMapper.getTeacher();
         return allTeacherVo;
     }
 

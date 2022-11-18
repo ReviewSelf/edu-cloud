@@ -1,12 +1,14 @@
 package net.edu.module.service.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.ExcelUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.FillProblemConvert;
@@ -96,9 +98,12 @@ public class FillProblemServiceImpl extends BaseServiceImpl<FillProblemDao, Fill
     @SneakyThrows
     @Override
     public void importFromExcel(MultipartFile file) {
-        List<FillProblemVO> list = EasyExcel.read(file.getInputStream()).head(FillProblemVO.class).sheet().headRowNumber(3).doReadSync();
-        for (FillProblemVO vo : list) {
-            save(vo);
+
+        List<FillProblemVO> list= ExcelUtils.readSync(file,FillProblemVO.class,3,0, ExcelUtils.getExcelFileType(file));
+        if(list!=null){
+            for (FillProblemVO vo:list){
+                save(vo);
+            }
         }
     }
 }

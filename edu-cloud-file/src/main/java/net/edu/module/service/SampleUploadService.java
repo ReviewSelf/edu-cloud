@@ -5,7 +5,7 @@ import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.utils.EncryptUtils;
 import net.edu.framework.common.utils.RedisUtils;
-import net.edu.module.utils.ResponseUtils;
+import net.edu.framework.common.utils.ResponseHeadUtils;
 import net.edu.module.vo.SampleVO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -71,7 +71,7 @@ public class SampleUploadService {
         byte[] buffer = new byte[fis.available()];
         fis.read(buffer);
         fis.close();
-        ResponseUtils.responseTXTHead(response, file.getName());
+        ResponseHeadUtils.responseTXTHead(response, file.getName());
         OutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
         outputStream.write(buffer);
         outputStream.flush();

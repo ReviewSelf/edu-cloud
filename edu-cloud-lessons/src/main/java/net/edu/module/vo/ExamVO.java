@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import net.edu.framework.common.utils.DateUtils;
 import java.util.Date;
+import java.util.List;
 
 /**
 * 考试
@@ -24,9 +25,6 @@ public class ExamVO implements Serializable {
 
 	@Schema(description = "试卷ID")
 	private Long paperId;
-
-	@Schema(description = "班级ID")
-	private Long classId;
 
 	@Schema(description = "题目数量")
 	private Integer problemNum;
@@ -58,9 +56,6 @@ public class ExamVO implements Serializable {
 	@Schema(description = "考试地点")
 	private String place;
 
-	@Schema(description = "班级名字")
-	private String className;
-
 	@Schema(description = "时间限制")
 	private Integer timeLimit;
 
@@ -75,10 +70,16 @@ public class ExamVO implements Serializable {
 	@Schema(description = "是否批改")
 	private Integer  isCorrecting;
 
+	@Schema(description = "班级名字")
+	private List<String> classListName;
+
+	@Schema(description = "分数")
+	private Integer  grade;
 
 
+	@Schema(description = "班级ID")
+	private List<Long> classIdList;
 
-
-
+	private String remark;
 
 }

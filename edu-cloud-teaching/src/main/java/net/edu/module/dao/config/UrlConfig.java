@@ -1,4 +1,4 @@
-package net.edu.module.config;
+package net.edu.module.dao.config;
 
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;

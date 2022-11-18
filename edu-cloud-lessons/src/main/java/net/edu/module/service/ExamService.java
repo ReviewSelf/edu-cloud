@@ -2,7 +2,6 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.vo.ExamAddVo;
 import net.edu.module.vo.ExamVO;
 import net.edu.module.query.ExamQuery;
 import net.edu.module.entity.ExamEntity;
@@ -23,7 +22,7 @@ public interface ExamService extends BaseService<ExamEntity> {
 
     ExamEntity get(Long examId);
 
-    void save(ExamAddVo vo);
+    void save(ExamVO vo);
 
     void update(ExamVO vo);
 
@@ -33,7 +32,6 @@ public interface ExamService extends BaseService<ExamEntity> {
 
     List<ExamVO> getExamingList(Long userId);
 
-    ExamVO getPaper(Long id);
 
     void updateExamIndex(Long examId);
 
@@ -43,5 +41,4 @@ public interface ExamService extends BaseService<ExamEntity> {
 
     void exportUserExam(Long examId,List<Long> userIdList,HttpServletResponse response) throws IOException;
 
-    List<ExamVO> getPaperByClassId(List<Long> classIdList);
 }

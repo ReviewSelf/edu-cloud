@@ -2,12 +2,14 @@ package net.edu.module.service.impl;
 
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.ExcelUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.CodeProblemConvert;
@@ -114,10 +116,12 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
     @SneakyThrows
     @Override
     public void importFromExcel(MultipartFile file) {
-        List<CodeProblemVO> list=EasyExcel.read(file.getInputStream()).head(CodeProblemVO.class).sheet().headRowNumber(3).doReadSync();
-        for (CodeProblemVO vo:list){
-            vo.setMemoryLimit(vo.getMemoryLimit()* 1024);
-            save(vo);
+        List<CodeProblemVO> list=ExcelUtils.readSync(file,CodeProblemVO.class,3,0, ExcelUtils.getExcelFileType(file));
+        if(list!=null){
+            for (CodeProblemVO vo:list){
+                vo.setMemoryLimit(vo.getMemoryLimit()* 1024);
+                save(vo);
+            }
         }
     }
 }

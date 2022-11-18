@@ -33,7 +33,7 @@ public class HomeWorkServiceImpl extends BaseServiceImpl<HomeWorkDao,HomeWorkEnt
    }
 
     public  PageResult<HomeWorkVO> getStudentHomeWorkPage(HomeWorkQuery query){
-
+        System.out.println(query);
         Page<HomeWorkVO> page=new Page<>(query.getPage(), query.getLimit());
         IPage<HomeWorkVO> list=baseMapper.getStudentHomeWorkPage(page,query);
         return new PageResult<>(list.getRecords(),list.getTotal());

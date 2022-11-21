@@ -14,6 +14,7 @@ import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,7 +37,6 @@ public class ArchiveAssessController {
     @Operation(summary = "分页")
     public Result<PageResult<ArchiveAssessVO>> page(@Valid ArchiveAssessQuery query){
         PageResult<ArchiveAssessVO> page = archiveAssessService.page(query);
-
         return Result.ok(page);
     }
 
@@ -61,11 +61,32 @@ public class ArchiveAssessController {
         return Result.ok();
     }
 
+    @PostMapping("addAssess")
+    @Operation(summary = "保存")
+    public Result<String> save1(@RequestBody ArchiveAssessVO vo){
+        archiveAssessService.save1(vo);
+        return Result.ok();
+    }
+
+    @PutMapping("addAssess")
+    @Operation(summary = "修改")
+    public Result<String> update1(@RequestBody ArchiveAssessVO vo){
+        archiveAssessService.update1(vo);
+        return Result.ok();
+    }
+
+
     @DeleteMapping
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveAssessService.delete(idList);
         return Result.ok();
+    }
+
+    @GetMapping("course")
+    @Operation(summary = "根据课程id获取权重")
+    public Result<List<ArchiveAssessVO>> selectAssessByCourseId(Long courseId){
+        return Result.ok(archiveAssessService.selectAssessByCourseId(courseId));
     }
 
 

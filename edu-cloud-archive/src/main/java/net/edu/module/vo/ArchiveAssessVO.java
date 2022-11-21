@@ -37,6 +37,9 @@ public class ArchiveAssessVO implements Serializable {
 	@Schema(description = "指标点编号")
 	private Long targetId;
 
+	@Schema(description = "权重")
+	private Double weight;
+
 	@Schema(description = "删除")
 	private Integer deleted;
 

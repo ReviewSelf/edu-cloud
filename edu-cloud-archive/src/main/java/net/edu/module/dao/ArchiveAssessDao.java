@@ -31,4 +31,10 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
     void updateArchiveAssess1(ArchiveAssessVO vo);
 
     void updateArchiveAssess2(ArchiveAssessVO vo);
+
+    List<ArchiveAssessVO> selectAssessByCourseId(Long courseId);
+
+    void insertArchiveAssess1(ArchiveAssessVO vo);
+
+    void updateArchiveAssess3(ArchiveAssessVO vo);
 }

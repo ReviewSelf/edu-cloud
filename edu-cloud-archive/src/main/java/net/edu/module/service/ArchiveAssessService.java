@@ -28,4 +28,9 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
     void delete(List<Long> idList);
 
 
+    List<ArchiveAssessVO> selectAssessByCourseId(Long courseId);
+
+    void save1(ArchiveAssessVO vo);
+
+    void update1(ArchiveAssessVO vo);
 }

@@ -7,6 +7,17 @@
         insert into archive_assess (name,create_time)
         values (#{name},now())
     </insert>
+    <insert id="insertArchiveAssess1">
+        insert into archive_assess (name,weight,target_id,course_id,create_time)
+        values (#{name},#{weight},#{targetId},#{courseId},now())
+    </insert>
+
+    <update id="updateArchiveAssess3">
+        update archive_assess
+        set name=#{name},weight=#{weight},target_id=#{targetId},course_id=#{courseId},update_time=now()
+        where id=#{assessId}
+    </update>
+
     <update id="updateArchiveAssess1">
         update archive_assess
         set name=#{name}
@@ -17,6 +28,7 @@
         set assess_id=#{assessId},target_id=#{targetId},course_id=#{courseId}
         where assess_id=#{id}
     </update>
+
 
 
     <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">
@@ -87,5 +99,18 @@
         ON t1.id = t3.assess_id
         WHERE
         t1.id=#{id}
+    </select>
+    <select id="selectAssessByCourseId" resultType="net.edu.module.vo.ArchiveAssessVO">
+        select
+            id as assessId,
+            target_id as targetId,
+            (select name from archive_target t1 where t1.id = targetId and t1.deleted = 0) as targetName,
+            name,
+            course_id as courseId,
+            (select name from archive_course t1 where t1.id = courseId and t1.deleted = 0) as courseName,
+            weight
+        from archive_assess
+        where deleted = 0
+          and course_id = #{courseId}
     </select>
 </mapper>

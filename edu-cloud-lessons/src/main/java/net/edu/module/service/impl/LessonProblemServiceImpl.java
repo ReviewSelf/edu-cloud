@@ -1,17 +1,22 @@
 package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.exception.ServerException;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.LessonProblemConvert;
 import net.edu.module.entity.LessonProblemEntity;
 import net.edu.module.entity.LessonResourceEntity;
 import net.edu.module.query.LessonProblemQuery;
+import net.edu.module.vo.ExamAttendLogVO;
 import net.edu.module.vo.LessonProblemVO;
 import net.edu.module.dao.LessonProblemDao;
 import net.edu.module.service.LessonProblemService;
@@ -94,7 +99,13 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
         redisUtils.delByPre(RedisKeys.getLessonProblem(lessonId,null));
     }
 
-
+    @Override
+    public PageResult<LessonProblemVO> unfinishedPage(Integer page, Integer limit) {
+        Long userId= SecurityUser.getUserId();
+        Page<LessonProblemVO> ipage = new Page<>(page,limit);
+        IPage<LessonProblemVO> list = baseMapper.selectUnfinishedPage(ipage,userId);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
 
 
     /**

@@ -1,5 +1,7 @@
 package net.edu.module.dao;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.LessonProblemEntity;
 import net.edu.module.query.LessonProblemQuery;
@@ -24,4 +26,6 @@ public interface LessonProblemDao extends BaseDao<LessonProblemEntity> {
     List<LessonProblemVO> selectLessonProblem(@Param("query") LessonProblemQuery query);
 
     int insertProblemListByTeacher(@Param("list") List<ProblemPaperItemEntity> problemList,Long lessonId);
+
+    IPage<LessonProblemVO> selectUnfinishedPage(Page<LessonProblemVO> ipage, Long userId);
 }

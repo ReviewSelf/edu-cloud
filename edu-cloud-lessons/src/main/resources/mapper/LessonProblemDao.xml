@@ -44,4 +44,15 @@
         </foreach>
     </insert>
 
+
+    <select id="selectUnfinishedPage" resultType="net.edu.module.vo.LessonProblemVO">
+        select id,lesson_id as lessonId,(select name from lesson where id=lesson_id)as lessonName,sort,score,problem_id as problemId,problem_name as problemName,used,
+        problem_type as problemType,begin_time as beginTime,end_time as endTime,source,type
+        from lesson_problem t
+        where type=1 and used=1
+        and exists (select 1 from lesson a join  lesson_attend_log b on b.lesson_id=a.id and b.stu_id=#{userId} WHERE a.end_time &lt; now() and  a.id=t.lesson_id)
+        and not exists(select 1 FROM judge_record c WHERE t.problem_id=c.problem_id and t.problem_type=c.problem_type and c.source=1 and c.source_id=t.lesson_id and c.submit_status=3 and c.user_id=#{userId})
+        order by lesson_id desc
+    </select>
+
 </mapper>

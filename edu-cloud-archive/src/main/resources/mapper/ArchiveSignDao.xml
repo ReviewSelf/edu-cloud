@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveSignDao">
+    <insert id="insertArchiveSignDao" parameterType="net.edu.module.entity.ArchiveSignEntity">
+        insert into archive_sign
+        (stu_id,stu_name,record,book_id) values
+        <foreach collection="list" item="item"  separator=",">
+            (#{item.stuId},#{item.stuName},#{item.record},#{item.bookId})
+        </foreach>
+    </insert>
+</mapper>

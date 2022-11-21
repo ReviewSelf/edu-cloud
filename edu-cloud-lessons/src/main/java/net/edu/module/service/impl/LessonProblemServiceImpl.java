@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * 课堂练习表
  *
- * @author 马佳浩 
+ * @author 马佳浩
  * @since 1.0.0 2022-09-15
  */
 @Service

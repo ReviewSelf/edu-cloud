@@ -48,6 +48,13 @@ public class ArchiveTargetController {
         return Result.ok(archiveTargetService.getName(grade));
     }
 
+    @GetMapping("targetAll")
+    @Operation(summary = "通过courseId获取指标点")
+    public Result<List<ArchiveTargetVO>> getTargetName(@RequestParam("courseId") Integer courseId){
+        System.out.println(archiveTargetService.getTargetName(courseId));
+        return Result.ok(archiveTargetService.getTargetName(courseId));
+    }
+
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ArchiveTargetVO vo){

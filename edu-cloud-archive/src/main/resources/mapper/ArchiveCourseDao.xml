@@ -60,6 +60,12 @@
         from archive_course
         where deleted = 0
     </select>
-
-
+    <select id="selectArchiveCourse" resultType="net.edu.module.vo.ArchiveCourseVO">
+        select
+        id,
+        sys_id,
+        name
+        from archive_course
+        where deleted = 0 and grade=#{grade}
+    </select>
 </mapper>

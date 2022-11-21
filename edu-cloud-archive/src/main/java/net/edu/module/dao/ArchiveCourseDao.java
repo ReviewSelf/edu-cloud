@@ -22,4 +22,5 @@ public interface ArchiveCourseDao extends BaseDao<ArchiveCourseEntity> {
 
     IPage<ArchiveCourseVO> selectArchiveCourseByPage(Page<ArchiveCourseVO> page, ArchiveCourseQuery query);
     List<ArchiveCourseVO> selectArchiveCourseAll();
+    List<ArchiveCourseVO> selectArchiveCourse(String grade);
 }

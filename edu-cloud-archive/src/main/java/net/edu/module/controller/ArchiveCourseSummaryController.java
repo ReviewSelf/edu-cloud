@@ -64,7 +64,6 @@ public class ArchiveCourseSummaryController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveCourseSummaryService.delete(idList);
-
         return Result.ok();
     }
 }

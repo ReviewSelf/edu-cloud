@@ -77,7 +77,7 @@ public class TeachClassController {
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid TeachClassVO vo){
         System.out.println("6666");
-        System.out.println(vo.getBeginTime());
+        System.out.println(vo);
         teachClassService.update(vo);
 
         return Result.ok();

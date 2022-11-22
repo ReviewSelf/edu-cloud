@@ -1,9 +1,9 @@
 package net.edu.module.service;
 
 import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.entity.ArchiveAssessScoreEntity;
 import net.edu.module.entity.ArchiveGoalScoreEntity;
-import net.edu.module.vo.ArchiveAssessScoreVO;
+import net.edu.module.vo.ArchiveGoalPeopleVO;
+import net.edu.module.vo.ArchiveGoalScoreVO;
 
 import java.util.List;
 
@@ -16,4 +16,9 @@ import java.util.List;
 public interface ArchiveGoalScoreService extends BaseService<ArchiveGoalScoreEntity> {
 
 
+    void insertGoalScore(List<ArchiveGoalScoreVO> vo);
+
+    List<ArchiveGoalPeopleVO> getSample(Long courseId);
+
+    List<ArchiveGoalScoreVO> getUnit(Long courseId);
 }

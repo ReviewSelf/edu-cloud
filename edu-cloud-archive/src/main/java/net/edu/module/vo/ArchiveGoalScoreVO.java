@@ -17,7 +17,7 @@ import java.util.List;
 */
 @Data
 @Schema(description = "考试成绩表")
-public class ArchiveAssessScoreVO implements Serializable {
+public class ArchiveGoalScoreVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(description = "自增id")
@@ -27,10 +27,10 @@ public class ArchiveAssessScoreVO implements Serializable {
 	private String stuId;
 
 	@Schema(description = "得分")
-	private List<String> score;
+	private List<Double> score;
 
 	@Schema(description = "总分")
-	private String total;
+	private Double total;
 
 	@Schema(description = "删除")
 	private Integer deleted;
@@ -56,13 +56,7 @@ public class ArchiveAssessScoreVO implements Serializable {
 	private String stuName;
 
 	@Schema(description = "评测id")
-	private Long testId;
-
-	@Schema(description = "平均达成度")
-	private Double[] avg;
-
-	@Schema(description = "权重")
-	private List<Double> weights;
+	private Long courseId;
 
 
 }

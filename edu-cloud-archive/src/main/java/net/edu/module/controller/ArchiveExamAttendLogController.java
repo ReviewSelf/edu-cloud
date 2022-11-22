@@ -1,6 +1,7 @@
 package net.edu.module.controller;
 
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -47,6 +48,7 @@ public class ArchiveExamAttendLogController {
     public void exportExam(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
         String a = object.getStr("examId");
         String b = object.getStr("classId");
+        System.out.println(a);
         String[] examId = a.substring(1, a.length() - 1).split(",");
         String[] classId = b.substring(1, b.length() - 1).split(",");
         archiveExamAttendLogService.exportExam(examId, classId,response);

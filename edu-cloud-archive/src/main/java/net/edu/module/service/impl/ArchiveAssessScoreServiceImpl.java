@@ -42,10 +42,13 @@ public class ArchiveAssessScoreServiceImpl extends BaseServiceImpl<ArchiveAssess
     public List<ArchiveAssessScoreVO> selectAssessScoreByCourseId(Long courseId) {
         //所有学生的所有考试的成绩
         List<ArchiveTestScoreEntity> scoreEntities = archiveTestScoreDao.selectTestScoreByCourseId(courseId);
+        //待修改获取到的权重值
         List<Double> weights = archiveWeightAssessTestDao.selectTestByCourseId(courseId);
         DecimalFormat df = new DecimalFormat("0.0");
+        //教学目标的数量
         int size = weights.size();
         List<ArchiveAssessScoreVO> list = new ArrayList<>();
+
         for (int i = 0; i < scoreEntities.size(); i+=size) {
             double sumScore = 0;
             List<String> score = new ArrayList<>();
@@ -64,6 +67,20 @@ public class ArchiveAssessScoreServiceImpl extends BaseServiceImpl<ArchiveAssess
             list.add(vo);
         }
 
+
+        //平均分
+        Double[] avg = {0.0,0.0,0.0,0.0};
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < size; j++) {
+                avg[j] += Double.parseDouble(list.get(i).getScore().get(j));
+            }
+            avg[size] += Double.parseDouble(list.get(i).getTotal());
+        }
+        for (int i = 0; i < size+1; i++) {
+            avg[i] = Double.valueOf(df.format(avg[i] / list.size()));
+        }
+        list.get(0).setAvg(avg);
+        list.get(0).setWeights(weights);
         return list;
     }
 

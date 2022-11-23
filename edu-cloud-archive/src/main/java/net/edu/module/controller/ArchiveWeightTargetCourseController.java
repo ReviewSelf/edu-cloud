@@ -74,7 +74,7 @@ public class ArchiveWeightTargetCourseController {
     }
 
     @GetMapping("course")
-    @Operation(summary = "根据指标点id获取权重")
+    @Operation(summary = "根据课程id获取权重")
     public Result<List<ArchiveWeightTargetCourseVO>> selectCourseByCourseId(@RequestParam("courseId") Long courseId){
         return Result.ok(archiveWeightTargetCourseService.selectCourseByCourseId(courseId));
     }

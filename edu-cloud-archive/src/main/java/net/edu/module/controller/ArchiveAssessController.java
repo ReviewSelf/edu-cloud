@@ -76,6 +76,12 @@ public class ArchiveAssessController {
         return Result.ok();
     }
 
+    @GetMapping("deleteById")
+    @Operation(summary = "删除考核点")
+    public Result<String> deleteAssess(@RequestParam("courseId")Long courseId,@RequestParam("targetId")Long targetId,@RequestParam("assessId")Long assessId){
+        archiveAssessService.deleteAssess(courseId,targetId,assessId);
+        return Result.ok();
+    }
 
     @DeleteMapping
     @Operation(summary = "删除")
@@ -95,6 +101,7 @@ public class ArchiveAssessController {
         archiveAssessService.assessFromExcel(file);
         return Result.ok();
     }
+
 
     @GetMapping("stepTwo")
     @Operation(summary = "获取考核比例")

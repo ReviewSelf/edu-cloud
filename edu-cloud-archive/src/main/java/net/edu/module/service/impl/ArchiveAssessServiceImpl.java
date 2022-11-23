@@ -95,6 +95,11 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     }
 
     @Override
+    public void deleteAssess(Long courseId, Long  targetId,Long assessId) {
+        archiveAssessDao.deleteAssess(courseId,targetId,assessId);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);

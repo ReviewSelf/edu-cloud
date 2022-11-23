@@ -48,12 +48,17 @@
         WHERE id = #{teachId}
     </update>
 
-    <delete id="updateByCourseId">
+    <update id="updateByCourseId">
         update archive_assess
         set deleted = 1
         where id = #{assessId} and course_id = #{courseId}
-    </delete>
+    </update>
 
+    <update id="deleteAssess">
+        update archive_assess
+        set deleted = 1
+        where course_id = #{courseId} and target_id = #{targetId} and id=#{assessId}
+    </update>
 
 
     <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">

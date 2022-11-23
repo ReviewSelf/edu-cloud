@@ -60,4 +60,6 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
     void updateEvaluation(ArchivePointAndTargetVO assess);
 
     BigDecimal selectWeightSum(ArchiveAssessByCourseIdVo assess);
+
+    void deleteAssess(Long courseId, Long targetId,Long assessId);
 }

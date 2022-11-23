@@ -69,10 +69,10 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
     @Override
-    public void exportExcelSummary(HttpServletResponse response) throws IOException {
-        List<ArchivePointAndTargetVO>  archivePointAndTargetVOS=archiveWeightTargetCourseService.selectPointAndTarget(2L);
-        System.out.println(archivePointAndTargetVOS);
-        ExcelSummaryUtil.excelSummaryUtil(response);
+    public void exportExcelSummary(Long courseId, HttpServletResponse response) throws IOException {
+//        List<ArchivePointAndTargetVO>  archivePointAndTargetVOS=archiveWeightTargetCourseService.selectPointAndTarget(courseId);
+//        System.out.println(archivePointAndTargetVOS);
+        ExcelSummaryUtil.excelSummaryUtil(courseId,response);
     }
 
 }

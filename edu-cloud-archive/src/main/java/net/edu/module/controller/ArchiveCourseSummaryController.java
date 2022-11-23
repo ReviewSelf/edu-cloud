@@ -1,5 +1,6 @@
 package net.edu.module.controller;
 
+import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -71,9 +72,9 @@ public class ArchiveCourseSummaryController {
 
     @PostMapping("exportExcelSummary")
     @Operation(summary = "导出课程总体情况excel表")
-    public void exportExcelSummary(@RequestBody JSONObject object,HttpServletResponse response) throws IOException {
-        System.out.println(object);
-        archiveCourseSummaryService.exportExcelSummary(response);
+    public void exportExcelSummary(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
+        Long courseId= Long.valueOf(object.get("courseId").toString());
+        archiveCourseSummaryService.exportExcelSummary(courseId,response);
     }
 
 }

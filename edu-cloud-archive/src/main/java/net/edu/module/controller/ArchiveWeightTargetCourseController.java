@@ -89,6 +89,7 @@ public class ArchiveWeightTargetCourseController {
     @GetMapping("getPointAndTarget")
     @Operation(summary = "获取指标点与教学目标信息")
     public Result<List<ArchivePointAndTargetVO>> selectPointAndTarget(@RequestParam("courseId")Long courseId){
+        System.out.println(archiveWeightTargetCourseService.selectPointAndTarget(courseId));
         return Result.ok(archiveWeightTargetCourseService.selectPointAndTarget(courseId));
     }
 

@@ -12,14 +12,11 @@ import net.edu.framework.common.excel.HeadContentCellStyle;
 import net.edu.framework.common.utils.ResponseHeadUtils;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
 import net.edu.module.vo.ArchivePointAndTargetVO;
-import net.edu.module.vo.ArchiveWeightTargetCourseVO;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -77,10 +74,10 @@ public class ExcelSummaryUtil {
                 .registerWriteHandler(new SimpleColumnWidthStyleStrategy(19))
                 .registerWriteHandler(horizontalCellStyleStrategy)
                 .build();
-
+        //生成工作簿
         summary1(excelWriter);
-
         summary2(excelWriter);
+
         excelWriter.finish();
         response.flushBuffer();
     }

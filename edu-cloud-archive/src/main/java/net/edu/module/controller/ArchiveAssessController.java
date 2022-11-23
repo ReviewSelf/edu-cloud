@@ -123,6 +123,7 @@ public class ArchiveAssessController {
         BigDecimal sum = archiveAssessService.getWeightSum(assess);
         BigDecimal Bsum = sum.setScale(2);
         BigDecimal One = new BigDecimal(1.00);
+        System.out.println(One.subtract(Bsum));
         return Result.ok(One.subtract(Bsum));
     }
 }

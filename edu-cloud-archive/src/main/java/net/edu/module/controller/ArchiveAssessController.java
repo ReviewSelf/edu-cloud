@@ -7,12 +7,15 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.query.ArchiveAssessQuery;
+import net.edu.module.vo.ArchiveAssessByCourseIdVo;
 import net.edu.module.vo.ArchiveAssessVO;
+import net.edu.module.vo.ArchivePointAndTargetVO;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -67,5 +70,59 @@ public class ArchiveAssessController {
     public Result<String> assessFromExcel(@RequestParam("file") MultipartFile file) {
         archiveAssessService.assessFromExcel(file);
         return Result.ok();
+    }
+
+    @GetMapping("stepTwo")
+    @Operation(summary = "获取考核比例")
+    public Result<ArchiveAssessVO> getSummaryStep2(@RequestParam String courseId) {
+        ArchiveAssessVO list = archiveAssessService.getSummaryStep2(courseId);
+        return Result.ok();
+    }
+
+    @GetMapping("/byCourseId")
+    @Operation(summary = "通过courseId查找考核点")
+    public Result<List<ArchiveAssessByCourseIdVo>> getAssessByCourseId(@RequestParam String courseId) {
+        List<ArchiveAssessByCourseIdVo> list = archiveAssessService.getAssessByCourseId(courseId);
+        return Result.ok(list);
+    }
+
+    @GetMapping("/byTargetId")
+    @Operation(summary = "通过targetId查找考核点")
+    public Result<List<ArchiveAssessByCourseIdVo>> getAssessByTargetId(@RequestParam String targetId) {
+        List<ArchiveAssessByCourseIdVo> list = archiveAssessService.getAssessByTargetId(targetId);
+        System.out.println(list);
+        return Result.ok(list);
+    }
+
+    @GetMapping("/deleteByCourseId")
+    @Operation(summary = "通过courseId删除")
+    public Result<String> deleteByCourseId(@RequestParam String courseId , String assessId) {
+        archiveAssessService.deleteByCourseId(courseId , assessId);
+        return Result.ok();
+    }
+
+
+    @PostMapping("/saveAssessWeight")
+    @Operation(summary = "教学目标绑定考核点")
+    public Result<String> saveAssessWeight(@RequestBody List<ArchiveAssessByCourseIdVo> assess) {
+        archiveAssessService.saveAssessWeight(assess);
+        return Result.ok();
+    }
+
+    @PostMapping("/saveEvaluation")
+    @Operation(summary = "更新评价依据")
+    public Result<String> saveEvaluation(@RequestBody ArchivePointAndTargetVO assess) {
+        System.out.println(assess);
+        archiveAssessService.saveEvaluation(assess);
+        return Result.ok();
+    }
+
+    @PostMapping("/getWeightSum")
+    @Operation(summary = "获取权重富余")
+    public Result<BigDecimal> getWeightSum(@RequestBody ArchiveAssessByCourseIdVo assess) {
+        BigDecimal sum = archiveAssessService.getWeightSum(assess);
+        BigDecimal Bsum = sum.setScale(2);
+        BigDecimal One = new BigDecimal(1.00);
+        return Result.ok(One.subtract(Bsum));
     }
 }

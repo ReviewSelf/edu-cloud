@@ -17,6 +17,9 @@ public class ArchivePointAndTargetVO implements Serializable {
     @Schema(description = "课程编号")
     private Long id;
 
+    @Schema(description = "教学目标ID")
+    private Long teachId;
+
     @Schema(description = "外部系统编号")
     private Long sysId;
 
@@ -62,8 +65,8 @@ public class ArchivePointAndTargetVO implements Serializable {
     @Schema(description = "评价方式")
     private String evaluationMethod;
 
-    @Schema(description = "教学目标编号")
-    private String sort;
+    @Schema(description = "教学目标名称")
+    private String goalName;
 
     @Schema(description = "指标点编号")
     private Long pointId;

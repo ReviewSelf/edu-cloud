@@ -23,4 +23,5 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
     void update(ArchiveCourseSummaryVO vo);
 
     void delete(List<Long> idList);
+
 }

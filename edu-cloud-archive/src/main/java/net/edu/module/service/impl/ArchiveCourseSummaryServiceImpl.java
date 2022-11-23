@@ -12,6 +12,7 @@ import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import net.edu.module.dao.ArchiveCourseSummaryDao;
 import net.edu.module.service.ArchiveCourseSummaryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCourseSummaryDao, ArchiveCourseSummaryEntity> implements ArchiveCourseSummaryService {
+
+    @Autowired
+    ArchiveCourseSummaryDao archiveCourseSummaryDao;
 
     @Override
     public PageResult<ArchiveCourseSummaryVO> page(ArchiveCourseSummaryQuery query) {
@@ -59,5 +63,6 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     public void delete(List<Long> idList) {
         removeByIds(idList);
     }
+
 
 }

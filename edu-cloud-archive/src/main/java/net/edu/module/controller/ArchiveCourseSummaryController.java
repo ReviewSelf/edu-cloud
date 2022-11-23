@@ -60,6 +60,8 @@ public class ArchiveCourseSummaryController {
         return Result.ok();
     }
 
+
+
     @DeleteMapping
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
@@ -67,4 +69,5 @@ public class ArchiveCourseSummaryController {
 
         return Result.ok();
     }
+
 }

@@ -1,19 +1,21 @@
 package net.edu.module.controller;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.dao.ArchiveExamAttendLogDao;
 import net.edu.module.service.ArchiveExamAttendLogService;
-import net.edu.module.service.ArchiveExamService;
 import net.edu.module.vo.ArchiveExamAttendLogVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -41,9 +43,14 @@ public class ArchiveExamAttendLogController {
         return Result.ok(archiveExamAttendLogService.selectExamAttendLogByExamId(examId));
     }
 
-    @GetMapping("exportExam")
+    @PostMapping("exportExam")
     @Operation(summary = "导出总体考试情况excel")
-    public void exportExam(@RequestParam(value = "examId") Long examId, HttpServletResponse response) throws IOException {
-        archiveExamAttendLogService.exportExam(examId, response);
+    public void exportExam(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
+        String a = object.getStr("examId");
+        String b = object.getStr("classId");
+        System.out.println(a);
+        String[] examId = a.substring(1, a.length() - 1).split(",");
+        String[] classId = b.substring(1, b.length() - 1).split(",");
+        archiveExamAttendLogService.exportExam(examId, classId,response);
     }
 }

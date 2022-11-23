@@ -39,7 +39,7 @@ public class ExamRecordService {
     }
 
     //一键批卷
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void makePaper(Long examId, Long userId) {
         ExamScoreVO vo=examRecordDao.selectUserExamScore(examId,userId);
         if(vo!=null && CollUtil.isNotEmpty(vo.getProblemRecords())){

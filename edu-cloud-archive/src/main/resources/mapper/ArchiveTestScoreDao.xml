@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveTestScoreDao">
+    <resultMap type="net.edu.module.entity.ArchiveTestScoreEntity" id="archiveTestScoreMap">
+        <result property="id" column="id"/>
+        <result property="stuId" column="stu_id"/>
+        <result property="score" column="score"/>
+        <result property="deleted" column="deleted"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="creator" column="creator"/>
+        <result property="version" column="version"/>
+        <result property="updater" column="updater"/>
+        <result property="stuName" column="stu_name"/>
+        <result property="testId" column="test_id"/>
+    </resultMap>
+
+    <select id="selectTestScoreByCourseId" resultMap="archiveTestScoreMap">
+        select
+            stu_id,stu_name,score,test_id
+        from archive_test_score
+        where deleted = 0 and test_id in (select id from archive_weight_assess_test where deleted = 0 and course_id = #{courseId})
+        order by stu_id
+    </select>
+
+    <select id="selectExamAttendLogByExamId" resultMap="archiveTestScoreMap">
+        select
+            stu_id,stu_name,score,test_id
+        from archive_test_score
+        where test_id = #{examId}
+    </select>
+
+    <insert id="insertArchiveTestScore" parameterType="net.edu.module.entity.ArchiveTestScoreEntity">
+        insert into archive_test_score
+        (stu_id,stu_name,score,test_id) values
+        <foreach collection="list" item="item"  separator=",">
+            (#{stuId},#{stuName},#{item.score},#{item.testId})
+        </foreach>
+    </insert>
+</mapper>

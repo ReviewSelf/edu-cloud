@@ -15,12 +15,11 @@
     </update>
     <select id="selectTestName" resultType="net.edu.module.vo.ArchiveWeightAssessTestVO">
         select
-            id,
-            test_id as testId,
-            assess_id as assessId,
-            (select name from exam t1 where t1.id = testId) as name,
-            weight
-        from archive_weight_assess_test
+            t2.id,
+            t2.assess_id as assessId,
+            (select name from exam t1 where t1.id = t2.id) as name,
+            t2.weight
+        from archive_weight_assess_test t2
         where deleted = 0 and assess_id = #{assessId}
     </select>
     <select id="selectArchiveTestAll" resultType="net.edu.module.vo.ArchiveWeightAssessTestVO">
@@ -42,5 +41,13 @@
             )
     </select>
 
+    <insert id="insertAssessTest" parameterType="net.edu.module.entity.ArchiveWeightAssessTestEntity" useGeneratedKeys="true" keyProperty="id">
+        insert into archive_weight_assess_test
+        (course_id,test_name) values
+        (#{courseId},#{testName})
+    </insert>
 
+    <select id="selectTestByCourseId" resultType="java.lang.Double">
+        select weight  from archive_weight_assess_test where deleted = 0 and course_id = #{courseId}
+    </select>
 </mapper>

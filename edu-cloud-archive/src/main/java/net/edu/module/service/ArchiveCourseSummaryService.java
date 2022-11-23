@@ -6,6 +6,8 @@ import net.edu.module.vo.ArchiveCourseSummaryVO;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,4 +25,6 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
     void update(ArchiveCourseSummaryVO vo);
 
     void delete(List<Long> idList);
+
+    void exportExcelSummary(Long courseId, HttpServletResponse response) throws IOException;
 }

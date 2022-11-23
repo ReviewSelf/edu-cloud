@@ -19,5 +19,5 @@ public interface ArchiveExamAttendLogDao extends BaseDao<ArchiveExamAttendLogEnt
 
     List<ArchiveExamAttendLogVO> selectExamAttendLogByExamId(Long examId);
 
-    ArchiveExamAttendLogVO selectById(Long id);
+    List<ArchiveExamAttendLogVO> selectUserIdList(Long classId);
 }

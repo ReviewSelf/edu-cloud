@@ -33,7 +33,7 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrgDao, SysOrgEntity> 
 
 	@Override
 	public List<SysOrgVO> getList() {
-		Map<String, Object> params = new HashMap<>();
+		Map<String, Object> params = new HashMap<>(16);
 
 		// 数据权限
 		params.put(Constant.DATA_SCOPE, getDataScope("t1", "id"));

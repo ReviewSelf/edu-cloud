@@ -49,6 +49,11 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
 
     private final ExamAttendLogDao examAttendLogDao;
 
+    private final int  NOT_ATTENDED=0;
+    private final int ATTENDED=1;
+    private final int FINISH=2;
+
+
     @Override
     public PageResult<ExamAttendLogVO> page(ExamAttendLogQuery query) {
         Page<ExamAttendLogVO> page = new Page<>(query.getPage(), query.getLimit());
@@ -97,23 +102,23 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
             Date date = new Date();
             if (vo.getBeginTime().getTime() <= date.getTime() && vo.getEndTime().getTime() >= date.getTime()) {
                 //考试期间
-                if (vo.getStatus() == 0) {
+                if (vo.getStatus() == NOT_ATTENDED) {
                     //未参与则签到
 
                     //加入考试
-                    vo.setStatus(1);
+                    vo.setStatus(ATTENDED);
                     vo.setJoinTime(date);
                     update(vo);
                     return true;
                 } else if (vo.getStatus() == 1) {
                     if (vo.getFinishExamTime().getTime() < System.currentTimeMillis()) {
                         //考试截至，结束考试
-                        vo.setStatus(2);
+                        vo.setStatus(FINISH);
                         update(vo);
                         throw new ServerException("已交卷");
                     }
                     return true;
-                } else if (vo.getStatus() == 2) {
+                } else if (vo.getStatus() == FINISH) {
                     //已交卷
                     throw new ServerException("已交卷");
                 }
@@ -185,8 +190,6 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
                     throw new ServerException("已加入此考试，请勿重复参加");
                 }
             }
-
-
         }
     }
 

@@ -122,7 +122,9 @@ public class KnowledgePointServiceImpl extends BaseServiceImpl<KnowledgePointDao
         if(StrUtil.isEmpty(query.getCode())){
             return new PageResult<>(null, 0L);
         }
-        query.setUserId(SecurityUser.getUserId());
+        if (query.getAnswered()!=null){
+            query.setUserId(SecurityUser.getUserId());
+        }
         Page<KpProblemVO> page = new Page<>(query.getPage(),query.getLimit());
         IPage<KpProblemVO> list = baseMapper.selectKpProblem(page,query);
         return new PageResult<>(list.getRecords(), list.getTotal());

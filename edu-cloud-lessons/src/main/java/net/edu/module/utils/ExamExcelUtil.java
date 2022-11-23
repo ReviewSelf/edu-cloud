@@ -78,7 +78,7 @@ public class ExamExcelUtil {
             List<String> list = new ArrayList<>();
             list.add(vo.get(i).getUsername());
             list.add(vo.get(i).getName());
-            BigDecimal sum = new BigDecimal(0.00);
+            BigDecimal sum = new BigDecimal("0.00");
             for (int j = 0; j < vo.get(i).getProblemRecords().size(); j++) {
                 //获取每道题分数
                 BigDecimal fraction = vo.get(i).getProblemRecords().get(j).getFraction();

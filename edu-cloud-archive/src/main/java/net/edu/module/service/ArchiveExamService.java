@@ -5,6 +5,9 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.ArchiveExamEntity;
 import net.edu.module.query.ArchiveExamQuery;
 import net.edu.module.vo.ArchiveExamVO;
+import net.edu.module.vo.ClassVO;
+
+import java.util.List;
 
 /**
  * @author weng
@@ -16,4 +19,8 @@ public interface ArchiveExamService extends BaseService<ArchiveExamEntity> {
     Integer insertExam();
 
     ArchiveExamVO selectExamById(Long id);
+
+    List<ArchiveExamVO> selectExamByCourseId(Long courseId,Long classId);
+
+    List<ClassVO> selectClassByCourseId(Long courseId);
 }

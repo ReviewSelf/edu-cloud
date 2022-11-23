@@ -3,6 +3,7 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.LessonProblemService;
 import net.edu.module.query.LessonProblemQuery;
@@ -14,21 +15,21 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
-* 课堂练习表
-*
-* @author 马佳浩 
-* @since 1.0.0 2022-09-15
-*/
+ * 课堂练习表
+ *
+ * @author 马佳浩
+ * @since 1.0.0 2022-09-15
+ */
 @RestController
 @RequestMapping("problem")
-@Tag(name="课堂练习表")
+@Tag(name = "课堂练习表")
 @AllArgsConstructor
 public class LessonProblemController {
     private final LessonProblemService lessonProblemService;
 
     @GetMapping("list")
     @Operation(summary = "获取课堂就题目信息")
-    public Result<List<LessonProblemVO>> list(@Valid LessonProblemQuery query){
+    public Result<List<LessonProblemVO>> list(@Valid LessonProblemQuery query) {
         List<LessonProblemVO> page = lessonProblemService.list(query);
 
         return Result.ok(page);
@@ -37,7 +38,7 @@ public class LessonProblemController {
 
     @PostMapping
     @Operation(summary = "课堂题拷贝至作业题")
-    public Result<String> save(@RequestBody LessonProblemVO vo){
+    public Result<String> save(@RequestBody LessonProblemVO vo) {
         lessonProblemService.save(vo);
 
         return Result.ok();
@@ -46,7 +47,7 @@ public class LessonProblemController {
 
     @DeleteMapping
     @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
+    public Result<String> delete(@RequestBody List<Long> idList) {
         lessonProblemService.delete(idList);
 
         return Result.ok();
@@ -54,18 +55,26 @@ public class LessonProblemController {
 
     @PostMapping("/update")
     @Operation(summary = "更新课堂练习开始时间结束时间")
-    public Result<String> updateProblem(@RequestBody List<LessonProblemVO> lessonProblemList){
+    public Result<String> updateProblem(@RequestBody List<LessonProblemVO> lessonProblemList) {
         lessonProblemService.updateProblem(lessonProblemList);
         return Result.ok();
     }
 
     @PostMapping("/batchInsertLessonProblem")
     @Operation(summary = "批量新增课堂题")
-    public Result<String> batchInsertLessonProblem(@RequestBody LessonAddVo obj){
-        lessonProblemService.insertProblemListByTeacher(obj.getList(),obj.getLessonId());
+    public Result<String> batchInsertLessonProblem(@RequestBody LessonAddVo obj) {
+        lessonProblemService.insertProblemListByTeacher(obj.getList(), obj.getLessonId());
         return Result.ok();
     }
 
+
+    @GetMapping("unfinished/page")
+    @Operation(summary = "获取课堂就题目信息")
+    public Result<PageResult<LessonProblemVO>> unfinishedPage(
+            @RequestParam(value = "page",defaultValue = "1") Integer page,
+            @RequestParam(value = "limit",defaultValue = "10") Integer limit) {
+        return Result.ok(lessonProblemService.unfinishedPage(page,limit));
+    }
 
 
 }

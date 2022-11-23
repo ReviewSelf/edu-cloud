@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveGoalScoreDao">
+
+    <insert id="insertGoalScore" >
+        replace into archive_goal_score(stu_id,score,stu_name,course_id,total)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.stuId},#{item.score},#{item.stuName},#{item.courseId},#{item.total})
+        </foreach>
+
+    </insert>
+
+    <select id="selectGoalScore" resultType="net.edu.module.entity.ArchiveGoalScoreEntity">
+        select score,total,stu_id,stu_name
+        from archive_goal_score
+        where course_id = #{courseId}
+    </select>
+</mapper>

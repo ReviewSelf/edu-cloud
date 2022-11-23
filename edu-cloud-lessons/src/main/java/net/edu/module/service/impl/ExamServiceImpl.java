@@ -191,7 +191,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         List<String> bigTitleList =new ArrayList<>();
         ExamEntity entity =baseMapper.selectById(examId);
         for (int i = 0 ; i<data.size();i++){
-            BigDecimal sum = new BigDecimal(0.00);
+            BigDecimal sum = new BigDecimal("0.00");
             for (int j = 0 ; j<data.get(i).getProblemInfoList().size();j++){
                 sum = sum.add(data.get(i).getProblemInfoList().get(j).getFraction());
             }

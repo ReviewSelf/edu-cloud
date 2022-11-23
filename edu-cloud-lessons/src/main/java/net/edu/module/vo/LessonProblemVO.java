@@ -21,6 +21,10 @@ public class LessonProblemVO implements Serializable {
 	@Schema(description = "自增主键")
 	private Long id;
 
+
+	@Schema(description = "课堂ID")
+	private String lessonName;
+
 	@Schema(description = "课堂ID")
 	private Long lessonId;
 

@@ -7,6 +7,9 @@ import net.edu.module.api.EduJudgeApi;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author 17716
+ */
 @Component
 @Slf4j
 public class EduJudgeApiFallBack implements FallbackFactory<EduJudgeApi> {

@@ -101,7 +101,6 @@ public class SysUserController {
         // 新增密码不能为空
         if (StrUtil.isBlank(vo.getPassword())){
             Result.error("密码不能为空");
-//            vo.setPassword("123456");
         }
 
         // 密码加密

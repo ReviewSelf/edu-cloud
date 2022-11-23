@@ -23,4 +23,9 @@
         from archive_exam_attend_log
         where exam_id = #{examId}
     </select>
+
+    <select id="selectUserIdList" resultType="net.edu.module.vo.ArchiveExamAttendLogVO">
+        select username as userNumber,real_name as userName from sys_user where id in
+        (select user_id from teach_class_user where  class_id = #{classId} and deleted=0 and status=1)
+    </select>
 </mapper>

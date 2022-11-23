@@ -2,16 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.ArchiveCourseSummaryDao">
+    <update id="insertMeasures">
+        update archive_course_summary set improvement = #{improvement}
+        where id = #{id}
+    </update>
 
-    <resultMap type="net.edu.module.entity.ArchiveCourseSummaryEntity" id="archiveCourseSummaryMap">
-        <result property="id" column="id"/>
-        <result property="courseId" column="course_id"/>
-        <result property="problemAnalysis" column="problem_analysis"/>
-        <result property="improvement" column="improvement"/>
-        <result property="analysisDescription" column="analysis_description"/>
-        <result property="problem" column="problem"/>
-        <result property="measures" column="measures"/>
-        <result property="others" column="others"/>
-    </resultMap>
+    <update id="insertAnalysis">
+        update archive_course_summary set analysis_description = #{analysisDescription}
+        where id = #{id}
+    </update>
 
+    <update id="insertFinal">
+        update archive_course_summary set problem = #{problem},
+                                          measures = #{measures},
+                                          resources = #{resources},
+                                          deleted = 0
+        where id = #{id}
+    </update>
 </mapper>

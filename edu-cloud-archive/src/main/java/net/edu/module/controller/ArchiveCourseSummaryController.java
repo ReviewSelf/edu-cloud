@@ -1,6 +1,5 @@
 package net.edu.module.controller;
 
-import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -13,9 +12,7 @@ import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -67,6 +64,28 @@ public class ArchiveCourseSummaryController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveCourseSummaryService.delete(idList);
+
+        return Result.ok();
+    }
+
+    @PostMapping("improve")
+    @Operation(summary = "插入问题和改进措施(第六步)")
+    public Result<String> insertMeasures(@RequestBody ArchiveCourseSummaryVO vo){
+        archiveCourseSummaryService.insertMeasures(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("analysis")
+    @Operation(summary = "插入分析说明(第七步)")
+    public Result<String> insertAnalysis(@RequestBody ArchiveCourseSummaryVO vo){
+        archiveCourseSummaryService.insertAnalysis(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("final")
+    @Operation(summary = "完成(第八步)")
+    public Result<String> insertFinal(@RequestBody ArchiveCourseSummaryVO vo){
+        archiveCourseSummaryService.insertFinal(vo);
         return Result.ok();
     }
 

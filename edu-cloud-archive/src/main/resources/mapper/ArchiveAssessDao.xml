@@ -40,7 +40,7 @@
     <delete id="updateByCourseId">
         update archive_weight_goal
         set deleted = 1
-        where id = #{assessId} and course_id = #{courseId}
+        where assess_id = #{assessId} and course_id = #{courseId}
     </delete>
 
 
@@ -149,7 +149,7 @@
             SUM(weight)
         FROM archive_weight_goal
         WHERE course_id = #{courseId}
-          and target_id != #{targetId}
+          and target_id != #{targetId} and deleted = 0
     </select>
 
 </mapper>

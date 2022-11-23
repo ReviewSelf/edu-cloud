@@ -52,6 +52,6 @@ public class ArchiveCourseSummaryEntity {
 	/**
 	* 其他可用的协助持续改进的资源
 	*/
-	private String others;
+	private String resources;
 
 }

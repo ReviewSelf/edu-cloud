@@ -67,4 +67,25 @@ public class ArchiveCourseSummaryController {
 
         return Result.ok();
     }
+
+    @PostMapping("improve")
+    @Operation(summary = "插入问题和改进措施(第六步)")
+    public Result<String> insertMeasures(@RequestBody ArchiveCourseSummaryVO vo){
+        archiveCourseSummaryService.insertMeasures(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("analysis")
+    @Operation(summary = "插入分析说明(第七步)")
+    public Result<String> insertAnalysis(@RequestBody ArchiveCourseSummaryVO vo){
+        archiveCourseSummaryService.insertAnalysis(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("final")
+    @Operation(summary = "完成(第八步)")
+    public Result<String> insertFinal(@RequestBody ArchiveCourseSummaryVO vo){
+        archiveCourseSummaryService.insertFinal(vo);
+        return Result.ok();
+    }
 }

@@ -12,6 +12,7 @@ import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import net.edu.module.dao.ArchiveCourseSummaryDao;
 import net.edu.module.service.ArchiveCourseSummaryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCourseSummaryDao, ArchiveCourseSummaryEntity> implements ArchiveCourseSummaryService {
 
+    @Autowired
+    private ArchiveCourseSummaryDao archiveCourseSummaryDao;
     @Override
     public PageResult<ArchiveCourseSummaryVO> page(ArchiveCourseSummaryQuery query) {
         IPage<ArchiveCourseSummaryEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
@@ -58,6 +61,21 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+    }
+
+    @Override
+    public void insertMeasures(ArchiveCourseSummaryVO vo) {
+        archiveCourseSummaryDao.insertMeasures(vo);
+    }
+
+    @Override
+    public void insertAnalysis(ArchiveCourseSummaryVO vo) {
+        archiveCourseSummaryDao.insertAnalysis(vo);
+    }
+
+    @Override
+    public void insertFinal(ArchiveCourseSummaryVO vo) {
+        archiveCourseSummaryDao.insertFinal(vo);
     }
 
 }

@@ -38,7 +38,7 @@ public class ArchiveCourseSummaryVO implements Serializable {
 	private String measures;
 
 	@Schema(description = "其他可用的协助持续改进的资源")
-	private String others;
+	private String resources;
 
 
 }

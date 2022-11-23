@@ -1,5 +1,7 @@
 package net.edu.module.controller;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -12,7 +14,9 @@ import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -64,7 +68,14 @@ public class ArchiveCourseSummaryController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveCourseSummaryService.delete(idList);
-
         return Result.ok();
     }
+
+    @PostMapping("exportExcelSummary")
+    @Operation(summary = "导出课程总体情况excel表")
+    public void exportExcelSummary(@RequestBody JSONObject object,HttpServletResponse response) throws IOException {
+        System.out.println(object);
+        archiveCourseSummaryService.exportExcelSummary(response);
+    }
+
 }

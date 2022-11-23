@@ -79,6 +79,19 @@
         WHERE
             graduate_id = #{graduateId}
     </select>
+    <select id="getTargetName" resultType="net.edu.module.vo.ArchiveTargetVO">
+        SELECT
+	    target_id AS id,
+	    name
+        FROM
+	    archive_weight_target_course t1
+	    LEFT JOIN archive_target t2
+	    on t2.id=t1.target_id
+        WHERE
+	    t1.course_id = #{targetId}
+
+
+    </select>
 
     <update id="updateArchiveTarget">
         update archive_target

@@ -41,6 +41,7 @@ public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, 
 
     @Autowired
     private ArchiveWeightTargetAssessDao archiveWeightTargetAssessDao;
+
     @Override
     public PageResult<ArchiveCourseVO> page(ArchiveCourseQuery query) {
         Page<ArchiveCourseVO> page = new Page<>(query.getPage(),query.getLimit());
@@ -92,6 +93,11 @@ public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, 
     @Override
     public List<ArchiveCourseVO> selectArchiveCourseAll() {
         return archiveCourseDao.selectArchiveCourseAll();
+    }
+
+    @Override
+    public List<ArchiveCourseVO> selectArchiveCourse(String grade) {
+        return archiveCourseDao.selectArchiveCourse(grade);
     }
 
 }

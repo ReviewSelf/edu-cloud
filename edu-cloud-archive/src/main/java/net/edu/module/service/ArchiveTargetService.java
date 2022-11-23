@@ -28,4 +28,5 @@ public interface ArchiveTargetService extends BaseService<ArchiveTargetEntity> {
     void delete(List<Long> idList);
 
 
+    List<ArchiveTargetVO> getTargetName(Integer courseId);
 }

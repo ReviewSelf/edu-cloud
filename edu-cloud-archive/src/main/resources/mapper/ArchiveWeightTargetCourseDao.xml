@@ -74,4 +74,19 @@
                  left join archive_graduate_require d on d.id =c.graduate_id
             where a.id=#{courseId}
     </select>
+
+    <select id="selectCourseByCourseId" resultType="net.edu.module.vo.ArchiveWeightTargetCourseVO">
+        select
+            id,
+            target_id as targetId,
+            course_id as courseId,
+            (select name from archive_course t1 where t1.id = courseId) as courseName,
+            weight,
+            approach,
+            teach_target,
+            evaluation_basis,
+            evaluation_method
+        from archive_weight_target_course
+        where deleted = 0 and course_id = #{courseId}
+    </select>
 </mapper>

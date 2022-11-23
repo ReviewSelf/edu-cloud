@@ -73,6 +73,12 @@ public class ArchiveWeightTargetCourseController {
         return Result.ok(archiveWeightTargetCourseService.selectCourseByTargetId(targetId));
     }
 
+    @GetMapping("course")
+    @Operation(summary = "根据课程id获取权重")
+    public Result<List<ArchiveWeightTargetCourseVO>> selectCourseByCourseId(@RequestParam("courseId") Long courseId){
+        return Result.ok(archiveWeightTargetCourseService.selectCourseByCourseId(courseId));
+    }
+
     @PostMapping("target")
     @Operation(summary = "插入指标点id以及对应课程id和权重")
     public Result<String> insertCourseWeight(@RequestBody List<ArchiveWeightTargetCourseVO> vo){

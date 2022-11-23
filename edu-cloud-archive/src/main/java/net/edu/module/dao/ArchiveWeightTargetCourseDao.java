@@ -30,4 +30,6 @@ public interface ArchiveWeightTargetCourseDao extends BaseDao<ArchiveWeightTarge
     ArchiveWeightTargetCourseVO getById(Long id);
 
     List<ArchivePointAndTargetVO> selectPointAndTarget(Long courseId);
+
+    List<ArchiveWeightTargetCourseVO> selectCourseByCourseId(Long courseId);
 }

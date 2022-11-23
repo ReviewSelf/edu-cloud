@@ -5,6 +5,7 @@ import net.edu.framework.common.excel.ExcelSyncDataListener;
 import net.edu.framework.common.utils.ExcelUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.dao.ArchiveWeightAssessTestDao;
+import net.edu.module.dao.ArchiveWeightGoalDao;
 import net.edu.module.dao.ArchiveWeightTargetAssessDao;
 import net.edu.module.entity.ArchiveTestScoreEntity;
 import net.edu.module.entity.ArchiveWeightAssessTestEntity;
@@ -37,30 +38,37 @@ public class ArchiveTestScoreServiceImpl extends BaseServiceImpl<ArchiveTestScor
     private ArchiveWeightAssessTestDao archiveWeightAssessTestDao;
     @Autowired
     private ArchiveWeightTargetAssessDao archiveWeightTargetAssessDao;
+    @Autowired
+    private ArchiveWeightGoalDao archiveWeightGoalDao;
 
-
+    /**
+     * 总评表
+     * @param courseId
+     * @return
+     */
     @Override
     public List<ArchiveTestScoreVO> selectTestScoreByCourseId(Long courseId) {
-        List<ArchiveTestScoreVO> vos = null;
-        List<ArchiveTestScoreEntity> list = archiveTestScoreDao.selectTestScoreByCourseId(courseId);
-        List<ArchiveWeightTargetAssessVO> archiveWeightTargetAssessVOS = archiveWeightTargetAssessDao.selectAssessByCourseId(courseId);
-        Long assessId = archiveWeightTargetAssessVOS.get(0).getAssessId();
-        List<ArchiveWeightAssessTestVO> archiveWeightAssessTestVOS = archiveWeightAssessTestDao.selectTestName(assessId);
-        int size = archiveWeightAssessTestVOS.size();
-        for (int i = 0; i < list.size(); i+=size) {
-            int k=0;
-            List<String> score = null;
-            ArchiveTestScoreVO vo = null;
+        //所有学生的所有考试的成绩
+        List<ArchiveTestScoreEntity> scoreEntities = archiveTestScoreDao.selectTestScoreByCourseId(courseId);
+        List<Double> longs = archiveWeightAssessTestDao.selectTestByCourseId(courseId);
+        int size = longs.size();
+        List<ArchiveTestScoreVO> list = new ArrayList<>();
+        for (int i = 0; i < scoreEntities.size(); i+=size) {
+            double sumScore = 0;
+            List<Double> score = new ArrayList<>();
             for (int j = 0; j < size; j++) {
-                vo.setStuId(list.get(i).getStuId());
-                vo.setStuName(list.get(i).getStuName());
-                score.set(j,list.get(i+j).getScore());
+                score.add(Double.valueOf(scoreEntities.get(i+j).getScore()));
+                sumScore+=Double.parseDouble(scoreEntities.get(i+j).getScore());
             }
+            ArchiveTestScoreVO vo = new ArchiveTestScoreVO();
+            vo.setStuId(scoreEntities.get(i).getStuId());
+            vo.setStuName(scoreEntities.get(i).getStuName());
             vo.setScore(score);
-            vos.set(k,vo);
-            k++;
+            vo.setTotal(sumScore);
+            list.add(vo);
         }
-        return vos;
+
+        return list;
     }
 
     @Override

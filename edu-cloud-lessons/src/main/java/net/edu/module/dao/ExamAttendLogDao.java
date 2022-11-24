@@ -7,11 +7,13 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ExamAttendLogEntity;
 import net.edu.module.query.ExamAttendLogQuery;
 import net.edu.module.vo.ExamAttendLogVO;
+import net.edu.module.vo.StudentsStatisticsInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 课堂签到表
@@ -38,4 +40,8 @@ public interface ExamAttendLogDao extends BaseDao<ExamAttendLogEntity> {
     List<ExamAttendLogVO> selectList(Long examId,Integer status,Integer isCorrecting);
 
     ExamAttendLogVO selectUserExamInfo(@Param("userId") Long userId,@Param("examId") Long examId);
+
+    Map<String ,String> selectStudentExamStatisticsInfo(Long userId);
+
+    Map<String, String> selectTeacherExamStatisticsInfo(Long userId);
 }

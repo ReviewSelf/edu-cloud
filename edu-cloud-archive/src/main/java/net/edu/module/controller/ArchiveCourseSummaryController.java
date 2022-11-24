@@ -1,10 +1,12 @@
 package net.edu.module.controller;
 
+import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.ArchiveCourseSummaryConvert;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.service.ArchiveCourseSummaryService;
@@ -12,7 +14,9 @@ import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -31,9 +35,12 @@ public class ArchiveCourseSummaryController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<ArchiveCourseSummaryVO>> page(@Valid ArchiveCourseSummaryQuery query){
-        PageResult<ArchiveCourseSummaryVO> page = archiveCourseSummaryService.page(query);
 
+        PageResult<ArchiveCourseSummaryVO> page = archiveCourseSummaryService.page(query);
+        System.out.println(SecurityUser.getUser().getRealName());
+        System.out.println(page);
         return Result.ok(page);
+
     }
 
     @GetMapping("{id}")

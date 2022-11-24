@@ -3,10 +3,13 @@ package net.edu.module.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveCourseSummaryConvert;
+import net.edu.module.dao.ArchiveExamAttendLogDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
@@ -23,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 课程总结
@@ -40,16 +44,12 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     @Autowired
     private ArchiveCourseSummaryDao archiveCourseSummaryDao;
     @Override
-    public PageResult<ArchiveCourseSummaryVO> page(ArchiveCourseSummaryQuery query) {
-        IPage<ArchiveCourseSummaryEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
+    public PageResult<ArchiveCourseSummaryVO> page(ArchiveCourseSummaryQuery query){
 
-        return new PageResult<>(ArchiveCourseSummaryConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
-    }
+        Page<ArchiveCourseSummaryVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<ArchiveCourseSummaryVO> list =archiveCourseSummaryDao.selectSummaryByPage(page,query);
+        return new PageResult<>(list.getRecords(), page.getTotal());
 
-    private LambdaQueryWrapper<ArchiveCourseSummaryEntity> getWrapper(ArchiveCourseSummaryQuery query){
-        LambdaQueryWrapper<ArchiveCourseSummaryEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
     }
 
     @Override

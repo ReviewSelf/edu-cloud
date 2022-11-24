@@ -19,4 +19,11 @@
                                           deleted = 0
         where id = #{id}
     </update>
+
+    <select id="selectSummaryByPage" resultType="net.edu.module.vo.ArchiveCourseSummaryVO">
+        select id,course_id as courseId,create_time as createTime
+        from archive_course_summary
+        where deleted = 0
+        order by create_time desc
+    </select>
 </mapper>

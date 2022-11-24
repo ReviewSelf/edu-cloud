@@ -1,8 +1,14 @@
 package net.edu.module.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
+import net.edu.framework.common.utils.DateUtils;
+import net.edu.framework.mybatis.entity.BaseEntity;
+
+import java.util.Date;
 
 /**
  * 课程总结
@@ -13,7 +19,7 @@ import com.baomidou.mybatisplus.annotation.*;
 @Data
 @EqualsAndHashCode(callSuper=false)
 @TableName("archive_course_summary")
-public class ArchiveCourseSummaryEntity {
+public class ArchiveCourseSummaryEntity extends BaseEntity {
 	/**
 	* 课程实施总结编号
 	*/
@@ -53,5 +59,11 @@ public class ArchiveCourseSummaryEntity {
 	* 其他可用的协助持续改进的资源
 	*/
 	private String resources;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	private Date createTime;
 
 }

@@ -53,6 +53,7 @@
             course_id as courseId,
             (select name from archive_course t1 where course_id = t1.id) as courseName,
             weight,
+            goal_name as goalName,
             approach,
             teach_target as teachTarget,
             evaluation_basis as evaluationBasis,

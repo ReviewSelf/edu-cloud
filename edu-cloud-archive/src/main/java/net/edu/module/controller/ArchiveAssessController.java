@@ -11,6 +11,8 @@ import net.edu.module.vo.ArchiveAssessByCourseIdVo;
 import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.vo.ArchivePointAndTargetVO;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -45,6 +47,7 @@ public class ArchiveAssessController {
         return Result.ok(archiveAssessService.selectArchiveAssessById(id));
     }
 
+
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ArchiveWeightTargetAssessVO vo){
@@ -59,6 +62,27 @@ public class ArchiveAssessController {
         return Result.ok();
     }
 
+    @PostMapping("addAssess")
+    @Operation(summary = "保存")
+    public Result<String> save1(@RequestBody ArchiveAssessVO vo){
+        archiveAssessService.save1(vo);
+        return Result.ok();
+    }
+
+    @PutMapping("addAssess")
+    @Operation(summary = "修改")
+    public Result<String> update1(@RequestBody ArchiveAssessVO vo){
+        archiveAssessService.update1(vo);
+        return Result.ok();
+    }
+
+    @GetMapping("deleteById")
+    @Operation(summary = "删除考核点")
+    public Result<String> deleteAssess(@RequestParam("courseId")Long courseId,@RequestParam("targetId")Long targetId,@RequestParam("assessId")Long assessId){
+        archiveAssessService.deleteAssess(courseId,targetId,assessId);
+        return Result.ok();
+    }
+
     @DeleteMapping
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
@@ -66,11 +90,18 @@ public class ArchiveAssessController {
         return Result.ok();
     }
 
+    @GetMapping("course")
+    @Operation(summary = "根据课程id获取权重")
+    public Result<List<ArchiveAssessVO>> selectAssessByCourseId(Long courseId){
+        return Result.ok(archiveAssessService.selectAssessByCourseId(courseId));
+    }
+
     @PostMapping("/import")
     public Result<String> assessFromExcel(@RequestParam("file") MultipartFile file) {
         archiveAssessService.assessFromExcel(file);
         return Result.ok();
     }
+
 
     @GetMapping("stepTwo")
     @Operation(summary = "获取考核比例")

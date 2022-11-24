@@ -6,15 +6,16 @@ import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
 
 
+import java.util.Date;
+
 /**
-* 记分册查询
+* 平时记录查询
 *
 * @author 阿沐 babamu@126.com
-* @since 1.0.0 2022-11-22
+* @since 1.0.0 2022-11-23
 */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Schema(description = "记分册查询")
-public class ArchiveScoreBookQuery extends Query {
-    private Long id;
+@Schema(description = "平时记录查询")
+public class ArchiveSignQuery extends Query {
 }

@@ -19,7 +19,7 @@ public class ArchiveScoreBookEntity {
 	* 编号
 	*/
 	@TableId
-	private Integer id;
+	private Long id;
 
 	/**
 	* 教学记事
@@ -82,4 +82,8 @@ public class ArchiveScoreBookEntity {
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private String updater;
 
+	/**
+	 * 课程id
+	 */
+	private Long courseId;
 }

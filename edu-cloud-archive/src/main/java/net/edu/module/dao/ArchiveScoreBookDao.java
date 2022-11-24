@@ -1,8 +1,12 @@
 package net.edu.module.dao;
 
 import net.edu.framework.mybatis.dao.BaseDao;
+import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
+import net.edu.module.vo.ArchiveScoreBookVO;
 import net.maku.entity.ArchiveScoreBookEntity;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
 * 记分册
@@ -12,5 +16,8 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface ArchiveScoreBookDao extends BaseDao<ArchiveScoreBookEntity> {
+   void  InsertClassInfo(ArchiveScoreBookClassInfoVO vo);
+
+   List<ArchiveScoreBookVO> selectList(Long id);
 
 }

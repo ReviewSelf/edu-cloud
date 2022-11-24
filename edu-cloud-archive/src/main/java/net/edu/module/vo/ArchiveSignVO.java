@@ -3,39 +3,27 @@ package net.edu.module.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import java.io.Serializable;
-
 import net.edu.framework.common.utils.DateUtils;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
-* 记分册
+* 平时记录
 *
 * @author 阿沐 babamu@126.com
-* @since 1.0.0 2022-11-22
+* @since 1.0.0 2022-11-23
 */
 @Data
-@Schema(description = "记分册")
-public class ArchiveScoreBookVO implements Serializable {
+@Schema(description = "平时记录")
+public class ArchiveSignVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Schema(description = "编号")
+	@Schema(description = "签到表记录编号")
 	private Long id;
 
-	@Schema(description = "教学记事")
-	private String teachingNotes;
-
-	@Schema(description = "授课班级名称")
-	private String className;
-
-	@Schema(description = "教师")
-	private String teacherName;
-
-	@Schema(description = "教研系")
-	private String majorName;
-
-	@Schema(description = "课程表")
-	private String classSchedule;
+	@Schema(description = "签到记录")
+	private String record;
 
 	@Schema(description = "删除")
 	private Integer deleted;
@@ -57,8 +45,14 @@ public class ArchiveScoreBookVO implements Serializable {
 	@Schema(description = "修改人")
 	private String updater;
 
-	@Schema(description = "课程id")
-	private Long courseId;
+	@Schema(description = "学号")
+	private String stuId;
+
+	@Schema(description = "学生姓名")
+	private String stuName;
+
+	@Schema(description = "记分册编号")
+	private Long bookId;
 
 
 }

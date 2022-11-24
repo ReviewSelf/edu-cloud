@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.ArchiveScoreBookDao">
+
+    <insert id="InsertClassInfo" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
+        insert into archive_score_book(class_name,course_id,teacher_name,major_name)
+        values(#{className},#{courseId},#{teacherName},#{majorName})
+    </insert>
+
+    <select id="selectList" resultType="net.edu.module.vo.ArchiveScoreBookVO">
+        select class_schedule from archive_score_book where id=#{id} and deleted=0
+    </select>
+
+
+</mapper>

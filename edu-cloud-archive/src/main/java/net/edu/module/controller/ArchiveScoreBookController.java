@@ -1,4 +1,8 @@
 package net.edu.module.controller;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -7,12 +11,15 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.ArchiveScoreBookConvert;
 import net.edu.module.query.ArchiveScoreBookQuery;
 import net.edu.module.service.ArchiveScoreBookService;
+import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
+import net.edu.module.vo.ArchiveScoreBookClassTableVO;
 import net.edu.module.vo.ArchiveScoreBookVO;
 import net.maku.entity.ArchiveScoreBookEntity;
 
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,4 +74,24 @@ public class ArchiveScoreBookController {
 
         return Result.ok();
     }
+
+    @PostMapping("InsertClassInfo")
+    @Operation(summary = "生成课程信息")
+    public Result<String> InsertClassInfo(@RequestBody ArchiveScoreBookClassInfoVO vo){
+
+        archiveScoreBookService.InsertClassInfo(vo);
+
+        return Result.ok(String.valueOf(vo.getId()));
+    }
+
+
+
+    @GetMapping("getClassTable")
+    @Operation(summary = "课程表")
+    public Result<List<ArchiveScoreBookClassTableVO>> getClassTable(@RequestParam("id")Long id){
+        List<ArchiveScoreBookClassTableVO> archiveScoreBookClassTableVOList=archiveScoreBookService.getClassTable(id);
+        return Result.ok(archiveScoreBookClassTableVOList);
+    }
+
+
 }

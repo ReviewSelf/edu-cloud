@@ -4,6 +4,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveAssessScoreEntity;
 import net.edu.module.entity.ArchiveGoalScoreEntity;
 import net.edu.module.vo.ArchiveAssessScoreVO;
+import net.edu.module.vo.ArchiveGoalScoreVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public interface ArchiveGoalScoreDao extends BaseDao<ArchiveGoalScoreEntity> {
 
 
+    void insertGoalScore(List<ArchiveGoalScoreEntity> vo);
 
-
+    List<ArchiveGoalScoreEntity> selectGoalScore(Long courseId);
 }

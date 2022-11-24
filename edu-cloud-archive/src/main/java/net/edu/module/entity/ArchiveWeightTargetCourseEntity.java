@@ -32,6 +32,11 @@ public class ArchiveWeightTargetCourseEntity extends BaseEntity {
 	private Double weight;
 
 	/**
+	 * 对应教学目标
+	 */
+	private String goalName;
+
+	/**
 	 * 教学目标
 	 */
 	private String teachTarget;

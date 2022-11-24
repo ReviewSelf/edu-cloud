@@ -8,26 +8,21 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
-import net.edu.module.convert.ArchiveAssessConvert;
-import net.edu.module.dao.ArchiveWeightTargetAssessDao;
 import net.edu.module.entity.ArchiveAssessEntity;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.service.ArchiveWeightTargetAssessService;
-import net.edu.module.vo.ArchiveAssessExcelVO;
-import net.edu.module.vo.ArchiveAssessVO;
+import net.edu.module.vo.*;
 import net.edu.module.dao.ArchiveAssessDao;
 import net.edu.module.service.ArchiveAssessService;
-import net.edu.module.vo.ArchiveCourseVO;
-import net.edu.module.vo.ArchiveWeightTargetAssessVO;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Pattern;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,6 +85,21 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     }
 
     @Override
+    public void save1(ArchiveAssessVO vo) {
+        archiveAssessDao.insertArchiveAssess1(vo);
+    }
+
+    @Override
+    public void update1(ArchiveAssessVO vo) {
+        archiveAssessDao.updateArchiveAssess3(vo);
+    }
+
+    @Override
+    public void deleteAssess(Long courseId, Long  targetId,Long assessId) {
+        archiveAssessDao.deleteAssess(courseId,targetId,assessId);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
@@ -100,6 +110,12 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
         }
 
     }
+
+    @Override
+    public List<ArchiveAssessVO> selectAssessByCourseId(Long courseId) {
+        return archiveAssessDao.selectAssessByCourseId(courseId);
+    }
+
 
 
     @SneakyThrows
@@ -112,6 +128,51 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
 
 
         }
+    }
+
+    @Override
+    public ArchiveAssessVO getSummaryStep2(String courseId) {
+        return archiveAssessDao.selectSummaryStep2(courseId);
+    }
+
+    @Override
+    public List<ArchiveAssessByCourseIdVo> getAssessByCourseId(String courseId) {
+        return archiveAssessDao.selectAssessBycourseId(courseId);
+    }
+
+    @Override
+    public void deleteByCourseId(String courseId, String assessId) {
+        Integer cid = Integer.parseInt(courseId);
+        Integer ass = Integer.parseInt(assessId);
+        archiveAssessDao.updateByCourseId(cid , ass);
+    }
+
+    @Override
+    public void saveAssessWeight(List<ArchiveAssessByCourseIdVo> assess) {
+        String flag;
+        for(int i = 0 ; i < assess.size() ; i++) {
+            flag = archiveAssessDao.selectArchiveAssessIdJuge(assess.get(i).getAssessId() , assess.get(i).getTargetId());
+            if(flag == null) {
+                archiveAssessDao.insertAssessWeight(assess.get(i));
+            } else {
+                archiveAssessDao.updateAssessWeight(assess.get(i));
+            }
+        }
+    }
+
+    @Override
+    public List<ArchiveAssessByCourseIdVo> getAssessByTargetId(String targetId) {
+        return archiveAssessDao.selectAssessByTargetId(targetId);
+    }
+
+    @Override
+    public void saveEvaluation(ArchivePointAndTargetVO assess) {
+        archiveAssessDao.updateEvaluation(assess);
+    }
+
+    @Override
+    public BigDecimal getWeightSum(ArchiveAssessByCourseIdVo assess) {
+        return archiveAssessDao.selectWeightSum(assess);
     }
 
 //    @Override

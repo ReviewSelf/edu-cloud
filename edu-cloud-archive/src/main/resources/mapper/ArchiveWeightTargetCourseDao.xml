@@ -53,6 +53,7 @@
             course_id as courseId,
             (select name from archive_course t1 where course_id = t1.id) as courseName,
             weight,
+            goal_name as goalName,
             approach,
             teach_target as teachTarget,
             evaluation_basis as evaluationBasis,
@@ -64,7 +65,7 @@
     <select id="selectPointAndTarget" resultType="net.edu.module.vo.ArchivePointAndTargetVO">
         select a.id,a.sys_id,a.name,a.semester,a.teach_class,a.teacher,a.credit,a.place,
                a.assessment,a.course_category,a.class_cycle,b.approach,b.teach_target,
-               b.evaluation_basis,b.evaluation_method,b.sort,
+               b.evaluation_basis,b.evaluation_method,b.sort,b.id as teachId,b.goal_name as goalName,
                c.id as pointId,
                CONCAT(c.id,c.name,c.content)as TargetDescription,
                CONCAT('毕业要求',d.id,'(',d.title,')',d.content) as graduateRequire
@@ -72,7 +73,7 @@
                  left join archive_weight_target_course  b on a.id=b.course_id
                  left join archive_target c on  b.target_id=c.id
                  left join archive_graduate_require d on d.id =c.graduate_id
-            where a.id=#{courseId}
+            where a.id=#{courseId} and b.deleted = 0
     </select>
 
     <select id="selectCourseByCourseId" resultType="net.edu.module.vo.ArchiveWeightTargetCourseVO">

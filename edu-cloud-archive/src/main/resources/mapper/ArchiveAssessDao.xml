@@ -7,6 +7,21 @@
         insert into archive_assess (name,create_time)
         values (#{name},now())
     </insert>
+    <insert id="insertArchiveAssess1">
+        insert into archive_assess (name,weight,target_id,course_id,create_time)
+        values (#{name},#{weight},#{targetId},#{courseId},now())
+    </insert>
+
+    <update id="updateArchiveAssess3">
+        update archive_assess
+        set name=#{name},weight=#{weight},target_id=#{targetId},course_id=#{courseId},update_time=now()
+        where id=#{assessId}
+    </update>
+
+    <insert id="insertAssessWeight">
+        INSERT INTO archive_weight_goal(assess_id , target_id , course_id , weight)
+        VALUES (#{assessId} , #{targetId} , #{courseId} , #{weight})
+    </insert>
     <update id="updateArchiveAssess1">
         update archive_assess
         set name=#{name}
@@ -17,7 +32,33 @@
         set assess_id=#{assessId},target_id=#{targetId},course_id=#{courseId}
         where assess_id=#{id}
     </update>
+    <update id="updateAssessWeight">
+        update archive_weight_goal
+        set weight = #{weight}
+        WHERE assess_id = #{assessId} and target_id = #{targetId}
+    </update>
+    <update id="updateByTargetId">
+        update archive_weight_goal
+        set deleted = 1
+        where id = #{assessId} and course_id = #{courseId}
+    </update>
+    <update id="updateEvaluation">
+        UPDATE archive_weight_target_course
+        set evaluation_basis = #{evaluationBasis}
+        WHERE id = #{teachId}
+    </update>
 
+    <delete id="updateByCourseId">
+        update archive_assess
+        set deleted = 1
+        where id = #{assessId} and course_id = #{courseId}
+    </delete>
+
+    <update id="deleteAssess">
+        update archive_assess
+        set deleted = 1
+        where course_id = #{courseId} and target_id = #{targetId} and id=#{assessId}
+    </update>
 
     <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">
         SELECT
@@ -88,4 +129,43 @@
         WHERE
         t1.id=#{id}
     </select>
+    <select id="selectSummaryStep2" resultType="net.edu.module.vo.ArchiveAssessVO">
+
+    </select>
+    <select id="selectAssessBycourseId" resultType="net.edu.module.vo.ArchiveAssessByCourseIdVo">
+        SELECT
+            name,
+            id as assessId,
+            weight
+        FROM
+            archive_assess
+        WHERE course_id = #{courseId} and deleted = 0
+    </select>
+    <select id="selectAssessByTargetId" resultType="net.edu.module.vo.ArchiveAssessByCourseIdVo">
+        SELECT
+            t1.assess_id as assessId,
+            t1.weight,
+            t1.course_id as courseId,
+            t1.target_id as targetId,
+            t2.name
+        FROM
+            archive_weight_goal t1
+        LEFT JOIN archive_assess t2 ON t1.assess_id = t2.id
+        WHERE t1.target_id = #{targetId} and t1.deleted = 0
+    </select>
+    <select id="selectArchiveAssessIdJuge" resultType="java.lang.String">
+        SELECT
+            assess_id
+        FROM
+            archive_weight_goal
+        WHERE assess_id = #{assessId} and target_id = #{targetId}
+    </select>
+    <select id="selectWeightSum" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(weight)
+        FROM archive_weight_goal
+        WHERE course_id = #{courseId}
+          and target_id != #{targetId}
+    </select>
+
 </mapper>

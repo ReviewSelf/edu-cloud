@@ -79,9 +79,9 @@ public class ArchiveTargetServiceImpl extends BaseServiceImpl<ArchiveTargetDao, 
     }
 
     @Override
-    public List<ArchiveTargetVO> getTargetName(Integer courseId) {
-        System.out.println(archiveTargetDao.getTargetName(courseId));
-        return archiveTargetDao.getTargetName(courseId);
+    public List<ArchiveTargetVO> getTargetName(Integer courseId,String grade) {
+        System.out.println(archiveTargetDao.getTargetName(courseId,grade));
+        return archiveTargetDao.getTargetName(courseId,grade);
     }
 
 

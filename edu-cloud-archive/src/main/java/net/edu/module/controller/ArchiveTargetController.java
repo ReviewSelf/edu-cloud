@@ -50,9 +50,9 @@ public class ArchiveTargetController {
 
     @GetMapping("targetAll")
     @Operation(summary = "通过courseId获取指标点")
-    public Result<List<ArchiveTargetVO>> getTargetName(@RequestParam("courseId") Integer courseId){
-        System.out.println(archiveTargetService.getTargetName(courseId));
-        return Result.ok(archiveTargetService.getTargetName(courseId));
+    public Result<List<ArchiveTargetVO>> getTargetName(@RequestParam("courseId") Integer courseId,@RequestParam("grade") String grade){
+        System.out.println(archiveTargetService.getTargetName(courseId,grade));
+        return Result.ok(archiveTargetService.getTargetName(courseId,grade));
     }
 
     @PostMapping

@@ -5,6 +5,7 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.dao.*;
 import net.edu.module.entity.ArchiveAssessScoreEntity;
 import net.edu.module.entity.ArchiveTestScoreEntity;
+import net.edu.module.entity.ArchiveWeightGoalEntity;
 import net.edu.module.service.ArchiveAssessScoreService;
 import net.edu.module.vo.ArchiveAssessScoreVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,13 @@ public class ArchiveAssessScoreServiceImpl extends BaseServiceImpl<ArchiveAssess
     private ArchiveTestScoreDao archiveTestScoreDao;
     @Autowired
     private ArchiveWeightAssessTestDao archiveWeightAssessTestDao;
-
+    @Autowired
+    private ArchiveWeightGoalDao archiveWeightGoalDao;
+    @Autowired
+    private ArchiveWeightTargetCourseDao archiveWeightTargetCourseDao;
 
     /**
-     * 总评表
+     * 计算第三步分数
      * @param courseId
      * @return
      */
@@ -44,9 +48,10 @@ public class ArchiveAssessScoreServiceImpl extends BaseServiceImpl<ArchiveAssess
         List<ArchiveTestScoreEntity> scoreEntities = archiveTestScoreDao.selectTestScoreByCourseId(courseId);
         //待修改获取到的权重值
         List<Double> weights = archiveWeightAssessTestDao.selectTestByCourseId(courseId);
+
         DecimalFormat df = new DecimalFormat("0.0");
         //教学目标的数量
-        int size = weights.size();
+        int size = archiveWeightTargetCourseDao.selectCourseByCourseId(courseId).size();
         List<ArchiveAssessScoreVO> list = new ArrayList<>();
 
         for (int i = 0; i < scoreEntities.size(); i+=size) {

@@ -167,5 +167,13 @@
         WHERE course_id = #{courseId}
           and target_id != #{targetId}
     </select>
-
+    <select id="selectAssessByCourseId" resultType="net.edu.module.vo.ArchiveAssessVO">
+        SELECT
+            name,
+            id ,
+            weight
+        FROM
+            archive_assess
+        WHERE course_id = #{courseId} and deleted = 0
+    </select>
 </mapper>

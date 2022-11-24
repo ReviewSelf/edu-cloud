@@ -48,6 +48,8 @@ public class ArchiveWeightTargetCourseVO implements Serializable {
 	@Schema(description = "评价依据")
 	private String evaluationBasis;
 
+	@Schema(description = "评价结果")
+	private String evaluationResult;
 
 	@Schema(description = "评价方式")
 	private String evaluationMethod;

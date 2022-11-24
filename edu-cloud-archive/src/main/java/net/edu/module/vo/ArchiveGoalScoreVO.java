@@ -58,5 +58,10 @@ public class ArchiveGoalScoreVO implements Serializable {
 	@Schema(description = "评测id")
 	private Long courseId;
 
+	@Schema(description = "平均达成度")
+	private Double[] avg;
+
+	@Schema(description = "权重")
+	private List<Double> weights;
 
 }

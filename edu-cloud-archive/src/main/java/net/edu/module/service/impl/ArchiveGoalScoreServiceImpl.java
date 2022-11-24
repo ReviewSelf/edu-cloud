@@ -3,18 +3,19 @@ package net.edu.module.service.impl;
 import lombok.AllArgsConstructor;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.dao.*;
+import net.edu.module.entity.ArchiveAssessScoreEntity;
 import net.edu.module.entity.ArchiveGoalScoreEntity;
+import net.edu.module.entity.ArchiveWeightGoalEntity;
 import net.edu.module.service.ArchiveAssessScoreService;
 import net.edu.module.service.ArchiveGoalScoreService;
-import net.edu.module.vo.ArchiveAssessScoreVO;
-import net.edu.module.vo.ArchiveGoalPeopleVO;
-import net.edu.module.vo.ArchiveGoalScoreVO;
+import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 考试成绩表
@@ -31,7 +32,17 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
     @Autowired
     private ArchiveWeightAssessTestDao archiveWeightAssessTestDao;
     @Autowired
+    private ArchiveAssessScoreDao archiveAssessScoreDao;
+    @Autowired
+    private ArchiveWeightGoalDao archiveWeightGoalDao;
+    @Autowired
+    private ArchiveWeightTargetCourseDao archiveWeightTargetCourseDao;
+    @Autowired
     private ArchiveAssessScoreService archiveAssessScoreService;
+    @Autowired
+    private ArchiveAssessDao archiveAssessDao;
+
+    //    插入教学目标得分
     @Override
     public void insertGoalScore(List<ArchiveGoalScoreVO> vo) {
         List<ArchiveGoalScoreEntity> list = new ArrayList<>();
@@ -47,6 +58,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         archiveGoalScoreDao.insertGoalScore(list);
     }
 
+    //    获取样本分析
     @Override
     public List<ArchiveGoalPeopleVO> getSample(Long courseId) {
         DecimalFormat df = new DecimalFormat("0.00");
@@ -74,8 +86,8 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
                 } else fail[j]++;
             }
         }
-        List<ArchiveAssessScoreVO> vos = archiveAssessScoreService.selectAssessScoreByCourseId(courseId);
-        List<Double> weights = archiveWeightAssessTestDao.selectTestByCourseId(courseId);
+        List<ArchiveGoalScoreVO> vos = selectGoalScoreByCourseId(courseId);
+
         Double[] avg = vos.get(0).getAvg();
         for (int i = 0; i < size; i++) {
             ArchiveGoalPeopleVO vo = new ArchiveGoalPeopleVO();
@@ -85,7 +97,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
             vo.setMedium(medium[i]);
             vo.setPass(pass[i]);
             vo.setFail(fail[i]);
-            vo.setEvaluate(df.format(avg[i]/weights.get(i)/100));
+            vo.setEvaluate(df.format(avg[i]/vos.get(0).getWeights().get(i)/100));
             list.add(vo);
         }
 
@@ -93,6 +105,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         return list;
     }
 
+    //      获取个体分析
     @Override
     public List<ArchiveGoalScoreVO> getUnit(Long courseId) {
         List<ArchiveGoalScoreEntity> entities = archiveGoalScoreDao.selectGoalScore(courseId);
@@ -120,6 +133,85 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
                 }
             }
         }
+        return list;
+    }
+
+    @Override
+    public List<ArchiveGoalScoreVO> selectGoalScoreByCourseId(Long courseId) {
+        //所有学生的所有考试的成绩
+        List<ArchiveAssessScoreEntity> scoreEntities = archiveAssessScoreDao.selectAssessScoreByCourseId(courseId);
+        DecimalFormat df = new DecimalFormat("0.0");
+        List<ArchiveWeightTargetCourseVO> WeightVOS = archiveWeightTargetCourseDao.selectCourseByCourseId(courseId);
+        //教学目标的数量
+        int TeachSize = WeightVOS.size();
+        System.out.println("教学目标的数量" + TeachSize);
+        List<ArchiveAssessVO> archiveAssess = archiveAssessDao.selectAssessByCourseId(courseId);
+        //考核点的数量
+        int assessSize = archiveAssess.size();
+        System.out.println("考核点的数量" + assessSize);
+        List<ArchiveGoalScoreVO> list = new ArrayList<>();
+
+//        获取所有学生列表
+        for (int i = 0; i < scoreEntities.size(); i += assessSize) {
+            ArchiveGoalScoreVO vo = new ArchiveGoalScoreVO();
+            vo.setStuId(scoreEntities.get(i).getStuId());
+            vo.setStuName(scoreEntities.get(i).getStuName());
+            list.add(vo);
+        }
+//          为学生添加成绩
+        //对于每个人
+        for (ArchiveGoalScoreVO goalScoreVO : list) {
+            List<Double> teachScore = new ArrayList<>();//每个人的得分数组
+            double total = 0;//每个人的总分
+            for (ArchiveWeightTargetCourseVO weightVO : WeightVOS) {
+                //所有教学目标
+                List<ArchiveWeightGoalEntity> weightGoalEntities = archiveWeightGoalDao.selectGoalByTargetId(weightVO.getId());
+                double sum = 0;//每个教学目标得分
+                for (ArchiveWeightGoalEntity weightGoalEntity : weightGoalEntities) {
+                    //每个教学目标的权重
+                    Double weight = weightGoalEntity.getWeight();
+                    //每个教学目标的考核点id
+                    Long assessId = weightGoalEntity.getAssessId();
+                    //根据学生id和考核点id查到成绩
+                    String score = archiveAssessScoreDao.selectAssessScore(assessId, goalScoreVO.getStuId());
+                    sum += Double.parseDouble(score) * weight;
+                }
+                total += sum;
+                teachScore.add(Double.valueOf(df.format(sum)));
+            }
+            goalScoreVO.setScore(teachScore);
+            goalScoreVO.setTotal(Double.valueOf(df.format(total)));
+        }
+        List<Double> weights = new ArrayList<>();
+        List<ArchiveWeightGoalEntity> archiveWeightGoalEntities = archiveWeightGoalDao.selectGoalByCourseId(courseId);
+        double weight = 0;
+        for (int i = 0; i < archiveWeightGoalEntities.size(); i++) {
+            if(i+1<archiveWeightGoalEntities.size() && Objects.equals(archiveWeightGoalEntities.get(i).getTargetId(), archiveWeightGoalEntities.get(i + 1).getTargetId())){
+                weight += archiveWeightGoalEntities.get(i).getWeight();
+            }
+            else {
+                weight += archiveWeightGoalEntities.get(i).getWeight();
+                weights.add(Double.valueOf(df.format(weight)));
+                weight = 0;
+            }
+        }
+        list.get(0).setWeights(weights);
+
+        //平均分
+        Double[] avg = new Double[TeachSize+1];
+        for (int i = 0; i < TeachSize+1; i++) {
+            avg[i] = 0.0;
+        }
+        for (ArchiveGoalScoreVO archiveGoalScoreVO : list) {
+            for (int j = 0; j < TeachSize; j++) {
+                avg[j] += (archiveGoalScoreVO.getScore().get(j));
+            }
+            avg[TeachSize] += (archiveGoalScoreVO.getTotal());
+        }
+        for (int i = 0; i < TeachSize+1; i++) {
+            avg[i] = Double.valueOf(df.format(avg[i] / list.size()));
+        }
+        list.get(0).setAvg(avg);
         return list;
     }
 }

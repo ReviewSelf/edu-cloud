@@ -1,22 +1,31 @@
 package net.edu.module.service.impl;
 
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
 
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveScoreBookConvert;
 import net.edu.module.dao.ArchiveScoreBookDao;
 import net.edu.module.query.ArchiveScoreBookQuery;
 import net.edu.module.service.ArchiveScoreBookService;
+import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
+import net.edu.module.vo.ArchiveScoreBookClassTableVO;
 import net.edu.module.vo.ArchiveScoreBookVO;
 import net.maku.entity.ArchiveScoreBookEntity;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,6 +37,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBookDao, ArchiveScoreBookEntity> implements ArchiveScoreBookService {
+
+    @Autowired
+    private ArchiveScoreBookDao archiveScoreBookDao;
 
     @Override
     public PageResult<ArchiveScoreBookVO> page(ArchiveScoreBookQuery query) {
@@ -62,4 +74,26 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
         removeByIds(idList);
     }
 
+    @Override
+    public void  InsertClassInfo(ArchiveScoreBookClassInfoVO vo){
+        archiveScoreBookDao.InsertClassInfo(vo);
+
+    }
+
+
+    @Override
+    public List<ArchiveScoreBookClassTableVO> getClassTable(Long id){
+
+        List<ArchiveScoreBookVO> list=archiveScoreBookDao.selectList(id);
+        JSONArray jsonArray = JSONUtil.parseArray(list.get(0).getClassSchedule());
+        List<ArchiveScoreBookClassTableVO> archiveScoreBookClassTableVOList=new ArrayList<>();
+        for(int i=0;i<jsonArray.size();i++){
+            JSONObject jsonObject=JSONUtil.parseObj(jsonArray.get(i));
+            ArchiveScoreBookClassTableVO archiveScoreBookClassTableVO=new ArchiveScoreBookClassTableVO();
+            archiveScoreBookClassTableVO.setTime(String.valueOf(jsonObject.get("time")));
+            archiveScoreBookClassTableVO.setPlace(String.valueOf(jsonObject.get("place")));
+            archiveScoreBookClassTableVOList.add(archiveScoreBookClassTableVO);
+        }
+        return archiveScoreBookClassTableVOList;
+    }
 }

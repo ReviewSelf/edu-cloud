@@ -33,6 +33,14 @@ public class TemplateService {
         ResponseHeadUtils.responseEXCELHead(response, name);
         outputFile(response,path);
     }
+    @SneakyThrows
+    public void downloadArchiveScoreBookImportExcel(HttpServletResponse response){
+        String path=templatePath+ File.separator+"archiveScoreBookImportExcel.xlsx";
+        String name="平时记录导入模板文件.xlsx";
+        ResponseHeadUtils.responseEXCELHead(response, name);
+        outputFile(response,path);
+    }
+
 
     @SneakyThrows
     public void downloadStudentImportExcel(HttpServletResponse response){

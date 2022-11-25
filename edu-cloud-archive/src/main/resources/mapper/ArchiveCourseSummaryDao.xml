@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.ArchiveCourseSummaryDao">
+    <insert id="insertSummaryTable" useGeneratedKeys="true" keyProperty="id" parameterType="net.edu.module.vo.ArchiveCourseSummaryVO">
+        insert into archive_course_summary(course_id)
+        values (#{courseId})
+    </insert>
+
     <update id="insertMeasures">
         update archive_course_summary set improvement = #{improvement}
         where id = #{id}
@@ -25,5 +30,16 @@
         from archive_course_summary
         where deleted = 0
         order by create_time desc
+    </select>
+    <select id="selectStudent" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM archive_test_score
+    </select>
+    <select id="selectStudentId" resultType="java.lang.String">
+        SELECT
+            stu_id
+        FROM archive_test_score
+        ORDER BY id
     </select>
 </mapper>

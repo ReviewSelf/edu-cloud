@@ -13,6 +13,7 @@ import net.edu.module.vo.ArchivePointAndTargetVO;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
+import net.edu.module.vo.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,7 +47,6 @@ public class ArchiveAssessController {
     public Result<ArchiveAssessVO> get(@PathVariable("id") Long id){
         return Result.ok(archiveAssessService.selectArchiveAssessById(id));
     }
-
 
     @PostMapping
     @Operation(summary = "保存")
@@ -101,7 +101,6 @@ public class ArchiveAssessController {
         archiveAssessService.assessFromExcel(file);
         return Result.ok();
     }
-
 
     @GetMapping("stepTwo")
     @Operation(summary = "获取考核比例")
@@ -159,5 +158,12 @@ public class ArchiveAssessController {
         } else {
             return Result.ok(null);
         }
+    }
+
+    @PostMapping("/getWeightTable")
+    @Operation(summary = "获取第二步表格相关")
+    public Result<ArchiveAssessTableVo> getWeightTable(@RequestBody ArchiveAssessByCourseIdVo assess) {
+        ArchiveAssessTableVo list = archiveAssessService.getWeightTable(assess);
+        return Result.ok(list);
     }
 }

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveWeightAssessTestService;
+import net.edu.module.vo.ArchiveCourseSummaryVO;
 import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.vo.ArchiveWeightAssessTestVO;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +47,31 @@ public class ArchiveWeightAssessTestController {
     @Operation(summary = "课程信息")
     public Result<List<ArchiveWeightAssessTestVO>> selectArchiveTestAll(@RequestParam("assessId") Long assessId){
         return Result.ok(archiveWeightAssessTestService.selectArchiveTestAll(assessId));
+    }
+
+    @PostMapping("testWeight")
+    @Operation(summary = "获取评测点信息")
+    public Result<List<ArchiveWeightAssessTestVO>> getArchiveTestWeight(@RequestBody ArchiveWeightAssessTestVO archiveWeightAssessTestVO) {
+        return Result.ok(archiveWeightAssessTestService.selectAssessWeight(archiveWeightAssessTestVO));
+    }
+
+    @GetMapping("deleteTestWeight")
+    @Operation(summary = "重置评测点")
+    public Result<String> deleteTestWeight(@RequestParam Integer id) {
+        archiveWeightAssessTestService.deleteTestWeight(id);
+        return Result.ok();
+    }
+
+    @PostMapping("saveTestWeight")
+    @Operation(summary = "确认评测点占比")
+    public Result<String> saveTestWeight(@RequestBody List<ArchiveWeightAssessTestVO> archiveWeightAssessTestVO) {
+        archiveWeightAssessTestService.saveTestWeight(archiveWeightAssessTestVO);
+        return Result.ok();
+    }
+
+    @GetMapping("getTestInfo")
+    @Operation(summary = "初始化获取评测点信息")
+    public Result<List<ArchiveWeightAssessTestVO>> getTestInfo(@RequestParam String courseId , String assessId) {
+        return Result.ok(archiveWeightAssessTestService.selectTestInfo(courseId , assessId));
     }
 }

@@ -11,6 +11,8 @@ import net.edu.module.convert.ArchiveCourseSummaryConvert;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.service.ArchiveCourseSummaryService;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
+import net.edu.module.vo.ArchiveAssessByCourseIdVo;
+import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -102,6 +104,20 @@ public class ArchiveCourseSummaryController {
         Long courseId= Long.valueOf(object.get("courseId").toString());
         Long summaryId= Long.valueOf(object.get("summaryId").toString());
         archiveCourseSummaryService.exportExcelSummary(courseId,summaryId,response);
+    }
+
+    @PostMapping("/StepOneNext")
+    @Operation(summary = "新增课程总结表记录")
+    public Result<Long> creativeSummaryId(@RequestBody ArchiveCourseSummaryVO summaryVO) {
+        Long summaryId = archiveCourseSummaryService.creativeSummaryId(summaryVO);
+        return Result.ok(summaryId);
+    }
+
+    @GetMapping("/getGradesTable")
+    @Operation(summary = "获取成绩录入表")
+    public Result<List<ArchiveAssessTestGradesVo>> getGradesTable(@RequestParam String courseId) {
+        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryService.getGradesTable(courseId);
+        return Result.ok();
     }
 
 }

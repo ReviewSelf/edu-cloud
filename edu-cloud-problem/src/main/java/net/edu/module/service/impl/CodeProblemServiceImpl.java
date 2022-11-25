@@ -8,10 +8,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
-import net.edu.framework.common.utils.ExcelUtils;
-import net.edu.framework.common.utils.RedisUtils;
+import net.edu.framework.common.utils.*;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.module.api.EduFileApi;
 import net.edu.module.convert.CodeProblemConvert;
 import net.edu.module.entity.CodeProblemEntity;
 import net.edu.module.query.CodeProblemQuery;
@@ -21,11 +22,19 @@ import net.edu.module.vo.CodeProblemVO;
 import net.edu.module.dao.CodeProblemDao;
 import net.edu.module.service.CodeProblemService;
 import net.edu.module.vo.CodeSampleVO;
+import net.edu.module.vo.FileUploadVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * 代码题库表
@@ -38,6 +47,7 @@ import java.util.List;
 public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, CodeProblemEntity> implements CodeProblemService {
 
 
+    private final EduFileApi eduFileApi;
     private final RedisUtils redisUtils;
 
     private final CodeSampleService codeSampleService;
@@ -123,5 +133,24 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
                 save(vo);
             }
         }
+    }
+
+    @Override
+    public Result<String> importZipFile(MultipartFile zipFile) {
+        // 1.校验入参
+        ZipUtils.checkZipFileParam(zipFile);
+
+        // 2.上传至服务器路径下
+        Result<FileUploadVO> uploadFileResultVo=eduFileApi.upload2(zipFile);
+        if (uploadFileResultVo.getCode()!=0){
+            throw new ServerException("文件上传失败");
+        }
+
+        ZipUtils.getFileName(uploadFileResultVo.getData().getUrl());
+        // 3.解压Zip文件
+        ZipUtils.unzip(uploadFileResultVo.getData().getUrl(),"E:/upload");
+
+
+        return null;
     }
 }

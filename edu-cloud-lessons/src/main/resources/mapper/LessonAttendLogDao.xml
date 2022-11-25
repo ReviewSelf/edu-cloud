@@ -34,25 +34,32 @@
     </insert>
 
     <delete id="deleteLessonList">
-        delete from  lesson_attend_log
-        where stu_id = #{stuId} and  lesson_id in
+        delete from lesson_attend_log
+        where stu_id = #{stuId} and lesson_id in
         <foreach collection="list" item="item" separator="," open="(" close=")">
-              #{item}
+            #{item}
         </foreach>
     </delete>
 
     <select id="selectStudentsList" resultType="net.edu.module.vo.LessonAttendLogVO">
-        select a.id ,stu_id as stuId,b.real_name as name,lesson_id as lessonId,checkin_time as checkinTime,roll_call as rollCall,a.status
-        from lesson_attend_log a left join sys_user b on a.stu_id = b.id
+        select a.id,
+               stu_id       as stuId,
+               b.real_name  as name,
+               lesson_id    as lessonId,
+               checkin_time as checkinTime,
+               roll_call    as rollCall,
+               a.status
+        from lesson_attend_log a
+                 left join sys_user b on a.stu_id = b.id
         where lesson_id = #{query.lessonId}
         order by roll_call
     </select>
 
     <update id="updateStudents">
         update lesson_attend_log set stu_id = #{vo.stuId}
-         <if test="vo.getId()!=null">
-         ,id = #{vo.id}
-         </if>
+        <if test="vo.getId()!=null">
+            ,id = #{vo.id}
+        </if>
         <if test="vo.getStatus()!=null">
             ,status = #{vo.status}
         </if>
@@ -68,5 +75,6 @@
         where stu_id = #{vo.stuId} and lesson_id = #{vo.lessonId}
 
     </update>
+
 
 </mapper>

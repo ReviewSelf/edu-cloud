@@ -21,11 +21,13 @@ import net.edu.module.service.LessonService;
 import net.edu.module.vo.LessonAttendLogVO;
 import net.edu.module.vo.LessonStudentVO;
 import net.edu.module.vo.LessonVO;
+import net.edu.module.vo.StudentsStatisticsInfoVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Math.abs;
 
@@ -139,4 +141,7 @@ import static java.lang.Math.abs;
         lessonAttendLogDao.deleteLessonList(list,stuId);
         redisUtils.delByPre(RedisKeys.getLessonAttendLog(null));
     }
+
+
+
 }

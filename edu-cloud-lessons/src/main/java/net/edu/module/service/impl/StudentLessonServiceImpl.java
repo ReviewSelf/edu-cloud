@@ -1,7 +1,6 @@
 package net.edu.module.service.impl;
 
 
-import cn.hutool.core.collection.CollectionUtil;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import net.edu.framework.common.cache.RedisKeys;
@@ -11,23 +10,17 @@ import net.edu.framework.common.utils.IpUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
-import net.edu.module.entity.ExamEntity;
 import net.edu.module.entity.ExamProblemEntity;
-import net.edu.module.entity.LessonAttendLogEntity;
 import net.edu.module.entity.LessonEntity;
-import net.edu.module.query.LessonAttendLogQuery;
-import net.edu.module.query.LessonIPQuery;
 import net.edu.module.service.*;
-import net.edu.module.vo.ExamAttendLogVO;
-import net.edu.module.vo.ExamPaperVo;
-import net.edu.module.vo.LessonAttendLogVO;
-import net.edu.module.vo.LessonIPVO;
+import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: 马佳浩
@@ -43,9 +36,6 @@ public class StudentLessonServiceImpl implements StudentLessonService {
     private final LessonAttendLogService lessonAttendLogService;
 
     private final LessonService lessonService;
-
-
-    private final ExamService examService;
 
     private final ExamIPService examIPService;
 
@@ -117,6 +107,7 @@ public class StudentLessonServiceImpl implements StudentLessonService {
         }
         return vo;
     }
+
 
 
 }

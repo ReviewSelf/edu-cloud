@@ -146,4 +146,64 @@
         from exam_attend_log
         where user_id = #{userId} and exam_id = #{examId}
     </select>
+
+    <select id="selectStudentExamStatisticsInfo" resultType="java.util.HashMap">
+        SELECT
+            paperName,
+            papersEndTime,
+            unpaidPapersNum
+        FROM
+            (
+                SELECT
+                    b.NAME AS paperName,
+                    b.end_time AS papersEndTime
+                FROM
+                    exam_attend_log a
+                        JOIN exam b ON b.id = a.exam_id
+                        AND b.end_time &gt;= now()
+	WHERE
+		a.user_id = #{userId}  ORDER BY b.end_time LIMIT 1)a,
+        (
+        SELECT
+        sum(
+        IF
+        ( a.STATUS != 2, 1, 0 )) AS unpaidPapersNum
+        FROM
+        exam_attend_log a
+        JOIN exam b ON b.id = a.exam_id
+        AND b.begin_time &lt;
+        now()
+        AND b.end_time &gt;= now()
+        WHERE
+        a.user_id = #{userId})b
+    </select>
+
+
+    <select id="selectTeacherExamStatisticsInfo" resultType="java.util.HashMap">
+        SELECT
+            paperNum,
+            papersBeginTime,
+            paperName
+        FROM
+            (
+                SELECT
+                    sum( 1 ) AS paperNum
+                FROM
+                    exam
+                WHERE
+                    teacher_id = #{userId}
+                  AND end_time > now()) a,(
+                SELECT
+                    begin_time AS papersBeginTime,
+                    name AS paperName
+                FROM
+                    exam
+                WHERE
+                    teacher_id = #{userId}
+                  AND end_time > now()
+                ORDER BY
+                    begin_time
+                    LIMIT 1
+            ) b
+    </select>
 </mapper>

@@ -128,7 +128,6 @@
         VALUES (user_activity_num)
     </insert>
 
-
 </mapper>
 
 

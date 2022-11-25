@@ -49,4 +49,11 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
 //    Long save(ArchiveAssessExcelVO vo);
 
 
+    List<ArchiveAssessVO> selectAssessByCourseId(Long courseId);
+
+    void save1(ArchiveAssessVO vo);
+
+    void update1(ArchiveAssessVO vo);
+
+    void deleteAssess(Long courseId, Long targetId,Long assessId);
 }

@@ -35,6 +35,12 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
 
     void updateArchiveAssess2(ArchiveAssessVO vo);
 
+    List<ArchiveAssessVO> selectAssessByCourseId(Long courseId);
+
+    void insertArchiveAssess1(ArchiveAssessVO vo);
+
+    void updateArchiveAssess3(ArchiveAssessVO vo);
+
     ArchiveAssessVO selectSummaryStep2(String courseId);
 
     List<ArchiveAssessByCourseIdVo> selectAssessBycourseId(String courseId);
@@ -72,4 +78,6 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
     List<String> selectAssessName(Integer courseId);
 
     List<String> selectTargetName(Integer courseId);
+
+    void deleteAssess(Long courseId, Long targetId,Long assessId);
 }

@@ -54,6 +54,7 @@ public class ArchiveWeightTargetCourseController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ArchiveWeightTargetCourseVO vo){
+        System.out.println(vo);
         archiveWeightTargetCourseService.update(vo);
 
         return Result.ok();

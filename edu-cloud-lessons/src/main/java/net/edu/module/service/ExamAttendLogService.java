@@ -8,6 +8,7 @@ import net.edu.module.vo.ExamAttendLogVO;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 课堂签到表
@@ -46,4 +47,8 @@ public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
     void receiveExamInvitation(String code);
 
     ExamAttendLogVO getUserExamInfo(Long userId,Long examId);
+
+    Map<String ,String> getStudentExamStatisticsInfo(Long userId);
+
+    Map<String, String> getTeacherExamStatisticsInfo(Long userId);
 }

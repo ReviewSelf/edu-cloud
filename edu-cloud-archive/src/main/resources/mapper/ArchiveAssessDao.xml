@@ -7,6 +7,17 @@
         insert into archive_assess (name,create_time)
         values (#{name},now())
     </insert>
+    <insert id="insertArchiveAssess1">
+        insert into archive_assess (name,weight,target_id,course_id,create_time)
+        values (#{name},#{weight},#{targetId},#{courseId},now())
+    </insert>
+
+    <update id="updateArchiveAssess3">
+        update archive_assess
+        set name=#{name},weight=#{weight},target_id=#{targetId},course_id=#{courseId},update_time=now()
+        where id=#{assessId}
+    </update>
+
     <insert id="insertAssessWeight">
         INSERT INTO archive_weight_goal(assess_id , target_id , course_id , weight)
         VALUES (#{assessId} , #{targetId} , #{courseId} , #{weight})
@@ -38,11 +49,16 @@
     </update>
 
     <delete id="updateByCourseId">
-        update archive_weight_goal
+        update archive_assess
         set deleted = 1
-        where assess_id = #{assessId} and course_id = #{courseId}
+        where id = #{assessId} and course_id = #{courseId}
     </delete>
 
+    <update id="deleteAssess">
+        update archive_assess
+        set deleted = 1
+        where course_id = #{courseId} and target_id = #{targetId} and id=#{assessId}
+    </update>
 
     <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">
         SELECT
@@ -149,7 +165,16 @@
             SUM(weight)
         FROM archive_weight_goal
         WHERE course_id = #{courseId}
-          and target_id != #{targetId} and deleted = 0
+          and target_id != #{targetId}
+    </select>
+    <select id="selectAssessByCourseId" resultType="net.edu.module.vo.ArchiveAssessVO">
+        SELECT
+            name,
+            id ,
+            weight
+        FROM
+            archive_assess
+        WHERE course_id = #{courseId} and deleted = 0
     </select>
     <select id="selectTargetByCourseId" resultType="java.lang.Integer">
         SELECT

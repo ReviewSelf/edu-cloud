@@ -88,6 +88,21 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     }
 
     @Override
+    public void save1(ArchiveAssessVO vo) {
+        archiveAssessDao.insertArchiveAssess1(vo);
+    }
+
+    @Override
+    public void update1(ArchiveAssessVO vo) {
+        archiveAssessDao.updateArchiveAssess3(vo);
+    }
+
+    @Override
+    public void deleteAssess(Long courseId, Long  targetId,Long assessId) {
+        archiveAssessDao.deleteAssess(courseId,targetId,assessId);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
@@ -98,6 +113,12 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
         }
 
     }
+
+    @Override
+    public List<ArchiveAssessVO> selectAssessByCourseId(Long courseId) {
+        return archiveAssessDao.selectAssessByCourseId(courseId);
+    }
+
 
 
     @SneakyThrows

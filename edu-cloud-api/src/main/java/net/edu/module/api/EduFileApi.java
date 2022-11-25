@@ -20,6 +20,11 @@ import java.util.List;
 @FeignClient(value = "edu-cloud-file", fallbackFactory = EduFileApiFallBack.class)
 public interface EduFileApi {
 
+
+    @PostMapping(value ="upload2",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
+    @Operation(summary = "不对外公开文件")
+    Result<FileUploadVO> upload2(@RequestPart("file") MultipartFile file);
+
     /****************************Judge调用******************************************/
     @GetMapping("/sample/fileBase64")
     @Operation(summary = "测试样例转Base64")

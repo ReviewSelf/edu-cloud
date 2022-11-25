@@ -2,17 +2,12 @@ package net.edu.module.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.HexUtil;
-import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
-import net.edu.framework.common.utils.DateUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
@@ -20,11 +15,9 @@ import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.ExamAttendLogConvert;
 import net.edu.module.dao.ExamAttendLogDao;
 import net.edu.module.entity.ExamAttendLogEntity;
-import net.edu.module.entity.ExamEntity;
 import net.edu.module.query.ExamAttendLogQuery;
 import net.edu.module.service.ExamAttendLogService;
 import net.edu.module.vo.ExamAttendLogVO;
-import net.edu.module.vo.ExamVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +25,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 课堂签到表
@@ -196,5 +190,15 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     @Override
     public ExamAttendLogVO getUserExamInfo(Long userId, Long examId) {
         return baseMapper.selectUserExamInfo(userId, examId);
+    }
+
+    @Override
+    public Map<String, String> getStudentExamStatisticsInfo(Long userId){
+        return baseMapper.selectStudentExamStatisticsInfo(userId);
+    }
+
+    @Override
+    public Map<String, String> getTeacherExamStatisticsInfo(Long userId) {
+        return baseMapper.selectTeacherExamStatisticsInfo(userId);
     }
 }

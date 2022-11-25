@@ -13,6 +13,19 @@
         update archive_weight_assess_test set deleted = 1
         where test_id = #{testId}
     </update>
+    <update id="updateTestWeight">
+        UPDATE
+            archive_weight_assess_test
+        SET assess_id = null , weight = null
+        WHERE id = #{id}
+
+    </update>
+    <update id="updateTestWeightByActive">
+        UPDATE
+            archive_weight_assess_test
+        SET assess_id = #{assessId} , weight = #{weight}
+        WHERE id = #{id}
+    </update>
     <select id="selectTestName" resultType="net.edu.module.vo.ArchiveWeightAssessTestVO">
         select
             t2.id,
@@ -26,6 +39,7 @@
         SELECT
             id,
             name
+
         FROM
 	        exam
         WHERE
@@ -49,5 +63,26 @@
 
     <select id="selectTestByCourseId" resultType="java.lang.Double">
         select weight  from archive_weight_assess_test where deleted = 0 and course_id = #{courseId}
+    </select>
+    <select id="selectAssessWeight" resultType="net.edu.module.vo.ArchiveWeightAssessTestVO">
+        SELECT
+            test_name as name,
+            id,
+            weight,
+            course_id,
+            assess_id
+        FROM
+            archive_weight_assess_test
+        WHERE course_id = #{courseId} and assess_id is null and deleted = 0
+    </select>
+    <select id="selectTestInfo" resultType="net.edu.module.vo.ArchiveWeightAssessTestVO">
+        SELECT
+            test_name as name,
+            id,
+            weight,
+            assess_id,
+            course_id
+        FROM archive_weight_assess_test
+        WHERE assess_id = #{assessId} and course_id = #{courseId}
     </select>
 </mapper>

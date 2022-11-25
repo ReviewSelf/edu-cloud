@@ -6,8 +6,9 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
-import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
 * 课程总结
@@ -25,4 +26,10 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
     void insertAnalysis(ArchiveCourseSummaryVO vo);
 
     void insertFinal(ArchiveCourseSummaryVO vo);
+
+    Long insertSummaryTable(ArchiveCourseSummaryVO summary);
+
+    Integer selectStudent(String courseId);
+
+    List<String> selectStudentId(String courseId);
 }

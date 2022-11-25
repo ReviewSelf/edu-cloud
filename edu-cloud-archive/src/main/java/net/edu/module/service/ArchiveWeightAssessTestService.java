@@ -20,4 +20,12 @@ public interface ArchiveWeightAssessTestService extends BaseService<ArchiveWeigh
     void delete(Long testId);
 
     List<ArchiveWeightAssessTestVO> selectArchiveTestAll(Long assessId);
+
+    List<ArchiveWeightAssessTestVO> selectAssessWeight(ArchiveWeightAssessTestVO archiveWeightAssessTestVO);
+
+    void deleteTestWeight(Integer id);
+
+    void saveTestWeight(List<ArchiveWeightAssessTestVO> archiveWeightAssessTestVO);
+
+    List<ArchiveWeightAssessTestVO> selectTestInfo(String courseId, String assessId);
 }

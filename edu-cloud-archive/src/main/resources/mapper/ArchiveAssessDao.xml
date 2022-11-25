@@ -49,9 +49,9 @@
     </update>
 
     <delete id="updateByCourseId">
-        update archive_assess
+        update archive_weight_goal
         set deleted = 1
-        where id = #{assessId} and course_id = #{courseId}
+        where assess_id = #{assessId} and course_id = #{courseId}
     </delete>
 
     <update id="deleteAssess">
@@ -176,4 +176,60 @@
             archive_assess
         WHERE course_id = #{courseId} and deleted = 0
     </select>
+    <select id="selectTargetByCourseId" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) FROM archive_weight_target_course
+            WHERE course_id = #{courseId} and deleted = 0
+    </select>
+    <select id="selectAssessSum" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) FROM archive_assess
+        WHERE course_id = #{courseId} and deleted = 0
+    </select>
+    <select id="selectTargetWeightArr" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(weight)
+        FROM archive_weight_goal
+        WHERE deleted = 0 AND course_id = #{courseId}
+        GROUP BY target_id
+        ORDER BY target_id
+    </select>
+    <select id="selectTargetId" resultType="java.lang.Integer">
+        SELECT
+        target_id
+        FROM archive_weight_goal
+        WHERE deleted = 0 AND course_id = #{courseId}
+        GROUP BY target_id
+    </select>
+    <select id="selectWeightByT" resultType="java.math.BigDecimal">
+        SELECT
+            weight
+        FROM archive_weight_goal
+        WHERE deleted = 0 AND target_id = #{integer}
+    </select>
+    <select id="selectAssessId" resultType="java.lang.Integer">
+        SELECT
+            id
+        FROM archive_assess
+        WHERE deleted = 0  and course_id = #{courseId}
+    </select>
+    <select id="selectWeight" resultType="java.math.BigDecimal">
+        SELECT
+            weight
+        FROM archive_weight_goal
+        WHERE deleted = 0  and target_id = #{targetId} and assess_id = #{assessId}
+    </select>
+    <select id="selectAssessName" resultType="java.lang.String">
+        SELECT
+            name
+        FROM archive_assess
+        WHERE deleted = 0 and course_id = #{courseId}
+    </select>
+    <select id="selectTargetName" resultType="java.lang.String">
+        SELECT
+            goal_name
+        FROM archive_weight_target_course
+        WHERE deleted = 0 and course_id = #{courseId}
+    </select>
+
 </mapper>

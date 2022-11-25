@@ -47,7 +47,6 @@ public class ArchiveAssessController {
         return Result.ok(archiveAssessService.selectArchiveAssessById(id));
     }
 
-
     @PostMapping
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody ArchiveWeightTargetAssessVO vo){
@@ -101,7 +100,6 @@ public class ArchiveAssessController {
         archiveAssessService.assessFromExcel(file);
         return Result.ok();
     }
-
 
     @GetMapping("stepTwo")
     @Operation(summary = "获取考核比例")
@@ -159,5 +157,12 @@ public class ArchiveAssessController {
         } else {
             return Result.ok(null);
         }
+    }
+
+    @PostMapping("/getWeightTable")
+    @Operation(summary = "获取第二步表格相关")
+    public Result<ArchiveAssessTableVo> getWeightTable(@RequestBody ArchiveAssessByCourseIdVo assess) {
+        ArchiveAssessTableVo list = archiveAssessService.getWeightTable(assess);
+        return Result.ok(list);
     }
 }

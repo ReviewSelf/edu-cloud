@@ -15,6 +15,8 @@ import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
 import net.edu.module.utils.ExamExcelUtil;
 import net.edu.module.utils.ExcelSummaryUtil;
+import net.edu.module.vo.ArchiveAssessByCourseIdVo;
+import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import net.edu.module.dao.ArchiveCourseSummaryDao;
 import net.edu.module.service.ArchiveCourseSummaryService;
@@ -83,6 +85,24 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     @Override
     public void insertFinal(ArchiveCourseSummaryVO vo) {
         archiveCourseSummaryDao.insertFinal(vo);
+    }
+
+    @Override
+    public Long creativeSummaryId(ArchiveCourseSummaryVO summary) {
+        archiveCourseSummaryDao.insertSummaryTable(summary);
+        Long id = summary.getId();
+        return id;
+    }
+
+    @Override
+    public List<ArchiveAssessTestGradesVo> getGradesTable(String courseId) {
+
+        //第一步，获取学生学号数组，学生总数
+        Integer studentNum = archiveCourseSummaryDao.selectStudent(courseId);
+        System.out.println("学生总数：");
+        List<String> studentId = archiveCourseSummaryDao.selectStudentId(courseId);
+
+        return null;
     }
 
     @Override

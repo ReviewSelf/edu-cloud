@@ -2,12 +2,9 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.vo.ArchiveAssessByCourseIdVo;
-import net.edu.module.vo.ArchiveAssessVO;
+import net.edu.module.vo.*;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.entity.ArchiveAssessEntity;
-import net.edu.module.vo.ArchivePointAndTargetVO;
-import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
@@ -46,6 +43,8 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
     void saveEvaluation(ArchivePointAndTargetVO assess);
 
     BigDecimal getWeightSum(ArchiveAssessByCourseIdVo assess);
+
+    ArchiveAssessTableVo getWeightTable(ArchiveAssessByCourseIdVo assess);
 
 //    Long save(ArchiveAssessExcelVO vo);
 

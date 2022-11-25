@@ -16,16 +16,19 @@ import net.edu.module.service.ArchiveWeightTargetAssessService;
 import net.edu.module.vo.*;
 import net.edu.module.dao.ArchiveAssessDao;
 import net.edu.module.service.ArchiveAssessService;
+import org.apache.poi.hpsf.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Pattern;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.Map;
 
 
 /**
@@ -173,6 +176,69 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     @Override
     public BigDecimal getWeightSum(ArchiveAssessByCourseIdVo assess) {
         return archiveAssessDao.selectWeightSum(assess);
+    }
+
+    @Override
+    public ArchiveAssessTableVo getWeightTable(ArchiveAssessByCourseIdVo assess) {
+
+        //第一步，获取教学目标总数
+        Integer courseId = assess.getCourseId();
+        Integer TargetNum = archiveAssessDao.selectTargetByCourseId(courseId);
+
+        //第二步，获取考核点总数和考核点名称
+        Integer AssessNum = archiveAssessDao.selectAssessSum(assess);
+        List<String> AssessName = archiveAssessDao.selectAssessName(courseId);
+        System.out.println(AssessName);
+
+        //第三步，获取教学目标占比数组
+        List<BigDecimal> TargetWeightArr = archiveAssessDao.selectTargetWeightArr(assess);
+        BigDecimal[] TargetArr = new BigDecimal[TargetNum];
+        BigDecimal m = new BigDecimal(100);
+        for(int i = 0 ; i < TargetWeightArr.size() ; i++) {
+            TargetArr[i] = TargetWeightArr.get(i).multiply(m);
+        }
+        List<String> TargetName = archiveAssessDao.selectTargetName(courseId);
+        System.out.println(TargetName);
+
+        //第四步，获取考核点在该教学目标下的占比
+        BigDecimal[][] AssessWeightArr = new BigDecimal[TargetNum][AssessNum];
+        List<Integer>  TargetIdArr;
+        TargetIdArr = archiveAssessDao.selectTargetId(courseId);
+        List<Integer> AssessIdArr;
+        AssessIdArr = archiveAssessDao.selectAssessId(assess);
+        for(int i = 0 ; i < TargetNum ; i++) {
+            for (int j = 0 ; j < AssessNum ; j++) {
+                AssessWeightArr[i][j] = archiveAssessDao.selectWeight(TargetIdArr.get(i) , AssessIdArr.get(j));
+                if(AssessWeightArr[i][j] == null) {
+                    AssessWeightArr[i][j] = BigDecimal.valueOf(0);
+                }
+            }
+        }
+        ArchiveAssessTableVo assessTableVo = new ArchiveAssessTableVo();
+        assessTableVo.setAssessNum(AssessNum);
+        assessTableVo.setTargetNum(TargetNum);
+        assessTableVo.setAssessWeightArr(AssessWeightArr);
+        assessTableVo.setTargetWeightArr(TargetArr);
+
+        String[][] outCome = new String[TargetNum + 1][AssessNum + 1];
+        for(int i = -1 ; i < TargetNum ; i++) {
+            for (int j = -1 ; j < AssessNum ; j++) {
+                if(i == -1 && j == -1) {
+                    outCome[i + 1][j + 1] = "考核点名称";
+                } else if(i == -1) {
+                    outCome[i + 1][j + 1] = AssessName.get(j);
+                }
+                if(i > -1 && j == -1) {
+                    outCome[i + 1][j + 1] = TargetName.get(i) + "(" + TargetArr[i] + ")";
+                } else if(i > -1 && j > -1) {
+                    outCome[i + 1][j + 1] = AssessWeightArr[i][j].toString();
+                }
+            }
+        }
+        System.out.println(outCome);
+        assessTableVo.setRouCome(outCome);
+        System.out.println(assessTableVo.getRouCome());
+        return assessTableVo;
     }
 
 //    @Override

@@ -1,8 +1,12 @@
 package net.edu.module.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import net.edu.framework.common.utils.DateUtils;
+
 import java.io.Serializable;
+import java.util.Date;
 
 
 /**
@@ -38,7 +42,10 @@ public class ArchiveCourseSummaryVO implements Serializable {
 	private String measures;
 
 	@Schema(description = "其他可用的协助持续改进的资源")
-	private String others;
+	private String resources;
 
+	@Schema(description = "创建时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
+	private Date createTime;
 
 }

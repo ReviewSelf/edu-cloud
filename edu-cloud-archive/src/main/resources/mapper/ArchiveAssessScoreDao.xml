@@ -18,11 +18,19 @@
 
     </resultMap>
 
-    <select id="selectAssessScoreByCourseId" resultType="net.edu.module.vo.ArchiveAssessScoreVO">
+    <select id="selectAssessScoreByCourseId" resultType="net.edu.module.entity.ArchiveAssessScoreEntity">
         select
-            stu_id,stu_name,score
+            stu_id,stu_name,score,assess_id
         from archive_assess_score
         where deleted = 0 and course_id = #{courseId}
+        order by stu_id
+    </select>
+
+    <select id="selectAssessScore" resultType="java.lang.String">
+        select
+            score
+        from archive_assess_score
+        where deleted = 0 and stu_id = #{stuId} and assess_id = #{assessId}
         order by stu_id
     </select>
 

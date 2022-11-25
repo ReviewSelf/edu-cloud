@@ -32,6 +32,11 @@ import java.util.List;
 public class ArchiveGoalScoreController {
     @Autowired
     private ArchiveGoalScoreService archiveGoalScoreService;
+    @GetMapping("{courseId}")
+    @Operation(summary = "获取总评分数")
+    public Result<List<ArchiveGoalScoreVO>> getScore(@PathVariable("courseId") Long courseId){
+        return Result.ok(archiveGoalScoreService.selectGoalScoreByCourseId(courseId));
+    }
     @PostMapping
     @Operation(summary = "插入")
     public Result<String> save(@RequestBody List<ArchiveGoalScoreVO> vo){

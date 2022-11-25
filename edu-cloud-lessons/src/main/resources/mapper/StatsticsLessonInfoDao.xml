@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.StatisticsLessonInfoDao">
+
+    <select id="selectStudentHomeworkStatisticsInfo" resultType="java.util.HashMap">
+        SELECT homeworkCompleteProblemNum,
+               homeworkEndTime,
+               homeworkNum,
+               homeworkProblemNum
+        FROM (
+                 SELECT homework_end_time AS homeworkEndTime
+                 FROM lesson
+                 WHERE homework_status = 1
+                   AND EXISTS(SELECT 1 FROM lesson_attend_log WHERE stu_id = #{userId} AND lesson_id = lesson.id)
+                   AND deleted = 0
+                 ORDER BY homework_end_time LIMIT 1
+             ) a,
+             (
+                 SELECT count(1) AS homeworkNum
+                 FROM lesson
+                 WHERE homework_status = 1
+                   AND EXISTS(SELECT 1 FROM lesson_attend_log WHERE stu_id = #{userId} AND lesson_id = lesson.id)
+                   AND deleted = 0
+             ) b,
+             (
+                 SELECT sum(1)         AS homeworkProblemNum,
+                        sum(
+                                IF
+                                    (
+                                        EXISTS(
+                                                SELECT 1
+                                                FROM judge_record c
+                                                WHERE t.problem_id = c.problem_id
+                                                  AND t.problem_type = c.problem_type
+                                                  AND c.submit_status = 3
+                                                  AND c.user_id = #{userId}
+                                            ),
+                                        1,
+                                        0
+                                    )) AS homeworkCompleteProblemNum
+                 FROM lesson_problem t
+                 WHERE type = 2
+                   AND used = 1
+                   AND EXISTS(
+                         SELECT id
+                         FROM lesson
+                         WHERE EXISTS(SELECT 1
+                                      FROM lesson_attend_log
+                                      WHERE stu_id = #{userId} AND lesson_id = lesson.id)
+                           AND homework_status = 1
+                           AND id = t.lesson_id
+                           AND deleted = 0
+                     )
+             ) c
+    </select>
+
+    <select id="selectStudentLessonStatisticsInfo" resultType="java.util.HashMap">
+        select lessonBeginTime, lessonNum, unpaidLessonNum
+        from (select begin_time as lessonBeginTime
+              from lesson
+              where EXISTS (select 1 from lesson_attend_log where stu_id= #{userId}
+                and lesson_id = lesson.id)
+                and end_time >= now()
+                and deleted = 0
+              ORDER BY begin_time  LIMIT 1) a,
+             (select sum(1)                                                                               as unpaidLessonNum,
+                     sum(if(YEARWEEK(date_format(begin_time, '%Y-%m-%d'), 1) = YEARWEEK(now(), 1), 1, 0)) as lessonNum
+              from lesson
+              where EXISTS(select 1 from lesson_attend_log where stu_id = #{userId} and lesson_id = lesson.id)
+                and end_time >= now()
+                and deleted = 0) b
+    </select>
+
+    <select id="selectStudentLessonProblemStatisticsInfo" resultType="java.util.HashMap">
+        SELECT count(1) as unpaidClassProblemNum
+        FROM lesson_problem t
+        WHERE type = 1
+          AND used = 1
+          AND EXISTS(
+                SELECT 1
+                FROM lesson a
+                         JOIN lesson_attend_log b ON b.lesson_id = a.id
+                    AND b.stu_id = #{userId}
+                WHERE a.end_time &lt; now()
+                  AND a.id = t.lesson_id
+            )
+          AND NOT EXISTS(
+                SELECT 1
+                FROM judge_record c
+                WHERE t.problem_id = c.problem_id
+                  AND t.problem_type = c.problem_type
+                  AND c.submit_status = 3
+                  AND c.user_id = #{userId})
+    </select>
+
+    <select id="selectTeacherHomeworkStatisticsInfo" resultType="java.util.HashMap">
+        SELECT
+            homeworkName,
+            homeworkEndTime,
+            homeworkNum
+        FROM
+            ( SELECT sum( 1 ) AS homeworkNum FROM lesson WHERE homework_status = 1 AND teacher_id = #{userId} ) a,(
+            SELECT
+                 b.NAME AS homeworkName,
+                homework_end_time AS homeworkEndTime
+            FROM
+                lesson a
+                    JOIN teach_class b ON a.class_id = b.id
+            WHERE
+                a.homework_status = 1
+              AND a.teacher_id = #{userId}
+            ORDER BY
+                a.homework_end_time
+                LIMIT 1
+        )b
+    </select>
+
+    <select id="selectTeacherLessonStatisticsInfo" resultType="java.util.HashMap">
+        select lessonBeginTime, lessonNum, lessonName
+        from (select begin_time as lessonBeginTime,name as lessonName
+              from lesson
+              where teacher_id = #{userId}
+                and end_time >= now()
+                and deleted = 0
+              ORDER BY begin_time  LIMIT 1) a,
+             (select
+                  sum(if(YEARWEEK(date_format(begin_time, '%Y-%m-%d'), 1) = YEARWEEK(now(), 1), 1, 0)) as lessonNum
+              from lesson
+              where teacher_id=#{userId}
+                and end_time >= now()
+                and deleted = 0) b
+    </select>
+
+</mapper>

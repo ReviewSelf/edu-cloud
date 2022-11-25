@@ -25,7 +25,6 @@ public class TeachStatisticsController {
         return Result.ok(statisticsInfo);
     }
 
-
     @GetMapping("/info")
     @Operation(summary = "统计信息用于定时器")
     public Result<String> statisticsHomeInfo() {

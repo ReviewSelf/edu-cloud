@@ -26,5 +26,11 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
 
     void delete(List<Long> idList);
 
-    void exportExcelSummary(HttpServletResponse response) throws IOException;
+    void exportExcelSummary(Long courseId, HttpServletResponse response) throws IOException;
+
+    void insertMeasures(ArchiveCourseSummaryVO vo);
+
+    void insertAnalysis(ArchiveCourseSummaryVO vo);
+
+    void insertFinal(ArchiveCourseSummaryVO vo);
 }

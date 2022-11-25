@@ -6,10 +6,12 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.LessonAttendLogEntity;
 import net.edu.module.query.LessonAttendLogQuery;
 import net.edu.module.vo.LessonAttendLogVO;
+import net.edu.module.vo.StudentsStatisticsInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
 * 课堂签到表
@@ -37,4 +39,5 @@ public interface LessonAttendLogDao extends BaseDao<LessonAttendLogEntity> {
     List<LessonAttendLogVO> selectStudentsList(@Param("query") LessonAttendLogQuery query);
 
     int updateStudents(@Param("vo") LessonAttendLogVO vo);
+
 }

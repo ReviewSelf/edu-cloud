@@ -100,7 +100,8 @@ public class ArchiveCourseSummaryController {
     @Operation(summary = "导出课程总体情况excel表")
     public void exportExcelSummary(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
         Long courseId= Long.valueOf(object.get("courseId").toString());
-        archiveCourseSummaryService.exportExcelSummary(courseId,response);
+        Long summaryId= Long.valueOf(object.get("summaryId").toString());
+        archiveCourseSummaryService.exportExcelSummary(courseId,summaryId,response);
     }
 
 }

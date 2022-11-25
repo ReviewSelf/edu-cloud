@@ -12,7 +12,9 @@ import net.edu.framework.common.excel.HeadContentCellStyle;
 import net.edu.framework.common.utils.ResponseHeadUtils;
 import net.edu.module.dao.ArchiveWeightGoalDao;
 import net.edu.module.dao.ArchiveWeightTargetCourseDao;
+import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.entity.ArchiveWeightGoalEntity;
+import net.edu.module.service.ArchiveCourseSummaryService;
 import net.edu.module.service.ArchiveGoalScoreService;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
 import net.edu.module.vo.ArchiveGoalPeopleVO;
@@ -28,6 +30,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -41,10 +44,14 @@ public class ExcelSummaryUtil {
     private ArchiveGoalScoreService archiveGoalScoreService;
     @Autowired
     private ArchiveWeightTargetCourseDao archiveWeightTargetCourseDao;
-
+    @Autowired
+    private ArchiveCourseSummaryService archiveCourseSummaryService;
     private static ExcelSummaryUtil excelSummaryUtil;
 
     private static Long courseIdUntil;
+
+    private static Long summaryIdUntil;
+
 
     @PostConstruct
     public void init() {
@@ -55,9 +62,10 @@ public class ExcelSummaryUtil {
     }
 
 
-    public static void excelSummaryUtil(Long courseId,HttpServletResponse response) throws IOException {
+    public static void excelSummaryUtil(Long courseId,Long summaryId,HttpServletResponse response) throws IOException {
 
         courseIdUntil=courseId;
+        summaryIdUntil=summaryId;
         System.out.println("courseIdUntil"+courseIdUntil);
 
         String name = "课程实施总结表.xlsx";
@@ -80,10 +88,9 @@ public class ExcelSummaryUtil {
         HorizontalCellStyleStrategy horizontalCellStyleStrategy =
                 new HorizontalCellStyleStrategy(headWriteCellStyle, contentWriteCellStyle);
 
-
-
         ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream())
                 .registerWriteHandler(new SimpleColumnWidthStyleStrategy(19))
+                .registerWriteHandler(new CellRowHeightStyleStrategy())
                 .registerWriteHandler(horizontalCellStyleStrategy)
                 .build();
         //生成工作簿
@@ -91,6 +98,8 @@ public class ExcelSummaryUtil {
         summary2(excelWriter);
         summary5(excelWriter);
         summary6(excelWriter);
+        summary7(excelWriter);
+        summary8(excelWriter);
         excelWriter.finish();
         response.flushBuffer();
     }
@@ -313,64 +322,80 @@ public class ExcelSummaryUtil {
     public static void summary6(ExcelWriter excelWriter){
         List<List<String>> dataList = new ArrayList<>();
         List<String> list = new ArrayList<>();
+        List<List<String>> headList = new ArrayList<>();
+        List<String> head = new ArrayList<>();
         //设置表头
         List<ArchivePointAndTargetVO> archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
+        String bigTitle = "考核分析表（样本）";
+        String title = archivePointAndTargetVOS.get(0).getGrade()+'-'+(Integer.parseInt(archivePointAndTargetVOS.get(0).getGrade())+1)+'-'+archivePointAndTargetVOS.get(0).getSemester();
+        List<ArchiveGoalPeopleVO> sample = excelSummaryUtil.archiveGoalScoreService.getSample(courseIdUntil);
+        int sum = 0;//计算总人数
+
+            sum+= sample.get(0).getExcellent();
+            sum+= sample.get(0).getMedium();
+            sum+= sample.get(0).getGood();
+            sum+= sample.get(0).getFail();
+            sum+= sample.get(0).getPass();
+
+        head.add(bigTitle);
+        head.add(title);
+        head.add("课程名称");
+        head.add("任课教师");
+        head.add("考核方式");
+        headList.add(head);
+        head = new ArrayList<>();
+
+        head.add(bigTitle);
+        head.add(title);
+        head.add(String.valueOf(archivePointAndTargetVOS.get(0).getName()));
+        head.add(archivePointAndTargetVOS.get(0).getTeacher());
+        head.add(archivePointAndTargetVOS.get(0).getAssessment());
+        headList.add(head);
+        head = new ArrayList<>();
+
+        head.add(bigTitle);
+        head.add(title);
+        head.add("课程代码");
+        head.add("教学班");
+        head.add("考试日期");
+        headList.add(head);
+        head = new ArrayList<>();
+
+        head.add(bigTitle);
+        head.add(title);
+        head.add(String.valueOf(archivePointAndTargetVOS.get(0).getSysId()));
+        head.add(archivePointAndTargetVOS.get(0).getTeachClass());
+        head.add("");
+        headList.add(head);
+        head = new ArrayList<>();
+
+        head.add(bigTitle);
+        head.add(title);
+        head.add("性质");
+        head.add("学分");
+        head.add("人数");
+        headList.add(head);
+        head = new ArrayList<>();
+
+        head.add(bigTitle);
+        head.add(title);
+        head.add("核心必修");
+        head.add(archivePointAndTargetVOS.get(0).getCredit());
+        head.add(String.valueOf(sum));
+        headList.add(head);
+
+
         //写入表头
         WriteSheet writeSheet = EasyExcel.writerSheet("考核分析表（样本）")
+                .head(headList)
                 .registerWriteHandler(new CellRowHeightStyleStrategy())
                 .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
                 .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
                 .build();
         //设置内容
 
-        //第一行内容
-        list.add(String.valueOf(archivePointAndTargetVOS.get(0).getSemester()));
-        dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
-        list= new ArrayList<>();
-        dataList= new ArrayList<>();
-
-        //第二行内容
-        System.out.println(archivePointAndTargetVOS);
-        list.add("课程名称");
-        list.add(String.valueOf(archivePointAndTargetVOS.get(0).getName()));
-        list.add("教学编号");
-        list.add(String.valueOf(archivePointAndTargetVOS.get(0).getSysId()));
-        list.add("性质");
-        list.add("核心必修");
-        dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
-        list= new ArrayList<>();
-        dataList= new ArrayList<>();
-
-
-        //第三行内容
-        list.add("任课教师");
-        list.add(archivePointAndTargetVOS.get(0).getTeacher());
-        list.add("教学班");
-        list.add(archivePointAndTargetVOS.get(0).getTeachClass());
-        list.add("学分");
-        list.add(archivePointAndTargetVOS.get(0).getCredit());
-        dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
-        list= new ArrayList<>();
-        dataList= new ArrayList<>();
-
-        //第四行内容
-        list.add("考核方式");
-        list.add(archivePointAndTargetVOS.get(0).getAssessment());
-        list.add("考试日期");
+        //第五行
         list.add("");
-        list.add("人数");
-        list.add(String.valueOf(archivePointAndTargetVOS.size()));
-        dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
-        list= new ArrayList<>();
-        dataList= new ArrayList<>();
-
-        //第五行内容
-        list.add("");
-        list.add("等级");
         list.add("优秀");
         list.add("良好");
         list.add("中等");
@@ -381,24 +406,294 @@ public class ExcelSummaryUtil {
         list= new ArrayList<>();
         dataList= new ArrayList<>();
 
-        List<ArchiveGoalPeopleVO> sample = excelSummaryUtil.archiveGoalScoreService.getSample(courseIdUntil);
+
         //下面几行
-        for (int i = 0; i < sample.size(); i++) {
-            list.add(sample.get(i).getTargetName());
-            list.add("人数");
-            list.add(String.valueOf(sample.get(i).getExcellent()));
-            list.add(String.valueOf(sample.get(i).getGood()));
-            list.add(String.valueOf(sample.get(i).getMedium()));
-            list.add(String.valueOf(sample.get(i).getPass()));
-            list.add(String.valueOf(sample.get(i).getFail()));
+        for (ArchiveGoalPeopleVO archiveGoalPeopleVO : sample) {
+            list.add(archiveGoalPeopleVO.getTargetName());
+            list.add(String.valueOf(archiveGoalPeopleVO.getExcellent()));
+            list.add(String.valueOf(archiveGoalPeopleVO.getGood()));
+            list.add(String.valueOf(archiveGoalPeopleVO.getMedium()));
+            list.add(String.valueOf(archiveGoalPeopleVO.getPass()));
+            list.add(String.valueOf(archiveGoalPeopleVO.getFail()));
             dataList.add((list));
             excelWriter.write(dataList, writeSheet);
-            list= new ArrayList<>();
-            dataList= new ArrayList<>();
+            list = new ArrayList<>();
+            dataList = new ArrayList<>();
+            list.add(archiveGoalPeopleVO.getTargetName());
+            list.add(String.valueOf(archiveGoalPeopleVO.getExcellent() / sum * 100) + '%');
+            list.add(String.valueOf(archiveGoalPeopleVO.getGood() / sum * 100) + '%');
+            list.add(String.valueOf(archiveGoalPeopleVO.getMedium() / sum * 100) + '%');
+            list.add(String.valueOf(archiveGoalPeopleVO.getPass() / sum * 100) + '%');
+            list.add(String.valueOf(archiveGoalPeopleVO.getFail() / sum * 100) + '%');
+            dataList.add((list));
+            excelWriter.write(dataList, writeSheet);
+            list = new ArrayList<>();
+            dataList = new ArrayList<>();
+        }
+        List<ArchiveGoalScoreVO> goalScoreVOS = excelSummaryUtil.archiveGoalScoreService.selectGoalScoreByCourseId(courseIdUntil);
+        int Excellent=0,Good=0,Medium=0,Pass=0,Fail=0;
+        for (int i = 0; i < goalScoreVOS.size(); i++) {
+            if(goalScoreVOS.get(i).getTotal()>=90) Excellent++;
+            else if(goalScoreVOS.get(i).getTotal()>=80) Good++;
+            else if(goalScoreVOS.get(i).getTotal()>=70) Medium++;
+            else if(goalScoreVOS.get(i).getTotal()>=60) Pass++;
+            else Fail++;
+        }
+        list.add("总体");
+        list.add(String.valueOf(Excellent));
+        list.add(String.valueOf(Good));
+        list.add(String.valueOf(Medium));
+        list.add(String.valueOf(Pass));
+        list.add(String.valueOf(Fail));
+        dataList.add((list));
+        excelWriter.write(dataList, writeSheet);
+        list = new ArrayList<>();
+        dataList = new ArrayList<>();
+
+        list.add("总体");
+        list.add(String.valueOf(Excellent/ sum * 100)+ '%');
+        list.add(String.valueOf(Good/ sum * 100)+ '%');
+        list.add(String.valueOf(Medium/ sum * 100)+ '%');
+        list.add(String.valueOf(Pass/ sum * 100)+ '%');
+        list.add(String.valueOf(Fail/ sum * 100)+ '%');
+        dataList.add((list));
+        excelWriter.write(dataList, writeSheet);
+
+        ArchiveCourseSummaryEntity summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
+        list = new ArrayList<>();
+        dataList = new ArrayList<>();
+        list.add("问题和改进措施");
+        list.add(summaryEntity.getImprovement());
+        dataList.add((list));
+        excelWriter.write(dataList,writeSheet);
+
+    }
+
+    public static void summary7(ExcelWriter excelWriter){
+        List<List<String>> dataList = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        List<List<String>> headList = new ArrayList<>();
+        List<String> head = new ArrayList<>();
+        List<ArchivePointAndTargetVO> archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
+
+        String bigTitle = "考核分析表（个体）";
+        //设置表头
+        head.add(bigTitle);
+        head.add("课程名称");
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add(archivePointAndTargetVOS.get(0).getName());
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add("课程代码");
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add(String.valueOf(archivePointAndTargetVOS.get(0).getSysId()));
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add("学期");
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add(archivePointAndTargetVOS.get(0).getGrade()+'-'+(Integer.parseInt(archivePointAndTargetVOS.get(0).getGrade())+1)+'-'+archivePointAndTargetVOS.get(0).getSemester());
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add("学分");
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add(archivePointAndTargetVOS.get(0).getCredit());
+        headList.add(head);
+        //写入表头
+        WriteSheet writeSheet = EasyExcel.writerSheet("考核分析表（个体）")
+                .head(headList)
+                .registerWriteHandler(new CellRowHeightStyleStrategy())
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
+                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
+                .build();
+        //设置内容
+        List<ArchiveGoalScoreVO> unit = excelSummaryUtil.archiveGoalScoreService.getUnit(courseIdUntil);
+        int size = unit.get(0).getScore().size(); //教学目标数量
+        //第四行
+        list.add("学号");
+        list.add("姓名");
+        for (int i = 0; i < size; i++) {
+            list.add("教学目标"+(i+1));
+        }
+        list.add("总分");
+        dataList.add((list));
+        excelWriter.write(dataList, writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+
+        for (ArchiveGoalScoreVO archiveGoalScoreVO : unit) {
+            list.add(archiveGoalScoreVO.getStuId());
+            list.add(archiveGoalScoreVO.getStuName());
+            for (int j = 0; j < size; j++) {
+                list.add(String.valueOf(archiveGoalScoreVO.getScore().get(j)));
+            }
+            list.add(String.valueOf(archiveGoalScoreVO.getTotal()));
+            dataList.add((list));
+            excelWriter.write(dataList, writeSheet);
+            list = new ArrayList<>();
+            dataList = new ArrayList<>();
         }
 
+        ArchiveCourseSummaryEntity summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
+        list.add("分析说明");
+        list.add(summaryEntity.getAnalysisDescription());
+        dataList.add((list));
+        excelWriter.write(dataList,writeSheet);
+
+    }
+
+    public static void summary8(ExcelWriter excelWriter){
+        List<List<String>> dataList = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        List<List<String>> headList = new ArrayList<>();
+        List<String> head = new ArrayList<>();
+        List<ArchivePointAndTargetVO> archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
+
+        String bigTitle = "课程实施总结" + archivePointAndTargetVOS.get(0).getName();
+        //设置表头
+        head.add(bigTitle);
+        head.add("课程名称");
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add(archivePointAndTargetVOS.get(0).getName());
+        headList.add(head);
 
 
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add("学期");
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add(archivePointAndTargetVOS.get(0).getGrade()+'-'+(Integer.parseInt(archivePointAndTargetVOS.get(0).getGrade())+1)+'-'+archivePointAndTargetVOS.get(0).getSemester());
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add("任课教师");
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add(archivePointAndTargetVOS.get(0).getTeacher());
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add("日期");
+        headList.add(head);
+
+        head = new ArrayList<>();
+        head.add(bigTitle);
+        head.add(String.valueOf(new Date()));
+        headList.add(head);
+        //写入表头
+        WriteSheet writeSheet = EasyExcel.writerSheet("课程实施总结表")
+                .head(headList)
+                .registerWriteHandler(new CellRowHeightStyleStrategy())
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
+                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
+                .build();
+        //设置内容
+
+        //第三行
+        list.add("教学目标");
+        list.add("评价");
+        list.add("实现途径、考核依据和评价方式");
+        dataList.add((list));
+        excelWriter.write(dataList, writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+
+        //第四行
+        list.add("教学目标");
+        list.add("结果");
+        list.add("实现途径、考核依据和评价方式");
+        dataList.add((list));
+        excelWriter.write(dataList, writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+
+        List<ArchiveWeightTargetCourseVO> courseVOList = excelSummaryUtil.archiveWeightTargetCourseService.selectCourseByCourseId(courseIdUntil);
+        for (ArchiveWeightTargetCourseVO archiveWeightTargetCourseVO : courseVOList) {
+            list.add(archiveWeightTargetCourseVO.getTeachTarget());
+            list.add(archiveWeightTargetCourseVO.getEvaluationResult());
+            list.add("达成途径：" + archiveWeightTargetCourseVO.getApproach() + "\n" + "评价依据："+ archiveWeightTargetCourseVO.getEvaluationBasis() + "\n" + "评价方式："+ archiveWeightTargetCourseVO.getEvaluationMethod());
+            dataList.add((list));
+            excelWriter.write(dataList, writeSheet);
+            list = new ArrayList<>();
+            dataList = new ArrayList<>();
+        }
+
+        ArchiveCourseSummaryEntity summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
+        list.add("课程的持续改进");
+        dataList.add((list));
+        excelWriter.write(dataList,writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+
+        list.add("存在问题");
+        list.add("课程实施过程中存在的问题（描述去年课程持续改进措施的实施情况和问题，期中教学检查中出现的问题解释，实施过程中存在的困难和问题，结合平时和期末考核情况、前两年的达成度评价情况分析今年达成情况");
+        dataList.add((list));
+        excelWriter.write(dataList,writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+        list.add("存在问题");
+        list.add(summaryEntity.getProblem());
+        dataList.add((list));
+        excelWriter.write(dataList,writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+
+        list.add("课程改进措施");
+        list.add("（从重点分析达成情况的产生的原因，从期中教学检查的问题，考核内容、方式和结果，课堂教学过程等几个角度进行问题描述和持续改进措施撰写）");
+        dataList.add((list));
+        excelWriter.write(dataList,writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+        list.add("课程改进措施");
+        list.add(summaryEntity.getMeasures());
+        dataList.add((list));
+        excelWriter.write(dataList,writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+
+        list.add("其他可用的协助持续改进的资源");
+        list.add("对前置课程的建议和后置课程的期望");
+        dataList.add((list));
+        excelWriter.write(dataList,writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+        list.add("其他可用的协助持续改进的资源");
+        list.add(summaryEntity.getResources());
+        dataList.add((list));
+        excelWriter.write(dataList,writeSheet);
+        list= new ArrayList<>();
+        dataList= new ArrayList<>();
+
+        list.add("系主任意见");
+        list.add("见系总结汇总表");
+        dataList.add((list));
         excelWriter.write(dataList,writeSheet);
 
     }

@@ -24,8 +24,12 @@ public class ArchiveWeightAssessTestVO {
     @Schema(description = "名字")
     private String name;
 
+    private String assessName;
+
     @Schema(description = "评测点id")
     private Long testId;
+
+    private Long courseId;
 
     @Schema(description = "考核点id")
     private Long assessId;

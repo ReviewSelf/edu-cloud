@@ -7,10 +7,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.query.ArchiveAssessQuery;
-import net.edu.module.vo.ArchiveAssessByCourseIdVo;
-import net.edu.module.vo.ArchiveAssessVO;
-import net.edu.module.vo.ArchivePointAndTargetVO;
-import net.edu.module.vo.ArchiveWeightTargetAssessVO;
+import net.edu.module.vo.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -128,5 +125,12 @@ public class ArchiveAssessController {
         } else {
             return Result.ok(null);
         }
+    }
+
+    @PostMapping("/getWeightTable")
+    @Operation(summary = "获取第二步表格相关")
+    public Result<ArchiveAssessTableVo> getWeightTable(@RequestBody ArchiveAssessByCourseIdVo assess) {
+        ArchiveAssessTableVo list = archiveAssessService.getWeightTable(assess);
+        return Result.ok(list);
     }
 }

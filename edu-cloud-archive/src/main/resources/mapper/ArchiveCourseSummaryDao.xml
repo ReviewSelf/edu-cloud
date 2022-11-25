@@ -35,6 +35,7 @@
         SELECT
             COUNT(*)
         FROM archive_test_score
+        GROUP BY test_id limit 1
     </select>
     <select id="selectStudentId" resultType="java.lang.String">
         SELECT

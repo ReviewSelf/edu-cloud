@@ -153,9 +153,12 @@ public class ArchiveAssessController {
     @Operation(summary = "获取权重富余")
     public Result<BigDecimal> getWeightSum(@RequestBody ArchiveAssessByCourseIdVo assess) {
         BigDecimal sum = archiveAssessService.getWeightSum(assess);
+        System.out.println(sum);
         if(sum != null) {
             BigDecimal Bsum = sum.setScale(2);
             BigDecimal One = new BigDecimal(1.00);
+            System.out.println("测试：");
+            System.out.println(One.subtract(Bsum));
             return Result.ok(One.subtract(Bsum));
         } else {
             return Result.ok(null);

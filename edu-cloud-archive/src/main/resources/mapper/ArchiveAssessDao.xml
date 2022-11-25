@@ -48,11 +48,6 @@
         WHERE id = #{teachId}
     </update>
 
-    <delete id="updateByCourseId">
-        update archive_weight_goal
-        set deleted = 1
-        where assess_id = #{assessId} and course_id = #{courseId}
-    </delete>
 
     <update id="deleteAssess">
         update archive_assess
@@ -166,6 +161,7 @@
         FROM archive_weight_goal
         WHERE course_id = #{courseId}
           and target_id != #{targetId}
+          and deleted = 0
     </select>
     <select id="selectAssessByCourseId" resultType="net.edu.module.vo.ArchiveAssessVO">
         SELECT

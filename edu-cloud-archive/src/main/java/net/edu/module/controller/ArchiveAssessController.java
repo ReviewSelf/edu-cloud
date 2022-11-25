@@ -7,6 +7,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.query.ArchiveAssessQuery;
+import net.edu.module.vo.*;
 import net.edu.module.vo.ArchiveAssessByCourseIdVo;
 import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.vo.ArchivePointAndTargetVO;
@@ -46,6 +47,7 @@ public class ArchiveAssessController {
     public Result<ArchiveAssessVO> get(@PathVariable("id") Long id){
         return Result.ok(archiveAssessService.selectArchiveAssessById(id));
     }
+
 
     @PostMapping
     @Operation(summary = "保存")
@@ -101,6 +103,7 @@ public class ArchiveAssessController {
         return Result.ok();
     }
 
+
     @GetMapping("stepTwo")
     @Operation(summary = "获取考核比例")
     public Result<ArchiveAssessVO> getSummaryStep2(@RequestParam String courseId) {
@@ -150,9 +153,12 @@ public class ArchiveAssessController {
     @Operation(summary = "获取权重富余")
     public Result<BigDecimal> getWeightSum(@RequestBody ArchiveAssessByCourseIdVo assess) {
         BigDecimal sum = archiveAssessService.getWeightSum(assess);
+        System.out.println(sum);
         if(sum != null) {
             BigDecimal Bsum = sum.setScale(2);
             BigDecimal One = new BigDecimal(1.00);
+            System.out.println("测试：");
+            System.out.println(One.subtract(Bsum));
             return Result.ok(One.subtract(Bsum));
         } else {
             return Result.ok(null);

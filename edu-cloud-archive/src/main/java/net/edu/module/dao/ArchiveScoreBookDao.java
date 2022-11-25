@@ -18,6 +18,9 @@ import java.util.List;
 public interface ArchiveScoreBookDao extends BaseDao<ArchiveScoreBookEntity> {
    void  InsertClassInfo(ArchiveScoreBookClassInfoVO vo);
 
-   List<ArchiveScoreBookVO> selectList(Long id);
+   List<ArchiveScoreBookVO> selectList(String id);
+
+   void updateByDeleteId(String id, String classSchedule);
+
 
 }

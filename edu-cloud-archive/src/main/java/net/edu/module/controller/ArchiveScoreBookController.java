@@ -88,10 +88,26 @@ public class ArchiveScoreBookController {
 
     @GetMapping("getClassTable")
     @Operation(summary = "课程表")
-    public Result<List<ArchiveScoreBookClassTableVO>> getClassTable(@RequestParam("id")Long id){
+    public Result<List<ArchiveScoreBookClassTableVO>> getClassTable(@RequestParam("id")String id){
         List<ArchiveScoreBookClassTableVO> archiveScoreBookClassTableVOList=archiveScoreBookService.getClassTable(id);
         return Result.ok(archiveScoreBookClassTableVOList);
     }
+
+    @GetMapping("deleteClassTable")
+    @Operation(summary = "删除课程表")
+    public Result<List<ArchiveScoreBookClassTableVO>> deleteClassTable(@RequestParam("id")String id,@RequestParam("deleteId")String deleteId){
+        archiveScoreBookService.deleteClassTable(id,deleteId);
+        return Result.ok();
+    }
+
+
+    @GetMapping("updateClassTable")
+    @Operation(summary = "添加课程表")
+    public Result<String> addClassTable(@RequestParam("id")String id,@RequestParam("classSchedule")String classSchedule){
+        archiveScoreBookService.updateClassTable(id,classSchedule);
+        return Result.ok();
+    }
+
 
 
 }

@@ -8,12 +8,7 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.vo.*;
-import net.edu.module.vo.ArchiveAssessByCourseIdVo;
-import net.edu.module.vo.ArchiveAssessVO;
-import net.edu.module.vo.ArchivePointAndTargetVO;
-import net.edu.module.vo.ArchiveWeightTargetAssessVO;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
+import net.edu.module.vo.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

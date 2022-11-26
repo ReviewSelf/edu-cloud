@@ -3,6 +3,15 @@
 
 <mapper namespace="net.edu.module.dao.ArchiveGoalScoreDao">
 
+    <select id="selectByStuId" resultType="net.edu.module.entity.ArchiveGoalScoreEntity">
+        select id,stu_id,stu_name,total
+        from archive_goal_score
+        where stu_id in
+        <foreach collection="archiveSignVOS" index="index" item="item" open="(" separator="," close=")">
+            #{item.stuId}
+        </foreach>
+        and course_id=#{courseId}
+    </select>
 
 
 

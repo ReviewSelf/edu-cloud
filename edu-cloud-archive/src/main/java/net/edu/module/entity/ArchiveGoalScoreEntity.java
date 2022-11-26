@@ -1,11 +1,13 @@
 package net.edu.module.entity;
 
+import lombok.Data;
 import net.edu.framework.mybatis.entity.BaseEntity;
 
 /**
  * @author weng
  * @date 2022/11/18 - 16:30
  **/
+@Data
 public class ArchiveGoalScoreEntity extends BaseEntity {
 
     /**
@@ -37,4 +39,9 @@ public class ArchiveGoalScoreEntity extends BaseEntity {
      * 考核点id
      */
     private Long goalId;
+
+    /**
+     * 总分
+     */
+    private Long total;
 }

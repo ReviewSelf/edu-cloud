@@ -3,7 +3,9 @@ package net.edu.module.dao;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveAssessScoreEntity;
 import net.edu.module.entity.ArchiveGoalScoreEntity;
+import net.edu.module.entity.ArchiveSignEntity;
 import net.edu.module.vo.ArchiveAssessScoreVO;
+import net.edu.module.vo.ArchiveSignVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.List;
 @Mapper
 public interface ArchiveGoalScoreDao extends BaseDao<ArchiveGoalScoreEntity> {
 
-
+    List<ArchiveGoalScoreEntity> selectByStuId(List<ArchiveSignVO> archiveSignVOS,String courseId);
 
 
 }

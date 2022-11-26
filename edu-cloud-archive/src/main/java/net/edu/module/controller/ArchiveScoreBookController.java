@@ -10,7 +10,9 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.ArchiveScoreBookConvert;
 import net.edu.module.query.ArchiveScoreBookQuery;
+import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.service.ArchiveScoreBookService;
+import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
 import net.edu.module.vo.ArchiveScoreBookClassTableVO;
 import net.edu.module.vo.ArchiveScoreBookVO;
@@ -34,6 +36,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveScoreBookController {
     private final ArchiveScoreBookService archiveScoreBookService;
+
 
     @GetMapping("page")
     @Operation(summary = "分页")
@@ -108,6 +111,10 @@ public class ArchiveScoreBookController {
         archiveScoreBookService.updateClassTable(String.valueOf(jsonObject.get("id")),jsonObject.get("dataForm"));
         return Result.ok();
     }
+
+
+
+
 
 
 

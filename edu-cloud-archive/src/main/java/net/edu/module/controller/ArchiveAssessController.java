@@ -68,4 +68,13 @@ public class ArchiveAssessController {
         archiveAssessService.assessFromExcel(file);
         return Result.ok();
     }
+
+
+    @GetMapping("getArchiveAssess")
+    @Operation(summary = "获取考核点权重")
+    public Result<List<ArchiveAssessVO>> getArchiveAssess(@RequestParam("id")String  id){
+        List<ArchiveAssessVO> archiveAssessVO=archiveAssessService.selectWeight(id);
+        return Result.ok(archiveAssessVO);
+
+    }
 }

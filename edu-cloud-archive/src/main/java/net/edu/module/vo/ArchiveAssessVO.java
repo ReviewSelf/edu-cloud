@@ -63,5 +63,7 @@ public class ArchiveAssessVO implements Serializable {
 	@Schema(description = "修改人")
 	private String updater;
 
+	@Schema(description = "权重")
+	private String weight;
 
 }

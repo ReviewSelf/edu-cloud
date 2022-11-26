@@ -9,4 +9,10 @@
             (#{item.stuId},#{item.stuName},#{item.record},#{item.bookId})
         </foreach>
     </insert>
+
+    <select id="getSignByBookId" resultType="net.edu.module.vo.ArchiveSignVO">
+        select stu_id,stu_name
+        from archive_sign
+        where deleted=0 and book_id=#{bookId}
+    </select>
 </mapper>

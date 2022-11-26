@@ -1,15 +1,18 @@
 package net.edu.module.controller;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveAssessScoreService;
+import net.edu.module.service.ArchiveGoalScoreService;
 import net.edu.module.vo.ArchiveAssessScoreVO;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import net.edu.module.vo.ArchiveGoalScoreVO;
+import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +28,15 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveGoalScoreController {
 
+    @Autowired
+    private ArchiveGoalScoreService archiveGoalScoreService;
+    @PostMapping("grade")
+    @Operation(summary = "获取成绩表")
+    public Result<ArchiveGoalScoreVO> getGradeInfo(@RequestBody JSONObject jsonObject){
+        JSONObject classInfo=JSONUtil.parseObj(jsonObject.get("classInfo"))  ;
+        String id= String.valueOf(jsonObject.get("id"));
+        ArchiveGoalScoreVO archiveGoalScoreVO=archiveGoalScoreService.getGradeInfo(classInfo,id);
+        return Result.ok(archiveGoalScoreVO);
+    }
 
 }

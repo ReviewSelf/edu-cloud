@@ -108,9 +108,9 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
     }
 
     @Override
-    public void  updateClassTable(String id,String classSchedule){
-
-
+    public void  updateClassTable(String id,Object dataForm){
+        String classSchedule=dataForm.toString();
+        System.out.println(classSchedule);
         archiveScoreBookDao.updateByDeleteId(id,classSchedule);
     }
 }

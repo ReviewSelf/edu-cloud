@@ -35,7 +35,7 @@ public interface ArchiveScoreBookService extends BaseService<net.maku.entity.Arc
 
     void InsertClassInfo(ArchiveScoreBookClassInfoVO vo);
 
-    void updateClassTable(String id,String classSchedule);
+    void updateClassTable(String id,Object dataForm);
 
 
 }

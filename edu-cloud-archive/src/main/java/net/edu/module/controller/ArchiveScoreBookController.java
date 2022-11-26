@@ -101,10 +101,11 @@ public class ArchiveScoreBookController {
     }
 
 
-    @GetMapping("updateClassTable")
-    @Operation(summary = "添加课程表")
-    public Result<String> addClassTable(@RequestParam("id")String id,@RequestParam("classSchedule")String classSchedule){
-        archiveScoreBookService.updateClassTable(id,classSchedule);
+    @PostMapping("updateClassTable")
+    @Operation(summary = "课程表添加及修改")
+    public Result<String> addClassTable(@RequestBody JSONObject jsonObject ){
+
+        archiveScoreBookService.updateClassTable(String.valueOf(jsonObject.get("id")),jsonObject.get("dataForm"));
         return Result.ok();
     }
 

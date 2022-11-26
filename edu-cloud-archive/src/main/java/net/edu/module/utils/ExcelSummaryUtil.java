@@ -2,18 +2,19 @@ package net.edu.module.utils;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.metadata.Head;
+import com.alibaba.excel.write.merge.AbstractMergeStrategy;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.excel.write.metadata.style.WriteCellStyle;
 import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
 import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
+import com.alibaba.nacos.client.naming.utils.CollectionUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.excel.HeadContentCellStyle;
 import net.edu.framework.common.utils.ResponseHeadUtils;
-import net.edu.module.dao.ArchiveWeightGoalDao;
 import net.edu.module.dao.ArchiveWeightTargetCourseDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
-import net.edu.module.entity.ArchiveWeightGoalEntity;
 import net.edu.module.service.ArchiveCourseSummaryService;
 import net.edu.module.service.ArchiveGoalScoreService;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
@@ -22,13 +23,17 @@ import net.edu.module.vo.ArchiveGoalScoreVO;
 import net.edu.module.vo.ArchivePointAndTargetVO;
 import net.edu.module.vo.ArchiveWeightTargetCourseVO;
 import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -66,7 +71,6 @@ public class ExcelSummaryUtil {
 
         courseIdUntil=courseId;
         summaryIdUntil=summaryId;
-        System.out.println("courseIdUntil"+courseIdUntil);
 
         String name = "课程实施总结表.xlsx";
         ResponseHeadUtils.responseEXCELHead(response,name);
@@ -263,46 +267,35 @@ public class ExcelSummaryUtil {
         head.add(archivePointAndTargetVOS.get(0).getCredit());
         headList.add(head);
 
-        //写入表头
-        WriteSheet writeSheet = EasyExcel.writerSheet("总评达成")
-                .head(headList)
-                .registerWriteHandler(new CellRowHeightStyleStrategy())
-                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
-                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
-                .build();
         //设置内容
 
         List<ArchiveGoalScoreVO> archiveGoalScoreVOS = excelSummaryUtil.archiveGoalScoreService.selectGoalScoreByCourseId(courseIdUntil);
         //第三行
         List<ArchiveWeightTargetCourseVO> WeightVOS = excelSummaryUtil.archiveWeightTargetCourseDao.selectCourseByCourseId(courseIdUntil);
-        list.add("");
+        list.add("题目类型");
         list.add("题目类型");
         for (int i = 0; i < WeightVOS.size(); i++) {
             list.add("教学目标"+(i+1));
         }
         list.add("总分");
         dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
+
 
         //第四行
 
-        list.add("");
+        list.add("指标点占分");
         list.add("指标点占分");
         for (int i = 0; i < archiveGoalScoreVOS.get(0).getWeights().size(); i++) {
-            list.add(archiveGoalScoreVOS.get(0).getWeights().get(i).toString());
+            list.add(String.valueOf(archiveGoalScoreVOS.get(0).getWeights().get(i)*100));
         }
         list.add("100");
         dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
 
 
         //下面几行
         for (ArchiveGoalScoreVO archiveGoalScoreVO : archiveGoalScoreVOS) {
-            System.out.println(archiveGoalScoreVO);
             //写入内容
             list.add(archiveGoalScoreVO.getStuId());
             list.add(archiveGoalScoreVO.getStuName());
@@ -311,10 +304,28 @@ public class ExcelSummaryUtil {
             }
             list.add(String.valueOf(archiveGoalScoreVO.getTotal()));
             dataList.add((list));
-            excelWriter.write(dataList, writeSheet);
             list = new ArrayList<>();
-            dataList = new ArrayList<>();
         }
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        list.add("评价人");
+        list.add(archivePointAndTargetVOS.get(0).getTeacher());
+        list.add(archivePointAndTargetVOS.get(0).getTeacher());
+        list.add(archivePointAndTargetVOS.get(0).getTeacher());
+        list.add("评价日期");
+        list.add(format.format(date));
+        list.add(format.format(date));
+        dataList.add((list));
+
+        //写入表头
+        WriteSheet writeSheet = EasyExcel.writerSheet("总评达成")
+                .head(headList)
+                .registerWriteHandler(new CustomMergeStrategy(dataList,2,0))
+                .registerWriteHandler(new CellRowHeightStyleStrategy())
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
+                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
+                .build();
+
         excelWriter.write(dataList,writeSheet);
 
     }
@@ -331,11 +342,11 @@ public class ExcelSummaryUtil {
         List<ArchiveGoalPeopleVO> sample = excelSummaryUtil.archiveGoalScoreService.getSample(courseIdUntil);
         int sum = 0;//计算总人数
 
-            sum+= sample.get(0).getExcellent();
-            sum+= sample.get(0).getMedium();
-            sum+= sample.get(0).getGood();
-            sum+= sample.get(0).getFail();
-            sum+= sample.get(0).getPass();
+        sum+= sample.get(0).getExcellent();
+        sum+= sample.get(0).getMedium();
+        sum+= sample.get(0).getGood();
+        sum+= sample.get(0).getFail();
+        sum+= sample.get(0).getPass();
 
         head.add(bigTitle);
         head.add(title);
@@ -384,28 +395,16 @@ public class ExcelSummaryUtil {
         head.add(String.valueOf(sum));
         headList.add(head);
 
-
-        //写入表头
-        WriteSheet writeSheet = EasyExcel.writerSheet("考核分析表（样本）")
-                .head(headList)
-                .registerWriteHandler(new CellRowHeightStyleStrategy())
-                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
-                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
-                .build();
         //设置内容
 
-        //第五行
-        list.add("");
+        list.add("等级");
         list.add("优秀");
         list.add("良好");
         list.add("中等");
         list.add("及格");
         list.add("不及格");
         dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
-
 
         //下面几行
         for (ArchiveGoalPeopleVO archiveGoalPeopleVO : sample) {
@@ -416,9 +415,7 @@ public class ExcelSummaryUtil {
             list.add(String.valueOf(archiveGoalPeopleVO.getPass()));
             list.add(String.valueOf(archiveGoalPeopleVO.getFail()));
             dataList.add((list));
-            excelWriter.write(dataList, writeSheet);
             list = new ArrayList<>();
-            dataList = new ArrayList<>();
             list.add(archiveGoalPeopleVO.getTargetName());
             list.add(String.valueOf(archiveGoalPeopleVO.getExcellent() / sum * 100) + '%');
             list.add(String.valueOf(archiveGoalPeopleVO.getGood() / sum * 100) + '%');
@@ -426,9 +423,7 @@ public class ExcelSummaryUtil {
             list.add(String.valueOf(archiveGoalPeopleVO.getPass() / sum * 100) + '%');
             list.add(String.valueOf(archiveGoalPeopleVO.getFail() / sum * 100) + '%');
             dataList.add((list));
-            excelWriter.write(dataList, writeSheet);
             list = new ArrayList<>();
-            dataList = new ArrayList<>();
         }
         List<ArchiveGoalScoreVO> goalScoreVOS = excelSummaryUtil.archiveGoalScoreService.selectGoalScoreByCourseId(courseIdUntil);
         int Excellent=0,Good=0,Medium=0,Pass=0,Fail=0;
@@ -446,10 +441,7 @@ public class ExcelSummaryUtil {
         list.add(String.valueOf(Pass));
         list.add(String.valueOf(Fail));
         dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
         list = new ArrayList<>();
-        dataList = new ArrayList<>();
-
         list.add("总体");
         list.add(String.valueOf(Excellent/ sum * 100)+ '%');
         list.add(String.valueOf(Good/ sum * 100)+ '%');
@@ -457,14 +449,25 @@ public class ExcelSummaryUtil {
         list.add(String.valueOf(Pass/ sum * 100)+ '%');
         list.add(String.valueOf(Fail/ sum * 100)+ '%');
         dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
 
+        //最后一段
         ArchiveCourseSummaryEntity summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
         list = new ArrayList<>();
-        dataList = new ArrayList<>();
         list.add("问题和改进措施");
-        list.add(summaryEntity.getImprovement());
+        for (int i = 0; i < 5; i++) {
+            list.add(summaryEntity.getImprovement());
+        }
         dataList.add((list));
+
+        //写入表头
+        WriteSheet writeSheet = EasyExcel.writerSheet("考核分析表（样本）")
+                .head(headList)
+                .registerWriteHandler(new CustomMergeStrategy(dataList,5,0))
+                .registerWriteHandler(new CellRowHeightStyleStrategy())
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
+                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
+                .build();
+
         excelWriter.write(dataList,writeSheet);
 
     }
@@ -516,13 +519,7 @@ public class ExcelSummaryUtil {
         head.add(bigTitle);
         head.add(archivePointAndTargetVOS.get(0).getCredit());
         headList.add(head);
-        //写入表头
-        WriteSheet writeSheet = EasyExcel.writerSheet("考核分析表（个体）")
-                .head(headList)
-                .registerWriteHandler(new CellRowHeightStyleStrategy())
-                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
-                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
-                .build();
+
         //设置内容
         List<ArchiveGoalScoreVO> unit = excelSummaryUtil.archiveGoalScoreService.getUnit(courseIdUntil);
         int size = unit.get(0).getScore().size(); //教学目标数量
@@ -534,9 +531,7 @@ public class ExcelSummaryUtil {
         }
         list.add("总分");
         dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
 
         for (ArchiveGoalScoreVO archiveGoalScoreVO : unit) {
             list.add(archiveGoalScoreVO.getStuId());
@@ -546,15 +541,24 @@ public class ExcelSummaryUtil {
             }
             list.add(String.valueOf(archiveGoalScoreVO.getTotal()));
             dataList.add((list));
-            excelWriter.write(dataList, writeSheet);
             list = new ArrayList<>();
-            dataList = new ArrayList<>();
         }
 
         ArchiveCourseSummaryEntity summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
         list.add("分析说明");
-        list.add(summaryEntity.getAnalysisDescription());
+        for (int i = 0; i < size+2; i++) {
+            list.add(summaryEntity.getAnalysisDescription());
+        }
         dataList.add((list));
+        //写入表头
+        WriteSheet writeSheet = EasyExcel.writerSheet("考核分析表（个体）")
+                .head(headList)
+                .registerWriteHandler(new CellRowHeightStyleStrategy())
+                .registerWriteHandler(new CustomMergeStrategy(dataList,2,0))
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
+                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
+                .build();
+
         excelWriter.write(dataList,writeSheet);
 
     }
@@ -565,74 +569,43 @@ public class ExcelSummaryUtil {
         List<List<String>> headList = new ArrayList<>();
         List<String> head = new ArrayList<>();
         List<ArchivePointAndTargetVO> archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
-
-        String bigTitle = "课程实施总结" + archivePointAndTargetVOS.get(0).getName();
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String bigTitle = "课程实施总结——" + archivePointAndTargetVOS.get(0).getName();
+        String title = "课程名称："+archivePointAndTargetVOS.get(0).getName() +
+                "  学期：" + archivePointAndTargetVOS.get(0).getGrade()+'-'+(Integer.parseInt(archivePointAndTargetVOS.get(0).getGrade())+1)+'-'+archivePointAndTargetVOS.get(0).getSemester() +
+                "  任课教师：" + archivePointAndTargetVOS.get(0).getTeacher()+
+                "  日期：" + format.format(date);
         //设置表头
         head.add(bigTitle);
-        head.add("课程名称");
+        head.add(title);
         headList.add(head);
 
         head = new ArrayList<>();
         head.add(bigTitle);
-        head.add(archivePointAndTargetVOS.get(0).getName());
-        headList.add(head);
-
-
-        head = new ArrayList<>();
-        head.add(bigTitle);
-        head.add("学期");
+        head.add(title);
         headList.add(head);
 
         head = new ArrayList<>();
         head.add(bigTitle);
-        head.add(archivePointAndTargetVOS.get(0).getGrade()+'-'+(Integer.parseInt(archivePointAndTargetVOS.get(0).getGrade())+1)+'-'+archivePointAndTargetVOS.get(0).getSemester());
+        head.add(title);
         headList.add(head);
 
-        head = new ArrayList<>();
-        head.add(bigTitle);
-        head.add("任课教师");
-        headList.add(head);
 
-        head = new ArrayList<>();
-        head.add(bigTitle);
-        head.add(archivePointAndTargetVOS.get(0).getTeacher());
-        headList.add(head);
-
-        head = new ArrayList<>();
-        head.add(bigTitle);
-        head.add("日期");
-        headList.add(head);
-
-        head = new ArrayList<>();
-        head.add(bigTitle);
-        head.add(String.valueOf(new Date()));
-        headList.add(head);
-        //写入表头
-        WriteSheet writeSheet = EasyExcel.writerSheet("课程实施总结表")
-                .head(headList)
-                .registerWriteHandler(new CellRowHeightStyleStrategy())
-                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
-                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
-                .build();
         //设置内容
-
         //第三行
         list.add("教学目标");
         list.add("评价");
         list.add("实现途径、考核依据和评价方式");
         dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
 
         //第四行
         list.add("教学目标");
         list.add("结果");
         list.add("实现途径、考核依据和评价方式");
         dataList.add((list));
-        excelWriter.write(dataList, writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
 
         List<ArchiveWeightTargetCourseVO> courseVOList = excelSummaryUtil.archiveWeightTargetCourseService.selectCourseByCourseId(courseIdUntil);
         for (ArchiveWeightTargetCourseVO archiveWeightTargetCourseVO : courseVOList) {
@@ -640,61 +613,208 @@ public class ExcelSummaryUtil {
             list.add(archiveWeightTargetCourseVO.getEvaluationResult());
             list.add("达成途径：" + archiveWeightTargetCourseVO.getApproach() + "\n" + "评价依据："+ archiveWeightTargetCourseVO.getEvaluationBasis() + "\n" + "评价方式："+ archiveWeightTargetCourseVO.getEvaluationMethod());
             dataList.add((list));
-            excelWriter.write(dataList, writeSheet);
             list = new ArrayList<>();
-            dataList = new ArrayList<>();
         }
 
         ArchiveCourseSummaryEntity summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
         list.add("课程的持续改进");
+        list.add("课程的持续改进");
+        list.add("课程的持续改进");
         dataList.add((list));
-        excelWriter.write(dataList,writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
 
         list.add("存在问题");
         list.add("课程实施过程中存在的问题（描述去年课程持续改进措施的实施情况和问题，期中教学检查中出现的问题解释，实施过程中存在的困难和问题，结合平时和期末考核情况、前两年的达成度评价情况分析今年达成情况");
+        list.add("课程实施过程中存在的问题（描述去年课程持续改进措施的实施情况和问题，期中教学检查中出现的问题解释，实施过程中存在的困难和问题，结合平时和期末考核情况、前两年的达成度评价情况分析今年达成情况");
         dataList.add((list));
-        excelWriter.write(dataList,writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
+
         list.add("存在问题");
         list.add(summaryEntity.getProblem());
+        list.add(summaryEntity.getProblem());
         dataList.add((list));
-        excelWriter.write(dataList,writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
 
         list.add("课程改进措施");
         list.add("（从重点分析达成情况的产生的原因，从期中教学检查的问题，考核内容、方式和结果，课堂教学过程等几个角度进行问题描述和持续改进措施撰写）");
+        list.add("（从重点分析达成情况的产生的原因，从期中教学检查的问题，考核内容、方式和结果，课堂教学过程等几个角度进行问题描述和持续改进措施撰写）");
         dataList.add((list));
-        excelWriter.write(dataList,writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
+
         list.add("课程改进措施");
         list.add(summaryEntity.getMeasures());
+        list.add(summaryEntity.getMeasures());
         dataList.add((list));
-        excelWriter.write(dataList,writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
+
 
         list.add("其他可用的协助持续改进的资源");
         list.add("对前置课程的建议和后置课程的期望");
+        list.add("对前置课程的建议和后置课程的期望");
         dataList.add((list));
-        excelWriter.write(dataList,writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
+
         list.add("其他可用的协助持续改进的资源");
         list.add(summaryEntity.getResources());
+        list.add(summaryEntity.getResources());
         dataList.add((list));
-        excelWriter.write(dataList,writeSheet);
         list= new ArrayList<>();
-        dataList= new ArrayList<>();
 
         list.add("系主任意见");
         list.add("见系总结汇总表");
+        list.add("见系总结汇总表");
         dataList.add((list));
+
+        //写入表头
+        WriteSheet writeSheet = EasyExcel.writerSheet("课程实施总结表")
+                .head(headList)
+                .registerWriteHandler(new CustomMergeStrategy(dataList,2,0))
+                .registerWriteHandler(new CellRowHeightStyleStrategy())
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(30))
+                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
+                .build();
+
         excelWriter.write(dataList,writeSheet);
 
     }
+
+    public static class CustomMergeStrategy extends AbstractMergeStrategy {
+
+        /**
+         * 分组，每几行合并一次
+         */
+        private List<List<Integer>> columnCountList;
+
+        /**
+         * 分组，每几列合并一次
+         */
+        private List<List<Integer>> rowCountList;
+
+        //从第几行开始进行行合并
+        private Integer rowIndex;
+
+        //从第几列开始进行列合并
+        private Integer colIndex;
+
+
+        // exportDataList为整个二维列表
+        public CustomMergeStrategy(List<List<String>> exportDataList,Integer rowIndex,Integer colIndex) {
+            this.columnCountList = getGroupCountColumn(exportDataList);
+            this.rowCountList = getGroupCountRow(exportDataList);
+            this.rowIndex = rowIndex;
+            this.colIndex = colIndex;
+        }
+
+        @Override
+        protected void merge(Sheet sheet, Cell cell, Head head, Integer relativeRowIndex) {
+            mergeGroup(sheet);
+        }
+
+        private void mergeGroup(Sheet sheet) {
+            //合并所有的行，上下合并
+            for (int i = 0; i < rowCountList.size(); i++) {
+                int rowCount = 0;
+                for (int j = 0; j < rowCountList.get(i).size(); j++) {
+                    if(rowCountList.get(i).get(j) == 1) {
+                        rowCount ++;
+                        continue;
+                    }
+                    CellRangeAddress cellRangeAddress = new CellRangeAddress(rowCount+rowIndex,rowCount+rowIndex + rowCountList.get(i).get(j) -1,i,i);
+                    sheet.addMergedRegionUnsafe(cellRangeAddress);
+                    rowCount += rowCountList.get(i).get(j);
+                }
+            }
+
+
+            //合并所有的列，左右合并
+            for (int i = 0; i < columnCountList.size(); i++) {
+                int rowCount = 0;
+                for (int j = 0; j < columnCountList.get(i).size(); j++) {
+                    int x = columnCountList.get(i).get(j);
+                    if(x == 1) {
+                        rowCount ++;
+                        continue;
+                    }
+                    CellRangeAddress cellRangeAddress = new CellRangeAddress(i+rowIndex,i+rowIndex,rowCount,rowCount + x -1);
+                    sheet.addMergedRegionUnsafe(cellRangeAddress);
+                    rowCount += x;
+                }
+            }
+        }
+
+        // 该方法将整个二维数据表进行合并，返回可合并的列数，即左右合并
+        private List<List<Integer>> getGroupCountColumn(List<List<String>> exportDataList){
+            if (CollectionUtils.isEmpty(exportDataList)) {
+                return new ArrayList<>();
+            }
+
+            List<List<Integer>> groupCountList = new ArrayList<>();
+
+
+            for (int i = 0; i < exportDataList.size(); i++) {
+                int row = 1;
+                List<Integer> countRow = new ArrayList<>();
+                for (int j = 0; j < exportDataList.get(i).size()-1; j++) {
+                    if(j == exportDataList.get(i).size()-2 && exportDataList.get(i).get(j).equals(exportDataList.get(i).get(j+1))){
+                        countRow.add(++row);
+                        break;
+                    }
+                    //如果发现某一行中两列的数据相同
+                    if (exportDataList.get(i).get(j).equals(exportDataList.get(i).get(j+1))){
+                        row++;
+                    }
+                    else {
+                        countRow.add(row);
+                        row = 1;
+                    }
+
+                }
+                groupCountList.add(countRow);
+            }
+
+
+
+            return groupCountList;
+        }
+
+        // 该方法将整个二维数据表进行合并，返回可合并的行数，即上下合并
+        private List<List<Integer>> getGroupCountRow(List<List<String>> exportDataList){
+            if (CollectionUtils.isEmpty(exportDataList)) {
+                return new ArrayList<>();
+            }
+
+            List<List<Integer>> groupCountList = new ArrayList<>();
+
+            for (int i = 0; i < exportDataList.get(0).size(); i++) {
+                int row = 1;
+                List<Integer> countRow = new ArrayList<>();
+                for (int j = 0; j < exportDataList.size()-1; j++) {
+                    if(j == exportDataList.size()-2){
+                        if(exportDataList.get(j).get(i).equals(exportDataList.get(j+1).get(i))){
+                            countRow.add(++row);
+                            break;
+                        }
+                        else {
+                            countRow.add(row);
+                            countRow.add(1);
+                            break;
+                        }
+                    }
+
+                    if (exportDataList.get(j).get(i).equals(exportDataList.get(j+1).get(i))){
+                        row++;
+                    }
+                    else {
+                        countRow.add(row);
+                        row = 1;
+                    }
+                }
+                groupCountList.add(countRow);
+            }
+
+            return groupCountList;
+        }
+    }
 }
+
+

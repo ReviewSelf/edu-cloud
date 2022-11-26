@@ -25,8 +25,8 @@ import java.util.List;
 @Tag(name="考试成绩表")
 @AllArgsConstructor
 public class ArchiveAssessScoreController {
-    private final ArchiveAssessScoreService archiveAssessScoreService;
 
+    private final ArchiveAssessScoreService archiveAssessScoreService;
 
 
     @GetMapping("{courseId}")

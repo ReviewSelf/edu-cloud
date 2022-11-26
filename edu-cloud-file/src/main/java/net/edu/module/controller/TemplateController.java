@@ -39,4 +39,9 @@ public class TemplateController {
         templateService.downloadArchiveImportExcel(response);
     }
 
+    @GetMapping("/archiveScoreBookExcel")
+    public void downloadArchiveScoreBookImportExcel(HttpServletResponse response){
+        templateService.downloadArchiveScoreBookImportExcel(response);
+    }
+
 }

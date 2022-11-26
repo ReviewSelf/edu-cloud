@@ -114,4 +114,10 @@ public class CodeProblemController {
         codeProblemService.importFromExcel(file);
         return Result.ok();
     }
+
+    @PostMapping("/importZipFile")
+    public Result<String> importZipFile(@RequestParam("zipFile") MultipartFile zipFile) {
+        return codeProblemService.importZipFile(zipFile);
+    }
+
 }

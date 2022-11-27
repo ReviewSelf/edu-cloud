@@ -226,6 +226,10 @@
             goal_name
         FROM archive_weight_target_course
         WHERE deleted = 0 and course_id = #{courseId}
+
+    <select id="selectWeightById" resultType="net.edu.module.vo.ArchiveAssessVO">
+        select name,weight from archive_assess
+        where deleted=0 and course_id=#{id}
     </select>
 
 </mapper>

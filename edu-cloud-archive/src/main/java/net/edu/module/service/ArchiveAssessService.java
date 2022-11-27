@@ -48,7 +48,7 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
 
 //    Long save(ArchiveAssessExcelVO vo);
 
-    List<ArchiveAssessVO> selectWeight(String id);
+    List<ArchiveAssessVO> selectWeightById(String id);
 
     List<ArchiveAssessVO> selectAssessByCourseId(Long courseId);
 

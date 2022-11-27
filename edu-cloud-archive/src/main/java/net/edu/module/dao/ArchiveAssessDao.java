@@ -80,4 +80,5 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
     List<String> selectTargetName(Integer courseId);
 
     void deleteAssess(Long courseId, Long targetId,Long assessId);
+    List<ArchiveAssessVO> selectWeightById(String id);
 }

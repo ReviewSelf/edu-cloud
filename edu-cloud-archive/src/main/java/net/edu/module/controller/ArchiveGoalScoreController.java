@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import net.edu.module.vo.ArchiveGoalScoreVO;
 import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
+import net.edu.module.vo.ArchiveGoalScoreInBooKVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,15 +58,13 @@ public class ArchiveGoalScoreController {
         List<ArchiveGoalPeopleVO> sample = archiveGoalScoreService.getSample(courseId);
         return Result.ok(sample);
     }
-    @Autowired
-    private ArchiveGoalScoreService archiveGoalScoreService;
     @PostMapping("grade")
     @Operation(summary = "获取成绩表")
-    public Result<ArchiveGoalScoreVO> getGradeInfo(@RequestBody JSONObject jsonObject){
+    public Result<ArchiveGoalScoreInBooKVO> getGradeInfo(@RequestBody JSONObject jsonObject){
         JSONObject classInfo=JSONUtil.parseObj(jsonObject.get("classInfo"))  ;
         String id= String.valueOf(jsonObject.get("id"));
-        ArchiveGoalScoreVO archiveGoalScoreVO=archiveGoalScoreService.getGradeInfo(classInfo,id);
-        return Result.ok(archiveGoalScoreVO);
+        ArchiveGoalScoreInBooKVO archiveGoalScoreInBooKVO =archiveGoalScoreService.getGradeInfo(classInfo,id);
+        return Result.ok(archiveGoalScoreInBooKVO);
     }
 
     @GetMapping("unit")

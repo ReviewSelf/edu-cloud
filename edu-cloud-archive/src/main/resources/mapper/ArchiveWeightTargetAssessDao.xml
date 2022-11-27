@@ -60,4 +60,6 @@
         insert into archive_weight_target_assess (target_id,course_id,assess_id,create_time)
         values (#{targetId},#{courseId},#{assessId},now())
     </insert>
+
+
 </mapper>

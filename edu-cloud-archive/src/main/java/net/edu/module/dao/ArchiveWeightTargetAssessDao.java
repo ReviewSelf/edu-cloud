@@ -2,6 +2,7 @@ package net.edu.module.dao;
 
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveWeightTargetAssessEntity;
+import net.edu.module.vo.ArchiveTestNameToGoal;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,4 +28,6 @@ public interface ArchiveWeightTargetAssessDao extends BaseDao<ArchiveWeightTarge
     Integer deleteByTargetId(Long targetId);
 
     void deleteByCourseId(Long courseId);
+
+
 }

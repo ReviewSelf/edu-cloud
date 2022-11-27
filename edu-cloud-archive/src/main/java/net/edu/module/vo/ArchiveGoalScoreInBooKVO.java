@@ -12,7 +12,7 @@ import java.io.Serializable;
  */
 @Data
 @Schema(description = "记分册成绩")
-public class ArchiveGoalScoreVO implements Serializable {
+public class ArchiveGoalScoreInBooKVO implements Serializable {
     private static final long serialVersionUID = 1L;
     private String majorName;
     private String className;

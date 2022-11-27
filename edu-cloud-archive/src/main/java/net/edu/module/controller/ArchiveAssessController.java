@@ -73,7 +73,7 @@ public class ArchiveAssessController {
     @GetMapping("getArchiveAssess")
     @Operation(summary = "获取考核点权重")
     public Result<List<ArchiveAssessVO>> getArchiveAssess(@RequestParam("id")String  id){
-        List<ArchiveAssessVO> archiveAssessVO=archiveAssessService.selectWeight(id);
+        List<ArchiveAssessVO> archiveAssessVO=archiveAssessService.selectWeightById(id);
         return Result.ok(archiveAssessVO);
 
     }

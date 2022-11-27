@@ -2,13 +2,8 @@ package net.edu.module.service;
 
 import cn.hutool.json.JSONObject;
 import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.entity.ArchiveAssessScoreEntity;
 import net.edu.module.entity.ArchiveGoalScoreEntity;
-import net.edu.module.vo.ArchiveAssessScoreVO;
-import net.edu.module.vo.ArchiveGoalScoreVO;
-import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
-
-import java.util.List;
+import net.edu.module.vo.ArchiveGoalScoreInBooKVO;
 
 /**
  * 考试成绩表
@@ -18,5 +13,5 @@ import java.util.List;
  */
 public interface ArchiveGoalScoreService extends BaseService<ArchiveGoalScoreEntity> {
 
-    ArchiveGoalScoreVO getGradeInfo(JSONObject classInfo, String id);
+    ArchiveGoalScoreInBooKVO getGradeInfo(JSONObject classInfo, String id);
 }

@@ -6,15 +6,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.service.ArchiveAssessScoreService;
 import net.edu.module.service.ArchiveGoalScoreService;
-import net.edu.module.vo.ArchiveAssessScoreVO;
-import net.edu.module.vo.ArchiveGoalScoreVO;
-import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
+import net.edu.module.vo.ArchiveGoalScoreInBooKVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
 * 考试成绩表
@@ -32,11 +27,11 @@ public class ArchiveGoalScoreController {
     private ArchiveGoalScoreService archiveGoalScoreService;
     @PostMapping("grade")
     @Operation(summary = "获取成绩表")
-    public Result<ArchiveGoalScoreVO> getGradeInfo(@RequestBody JSONObject jsonObject){
+    public Result<ArchiveGoalScoreInBooKVO> getGradeInfo(@RequestBody JSONObject jsonObject){
         JSONObject classInfo=JSONUtil.parseObj(jsonObject.get("classInfo"))  ;
         String id= String.valueOf(jsonObject.get("id"));
-        ArchiveGoalScoreVO archiveGoalScoreVO=archiveGoalScoreService.getGradeInfo(classInfo,id);
-        return Result.ok(archiveGoalScoreVO);
+        ArchiveGoalScoreInBooKVO archiveGoalScoreInBooKVO =archiveGoalScoreService.getGradeInfo(classInfo,id);
+        return Result.ok(archiveGoalScoreInBooKVO);
     }
 
 }

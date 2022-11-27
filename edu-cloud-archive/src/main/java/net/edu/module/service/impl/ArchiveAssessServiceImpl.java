@@ -133,8 +133,8 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
 //    }
 
      @Override
-     public List<ArchiveAssessVO>  selectWeight(String id){
-        return archiveAssessDao.selectWeight(id);
+     public List<ArchiveAssessVO>  selectWeightById(String id){
+        return archiveAssessDao.selectWeightById(id);
      }
 
 

@@ -32,5 +32,5 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
 
     void updateArchiveAssess2(ArchiveAssessVO vo);
 
-    List<ArchiveAssessVO> selectWeight(String id);
+    List<ArchiveAssessVO> selectWeightById(String id);
 }

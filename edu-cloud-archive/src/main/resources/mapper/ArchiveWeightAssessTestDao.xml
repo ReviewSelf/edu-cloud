@@ -83,6 +83,6 @@
             assess_id,
             course_id
         FROM archive_weight_assess_test
-        WHERE assess_id = #{assessId} and course_id = #{courseId}
+        WHERE assess_id = #{assessId} and course_id = #{courseId} and deleted = 0
     </select>
 </mapper>

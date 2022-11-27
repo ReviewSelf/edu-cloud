@@ -41,7 +41,11 @@ public interface ExamAttendLogDao extends BaseDao<ExamAttendLogEntity> {
 
     ExamAttendLogVO selectUserExamInfo(@Param("userId") Long userId,@Param("examId") Long examId);
 
+    void insertAttendLogFromAbilityExam(Long userId,Long examId);
+
     Map<String ,String> selectStudentExamStatisticsInfo(Long userId);
 
     Map<String, String> selectTeacherExamStatisticsInfo(Long userId);
+
+
 }

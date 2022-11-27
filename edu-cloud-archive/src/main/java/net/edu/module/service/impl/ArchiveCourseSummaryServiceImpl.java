@@ -15,6 +15,7 @@ import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
 import net.edu.module.utils.ExamExcelUtil;
 import net.edu.module.utils.ExcelSummaryUtil;
+import net.edu.module.utils.WordUtil;
 import net.edu.module.vo.ArchiveAssessByCourseIdVo;
 import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
@@ -103,6 +104,12 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
         List<String> studentId = archiveCourseSummaryDao.selectStudentId(courseId);
 
         return null;
+    }
+
+    @Override
+    public void createTeachingWord(Long courseId, Long summaryId, HttpServletResponse response) throws IOException {
+        System.out.println(courseId+" "+summaryId);
+        WordUtil.createTeachingCalendarWord(response);
     }
 
     @Override

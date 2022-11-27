@@ -64,5 +64,6 @@ public class ArchiveAssessScoreVO implements Serializable {
 	@Schema(description = "权重")
 	private List<Double> weights;
 
+	List<String> list;
 
 }

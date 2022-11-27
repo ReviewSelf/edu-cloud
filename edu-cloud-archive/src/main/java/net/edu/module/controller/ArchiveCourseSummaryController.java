@@ -120,4 +120,11 @@ public class ArchiveCourseSummaryController {
         return Result.ok();
     }
 
+    @PostMapping("exportTeachingWord")
+    @Operation(summary = "导出教学日历表")
+    public void exportTeachingWord(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
+        Long courseId= Long.valueOf(object.get("courseId").toString());
+        Long summaryId= Long.valueOf(object.get("summaryId").toString());
+        archiveCourseSummaryService.createTeachingWord(courseId,summaryId,response);
+    }
 }

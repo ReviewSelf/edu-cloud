@@ -3,12 +3,14 @@ package net.edu.module.service;
 
 
 
+import cn.hutool.json.JSONObject;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.query.ArchiveScoreBookQuery;
 import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
 import net.edu.module.vo.ArchiveScoreBookClassTableVO;
 import net.edu.module.vo.ArchiveScoreBookVO;
+import net.edu.module.vo.ArchiveScoreInBookVO;
 
 import java.util.List;
 
@@ -25,6 +27,8 @@ public interface ArchiveScoreBookService extends BaseService<net.maku.entity.Arc
     List<ArchiveScoreBookClassTableVO> getClassTable(String id);
 
     void deleteClassTable(String id,String deleteId);
+
+    List<ArchiveScoreInBookVO> getScoreListInBook(JSONObject classInfo, String id);
 
 
     void save(ArchiveScoreBookVO vo);

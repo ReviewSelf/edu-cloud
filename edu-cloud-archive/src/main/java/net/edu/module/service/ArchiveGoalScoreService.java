@@ -29,6 +29,5 @@ public interface ArchiveGoalScoreService extends BaseService<ArchiveGoalScoreEnt
 
 //    第五步分数
     List<ArchiveGoalScoreVO> selectGoalScoreByCourseId(Long courseId);
-    ArchiveGoalScoreVO getGradeInfo(JSONObject classInfo, String id);
     ArchiveGoalScoreInBooKVO getGradeInfo(JSONObject classInfo, String id);
 }

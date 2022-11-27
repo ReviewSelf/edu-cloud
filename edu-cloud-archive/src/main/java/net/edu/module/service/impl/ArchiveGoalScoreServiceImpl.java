@@ -45,6 +45,10 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
     private ArchiveAssessScoreService archiveAssessScoreService;
     @Autowired
     private ArchiveAssessDao archiveAssessDao;
+    @Autowired
+    private ArchiveSignDao archiveSignDao;
+    @Autowired
+    private ArchiveGoalScoreDao goalScoreDao;
 
     //    插入教学目标得分
     @Override
@@ -139,10 +143,6 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         }
         return list;
     }
-    @Autowired
-    private ArchiveSignDao archiveSignDao;
-    @Autowired
-    private ArchiveGoalScoreDao goalScoreDao;
     @Override
     public ArchiveGoalScoreInBooKVO getGradeInfo(JSONObject classInfo, String id){
         ArchiveGoalScoreInBooKVO archiveGoalScoreInBooKVO =new ArchiveGoalScoreInBooKVO();
@@ -170,13 +170,13 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         int  fail=0;
         String failPercent;
         for (ArchiveGoalScoreEntity item : List){
-            if(item.getTotal()>=90){
+            if(item.getTotal().compareTo("90")>=0){
                 excellent++;
-            } else if (item.getTotal()>=80) {
+            } else if (item.getTotal().compareTo("80")>=0) {
                 good++;
-            } else if (item.getTotal()>=70) {
+            } else if (item.getTotal().compareTo("70")>=0) {
                 medium++;
-            } else if (item.getTotal()>=60) {
+            } else if (item.getTotal().compareTo("60")>=0) {
                 pass++;
             }else {
                 fail++;

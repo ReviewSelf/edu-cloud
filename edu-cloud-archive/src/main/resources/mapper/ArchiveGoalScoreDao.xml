@@ -9,6 +9,8 @@
         <foreach collection="list" item="item" separator=",">
             (#{item.stuId},#{item.score},#{item.stuName},#{item.courseId},#{item.total})
         </foreach>
+    </insert>
+
     <select id="selectByStuId" resultType="net.edu.module.entity.ArchiveGoalScoreEntity">
         select id,stu_id,stu_name,total
         from archive_goal_score
@@ -18,9 +20,6 @@
         </foreach>
         and course_id=#{courseId}
     </select>
-
-    </insert>
-
     <select id="selectGoalScore" resultType="net.edu.module.entity.ArchiveGoalScoreEntity">
         select score,total,stu_id,stu_name
         from archive_goal_score

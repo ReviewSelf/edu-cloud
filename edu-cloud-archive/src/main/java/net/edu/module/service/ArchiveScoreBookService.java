@@ -4,15 +4,12 @@ package net.edu.module.service;
 
 
 import net.edu.framework.common.page.PageResult;
-import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.query.ArchiveScoreBookQuery;
 import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
 import net.edu.module.vo.ArchiveScoreBookClassTableVO;
 import net.edu.module.vo.ArchiveScoreBookVO;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -25,9 +22,9 @@ public interface ArchiveScoreBookService extends BaseService<net.maku.entity.Arc
 
     PageResult<ArchiveScoreBookVO> page(ArchiveScoreBookQuery query);
 
-    List<ArchiveScoreBookClassTableVO> getClassTable(Long id);
+    List<ArchiveScoreBookClassTableVO> getClassTable(String id);
 
-
+    void deleteClassTable(String id,String deleteId);
 
 
     void save(ArchiveScoreBookVO vo);
@@ -38,6 +35,7 @@ public interface ArchiveScoreBookService extends BaseService<net.maku.entity.Arc
 
     void InsertClassInfo(ArchiveScoreBookClassInfoVO vo);
 
+    void updateClassTable(String id,Object dataForm);
 
 
 }

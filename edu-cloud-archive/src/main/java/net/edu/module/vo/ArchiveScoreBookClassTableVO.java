@@ -15,7 +15,7 @@ import java.io.Serializable;
 public class ArchiveScoreBookClassTableVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-
+    private String id;
 
     @Schema(description = "时间")
     private String time;

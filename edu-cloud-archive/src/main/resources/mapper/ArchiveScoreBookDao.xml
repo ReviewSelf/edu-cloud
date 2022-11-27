@@ -12,5 +12,13 @@
         select class_schedule from archive_score_book where id=#{id} and deleted=0
     </select>
 
+    <update id="updateByDeleteId">
+        update
+        archive_score_book
+        set class_schedule = #{classSchedule}
+        where id=#{id} and deleted=0
+    </update>
+
+
 
 </mapper>

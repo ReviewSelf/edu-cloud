@@ -9,7 +9,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
 
 import net.edu.framework.common.page.PageResult;
-import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveScoreBookConvert;
 import net.edu.module.dao.ArchiveScoreBookDao;
@@ -24,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +80,7 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
 
 
     @Override
-    public List<ArchiveScoreBookClassTableVO> getClassTable(Long id){
+    public List<ArchiveScoreBookClassTableVO> getClassTable(String id){
 
         List<ArchiveScoreBookVO> list=archiveScoreBookDao.selectList(id);
         JSONArray jsonArray = JSONUtil.parseArray(list.get(0).getClassSchedule());
@@ -90,10 +88,29 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
         for(int i=0;i<jsonArray.size();i++){
             JSONObject jsonObject=JSONUtil.parseObj(jsonArray.get(i));
             ArchiveScoreBookClassTableVO archiveScoreBookClassTableVO=new ArchiveScoreBookClassTableVO();
+            archiveScoreBookClassTableVO.setId(String.valueOf(i));
             archiveScoreBookClassTableVO.setTime(String.valueOf(jsonObject.get("time")));
             archiveScoreBookClassTableVO.setPlace(String.valueOf(jsonObject.get("place")));
             archiveScoreBookClassTableVOList.add(archiveScoreBookClassTableVO);
         }
         return archiveScoreBookClassTableVOList;
+    }
+
+    @Override
+    public void deleteClassTable(String id,String deleteId){
+        List<ArchiveScoreBookVO> list=archiveScoreBookDao.selectList(id);
+        JSONArray jsonArray=JSONUtil.parseArray(list.get(0).getClassSchedule());
+        jsonArray.remove(Integer.parseInt(deleteId));
+        String  classSchedule=JSONUtil.toJsonStr(jsonArray);
+        System.out.println(jsonArray);
+        System.out.println(classSchedule);
+        archiveScoreBookDao.updateByDeleteId(id,classSchedule);
+    }
+
+    @Override
+    public void  updateClassTable(String id,Object dataForm){
+        String classSchedule=dataForm.toString();
+        System.out.println(classSchedule);
+        archiveScoreBookDao.updateByDeleteId(id,classSchedule);
     }
 }

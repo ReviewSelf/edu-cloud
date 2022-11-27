@@ -168,4 +168,13 @@ public class ArchiveAssessController {
         ArchiveAssessTableVo list = archiveAssessService.getWeightTable(assess);
         return Result.ok(list);
     }
+
+
+    @GetMapping("getArchiveAssess")
+    @Operation(summary = "获取考核点权重")
+    public Result<List<ArchiveAssessVO>> getArchiveAssess(@RequestParam("id")String  id){
+        List<ArchiveAssessVO> archiveAssessVO=archiveAssessService.selectWeight(id);
+        return Result.ok(archiveAssessVO);
+
+    }
 }

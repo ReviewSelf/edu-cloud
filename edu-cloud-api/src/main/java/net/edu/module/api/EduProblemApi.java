@@ -45,4 +45,10 @@ public interface EduProblemApi {
 
     @GetMapping("fill/problemInfo/{problemId}")
     Result<FillProblemVO> getFillProblemInfo(@PathVariable("problemId")  Long problemId);
+
+    @GetMapping("ability/getUserAbility")
+    Result<AbilityUserVo> getUserAbility(@RequestParam("userId") Long userId);
+
+    @GetMapping("ability/list")
+    Result<List<AbilityVO>> getAbilityList();
 }

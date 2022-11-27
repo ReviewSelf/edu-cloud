@@ -11,6 +11,7 @@ import net.edu.module.entity.ExamEntity;
 import net.edu.module.query.ExamUserExcelQuery;
 import net.edu.module.service.ExamService;
 import net.edu.module.query.ExamQuery;
+import net.edu.module.vo.ExamAbilityVo;
 import net.edu.module.vo.ExamVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -117,6 +118,19 @@ public class ExamController {
         examService.exportUserExam(query.getExamId(), query.getUserIdList(), response);
     }
 
+
+    @GetMapping("/getAbilityExam")
+    @Operation(summary = "获取能力考试列表以及当前用户参加的额能力考试id")
+    public Result<ExamAbilityVo> getAbilityExam(){
+        return Result.ok(examService.getAbilityExam()) ;
+    }
+
+    @GetMapping("/promulgateGrade")
+    @Operation(summary = "根据老师设定的及格分数给学生颁布等级")
+    public Result<String> promulgateGrade(@RequestParam("examId") Long examId,@RequestParam("gainAbilityId") Long gainAbilityId,@RequestParam("score") Integer score){
+        examService.promulgateGrade(examId, gainAbilityId, score);
+        return Result.ok();
+    }
 
 
 }

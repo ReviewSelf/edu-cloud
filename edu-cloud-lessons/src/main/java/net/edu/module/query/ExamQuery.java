@@ -55,6 +55,9 @@ public class ExamQuery extends Query {
     @Schema(description = "状态")
     private Integer status;
 
+    @Schema(description = "考试类型")
+    private Integer type;
+
 
 
 

@@ -7,4 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserAbilityDao {
 
     int insertUserAbility(Long abilityId, Long userId);
+
+    Long selectChildAbilityId(Long userId);
 }

@@ -8,6 +8,7 @@ import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.AbilityConvert;
 import net.edu.module.entity.AbilityEntity;
 import net.edu.module.service.AbilityService;
+import net.edu.module.vo.AbilityUserVo;
 import net.edu.module.vo.AbilityVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class AbilityController {
 
     @GetMapping("list")
     public Result<List<AbilityVO>> getAbilityList(){
+
         return Result.ok(abilityService.getAbilityList());
     }
 
@@ -78,4 +80,12 @@ public class AbilityController {
 
         return Result.ok();
     }
+
+
+    @GetMapping("getUserAbility")
+    @Operation(summary = "获取用户等级（大等级和小等级）")
+    public Result<AbilityUserVo> getUserAbility(@RequestParam("userId") Long userId){
+        return Result.ok(abilityService.getUserAbility(userId));
+    }
+
 }

@@ -12,6 +12,7 @@ import net.edu.module.entity.AbilityEntity;
 import net.edu.module.service.AbilityService;
 import net.edu.module.vo.AbilityMapVO;
 import net.edu.module.vo.AbilityPointVO;
+import net.edu.module.vo.AbilityUserVo;
 import net.edu.module.vo.AbilityVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,5 +86,14 @@ public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntit
             return true;
         }
     }
+
+    @Override
+    public AbilityUserVo getUserAbility(Long userId) {
+        AbilityUserVo vo = new AbilityUserVo();
+        vo.setAbilityId(baseMapper.selectAbilityIdFromSysUser(userId));
+        vo.setChildAbilityId(userAbilityDao.selectChildAbilityId(userId));
+        return vo;
+    }
+
 
 }

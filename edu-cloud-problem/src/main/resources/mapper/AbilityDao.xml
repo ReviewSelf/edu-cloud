@@ -4,30 +4,29 @@
 <mapper namespace="net.edu.module.dao.AbilityDao">
 
 
-
-
-
     <select id="selectAbilityItemList" resultType="net.edu.module.vo.AbilityVO">
-        SELECT
-            a.id,
-            a.pid,
-            a.NAME,
-            a.LEVEL,
-            a.creator,(
-                SELECT NAME
-                FROM
-                    ability
-                WHERE
-                    id = #{abilityId}
-            ) AS parentName,
-            IF
-                ( b.id IS NULL, 0, 1 ) AS judgeUnlock
-        FROM
-            ability a
-                LEFT JOIN user_ability b ON a.id = b.ability_id
-                AND b.user_id = #{userId}
-        WHERE
-            a.pid = #{abilityId}
+        SELECT a.id,
+               a.pid,
+               a.NAME,
+               a.LEVEL,
+               a.creator,
+               (SELECT NAME
+                FROM ability
+                WHERE id = #{abilityId}) AS parentName,
+               IF
+                   (b.id IS NULL, 0, 1)  AS judgeUnlock
+        FROM ability a
+                 LEFT JOIN user_ability b ON a.id = b.ability_id
+            AND b.user_id = #{userId}
+        WHERE a.pid = #{abilityId}
     </select>
+
+    <select id="selectAbilityIdFromSysUser" resultType="java.lang.Long">
+        select ability_id
+        from sys_user
+        where id = #{userId}
+    </select>
+
+
 
 </mapper>

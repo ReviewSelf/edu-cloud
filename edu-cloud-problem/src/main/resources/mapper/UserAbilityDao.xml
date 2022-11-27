@@ -3,9 +3,18 @@
 
 <mapper namespace="net.edu.module.dao.UserAbilityDao">
 
-<insert id="insertUserAbility">
-    insert into user_ability(user_id,ability_id) values(#{userId},#{abilityId})
-</insert>
+    <insert id="insertUserAbility">
+        insert into user_ability(user_id, ability_id)
+        values (#{userId}, #{abilityId})
+    </insert>
+
+    <select id="selectChildAbilityId" resultType="java.lang.Long">
+        select ability_id
+        from user_ability
+        where user_id = #{userId}
+        order by create_time desc
+        limit 1
+    </select>
 
 
 </mapper>

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
+import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -32,4 +33,20 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
     Integer selectStudent(String courseId);
 
     List<String> selectStudentId(String courseId);
+
+    List<ArchiveAssessTestGradesVo> selectStudentIdAndWeight(String courseId);
+
+    List<ArchiveAssessTestGradesVo> selectStudentTestScore(Integer integer);
+
+    Integer selectAssessNum(String courseId);
+
+    List<Integer> selectAssessId(String courseId);
+
+    void insertAssessScore(ArchiveAssessTestGradesVo vo);
+
+    List<String> selectStudentName();
+
+    List<String> selectAssessName(String courseId);
+
+    String selectStudentAssessScore(Integer assessId, String stuId, String summaryId);
 }

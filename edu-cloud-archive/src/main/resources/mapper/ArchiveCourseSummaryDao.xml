@@ -6,6 +6,10 @@
         insert into archive_course_summary(course_id)
         values (#{courseId})
     </insert>
+    <insert id="insertAssessScore">
+        INSERT INTO archive_assess_score(stu_id , stu_name , score , course_id , assess_id , summary_id)
+        VALUES (#{stuId} , #{stuName} , #{score} , #{courseId} , #{assessId} , #{summaryId})
+    </insert>
 
     <update id="insertMeasures">
         update archive_course_summary set improvement = #{improvement}
@@ -41,6 +45,55 @@
         SELECT
             stu_id
         FROM archive_test_score
-        ORDER BY id
+        group by stu_id
     </select>
+    <select id="selectStudentIdAndWeight" resultType="net.edu.module.vo.ArchiveAssessTestGradesVo">
+        SELECT
+            id,
+            weight,
+            assess_id
+        FROM archive_weight_assess_test
+        WHERE course_id = #{courseId} and deleted = 0
+    </select>
+    <select id="selectStudentTestScore" resultType="net.edu.module.vo.ArchiveAssessTestGradesVo">
+        SELECT
+            t1.score,
+            t1.test_id as id,
+            t1.stu_id as stuId,
+            t1.stu_name as stuName
+        FROM archive_test_score t1
+                 LEFT JOIN archive_weight_assess_test t2 ON t1.test_id = t2.id
+        WHERE t2.assess_id = #{assessId};
+    </select>
+    <select id="selectAssessNum" resultType="java.lang.Integer">
+        SELECT
+            count(*)
+        FROM archive_assess
+        WHERE course_id = #{courseId} and deleted = 0
+    </select>
+    <select id="selectAssessId" resultType="java.lang.Integer">
+        SELECT
+            id
+        FROM archive_assess
+        WHERE course_id = #{courseId} and deleted = 0
+    </select><select id="selectStudentName" resultType="java.lang.String">
+       SELECT
+            stu_name
+        FROM archive_test_score
+        WHERE deleted = 0
+        GROUP BY stu_id
+   </select>
+    <select id="selectAssessName" resultType="java.lang.String">
+       SELECT
+        name
+       FROM archive_assess
+       WHERE course_id = #{courseId} and deleted = 0
+    </select>
+    <select id="selectStudentAssessScore" resultType="java.lang.String">
+       SELECT
+       score
+       FROM archive_assess_score
+       WHERE assess_id = #{assessId} and stu_id = #{stuId} and deleted = 0 and summary_id = #{summaryId}
+      </select>
+
 </mapper>

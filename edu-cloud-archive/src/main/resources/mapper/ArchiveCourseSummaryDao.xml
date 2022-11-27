@@ -93,7 +93,7 @@
        SELECT
        score
        FROM archive_assess_score
-       WHERE assess_id = #{assessId} and stu_id = #{stuId} and deleted = 0
+       WHERE assess_id = #{assessId} and stu_id = #{stuId} and deleted = 0 and summary_id = #{summaryId}
       </select>
 
 </mapper>

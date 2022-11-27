@@ -171,7 +171,7 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
         for(int i = 0 ; i < assessNum ; i++) {
             System.out.println("1212");
             for(int j = 0 ; j < studentNum ; j++) {
-                scoreArr[i][j] = archiveCourseSummaryDao.selectStudentAssessScore(assessArr.get(i) , studentId.get(j));
+                scoreArr[i][j] = archiveCourseSummaryDao.selectStudentAssessScore(assessArr.get(i) , studentId.get(j) , summaryId);
             }
         }
         tableHead.setAssessScore(scoreArr);

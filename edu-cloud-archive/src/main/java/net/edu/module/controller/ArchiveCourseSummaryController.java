@@ -123,6 +123,7 @@ public class ArchiveCourseSummaryController {
     @PostMapping("exportTeachingWord")
     @Operation(summary = "导出教学日历表")
     public void exportTeachingWord(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
+        System.out.println(object);
         Long courseId= Long.valueOf(object.get("courseId").toString());
         Long summaryId= Long.valueOf(object.get("summaryId").toString());
         archiveCourseSummaryService.createTeachingWord(courseId,summaryId,response);

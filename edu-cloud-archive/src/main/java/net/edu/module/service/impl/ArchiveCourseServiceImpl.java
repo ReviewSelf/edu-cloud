@@ -15,6 +15,7 @@ import net.edu.module.query.ArchiveCourseQuery;
 import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.dao.ArchiveCourseDao;
 import net.edu.module.service.ArchiveCourseService;
+import net.edu.module.vo.ArchivePlanItemVo;
 import net.edu.module.vo.ArchiveTargetVO;
 import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,5 +100,11 @@ public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, 
     public List<ArchiveCourseVO> selectArchiveCourse(String grade) {
         return archiveCourseDao.selectArchiveCourse(grade);
     }
+
+    @Override
+    public List<ArchivePlanItemVo> selectPlanItemByCourseId(Long courseId) {
+        return archiveCourseDao.selectPlanItemByCourseId(courseId);
+    }
+
 
 }

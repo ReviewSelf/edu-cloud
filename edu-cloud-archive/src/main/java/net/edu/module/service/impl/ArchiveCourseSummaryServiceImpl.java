@@ -9,19 +9,18 @@ import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveCourseSummaryConvert;
+import net.edu.module.dao.ArchiveCourseDao;
 import net.edu.module.dao.ArchiveExamAttendLogDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
+import net.edu.module.service.ArchiveCourseService;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
 import net.edu.module.utils.ExamExcelUtil;
 import net.edu.module.utils.ExcelSummaryUtil;
 import net.edu.module.utils.WordUtil;
-import net.edu.module.vo.ArchiveAssessByCourseIdVo;
-import net.edu.module.vo.ArchiveAssessTestGradesVo;
-import net.edu.module.vo.ArchiveCourseSummaryVO;
+import net.edu.module.vo.*;
 import net.edu.module.dao.ArchiveCourseSummaryDao;
 import net.edu.module.service.ArchiveCourseSummaryService;
-import net.edu.module.vo.ArchivePointAndTargetVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +45,9 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
 
     @Autowired
     private ArchiveCourseSummaryDao archiveCourseSummaryDao;
+
+    @Autowired
+    private ArchiveCourseService archiveCourseService;
     @Override
     public PageResult<ArchiveCourseSummaryVO> page(ArchiveCourseSummaryQuery query){
 
@@ -107,9 +109,11 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
     @Override
-    public void createTeachingWord(Long courseId, Long summaryId, HttpServletResponse response) throws IOException {
+    public void createTeachingWord(Long courseId, Long summaryId, HttpServletResponse response) {
         System.out.println(courseId+" "+summaryId);
-        WordUtil.createTeachingCalendarWord(response);
+        List<ArchivePlanItemVo> archivePlanItemVoList=archiveCourseService.selectPlanItemByCourseId(courseId);
+        System.out.println(archivePlanItemVoList);
+        WordUtil.createTeachingCalendarWord(archivePlanItemVoList,response);
     }
 
     @Override

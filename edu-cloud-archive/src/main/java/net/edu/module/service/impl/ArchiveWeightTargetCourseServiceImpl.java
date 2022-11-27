@@ -9,6 +9,9 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveWeightTargetCourseConvert;
 import net.edu.module.entity.ArchiveWeightTargetCourseEntity;
 import net.edu.module.query.ArchiveWeightTargetCourseQuery;
+import net.edu.module.service.ArchiveGoalScoreService;
+import net.edu.module.vo.ArchiveGoalPeopleVO;
+import net.edu.module.vo.ArchiveGoalScoreVO;
 import net.edu.module.vo.ArchivePointAndTargetVO;
 import net.edu.module.vo.ArchiveWeightTargetCourseVO;
 import net.edu.module.dao.ArchiveWeightTargetCourseDao;
@@ -30,7 +33,8 @@ public class ArchiveWeightTargetCourseServiceImpl extends BaseServiceImpl<Archiv
 
     @Autowired
     private ArchiveWeightTargetCourseDao archiveWeightTargetCourseDao;
-
+    @Autowired
+    private ArchiveGoalScoreService archiveGoalScoreService;
 
     @Override
     public PageResult<ArchiveWeightTargetCourseVO> page(ArchiveWeightTargetCourseQuery query) {
@@ -81,7 +85,12 @@ public class ArchiveWeightTargetCourseServiceImpl extends BaseServiceImpl<Archiv
 
     @Override
     public List<ArchiveWeightTargetCourseVO> selectCourseByCourseId(Long courseId) {
-        return archiveWeightTargetCourseDao.selectCourseByCourseId(courseId);
+        List<ArchiveWeightTargetCourseVO> archiveWeightTargetCourseVOS = archiveWeightTargetCourseDao.selectCourseByCourseId(courseId);
+        List<ArchiveGoalPeopleVO> sample = archiveGoalScoreService.getSample(courseId);
+        for (int i = 0; i < archiveWeightTargetCourseVOS.size(); i++) {
+            archiveWeightTargetCourseVOS.get(i).setEvaluationResult(String.valueOf(sample.get(i).getEvaluate()));
+        }
+        return archiveWeightTargetCourseVOS;
     }
 
 

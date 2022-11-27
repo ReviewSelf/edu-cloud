@@ -34,6 +34,9 @@ public class ArchiveWeightTargetCourseVO implements Serializable {
 	@Schema(description = "权重")
 	private Double weight;
 
+	@Schema(description = "对应教学目标")
+	private String goalName;
+
 	@Schema(description = "教学目标")
 	private String teachTarget;
 
@@ -45,6 +48,8 @@ public class ArchiveWeightTargetCourseVO implements Serializable {
 	@Schema(description = "评价依据")
 	private String evaluationBasis;
 
+	@Schema(description = "评价结果")
+	private String evaluationResult;
 
 	@Schema(description = "评价方式")
 	private String evaluationMethod;

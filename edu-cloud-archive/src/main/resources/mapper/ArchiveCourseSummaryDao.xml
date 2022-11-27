@@ -2,16 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.ArchiveCourseSummaryDao">
+    <insert id="insertSummaryTable" useGeneratedKeys="true" keyProperty="id" parameterType="net.edu.module.vo.ArchiveCourseSummaryVO">
+        insert into archive_course_summary(course_id)
+        values (#{courseId})
+    </insert>
 
-    <resultMap type="net.edu.module.entity.ArchiveCourseSummaryEntity" id="archiveCourseSummaryMap">
-        <result property="id" column="id"/>
-        <result property="courseId" column="course_id"/>
-        <result property="problemAnalysis" column="problem_analysis"/>
-        <result property="improvement" column="improvement"/>
-        <result property="analysisDescription" column="analysis_description"/>
-        <result property="problem" column="problem"/>
-        <result property="measures" column="measures"/>
-        <result property="others" column="others"/>
-    </resultMap>
+    <update id="insertMeasures">
+        update archive_course_summary set improvement = #{improvement}
+        where id = #{id}
+    </update>
 
+    <update id="insertAnalysis">
+        update archive_course_summary set analysis_description = #{analysisDescription}
+        where id = #{id}
+    </update>
+
+    <update id="insertFinal">
+        update archive_course_summary set problem = #{problem},
+                                          measures = #{measures},
+                                          resources = #{resources},
+                                          deleted = 0
+        where id = #{id}
+    </update>
+
+    <select id="selectSummaryByPage" resultType="net.edu.module.vo.ArchiveCourseSummaryVO">
+        select id,course_id as courseId,create_time as createTime
+        from archive_course_summary
+        where deleted = 0
+        order by create_time desc
+    </select>
+    <select id="selectStudent" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*)
+        FROM archive_test_score
+        GROUP BY test_id limit 1
+    </select>
+    <select id="selectStudentId" resultType="java.lang.String">
+        SELECT
+            stu_id
+        FROM archive_test_score
+        ORDER BY id
+    </select>
 </mapper>

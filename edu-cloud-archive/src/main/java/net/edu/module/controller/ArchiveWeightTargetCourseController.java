@@ -54,6 +54,7 @@ public class ArchiveWeightTargetCourseController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid ArchiveWeightTargetCourseVO vo){
+        System.out.println(vo);
         archiveWeightTargetCourseService.update(vo);
 
         return Result.ok();
@@ -89,6 +90,7 @@ public class ArchiveWeightTargetCourseController {
     @GetMapping("getPointAndTarget")
     @Operation(summary = "获取指标点与教学目标信息")
     public Result<List<ArchivePointAndTargetVO>> selectPointAndTarget(@RequestParam("courseId")Long courseId){
+        System.out.println(archiveWeightTargetCourseService.selectPointAndTarget(courseId));
         return Result.ok(archiveWeightTargetCourseService.selectPointAndTarget(courseId));
     }
 

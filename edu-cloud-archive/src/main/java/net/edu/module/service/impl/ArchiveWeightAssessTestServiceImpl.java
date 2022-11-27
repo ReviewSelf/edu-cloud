@@ -46,6 +46,33 @@ public class ArchiveWeightAssessTestServiceImpl implements ArchiveWeightAssessTe
     }
 
     @Override
+    public List<ArchiveWeightAssessTestVO> selectAssessWeight(ArchiveWeightAssessTestVO archiveWeightAssessTestVO) {
+        return archiveWeightAssessTestDao.selectAssessWeight(archiveWeightAssessTestVO);
+    }
+
+    @Override
+    public void deleteTestWeight(Integer id) {
+        System.out.println(id);
+        archiveWeightAssessTestDao.updateTestWeight(id);
+    }
+
+    @Override
+    public void saveTestWeight(List<ArchiveWeightAssessTestVO> archiveWeightAssessTestVO) {
+        System.out.println(archiveWeightAssessTestVO);
+        for(int i = 0 ; i < archiveWeightAssessTestVO.size() ; i++) {
+            new ArchiveWeightAssessTestVO();
+            ArchiveWeightAssessTestVO list;
+            list = archiveWeightAssessTestVO.get(i);
+            archiveWeightAssessTestDao.updateTestWeightByActive(list);
+        }
+    }
+
+    @Override
+    public List<ArchiveWeightAssessTestVO> selectTestInfo(String courseId, String assessId) {
+        return archiveWeightAssessTestDao.selectTestInfo(courseId , assessId);
+    }
+
+    @Override
     public boolean saveBatch(Collection<ArchiveWeightAssessTestEntity> entityList, int batchSize) {
         return false;
     }

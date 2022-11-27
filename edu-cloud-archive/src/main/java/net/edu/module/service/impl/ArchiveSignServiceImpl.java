@@ -3,16 +3,25 @@ package net.edu.module.service.impl;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.nacos.shaded.com.google.gson.Gson;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.excel.ExcelSyncDataListener;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.ExcelUtils;
+import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.module.convert.ArchiveSignConvert;
 import net.edu.module.dao.ArchiveSignDao;
 import net.edu.module.dao.ArchiveTestScoreDao;
 import net.edu.module.entity.ArchiveSignEntity;
+import net.edu.module.query.ArchiveSignQuery;
 import net.edu.module.service.ArchiveSignService;
+import net.edu.module.vo.ArchiveSignVO;
 import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -22,7 +31,7 @@ import java.util.Map;
 
 @Service
 @AllArgsConstructor
-public class ArchiveSignServiceImpl implements ArchiveSignService {
+public class ArchiveSignServiceImpl extends BaseServiceImpl<ArchiveSignDao, ArchiveSignEntity> implements ArchiveSignService {
 
     @Autowired
     private ArchiveSignDao archiveSignDao;
@@ -52,5 +61,38 @@ public class ArchiveSignServiceImpl implements ArchiveSignService {
         }
         System.out.println(archiveSignEntityList);
         archiveSignDao.insertArchiveSignDao(archiveSignEntityList);
+    }
+
+    @Override
+    public PageResult<ArchiveSignVO> page(ArchiveSignQuery query) {
+        IPage<ArchiveSignEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
+
+        return new PageResult<>(ArchiveSignConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+    }
+
+    private LambdaQueryWrapper<ArchiveSignEntity> getWrapper(ArchiveSignQuery query){
+        LambdaQueryWrapper<ArchiveSignEntity> wrapper = Wrappers.lambdaQuery();
+
+        return wrapper;
+    }
+
+    @Override
+    public void save(ArchiveSignVO vo) {
+        ArchiveSignEntity entity = ArchiveSignConvert.INSTANCE.convert(vo);
+
+        baseMapper.insert(entity);
+    }
+
+    @Override
+    public void update(ArchiveSignVO vo) {
+        ArchiveSignEntity entity = ArchiveSignConvert.INSTANCE.convert(vo);
+
+        updateById(entity);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(List<Long> idList) {
+        removeByIds(idList);
     }
 }

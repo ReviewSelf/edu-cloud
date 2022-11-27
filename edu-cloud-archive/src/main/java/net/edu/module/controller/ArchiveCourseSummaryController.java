@@ -1,16 +1,18 @@
 package net.edu.module.controller;
 
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.ArchiveCourseSummaryConvert;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.service.ArchiveCourseSummaryService;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
+import net.edu.module.vo.ArchiveAssessByCourseIdVo;
+import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +37,12 @@ public class ArchiveCourseSummaryController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<ArchiveCourseSummaryVO>> page(@Valid ArchiveCourseSummaryQuery query){
-        PageResult<ArchiveCourseSummaryVO> page = archiveCourseSummaryService.page(query);
 
+        PageResult<ArchiveCourseSummaryVO> page = archiveCourseSummaryService.page(query);
+        System.out.println(SecurityUser.getUser().getRealName());
+        System.out.println(page);
         return Result.ok(page);
+
     }
 
     @GetMapping("{id}")
@@ -68,14 +73,51 @@ public class ArchiveCourseSummaryController {
     @Operation(summary = "删除")
     public Result<String> delete(@RequestBody List<Long> idList){
         archiveCourseSummaryService.delete(idList);
+
+        return Result.ok();
+    }
+
+    @PostMapping("improve")
+    @Operation(summary = "插入问题和改进措施(第六步)")
+    public Result<String> insertMeasures(@RequestBody ArchiveCourseSummaryVO vo){
+        archiveCourseSummaryService.insertMeasures(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("analysis")
+    @Operation(summary = "插入分析说明(第七步)")
+    public Result<String> insertAnalysis(@RequestBody ArchiveCourseSummaryVO vo){
+        archiveCourseSummaryService.insertAnalysis(vo);
+        return Result.ok();
+    }
+
+    @PostMapping("final")
+    @Operation(summary = "完成(第八步)")
+    public Result<String> insertFinal(@RequestBody ArchiveCourseSummaryVO vo){
+        archiveCourseSummaryService.insertFinal(vo);
         return Result.ok();
     }
 
     @PostMapping("exportExcelSummary")
     @Operation(summary = "导出课程总体情况excel表")
-    public void exportExcelSummary(@RequestBody JSONObject object,HttpServletResponse response) throws IOException {
-        System.out.println(object);
-        archiveCourseSummaryService.exportExcelSummary(response);
+    public void exportExcelSummary(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
+        Long courseId= Long.valueOf(object.get("courseId").toString());
+        Long summaryId= Long.valueOf(object.get("summaryId").toString());
+        archiveCourseSummaryService.exportExcelSummary(courseId,summaryId,response);
+    }
+
+    @PostMapping("/StepOneNext")
+    @Operation(summary = "新增课程总结表记录")
+    public Result<Long> creativeSummaryId(@RequestBody ArchiveCourseSummaryVO summaryVO) {
+        Long summaryId = archiveCourseSummaryService.creativeSummaryId(summaryVO);
+        return Result.ok(summaryId);
+    }
+
+    @GetMapping("/getGradesTable")
+    @Operation(summary = "获取成绩录入表")
+    public Result<List<ArchiveAssessTestGradesVo>> getGradesTable(@RequestParam String courseId) {
+        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryService.getGradesTable(courseId);
+        return Result.ok();
     }
 
 }

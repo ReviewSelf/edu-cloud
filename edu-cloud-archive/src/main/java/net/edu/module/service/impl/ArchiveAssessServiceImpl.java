@@ -8,29 +8,27 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
-import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
-import net.edu.module.convert.ArchiveAssessConvert;
-import net.edu.module.dao.ArchiveWeightTargetAssessDao;
 import net.edu.module.entity.ArchiveAssessEntity;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.service.ArchiveWeightTargetAssessService;
-import net.edu.module.vo.ArchiveAssessExcelVO;
-import net.edu.module.vo.ArchiveAssessVO;
+import net.edu.module.vo.*;
 import net.edu.module.dao.ArchiveAssessDao;
 import net.edu.module.service.ArchiveAssessService;
-import net.edu.module.vo.ArchiveCourseVO;
-import net.edu.module.vo.ArchiveWeightTargetAssessVO;
-import org.apache.ibatis.session.SqlSession;
+import org.apache.poi.hpsf.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Pattern;
+import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.Map;
 
 
 /**
@@ -90,6 +88,21 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     }
 
     @Override
+    public void save1(ArchiveAssessVO vo) {
+        archiveAssessDao.insertArchiveAssess1(vo);
+    }
+
+    @Override
+    public void update1(ArchiveAssessVO vo) {
+        archiveAssessDao.updateArchiveAssess3(vo);
+    }
+
+    @Override
+    public void deleteAssess(Long courseId, Long  targetId,Long assessId) {
+        archiveAssessDao.deleteAssess(courseId,targetId,assessId);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
@@ -100,6 +113,12 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
         }
 
     }
+
+    @Override
+    public List<ArchiveAssessVO> selectAssessByCourseId(Long courseId) {
+        return archiveAssessDao.selectAssessByCourseId(courseId);
+    }
+
 
 
     @SneakyThrows
@@ -112,6 +131,114 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
 
 
         }
+    }
+
+    @Override
+    public ArchiveAssessVO getSummaryStep2(String courseId) {
+        return archiveAssessDao.selectSummaryStep2(courseId);
+    }
+
+    @Override
+    public List<ArchiveAssessByCourseIdVo> getAssessByCourseId(String courseId) {
+        return archiveAssessDao.selectAssessBycourseId(courseId);
+    }
+
+    @Override
+    public void deleteByCourseId(String courseId, String assessId) {
+        Integer cid = Integer.parseInt(courseId);
+        Integer ass = Integer.parseInt(assessId);
+        archiveAssessDao.updateByCourseId(cid , ass);
+    }
+
+    @Override
+    public void saveAssessWeight(List<ArchiveAssessByCourseIdVo> assess) {
+        String flag;
+        for(int i = 0 ; i < assess.size() ; i++) {
+            flag = archiveAssessDao.selectArchiveAssessIdJuge(assess.get(i).getAssessId() , assess.get(i).getTargetId());
+            if(flag == null) {
+                archiveAssessDao.insertAssessWeight(assess.get(i));
+            } else {
+                archiveAssessDao.updateAssessWeight(assess.get(i));
+            }
+        }
+    }
+
+    @Override
+    public List<ArchiveAssessByCourseIdVo> getAssessByTargetId(String targetId) {
+        return archiveAssessDao.selectAssessByTargetId(targetId);
+    }
+
+    @Override
+    public void saveEvaluation(ArchivePointAndTargetVO assess) {
+        archiveAssessDao.updateEvaluation(assess);
+    }
+
+    @Override
+    public BigDecimal getWeightSum(ArchiveAssessByCourseIdVo assess) {
+        return archiveAssessDao.selectWeightSum(assess);
+    }
+
+    @Override
+    public ArchiveAssessTableVo getWeightTable(ArchiveAssessByCourseIdVo assess) {
+
+        //第一步，获取教学目标总数
+        Integer courseId = assess.getCourseId();
+        Integer TargetNum = archiveAssessDao.selectTargetByCourseId(courseId);
+
+        //第二步，获取考核点总数和考核点名称
+        Integer AssessNum = archiveAssessDao.selectAssessSum(assess);
+        List<String> AssessName = archiveAssessDao.selectAssessName(courseId);
+        System.out.println(AssessName);
+
+        //第三步，获取教学目标占比数组
+        List<BigDecimal> TargetWeightArr = archiveAssessDao.selectTargetWeightArr(assess);
+        BigDecimal[] TargetArr = new BigDecimal[TargetNum];
+        BigDecimal m = new BigDecimal(100);
+        for(int i = 0 ; i < TargetWeightArr.size() ; i++) {
+            TargetArr[i] = TargetWeightArr.get(i).multiply(m);
+        }
+        List<String> TargetName = archiveAssessDao.selectTargetName(courseId);
+        System.out.println(TargetName);
+
+        //第四步，获取考核点在该教学目标下的占比
+        BigDecimal[][] AssessWeightArr = new BigDecimal[TargetNum][AssessNum];
+        List<Integer>  TargetIdArr;
+        TargetIdArr = archiveAssessDao.selectTargetId(courseId);
+        List<Integer> AssessIdArr;
+        AssessIdArr = archiveAssessDao.selectAssessId(assess);
+        for(int i = 0 ; i < TargetNum ; i++) {
+            for (int j = 0 ; j < AssessNum ; j++) {
+                AssessWeightArr[i][j] = archiveAssessDao.selectWeight(TargetIdArr.get(i) , AssessIdArr.get(j));
+                if(AssessWeightArr[i][j] == null) {
+                    AssessWeightArr[i][j] = BigDecimal.valueOf(0);
+                }
+            }
+        }
+        ArchiveAssessTableVo assessTableVo = new ArchiveAssessTableVo();
+        assessTableVo.setAssessNum(AssessNum);
+        assessTableVo.setTargetNum(TargetNum);
+        assessTableVo.setAssessWeightArr(AssessWeightArr);
+        assessTableVo.setTargetWeightArr(TargetArr);
+
+        String[][] outCome = new String[TargetNum + 1][AssessNum + 1];
+        for(int i = -1 ; i < TargetNum ; i++) {
+            for (int j = -1 ; j < AssessNum ; j++) {
+                if(i == -1 && j == -1) {
+                    outCome[i + 1][j + 1] = "考核点名称";
+                } else if(i == -1) {
+                    outCome[i + 1][j + 1] = AssessName.get(j);
+                }
+                if(i > -1 && j == -1) {
+                    outCome[i + 1][j + 1] = TargetName.get(i) + "(" + TargetArr[i] + ")";
+                } else if(i > -1 && j > -1) {
+                    outCome[i + 1][j + 1] = AssessWeightArr[i][j].toString();
+                }
+            }
+        }
+        System.out.println(outCome);
+        assessTableVo.setRouCome(outCome);
+        System.out.println(assessTableVo.getRouCome());
+        return assessTableVo;
     }
 
 //    @Override
@@ -131,6 +258,11 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
 ////        return entity.getId();
 //
 //    }
+
+     @Override
+     public List<ArchiveAssessVO>  selectWeightById(String id){
+        return archiveAssessDao.selectWeightById(id);
+     }
 
 
 

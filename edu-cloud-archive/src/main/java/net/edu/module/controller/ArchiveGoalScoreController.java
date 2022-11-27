@@ -1,5 +1,7 @@
 package net.edu.module.controller;
 
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,11 @@ import net.edu.module.vo.ArchiveAssessScoreVO;
 import net.edu.module.vo.ArchiveGoalPeopleVO;
 import net.edu.module.vo.ArchiveGoalScoreVO;
 import net.edu.module.vo.ArchiveTargetVO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import net.edu.module.vo.ArchiveGoalScoreVO;
+import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
+import net.edu.module.vo.ArchiveGoalScoreInBooKVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +39,11 @@ import java.util.List;
 public class ArchiveGoalScoreController {
     @Autowired
     private ArchiveGoalScoreService archiveGoalScoreService;
+    @GetMapping("{courseId}")
+    @Operation(summary = "获取总评分数")
+    public Result<List<ArchiveGoalScoreVO>> getScore(@PathVariable("courseId") Long courseId){
+        return Result.ok(archiveGoalScoreService.selectGoalScoreByCourseId(courseId));
+    }
     @PostMapping
     @Operation(summary = "插入")
     public Result<String> save(@RequestBody List<ArchiveGoalScoreVO> vo){
@@ -45,6 +57,14 @@ public class ArchiveGoalScoreController {
     public Result<List<ArchiveGoalPeopleVO>> sample(@RequestParam("courseId") Long courseId){
         List<ArchiveGoalPeopleVO> sample = archiveGoalScoreService.getSample(courseId);
         return Result.ok(sample);
+    }
+    @PostMapping("grade")
+    @Operation(summary = "获取成绩表")
+    public Result<ArchiveGoalScoreInBooKVO> getGradeInfo(@RequestBody JSONObject jsonObject){
+        JSONObject classInfo=JSONUtil.parseObj(jsonObject.get("classInfo"))  ;
+        String id= String.valueOf(jsonObject.get("id"));
+        ArchiveGoalScoreInBooKVO archiveGoalScoreInBooKVO =archiveGoalScoreService.getGradeInfo(classInfo,id);
+        return Result.ok(archiveGoalScoreInBooKVO);
     }
 
     @GetMapping("unit")

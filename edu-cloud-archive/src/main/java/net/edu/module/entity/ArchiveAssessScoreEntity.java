@@ -19,6 +19,11 @@ import java.util.List;
 @TableName("archive_assess_score")
 public class ArchiveAssessScoreEntity extends BaseEntity {
 	/**
+	 * id
+	 */
+	private Long id;
+
+	/**
 	* 学号
 	*/
 	private String stuId;

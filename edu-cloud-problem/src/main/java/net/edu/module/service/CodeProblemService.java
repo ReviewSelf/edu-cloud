@@ -2,6 +2,7 @@ package net.edu.module.service;
 
 
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.vo.CodeProblemAnswerVo;
 import net.edu.module.vo.CodeProblemVO;
@@ -38,4 +39,6 @@ public interface CodeProblemService extends BaseService<CodeProblemEntity> {
     CodeProblemAnswerVo getCodeProblemAnswer(Long problemId);
 
     void importFromExcel(MultipartFile file);
+
+    Result<String> importZipFile(MultipartFile zipFile);
 }

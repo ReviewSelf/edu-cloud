@@ -2,6 +2,7 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
+import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
@@ -26,5 +27,15 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
 
     void delete(List<Long> idList);
 
-    void exportExcelSummary(HttpServletResponse response) throws IOException;
+    void exportExcelSummary(Long courseId,Long summaryId, HttpServletResponse response) throws IOException;
+
+    void insertMeasures(ArchiveCourseSummaryVO vo);
+
+    void insertAnalysis(ArchiveCourseSummaryVO vo);
+
+    void insertFinal(ArchiveCourseSummaryVO vo);
+
+    Long creativeSummaryId(ArchiveCourseSummaryVO summaryVO);
+
+    List<ArchiveAssessTestGradesVo> getGradesTable(String courseId);
 }

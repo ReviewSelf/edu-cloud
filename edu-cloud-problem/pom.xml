@@ -9,6 +9,8 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
+
+
 		<dependency>
 			<groupId>net.edu</groupId>
 			<artifactId>edu-cloud-starter</artifactId>

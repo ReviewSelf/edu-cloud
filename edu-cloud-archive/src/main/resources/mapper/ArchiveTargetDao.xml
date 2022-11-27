@@ -88,9 +88,10 @@
 	    LEFT JOIN archive_target t2
 	    on t2.id=t1.target_id
         WHERE
-	    t1.course_id = #{targetId}
-
-
+	    t1.course_id = #{courseId}
+	    and t2.grade=#{grade}
+	    and t1.deleted=0
+	    and t2.deleted=0
     </select>
 
     <update id="updateArchiveTarget">

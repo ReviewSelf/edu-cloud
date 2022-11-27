@@ -3,15 +3,20 @@ package net.edu.module.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveCourseSummaryConvert;
+import net.edu.module.dao.ArchiveExamAttendLogDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
 import net.edu.module.utils.ExamExcelUtil;
 import net.edu.module.utils.ExcelSummaryUtil;
+import net.edu.module.vo.ArchiveAssessByCourseIdVo;
+import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import net.edu.module.dao.ArchiveCourseSummaryDao;
 import net.edu.module.service.ArchiveCourseSummaryService;
@@ -23,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 课程总结
@@ -37,17 +43,15 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     @Autowired
     private ArchiveWeightTargetCourseService archiveWeightTargetCourseService;
 
+    @Autowired
+    private ArchiveCourseSummaryDao archiveCourseSummaryDao;
     @Override
-    public PageResult<ArchiveCourseSummaryVO> page(ArchiveCourseSummaryQuery query) {
-        IPage<ArchiveCourseSummaryEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
+    public PageResult<ArchiveCourseSummaryVO> page(ArchiveCourseSummaryQuery query){
 
-        return new PageResult<>(ArchiveCourseSummaryConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
-    }
+        Page<ArchiveCourseSummaryVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<ArchiveCourseSummaryVO> list =archiveCourseSummaryDao.selectSummaryByPage(page,query);
+        return new PageResult<>(list.getRecords(), page.getTotal());
 
-    private LambdaQueryWrapper<ArchiveCourseSummaryEntity> getWrapper(ArchiveCourseSummaryQuery query){
-        LambdaQueryWrapper<ArchiveCourseSummaryEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
     }
 
     @Override
@@ -69,10 +73,43 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
     @Override
-    public void exportExcelSummary(HttpServletResponse response) throws IOException {
-        List<ArchivePointAndTargetVO>  archivePointAndTargetVOS=archiveWeightTargetCourseService.selectPointAndTarget(2L);
-        System.out.println(archivePointAndTargetVOS);
-        ExcelSummaryUtil.excelSummaryUtil(response);
+    public void insertMeasures(ArchiveCourseSummaryVO vo) {
+        archiveCourseSummaryDao.insertMeasures(vo);
+    }
+
+    @Override
+    public void insertAnalysis(ArchiveCourseSummaryVO vo) {
+        archiveCourseSummaryDao.insertAnalysis(vo);
+    }
+
+    @Override
+    public void insertFinal(ArchiveCourseSummaryVO vo) {
+        archiveCourseSummaryDao.insertFinal(vo);
+    }
+
+    @Override
+    public Long creativeSummaryId(ArchiveCourseSummaryVO summary) {
+        archiveCourseSummaryDao.insertSummaryTable(summary);
+        Long id = summary.getId();
+        return id;
+    }
+
+    @Override
+    public List<ArchiveAssessTestGradesVo> getGradesTable(String courseId) {
+
+        //第一步，获取学生学号数组，学生总数
+        Integer studentNum = archiveCourseSummaryDao.selectStudent(courseId);
+        System.out.println("学生总数：");
+        List<String> studentId = archiveCourseSummaryDao.selectStudentId(courseId);
+
+        return null;
+    }
+
+    @Override
+    public void exportExcelSummary(Long courseId,Long summaryId, HttpServletResponse response) throws IOException {
+//        List<ArchivePointAndTargetVO>  archivePointAndTargetVOS=archiveWeightTargetCourseService.selectPointAndTarget(courseId);
+//        System.out.println(archivePointAndTargetVOS);
+        ExcelSummaryUtil.excelSummaryUtil(courseId,summaryId,response);
     }
 
 }

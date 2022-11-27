@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -23,14 +24,18 @@ public class ArchiveWeightAssessTestVO {
     @Schema(description = "名字")
     private String name;
 
+    private String assessName;
+
     @Schema(description = "评测点id")
     private Long testId;
+
+    private Long courseId;
 
     @Schema(description = "考核点id")
     private Long assessId;
 
     @Schema(description = "权重")
-    private Double weight;
+    private BigDecimal weight;
 
     @Schema(description = "删除")
     private Integer deleted;

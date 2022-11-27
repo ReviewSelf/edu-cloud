@@ -8,7 +8,10 @@ import net.edu.framework.common.utils.Result;
 import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.vo.*;
-import net.edu.module.vo.*;
+import net.edu.module.vo.ArchiveAssessByCourseIdVo;
+import net.edu.module.vo.ArchiveAssessVO;
+import net.edu.module.vo.ArchivePointAndTargetVO;
+import net.edu.module.vo.ArchiveWeightTargetAssessVO;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,7 +45,6 @@ public class ArchiveAssessController {
     public Result<ArchiveAssessVO> get(@PathVariable("id") Long id){
         return Result.ok(archiveAssessService.selectArchiveAssessById(id));
     }
-
 
     @PostMapping
     @Operation(summary = "保存")

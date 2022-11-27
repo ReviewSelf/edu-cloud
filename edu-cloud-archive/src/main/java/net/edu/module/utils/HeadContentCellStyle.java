@@ -14,7 +14,7 @@ public class HeadContentCellStyle {
      * @return
      */
     public static HorizontalCellStyleStrategy myHorizontalCellStyleStrategy(){
-//1 表头样式策略
+        //1 表头样式策略
         WriteCellStyle headWriteCellStyle = new WriteCellStyle();
         //设置表头居中对齐
         headWriteCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
@@ -30,7 +30,7 @@ public class HeadContentCellStyle {
         //内容样式  多个样式则隔行换色
         List<WriteCellStyle> listCntWritCellSty =  new ArrayList<>();
 
-//2 内容样式策略  样式一
+        //2 内容样式策略  样式一
         WriteCellStyle contentWriteCellStyle = new WriteCellStyle();
         WriteFont contentWriteFont = new WriteFont();
         //内容字体大小

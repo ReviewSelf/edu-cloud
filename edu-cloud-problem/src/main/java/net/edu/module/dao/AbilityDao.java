@@ -17,4 +17,6 @@ import java.util.List;
 public interface AbilityDao extends BaseDao<AbilityEntity> {
 
     List<AbilityVO> selectAbilityItemList(Integer abilityId, Long userId);
+
+    Long selectAbilityIdFromSysUser(Long userId);
 }

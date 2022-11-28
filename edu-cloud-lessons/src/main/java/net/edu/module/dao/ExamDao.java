@@ -36,4 +36,12 @@ public interface ExamDao extends BaseDao<ExamEntity> {
     List<String> selectExamClass(Long examId);
 
     void insertExamClass(Long id, Long classId);
+
+    List<ExamVO> selectAbilityExam();
+
+    List<Long> selectAbilityExamId(Long userId);
+
+    void updateUserAbilityId(Long examId,Long abilityId,Integer score);
+
+
 }

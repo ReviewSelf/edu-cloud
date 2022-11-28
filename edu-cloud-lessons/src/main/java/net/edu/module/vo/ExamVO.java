@@ -80,6 +80,25 @@ public class ExamVO implements Serializable {
 	@Schema(description = "班级ID")
 	private List<Long> classIdList;
 
+	@Schema(description = "备注")
 	private String remark;
+
+	@Schema(description = "考试类型")
+	private Integer type;
+
+	@Schema(description = "能力考试结果")
+	private Integer result;
+
+	@Schema(description = "能力等级门槛id")
+	private Integer requireAbility;
+
+	@Schema(description = "获取能力等级id")
+	private Integer gainAbilityId;
+
+	@Schema(description = "能力等级门槛名称")
+	private String requireAbilityName;
+
+	@Schema(description = "获取能力等级名称")
+	private String gainAbilityName;
 
 }

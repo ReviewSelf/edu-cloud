@@ -15,6 +15,11 @@
         <result property="name" column="name"/>
         <result property="problemNum" column="problem_num"/>
         <result property="place" column="place"/>
+        <result property="type" column="type"/>
+        <result property="requireAbility" column="require_ability"/>
+        <result property="gainAbilityId" column="gain_ability_id"/>
+        <result property="requireAbilityName" column="requireAbilityName"/>
+        <result property="gainAbilityName" column="gainAbilityName"/>
         <collection property="classListName"
                     column="{examId=id}"
                     select="selectExamClass"
@@ -31,7 +36,10 @@
         a.teacher_id ,
         a.kp_code ,
         a.name,
-        a.place
+        a.place,
+        a.type,
+        a.require_ability,
+        a.gain_ability_id
         from exam a
         where a.deleted=0
         <if test="query.classId !=null">
@@ -46,21 +54,40 @@
         <if test="query.name != null">
             and a.name like concat('%',#{query.name},'%')
         </if>
+        <if test="query.type != null">
+            and a.type=#{query.type}
+        </if>
 
         order by a.end_time &lt;= now() ,if(a.end_time &lt;= now(),0,a.end_time) ,a.end_time desc
 
     </select>
 
     <select id="selectExamClass" resultType="java.lang.String">
-        select b.name from exam_class a join teach_class b
-                                             on a.class_id = b.id  where exam_id=#{examId}
+        select b.name
+        from exam_class a
+                 join teach_class b
+                      on a.class_id = b.id
+        where exam_id = #{examId}
     </select>
 
-    <insert id="insertExam" useGeneratedKeys="true" keyProperty="id" >
-        insert into exam(paper_id, description, begin_time, end_time, score, teacher_id, kp_code ,deleted, name, place,
-                         time_limit, problem_num)
-        values
-        (#{vo.paperId},#{vo.description},#{vo.beginTime},#{vo.endTime},#{vo.score},#{vo.teacherId},#{vo.kpCode},0,#{vo.name},#{vo.place},#{vo.timeLimit},#{vo.problemNum})
+    <insert id="insertExam" useGeneratedKeys="true" keyProperty="id">
+        insert into exam(paper_id, description, begin_time, end_time, score, teacher_id, kp_code, deleted, name, place,
+                         time_limit, problem_num, type, require_ability, gain_ability_id)
+        values (#{vo.paperId},
+                #{vo.description},
+                #{vo.beginTime},
+                #{vo.endTime},
+                #{vo.score},
+                #{vo.teacherId},
+                #{vo.kpCode},
+                0,
+                #{vo.name},
+                #{vo.place},
+                #{vo.timeLimit},
+                #{vo.problemNum},
+                #{vo.type},
+                #{vo.requireAbility},
+                #{vo.gainAbilityId})
     </insert>
 
     <insert id="insertExamClass">
@@ -69,12 +96,22 @@
 
     </insert>
 
+
     <select id="studentPage" resultType="net.edu.module.vo.ExamVO">
-        select a.id,a.name as name , a.place as place
+        select a.id,
+        a.name as name ,
+        a.place as place
         , a.begin_time as beginTime,
-        a.end_time as endTime , (select real_name from sys_user where id=a.teacher_id) as teacherName , a.time_limit as
-        timeLimit,
-        b.status,b.is_correcting as isCorrecting,b.score as grade
+        a.end_time as endTime ,
+        (select real_name from sys_user where id=a.teacher_id) as teacherName ,
+        a.time_limit astimeLimit,
+        b.status,
+        b.is_correcting as isCorrecting,
+        b.score as grade,a.type,
+        a.require_ability as requireAbility,
+        a.gain_ability_id as gainAbilityId,
+        (select name from ability t where a.require_ability=t.id) as requireAbilityName,
+        (select name from ability t where a.gain_ability_id=t.id) as gainAbilityName
         from exam a
         join exam_attend_log b on a.id = b.exam_id and b.user_id = #{query.userId}
         where a.deleted = 0
@@ -106,7 +143,11 @@
                a.time_limit                                             as timeLimit,
                b.status,
                a.paper_id                                               as paperId,
-               a.problem_num                                            as problemNum
+               a.problem_num                                            as problemNum,
+               a.require_ability                                        as requireAbility,
+               a.gain_ability_id                                        as gainAbilityId,
+               (select name from ability t where a.require_ability=t.id) as requireAbilityName,
+               (select name from ability t where a.gain_ability_id=t.id) as gainAbilityName
         from exam a
                  join exam_attend_log b on a.id = b.exam_id and b.user_id = #{userId}
         where a.deleted = 0
@@ -120,13 +161,58 @@
                a.place                                                     as examPlace,
                (select real_name from sys_user where id = #{vo.teacherId}) as teacher,
                now()                                                       as sendTime,
-               b.user_id                                                    as userId
+               b.user_id                                                   as userId
         from exam a
                  left join exam_attend_log b on b.exam_id = a.id
         where deleted = 0
-          and a.id=#{vo.id}
+          and a.id = #{vo.id}
     </select>
 
+
+    <select id="selectAbilityExam" resultMap="examMap">
+        select id,
+               description,
+               begin_time,
+               end_time,
+               score,
+               time_limit,
+               paper_id,
+               teacher_id,
+               kp_code,
+               name,
+               place,
+               type,
+               require_ability,
+               gain_ability_id,
+               (select name from ability t where require_ability=t.id) as requireAbilityName,
+               (select name from ability t where gain_ability_id=t.id) as gainAbilityName
+        from exam
+        where deleted = 0
+          and end_time &gt;= now()
+          and type = 1
+        order by end_time &lt;= now(), if(end_time &lt;= now(), 0, end_time), end_time desc
+    </select>
+
+    <select id="selectAbilityExamId" resultType="java.lang.Long">
+        select exam_id
+        from exam_attend_log
+        where user_id = #{userId}
+    </select>
+
+    <update id="updateUserAbilityId">
+        UPDATE sys_user
+        SET ability_id = #{abilityId}
+        WHERE
+                id IN (
+                SELECT
+                    user_id
+                FROM
+                    exam_attend_log
+                WHERE
+                    exam_id = #{examId}
+                  AND score &gt;= #{score}
+            )
+    </update>
 
 
 </mapper>

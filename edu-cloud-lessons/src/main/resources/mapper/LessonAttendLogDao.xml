@@ -33,6 +33,7 @@
         </foreach>
     </insert>
 
+
     <delete id="deleteLessonList">
         delete from lesson_attend_log
         where stu_id = #{stuId} and lesson_id in

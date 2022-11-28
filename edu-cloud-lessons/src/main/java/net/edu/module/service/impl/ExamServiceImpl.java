@@ -64,7 +64,6 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         query.setTeacherId(SecurityUser.getUserId());
         Page<ExamVO> page = new Page<>(query.getPage(),query.getLimit());
         IPage<ExamVO> list = baseMapper.page(page,query);
-        System.out.println(list.getRecords());
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -200,4 +199,16 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         ExamProblemInfoExcelUtil.examExportExcel(data,bigTitleList,response);
     }
 
+    @Override
+    public ExamAbilityVo getAbilityExam() {
+        ExamAbilityVo examAbilityVo = new ExamAbilityVo();
+        examAbilityVo.setExamAbilityList(baseMapper.selectAbilityExam());
+        examAbilityVo.setExamIdList(baseMapper.selectAbilityExamId(SecurityUser.getUserId()));
+        return examAbilityVo;
+    }
+
+    @Override
+    public void promulgateGrade(Long examId, Long abilityId, Integer score) {
+        baseMapper.updateUserAbilityId(examId, abilityId, score);
+    }
 }

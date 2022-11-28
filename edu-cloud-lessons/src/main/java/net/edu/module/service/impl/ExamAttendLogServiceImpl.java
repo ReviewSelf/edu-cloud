@@ -9,15 +9,20 @@ import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.ExamAttendLogConvert;
 import net.edu.module.dao.ExamAttendLogDao;
 import net.edu.module.entity.ExamAttendLogEntity;
 import net.edu.module.query.ExamAttendLogQuery;
 import net.edu.module.service.ExamAttendLogService;
+import net.edu.module.vo.AbilityUserVo;
+import net.edu.module.vo.AbilityVO;
 import net.edu.module.vo.ExamAttendLogVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +47,9 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     private final EduTeachApi eduTeachApi;
 
     private final ExamAttendLogDao examAttendLogDao;
+
+    @Autowired
+    private EduProblemApi eduProblemApi;
 
     private final int  NOT_ATTENDED=0;
     private final int ATTENDED=1;
@@ -193,6 +201,30 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     }
 
     @Override
+    public Result<String> addAttendLogFromAbilityExam(Long examId, Long abilityId){
+        AbilityUserVo abilityUserVo = eduProblemApi.getUserAbility(SecurityUser.getUserId()).getData();
+        List<AbilityVO> abilityList = eduProblemApi.getAbilityList().getData();
+        Long fatherAbilityId = abilityUserVo.getAbilityId();
+        Long childAbilityId = abilityUserVo.getChildAbilityId();
+        if (fatherAbilityId < abilityId) {
+            return Result.error("报名等级需大于等于最低等级");
+        }
+
+        for (int i = 0 ; i<abilityList.size();i++){
+            if (abilityList.get(i).getId()==abilityId){
+
+                if (abilityList.get(i).getChildren().get(abilityList.get(i).getChildren().size()-1).getId()==childAbilityId){
+                    baseMapper.insertAttendLogFromAbilityExam(SecurityUser.getUserId(), examId);
+                    return Result.ok("报名成功");
+                }
+            }
+        }
+
+        return Result.error("不满足报名条件");
+
+    }
+
+    @Override
     public Map<String, String> getStudentExamStatisticsInfo(Long userId){
         return baseMapper.selectStudentExamStatisticsInfo(userId);
     }
@@ -201,4 +233,6 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
     public Map<String, String> getTeacherExamStatisticsInfo(Long userId) {
         return baseMapper.selectTeacherExamStatisticsInfo(userId);
     }
+
+
 }

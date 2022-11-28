@@ -206,4 +206,11 @@
                     LIMIT 1
             ) b
     </select>
+
+    <insert id="insertAttendLogFromAbilityExam">
+        insert ignore into exam_attend_log (user_id,exam_id,status,score,is_correcting)
+        values
+            (#{userId},#{examId},0,0,0)
+
+    </insert>
 </mapper>

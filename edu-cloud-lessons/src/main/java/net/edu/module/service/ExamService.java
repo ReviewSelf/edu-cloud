@@ -2,6 +2,7 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
+import net.edu.module.vo.ExamAbilityVo;
 import net.edu.module.vo.ExamVO;
 import net.edu.module.query.ExamQuery;
 import net.edu.module.entity.ExamEntity;
@@ -40,5 +41,9 @@ public interface ExamService extends BaseService<ExamEntity> {
     void exportExam(Long examId, HttpServletResponse response) throws IOException;
 
     void exportUserExam(Long examId,List<Long> userIdList,HttpServletResponse response) throws IOException;
+
+    ExamAbilityVo getAbilityExam();
+
+    void promulgateGrade(Long examId,Long abilityId,Integer score);
 
 }

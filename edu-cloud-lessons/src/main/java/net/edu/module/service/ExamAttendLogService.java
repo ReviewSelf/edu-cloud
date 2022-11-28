@@ -1,6 +1,7 @@
 package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.ExamAttendLogEntity;
 import net.edu.module.query.ExamAttendLogQuery;
@@ -13,7 +14,7 @@ import java.util.Map;
 /**
  * 课堂签到表
  *
- * @author 马佳浩 
+ * @author 马佳浩
  * @since 1.0.0 2022-09-15
  */
 public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
@@ -48,7 +49,11 @@ public interface ExamAttendLogService extends BaseService<ExamAttendLogEntity> {
 
     ExamAttendLogVO getUserExamInfo(Long userId,Long examId);
 
+    Result<String> addAttendLogFromAbilityExam(Long examId, Long abilityId);
+
     Map<String ,String> getStudentExamStatisticsInfo(Long userId);
 
     Map<String, String> getTeacherExamStatisticsInfo(Long userId);
+
+
 }

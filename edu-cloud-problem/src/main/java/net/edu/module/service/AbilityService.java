@@ -4,6 +4,7 @@ package net.edu.module.service;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.AbilityEntity;
 
+import net.edu.module.vo.AbilityUserVo;
 import net.edu.module.vo.AbilityVO;
 
 import java.util.List;
@@ -27,4 +28,7 @@ public interface AbilityService extends BaseService<AbilityEntity> {
 
 
     Boolean judgeUnlockAbility(Long lastAbilityId,Long abilityId,Long userId);
+
+    AbilityUserVo getUserAbility(Long userId);
+
 }

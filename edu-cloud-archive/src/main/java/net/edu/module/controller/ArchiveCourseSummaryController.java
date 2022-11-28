@@ -119,4 +119,10 @@ public class ArchiveCourseSummaryController {
         return Result.ok(list);
     }
 
+    @GetMapping("/getScoreEveRage")
+    @Operation(summary = "考核点平均得分")
+    public Result<List<Integer>> getScoreEvaRage(@RequestParam String courseId , String summaryId) {
+        List<Integer> list = archiveCourseSummaryService.getScoreEveRage(courseId , summaryId);
+        return Result.ok(list);
+    }
 }

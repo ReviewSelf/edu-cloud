@@ -38,4 +38,6 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
     Long creativeSummaryId(ArchiveCourseSummaryVO summaryVO);
 
     ArchiveAssessTestGradesVo getGradesTable(String courseId, String summaryId);
+
+    List<Integer> getScoreEveRage(String courseId, String summaryId);
 }

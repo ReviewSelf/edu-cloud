@@ -12,10 +12,7 @@ import net.edu.module.convert.ArchiveScoreBookConvert;
 import net.edu.module.query.ArchiveScoreBookQuery;
 import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.service.ArchiveScoreBookService;
-import net.edu.module.vo.ArchiveAssessVO;
-import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
-import net.edu.module.vo.ArchiveScoreBookClassTableVO;
-import net.edu.module.vo.ArchiveScoreBookVO;
+import net.edu.module.vo.*;
 import net.maku.entity.ArchiveScoreBookEntity;
 
 import org.springframework.web.bind.annotation.*;
@@ -112,6 +109,14 @@ public class ArchiveScoreBookController {
         return Result.ok();
     }
 
+    @PostMapping("getScoreListInBook")
+    @Operation(summary = "获取成绩表")
+    public Result<List<ArchiveScoreInBookVO>> getScoreListInBook(@RequestBody JSONObject jsonObject){
+        JSONObject classInfo=JSONUtil.parseObj(jsonObject.get("classInfo"))  ;
+        String id= String.valueOf(jsonObject.get("id"));
+        List<ArchiveScoreInBookVO> list =archiveScoreBookService.getScoreListInBook(classInfo,id);
+        return Result.ok(list);
+    }
 
 
 

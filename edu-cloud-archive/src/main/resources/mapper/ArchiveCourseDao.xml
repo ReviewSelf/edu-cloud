@@ -68,4 +68,13 @@
         from archive_course
         where deleted = 0 and grade=#{grade}
     </select>
+
+    <select id="selectPlanItemByCourseId" resultType="net.edu.module.vo.ArchivePlanItemVo">
+        SELECT
+            id,plan_id as planId,sort,duration,name,description
+        FROM
+            teach_plan_item
+        WHERE
+            plan_id =(select teach_plan_id FROM archive_course WHERE id=#{courseId})
+    </select>
 </mapper>

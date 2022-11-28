@@ -6,6 +6,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveCourseEntity;
 import net.edu.module.query.ArchiveCourseQuery;
 import net.edu.module.vo.ArchiveCourseVO;
+import net.edu.module.vo.ArchivePlanItemVo;
 import net.edu.module.vo.ArchiveTargetVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -21,6 +22,10 @@ import java.util.List;
 public interface ArchiveCourseDao extends BaseDao<ArchiveCourseEntity> {
 
     IPage<ArchiveCourseVO> selectArchiveCourseByPage(Page<ArchiveCourseVO> page, ArchiveCourseQuery query);
+
     List<ArchiveCourseVO> selectArchiveCourseAll();
+
     List<ArchiveCourseVO> selectArchiveCourse(String grade);
+
+    List<ArchivePlanItemVo> selectPlanItemByCourseId(Long courseId);
 }

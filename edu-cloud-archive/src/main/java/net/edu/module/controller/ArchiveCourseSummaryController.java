@@ -115,9 +115,17 @@ public class ArchiveCourseSummaryController {
 
     @GetMapping("/getGradesTable")
     @Operation(summary = "获取成绩录入表")
-    public Result<List<ArchiveAssessTestGradesVo>> getGradesTable(@RequestParam String courseId) {
-        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryService.getGradesTable(courseId);
-        return Result.ok();
+    public Result<ArchiveAssessTestGradesVo> getGradesTable(@RequestParam String courseId , String summaryId) {
+        ArchiveAssessTestGradesVo list = archiveCourseSummaryService.getGradesTable(courseId , summaryId);
+        return Result.ok(list);
     }
 
+    @PostMapping("exportTeachingWord")
+    @Operation(summary = "导出教学日历表")
+    public void exportTeachingWord(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
+        System.out.println(object);
+        Long courseId= Long.valueOf(object.get("courseId").toString());
+        Long summaryId= Long.valueOf(object.get("summaryId").toString());
+        archiveCourseSummaryService.createTeachingWord(courseId,summaryId,response);
+    }
 }

@@ -4,10 +4,10 @@
 <mapper namespace="net.edu.module.dao.StatisticsLessonInfoDao">
 
     <select id="selectStudentHomeworkStatisticsInfo" resultType="java.util.HashMap">
-        SELECT homeworkCompleteProblemNum,
+        SELECT ifnull(homeworkCompleteProblemNum,0) as homeworkCompleteProblemNum,
                homeworkEndTime,
-               homeworkNum,
-               homeworkProblemNum
+               ifnull(homeworkNum,0) as homeworkNum,
+               ifnull(homeworkProblemNum,0) as homeworkProblemNum
         FROM (
                  SELECT homework_end_time AS homeworkEndTime
                  FROM lesson
@@ -56,7 +56,9 @@
     </select>
 
     <select id="selectStudentLessonStatisticsInfo" resultType="java.util.HashMap">
-        select lessonBeginTime, lessonNum, unpaidLessonNum
+        select lessonBeginTime,
+               ifnull(lessonNum,0) as lessonNum,
+               ifnull(unpaidLessonNum,0) as unpaidLessonNum
         from (select begin_time as lessonBeginTime
               from lesson
               where EXISTS (select 1 from lesson_attend_log where stu_id= #{userId}
@@ -90,6 +92,8 @@
                 FROM judge_record c
                 WHERE t.problem_id = c.problem_id
                   AND t.problem_type = c.problem_type
+                  AND c.source=1
+                  AND c.source_id=t.lesson_id
                   AND c.submit_status = 3
                   AND c.user_id = #{userId})
     </select>

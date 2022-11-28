@@ -54,6 +54,10 @@ public class ExcelSummaryUtil {
 
     private static Long summaryIdUntil;
 
+    public ExcelSummaryUtil() {
+
+    }
+
 
     @PostConstruct
     public void init() {
@@ -96,8 +100,11 @@ public class ExcelSummaryUtil {
                 .registerWriteHandler(horizontalCellStyleStrategy)
                 .build();
         //生成工作簿
-        summary1(excelWriter);
-        summary2(excelWriter);
+
+        ExcelSummaryUtil excelSummaryUtil=new ExcelSummaryUtil();
+        excelSummaryUtil.test(excelWriter);
+//        summary1(excelWriter);
+//        summary2(excelWriter);
 //        summary5(excelWriter);
 //        summary6(excelWriter);
 //        summary7(excelWriter);
@@ -105,6 +112,17 @@ public class ExcelSummaryUtil {
         excelWriter.finish();
         response.flushBuffer();
     }
+
+    @Async
+    public void test(ExcelWriter excelWriter){
+        summary1(excelWriter);
+        summary2(excelWriter);
+        summary5(excelWriter);
+        summary6(excelWriter);
+        summary7(excelWriter);
+        summary8(excelWriter);
+    }
+
     public static void summary1(ExcelWriter excelWriter){
         List<List<String>> dataList = new ArrayList<>();
         List<String> list = new ArrayList<>();

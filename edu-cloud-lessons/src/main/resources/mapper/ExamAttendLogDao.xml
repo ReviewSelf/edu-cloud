@@ -151,7 +151,7 @@
         SELECT
             paperName,
             papersEndTime,
-            unpaidPapersNum
+            ifnull(unpaidPapersNum,0) as unpaidPapersNum
         FROM
             (
                 SELECT

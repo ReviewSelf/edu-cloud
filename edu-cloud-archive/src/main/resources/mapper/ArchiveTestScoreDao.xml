@@ -38,4 +38,10 @@
             (#{stuId},#{stuName},#{item.score},#{item.testId})
         </foreach>
     </insert>
+
+    <select id="selectTestInfoByIds" resultType="net.edu.module.vo.ArchiveTestNameToGoal">
+        SELECT score,test_name
+        from archive_test_score a left join archive_weight_assess_test b on  b.id =a.test_id
+        where b.course_id=#{courseId} and a.stu_id=#{stuId} and a.deleted=0
+    </select>
 </mapper>

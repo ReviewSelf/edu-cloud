@@ -11,12 +11,12 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveScoreBookConvert;
-import net.edu.module.dao.ArchiveScoreBookDao;
+import net.edu.module.dao.*;
+import net.edu.module.entity.ArchiveGoalScoreEntity;
 import net.edu.module.query.ArchiveScoreBookQuery;
 import net.edu.module.service.ArchiveScoreBookService;
-import net.edu.module.vo.ArchiveScoreBookClassInfoVO;
-import net.edu.module.vo.ArchiveScoreBookClassTableVO;
-import net.edu.module.vo.ArchiveScoreBookVO;
+import net.edu.module.utils.CalculateProportionUtil;
+import net.edu.module.vo.*;
 import net.maku.entity.ArchiveScoreBookEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,21 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
 
     @Autowired
     private ArchiveScoreBookDao archiveScoreBookDao;
+
+    @Autowired
+    private ArchiveSignDao archiveSignDao;
+    @Autowired
+    private ArchiveGoalScoreDao archiveGoalScoreDao;
+
+    @Autowired
+    private ArchiveAssessDao archiveAssessDao;
+
+    @Autowired
+    private ArchiveAssessScoreDao archiveAssessScoreDao;
+
+    @Autowired
+    private ArchiveTestScoreDao archiveTestScoreDao;
+
 
     @Override
     public PageResult<ArchiveScoreBookVO> page(ArchiveScoreBookQuery query) {
@@ -112,5 +127,26 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
         String classSchedule=dataForm.toString();
         System.out.println(classSchedule);
         archiveScoreBookDao.updateByDeleteId(id,classSchedule);
+    }
+
+    @Override
+    public List<ArchiveScoreInBookVO> getScoreListInBook(JSONObject classInfo, String id){
+        List<ArchiveScoreInBookVO> list=new ArrayList<>();
+        String courseId= String.valueOf(classInfo.get("courseId"));
+        List<ArchiveSignVO> archiveSignVO= archiveSignDao.getSignByBookId(id);
+        System.out.println(archiveSignVO);
+        int i=0;
+        for(ArchiveSignVO archiveSignVO1:archiveSignVO) {
+            ArchiveScoreInBookVO archiveScoreInBookVO = new ArchiveScoreInBookVO();
+            archiveScoreInBookVO.setId(i);
+            archiveScoreInBookVO.setStuId(archiveSignVO1.getStuId());
+            archiveScoreInBookVO.setStuName(archiveSignVO1.getStuName());
+            archiveScoreInBookVO.setAssessList(archiveAssessScoreDao.selectAssessByIds(courseId, archiveSignVO1.getStuId()));
+            archiveScoreInBookVO.setTestList(archiveTestScoreDao.selectTestInfoByIds(courseId, archiveSignVO1.getStuId()));
+            i++;
+            list.add(archiveScoreInBookVO);
+        }
+
+        return list;
     }
 }

@@ -6,6 +6,7 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.vo.ArchiveCourseVO;
 import net.edu.module.query.ArchiveCourseQuery;
 import net.edu.module.entity.ArchiveCourseEntity;
+import net.edu.module.vo.ArchivePlanItemVo;
 
 import java.util.List;
 
@@ -28,4 +29,6 @@ public interface ArchiveCourseService extends BaseService<ArchiveCourseEntity> {
     List<ArchiveCourseVO> selectArchiveCourseAll();
 
     List<ArchiveCourseVO> selectArchiveCourse(String grade);
+
+    List<ArchivePlanItemVo> selectPlanItemByCourseId(Long courseId);
 }

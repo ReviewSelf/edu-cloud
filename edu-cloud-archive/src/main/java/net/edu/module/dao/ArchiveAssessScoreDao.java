@@ -3,6 +3,7 @@ package net.edu.module.dao;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveAssessScoreEntity;
 import net.edu.module.entity.ArchiveTestScoreEntity;
+import net.edu.module.vo.ArchiveAssessNameToGoal;
 import net.edu.module.vo.ArchiveAssessScoreVO;
 import net.edu.module.vo.ArchiveExamAttendLogVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,4 +23,6 @@ public interface ArchiveAssessScoreDao extends BaseDao<ArchiveAssessScoreEntity>
     List<ArchiveAssessScoreEntity> selectAssessScoreByCourseId(Long courseId);
 
     String selectAssessScore(Long assessId,String stuId);
+
+    List<ArchiveAssessNameToGoal> selectAssessByIds(String courseId,String stuId);
 }

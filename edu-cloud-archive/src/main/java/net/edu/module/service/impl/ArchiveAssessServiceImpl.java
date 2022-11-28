@@ -241,24 +241,6 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
         return assessTableVo;
     }
 
-//    @Override
-//    @Transactional(rollbackFor = Exception.class)
-//    public Long save(ArchiveAssessExcelVO vo) {
-////        UserEntity entity = UserConvert.INSTANCE.convert(vo);
-////
-////        // 判断用户名是否存在
-////
-////
-////        // 保存用户
-////        baseMapper.insert(entity);
-////
-////        // 保存用户角色关系
-////        userRoleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
-////
-////        return entity.getId();
-//
-//    }
-
      @Override
      public List<ArchiveAssessVO>  selectWeightById(String id){
         return archiveAssessDao.selectWeightById(id);

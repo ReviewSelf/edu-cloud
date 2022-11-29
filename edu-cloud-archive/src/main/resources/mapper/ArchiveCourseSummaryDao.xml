@@ -95,5 +95,12 @@
        FROM archive_assess_score
        WHERE assess_id = #{assessId} and stu_id = #{stuId} and deleted = 0 and summary_id = #{summaryId}
       </select>
+    <select id="selectAssessScore" resultType="java.lang.Integer">
+        SELECT
+            SUM(SCORE)
+        FROM archive_assess_score
+        WHERE summary_id = #{summaryId} and course_id = #{courseId}
+        GROUP BY assess_id
+    </select>
 
 </mapper>

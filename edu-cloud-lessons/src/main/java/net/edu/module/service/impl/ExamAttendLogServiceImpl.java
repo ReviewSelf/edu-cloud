@@ -12,6 +12,7 @@ import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.framework.security.user.UserDetail;
 import net.edu.module.api.EduProblemApi;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.ExamAttendLogConvert;
@@ -202,36 +203,29 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
 
     @Override
     public Result<String> addAttendLogFromAbilityExam(Long examId, Long abilityId){
-        Long userId = SecurityUser.getUserId();
-        AbilityUserVo abilityUserVo = eduProblemApi.getUserAbility(userId).getData();
-        List<AbilityVO> abilityList = eduProblemApi.getAbilityList().getData();
-        //获取当前用户大等级
-        Long fatherAbilityId = abilityUserVo.getAbilityId();
-        //获取当前用户小等级
-        Long childAbilityId = abilityUserVo.getChildAbilityId();
+        AbilityVO userAbility=eduProblemApi.getAbility(SecurityUser.getUser().getAbilityId()).getData();
+        AbilityVO examAbility=eduProblemApi.getAbility(abilityId).getData();
         //判断大等级是否达标
-        if (fatherAbilityId < abilityId) {
-            return Result.error("报名等级需大于等于最低等级");
+        // TODO
+        if (userAbility.getLevel() < examAbility.getLevel()) {
+            return Result.error("抱歉，你的等级还无法参加考试，请升级后再来！");
         }
-
-
-        for (int i = 0 ; i<abilityList.size();i++){
-            if (abilityList.get(i).getId()==abilityId){
-                //判断小等级是否达标
-                if (abilityList.get(i).getChildren().get(abilityList.get(i).getChildren().size()-1).getId()==childAbilityId){
-                    //判断指标点是否达标
-                    Boolean isStandards = eduProblemApi.judgeStandards(abilityId,userId).getData();
-                    if (isStandards==true){
-                        baseMapper.insertAttendLogFromAbilityExam(SecurityUser.getUserId(), examId);
-                        return Result.ok("报名成功");
-                    }
-
+        // TODO
+        List<AbilityVO> item=eduProblemApi.getAbilityItemList().getData();
+        if(CollUtil.isNotEmpty(item)){
+            for (int i=0;i<item.size();i++){
+                if(item.get(i).getJudgeUnlock()==0){
+                    return Result.error("抱歉，你的"+item.get(i).getName()+"等级还还未达标，请达标后再来！");
                 }
             }
+            //判断指标点是否达标
+            Boolean isStandards = eduProblemApi.judgeStandards(item.get(item.size()-1).getId(),SecurityUser.getUserId()).getData();
+            if (!isStandards){
+                return Result.error("抱歉，你的"+item.get(item.size()-1).getName()+"等级还还未达标，请达标后再来！");
+            }
         }
-
-        return Result.error("不满足报名条件");
-
+        baseMapper.insertAttendLogFromAbilityExam(SecurityUser.getUserId(), examId);
+        return Result.ok("报名成功");
     }
 
     @Override

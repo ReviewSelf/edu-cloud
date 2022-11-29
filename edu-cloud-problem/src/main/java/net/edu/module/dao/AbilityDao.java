@@ -16,7 +16,6 @@ import java.util.List;
 @Mapper
 public interface AbilityDao extends BaseDao<AbilityEntity> {
 
-    List<AbilityVO> selectAbilityItemList(Integer abilityId, Long userId);
+    List<AbilityVO> selectAbilityItemList(Long abilityId, Long userId);
 
-    Long selectAbilityIdFromSysUser(Long userId);
 }

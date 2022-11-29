@@ -46,12 +46,15 @@ public interface EduProblemApi {
     @GetMapping("fill/problemInfo/{problemId}")
     Result<FillProblemVO> getFillProblemInfo(@PathVariable("problemId")  Long problemId);
 
-    @GetMapping("ability/getUserAbility")
-    Result<AbilityUserVo> getUserAbility(@RequestParam("userId") Long userId);
+    @GetMapping("ability/getAbility")
+    Result<AbilityVO> getAbility(@RequestParam("abilityId") Long abilityId);
+
+    @GetMapping("ability/item/list")
+     Result<List<AbilityVO>> getAbilityItemList();
 
     @GetMapping("ability/list")
     Result<List<AbilityVO>> getAbilityList();
 
-    @GetMapping("judgeStandards")
+    @GetMapping("ability/judgeStandards")
     Result<Boolean> judgeStandards(@RequestParam("abilityId") Long abilityId,@RequestParam("userId") Long userId);
 }

@@ -29,7 +29,6 @@ public interface AbilityService extends BaseService<AbilityEntity> {
 
     Boolean judgeUnlockAbility(Long lastAbilityId,Long abilityId,Long userId);
 
-    AbilityUserVo getUserAbility(Long userId);
 
 
     Boolean judgeStandards(Long abilityId,Long userId);

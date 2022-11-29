@@ -22,11 +22,6 @@
     order by LEVEL
     </select>
 
-    <select id="selectAbilityIdFromSysUser" resultType="java.lang.Long">
-        select ability_id
-        from sys_user
-        where id = #{userId}
-    </select>
 
 
 

@@ -31,7 +31,7 @@ public class UserDetail implements UserDetails {
     private Long orgId;
     private Integer status;
     private Integer superAdmin;
-    private Integer abilityId;
+    private Long abilityId;
     private Integer submitTimes;
     private Integer correctTimes;
     private List<Long> roleIdList;

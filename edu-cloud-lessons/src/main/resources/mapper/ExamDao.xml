@@ -39,7 +39,9 @@
         a.place,
         a.type,
         a.require_ability,
-        a.gain_ability_id
+        a.gain_ability_id,
+        (select name from ability t where a.require_ability=t.id) as requireAbilityName,
+        (select name from ability t where a.gain_ability_id=t.id) as gainAbilityName
         from exam a
         where a.deleted=0
         <if test="query.classId !=null">
@@ -104,7 +106,7 @@
         , a.begin_time as beginTime,
         a.end_time as endTime ,
         (select real_name from sys_user where id=a.teacher_id) as teacherName ,
-        a.time_limit astimeLimit,
+        a.time_limit as timeLimit,
         b.status,
         b.is_correcting as isCorrecting,
         b.score as grade,a.type,

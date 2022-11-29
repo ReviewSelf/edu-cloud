@@ -19,13 +19,9 @@
                  LEFT JOIN user_ability b ON a.id = b.ability_id
             AND b.user_id = #{userId}
         WHERE a.pid = #{abilityId}
+    order by LEVEL
     </select>
 
-    <select id="selectAbilityIdFromSysUser" resultType="java.lang.Long">
-        select ability_id
-        from sys_user
-        where id = #{userId}
-    </select>
 
 
 

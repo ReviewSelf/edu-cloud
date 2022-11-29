@@ -8,5 +8,5 @@ public interface UserAbilityDao {
 
     int insertUserAbility(Long abilityId, Long userId);
 
-    Long selectChildAbilityId(Long userId);
+
 }

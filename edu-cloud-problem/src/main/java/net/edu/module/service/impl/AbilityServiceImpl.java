@@ -1,5 +1,7 @@
 package net.edu.module.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.constant.Constant;
 import net.edu.framework.common.utils.TreeUtils;
@@ -34,8 +36,9 @@ public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntit
 
     @Override
     public List<AbilityVO> getAbilityList() {
-        List<AbilityEntity> list=baseMapper.selectList(null);
-
+        QueryWrapper<AbilityEntity> wrapper = new QueryWrapper<>();
+        wrapper.orderByAsc("level");
+        List<AbilityEntity> list=baseMapper.selectList(wrapper);
         return TreeUtils.build(AbilityConvert.INSTANCE.convertList(list), Constant.ROOT);
     }
 
@@ -87,13 +90,15 @@ public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntit
         }
     }
 
+
     @Override
-    public AbilityUserVo getUserAbility(Long userId) {
-        AbilityUserVo vo = new AbilityUserVo();
-        vo.setAbilityId(baseMapper.selectAbilityIdFromSysUser(userId));
-        vo.setChildAbilityId(userAbilityDao.selectChildAbilityId(userId));
-        return vo;
+    public Boolean judgeStandards(Long abilityId, Long userId) {
+        AbilityMapVO abilityMapVO =  abilityPointService.getAbilityMap(abilityId,userId);
+        for(AbilityPointVO abilityPointVO:abilityMapVO.getAbilityPointVOS()){
+            if(abilityPointVO.getStandardNum()<3 || abilityPointVO.getStandardNum() == null){
+                return false;
+            }
+        }
+        return true;
     }
-
-
 }

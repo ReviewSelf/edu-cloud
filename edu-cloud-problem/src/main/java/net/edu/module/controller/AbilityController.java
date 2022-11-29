@@ -82,10 +82,18 @@ public class AbilityController {
     }
 
 
-    @GetMapping("getUserAbility")
-    @Operation(summary = "获取用户等级（大等级和小等级）")
-    public Result<AbilityUserVo> getUserAbility(@RequestParam("userId") Long userId){
-        return Result.ok(abilityService.getUserAbility(userId));
+
+    @GetMapping("getAbility")
+    @Operation(summary = "获取等级详情")
+    public Result<AbilityVO> getAbility(@RequestParam("abilityId") Long abilityId){
+        return Result.ok(AbilityConvert.INSTANCE.convert(abilityService.getById(abilityId)));
+    }
+
+
+    @GetMapping("judgeStandards")
+    @Operation(summary = "判断指标点是否达标")
+    public Result<Boolean> judgeStandards(@RequestParam("abilityId") Long abilityId,@RequestParam("userId") Long userId){
+        return Result.ok(abilityService.judgeStandards(abilityId, userId));
     }
 
 }

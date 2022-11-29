@@ -231,6 +231,4 @@
         select name,weight from archive_assess
         where deleted=0 and course_id=#{id}
     </select>
-
-
 </mapper>

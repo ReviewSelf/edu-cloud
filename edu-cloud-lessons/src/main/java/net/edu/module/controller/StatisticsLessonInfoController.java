@@ -34,7 +34,7 @@ public class StatisticsLessonInfoController {
     }
 
     @GetMapping("/teacher")
-    @Operation(summary = "获取学生统计结果信息")
+    @Operation(summary = "获取老师统计结果信息")
     public Result<TeacherStatisticsInfoVO> getTeacherStatisticsInfo() {
         TeacherStatisticsInfoVO statisticsInfo = statisticsLessonInfoService.getTeacherStatisticsInfo(SecurityUser.getUserId());
         return Result.ok(statisticsInfo);

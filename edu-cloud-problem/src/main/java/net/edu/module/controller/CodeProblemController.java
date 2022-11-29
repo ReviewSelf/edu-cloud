@@ -66,7 +66,9 @@ public class CodeProblemController {
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid CodeProblemVO vo) {
-        vo.setMemoryLimit(vo.getMemoryLimit() * 1024);
+        if(vo.getMemoryLimit()!= null){
+            vo.setMemoryLimit(vo.getMemoryLimit() * 1024);
+        }
         codeProblemService.update(vo);
 
         return Result.ok();

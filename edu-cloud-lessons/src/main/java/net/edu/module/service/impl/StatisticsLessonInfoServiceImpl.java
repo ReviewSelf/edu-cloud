@@ -2,12 +2,14 @@ package net.edu.module.service.impl;
 
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import net.edu.module.dao.StatisticsLessonInfoDao;
 import net.edu.module.service.*;
 import net.edu.module.vo.StudentsStatisticsInfoVO;
 import net.edu.module.vo.TeacherStatisticsInfoVO;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 /**
@@ -65,6 +67,7 @@ public class StatisticsLessonInfoServiceImpl implements StatisticsLessonInfoServ
         return vo;
     }
 
+    @SneakyThrows
     @Override
     public TeacherStatisticsInfoVO getTeacherStatisticsInfo(Long userId) {
         Map<String ,String> map1 = getTeacherHomeworkStatisticsInfo(userId);

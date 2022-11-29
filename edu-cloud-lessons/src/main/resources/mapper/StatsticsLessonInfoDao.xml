@@ -5,8 +5,8 @@
 
     <select id="selectStudentHomeworkStatisticsInfo" resultType="java.util.HashMap">
         SELECT ifnull(homeworkCompleteProblemNum,0) as homeworkCompleteProblemNum,
-               homeworkEndTime,
-               ifnull(homeworkNum,0) as homeworkNum,
+               date_format(homeworkEndTime,'%Y-%m-%d %H:%i:%s') as homeworkEndTime,
+               ifnull(homeworkEndTime,0) as homeworkNum,
                ifnull(homeworkProblemNum,0) as homeworkProblemNum
         FROM (
                  SELECT homework_end_time AS homeworkEndTime
@@ -56,7 +56,7 @@
     </select>
 
     <select id="selectStudentLessonStatisticsInfo" resultType="java.util.HashMap">
-        select lessonBeginTime,
+        select date_format(lessonBeginTime,'%Y-%m-%d %H:%i:%s') as lessonBeginTime,
                ifnull(lessonNum,0) as lessonNum,
                ifnull(unpaidLessonNum,0) as unpaidLessonNum
         from (select begin_time as lessonBeginTime
@@ -75,7 +75,7 @@
     </select>
 
     <select id="selectStudentLessonProblemStatisticsInfo" resultType="java.util.HashMap">
-        SELECT count(1) as unpaidClassProblemNum
+        SELECT ifnull(count(1),0) as unpaidClassProblemNum
         FROM lesson_problem t
         WHERE type = 1
           AND used = 1
@@ -101,8 +101,8 @@
     <select id="selectTeacherHomeworkStatisticsInfo" resultType="java.util.HashMap">
         SELECT
             homeworkName,
-            homeworkEndTime,
-            homeworkNum
+            date_format(homeworkEndTime,'%Y-%m-%d %H:%i:%s') as homeworkEndTime,
+            ifnull(homeworkNum,0) as homeworkNum
         FROM
             ( SELECT sum( 1 ) AS homeworkNum FROM lesson WHERE homework_status = 1 AND teacher_id = #{userId} ) a,(
             SELECT
@@ -121,7 +121,7 @@
     </select>
 
     <select id="selectTeacherLessonStatisticsInfo" resultType="java.util.HashMap">
-        select lessonBeginTime, lessonNum, lessonName
+        select date_format(lessonBeginTime,'%Y-%m-%d %H:%i:%s') as lessonBeginTime, ifnull(lessonNum,0) as lessonNum, lessonName
         from (select begin_time as lessonBeginTime,name as lessonName
               from lesson
               where teacher_id = #{userId}

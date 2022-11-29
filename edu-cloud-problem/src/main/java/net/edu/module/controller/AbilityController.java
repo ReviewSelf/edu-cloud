@@ -88,4 +88,10 @@ public class AbilityController {
         return Result.ok(abilityService.getUserAbility(userId));
     }
 
+    @GetMapping("judgeStandards")
+    @Operation(summary = "判断指标点是否达标")
+    public Result<Boolean> judgeStandards(@RequestParam("abilityId") Long abilityId,@RequestParam("userId") Long userId){
+        return Result.ok(abilityService.judgeStandards(abilityId, userId));
+    }
+
 }

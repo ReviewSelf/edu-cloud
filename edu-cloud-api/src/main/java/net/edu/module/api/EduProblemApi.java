@@ -51,4 +51,7 @@ public interface EduProblemApi {
 
     @GetMapping("ability/list")
     Result<List<AbilityVO>> getAbilityList();
+
+    @GetMapping("judgeStandards")
+    Result<Boolean> judgeStandards(@RequestParam("abilityId") Long abilityId,@RequestParam("userId") Long userId);
 }

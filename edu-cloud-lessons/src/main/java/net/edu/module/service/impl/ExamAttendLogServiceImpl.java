@@ -202,20 +202,30 @@ public class ExamAttendLogServiceImpl extends BaseServiceImpl<ExamAttendLogDao, 
 
     @Override
     public Result<String> addAttendLogFromAbilityExam(Long examId, Long abilityId){
-        AbilityUserVo abilityUserVo = eduProblemApi.getUserAbility(SecurityUser.getUserId()).getData();
+        Long userId = SecurityUser.getUserId();
+        AbilityUserVo abilityUserVo = eduProblemApi.getUserAbility(userId).getData();
         List<AbilityVO> abilityList = eduProblemApi.getAbilityList().getData();
+        //获取当前用户大等级
         Long fatherAbilityId = abilityUserVo.getAbilityId();
+        //获取当前用户小等级
         Long childAbilityId = abilityUserVo.getChildAbilityId();
+        //判断大等级是否达标
         if (fatherAbilityId < abilityId) {
             return Result.error("报名等级需大于等于最低等级");
         }
 
+
         for (int i = 0 ; i<abilityList.size();i++){
             if (abilityList.get(i).getId()==abilityId){
-
+                //判断小等级是否达标
                 if (abilityList.get(i).getChildren().get(abilityList.get(i).getChildren().size()-1).getId()==childAbilityId){
-                    baseMapper.insertAttendLogFromAbilityExam(SecurityUser.getUserId(), examId);
-                    return Result.ok("报名成功");
+                    //判断指标点是否达标
+                    Boolean isStandards = eduProblemApi.judgeStandards(abilityId,userId).getData();
+                    if (isStandards==true){
+                        baseMapper.insertAttendLogFromAbilityExam(SecurityUser.getUserId(), examId);
+                        return Result.ok("报名成功");
+                    }
+
                 }
             }
         }

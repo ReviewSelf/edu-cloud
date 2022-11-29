@@ -95,5 +95,14 @@ public class AbilityServiceImpl extends BaseServiceImpl<AbilityDao, AbilityEntit
         return vo;
     }
 
-
+    @Override
+    public Boolean judgeStandards(Long abilityId, Long userId) {
+        AbilityMapVO abilityMapVO =  abilityPointService.getAbilityMap(abilityId,userId);
+        for(AbilityPointVO abilityPointVO:abilityMapVO.getAbilityPointVOS()){
+            if(abilityPointVO.getStandardNum()<3 || abilityPointVO.getStandardNum() == null){
+                return false;
+            }
+        }
+        return true;
+    }
 }

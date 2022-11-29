@@ -120,7 +120,7 @@ public class ExcelSummaryUtil {
         summary5(excelWriter);
         summary6(excelWriter);
         summary7(excelWriter);
-        summary8(excelWriter);
+//        summary8(excelWriter);
     }
 
     public static void summary1(ExcelWriter excelWriter){
@@ -250,6 +250,7 @@ public class ExcelSummaryUtil {
         dataList.add((list));
 
         //第三行空
+        list= new ArrayList<>();
         list.add("");
         dataList.add(list);
 

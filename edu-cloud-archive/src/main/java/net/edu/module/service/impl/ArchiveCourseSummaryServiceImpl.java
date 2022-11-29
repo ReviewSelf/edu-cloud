@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -101,29 +102,29 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
 
         //第一步，获取学生学号数组，学生总数
         Integer studentNum = archiveCourseSummaryDao.selectStudent(courseId);
-        System.out.println("学生总数：");
-        System.out.println(studentNum);
+//        System.out.println("学生总数：");
+//        System.out.println(studentNum);
         List<String> studentId = archiveCourseSummaryDao.selectStudentId(courseId);
-        System.out.println("学生id：");
-        System.out.println(studentId);
+//        System.out.println("学生id：");
+//        System.out.println(studentId);
         //第二步，获取课程下评测点的id和权重
         List<ArchiveAssessTestGradesVo> idAndWeight = archiveCourseSummaryDao.selectStudentIdAndWeight(courseId);
-        System.out.println("评测点ID和权重ByCourseId");
-        System.out.println(idAndWeight);
+//        System.out.println("评测点ID和权重ByCourseId");
+//        System.out.println(idAndWeight);
         //第三步，计算考核点成绩
         //3.1获取考核点总数以及考核点id
         Integer assessNum = archiveCourseSummaryDao.selectAssessNum(courseId);
-        System.out.println("考核点总数:");
-        System.out.println(assessNum);
+//        System.out.println("考核点总数:");
+//        System.out.println(assessNum);
         //3.2获取考核点id用为判断
         List<Integer> assessArr = archiveCourseSummaryDao.selectAssessId(courseId);
-        System.out.println("考核点id：");
-        System.out.println(assessArr);
+//        System.out.println("考核点id：");
+//        System.out.println(assessArr);
         //通过考核点分类
         for(int i = 0 ; i < assessNum ; i++) {
             List<ArchiveAssessTestGradesVo> studentTestScore = archiveCourseSummaryDao.selectStudentTestScore(assessArr.get(i));
-            System.out.println("学生成绩获取：");
-            System.out.println(studentTestScore);
+//            System.out.println("学生成绩获取：");
+//            System.out.println(studentTestScore);
             //通过学生分类
             double sum = 0;
             for(int j = 0 ; j < studentTestScore.size() ; j++) {
@@ -131,7 +132,7 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                 ArchiveAssessTestGradesVo vo = new ArchiveAssessTestGradesVo();
                 if(j + 1 < studentTestScore.size()) {
                     if(studentTestScore.get(j).getStuId().equals(studentTestScore.get(j + 1).getStuId())) {
-                        System.out.println("测试");
+//                        System.out.println("测试");
                     } else {
                         //保存考核点成绩并给sum重置
                         int res = (int) Math.round(sum);
@@ -142,8 +143,8 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                         vo.setScore(res);
                         vo.setSummaryId(summaryId);
                         archiveCourseSummaryDao.insertAssessScore(vo);
-                        System.out.println("结果");
-                        System.out.println(res);
+//                        System.out.println("结果");
+//                        System.out.println(res);
                         sum = 0;
                     }
                 } else {
@@ -155,8 +156,8 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                     vo.setScore(res);
                     vo.setSummaryId(summaryId);
                     archiveCourseSummaryDao.insertAssessScore(vo);
-                    System.out.println("结果");
-                    System.out.println(res);
+//                    System.out.println("结果");
+//                    System.out.println(res);
                     sum = 0;
                 }
                 for(int k = 0 ; k < idAndWeight.size() ; k++) {
@@ -177,13 +178,32 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
         //考核点得分
         String[][] scoreArr = new String[assessNum][studentNum];
         for(int i = 0 ; i < assessNum ; i++) {
-            System.out.println("1212");
+//            System.out.println("1212");
             for(int j = 0 ; j < studentNum ; j++) {
                 scoreArr[i][j] = archiveCourseSummaryDao.selectStudentAssessScore(assessArr.get(i) , studentId.get(j) , summaryId);
             }
         }
         tableHead.setAssessScore(scoreArr);
         return tableHead;
+    }
+
+    @Override
+    public List<Integer> getScoreEveRage(String courseId, String summaryId) {
+
+        //1.获取学生人数
+        Integer studentNum = archiveCourseSummaryDao.selectStudent(courseId);
+        //2.获取考核点总数
+        Integer assessNum = archiveCourseSummaryDao.selectAssessNum(courseId);
+        //3.获取每个考核点的总成绩并计算平均值
+        List<Integer> assessScore = archiveCourseSummaryDao.selectAssessScore(courseId , summaryId);
+        List<Integer> assessEvage = new ArrayList<>();
+        for(int i = 0 ; i < assessScore.size() ; i++) {
+            Integer x = assessScore.get(i) / studentNum;
+            System.out.println(x);
+            assessEvage.add(x);
+        }
+        System.out.println(assessEvage);
+        return assessEvage;
     }
 
     @Override

@@ -149,6 +149,12 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
         redisUtils.del(RedisKeys.getStuExam(examId,userId));
 
         threadPoolTaskExecutor.submit(new Thread(()->{
+            try {
+                //延迟1分钟自动批卷
+                Thread.sleep(60*1000L);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             //自动批卷
             eduJudgeApi.makePaper(examId,userId);
             //获取分数

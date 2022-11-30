@@ -150,7 +150,7 @@
     <select id="selectStudentExamStatisticsInfo" resultType="java.util.HashMap">
         SELECT
             paperName,
-            papersEndTime,
+            date_format(papersEndTime,'%Y-%m-%d %H:%i:%s') as papersEndTime,
             ifnull(unpaidPapersNum,0) as unpaidPapersNum
         FROM
             (
@@ -181,8 +181,8 @@
 
     <select id="selectTeacherExamStatisticsInfo" resultType="java.util.HashMap">
         SELECT
-            paperNum,
-            papersBeginTime,
+            ifnull(paperNum,0) as paperNum,
+            date_format(papersBeginTime,'%Y-%m-%d %H:%i:%s')  papersBeginTime,
             paperName
         FROM
             (

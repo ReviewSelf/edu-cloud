@@ -20,5 +20,18 @@
     </update>
 
 
+    <update id="updateTeachNotes">
+        update archive_score_book
+        set teaching_notes=#{dataForm}
+        where id=#{bookId} and deleted=0
+    </update>
+
+    <update id="updateAnswerNotes">
+        update archive_score_book
+        set answer_notes=#{dataForm}
+        where id=#{bookId} and deleted=0
+    </update>
+
+
 
 </mapper>

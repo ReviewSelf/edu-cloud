@@ -88,6 +88,7 @@
         <result property="submitContent" column="submit_content"/>
         <result property="submitImg" column="submit_img"/>
         <result property="submitTime" column="submit_time"/>
+        <result property="languageType" column="language_type"/>
         <result property="submitStatus" column="submit_status"/>
         <result property="judgeType" column="judge_type"/>
         <result property="judgeReason" column="judge_reason"/>
@@ -114,6 +115,7 @@
                t.judge_type,
                t.judge_reason,
                t.submit_time,
+               t.language_type,
                b.record_id,
                b.sample_id,
                b.runtime,
@@ -130,13 +132,16 @@
                      a.submit_status,
                      a.judge_type,
                      a.judge_reason,
-                     a.submit_time
+                     a.submit_time,
+                     a.language_type
               from judge_record a
               where a.problem_id = #{problemId}
                 and a.problem_type = #{problemType}
                 and a.source = #{source}
                 and a.source_id = #{sourceId}
-                and a.user_id = #{userId}
+                <if test="userId!=null ">
+                    and a.user_id = #{userId}
+                </if>
               order by a.update_time desc limit 1) t
                  left join judge_record_sample b
                            on t.id = b.record_id

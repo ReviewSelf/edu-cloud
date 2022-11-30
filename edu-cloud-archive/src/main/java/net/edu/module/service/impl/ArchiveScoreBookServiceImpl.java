@@ -117,15 +117,12 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
         JSONArray jsonArray=JSONUtil.parseArray(list.get(0).getClassSchedule());
         jsonArray.remove(Integer.parseInt(deleteId));
         String  classSchedule=JSONUtil.toJsonStr(jsonArray);
-        System.out.println(jsonArray);
-        System.out.println(classSchedule);
         archiveScoreBookDao.updateByDeleteId(id,classSchedule);
     }
 
     @Override
     public void  updateClassTable(String id,Object dataForm){
         String classSchedule=dataForm.toString();
-        System.out.println(classSchedule);
         archiveScoreBookDao.updateByDeleteId(id,classSchedule);
     }
 
@@ -134,7 +131,6 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
         List<ArchiveScoreInBookVO> list=new ArrayList<>();
         String courseId= String.valueOf(classInfo.get("courseId"));
         List<ArchiveSignVO> archiveSignVO= archiveSignDao.getSignByBookId(id);
-        System.out.println(archiveSignVO);
         int i=0;
         for(ArchiveSignVO archiveSignVO1:archiveSignVO) {
             ArchiveScoreInBookVO archiveScoreInBookVO = new ArchiveScoreInBookVO();
@@ -148,5 +144,17 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
         }
 
         return list;
+    }
+
+    @Override
+    public void addTeachNotes(String dataForm,String bookId){
+
+        archiveScoreBookDao.updateTeachNotes(dataForm,bookId);
+    }
+
+    @Override
+    public void addAnswerNotes(String dataForm,String bookId){
+
+        archiveScoreBookDao.updateAnswerNotes(dataForm,bookId);
     }
 }

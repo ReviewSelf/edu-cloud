@@ -147,7 +147,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
     public ArchiveGoalScoreInBooKVO getGradeInfo(JSONObject classInfo, String id){
         ArchiveGoalScoreInBooKVO archiveGoalScoreInBooKVO =new ArchiveGoalScoreInBooKVO();
         archiveGoalScoreInBooKVO.setMajorName(String.valueOf(classInfo.get("majorName")));
-        archiveGoalScoreInBooKVO.setClassName(String.valueOf(classInfo.get("class")));
+        archiveGoalScoreInBooKVO.setClassName(String.valueOf(classInfo.get("className")));
         List<ArchiveSignVO> archiveSignVO= archiveSignDao.getSignByBookId(id);
         int TargetNum=archiveSignVO.size();
         int actualNUm=0;

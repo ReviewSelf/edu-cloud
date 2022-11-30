@@ -51,4 +51,6 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
     String selectStudentAssessScore(Integer assessId, String stuId, String summaryId);
 
     List<Integer> selectAssessScore(String courseId, String summaryId);
+
+    Long selectCourseIdBySummaryId(Long summaryId);
 }

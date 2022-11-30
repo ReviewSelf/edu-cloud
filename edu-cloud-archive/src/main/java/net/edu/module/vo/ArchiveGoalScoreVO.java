@@ -23,6 +23,9 @@ public class ArchiveGoalScoreVO implements Serializable {
     @Schema(description = "自增id")
     private Long id;
 
+    @Schema(description = "总结id")
+    private Long summaryId;
+
     @Schema(description = "学号")
     private String stuId;
 

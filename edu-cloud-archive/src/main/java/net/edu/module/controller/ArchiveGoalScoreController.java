@@ -39,10 +39,10 @@ import java.util.List;
 public class ArchiveGoalScoreController {
     @Autowired
     private ArchiveGoalScoreService archiveGoalScoreService;
-    @GetMapping("{courseId}")
+    @GetMapping("general")
     @Operation(summary = "获取总评分数")
-    public Result<List<ArchiveGoalScoreVO>> getScore(@PathVariable("courseId") Long courseId){
-        return Result.ok(archiveGoalScoreService.selectGoalScoreByCourseId(courseId));
+    public Result<List<ArchiveGoalScoreVO>> getScore(@RequestParam("summaryId") Long summaryId,@RequestParam("courseId") Long courseId){
+        return Result.ok(archiveGoalScoreService.selectGoalScoreByCourseId(summaryId,courseId));
     }
     @PostMapping
     @Operation(summary = "插入")
@@ -54,8 +54,8 @@ public class ArchiveGoalScoreController {
 
     @GetMapping("sample")
     @Operation(summary = "样本分析")
-    public Result<List<ArchiveGoalPeopleVO>> sample(@RequestParam("courseId") Long courseId){
-        List<ArchiveGoalPeopleVO> sample = archiveGoalScoreService.getSample(courseId);
+    public Result<List<ArchiveGoalPeopleVO>> sample(@RequestParam("summaryId") Long summaryId){
+        List<ArchiveGoalPeopleVO> sample = archiveGoalScoreService.getSample(summaryId);
         return Result.ok(sample);
     }
     @PostMapping("grade")
@@ -69,8 +69,8 @@ public class ArchiveGoalScoreController {
 
     @GetMapping("unit")
     @Operation(summary = "个体分析")
-    public Result<List<ArchiveGoalScoreVO>> unit(@RequestParam("courseId") Long courseId){
-        List<ArchiveGoalScoreVO> unit = archiveGoalScoreService.getUnit(courseId);
+    public Result<List<ArchiveGoalScoreVO>> unit(@RequestParam("summaryId") Long summaryId){
+        List<ArchiveGoalScoreVO> unit = archiveGoalScoreService.getUnit(summaryId);
         return Result.ok(unit);
     }
 }

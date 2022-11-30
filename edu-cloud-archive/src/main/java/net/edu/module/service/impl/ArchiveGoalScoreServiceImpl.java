@@ -40,6 +40,8 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
     @Autowired
     private ArchiveWeightGoalDao archiveWeightGoalDao;
     @Autowired
+    private ArchiveCourseSummaryDao archiveCourseSummaryDao;
+    @Autowired
     private ArchiveWeightTargetCourseDao archiveWeightTargetCourseDao;
     @Autowired
     private ArchiveAssessScoreService archiveAssessScoreService;
@@ -61,16 +63,18 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
             entity.setTotal(archiveGoalScoreVO.getTotal().toString());
             entity.setStuId(archiveGoalScoreVO.getStuId());
             entity.setStuName(archiveGoalScoreVO.getStuName());
+            entity.setSummaryId(archiveGoalScoreVO.getSummaryId());
             list.add(entity);
         }
         archiveGoalScoreDao.insertGoalScore(list);
     }
 
-    //    获取样本分析
+    //    获取样本分析,根据summaryId
     @Override
-    public List<ArchiveGoalPeopleVO> getSample(Long courseId) {
+    public List<ArchiveGoalPeopleVO> getSample(Long summaryId) {
+        Long courseId = archiveCourseSummaryDao.selectCourseIdBySummaryId(summaryId);
         DecimalFormat df = new DecimalFormat("0.00");
-        List<ArchiveGoalScoreEntity> entities = archiveGoalScoreDao.selectGoalScore(courseId);
+        List<ArchiveGoalScoreEntity> entities = archiveGoalScoreDao.selectGoalScore(summaryId);
         //考试的数量
         int size = entities.get(0).getScore().substring(1, entities.get(0).getScore().length() - 1).split(",").length;
         System.out.println(size);
@@ -79,6 +83,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         int[] good = new int[size];
         int[] medium = new int[size];
         int[] pass = new int[size];
+
         int[] fail = new int[size];
         for (ArchiveGoalScoreEntity entity : entities) {
             for (int j = 0; j < size; j++) {
@@ -94,7 +99,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
                 } else fail[j]++;
             }
         }
-        List<ArchiveGoalScoreVO> vos = selectGoalScoreByCourseId(courseId);
+        List<ArchiveGoalScoreVO> vos = selectGoalScoreByCourseId(summaryId,courseId);
 
         Double[] avg = vos.get(0).getAvg();
         for (int i = 0; i < size; i++) {
@@ -113,10 +118,11 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         return list;
     }
 
-    //      获取个体分析
+    //      获取个体分析,根据summaryId
     @Override
-    public List<ArchiveGoalScoreVO> getUnit(Long courseId) {
-        List<ArchiveGoalScoreEntity> entities = archiveGoalScoreDao.selectGoalScore(courseId);
+    public List<ArchiveGoalScoreVO> getUnit(Long summaryId) {
+        List<ArchiveGoalScoreEntity> entities = archiveGoalScoreDao.selectGoalScore(summaryId);
+        Long courseId = archiveCourseSummaryDao.selectCourseIdBySummaryId(summaryId);
         //考试的数量
         int size = entities.get(0).getScore().substring(1, entities.get(0).getScore().length() - 1).split(",").length;
         List<Double> weights = archiveWeightAssessTestDao.selectTestByCourseId(courseId);
@@ -201,9 +207,10 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
     }
 
     @Override
-    public List<ArchiveGoalScoreVO> selectGoalScoreByCourseId(Long courseId) {
+    public List<ArchiveGoalScoreVO> selectGoalScoreByCourseId(Long summaryId,Long courseId) {
         //所有学生的所有考试的成绩
-        List<ArchiveAssessScoreEntity> scoreEntities = archiveAssessScoreDao.selectAssessScoreByCourseId(courseId);
+        List<ArchiveAssessScoreEntity> scoreEntities = archiveAssessScoreDao.selectAssessScoreByCourseId(summaryId);
+        System.out.println("1212"+scoreEntities);
         DecimalFormat df = new DecimalFormat("0.0");
         List<ArchiveWeightTargetCourseVO> WeightVOS = archiveWeightTargetCourseDao.selectCourseByCourseId(courseId);
         //教学目标的数量
@@ -276,6 +283,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
             avg[i] = Double.valueOf(df.format(avg[i] / list.size()));
         }
         list.get(0).setAvg(avg);
+        System.out.println(list.get(0));
         return list;
     }
 }

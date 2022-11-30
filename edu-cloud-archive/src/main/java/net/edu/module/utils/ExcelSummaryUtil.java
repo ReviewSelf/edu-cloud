@@ -54,6 +54,14 @@ public class ExcelSummaryUtil {
 
     private static Long summaryIdUntil;
 
+    private static List<ArchivePointAndTargetVO> archivePointAndTargetVOS;
+
+    private static List<ArchiveGoalScoreVO> archiveGoalScoreVOS;
+
+    private static ArchiveCourseSummaryEntity summaryEntity;
+
+    private static List<ArchiveWeightTargetCourseVO> archiveWeightTargetCourseVOS;
+
     public ExcelSummaryUtil() {
 
     }
@@ -74,6 +82,10 @@ public class ExcelSummaryUtil {
         courseIdUntil=courseId;
         summaryIdUntil=summaryId;
 
+        archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
+        archiveGoalScoreVOS = excelSummaryUtil.archiveGoalScoreService.selectGoalScoreByCourseId(summaryIdUntil,courseIdUntil);
+        summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
+        archiveWeightTargetCourseVOS = excelSummaryUtil.archiveWeightTargetCourseDao.selectCourseByCourseId(courseIdUntil);
         String name = "课程实施总结表.xlsx";
         ResponseHeadUtils.responseEXCELHead(response,name);
 
@@ -120,7 +132,7 @@ public class ExcelSummaryUtil {
         summary5(excelWriter);
         summary6(excelWriter);
         summary7(excelWriter);
-//        summary8(excelWriter);
+        summary8(excelWriter);
     }
 
     public static void summary1(ExcelWriter excelWriter){
@@ -285,7 +297,7 @@ public class ExcelSummaryUtil {
     public static void summary5(ExcelWriter excelWriter){
         List<String> list = new ArrayList<>();
         //设置表头
-        List<ArchivePointAndTargetVO> archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
+
         List<List<String>> dataList = new ArrayList<>();
         List<List<String>> headList = new ArrayList<>();
         List<String> head = new ArrayList<>();
@@ -330,12 +342,11 @@ public class ExcelSummaryUtil {
 
         //设置内容
 
-        List<ArchiveGoalScoreVO> archiveGoalScoreVOS = excelSummaryUtil.archiveGoalScoreService.selectGoalScoreByCourseId(courseIdUntil);
+
         //第三行
-        List<ArchiveWeightTargetCourseVO> WeightVOS = excelSummaryUtil.archiveWeightTargetCourseDao.selectCourseByCourseId(courseIdUntil);
         list.add("题目类型");
         list.add("题目类型");
-        for (int i = 0; i < WeightVOS.size(); i++) {
+        for (int i = 0; i < archiveWeightTargetCourseVOS.size(); i++) {
             list.add("教学目标"+(i+1));
         }
         list.add("总分");
@@ -397,10 +408,9 @@ public class ExcelSummaryUtil {
         List<List<String>> headList = new ArrayList<>();
         List<String> head = new ArrayList<>();
         //设置表头
-        List<ArchivePointAndTargetVO> archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
         String bigTitle = "考核分析表（样本）";
         String title = archivePointAndTargetVOS.get(0).getGrade()+'-'+(Integer.parseInt(archivePointAndTargetVOS.get(0).getGrade())+1)+'-'+archivePointAndTargetVOS.get(0).getSemester();
-        List<ArchiveGoalPeopleVO> sample = excelSummaryUtil.archiveGoalScoreService.getSample(courseIdUntil);
+        List<ArchiveGoalPeopleVO> sample = excelSummaryUtil.archiveGoalScoreService.getSample(summaryIdUntil);
         int sum = 0;//计算总人数
 
         sum+= sample.get(0).getExcellent();
@@ -486,13 +496,13 @@ public class ExcelSummaryUtil {
             dataList.add((list));
             list = new ArrayList<>();
         }
-        List<ArchiveGoalScoreVO> goalScoreVOS = excelSummaryUtil.archiveGoalScoreService.selectGoalScoreByCourseId(courseIdUntil);
+
         int Excellent=0,Good=0,Medium=0,Pass=0,Fail=0;
-        for (int i = 0; i < goalScoreVOS.size(); i++) {
-            if(goalScoreVOS.get(i).getTotal()>=90) Excellent++;
-            else if(goalScoreVOS.get(i).getTotal()>=80) Good++;
-            else if(goalScoreVOS.get(i).getTotal()>=70) Medium++;
-            else if(goalScoreVOS.get(i).getTotal()>=60) Pass++;
+        for (int i = 0; i < archiveGoalScoreVOS.size(); i++) {
+            if(archiveGoalScoreVOS.get(i).getTotal()>=90) Excellent++;
+            else if(archiveGoalScoreVOS.get(i).getTotal()>=80) Good++;
+            else if(archiveGoalScoreVOS.get(i).getTotal()>=70) Medium++;
+            else if(archiveGoalScoreVOS.get(i).getTotal()>=60) Pass++;
             else Fail++;
         }
         list.add("总体");
@@ -512,7 +522,7 @@ public class ExcelSummaryUtil {
         dataList.add((list));
 
         //最后一段
-        ArchiveCourseSummaryEntity summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
+
         list = new ArrayList<>();
         list.add("问题和改进措施");
         for (int i = 0; i < 5; i++) {
@@ -538,7 +548,6 @@ public class ExcelSummaryUtil {
         List<String> list = new ArrayList<>();
         List<List<String>> headList = new ArrayList<>();
         List<String> head = new ArrayList<>();
-        List<ArchivePointAndTargetVO> archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
 
         String bigTitle = "考核分析表（个体）";
         //设置表头
@@ -605,7 +614,6 @@ public class ExcelSummaryUtil {
             list = new ArrayList<>();
         }
 
-        ArchiveCourseSummaryEntity summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
         list.add("分析说明");
         for (int i = 0; i < size+2; i++) {
             list.add(summaryEntity.getAnalysisDescription());
@@ -629,7 +637,7 @@ public class ExcelSummaryUtil {
         List<String> list = new ArrayList<>();
         List<List<String>> headList = new ArrayList<>();
         List<String> head = new ArrayList<>();
-        List<ArchivePointAndTargetVO> archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
+
         Date date = new Date();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String bigTitle = "课程实施总结——" + archivePointAndTargetVOS.get(0).getName();
@@ -668,8 +676,8 @@ public class ExcelSummaryUtil {
         dataList.add((list));
         list= new ArrayList<>();
 
-        List<ArchiveWeightTargetCourseVO> courseVOList = excelSummaryUtil.archiveWeightTargetCourseService.selectCourseByCourseId(courseIdUntil);
-        for (ArchiveWeightTargetCourseVO archiveWeightTargetCourseVO : courseVOList) {
+
+        for (ArchiveWeightTargetCourseVO archiveWeightTargetCourseVO : archiveWeightTargetCourseVOS) {
             list.add(archiveWeightTargetCourseVO.getTeachTarget());
             list.add(archiveWeightTargetCourseVO.getEvaluationResult());
             list.add("达成途径：" + archiveWeightTargetCourseVO.getApproach() + "\n" + "评价依据："+ archiveWeightTargetCourseVO.getEvaluationBasis() + "\n" + "评价方式："+ archiveWeightTargetCourseVO.getEvaluationMethod());
@@ -677,7 +685,7 @@ public class ExcelSummaryUtil {
             list = new ArrayList<>();
         }
 
-        ArchiveCourseSummaryEntity summaryEntity = excelSummaryUtil.archiveCourseSummaryService.getById(summaryIdUntil);
+
         list.add("课程的持续改进");
         list.add("课程的持续改进");
         list.add("课程的持续改进");
@@ -729,7 +737,7 @@ public class ExcelSummaryUtil {
         //写入表头
         WriteSheet writeSheet = EasyExcel.writerSheet("课程实施总结表")
                 .head(headList)
-                .registerWriteHandler(new CustomMergeStrategy(dataList,2,0))
+                .registerWriteHandler(new CustomMergeStrategy(dataList,2,0,true,true))
 //                .registerWriteHandler(new CellRowHeightStyleStrategy())
                 .registerWriteHandler(new SimpleColumnWidthStyleStrategy(30))
                 .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())

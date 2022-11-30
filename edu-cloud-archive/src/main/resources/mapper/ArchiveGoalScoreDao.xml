@@ -23,6 +23,6 @@
     <select id="selectGoalScore" resultType="net.edu.module.entity.ArchiveGoalScoreEntity">
         select score,total,stu_id,stu_name
         from archive_goal_score
-        where course_id = #{courseId}
+        where summary_id = #{summaryId}
     </select>
 </mapper>

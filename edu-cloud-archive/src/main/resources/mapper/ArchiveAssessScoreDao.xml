@@ -22,8 +22,8 @@
         select
             stu_id,stu_name,score,assess_id
         from archive_assess_score
-        where deleted = 0 and course_id = #{courseId}
-        order by stu_id
+        where deleted = 0 and summary_id = #{summaryId}
+        order by stu_id,assess_id
     </select>
 
     <select id="selectAssessScore" resultType="java.lang.String">

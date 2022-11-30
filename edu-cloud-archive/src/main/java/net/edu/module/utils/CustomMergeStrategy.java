@@ -6,6 +6,7 @@ import com.alibaba.nacos.client.naming.utils.CollectionUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.xpath.operations.Bool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +29,18 @@ public class CustomMergeStrategy extends AbstractMergeStrategy {
     //从第几列开始进行列合并
     private Integer colIndex;
 
+    private Boolean isRow;
+
+    private Boolean isCol;
+
 
     // exportDataList为整个二维列表
-    public CustomMergeStrategy(List<List<String>> exportDataList, Integer rowIndex, Integer colIndex) {
+    public CustomMergeStrategy(List<List<String>> exportDataList, Integer rowIndex, Integer colIndex, Boolean isRow, Boolean isCol) {
         this.columnCountList = getGroupCountColumn(exportDataList);
         this.rowCountList = getGroupCountRow(exportDataList);
         this.rowIndex = rowIndex;
-        this.colIndex = colIndex;
+        this.isRow = isRow;//是否需要上下合并
+        this.isCol = isCol;//是否需要左右合并
     }
 
     @Override
@@ -44,34 +50,40 @@ public class CustomMergeStrategy extends AbstractMergeStrategy {
 
     private void mergeGroup(Sheet sheet) {
         //合并所有的行，上下合并
-        for (int i = 0; i < rowCountList.size(); i++) {
-            int rowCount = 0;
-            for (int j = 0; j < rowCountList.get(i).size(); j++) {
-                if (rowCountList.get(i).get(j) == 1) {
-                    rowCount++;
-                    continue;
+        if(isRow){
+            for (int i = 0; i < rowCountList.size(); i++) {
+                int rowCount = 0;
+                for (int j = 0; j < rowCountList.get(i).size(); j++) {
+                    if (rowCountList.get(i).get(j) == 1) {
+                        rowCount++;
+                        continue;
+                    }
+                    CellRangeAddress cellRangeAddress = new CellRangeAddress(rowCount + rowIndex, rowCount + rowIndex + rowCountList.get(i).get(j) - 1, i, i);
+                    sheet.addMergedRegionUnsafe(cellRangeAddress);
+                    rowCount += rowCountList.get(i).get(j);
                 }
-                CellRangeAddress cellRangeAddress = new CellRangeAddress(rowCount + rowIndex, rowCount + rowIndex + rowCountList.get(i).get(j) - 1, i, i);
-                sheet.addMergedRegionUnsafe(cellRangeAddress);
-                rowCount += rowCountList.get(i).get(j);
             }
         }
+
 
 
         //合并所有的列，左右合并
-        for (int i = 0; i < columnCountList.size(); i++) {
-            int rowCount = 0;
-            for (int j = 0; j < columnCountList.get(i).size(); j++) {
-                int x = columnCountList.get(i).get(j);
-                if (x == 1) {
-                    rowCount++;
-                    continue;
+        if(isCol){
+            for (int i = 0; i < columnCountList.size(); i++) {
+                int rowCount = 0;
+                for (int j = 0; j < columnCountList.get(i).size(); j++) {
+                    int x = columnCountList.get(i).get(j);
+                    if (x == 1) {
+                        rowCount++;
+                        continue;
+                    }
+                    CellRangeAddress cellRangeAddress = new CellRangeAddress(i + rowIndex, i + rowIndex, rowCount, rowCount + x - 1);
+                    sheet.addMergedRegionUnsafe(cellRangeAddress);
+                    rowCount += x;
                 }
-                CellRangeAddress cellRangeAddress = new CellRangeAddress(i + rowIndex, i + rowIndex, rowCount, rowCount + x - 1);
-                sheet.addMergedRegionUnsafe(cellRangeAddress);
-                rowCount += x;
             }
         }
+
     }
 
     // 该方法将整个二维数据表进行合并，返回可合并的列数，即左右合并

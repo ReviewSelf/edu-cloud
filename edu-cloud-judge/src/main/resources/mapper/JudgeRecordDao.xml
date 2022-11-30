@@ -7,10 +7,10 @@
             parameterType="net.edu.module.vo.JudgeRecordSubmitVO">
         insert into judge_record (problem_id, problem_type, source, source_id, user_id, submit_content, submit_img,
                                   language_type,
-                                  submit_status)
+                                  submit_status,file_path)
         values (#{problemId}, #{problemType}, #{source}, #{sourceId}, #{userId}, #{submitContent}, #{submitImg},
                 #{languageType},
-                #{submitStatus})
+                #{submitStatus},#{filePath})
     </insert>
     <select id="selectUpdateRecord" resultType="net.edu.module.vo.JudgeSampleResultVO">
         select record_id                               as recordId,

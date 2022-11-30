@@ -11,7 +11,6 @@ import net.edu.module.convert.ArchiveCourseSummaryConvert;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.service.ArchiveCourseSummaryService;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
-import net.edu.module.vo.ArchiveAssessByCourseIdVo;
 import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -133,5 +133,13 @@ public class ArchiveCourseSummaryController {
         Long courseId= Long.valueOf(object.get("courseId").toString());
         Long summaryId= Long.valueOf(object.get("summaryId").toString());
         archiveCourseSummaryService.createTeachingWord(courseId,summaryId,response);
+    }
+
+    @GetMapping("/getMannerPq")
+    @Operation(summary = "获取考核方式总占比")
+    public Result<List<BigDecimal>> getMannerPq(@RequestParam String courseId) {
+        List<BigDecimal> list = archiveCourseSummaryService.selectMannerPq(courseId);
+        System.out.println(list);
+        return Result.ok(list);
     }
 }

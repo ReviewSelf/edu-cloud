@@ -9,6 +9,7 @@ import net.edu.module.entity.ArchiveCourseSummaryEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -42,4 +43,6 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
     ArchiveAssessTestGradesVo getGradesTable(String courseId, String summaryId);
 
     List<Integer> getScoreEveRage(String courseId, String summaryId);
+
+    List<BigDecimal> selectMannerPq(String courseId);
 }

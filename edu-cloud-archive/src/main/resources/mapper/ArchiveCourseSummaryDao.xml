@@ -102,5 +102,12 @@
         WHERE summary_id = #{summaryId} and course_id = #{courseId}
         GROUP BY assess_id
     </select>
+    <select id="selectMannerPq" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(weight)
+        FROM archive_assess_manner
+        WHERE deleted = 0
+        GROUP BY manner_kind
+    </select>
 
 </mapper>

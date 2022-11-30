@@ -1,5 +1,6 @@
 package net.maku.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import com.baomidou.mybatisplus.annotation.*;
@@ -86,4 +87,10 @@ public class ArchiveScoreBookEntity {
 	 * 课程id
 	 */
 	private Long courseId;
+
+	/**
+	 * 辅导答疑
+	 */
+
+	private String answerNotes;
 }

@@ -22,5 +22,11 @@ public interface ArchiveScoreBookDao extends BaseDao<ArchiveScoreBookEntity> {
 
    void updateByDeleteId(String id, String classSchedule);
 
+   void updateTeachNotes(String dataForm,String bookId);
+
+   void updateAnswerNotes(String dataForm,String bookId);
+
+
+
 
 }

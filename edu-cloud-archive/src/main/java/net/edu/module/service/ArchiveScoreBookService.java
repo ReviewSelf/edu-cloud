@@ -41,5 +41,9 @@ public interface ArchiveScoreBookService extends BaseService<net.maku.entity.Arc
 
     void updateClassTable(String id,Object dataForm);
 
+    void addTeachNotes(String dataForm,String booKId);
+
+    void addAnswerNotes(String dataForm,String booKId);
+
 
 }

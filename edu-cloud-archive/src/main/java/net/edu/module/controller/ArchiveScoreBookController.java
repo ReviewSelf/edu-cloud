@@ -39,7 +39,7 @@ public class ArchiveScoreBookController {
     @Operation(summary = "分页")
     public Result<PageResult<ArchiveScoreBookVO>> page(@Valid ArchiveScoreBookQuery query){
         PageResult<ArchiveScoreBookVO> page = archiveScoreBookService.page(query);
-
+        System.out.println(page);
         return Result.ok(page);
     }
 
@@ -117,6 +117,23 @@ public class ArchiveScoreBookController {
         List<ArchiveScoreInBookVO> list =archiveScoreBookService.getScoreListInBook(classInfo,id);
         return Result.ok(list);
     }
+
+
+    @GetMapping("addTeachNotes")
+    @Operation(summary = "添加教学记事")
+    public Result<String> addTeachNotes(@RequestParam("dataForm")String dataForm,@RequestParam("bookId")String bookId){
+
+        archiveScoreBookService.addTeachNotes(dataForm,bookId);
+        return Result.ok();
+    }
+
+    @GetMapping("addAnswerNotes")
+    @Operation(summary = "添加辅导答疑")
+    public Result<String> addAnswerNotes(@RequestParam("dataForm")String dataForm,@RequestParam("bookId")String bookId){
+        archiveScoreBookService.addAnswerNotes(dataForm,bookId);
+        return Result.ok();
+    }
+
 
 
 

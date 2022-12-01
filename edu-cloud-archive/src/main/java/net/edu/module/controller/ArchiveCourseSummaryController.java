@@ -115,8 +115,8 @@ public class ArchiveCourseSummaryController {
 
     @GetMapping("/getGradesTable")
     @Operation(summary = "获取成绩录入表")
-    public Result<ArchiveAssessTestGradesVo> getGradesTable(@RequestParam String courseId , String summaryId) {
-        ArchiveAssessTestGradesVo list = archiveCourseSummaryService.getGradesTable(courseId , summaryId);
+    public Result<List<ArchiveAssessTestGradesVo>> getGradesTable(@RequestParam String courseId , String summaryId) {
+        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryService.getGradesTable(courseId , summaryId);
         return Result.ok(list);
     }
 

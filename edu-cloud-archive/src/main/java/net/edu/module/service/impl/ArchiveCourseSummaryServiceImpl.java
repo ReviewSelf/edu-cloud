@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -204,6 +205,12 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
         }
         System.out.println(assessEvage);
         return assessEvage;
+    }
+
+    @Override
+    public List<BigDecimal> selectMannerPq(String courseId) {
+        List<BigDecimal> list = archiveCourseSummaryDao.selectMannerPq(courseId);
+        return list;
     }
 
     @Override

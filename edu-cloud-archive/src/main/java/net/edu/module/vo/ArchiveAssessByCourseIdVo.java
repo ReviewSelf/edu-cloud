@@ -17,4 +17,12 @@ public class ArchiveAssessByCourseIdVo {
     private Integer courseId;
 
     private Integer targetId;
+
+    private Integer mannerId;
+
+    private String mannerName;
+
+    private BigDecimal mannerWeight;
+
+    private Integer mannerKind;
 }

@@ -9,6 +9,7 @@ import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -51,6 +52,8 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
     String selectStudentAssessScore(Integer assessId, String stuId, String summaryId);
 
     List<Integer> selectAssessScore(String courseId, String summaryId);
+
+    List<BigDecimal> selectMannerPq(String courseId);
 
     Long selectCourseIdBySummaryId(Long summaryId);
 }

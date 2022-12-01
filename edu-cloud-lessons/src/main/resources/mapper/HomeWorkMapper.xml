@@ -5,19 +5,19 @@
 
 
     <select id="getStudentHomeWorkPage" resultType="net.edu.module.vo.HomeWorkVO">
-            select
-                id,
-                lesson_id,
-                problem_id,
-                problem_name,
-                problem_type,
-                score,
-                begin_time,
-                end_time,
-                sort,
-                type,
-                used
-            from (SELECT
+        select
+            id,
+            lesson_id,
+            problem_id,
+            problem_name,
+            problem_type,
+            score,
+            begin_time,
+            end_time,
+            sort,
+            type,
+            used
+        from (SELECT
                   t1.id,
                   t1.lesson_id,
                   t1.problem_id,
@@ -30,12 +30,12 @@
                   t1.type,
                   t1.used,
                   (SELECT id from judge_record t3 where t3.problem_id=t1.problem_id and t3.user_id=#{query.StudentId} limit 1) as record
-                 FROM
+            FROM
                 ( SELECT id,stu_id,lesson_id,checkin_time,status,roll_call,create_time,update_time FROM lesson_attend_log WHERE stu_id =#{query.StudentId} ) t2
-                    LEFT JOIN lesson_problem t1 ON t2.lesson_id = t1.lesson_id
-                ORDER BY
-                begin_time ASC)	t4
-                where t4.record  is null and t4.used=1
+            LEFT JOIN lesson_problem t1 ON t2.lesson_id = t1.lesson_id
+        ORDER BY
+            begin_time ASC)	t4
+        where t4.record  is null and t4.used=1
     </select>
 
 

@@ -44,4 +44,12 @@
         from archive_test_score a left join archive_weight_assess_test b on  b.id =a.test_id
         where b.course_id=#{courseId} and a.stu_id=#{stuId} and a.deleted=0
     </select>
+
+    <select id="selectAssessInfoByIds" resultType="net.edu.module.vo.ArchiveAssessNameToGoal">
+        select 	SUM(d.score*d.weight)	 as score,d.name from
+            (SELECT score,b.test_name,stu_name,b.weight,c.name,assess_id
+             from archive_test_score a left join archive_weight_assess_test b on  b.id =a.test_id LEFT JOIN archive_assess c on c.id=assess_id
+
+             where b.course_id=#{courseId} and a.stu_id=#{stuId} and a.deleted=0	)d GROUP BY d.name
+    </select>
 </mapper>

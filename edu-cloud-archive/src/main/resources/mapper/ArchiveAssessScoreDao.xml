@@ -30,7 +30,7 @@
         select
             score
         from archive_assess_score
-        where deleted = 0 and stu_id = #{stuId} and assess_id = #{assessId}
+        where deleted = 0 and stu_id = #{stuId} and assess_id = #{assessId} and summary_id = #{summaryId}
         order by stu_id
     </select>
 

@@ -295,35 +295,35 @@ public class ExcelSummaryUtil {
         String course = courseIdUntil.toString(),summary = summaryIdUntil.toString();
         List<ArchiveAssessTestGradesVo> archiveAssessTestGradesVos = excelSummaryUtil.archiveCourseSummaryService.selectArchiveStep3(course, summary);
 
-        List<List<String>> headList = new ArrayList<>();
-        List<String> head = new ArrayList<>();
-        head.add("学号");
-        head.add("学号");
-        head.add("学号");
-        headList.add(head);
-        head = new ArrayList<>();
-
-        head.add("姓名");
-        head.add("姓名");
-        head.add("姓名");
-        headList.add(head);
-        head = new ArrayList<>();
-
-        for (int i = 0; i < archiveAssessTestGradesVos.get(0).getFinalScoreList().size(); i++) {
-            head.add("期末考核");
-            head.add("考核点"+(i+1));
-            head.add(String.valueOf(archiveAssessTestGradesVos.get(0).getFinalScoreList().get(i).getWeight()));
-            headList.add(head);
-            head = new ArrayList<>();
-        }
-
-        head.add("平时考核");
-        head.add("平时考核");
-        head.add("100");
-        headList.add(head);
-
         List<List<String>> dataList = new ArrayList<>();
+        List<List<String>> headList = new ArrayList<>();
         List<String> list = new ArrayList<>();
+        list.add("学号");
+        list.add("姓名");
+        for (int i = 0; i < archiveAssessTestGradesVos.get(0).getFinalScoreList().size(); i++) {
+            list.add("期末考核");
+        }
+        list.add("平时考核");
+        headList.add(list);
+        list = new ArrayList<>();
+
+        list.add("学号");
+        list.add("姓名");
+        for (int i = 0; i < archiveAssessTestGradesVos.get(0).getFinalScoreList().size(); i++) {
+            list.add("考核点"+(i+1));
+        }
+        list.add("平时考核");
+        headList.add(list);
+        list = new ArrayList<>();
+
+        list.add("学号");
+        list.add("姓名");
+        for (int i = 0; i < archiveAssessTestGradesVos.get(0).getFinalScoreList().size(); i++) {
+            list.add(String.valueOf(archiveAssessTestGradesVos.get(0).getFinalScoreList().get(i).getWeight()));
+        }
+        list.add("100");
+        headList.add(list);
+        list = new ArrayList<>();
 
         for (int i = 0; i < archiveAssessTestGradesVos.size(); i++) {
             list.add(archiveAssessTestGradesVos.get(i).getStudentId());
@@ -337,11 +337,10 @@ public class ExcelSummaryUtil {
         }
 
         WriteSheet writeSheet = EasyExcel.writerSheet("成绩录入表")
-                .head(headList)
-                .registerWriteHandler(new CustomMergeStrategy(headList, 0, 0, true, false))
+                .registerWriteHandler(new CustomMergeStrategy(headList, 0, 0, true, true))
                 .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
                 .build();
-
+        excelWriter.write(headList, writeSheet);
         excelWriter.write(dataList, writeSheet);
     }
 
@@ -634,7 +633,7 @@ public class ExcelSummaryUtil {
         foot.add((list));
 
         List<Integer> col = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
             col.add(i);
         }
         //写入表头
@@ -644,7 +643,7 @@ public class ExcelSummaryUtil {
                 .registerWriteHandler(new CustomMergeStrategy(dataList, 5, 0, true, false))
                 .registerWriteHandler(new CustomMergeStrategy(foot, 8 + sample.size() * 2, 0, false, true))
                 .registerWriteHandler(new HeightStyle(79.5, "问题和改进措施"))
-                .registerWriteHandler(new WidthStyle(2000, col))
+                .registerWriteHandler(new WidthStyle(3328, col))
                 .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
                 .build();
 
@@ -776,7 +775,6 @@ public class ExcelSummaryUtil {
         head.add(title);
         headList.add(head);
 
-
         //设置内容
         //第三行
         list.add("教学目标");
@@ -792,15 +790,23 @@ public class ExcelSummaryUtil {
         dataList.add((list));
         list = new ArrayList<>();
 
-
         for (int i = 0; i < archiveWeightTargetCourseVOS.size(); i++) {
             list.add(archiveWeightTargetCourseVOS.get(i).getTeachTarget());
             list.add(sample.get(i).getEvaluate());
-            list.add("达成途径：" + archiveWeightTargetCourseVOS.get(i).getApproach() + "\n" + "评价依据：" + archiveWeightTargetCourseVOS.get(i).getEvaluationBasis() + "\n" + "评价方式：" + archiveWeightTargetCourseVOS.get(i).getEvaluationMethod());
+            list.add("达成途径：" + archiveWeightTargetCourseVOS.get(i).getApproach());
+            dataList.add((list));
+            list = new ArrayList<>();
+            list.add(archiveWeightTargetCourseVOS.get(i).getTeachTarget());
+            list.add(sample.get(i).getEvaluate());
+            list.add("评价依据：" + archiveWeightTargetCourseVOS.get(i).getEvaluationBasis());
+            dataList.add((list));
+            list = new ArrayList<>();
+            list.add(archiveWeightTargetCourseVOS.get(i).getTeachTarget());
+            list.add(sample.get(i).getEvaluate());
+            list.add("评价方式：" + archiveWeightTargetCourseVOS.get(i).getEvaluationMethod());
             dataList.add((list));
             list = new ArrayList<>();
         }
-
 
         list.add("课程的持续改进");
         list.add("课程的持续改进");

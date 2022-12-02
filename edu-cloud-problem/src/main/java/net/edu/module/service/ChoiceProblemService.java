@@ -5,6 +5,7 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.query.ChoiceProblemQuery;
 import net.edu.module.entity.ChoiceProblemEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -37,4 +38,5 @@ public interface ChoiceProblemService extends BaseService<ChoiceProblemEntity> {
 
     ChoiceProblemVO getChoiceProblemInfo(Long problemId);
 
+    void importFromExcel(MultipartFile file);
 }

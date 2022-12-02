@@ -5,18 +5,25 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 
 import net.edu.framework.common.cache.RedisKeys;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.ExcelUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ChoiceProblemConvert;
 import net.edu.module.entity.ChoiceProblemEntity;
 import net.edu.module.query.ChoiceProblemQuery;
+import net.edu.module.vo.ChoiceOptionVO;
 import net.edu.module.vo.ChoiceProblemVO;
 import net.edu.module.dao.ChoiceProblemDao;
 import net.edu.module.service.ChoiceProblemService;
+import net.edu.module.vo.CodeProblemVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -124,6 +131,31 @@ public class ChoiceProblemServiceImpl extends BaseServiceImpl<ChoiceProblemDao, 
             redisUtils.set(RedisKeys.getProblemInfo(problemId,"choice"),choiceProblemVO,RedisUtils.MIN_TEN_EXPIRE);
         }
         return choiceProblemVO;
+    }
+
+
+    @Override
+    public void importFromExcel(MultipartFile file) {
+        List<ChoiceProblemVO> list= ExcelUtils.readSync(file,ChoiceProblemVO.class,3,0, ExcelUtils.getExcelFileType(file));
+        if(list!=null){
+            for (ChoiceProblemVO vo:list){
+                List<String> options = Arrays.asList(vo.getOptionsString().split("\n"));
+                List<String> isTrue = Arrays.asList(vo.getOptionsIsTrueString().split("\n"));
+                if(options.size() == 0 || isTrue.size() == 0 || options.size() != isTrue.size()){
+                    throw new ServerException("选项或答案的数量不正确！");
+                }
+                List<ChoiceOptionVO> choiceOptionVOList = new ArrayList<>();
+                for(int i = 0 ;i< options.size() ;i++){
+                    ChoiceOptionVO choiceOptionVO = new ChoiceOptionVO();
+                    choiceOptionVO.setProblemOption(options.get(i)) ;
+                    choiceOptionVO.setIsTrue("1".equals(isTrue.get(i)));
+                    choiceOptionVOList.add(choiceOptionVO);
+                }
+                vo.setOptions(choiceOptionVOList);
+                vo.setOptionNum(vo.getOptions().size());
+                save(vo);
+            }
+        }
     }
 
 }

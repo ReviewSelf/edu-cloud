@@ -36,9 +36,10 @@ public class CustomMergeStrategy extends AbstractMergeStrategy {
 
     // exportDataList为整个二维列表
     public CustomMergeStrategy(List<List<String>> exportDataList, Integer rowIndex, Integer colIndex, Boolean isRow, Boolean isCol) {
-        this.columnCountList = getGroupCountColumn(exportDataList);
-        this.rowCountList = getGroupCountRow(exportDataList);
+        this.columnCountList = getGroupCountColumn(exportDataList,isCol);
+        this.rowCountList = getGroupCountRow(exportDataList,isRow);
         this.rowIndex = rowIndex;
+//        this.colIndex = colIndex;
         this.isRow = isRow;//是否需要上下合并
         this.isCol = isCol;//是否需要左右合并
     }
@@ -58,7 +59,8 @@ public class CustomMergeStrategy extends AbstractMergeStrategy {
                         rowCount++;
                         continue;
                     }
-                    CellRangeAddress cellRangeAddress = new CellRangeAddress(rowCount + rowIndex, rowCount + rowIndex + rowCountList.get(i).get(j) - 1, i, i);
+                    CellRangeAddress cellRangeAddress;
+                    cellRangeAddress = new CellRangeAddress(rowCount + rowIndex, rowCount + rowIndex + rowCountList.get(i).get(j) - 1, i, i);
                     sheet.addMergedRegionUnsafe(cellRangeAddress);
                     rowCount += rowCountList.get(i).get(j);
                 }
@@ -87,8 +89,8 @@ public class CustomMergeStrategy extends AbstractMergeStrategy {
     }
 
     // 该方法将整个二维数据表进行合并，返回可合并的列数，即左右合并
-    private List<List<Integer>> getGroupCountColumn(List<List<String>> exportDataList) {
-        if (CollectionUtils.isEmpty(exportDataList)) {
+    private List<List<Integer>> getGroupCountColumn(List<List<String>> exportDataList,Boolean isCol) {
+        if (CollectionUtils.isEmpty(exportDataList) || !isCol) {
             return new ArrayList<>();
         }
 
@@ -120,8 +122,8 @@ public class CustomMergeStrategy extends AbstractMergeStrategy {
     }
 
     // 该方法将整个二维数据表进行合并，返回可合并的行数，即上下合并
-    private List<List<Integer>> getGroupCountRow(List<List<String>> exportDataList) {
-        if (CollectionUtils.isEmpty(exportDataList)) {
+    private List<List<Integer>> getGroupCountRow(List<List<String>> exportDataList,Boolean isRow) {
+        if (CollectionUtils.isEmpty(exportDataList) || !isRow) {
             return new ArrayList<>();
         }
 

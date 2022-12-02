@@ -111,6 +111,6 @@
     </select>
 
     <select id="selectCourseIdBySummaryId" resultType="java.lang.Long">
-        select course_id from archive_course_summary where summary_id = #{summaryId}
+        select course_id from archive_course_summary where id = #{summaryId}
     </select>
 </mapper>

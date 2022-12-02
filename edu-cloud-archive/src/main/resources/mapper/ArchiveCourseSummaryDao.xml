@@ -118,10 +118,11 @@ where course_id = #{courseId}
 group by stu_id, stu_name
     </select>
     <select id="selectFinalScore" resultType="net.edu.module.vo.ArchiveAssessTestScoreVo">
-       select
-    score as assessScore from archive_assess_score t1
-    where (select manner_kind from archive_assess_manner where t1.assess_id = assess_id limit 1) = 2 and t1.stu_id = #{stuId} and t1.summary_id = #{summaryId}
-    order by assess_id
+        select
+            score as assessScore , weight from archive_assess_score t1
+                                                   left join archive_assess t2 on t1.assess_id = t2.id
+        where (select manner_kind from archive_assess_manner where t1.assess_id = assess_id limit 1) = 2 and t1.stu_id = #{stuId} and t1.summary_id = #{summaryId}
+        order by assess_id
     </select>
     <select id="selectPeaceScore" resultType="net.edu.module.vo.ArchiveAssessTestScoreVo">
     select

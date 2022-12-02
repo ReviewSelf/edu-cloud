@@ -269,5 +269,48 @@
         FROM archive_assess_manner
         WHERE course_id = #{courseId} and deleted = 0
     </select>
+    <select id="selectAssessNumStep4" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) FROM archive_assess
+        WHERE course_id = #{courseId} and deleted = 0
+    </select>
+    <select id="selectAssessNameStep4" resultType="java.lang.String">
+        SELECT
+            name
+        FROM archive_assess
+        WHERE deleted = 0 and course_id = #{courseId}
+    </select>
+    <select id="selectTargetWeightArrStep4" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(weight)
+        FROM archive_weight_goal
+        WHERE deleted = 0 AND course_id = #{courseId}
+        GROUP BY target_id
+        ORDER BY target_id
+    </select>
+    <select id="selectAssessIdStep4" resultType="java.lang.Integer">
+        SELECT
+            id
+        FROM archive_assess
+        WHERE deleted = 0  and course_id = #{courseId}
+    </select>
+    <select id="selectTargetByCourseIdStep4" resultType="java.lang.Integer">
+        SELECT
+            COUNT(*) FROM archive_weight_target_course
+        WHERE course_id = #{courseId} and deleted = 0
+    </select>
+    <select id="selectTargetIdStep4" resultType="java.lang.Integer">
+        SELECT
+            target_id
+        FROM archive_weight_goal
+        WHERE deleted = 0 AND course_id = #{courseId}
+        GROUP BY target_id
+    </select>
+    <select id="selectTargetNameStep4" resultType="java.lang.String">
+        SELECT
+            goal_name
+        FROM archive_weight_target_course
+        WHERE deleted = 0 and course_id = #{courseId}
+    </select>
 
 </mapper>

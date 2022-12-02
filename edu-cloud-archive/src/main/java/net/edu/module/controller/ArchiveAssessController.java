@@ -180,6 +180,12 @@ public class ArchiveAssessController {
         return Result.ok(list);
     }
 
+    @GetMapping("/getWeightTableStep4")
+    @Operation(summary = "获取第四步第一个表格")
+    public Result<ArchiveAssessTableVo> getWeightTableStep4(@RequestParam Long courseId) {
+        ArchiveAssessTableVo list = archiveAssessService.getWeightTableStep4(courseId);
+        return Result.ok(list);
+    }
 
     @GetMapping("getArchiveAssess")
     @Operation(summary = "获取考核点权重")

@@ -11,6 +11,7 @@ import net.edu.module.convert.ArchiveCourseSummaryConvert;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.service.ArchiveCourseSummaryService;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
+import net.edu.module.vo.ArchiveAssessTableVo;
 import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.springframework.web.bind.annotation.*;
@@ -116,7 +117,8 @@ public class ArchiveCourseSummaryController {
     @GetMapping("/getGradesTable")
     @Operation(summary = "获取成绩录入表")
     public Result<List<ArchiveAssessTestGradesVo>> getGradesTable(@RequestParam String courseId , String summaryId) {
-        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryService.getGradesTable(courseId , summaryId);
+        archiveCourseSummaryService.getGradesTable(courseId , summaryId);
+        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryService.selectArchiveStep3(courseId , summaryId);
         return Result.ok(list);
     }
 
@@ -140,6 +142,13 @@ public class ArchiveCourseSummaryController {
     public Result<List<BigDecimal>> getMannerPq(@RequestParam String courseId) {
         List<BigDecimal> list = archiveCourseSummaryService.selectMannerPq(courseId);
         System.out.println(list);
+        return Result.ok(list);
+    }
+
+    @GetMapping("/getPeaceData")
+    @Operation(summary = "获取第二步平时考核方式下教学目标占比")
+    public Result<List<String>> getPeaceData(@RequestParam Integer courseId) {
+        List<String> list = archiveCourseSummaryService.selectPeaceData(courseId);
         return Result.ok(list);
     }
 }

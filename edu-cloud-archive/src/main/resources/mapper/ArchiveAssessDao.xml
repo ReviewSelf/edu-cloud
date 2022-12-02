@@ -200,18 +200,18 @@
     <select id="selectTargetByCourseId" resultType="java.lang.Integer">
         SELECT
             COUNT(*) FROM archive_weight_target_course
-            WHERE course_id = #{courseId} and deleted = 0
+        WHERE course_id = #{courseId} and deleted = 0
     </select>
     <select id="selectAssessSum" resultType="java.lang.Integer">
         SELECT
-            COUNT(*) FROM archive_assess
-        WHERE course_id = #{courseId} and deleted = 0
+            COUNT(*) FROM archive_assess t1
+        WHERE course_id = #{courseId} and deleted = 0 and  (select manner_kind from archive_assess_manner where t1.id = assess_id limit 1) = 2
     </select>
     <select id="selectTargetWeightArr" resultType="java.math.BigDecimal">
         SELECT
             SUM(weight)
-        FROM archive_weight_goal
-        WHERE deleted = 0 AND course_id = #{courseId}
+        FROM archive_weight_goal t1
+        WHERE deleted = 0 AND course_id = #{courseId} and (select manner_kind from archive_assess_manner where t1.assess_id = assess_id limit 1) = 2
         GROUP BY target_id
         ORDER BY target_id
     </select>
@@ -243,8 +243,8 @@
     <select id="selectAssessName" resultType="java.lang.String">
         SELECT
             name
-        FROM archive_assess
-        WHERE deleted = 0 and course_id = #{courseId}
+        FROM archive_assess t1
+        WHERE deleted = 0 and course_id = #{courseId} and  (select manner_kind from archive_assess_manner where t1.id = assess_id limit 1) = 2
     </select>
     <select id="selectTargetName" resultType="java.lang.String">
         SELECT

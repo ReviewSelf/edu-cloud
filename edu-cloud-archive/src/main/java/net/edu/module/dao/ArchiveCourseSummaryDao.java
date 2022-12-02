@@ -62,5 +62,20 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
 
     List<ArchiveAssessTestScoreVo> selectPeaceScore(String studentId, String summaryId);
 
+    Integer selectPeaceAssessNum(Integer courseId);
+
+    List<String> selectPeaceAssessName(Integer courseId);
+
+    List<BigDecimal> selectPeaceTargetWeightArr(Integer courseId);
+
+    List<Integer> selectTargetId(Integer courseId);
+
+    List<Integer> selectPeaceAssessId(Integer courseId);
+
+    Integer selectTargetByCourseId(Integer courseId);
+
+    List<String> selectTargetName(Integer courseId);
+
     Long selectCourseIdBySummaryId(Long summaryId);
+
 }

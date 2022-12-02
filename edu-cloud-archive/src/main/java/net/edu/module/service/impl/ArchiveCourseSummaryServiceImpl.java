@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveCourseSummaryConvert;
+import net.edu.module.dao.ArchiveAssessDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.service.ArchiveCourseService;
@@ -36,6 +37,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCourseSummaryDao, ArchiveCourseSummaryEntity> implements ArchiveCourseSummaryService {
+
+    @Autowired
+    private ArchiveAssessDao archiveAssessDao;
 
     @Autowired
     private ArchiveWeightTargetCourseService archiveWeightTargetCourseService;
@@ -95,7 +99,7 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
     @Override
-    public List<ArchiveAssessTestGradesVo> getGradesTable(String courseId, String summaryId) {
+    public void getGradesTable(String courseId, String summaryId) {
 
         List<ArchiveAssessTestGradesVo> idAndWeight = archiveCourseSummaryDao.selectStudentIdAndWeight(courseId);
         System.out.println("评测点ID和权重ByCourseId");
@@ -157,21 +161,6 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                 }
             }
         }
-
-        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryDao.selectStudentIdAndName(courseId);
-        System.out.println("学生姓名和id获取：");
-        System.out.println(list.get(1).getStudentId());
-        for(int i = 0 ; i < list.size() ; i++) {
-            list.get(i).setFinalScoreList(archiveCourseSummaryDao.selectFinalScore(list.get(i).getStudentId(), summaryId));
-        }
-        for(int i = 0 ; i < list.size() ; i++) {
-            list.get(i).setPeaceScoreList(archiveCourseSummaryDao.selectPeaceScore(list.get(i).getStudentId() , summaryId));
-            BigDecimal score = list.get(i).getPeaceScoreList().get(0).getWeight().multiply(list.get(i).getPeaceScoreList().get(0).getAssessScore());
-            list.get(i).setPeaceScore(score.toString());
-        }
-        System.out.println("加入学生成绩后");
-        System.out.println(list.get(1).getPeaceScore());
-        return list;
     }
 
     @Override
@@ -196,6 +185,53 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     @Override
     public List<BigDecimal> selectMannerPq(String courseId) {
         List<BigDecimal> list = archiveCourseSummaryDao.selectMannerPq(courseId);
+        return list;
+    }
+
+    @Override
+    public List<ArchiveAssessTestGradesVo> selectArchiveStep3(String courseId, String summaryId) {
+
+        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryDao.selectStudentIdAndName(courseId);
+        System.out.println("学生姓名和id获取：");
+        System.out.println(list.get(1).getStudentId());
+        for(int i = 0 ; i < list.size() ; i++) {
+            list.get(i).setFinalScoreList(archiveCourseSummaryDao.selectFinalScore(list.get(i).getStudentId(), summaryId));
+        }
+        for(int i = 0 ; i < list.size() ; i++) {
+            list.get(i).setPeaceScoreList(archiveCourseSummaryDao.selectPeaceScore(list.get(i).getStudentId() , summaryId));
+            BigDecimal score = list.get(i).getPeaceScoreList().get(0).getWeight().multiply(list.get(i).getPeaceScoreList().get(0).getAssessScore());
+            list.get(i).setPeaceScore(score.toString());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> selectPeaceData(Integer courseId) {
+        Integer TargetNum = archiveCourseSummaryDao.selectTargetByCourseId(courseId);
+        Integer AssessNum = archiveCourseSummaryDao.selectPeaceAssessNum(courseId);
+        List<String> AssessName = archiveCourseSummaryDao.selectPeaceAssessName(courseId);
+        List<BigDecimal> TargetWeightArr = archiveCourseSummaryDao.selectPeaceTargetWeightArr(courseId);
+        BigDecimal[][] AssessWeightArr = new BigDecimal[TargetNum][AssessNum];
+        BigDecimal[] TargetArr = new BigDecimal[TargetNum];
+        BigDecimal m = new BigDecimal(100);
+        for(int i = 0 ; i < TargetWeightArr.size() ; i++) {
+            TargetArr[i] = TargetWeightArr.get(i).multiply(m);
+        }
+        List<String> TargetName = archiveCourseSummaryDao.selectTargetName(courseId);
+        System.out.println("测试");
+        System.out.println(TargetName);
+        System.out.println(TargetNum);
+        System.out.println(AssessName);
+        System.out.println(AssessNum);
+        System.out.println(TargetArr);
+        System.out.println(TargetWeightArr);
+
+        List<String> list = new ArrayList<>();
+
+        for(int i = 0 ; i < TargetNum ; i++) {
+            list.add(TargetName.get(i) + '(' + TargetArr[i] + ')');
+        }
+
         return list;
     }
 

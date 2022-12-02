@@ -63,6 +63,16 @@
         SET weight = #{mannerWeight} , manner_kind = #{mannerKind}
         WHERE id = #{mannerId}
     </update>
+    <update id="updateArchiveManner">
+        UPDATE archive_assess_manner
+        SET deleted = 1
+        WHERE assess_id = #{ass} and course_id = #{cid}
+    </update>
+    <update id="updateByCourseId">
+         UPDATE archive_weight_goal
+        SET deleted = 1
+        WHERE assess_id = #{ass} and course_id = #{cid}
+    </update>
 
     <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">
         SELECT
@@ -168,7 +178,7 @@
             assess_id
         FROM
             archive_weight_goal
-        WHERE assess_id = #{assessId} and target_id = #{targetId}
+        WHERE assess_id = #{assessId} and target_id = #{targetId} and deleted = 0
     </select>
     <select id="selectWeightSum" resultType="java.math.BigDecimal">
         SELECT
@@ -251,13 +261,13 @@
             id
         FROM
             archive_assess_manner
-        WHERE assess_id = #{assessId} and target_id = #{targetId}
+        WHERE assess_id = #{assessId} and target_id = #{targetId} and deleted = 0
     </select>
     <select id="selectMannerWeight" resultType="java.math.BigDecimal">
         SELECT
             SUM(weight)
         FROM archive_assess_manner
-        WHERE course_id = #{courseId}
+        WHERE course_id = #{courseId} and deleted = 0
     </select>
 
 </mapper>

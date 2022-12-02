@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveCourseSummaryConvert;
-import net.edu.module.dao.ArchiveCourseDao;
-import net.edu.module.dao.ArchiveExamAttendLogDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.service.ArchiveCourseService;
@@ -97,33 +95,23 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
     @Override
-    public ArchiveAssessTestGradesVo getGradesTable(String courseId, String summaryId) {
+    public List<ArchiveAssessTestGradesVo> getGradesTable(String courseId, String summaryId) {
 
-        ArchiveAssessTestGradesVo tableHead = new ArchiveAssessTestGradesVo();
-
-        //第一步，获取学生学号数组，学生总数
-        Integer studentNum = archiveCourseSummaryDao.selectStudent(courseId);
-//        System.out.println("学生总数：");
-//        System.out.println(studentNum);
-        List<String> studentId = archiveCourseSummaryDao.selectStudentId(courseId);
-//        System.out.println("学生id：");
-//        System.out.println(studentId);
-        //第二步，获取课程下评测点的id和权重
         List<ArchiveAssessTestGradesVo> idAndWeight = archiveCourseSummaryDao.selectStudentIdAndWeight(courseId);
-//        System.out.println("评测点ID和权重ByCourseId");
-//        System.out.println(idAndWeight);
+        System.out.println("评测点ID和权重ByCourseId");
+        System.out.println(idAndWeight);
         //第三步，计算考核点成绩
         //3.1获取考核点总数以及考核点id
         Integer assessNum = archiveCourseSummaryDao.selectAssessNum(courseId);
-//        System.out.println("考核点总数:");
-//        System.out.println(assessNum);
+        System.out.println("考核点总数:");
+        System.out.println(assessNum);
         //3.2获取考核点id用为判断
         List<Integer> assessArr = archiveCourseSummaryDao.selectAssessId(courseId);
-//        System.out.println("考核点id：");
-//        System.out.println(assessArr);
+        System.out.println("考核点id：");
+        System.out.println(assessArr);
         //通过考核点分类
         for(int i = 0 ; i < assessNum ; i++) {
-            List<ArchiveAssessTestGradesVo> studentTestScore = archiveCourseSummaryDao.selectStudentTestScore(assessArr.get(i));
+            List<ArchiveAssessTestGradesVo> studentTestScore = archiveCourseSummaryDao.selectStudentTestScore(assessArr.get(i) , courseId);
 //            System.out.println("学生成绩获取：");
 //            System.out.println(studentTestScore);
             //通过学生分类
@@ -169,23 +157,21 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                 }
             }
         }
-        //学生id
-        tableHead.setStudentId(studentId);
-        System.out.println(tableHead);
-        //学生姓名
-        tableHead.setName(archiveCourseSummaryDao.selectStudentName());
-        //考核点名称
-        tableHead.setAssessName(archiveCourseSummaryDao.selectAssessName(courseId));
-        //考核点得分
-        String[][] scoreArr = new String[assessNum][studentNum];
-        for(int i = 0 ; i < assessNum ; i++) {
-//            System.out.println("1212");
-            for(int j = 0 ; j < studentNum ; j++) {
-                scoreArr[i][j] = archiveCourseSummaryDao.selectStudentAssessScore(assessArr.get(i) , studentId.get(j) , summaryId);
-            }
+
+        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryDao.selectStudentIdAndName(courseId);
+        System.out.println("学生姓名和id获取：");
+        System.out.println(list.get(1).getStudentId());
+        for(int i = 0 ; i < list.size() ; i++) {
+            list.get(i).setFinalScoreList(archiveCourseSummaryDao.selectFinalScore(list.get(i).getStudentId(), summaryId));
         }
-        tableHead.setAssessScore(scoreArr);
-        return tableHead;
+        for(int i = 0 ; i < list.size() ; i++) {
+            list.get(i).setPeaceScoreList(archiveCourseSummaryDao.selectPeaceScore(list.get(i).getStudentId() , summaryId));
+            BigDecimal score = list.get(i).getPeaceScoreList().get(0).getWeight().multiply(list.get(i).getPeaceScoreList().get(0).getAssessScore());
+            list.get(i).setPeaceScore(score.toString());
+        }
+        System.out.println("加入学生成绩后");
+        System.out.println(list.get(1).getPeaceScore());
+        return list;
     }
 
     @Override

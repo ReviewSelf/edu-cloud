@@ -6,6 +6,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.vo.ArchiveAssessTestGradesVo;
+import net.edu.module.vo.ArchiveAssessTestScoreVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -37,7 +38,7 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
 
     List<ArchiveAssessTestGradesVo> selectStudentIdAndWeight(String courseId);
 
-    List<ArchiveAssessTestGradesVo> selectStudentTestScore(Integer integer);
+    List<ArchiveAssessTestGradesVo> selectStudentTestScore(Integer assessId, String courseId);
 
     Integer selectAssessNum(String courseId);
 
@@ -54,6 +55,12 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
     List<Integer> selectAssessScore(String courseId, String summaryId);
 
     List<BigDecimal> selectMannerPq(String courseId);
+
+    List<ArchiveAssessTestGradesVo> selectStudentIdAndName(String courseId);
+
+    List<ArchiveAssessTestScoreVo> selectFinalScore(String stuId ,String summaryId);
+
+    List<ArchiveAssessTestScoreVo> selectPeaceScore(String studentId, String summaryId);
 
     Long selectCourseIdBySummaryId(Long summaryId);
 }

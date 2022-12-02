@@ -40,7 +40,7 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
 
     void createTeachingWord( Long courseId,Long summaryId,HttpServletResponse response) throws IOException;
 
-    ArchiveAssessTestGradesVo getGradesTable(String courseId, String summaryId);
+    List<ArchiveAssessTestGradesVo> getGradesTable(String courseId, String summaryId);
 
     List<Integer> getScoreEveRage(String courseId, String summaryId);
 

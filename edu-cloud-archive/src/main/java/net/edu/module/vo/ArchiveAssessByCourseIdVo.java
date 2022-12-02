@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 @Data
 public class ArchiveAssessByCourseIdVo {
 
+    private Integer id;
+
     private Integer assessId;
 
     private String name;

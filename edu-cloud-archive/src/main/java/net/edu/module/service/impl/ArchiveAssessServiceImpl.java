@@ -16,19 +16,14 @@ import net.edu.module.service.ArchiveWeightTargetAssessService;
 import net.edu.module.vo.*;
 import net.edu.module.dao.ArchiveAssessDao;
 import net.edu.module.service.ArchiveAssessService;
-import org.apache.poi.hpsf.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.Pattern;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -156,9 +151,11 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
 
     @Override
     public void deleteByCourseId(String courseId, String assessId) {
+        System.out.println(assessId);
         Integer cid = Integer.parseInt(courseId);
         Integer ass = Integer.parseInt(assessId);
         archiveAssessDao.updateByCourseId(cid , ass);
+        archiveAssessDao.updateArchiveManner(cid , ass);
     }
 
     @Override
@@ -172,14 +169,17 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
             mannerFlag = archiveAssessDao.selectArchiveMannerJuge(assess.get(i).getAssessId() , assess.get(i).getTargetId());
             if(mannerFlag == null) {
                 ArchiveAssessByCourseIdVo as = assess.get(i);
-                mannerId =  archiveAssessDao.insertAssessManner(as);
-                System.out.println(mannerId);
+                archiveAssessDao.insertAssessManner(as);
+                mannerId = as.getId();
+                        System.out.println(mannerId);
             } else {
                 archiveAssessDao.updateAssessManner(assess.get(i));
             }
             if(flag == null) {
                 assess.get(i).setMannerId(mannerId);
                 archiveAssessDao.insertAssessWeight(assess.get(i));
+                System.out.println("xxx");
+                System.out.println(assess.get(i));
 
             } else {
                 archiveAssessDao.updateAssessWeight(assess.get(i));
@@ -202,11 +202,7 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     public BigDecimal getWeightSum(ArchiveAssessByCourseIdVo assess) {
         return archiveAssessDao.selectWeightSum(assess);
     }
-    @Override
-    public List<String> getPsWeight(String courseId) {
 
-        return null;
-    }
     @Override
     public ArchiveAssessTableVo getWeightTable(ArchiveAssessByCourseIdVo assess) {
 

@@ -45,7 +45,7 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
 
     List<ArchiveAssessByCourseIdVo> selectAssessBycourseId(String courseId);
 
-    void updateByCourseId(Integer courseId, Integer assessId);
+    void updateByCourseId(Integer cid, Integer ass);
     void updateByTargetId(Integer courseId, Integer assessId);
 
     void insertAssessWeight(ArchiveAssessByCourseIdVo archiveAssessByCourseIdVo);
@@ -89,14 +89,7 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
 
     BigDecimal selectMannerWeight(String courseId);
 
-    Integer selectAssessNumPq(String courseId);
-
-    Integer selectAssessSumPq(String courseId);
-
-    List<String> selectAssessNamePq(String courseId);
-
-    List<BigDecimal> selectTargetWeightArrPq(String courseId);
-
-    String selectArchiveNowMannerId();
     List<ArchiveAssessVO> selectWeightById(String id);
+
+    void updateArchiveManner(Integer cid, Integer ass);
 }

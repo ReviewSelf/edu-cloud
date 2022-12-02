@@ -20,6 +20,10 @@ public class WidthStyle extends AbstractColumnWidthStyleStrategy {
     public WidthStyle(int width,List<Integer> col) {
         this.width = width;
         this.col = col;
+        for (int i = 0; i < col.size(); i++) {
+            System.out.println("123456789"+col.get(i));
+        }
+
     }
 
     @Override

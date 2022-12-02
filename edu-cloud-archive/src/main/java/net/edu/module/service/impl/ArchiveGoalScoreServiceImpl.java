@@ -267,6 +267,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
                 weight = 0;
             }
         }
+        System.out.println(list.get(0));
         list.get(0).setWeights(weights);
 
         //平均分

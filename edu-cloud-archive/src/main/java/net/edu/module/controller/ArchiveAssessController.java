@@ -189,10 +189,4 @@ public class ArchiveAssessController {
 
     }
 
-    @GetMapping("/getPsList")
-    @Operation(summary = "获取平时占比下的教学目标占比")
-    public Result<String> getPsList(@RequestParam String courseId) {
-        List<String> list = archiveAssessService.getPsWeight(courseId);
-        return Result.ok();
-    }
 }

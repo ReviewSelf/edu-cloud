@@ -138,8 +138,10 @@ public class WeChatController {
     @GetMapping("login/mini")
     public Object miniLogin(@RequestParam("code") String code){
 
-        log.info(code);
-        return weChatService.miniLogin(code);
+//        log.info(code);
+        Object object=weChatService.miniLogin(code);
+//        System.out.println(object);
+        return object;
 
     }
 

@@ -4,6 +4,8 @@ import com.alibaba.excel.write.style.row.AbstractRowHeightStyleStrategy;
 import org.apache.poi.ss.usermodel.Row;
 
 public class CellRowHeightStyleStrategy extends AbstractRowHeightStyleStrategy {
+
+
     @Override
     protected void setHeadColumnHeight(Row row, int relativeRowIndex) {
         //设置主标题行高为17.7

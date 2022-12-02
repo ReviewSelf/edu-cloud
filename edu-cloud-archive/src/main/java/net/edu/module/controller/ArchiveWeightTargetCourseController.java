@@ -75,9 +75,9 @@ public class ArchiveWeightTargetCourseController {
     }
 
     @GetMapping("course")
-    @Operation(summary = "根据课程id获取权重")
-    public Result<List<ArchiveWeightTargetCourseVO>> selectCourseByCourseId(@RequestParam("courseId") Long courseId){
-        return Result.ok(archiveWeightTargetCourseService.selectCourseByCourseId(courseId));
+    @Operation(summary = "根据课程id获取权重,仅用于总结第八步")
+    public Result<List<ArchiveWeightTargetCourseVO>> selectCourseByCourseId(@RequestParam("courseId") Long courseId,@RequestParam("summaryId") Long summaryId){
+        return Result.ok(archiveWeightTargetCourseService.selectCourseByCourseId(courseId,summaryId));
     }
 
     @PostMapping("target")

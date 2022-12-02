@@ -8,16 +8,17 @@ import java.util.List;
 public class ArchiveAssessTestGradesVo {
 
     //学号
-    private List<String> studentId;
+    private String studentId;
 
     //姓名
-    private List<String> name;
+    private String studentName;
 
-    //考核点名称
-    private List<String> assessName;
+    //期末考核点所获分数
+    private List<ArchiveAssessTestScoreVo> finalScoreList;
 
-    //考核点所获分数
-    private String assessScore[][];
+    private List<ArchiveAssessTestScoreVo> peaceScoreList;
+
+    private String peaceScore;
 
     private Double weight;
 

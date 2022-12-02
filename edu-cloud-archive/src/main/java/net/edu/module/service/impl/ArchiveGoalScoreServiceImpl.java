@@ -75,6 +75,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         Long courseId = archiveCourseSummaryDao.selectCourseIdBySummaryId(summaryId);
         DecimalFormat df = new DecimalFormat("0.00");
         List<ArchiveGoalScoreEntity> entities = archiveGoalScoreDao.selectGoalScore(summaryId);
+        System.out.println(entities.get(0));
         //考试的数量
         int size = entities.get(0).getScore().substring(1, entities.get(0).getScore().length() - 1).split(",").length;
         System.out.println(size);
@@ -244,7 +245,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
                     //每个教学目标的考核点id
                     Long assessId = weightGoalEntity.getAssessId();
                     //根据学生id和考核点id查到成绩
-                    String score = archiveAssessScoreDao.selectAssessScore(assessId, goalScoreVO.getStuId());
+                    String score = archiveAssessScoreDao.selectAssessScore(assessId, goalScoreVO.getStuId(),summaryId);
                     sum += Double.parseDouble(score) * weight;
                 }
                 total += sum;

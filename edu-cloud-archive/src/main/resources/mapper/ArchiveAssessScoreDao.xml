@@ -30,14 +30,14 @@
         select
             score
         from archive_assess_score
-        where deleted = 0 and stu_id = #{stuId} and assess_id = #{assessId}
+        where deleted = 0 and stu_id = #{stuId} and assess_id = #{assessId} and summary_id = #{summaryId}
         order by stu_id
     </select>
 
     <select id="selectAssessByIds" resultType="net.edu.module.vo.ArchiveAssessNameToGoal">
         SELECT score,name,stu_name
         from archive_assess_score a left join archive_assess b on a.assess_id=b.id
-        where  a.course_id=2 and a.stu_id=18402070123 and a.deleted=0
+        where  a.course_id=#{courseId} and a.stu_id=#{stuId} and a.deleted=0
     </select>
 
 </mapper>

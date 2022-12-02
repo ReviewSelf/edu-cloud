@@ -236,6 +236,51 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
     @Override
+    public List<ArchiveAssessGradesDtVo> selectArchiveGradesDt(String courseId, String summaryId) {
+        List<ArchiveAssessGradesDtVo> list = new ArrayList<>();
+        Integer AssessNum = archiveCourseSummaryDao.selectAssessNum(courseId);
+        List<Integer> AssessId = archiveCourseSummaryDao.selectAssessId(courseId);
+        System.out.println("测试：");
+        System.out.println(AssessNum);
+        System.out.println(AssessId);
+
+        for(int i = 0 ; i < 5 ; i++) {
+
+            ArchiveAssessGradesDtVo x = new ArchiveAssessGradesDtVo();
+            switch (i) {
+                case 1:
+                    x.setName("优秀人数(0.9)");
+                    list.add(x);
+                    break;
+                case 2:
+                    x.setName("良好人数(0.8)");
+                    list.add(x);
+                case 3:
+                    x.setName("中等人数(0.7)");
+                    list.add(x);
+                    break;
+                case 4:
+                    x.setName("及格人数(0.6)");
+                    list.add(x);
+                    break;
+                case 5:
+                    x.setName("不及格(0)");
+                    list.add(x);
+                    break;
+            }
+        }
+        for(int i = 0 ; i < list.size() ; i++) {
+           for(int j = 0 ; j < AssessNum ; j++) {
+               if(i == 0) {
+                   int n = archiveCourseSummaryDao.selectOutstanding(AssessId.get(j) , summaryId);
+               }
+           }
+        }
+        System.out.println(list);
+        return null;
+    }
+
+    @Override
     public void createTeachingWord(Long courseId, Long summaryId, HttpServletResponse response) {
         System.out.println(courseId+" "+summaryId);
         List<ArchivePlanItemVo> archivePlanItemVoList=archiveCourseService.selectPlanItemByCourseId(courseId);

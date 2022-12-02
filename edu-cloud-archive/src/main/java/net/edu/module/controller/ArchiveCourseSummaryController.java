@@ -11,6 +11,7 @@ import net.edu.module.convert.ArchiveCourseSummaryConvert;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.service.ArchiveCourseSummaryService;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
+import net.edu.module.vo.ArchiveAssessGradesDtVo;
 import net.edu.module.vo.ArchiveAssessTableVo;
 import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
@@ -150,5 +151,12 @@ public class ArchiveCourseSummaryController {
     public Result<List<String>> getPeaceData(@RequestParam Integer courseId) {
         List<String> list = archiveCourseSummaryService.selectPeaceData(courseId);
         return Result.ok(list);
+    }
+
+    @GetMapping("/getGradesDt")
+    @Operation(summary = "获取成绩分布表")
+    public Result<List<ArchiveAssessGradesDtVo>> getGradesDt(@RequestParam String courseId , String summaryId) {
+        List<ArchiveAssessGradesDtVo> list = archiveCourseSummaryService.selectArchiveGradesDt(courseId , summaryId);
+        return Result.ok();
     }
 }

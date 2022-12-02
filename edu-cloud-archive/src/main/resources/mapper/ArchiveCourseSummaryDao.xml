@@ -176,4 +176,10 @@ group by stu_id, stu_name
     <select id="selectCourseIdBySummaryId" resultType="java.lang.Long">
         select course_id from archive_course_summary where id = #{summaryId}
     </select>
+    <select id="selectOutstanding" resultType="java.lang.Integer">
+        select
+            count(score)
+        from archive_assess_score
+        where score > 90 and summary_id = #{summaryId} and assess_id = #{assessId};
+    </select>
 </mapper>

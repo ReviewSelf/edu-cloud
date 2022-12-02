@@ -2,6 +2,7 @@ package net.edu.module.dao;
 
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveTestScoreEntity;
+import net.edu.module.vo.ArchiveAssessNameToGoal;
 import net.edu.module.vo.ArchiveExamAttendLogVO;
 import net.edu.module.vo.ArchiveTestNameToGoal;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,6 @@ public interface ArchiveTestScoreDao extends BaseDao<ArchiveTestScoreEntity> {
     List<ArchiveExamAttendLogVO> selectExamAttendLogByExamId(Long aLong);
 
     List<ArchiveTestNameToGoal> selectTestInfoByIds(String courseId,String stuId);
+
+    List<ArchiveAssessNameToGoal> selectAssessInfoByIds(String courseId,String stuId);
 }

@@ -139,6 +139,9 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
             archiveScoreInBookVO.setStuName(archiveSignVO1.getStuName());
             archiveScoreInBookVO.setAssessList(archiveAssessScoreDao.selectAssessByIds(courseId, archiveSignVO1.getStuId()));
             archiveScoreInBookVO.setTestList(archiveTestScoreDao.selectTestInfoByIds(courseId, archiveSignVO1.getStuId()));
+            //评测点权重得出期末等分数写法（暂不使用）
+//            archiveScoreInBookVO.setAssessList(archiveTestScoreDao.selectAssessInfoByIds(courseId, archiveSignVO1.getStuId()));
+
             i++;
             list.add(archiveScoreInBookVO);
         }

@@ -49,10 +49,7 @@ public class SysAuthController {
     @Operation(summary = "微信小程序登录")
     public Result<SysTokenVO> wxMini(@RequestBody SysWeChatLoginVO login) {
 
-        log.info(login.toString());
         SysTokenVO token = sysAuthService.loginByUnionId(login);
-
-        log.info(token.toString());
         return Result.ok(token);
     }
 

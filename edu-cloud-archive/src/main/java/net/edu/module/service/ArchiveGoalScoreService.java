@@ -23,11 +23,11 @@ public interface ArchiveGoalScoreService extends BaseService<ArchiveGoalScoreEnt
 
     void insertGoalScore(List<ArchiveGoalScoreVO> vo);
 
-    List<ArchiveGoalPeopleVO> getSample(Long courseId);
+    List<ArchiveGoalPeopleVO> getSample(Long summaryId);
 
     List<ArchiveGoalScoreVO> getUnit(Long courseId);
 
 //    第五步分数
-    List<ArchiveGoalScoreVO> selectGoalScoreByCourseId(Long courseId);
+    List<ArchiveGoalScoreVO> selectGoalScoreByCourseId(Long summaryId,Long courseId);
     ArchiveGoalScoreInBooKVO getGradeInfo(JSONObject classInfo, String id);
 }

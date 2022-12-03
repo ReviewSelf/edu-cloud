@@ -119,7 +119,7 @@ public class ArchiveAssessController {
     @Operation(summary = "通过targetId查找考核点")
     public Result<List<ArchiveAssessByCourseIdVo>> getAssessByTargetId(@RequestParam String targetId) {
         List<ArchiveAssessByCourseIdVo> list = archiveAssessService.getAssessByTargetId(targetId);
-        System.out.println(list);
+        System.out.println(targetId);
         return Result.ok(list);
     }
 
@@ -134,6 +134,8 @@ public class ArchiveAssessController {
     @PostMapping("/saveAssessWeight")
     @Operation(summary = "教学目标绑定考核点")
     public Result<String> saveAssessWeight(@RequestBody List<ArchiveAssessByCourseIdVo> assess) {
+        System.out.println("判断：");
+        System.out.println(assess);
         archiveAssessService.saveAssessWeight(assess);
         return Result.ok();
     }
@@ -162,6 +164,15 @@ public class ArchiveAssessController {
         }
     }
 
+    @GetMapping("/getMannerWeight")
+    @Operation(summary = "获取考核方式权重富余")
+    public Result<BigDecimal> getMannerWeight(@RequestParam String courseId) {
+        BigDecimal sumMore = archiveAssessService.getMannerWeight(courseId);
+        System.out.println("考核方式测试");
+        System.out.println(sumMore);
+        return Result.ok(sumMore);
+    }
+
     @PostMapping("/getWeightTable")
     @Operation(summary = "获取第二步表格相关")
     public Result<ArchiveAssessTableVo> getWeightTable(@RequestBody ArchiveAssessByCourseIdVo assess) {
@@ -177,4 +188,5 @@ public class ArchiveAssessController {
         return Result.ok(archiveAssessVO);
 
     }
+
 }

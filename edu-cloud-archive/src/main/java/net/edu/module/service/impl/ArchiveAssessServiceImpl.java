@@ -16,19 +16,14 @@ import net.edu.module.service.ArchiveWeightTargetAssessService;
 import net.edu.module.vo.*;
 import net.edu.module.dao.ArchiveAssessDao;
 import net.edu.module.service.ArchiveAssessService;
-import org.apache.poi.hpsf.Decimal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.Pattern;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -103,6 +98,17 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     }
 
     @Override
+    public BigDecimal getMannerWeight(String courseId) {
+        BigDecimal sum = archiveAssessDao.selectMannerWeight(courseId);
+        if(sum != null) {
+            BigDecimal Bsum = sum.setScale(2);
+            BigDecimal One = new BigDecimal(1.00);
+            return One.subtract(Bsum);
+        } else
+            return null;
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
@@ -145,21 +151,40 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
 
     @Override
     public void deleteByCourseId(String courseId, String assessId) {
+        System.out.println(assessId);
         Integer cid = Integer.parseInt(courseId);
         Integer ass = Integer.parseInt(assessId);
         archiveAssessDao.updateByCourseId(cid , ass);
+        archiveAssessDao.updateArchiveManner(cid , ass);
     }
 
     @Override
     public void saveAssessWeight(List<ArchiveAssessByCourseIdVo> assess) {
+        System.out.println(assess);
         String flag;
+        String mannerFlag;
         for(int i = 0 ; i < assess.size() ; i++) {
-            flag = archiveAssessDao.selectArchiveAssessIdJuge(assess.get(i).getAssessId() , assess.get(i).getTargetId());
+            Integer mannerId = assess.get(i).getMannerId();
+                    flag = archiveAssessDao.selectArchiveAssessIdJuge(assess.get(i).getAssessId() , assess.get(i).getTargetId());
+            mannerFlag = archiveAssessDao.selectArchiveMannerJuge(assess.get(i).getAssessId() , assess.get(i).getTargetId());
+            if(mannerFlag == null) {
+                ArchiveAssessByCourseIdVo as = assess.get(i);
+                archiveAssessDao.insertAssessManner(as);
+                mannerId = as.getId();
+                        System.out.println(mannerId);
+            } else {
+                archiveAssessDao.updateAssessManner(assess.get(i));
+            }
             if(flag == null) {
+                assess.get(i).setMannerId(mannerId);
                 archiveAssessDao.insertAssessWeight(assess.get(i));
+                System.out.println("xxx");
+                System.out.println(assess.get(i));
+
             } else {
                 archiveAssessDao.updateAssessWeight(assess.get(i));
             }
+
         }
     }
 

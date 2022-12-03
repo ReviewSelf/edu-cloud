@@ -19,8 +19,12 @@
     </update>
 
     <insert id="insertAssessWeight">
-        INSERT INTO archive_weight_goal(assess_id , target_id , course_id , weight)
-        VALUES (#{assessId} , #{targetId} , #{courseId} , #{weight})
+        INSERT INTO archive_weight_goal(assess_id , target_id , course_id , weight , manner_id)
+        VALUES (#{assessId} , #{targetId} , #{courseId} , #{weight} , #{mannerId})
+    </insert>
+    <insert id="insertAssessManner" useGeneratedKeys="true" keyProperty="id" parameterType="net.edu.module.vo.ArchiveAssessByCourseIdVo">
+        INSERT INTO archive_assess_manner(assess_id , target_id , course_id , weight , manner_kind)
+        VALUES (#{assessId} , #{targetId} , #{courseId} , #{mannerWeight} , #{mannerKind})
     </insert>
     <update id="updateArchiveAssess1">
         update archive_assess
@@ -34,7 +38,7 @@
     </update>
     <update id="updateAssessWeight">
         update archive_weight_goal
-        set weight = #{weight}
+        set weight = #{weight} , manner_id = #{mannerId}
         WHERE assess_id = #{assessId} and target_id = #{targetId}
     </update>
     <update id="updateByTargetId">
@@ -53,6 +57,21 @@
         update archive_assess
         set deleted = 1
         where course_id = #{courseId} and target_id = #{targetId} and id=#{assessId}
+    </update>
+    <update id="updateAssessManner">
+        UPDATE archive_assess_manner
+        SET weight = #{mannerWeight} , manner_kind = #{mannerKind}
+        WHERE id = #{mannerId}
+    </update>
+    <update id="updateArchiveManner">
+        UPDATE archive_assess_manner
+        SET deleted = 1
+        WHERE assess_id = #{ass} and course_id = #{cid}
+    </update>
+    <update id="updateByCourseId">
+         UPDATE archive_weight_goal
+        SET deleted = 1
+        WHERE assess_id = #{ass} and course_id = #{cid}
     </update>
 
     <select id="selectArchiveAssessByPage" resultType="net.edu.module.vo.ArchiveAssessVO">
@@ -142,18 +161,24 @@
             t1.weight,
             t1.course_id as courseId,
             t1.target_id as targetId,
-            t2.name
+            t2.name,
+            (case t3.manner_kind when '1' then '平时考核' when '2' then '期末考核' else '' end) as mannerName,
+            t3.id as mannerId,
+            t3.weight as mannerWeight,
+            t3.manner_kind as mannerKind
         FROM
             archive_weight_goal t1
-        LEFT JOIN archive_assess t2 ON t1.assess_id = t2.id
+                RIGHT JOIN archive_assess t2 ON t1.assess_id = t2.id
+                RIGHT JOIN archive_assess_manner t3 on t1.manner_id = t3.id
         WHERE t1.target_id = #{targetId} and t1.deleted = 0
+        ORDER BY t3.id
     </select>
     <select id="selectArchiveAssessIdJuge" resultType="java.lang.String">
         SELECT
             assess_id
         FROM
             archive_weight_goal
-        WHERE assess_id = #{assessId} and target_id = #{targetId}
+        WHERE assess_id = #{assessId} and target_id = #{targetId} and deleted = 0
     </select>
     <select id="selectWeightSum" resultType="java.math.BigDecimal">
         SELECT
@@ -175,18 +200,18 @@
     <select id="selectTargetByCourseId" resultType="java.lang.Integer">
         SELECT
             COUNT(*) FROM archive_weight_target_course
-            WHERE course_id = #{courseId} and deleted = 0
+        WHERE course_id = #{courseId} and deleted = 0
     </select>
     <select id="selectAssessSum" resultType="java.lang.Integer">
         SELECT
-            COUNT(*) FROM archive_assess
-        WHERE course_id = #{courseId} and deleted = 0
+            COUNT(*) FROM archive_assess t1
+        WHERE course_id = #{courseId} and deleted = 0 and  (select manner_kind from archive_assess_manner where t1.id = assess_id limit 1) = 2
     </select>
     <select id="selectTargetWeightArr" resultType="java.math.BigDecimal">
         SELECT
             SUM(weight)
-        FROM archive_weight_goal
-        WHERE deleted = 0 AND course_id = #{courseId}
+        FROM archive_weight_goal t1
+        WHERE deleted = 0 AND course_id = #{courseId} and (select manner_kind from archive_assess_manner where t1.assess_id = assess_id limit 1) = 2
         GROUP BY target_id
         ORDER BY target_id
     </select>
@@ -218,8 +243,8 @@
     <select id="selectAssessName" resultType="java.lang.String">
         SELECT
             name
-        FROM archive_assess
-        WHERE deleted = 0 and course_id = #{courseId}
+        FROM archive_assess t1
+        WHERE deleted = 0 and course_id = #{courseId} and  (select manner_kind from archive_assess_manner where t1.id = assess_id limit 1) = 2
     </select>
     <select id="selectTargetName" resultType="java.lang.String">
         SELECT
@@ -231,4 +256,18 @@
         select name,weight from archive_assess
         where deleted=0 and course_id=#{id}
     </select>
+    <select id="selectArchiveMannerJuge" resultType="java.lang.String">
+        SELECT
+            id
+        FROM
+            archive_assess_manner
+        WHERE assess_id = #{assessId} and target_id = #{targetId} and deleted = 0
+    </select>
+    <select id="selectMannerWeight" resultType="java.math.BigDecimal">
+        SELECT
+            SUM(weight)
+        FROM archive_assess_manner
+        WHERE course_id = #{courseId} and deleted = 0
+    </select>
+
 </mapper>

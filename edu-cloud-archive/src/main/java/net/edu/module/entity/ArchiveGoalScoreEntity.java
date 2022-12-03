@@ -16,6 +16,11 @@ public class ArchiveGoalScoreEntity extends BaseEntity {
     private Long id;
 
     /**
+     * 总结id
+     */
+    private Long summaryId;
+
+    /**
      * 学号
      */
     private String stuId;

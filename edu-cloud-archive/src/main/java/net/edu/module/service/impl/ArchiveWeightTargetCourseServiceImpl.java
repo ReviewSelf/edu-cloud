@@ -84,9 +84,9 @@ public class ArchiveWeightTargetCourseServiceImpl extends BaseServiceImpl<Archiv
     }
 
     @Override
-    public List<ArchiveWeightTargetCourseVO> selectCourseByCourseId(Long courseId) {
+    public List<ArchiveWeightTargetCourseVO> selectCourseByCourseId(Long courseId,Long summaryId) {
         List<ArchiveWeightTargetCourseVO> archiveWeightTargetCourseVOS = archiveWeightTargetCourseDao.selectCourseByCourseId(courseId);
-        List<ArchiveGoalPeopleVO> sample = archiveGoalScoreService.getSample(courseId);
+        List<ArchiveGoalPeopleVO> sample = archiveGoalScoreService.getSample(summaryId);
         for (int i = 0; i < archiveWeightTargetCourseVOS.size(); i++) {
             archiveWeightTargetCourseVOS.get(i).setEvaluationResult(String.valueOf(sample.get(i).getEvaluate()));
         }

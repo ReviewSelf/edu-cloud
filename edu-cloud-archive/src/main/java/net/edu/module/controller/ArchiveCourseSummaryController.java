@@ -11,7 +11,7 @@ import net.edu.module.convert.ArchiveCourseSummaryConvert;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.service.ArchiveCourseSummaryService;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
-import net.edu.module.vo.ArchiveAssessByCourseIdVo;
+import net.edu.module.vo.ArchiveAssessTableVo;
 import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -115,8 +116,9 @@ public class ArchiveCourseSummaryController {
 
     @GetMapping("/getGradesTable")
     @Operation(summary = "获取成绩录入表")
-    public Result<ArchiveAssessTestGradesVo> getGradesTable(@RequestParam String courseId , String summaryId) {
-        ArchiveAssessTestGradesVo list = archiveCourseSummaryService.getGradesTable(courseId , summaryId);
+    public Result<List<ArchiveAssessTestGradesVo>> getGradesTable(@RequestParam String courseId , String summaryId) {
+        archiveCourseSummaryService.getGradesTable(courseId , summaryId);
+        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryService.selectArchiveStep3(courseId , summaryId);
         return Result.ok(list);
     }
 
@@ -133,5 +135,20 @@ public class ArchiveCourseSummaryController {
         Long courseId= Long.valueOf(object.get("courseId").toString());
         Long summaryId= Long.valueOf(object.get("summaryId").toString());
         archiveCourseSummaryService.createTeachingWord(courseId,summaryId,response);
+    }
+
+    @GetMapping("/getMannerPq")
+    @Operation(summary = "获取考核方式总占比")
+    public Result<List<BigDecimal>> getMannerPq(@RequestParam String courseId) {
+        List<BigDecimal> list = archiveCourseSummaryService.selectMannerPq(courseId);
+        System.out.println(list);
+        return Result.ok(list);
+    }
+
+    @GetMapping("/getPeaceData")
+    @Operation(summary = "获取第二步平时考核方式下教学目标占比")
+    public Result<List<String>> getPeaceData(@RequestParam Integer courseId) {
+        List<String> list = archiveCourseSummaryService.selectPeaceData(courseId);
+        return Result.ok(list);
     }
 }

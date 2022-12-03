@@ -136,15 +136,17 @@ public class WeChatServiceImpl implements WeChatService {
 
     @Override
     public Object miniLogin(String code) {
-        System.out.println(WeChatApiUtils.getMiniUserUrl(code));
+//        System.out.println(WeChatApiUtils.getMiniUserUrl(code));
         String result =  HttpUtil.get(WeChatApiUtils.getMiniUserUrl(code));
-        System.out.println(result);
+//        System.out.println(result);
         JSONObject jsonObject = JSONUtil.parseObj(result);
         String unionId=jsonObject.getStr("unionid");
         if(unionId!=null){
             SysWeChatLoginVO sysWeChatLoginVO=new SysWeChatLoginVO();
             sysWeChatLoginVO.setUnionId(unionId);
-            return eduSysApi.wxMini(sysWeChatLoginVO);
+            Object object=eduSysApi.wxMini(sysWeChatLoginVO);
+//            System.out.println(object);
+            return object;
         }else {
             throw new ServerException("unionId获取失败");
         }

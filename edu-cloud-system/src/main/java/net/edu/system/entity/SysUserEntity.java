@@ -59,5 +59,5 @@ public class SysUserEntity extends BaseEntity {
 
     private Integer submitTimes;
     private Integer correctTimes;
-    private Integer abilityId;
+    private Long abilityId;
 }

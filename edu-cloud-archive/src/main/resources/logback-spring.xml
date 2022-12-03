@@ -112,7 +112,7 @@
     </appender>
 
     <!-- 开发环境，控制台打印-->
-    <springProfile name="dev">
+    <springProfile name="dev,dev2">
         <logger name="net.edu" level="DEBUG" />
         <root level="INFO">
             <appender-ref ref="CONSOLE" />

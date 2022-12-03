@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveCourseSummaryConvert;
-import net.edu.module.dao.ArchiveCourseDao;
-import net.edu.module.dao.ArchiveExamAttendLogDao;
+import net.edu.module.dao.ArchiveAssessDao;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.service.ArchiveCourseService;
@@ -25,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +37,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCourseSummaryDao, ArchiveCourseSummaryEntity> implements ArchiveCourseSummaryService {
+
+    @Autowired
+    private ArchiveAssessDao archiveAssessDao;
 
     @Autowired
     private ArchiveWeightTargetCourseService archiveWeightTargetCourseService;
@@ -96,33 +99,23 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
     @Override
-    public ArchiveAssessTestGradesVo getGradesTable(String courseId, String summaryId) {
+    public void getGradesTable(String courseId, String summaryId) {
 
-        ArchiveAssessTestGradesVo tableHead = new ArchiveAssessTestGradesVo();
-
-        //第一步，获取学生学号数组，学生总数
-        Integer studentNum = archiveCourseSummaryDao.selectStudent(courseId);
-//        System.out.println("学生总数：");
-//        System.out.println(studentNum);
-        List<String> studentId = archiveCourseSummaryDao.selectStudentId(courseId);
-//        System.out.println("学生id：");
-//        System.out.println(studentId);
-        //第二步，获取课程下评测点的id和权重
         List<ArchiveAssessTestGradesVo> idAndWeight = archiveCourseSummaryDao.selectStudentIdAndWeight(courseId);
-//        System.out.println("评测点ID和权重ByCourseId");
-//        System.out.println(idAndWeight);
+        System.out.println("评测点ID和权重ByCourseId");
+        System.out.println(idAndWeight);
         //第三步，计算考核点成绩
         //3.1获取考核点总数以及考核点id
         Integer assessNum = archiveCourseSummaryDao.selectAssessNum(courseId);
-//        System.out.println("考核点总数:");
-//        System.out.println(assessNum);
+        System.out.println("考核点总数:");
+        System.out.println(assessNum);
         //3.2获取考核点id用为判断
         List<Integer> assessArr = archiveCourseSummaryDao.selectAssessId(courseId);
-//        System.out.println("考核点id：");
-//        System.out.println(assessArr);
+        System.out.println("考核点id：");
+        System.out.println(assessArr);
         //通过考核点分类
         for(int i = 0 ; i < assessNum ; i++) {
-            List<ArchiveAssessTestGradesVo> studentTestScore = archiveCourseSummaryDao.selectStudentTestScore(assessArr.get(i));
+            List<ArchiveAssessTestGradesVo> studentTestScore = archiveCourseSummaryDao.selectStudentTestScore(assessArr.get(i) , courseId);
 //            System.out.println("学生成绩获取：");
 //            System.out.println(studentTestScore);
             //通过学生分类
@@ -168,23 +161,6 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                 }
             }
         }
-        //学生id
-        tableHead.setStudentId(studentId);
-        System.out.println(tableHead);
-        //学生姓名
-        tableHead.setName(archiveCourseSummaryDao.selectStudentName());
-        //考核点名称
-        tableHead.setAssessName(archiveCourseSummaryDao.selectAssessName(courseId));
-        //考核点得分
-        String[][] scoreArr = new String[assessNum][studentNum];
-        for(int i = 0 ; i < assessNum ; i++) {
-//            System.out.println("1212");
-            for(int j = 0 ; j < studentNum ; j++) {
-                scoreArr[i][j] = archiveCourseSummaryDao.selectStudentAssessScore(assessArr.get(i) , studentId.get(j) , summaryId);
-            }
-        }
-        tableHead.setAssessScore(scoreArr);
-        return tableHead;
     }
 
     @Override
@@ -204,6 +180,59 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
         }
         System.out.println(assessEvage);
         return assessEvage;
+    }
+
+    @Override
+    public List<BigDecimal> selectMannerPq(String courseId) {
+        List<BigDecimal> list = archiveCourseSummaryDao.selectMannerPq(courseId);
+        return list;
+    }
+
+    @Override
+    public List<ArchiveAssessTestGradesVo> selectArchiveStep3(String courseId, String summaryId) {
+
+        List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryDao.selectStudentIdAndName(courseId);
+        System.out.println("学生姓名和id获取：");
+        System.out.println(list.get(1).getStudentId());
+        for(int i = 0 ; i < list.size() ; i++) {
+            list.get(i).setFinalScoreList(archiveCourseSummaryDao.selectFinalScore(list.get(i).getStudentId(), summaryId));
+        }
+        for(int i = 0 ; i < list.size() ; i++) {
+            list.get(i).setPeaceScoreList(archiveCourseSummaryDao.selectPeaceScore(list.get(i).getStudentId() , summaryId));
+            BigDecimal score = list.get(i).getPeaceScoreList().get(0).getWeight().multiply(list.get(i).getPeaceScoreList().get(0).getAssessScore());
+            list.get(i).setPeaceScore(score.toString());
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> selectPeaceData(Integer courseId) {
+        Integer TargetNum = archiveCourseSummaryDao.selectTargetByCourseId(courseId);
+        Integer AssessNum = archiveCourseSummaryDao.selectPeaceAssessNum(courseId);
+        List<String> AssessName = archiveCourseSummaryDao.selectPeaceAssessName(courseId);
+        List<BigDecimal> TargetWeightArr = archiveCourseSummaryDao.selectPeaceTargetWeightArr(courseId);
+        BigDecimal[][] AssessWeightArr = new BigDecimal[TargetNum][AssessNum];
+        BigDecimal[] TargetArr = new BigDecimal[TargetNum];
+        BigDecimal m = new BigDecimal(100);
+        for(int i = 0 ; i < TargetWeightArr.size() ; i++) {
+            TargetArr[i] = TargetWeightArr.get(i).multiply(m);
+        }
+        List<String> TargetName = archiveCourseSummaryDao.selectTargetName(courseId);
+        System.out.println("测试");
+        System.out.println(TargetName);
+        System.out.println(TargetNum);
+        System.out.println(AssessName);
+        System.out.println(AssessNum);
+        System.out.println(TargetArr);
+        System.out.println(TargetWeightArr);
+
+        List<String> list = new ArrayList<>();
+
+        for(int i = 0 ; i < TargetNum ; i++) {
+            list.add(TargetName.get(i) + '(' + TargetArr[i] + ')');
+        }
+
+        return list;
     }
 
     @Override

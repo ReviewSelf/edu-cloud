@@ -20,9 +20,9 @@ import java.util.List;
 @Mapper
 public interface ArchiveAssessScoreDao extends BaseDao<ArchiveAssessScoreEntity> {
 
-    List<ArchiveAssessScoreEntity> selectAssessScoreByCourseId(Long courseId);
+    List<ArchiveAssessScoreEntity> selectAssessScoreByCourseId(Long summaryId);
 
-    String selectAssessScore(Long assessId,String stuId);
+    String selectAssessScore(Long assessId,String stuId,Long summaryId);
 
     List<ArchiveAssessNameToGoal> selectAssessByIds(String courseId,String stuId);
 }

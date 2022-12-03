@@ -6,6 +6,7 @@ import net.edu.module.vo.ExamAbilityVo;
 import net.edu.module.vo.ExamVO;
 import net.edu.module.query.ExamQuery;
 import net.edu.module.entity.ExamEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -36,14 +37,20 @@ public interface ExamService extends BaseService<ExamEntity> {
 
     void updateExamIndex(Long examId);
 
-    void submitPaper(Long examId,Long userId);
+    void submitPaper(Long examId, Long userId);
 
     void exportExam(Long examId, HttpServletResponse response) throws IOException;
 
-    void exportUserExam(Long examId,List<Long> userIdList,HttpServletResponse response) throws IOException;
+    void exportUserExam(Long examId, List<Long> userIdList, HttpServletResponse response) throws IOException;
 
     ExamAbilityVo getAbilityExam();
 
-    void promulgateGrade(Long examId,Long abilityId,Integer score);
+    void promulgateGrade(Long examId, Long abilityId, Integer score);
+
+
+    void downloadZip(HttpServletResponse response, Long problemId,
+                     Integer problemType,
+                     Integer source,
+                     Long sourceId) throws IOException;
 
 }

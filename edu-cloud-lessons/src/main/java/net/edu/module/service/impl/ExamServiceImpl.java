@@ -9,8 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.cache.RedisKeys;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
+import net.edu.framework.common.utils.ZipUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.module.api.EduFileApi;
 import net.edu.module.api.EduJudgeApi;
 import net.edu.module.api.EduWxApi;
 import net.edu.module.convert.ExamConvert;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -52,6 +55,9 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     private final ExamProblemService examProblemService;
 
     private final EduJudgeApi eduJudgeApi;
+
+    private final EduFileApi eduFileApi;
+
 
     private final EduWxApi eduWxApi;
 
@@ -216,5 +222,15 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     @Override
     public void promulgateGrade(Long examId, Long abilityId, Integer score) {
         baseMapper.updateUserAbilityId(examId, abilityId, score);
+    }
+
+    @Override
+    public void downloadZip(HttpServletResponse response, Long problemId, Integer problemType, Integer source, Long sourceId) throws IOException {
+        List<String> pathList = eduJudgeApi.getFilePath(problemId, problemType, source, sourceId).getData();
+        List<File> fileList = eduFileApi.getFileList(pathList).getData();
+
+        ZipUtils.zip(fileList,"测试.zip");
+        ZipUtils.downloadZip(response,"测试.zip");
+
     }
 }

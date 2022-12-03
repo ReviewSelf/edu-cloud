@@ -121,15 +121,25 @@ public class ExamController {
 
     @GetMapping("/getAbilityExam")
     @Operation(summary = "获取能力考试列表以及当前用户参加的额能力考试id")
-    public Result<ExamAbilityVo> getAbilityExam(){
-        return Result.ok(examService.getAbilityExam()) ;
+    public Result<ExamAbilityVo> getAbilityExam() {
+        return Result.ok(examService.getAbilityExam());
     }
 
     @GetMapping("/promulgateGrade")
     @Operation(summary = "根据老师设定的及格分数给学生颁布等级")
-    public Result<String> promulgateGrade(@RequestParam("examId") Long examId,@RequestParam("gainAbilityId") Long gainAbilityId,@RequestParam("score") Integer score){
+    public Result<String> promulgateGrade(@RequestParam("examId") Long examId, @RequestParam("gainAbilityId") Long gainAbilityId, @RequestParam("score") Integer score) {
         examService.promulgateGrade(examId, gainAbilityId, score);
         return Result.ok();
+    }
+
+    @GetMapping("/downloadZip")
+    @Operation(summary = "下载题目附件")
+    public void downloadZip(HttpServletResponse response, @RequestParam("problemId") Long problemId,
+                            @RequestParam("problemType") Integer problemType,
+                            @RequestParam("source") Integer source,
+                            @RequestParam("sourceId") Long sourceId) throws IOException {
+        examService.downloadZip(response,problemId,problemType,source,sourceId);
+
     }
 
 

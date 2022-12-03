@@ -61,11 +61,13 @@ public class SampleUploadService {
     }
 
     @SneakyThrows
-    public void download(String path, HttpServletResponse response) {
+    public void
+    download(String path, HttpServletResponse response) {
         File file = new File(path);
         if (!file.exists()) {
             throw new ServerException("文件不存在");
         }
+
         FileInputStream fileInputStream = new FileInputStream(file);
         InputStream fis = new BufferedInputStream(fileInputStream);
         byte[] buffer = new byte[fis.available()];
@@ -85,6 +87,16 @@ public class SampleUploadService {
             redisUtils.set(RedisKeys.getSampleFile(path),str,RedisUtils.HOUR_ONE_EXPIRE);
         }
         return str;
+    }
+
+    public List<File> getFileList(List<String> pathList){
+
+        List<File> fileList = new ArrayList<>();
+        for (int i = 0 ;i<pathList.size();i++){
+            fileList.add(new File(pathList.get(i)));
+        }
+
+        return fileList;
     }
 
 }

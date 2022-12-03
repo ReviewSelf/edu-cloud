@@ -1,6 +1,7 @@
 package net.edu.module.api;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.SneakyThrows;
 import net.edu.framework.common.utils.Result;
 
 import net.edu.module.fallback.EduFileApiFallBack;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -38,5 +40,11 @@ public interface EduFileApi {
 
     @PostMapping(value ="/sample/upload/batch",consumes = MediaType.MULTIPART_FORM_DATA_VALUE )
     List<SampleVO> uploadBatch(@RequestPart("input") MultipartFile[] input, @RequestPart("output") MultipartFile[] output, @RequestParam("problemId") Long problemId) ;
+
+
+    @GetMapping("/sample/getFileList")
+    Result<List<File>> getFileList(@RequestParam("pathList") List<String> pathList);
+
+
 
 }

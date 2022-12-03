@@ -5,37 +5,27 @@
 
 
     <select id="getStudentHomeWorkPage" resultType="net.edu.module.vo.HomeWorkVO">
-        select
-            id,
-            lesson_id,
-            problem_id,
-            problem_name,
-            problem_type,
-            score,
-            begin_time,
-            end_time,
-            sort,
-            type,
-            used
-        from (SELECT
-                  t1.id,
-                  t1.lesson_id,
-                  t1.problem_id,
-                  t1.problem_name,
-                  t1.problem_type,
-                  t1.score,
-                  t1.begin_time,
-                  t1.end_time,
-                  t1.sort,
-                  t1.type,
-                  t1.used,
-                  (SELECT id from judge_record t3 where t3.problem_id=t1.problem_id and t3.user_id=#{query.StudentId} limit 1) as record
-            FROM
-                ( SELECT id,stu_id,lesson_id,checkin_time,status,roll_call,create_time,update_time FROM lesson_attend_log WHERE stu_id =#{query.StudentId} ) t2
-            LEFT JOIN lesson_problem t1 ON t2.lesson_id = t1.lesson_id
-        ORDER BY
-            begin_time ASC)	t4
-        where t4.record  is null and t4.used=1
+        SELECT
+            t1.lesson_id,
+            t1.problem_id,
+            t1.problem_name,
+            t1.problem_type,
+            t1.type
+        FROM
+            ( SELECT lesson_id FROM lesson_attend_log WHERE stu_id = #{query.StudentId} and exists (SELECT 1 from lesson where id=lesson_id and begin_time&lt;NOW() and deleted=0) ) t2
+                LEFT JOIN lesson_problem t1 ON t2.lesson_id = t1.lesson_id and t1.used=1 and type=1
+        where not exists(select 1 from judge_record a where a.source=1 and source_id=t1.lesson_id and a.problem_id=t1.problem_id and a.user_id=#{query.StudentId} and a.problem_type=t1.problem_type)
+        union all
+        SELECT
+            t1.lesson_id,
+            t1.problem_id,
+            t1.problem_name,
+            t1.problem_type,
+            t1.type
+        FROM
+            ( SELECT lesson_id FROM lesson_attend_log WHERE stu_id = #{query.StudentId} and exists (SELECT 1 from lesson where id=lesson_id and homework_begin_time&lt;NOW() and homework_end_time&gt;NOW() and deleted=0) ) t2
+                LEFT JOIN lesson_problem t1 ON t2.lesson_id = t1.lesson_id and t1.used=1 and type=2
+        where not exists(select 1 from judge_record a where a.source=2 and source_id=t1.lesson_id and a.problem_id=t1.problem_id and a.user_id=#{query.StudentId} and a.problem_type=t1.problem_type)
     </select>
 
 

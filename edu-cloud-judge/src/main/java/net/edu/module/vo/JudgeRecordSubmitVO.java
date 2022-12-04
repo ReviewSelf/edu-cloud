@@ -39,4 +39,6 @@ public class JudgeRecordSubmitVO {
     private String judgeReason;
     private List<JudgeSampleResultVO> sampleVoList;
 
+    private String filePath;
+
 }

@@ -17,9 +17,8 @@ public interface EduJudgeApi {
 
     /****************************Lesson调用******************************************/
     @GetMapping("/lesson/record/getLessonProblemRank")
-    Result<List<LessonProblemRankVO>> getLessonProblemRank(@RequestParam( value ="lessonId") Long lessonId,
-                                                                  @RequestParam(value = "type")Integer type);
-
+    Result<List<LessonProblemRankVO>> getLessonProblemRank(@RequestParam(value = "lessonId") Long lessonId,
+                                                           @RequestParam(value = "type") Integer type);
 
 
     @GetMapping("/exam/record/getExamProblemInfoList")
@@ -30,13 +29,19 @@ public interface EduJudgeApi {
 
 
     @GetMapping("/exam/record/makePaper")
-    Result<List<ExamScoreVO>> makePaper( @RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId);
+    Result<List<ExamScoreVO>> makePaper(@RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId);
 
     @GetMapping("/exam/record/getExamRecordList")
-    Result<List<ExamScoreVO>> getExamRecordList( @RequestParam(value = "examId") Long examId);
+    Result<List<ExamScoreVO>> getExamRecordList(@RequestParam(value = "examId") Long examId);
 
     @GetMapping("/exam/record/getUserExamScore")
-    Result<ExamScoreVO> getUserExamScore( @RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId);
+    Result<ExamScoreVO> getUserExamScore(@RequestParam("examId") Long examId, @RequestParam(value = "userId") Long userId);
+
+    @GetMapping("/getFilePath")
+    Result<List<String>> getFilePath(@RequestParam("problemId") Long problemId,
+                                     @RequestParam("problemType") Integer problemType,
+                                     @RequestParam("source") Integer source,
+                                     @RequestParam("sourceId") Long sourceId);
 
 
 }

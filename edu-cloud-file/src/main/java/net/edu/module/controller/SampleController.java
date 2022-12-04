@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -53,6 +54,15 @@ public class SampleController {
     public Result<String> getFileContent(@RequestParam("path") String path){
         return Result.ok(sampleUploadService.getFileContent(path));
     }
+
+    @SneakyThrows
+    @GetMapping("/getFileList")
+    @Operation(summary = "根据路径返回文件集合")
+    public Result<List<File>> getFileList(@RequestParam("pathList") List<String> pathList){
+        return Result.ok(sampleUploadService.getFileList(pathList));
+    }
+
+
 
 }
 

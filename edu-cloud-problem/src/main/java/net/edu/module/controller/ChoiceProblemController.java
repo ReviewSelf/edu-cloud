@@ -9,6 +9,7 @@ import net.edu.module.service.ChoiceProblemService;
 import net.edu.module.query.ChoiceProblemQuery;
 import net.edu.module.vo.ChoiceProblemVO;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,7 +26,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ChoiceProblemController {
     private final ChoiceProblemService choiceProblemService;
-
 
 
     @GetMapping("page")
@@ -105,7 +105,11 @@ public class ChoiceProblemController {
     }
 
 
-
+    @PostMapping("/import")
+    public Result<String> importFromExcel(@RequestParam("file") MultipartFile file) {
+        choiceProblemService.importFromExcel(file);
+        return Result.ok();
+    }
 
 
 

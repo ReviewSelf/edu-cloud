@@ -195,4 +195,10 @@ public class JudgeService {
 
 
 
+    public List<String> getFilePath(Long problemId,Integer problemType,Integer source,Long sourceId){
+        return judgeRecordDao.selectFilePath(problemId, problemType, source, sourceId);
+    }
+
+
+
 }

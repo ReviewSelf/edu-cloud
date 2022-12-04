@@ -82,5 +82,5 @@ public class SysUserVO implements Serializable {
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
     private Date createTime;
 
-    private Integer abilityId;
+    private Long abilityId;
 }

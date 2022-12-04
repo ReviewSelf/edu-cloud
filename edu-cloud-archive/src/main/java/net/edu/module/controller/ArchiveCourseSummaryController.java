@@ -159,4 +159,11 @@ public class ArchiveCourseSummaryController {
         List<ArchiveAssessGradesDtVo> list = archiveCourseSummaryService.selectArchiveGradesDt(courseId , summaryId);
         return Result.ok();
     }
+
+    @GetMapping("/summary")
+    @Operation(summary = "获取所有summaryId")
+    public  Result<List<ArchiveCourseSummaryVO>> getAllSummary(){
+        List<ArchiveCourseSummaryVO> list=archiveCourseSummaryService.selectAllSummary();
+        return Result.ok(list);
+    }
 }

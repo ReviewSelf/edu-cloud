@@ -287,4 +287,9 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         System.out.println(list.get(0));
         return list;
     }
+
+    @Override
+    public String getScoreByStudentId(String summaryId, String courseId, String studentId){
+        return (archiveGoalScoreDao.selectScoreByStudentId(summaryId,courseId,studentId));
+    }
 }

@@ -3,7 +3,9 @@ package net.edu.module.service.impl;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.nacos.shaded.com.google.gson.Gson;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
@@ -65,7 +67,10 @@ public class ArchiveSignServiceImpl extends BaseServiceImpl<ArchiveSignDao, Arch
 
     @Override
     public PageResult<ArchiveSignVO> page(ArchiveSignQuery query) {
-        IPage<ArchiveSignEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
+        QueryWrapper<ArchiveSignEntity> wrapper = new QueryWrapper<>();
+        wrapper.eq("book_id", query.getBookId());
+        IPage<ArchiveSignEntity> page =baseMapper.selectPage(getPage(query),wrapper);
+//        IPage<ArchiveSignEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
 
         return new PageResult<>(ArchiveSignConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
     }

@@ -52,4 +52,6 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
     List<String> selectPeaceData(Integer courseId);
 
     List<ArchiveAssessGradesDtVo> selectArchiveGradesDt(String courseId, String summaryId);
+
+    List<ArchiveCourseSummaryVO> selectAllSummary();
 }

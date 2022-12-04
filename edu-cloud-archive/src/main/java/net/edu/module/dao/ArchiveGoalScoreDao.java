@@ -25,4 +25,6 @@ public interface ArchiveGoalScoreDao extends BaseDao<ArchiveGoalScoreEntity> {
     List<ArchiveGoalScoreEntity> selectByStuId(List<ArchiveSignVO> archiveSignVOS,String courseId);
 
     List<ArchiveGoalScoreEntity> selectGoalScore(Long summaryId);
+
+    String selectScoreByStudentId(String summaryId,String courseId,String studentId);
 }

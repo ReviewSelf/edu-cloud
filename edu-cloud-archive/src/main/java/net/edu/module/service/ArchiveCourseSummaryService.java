@@ -2,6 +2,7 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
+import net.edu.module.vo.ArchiveAssessGradesDtVo;
 import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
@@ -49,4 +50,6 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
     List<ArchiveAssessTestGradesVo> selectArchiveStep3(String courseId , String summaryId);
 
     List<String> selectPeaceData(Integer courseId);
+
+    List<ArchiveAssessGradesDtVo> selectArchiveGradesDt(String courseId, String summaryId);
 }

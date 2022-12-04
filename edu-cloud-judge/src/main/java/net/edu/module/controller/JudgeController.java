@@ -74,5 +74,15 @@ public class JudgeController {
     }
 
 
+    @GetMapping("/getFilePath")
+    @Operation(summary = "获取附件（文件）路径")
+    public Result<List<String>> getFilePath(@RequestParam("problemId") Long problemId,
+                                           @RequestParam("problemType") Integer problemType,
+                                           @RequestParam("source") Integer source,
+                                           @RequestParam("sourceId") Long sourceId){
+        return Result.ok(judgeService.getFilePath(problemId, problemType, source, sourceId));
+    }
+
+
 
 }

@@ -7,10 +7,10 @@
             parameterType="net.edu.module.vo.JudgeRecordSubmitVO">
         insert into judge_record (problem_id, problem_type, source, source_id, user_id, submit_content, submit_img,
                                   language_type,
-                                  submit_status)
+                                  submit_status, file_path)
         values (#{problemId}, #{problemType}, #{source}, #{sourceId}, #{userId}, #{submitContent}, #{submitImg},
                 #{languageType},
-                #{submitStatus})
+                #{submitStatus}, #{filePath})
     </insert>
     <select id="selectUpdateRecord" resultType="net.edu.module.vo.JudgeSampleResultVO">
         select record_id                               as recordId,
@@ -74,7 +74,8 @@
           and source = #{source}
           and source_id = #{sourceId}
           and user_id = #{userId}
-        order by update_time desc limit 1
+        order by update_time desc
+        limit 1
     </select>
 
 
@@ -92,6 +93,7 @@
         <result property="submitStatus" column="submit_status"/>
         <result property="judgeType" column="judge_type"/>
         <result property="judgeReason" column="judge_reason"/>
+        <result property="filePath" column="file_path"/>
         <collection property="sampleVoList" javaType="java.util.ArrayList"
                     ofType="net.edu.module.vo.JudgeSampleResultVO">
             <result property="recordId" column="record_id"/>
@@ -104,47 +106,49 @@
 
     <select id="selectRecordAndAnswer" resultMap="judgeRecordAndAnswer">
         select t.id,
-               t.problem_id,
-               t.problem_type,
-               t.source,
-               t.source_id,
-               t.user_id,
-               t.submit_content,
-               t.submit_img,
-               t.submit_status,
-               t.judge_type,
-               t.judge_reason,
-               t.submit_time,
-               t.language_type,
-               b.record_id,
-               b.sample_id,
-               b.runtime,
-               b.memory,
-               b.result_code
+        t.problem_id,
+        t.problem_type,
+        t.source,
+        t.source_id,
+        t.user_id,
+        t.submit_content,
+        t.submit_img,
+        t.submit_status,
+        t.judge_type,
+        t.judge_reason,
+        t.submit_time,
+        t.language_type,
+        b.record_id,
+        b.sample_id,
+        b.runtime,
+        b.memory,
+        b.result_code,
+        t.file_path
         from (select a.id,
-                     a.problem_id,
-                     a.problem_type,
-                     a.source,
-                     a.source_id,
-                     a.user_id,
-                     a.submit_content,
-                     a.submit_img,
-                     a.submit_status,
-                     a.judge_type,
-                     a.judge_reason,
-                     a.submit_time,
-                     a.language_type
-              from judge_record a
-              where a.problem_id = #{problemId}
-                and a.problem_type = #{problemType}
-                and a.source = #{source}
-                and a.source_id = #{sourceId}
-                <if test="userId!=null ">
-                    and a.user_id = #{userId}
-                </if>
-              order by a.update_time desc limit 1) t
-                 left join judge_record_sample b
-                           on t.id = b.record_id
+        a.problem_id,
+        a.problem_type,
+        a.source,
+        a.source_id,
+        a.user_id,
+        a.submit_content,
+        a.submit_img,
+        a.submit_status,
+        a.judge_type,
+        a.judge_reason,
+        a.submit_time,
+        a.language_type,
+        a.file_path
+        from judge_record a
+        where a.problem_id = #{problemId}
+        and a.problem_type = #{problemType}
+        and a.source = #{source}
+        and a.source_id = #{sourceId}
+        <if test="userId!=null ">
+            and a.user_id = #{userId}
+        </if>
+        order by a.update_time desc limit 1) t
+        left join judge_record_sample b
+        on t.id = b.record_id
 
 
     </select>
@@ -188,42 +192,59 @@
     </insert>
 
     <delete id="deleteStatisticsUserRecord">
-        delete from user_record_statistic where user_id = #{userId}
+        delete
+        from user_record_statistic
+        where user_id = #{userId}
     </delete>
 
     <insert id="statisticsUserJudgeRecord">
         insert into user_record_statistic(user_id, kp_code, difficulty, num)
         SELECT #{userId} as user_id, kp_code, difficulty, count(1) as num
-        from (
-                 SELECT kp_code, difficulty
-                 FROM problem_choice a
-                 WHERE EXISTS(SELECT 1
-                              FROM judge_record
-                              WHERE user_id = #{userId}
-                                and submit_status = 3
-                                and problem_type = 1
-                                and problem_id = a.id)
-                 union all
-                 SELECT kp_code, difficulty
-                 FROM problem_fill a
-                 WHERE EXISTS(SELECT 1
-                              FROM judge_record
-                              WHERE user_id = #{userId}
-                                and submit_status = 3
-                                and problem_type = 2
-                                and problem_id = a.id)
-                 union all
-                 SELECT kp_code, difficulty
-                 FROM problem_code a
-                 WHERE EXISTS(SELECT 1
-                              FROM judge_record
-                              WHERE user_id = #{userId}
-                                and submit_status = 3
-                                and problem_type = 3
-                                and problem_id = a.id)) t
+        from (SELECT kp_code, difficulty
+              FROM problem_choice a
+              WHERE EXISTS(SELECT 1
+                           FROM judge_record
+                           WHERE user_id = #{userId}
+                             and submit_status = 3
+                             and problem_type = 1
+                             and problem_id = a.id)
+              union all
+              SELECT kp_code, difficulty
+              FROM problem_fill a
+              WHERE EXISTS(SELECT 1
+                           FROM judge_record
+                           WHERE user_id = #{userId}
+                             and submit_status = 3
+                             and problem_type = 2
+                             and problem_id = a.id)
+              union all
+              SELECT kp_code, difficulty
+              FROM problem_code a
+              WHERE EXISTS(SELECT 1
+                           FROM judge_record
+                           WHERE user_id = #{userId}
+                             and submit_status = 3
+                             and problem_type = 3
+                             and problem_id = a.id)) t
         where kp_code is not null
         GROUP BY kp_code, difficulty
     </insert>
+
+    <select id="selectFilePath" resultType="java.lang.String">
+        select jr1.file_path from
+        judge_record jr1
+        where
+        jr1.problem_id = #{problemId}
+        and jr1.problem_type = #{problemType}
+        and jr1.source = #{source}
+        and jr1.source_id = #{sourceId}
+
+        and not exists (select 1 from judge_record jr2 where source_id=#{sourceId} and
+
+        jr1.problem_id = jr2.problem_id and jr1.problem_type=jr2.problem_type and jr1.source_id=jr2.source_id and
+        jr1.user_id=jr2.user_id and jr1.source=jr2.source and jr1.id &lt;jr2.id )
+
+    </select>
 
 
 </mapper>

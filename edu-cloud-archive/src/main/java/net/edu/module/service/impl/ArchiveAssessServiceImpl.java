@@ -202,6 +202,59 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     public BigDecimal getWeightSum(ArchiveAssessByCourseIdVo assess) {
         return archiveAssessDao.selectWeightSum(assess);
     }
+    @Override
+    public ArchiveAssessTableVo getWeightTableStep4(Long courseId) {
+        Integer TargetNum = archiveAssessDao.selectTargetByCourseIdStep4(courseId);
+        Integer AssessNum = archiveAssessDao.selectAssessNumStep4(courseId);
+        List<String> AssessName = archiveAssessDao.selectAssessNameStep4(courseId);
+        List<BigDecimal> TargetWeightArr = archiveAssessDao.selectTargetWeightArrStep4(courseId);
+        BigDecimal[] TargetArr = new BigDecimal[TargetNum];
+        BigDecimal m = new BigDecimal(100);
+        for(int i = 0 ; i < TargetWeightArr.size() ; i++) {
+            TargetArr[i] = TargetWeightArr.get(i).multiply(m);
+        }
+        List<String> TargetName = archiveAssessDao.selectTargetNameStep4(courseId);
+        System.out.println(TargetName);
+
+        //第四步，获取考核点在该教学目标下的占比
+        BigDecimal[][] AssessWeightArr = new BigDecimal[TargetNum][AssessNum];
+        List<Integer>  TargetIdArr;
+        TargetIdArr = archiveAssessDao.selectTargetIdStep4(courseId);
+        List<Integer> AssessIdArr;
+        AssessIdArr = archiveAssessDao.selectAssessIdStep4(courseId);
+        for(int i = 0 ; i < TargetNum ; i++) {
+            for (int j = 0 ; j < AssessNum ; j++) {
+                AssessWeightArr[i][j] = archiveAssessDao.selectWeight(TargetIdArr.get(i) , AssessIdArr.get(j));
+                if(AssessWeightArr[i][j] == null) {
+                    AssessWeightArr[i][j] = BigDecimal.valueOf(0);
+                }
+            }
+        }
+        ArchiveAssessTableVo assessTableVo = new ArchiveAssessTableVo();
+        assessTableVo.setAssessNum(AssessNum);
+        assessTableVo.setTargetNum(TargetNum);
+        assessTableVo.setAssessWeightArr(AssessWeightArr);
+        assessTableVo.setTargetWeightArr(TargetArr);
+
+        String[][] outCome = new String[TargetNum + 1][AssessNum + 1];
+        for(int i = -1 ; i < TargetNum ; i++) {
+            for (int j = -1 ; j < AssessNum ; j++) {
+                if(i == -1 && j == -1) {
+                    outCome[i + 1][j + 1] = "考核点名称";
+                } else if(i == -1) {
+                    outCome[i + 1][j + 1] = AssessName.get(j);
+                }
+                if(i > -1 && j == -1) {
+                    outCome[i + 1][j + 1] = TargetName.get(i) + "(" + TargetArr[i] + ")";
+                } else if(i > -1 && j > -1) {
+                    outCome[i + 1][j + 1] = AssessWeightArr[i][j].toString();
+                }
+            }
+        }
+        assessTableVo.setRouCome(outCome);
+        return assessTableVo;
+    }
+
 
     @Override
     public ArchiveAssessTableVo getWeightTable(ArchiveAssessByCourseIdVo assess) {

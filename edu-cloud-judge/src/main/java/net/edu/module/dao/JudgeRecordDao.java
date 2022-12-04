@@ -41,4 +41,6 @@ public interface JudgeRecordDao {
     int statisticsUserJudgeRecord(Long userId);
 
     int deleteStatisticsUserRecord(Long userId);
+
+    List<String> selectFilePath(Long problemId,Integer problemType,Integer source,Long sourceId);
 }

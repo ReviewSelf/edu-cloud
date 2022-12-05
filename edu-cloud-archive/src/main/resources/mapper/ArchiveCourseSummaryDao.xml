@@ -182,4 +182,10 @@ group by stu_id, stu_name
         from archive_assess_score
         where score > 90 and summary_id = #{summaryId} and assess_id = #{assessId};
     </select>
+
+    <select id="selectAllSummary" resultType="net.edu.module.vo.ArchiveCourseSummaryVO">
+        select id,course_id
+        from archive_course_summary
+        where deleted=0
+    </select>
 </mapper>

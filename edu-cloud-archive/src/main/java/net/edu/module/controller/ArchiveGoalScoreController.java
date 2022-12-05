@@ -44,6 +44,14 @@ public class ArchiveGoalScoreController {
     public Result<List<ArchiveGoalScoreVO>> getScore(@RequestParam("summaryId") Long summaryId,@RequestParam("courseId") Long courseId){
         return Result.ok(archiveGoalScoreService.selectGoalScoreByCourseId(summaryId,courseId));
     }
+
+
+    @GetMapping("generalByStudentId")
+    @Operation(summary = "获取学生总评成绩")
+    public Result<String> getScoreByStudentId(@RequestParam("summaryId") String summaryId,@RequestParam("courseId") String courseId,@RequestParam("studentId")String studentId){
+        return Result.ok(archiveGoalScoreService.getScoreByStudentId(summaryId,courseId,studentId));
+    }
+
     @PostMapping
     @Operation(summary = "插入")
     public Result<String> save(@RequestBody List<ArchiveGoalScoreVO> vo){

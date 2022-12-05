@@ -18,4 +18,6 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "平时记录查询")
 public class ArchiveSignQuery extends Query {
+    @Schema(description = "记分册编号")
+    private Long bookId;
 }

@@ -296,4 +296,10 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
 
+    @Override
+    public List<ArchiveCourseSummaryVO> selectAllSummary(){
+        return (archiveCourseSummaryDao.selectAllSummary());
+    }
+
+
 }

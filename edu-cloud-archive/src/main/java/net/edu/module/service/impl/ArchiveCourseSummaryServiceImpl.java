@@ -244,7 +244,7 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
         System.out.println(AssessNum);
         System.out.println(AssessId);
 
-        for(int i = 0 ; i < 5 ; i++) {
+        for(int i = 1 ; i <= 5 ; i++) {
 
             ArchiveAssessGradesDtVo x = new ArchiveAssessGradesDtVo();
             switch (i) {
@@ -255,6 +255,7 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                 case 2:
                     x.setName("良好人数(0.8)");
                     list.add(x);
+                    break;
                 case 3:
                     x.setName("中等人数(0.7)");
                     list.add(x);
@@ -269,15 +270,40 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                     break;
             }
         }
+        System.out.println(list);
         for(int i = 0 ; i < list.size() ; i++) {
+            List<Integer> nl = new ArrayList<>();
            for(int j = 0 ; j < AssessNum ; j++) {
                if(i == 0) {
                    int n = archiveCourseSummaryDao.selectOutstanding(AssessId.get(j) , summaryId);
+                   nl.add(n);
+               }
+               if(i == 1) {
+                   int n = archiveCourseSummaryDao.selectGood(AssessId.get(j) , summaryId);
+                   nl.add(n);
+               }
+               if(i == 2) {
+                   int n = archiveCourseSummaryDao.selectMid(AssessId.get(j) , summaryId);
+                   nl.add(n);
+               }
+               if(i == 3) {
+                   int n = archiveCourseSummaryDao.selectPass(AssessId.get(j) , summaryId);
+                   nl.add(n);
+               }
+               if(i == 4) {
+                   int n = archiveCourseSummaryDao.selectNotPass(AssessId.get(j) , summaryId);
+                   nl.add(n);
                }
            }
+           list.get(i).setAppraise(nl);
         }
         System.out.println(list);
-        return null;
+        return list;
+    }
+
+    @Override
+    public void insertProblem(ArchiveCourseSummaryVO vo) {
+        archiveCourseSummaryDao.insertProblem(vo);
     }
 
     @Override

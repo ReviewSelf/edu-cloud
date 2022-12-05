@@ -10,6 +10,10 @@
         INSERT INTO archive_assess_score(stu_id , stu_name , score , course_id , assess_id , summary_id)
         VALUES (#{stuId} , #{stuName} , #{score} , #{courseId} , #{assessId} , #{summaryId})
     </insert>
+    <update id="insertProblem">
+        update archive_course_summary set problem_analysis = #{problemAnalysis}
+        where id = #{id}
+    </update>
 
     <update id="insertMeasures">
         update archive_course_summary set improvement = #{improvement}
@@ -180,7 +184,31 @@ group by stu_id, stu_name
         select
             count(score)
         from archive_assess_score
-        where score > 90 and summary_id = #{summaryId} and assess_id = #{assessId};
+        where score >= 90 and summary_id = #{summaryId} and assess_id = #{assessId}
+    </select>
+    <select id="selectGood" resultType="java.lang.Integer">
+        select
+            count(score)
+        from archive_assess_score
+        where score >= 80 and score &lt; 90 and summary_id = #{summaryId} and assess_id = #{assessId}
+    </select>
+    <select id="selectMid" resultType="java.lang.Integer">
+        select
+            count(score)
+        from archive_assess_score
+        where score >= 70 and score &lt; 80 and summary_id = #{summaryId} and assess_id = #{assessId}
+    </select>
+    <select id="selectPass" resultType="java.lang.Integer">
+        select
+            count(score)
+        from archive_assess_score
+        where score >= 60 and score &lt; 70 and summary_id = #{summaryId} and assess_id = #{assessId}
+    </select>
+    <select id="selectNotPass" resultType="java.lang.Integer">
+        select
+            count(score)
+        from archive_assess_score
+        where score &lt; 60 and summary_id = #{summaryId} and assess_id = #{assessId}
     </select>
 
     <select id="selectAllSummary" resultType="net.edu.module.vo.ArchiveCourseSummaryVO">

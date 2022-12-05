@@ -53,5 +53,7 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
 
     List<ArchiveAssessGradesDtVo> selectArchiveGradesDt(String courseId, String summaryId);
 
+    void insertProblem(ArchiveCourseSummaryVO vo);
+
     List<ArchiveCourseSummaryVO> selectAllSummary();
 }

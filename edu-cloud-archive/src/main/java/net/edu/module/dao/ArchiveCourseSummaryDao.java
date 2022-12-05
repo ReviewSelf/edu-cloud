@@ -78,7 +78,17 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
 
     Long selectCourseIdBySummaryId(Long summaryId);
 
-    int selectOutstanding(Integer integer, String summaryId);
+    int selectOutstanding(Integer assessId, String summaryId);
+
+    int selectGood(Integer assessId, String summaryId);
+
+    int selectMid(Integer assessId, String summaryId);
+
+    int selectPass(Integer assessId, String summaryId);
+
+    int selectNotPass(Integer assessId, String summaryId);
+
+    void insertProblem(ArchiveCourseSummaryVO vo);
 
     List<ArchiveCourseSummaryVO> selectAllSummary();
 }

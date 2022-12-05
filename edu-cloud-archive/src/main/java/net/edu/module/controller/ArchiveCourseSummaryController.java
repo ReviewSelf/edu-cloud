@@ -157,7 +157,13 @@ public class ArchiveCourseSummaryController {
     @Operation(summary = "获取成绩分布表")
     public Result<List<ArchiveAssessGradesDtVo>> getGradesDt(@RequestParam String courseId , String summaryId) {
         List<ArchiveAssessGradesDtVo> list = archiveCourseSummaryService.selectArchiveGradesDt(courseId , summaryId);
-        return Result.ok();
+        return Result.ok(list);
+    }
+
+    @PostMapping("/insertProblem")
+    @Operation(summary = "存在问题与分析")
+    public void insertProblem(@RequestBody ArchiveCourseSummaryVO vo) {
+        archiveCourseSummaryService.insertProblem(vo);
     }
 
     @GetMapping("/summary")

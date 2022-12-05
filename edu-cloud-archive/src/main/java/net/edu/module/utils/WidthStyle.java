@@ -20,16 +20,17 @@ public class WidthStyle extends AbstractColumnWidthStyleStrategy {
     public WidthStyle(int width,List<Integer> col) {
         this.width = width;
         this.col = col;
+//        for (int i = 0; i < col.size(); i++) {
+//            System.out.println("123456789"+col.get(i));
+//        }
+
     }
 
     @Override
     protected void setColumnWidth(WriteSheetHolder writeSheetHolder, List<WriteCellData<?>> cellDataList, Cell cell, Head head, Integer relativeRowIndex, Boolean isHead) {
         Sheet sheet = writeSheetHolder.getSheet();
-        int k = cell.getColumnIndex();
-        if(col.contains(k)){
-            sheet.setColumnWidth(k,this.width);
+        for (int i = 0; i < col.size(); i++) {
+            sheet.setColumnWidth(col.get(i),width);
         }
-
     }
-
 }

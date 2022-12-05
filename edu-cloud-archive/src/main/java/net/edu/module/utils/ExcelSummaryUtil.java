@@ -133,6 +133,7 @@ public class ExcelSummaryUtil {
     public void test(ExcelWriter excelWriter){
         summary1(excelWriter);
         summary2(excelWriter);
+        summary3(excelWriter);
         summary5(excelWriter);
         summary6(excelWriter);
         summary7(excelWriter);
@@ -291,7 +292,56 @@ public class ExcelSummaryUtil {
     }
 
     public static void summary3(ExcelWriter excelWriter){
+        String course = courseIdUntil.toString(),summary = summaryIdUntil.toString();
+        List<ArchiveAssessTestGradesVo> archiveAssessTestGradesVos = excelSummaryUtil.archiveCourseSummaryService.selectArchiveStep3(course, summary);
 
+        List<List<String>> dataList = new ArrayList<>();
+        List<List<String>> headList = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        list.add("学号");
+        list.add("姓名");
+        for (int i = 0; i < archiveAssessTestGradesVos.get(0).getFinalScoreList().size(); i++) {
+            list.add("期末考核");
+        }
+        list.add("平时考核");
+        headList.add(list);
+        list = new ArrayList<>();
+
+        list.add("学号");
+        list.add("姓名");
+        for (int i = 0; i < archiveAssessTestGradesVos.get(0).getFinalScoreList().size(); i++) {
+            list.add("考核点"+(i+1));
+        }
+        list.add("平时考核");
+        headList.add(list);
+        list = new ArrayList<>();
+
+        list.add("学号");
+        list.add("姓名");
+        for (int i = 0; i < archiveAssessTestGradesVos.get(0).getFinalScoreList().size(); i++) {
+            list.add(String.valueOf(archiveAssessTestGradesVos.get(0).getFinalScoreList().get(i).getWeight()));
+        }
+        list.add("100");
+        headList.add(list);
+        list = new ArrayList<>();
+
+        for (int i = 0; i < archiveAssessTestGradesVos.size(); i++) {
+            list.add(archiveAssessTestGradesVos.get(i).getStudentId());
+            list.add(archiveAssessTestGradesVos.get(i).getStudentName());
+            for (int j = 0; j < archiveAssessTestGradesVos.get(i).getFinalScoreList().size(); j++) {
+                list.add(archiveAssessTestGradesVos.get(i).getFinalScoreList().get(j).getAssessScore().toString());
+            }
+            list.add(archiveAssessTestGradesVos.get(i).getPeaceScore());
+            dataList.add(list);
+            list = new ArrayList<>();
+        }
+
+        WriteSheet writeSheet = EasyExcel.writerSheet("成绩录入表")
+                .registerWriteHandler(new CustomMergeStrategy(headList, 0, 0, true, true))
+                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
+                .build();
+        excelWriter.write(headList, writeSheet);
+        excelWriter.write(dataList, writeSheet);
     }
 
     public static void summary4(ExcelWriter excelWriter){
@@ -447,8 +497,24 @@ public class ExcelSummaryUtil {
 
         head.add(bigTitle);
         head.add(title);
+        head.add(String.valueOf(archivePointAndTargetVOS.get(0).getName()));
+        head.add(archivePointAndTargetVOS.get(0).getTeacher());
+        head.add(archivePointAndTargetVOS.get(0).getAssessment());
+        headList.add(head);
+        head = new ArrayList<>();
+
+        head.add(bigTitle);
+        head.add(title);
         head.add("课程代码");
         head.add("教学班");
+        head.add("考试日期");
+        headList.add(head);
+        head = new ArrayList<>();
+
+        head.add(bigTitle);
+        head.add(title);
+        head.add("课程代码");
+        head.add(archivePointAndTargetVOS.get(0).getTeachClass());
         head.add("考试日期");
         headList.add(head);
         head = new ArrayList<>();
@@ -475,38 +541,29 @@ public class ExcelSummaryUtil {
         head.add(archivePointAndTargetVOS.get(0).getCredit());
         head.add(String.valueOf(sum));
         headList.add(head);
+        head = new ArrayList<>();
+
+        head.add(bigTitle);
+        head.add(title);
+        head.add("核心必修");
+        head.add(archivePointAndTargetVOS.get(0).getCredit());
+        head.add(String.valueOf(sum));
+        headList.add(head);
 
         //设置内容
-
+        list.add("");
         list.add("等级");
         list.add("优秀");
         list.add("良好");
         list.add("中等");
         list.add("及格");
         list.add("不及格");
+        list.add("目标值");
+        list.add("评价值");
         dataList.add((list));
         list= new ArrayList<>();
 
-        //下面几行
-        for (ArchiveGoalPeopleVO archiveGoalPeopleVO : sample) {
-            list.add(archiveGoalPeopleVO.getTargetName());
-            list.add(String.valueOf(archiveGoalPeopleVO.getExcellent()));
-            list.add(String.valueOf(archiveGoalPeopleVO.getGood()));
-            list.add(String.valueOf(archiveGoalPeopleVO.getMedium()));
-            list.add(String.valueOf(archiveGoalPeopleVO.getPass()));
-            list.add(String.valueOf(archiveGoalPeopleVO.getFail()));
-            dataList.add((list));
-            list = new ArrayList<>();
-            list.add(archiveGoalPeopleVO.getTargetName());
-            list.add(String.valueOf(archiveGoalPeopleVO.getExcellent() / sum * 100) + '%');
-            list.add(String.valueOf(archiveGoalPeopleVO.getGood() / sum * 100) + '%');
-            list.add(String.valueOf(archiveGoalPeopleVO.getMedium() / sum * 100) + '%');
-            list.add(String.valueOf(archiveGoalPeopleVO.getPass() / sum * 100) + '%');
-            list.add(String.valueOf(archiveGoalPeopleVO.getFail() / sum * 100) + '%');
-            dataList.add((list));
-            list = new ArrayList<>();
-        }
-
+        //计算总体
         int Excellent=0,Good=0,Medium=0,Pass=0,Fail=0;
         for (int i = 0; i < archiveGoalScoreVOS.size(); i++) {
             if(archiveGoalScoreVOS.get(i).getTotal()>=90) Excellent++;
@@ -516,41 +573,77 @@ public class ExcelSummaryUtil {
             else Fail++;
         }
         list.add("总体");
+        list.add("人数");
         list.add(String.valueOf(Excellent));
         list.add(String.valueOf(Good));
         list.add(String.valueOf(Medium));
         list.add(String.valueOf(Pass));
         list.add(String.valueOf(Fail));
+        list.add("目标值");
+        list.add("评价值");
         dataList.add((list));
         list = new ArrayList<>();
         list.add("总体");
+        list.add("比例");
         list.add(String.valueOf(Excellent/ sum * 100)+ '%');
         list.add(String.valueOf(Good/ sum * 100)+ '%');
         list.add(String.valueOf(Medium/ sum * 100)+ '%');
         list.add(String.valueOf(Pass/ sum * 100)+ '%');
         list.add(String.valueOf(Fail/ sum * 100)+ '%');
+        list.add("目标值");
+        list.add("评价值");
         dataList.add((list));
+        list = new ArrayList<>();
+
+        //下面几行
+        for (ArchiveGoalPeopleVO archiveGoalPeopleVO : sample) {
+            list.add(archiveGoalPeopleVO.getTargetName());
+            list.add("人数");
+            list.add(String.valueOf(archiveGoalPeopleVO.getExcellent()));
+            list.add(String.valueOf(archiveGoalPeopleVO.getGood()));
+            list.add(String.valueOf(archiveGoalPeopleVO.getMedium()));
+            list.add(String.valueOf(archiveGoalPeopleVO.getPass()));
+            list.add(String.valueOf(archiveGoalPeopleVO.getFail()));
+            list.add("1");
+            list.add(archiveGoalPeopleVO.getEvaluate());
+            dataList.add((list));
+            list = new ArrayList<>();
+            list.add(archiveGoalPeopleVO.getTargetName());
+            list.add("比例");
+            list.add(String.valueOf(archiveGoalPeopleVO.getExcellent() / sum * 100) + '%');
+            list.add(String.valueOf(archiveGoalPeopleVO.getGood() / sum * 100) + '%');
+            list.add(String.valueOf(archiveGoalPeopleVO.getMedium() / sum * 100) + '%');
+            list.add(String.valueOf(archiveGoalPeopleVO.getPass() / sum * 100) + '%');
+            list.add(String.valueOf(archiveGoalPeopleVO.getFail() / sum * 100) + '%');
+            list.add("1");
+            list.add(archiveGoalPeopleVO.getEvaluate());
+            dataList.add((list));
+            list = new ArrayList<>();
+        }
+
+
 
         //最后一段
         List<List<String>> foot = new ArrayList<>();
         list = new ArrayList<>();
         list.add("问题和改进措施");
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 8; i++) {
             list.add(summaryEntity.getImprovement());
         }
         foot.add((list));
 
         List<Integer> col = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 10; i++) {
             col.add(i);
         }
         //写入表头
         WriteSheet writeSheet = EasyExcel.writerSheet("考核分析表（样本）")
                 .head(headList)
+                .registerWriteHandler(new CustomMergeStrategy(headList, 0, 0, false, true))
                 .registerWriteHandler(new CustomMergeStrategy(dataList, 5, 0, true, false))
                 .registerWriteHandler(new CustomMergeStrategy(foot, 8 + sample.size() * 2, 0, false, true))
                 .registerWriteHandler(new HeightStyle(79.5, "问题和改进措施"))
-                .registerWriteHandler(new WidthStyle(5000, col))
+                .registerWriteHandler(new WidthStyle(3328, col))
                 .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
                 .build();
 
@@ -682,7 +775,6 @@ public class ExcelSummaryUtil {
         head.add(title);
         headList.add(head);
 
-
         //设置内容
         //第三行
         list.add("教学目标");
@@ -698,15 +790,23 @@ public class ExcelSummaryUtil {
         dataList.add((list));
         list = new ArrayList<>();
 
-
         for (int i = 0; i < archiveWeightTargetCourseVOS.size(); i++) {
             list.add(archiveWeightTargetCourseVOS.get(i).getTeachTarget());
             list.add(sample.get(i).getEvaluate());
-            list.add("达成途径：" + archiveWeightTargetCourseVOS.get(i).getApproach() + "\n" + "评价依据：" + archiveWeightTargetCourseVOS.get(i).getEvaluationBasis() + "\n" + "评价方式：" + archiveWeightTargetCourseVOS.get(i).getEvaluationMethod());
+            list.add("达成途径：" + archiveWeightTargetCourseVOS.get(i).getApproach());
+            dataList.add((list));
+            list = new ArrayList<>();
+            list.add(archiveWeightTargetCourseVOS.get(i).getTeachTarget());
+            list.add(sample.get(i).getEvaluate());
+            list.add("评价依据：" + archiveWeightTargetCourseVOS.get(i).getEvaluationBasis());
+            dataList.add((list));
+            list = new ArrayList<>();
+            list.add(archiveWeightTargetCourseVOS.get(i).getTeachTarget());
+            list.add(sample.get(i).getEvaluate());
+            list.add("评价方式：" + archiveWeightTargetCourseVOS.get(i).getEvaluationMethod());
             dataList.add((list));
             list = new ArrayList<>();
         }
-
 
         list.add("课程的持续改进");
         list.add("课程的持续改进");

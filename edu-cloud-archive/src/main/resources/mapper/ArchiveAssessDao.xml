@@ -256,6 +256,13 @@
         select name,weight from archive_assess
         where deleted=0 and course_id=#{id}
     </select>
+    <select id="selectWeightByIdNew" resultType="net.edu.module.vo.ArchiveAssessScoreBookWeightList">
+        select sum(weight) as weight
+        from archive_assess_manner
+        where course_id=#{id}
+        group by manner_kind
+    </select>
+
     <select id="selectArchiveMannerJuge" resultType="java.lang.String">
         SELECT
             id

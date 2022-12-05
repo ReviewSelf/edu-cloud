@@ -7,6 +7,7 @@ import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.ArchiveAssessEntity;
 import net.edu.module.query.ArchiveAssessQuery;
 import net.edu.module.vo.ArchiveAssessByCourseIdVo;
+import net.edu.module.vo.ArchiveAssessScoreBookWeightList;
 import net.edu.module.vo.ArchiveAssessVO;
 import net.edu.module.vo.ArchivePointAndTargetVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -90,6 +91,8 @@ public interface ArchiveAssessDao extends BaseDao<ArchiveAssessEntity> {
     BigDecimal selectMannerWeight(String courseId);
 
     List<ArchiveAssessVO> selectWeightById(String id);
+
+    List<ArchiveAssessScoreBookWeightList> selectWeightByIdNew(String id);
 
     void updateArchiveManner(Integer cid, Integer ass);
 

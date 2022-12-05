@@ -165,7 +165,6 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
 //            archiveScoreInBookVO.setAssessList(archiveTestScoreDao.selectAssessInfoByIds(courseId, archiveSignVO1.getStuId()));
 
             i++;
-            System.out.println(archiveScoreInBookVO);
             list.add(archiveScoreInBookVO);
         }
 

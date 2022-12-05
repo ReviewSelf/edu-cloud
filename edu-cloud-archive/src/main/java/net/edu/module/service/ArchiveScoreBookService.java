@@ -12,6 +12,8 @@ import net.edu.module.vo.ArchiveScoreBookClassTableVO;
 import net.edu.module.vo.ArchiveScoreBookVO;
 import net.edu.module.vo.ArchiveScoreInBookVO;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -45,5 +47,8 @@ public interface ArchiveScoreBookService extends BaseService<net.maku.entity.Arc
 
     void addAnswerNotes(String dataForm,String booKId);
 
+    void createScoreBookWord(Long bookId, HttpServletResponse response) throws IOException;
+
+    ArchiveScoreBookVO selectScoreBookById(Long id);
 
 }

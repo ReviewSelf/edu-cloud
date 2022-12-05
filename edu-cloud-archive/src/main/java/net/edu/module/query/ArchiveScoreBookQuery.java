@@ -16,5 +16,6 @@ import net.edu.framework.common.query.Query;
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "记分册查询")
 public class ArchiveScoreBookQuery extends Query {
+
     private Long id;
 }

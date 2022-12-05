@@ -16,6 +16,7 @@ import net.edu.module.entity.ArchiveGoalScoreEntity;
 import net.edu.module.query.ArchiveScoreBookQuery;
 import net.edu.module.service.ArchiveScoreBookService;
 import net.edu.module.utils.CalculateProportionUtil;
+import net.edu.module.utils.WordUtil;
 import net.edu.module.vo.*;
 import net.maku.entity.ArchiveScoreBookEntity;
 
@@ -23,6 +24,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -182,5 +185,16 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
     public void addAnswerNotes(String dataForm,String bookId){
 
         archiveScoreBookDao.updateAnswerNotes(dataForm,bookId);
+    }
+
+    @Override
+    public void createScoreBookWord(Long bookId, HttpServletResponse response) throws IOException {
+        System.out.println(bookId);
+        WordUtil.createScoreBookWord(response);
+    }
+
+    @Override
+    public ArchiveScoreBookVO selectScoreBookById(Long id) {
+        return archiveScoreBookDao.selectScoreBookById(id);
     }
 }

@@ -267,6 +267,7 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
                 weight = 0;
             }
         }
+        System.out.println(list.get(0));
         list.get(0).setWeights(weights);
 
         //平均分
@@ -286,5 +287,10 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         list.get(0).setAvg(avg);
         System.out.println(list.get(0));
         return list;
+    }
+
+    @Override
+    public String getScoreByStudentId(String summaryId, String courseId, String studentId){
+        return (archiveGoalScoreDao.selectScoreByStudentId(summaryId,courseId,studentId));
     }
 }

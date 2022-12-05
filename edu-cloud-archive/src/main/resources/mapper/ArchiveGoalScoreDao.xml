@@ -25,4 +25,11 @@
         from archive_goal_score
         where summary_id = #{summaryId}
     </select>
+
+    <select id="selectScoreByStudentId" resultType="string">
+        select total
+        from archive_goal_score
+        where stu_id=#{studentId} and course_id=#{courseId} and summary_id=#{summaryId} and deleted=0
+    </select>
+
 </mapper>

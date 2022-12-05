@@ -2,8 +2,11 @@ package net.edu.module.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import net.edu.framework.common.utils.DateUtils;
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +19,8 @@ import java.util.Date;
 */
 @Data
 @Schema(description = "课堂评价")
+@NoArgsConstructor
+@AllArgsConstructor
 public class LessonEvaluateVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -25,7 +30,7 @@ public class LessonEvaluateVO implements Serializable {
 	private Long userId;
 
 	@Schema(description = "课堂id")
-	private Integer lessonId;
+	private Long lessonId;
 
 	@Schema(description = "名次")
 	private Integer rankNum;
@@ -48,7 +53,7 @@ public class LessonEvaluateVO implements Serializable {
 	@Schema(description = "评价内容")
 	private String content;
 
-	@Schema(description = "评价内容")
+	@Schema(description = "评价人")
 	private String name;
 
 

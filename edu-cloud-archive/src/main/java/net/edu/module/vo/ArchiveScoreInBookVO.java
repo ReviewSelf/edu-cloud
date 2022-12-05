@@ -21,5 +21,10 @@ public class ArchiveScoreInBookVO implements Serializable {
     private String stuId;
     private String stuName;
     private List<ArchiveTestNameToGoal> testList;
-    private List<ArchiveAssessNameToGoal> assessList;
+//    private List<ArchiveAssessNameToGoal> assessList;
+    private List<ArchiveAssessTestScoreVo> finalScoreList;
+    private List<ArchiveAssessTestScoreVo> peaceScoreList;
+    private String peaceScore;
+    private String finalScore;
+    private String totalScore;
 }

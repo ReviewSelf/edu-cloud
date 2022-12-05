@@ -12,9 +12,11 @@ import net.edu.module.service.LessonEvaluateService;
 import net.edu.module.vo.LessonEvaluateVO;
 import net.edu.module.vo.LessonProblemRankVO;
 import net.edu.module.vo.WxLessonEvaluationVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,6 +47,15 @@ public class LessonEvaluateServiceImpl extends BaseServiceImpl<LessonEvaluateDao
         List<LessonProblemRankVO> lastHomework = null;
         //根据本节课的课堂ID获取本次课后作业
         List<LessonProblemRankVO> currentHomework = eduJudgeApi.getLessonProblemRank(lessonId , 2).getData();
+        if(CollUtil.isEmpty(list)){
+            list=new ArrayList<>();
+            List<LessonProblemRankVO> lessonProblemRankVOS=eduJudgeApi.getLessonProblemRank(lessonId , 1).getData();
+            for (int i=0;i<lessonProblemRankVOS.size();i++){
+                LessonEvaluateVO tmp=new LessonEvaluateVO();
+                BeanUtils.copyProperties(lessonProblemRankVOS.get(i),tmp);
+                list.add(tmp);
+            }
+        }
         //根据上节课的课堂ID获取上次课后作业
         if(lastLessonId!=null){
             lastHomework = eduJudgeApi.getLessonProblemRank(lastLessonId.longValue() , 2).getData();
@@ -94,7 +105,10 @@ public class LessonEvaluateServiceImpl extends BaseServiceImpl<LessonEvaluateDao
 
             list.get(i).setContent(content);
         }
-        baseMapper.generate(list);
+        if(list.size()>0){
+            baseMapper.generate(list);
+        }
+
     }
 
     @Override

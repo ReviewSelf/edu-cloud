@@ -11,6 +11,7 @@ import net.edu.module.convert.ArchiveCourseSummaryConvert;
 import net.edu.module.entity.ArchiveCourseSummaryEntity;
 import net.edu.module.service.ArchiveCourseSummaryService;
 import net.edu.module.query.ArchiveCourseSummaryQuery;
+import net.edu.module.vo.ArchiveAssessGradesDtVo;
 import net.edu.module.vo.ArchiveAssessTableVo;
 import net.edu.module.vo.ArchiveAssessTestGradesVo;
 import net.edu.module.vo.ArchiveCourseSummaryVO;
@@ -149,6 +150,26 @@ public class ArchiveCourseSummaryController {
     @Operation(summary = "获取第二步平时考核方式下教学目标占比")
     public Result<List<String>> getPeaceData(@RequestParam Integer courseId) {
         List<String> list = archiveCourseSummaryService.selectPeaceData(courseId);
+        return Result.ok(list);
+    }
+
+    @GetMapping("/getGradesDt")
+    @Operation(summary = "获取成绩分布表")
+    public Result<List<ArchiveAssessGradesDtVo>> getGradesDt(@RequestParam String courseId , String summaryId) {
+        List<ArchiveAssessGradesDtVo> list = archiveCourseSummaryService.selectArchiveGradesDt(courseId , summaryId);
+        return Result.ok(list);
+    }
+
+    @PostMapping("/insertProblem")
+    @Operation(summary = "存在问题与分析")
+    public void insertProblem(@RequestBody ArchiveCourseSummaryVO vo) {
+        archiveCourseSummaryService.insertProblem(vo);
+    }
+
+    @GetMapping("/summary")
+    @Operation(summary = "获取所有summaryId")
+    public  Result<List<ArchiveCourseSummaryVO>> getAllSummary(){
+        List<ArchiveCourseSummaryVO> list=archiveCourseSummaryService.selectAllSummary();
         return Result.ok(list);
     }
 }

@@ -60,4 +60,5 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
 
     BigDecimal getMannerWeight(String courseId);
 
+    ArchiveAssessTableVo getWeightTableStep4(Long courseId);
 }

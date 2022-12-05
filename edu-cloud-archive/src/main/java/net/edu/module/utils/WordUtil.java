@@ -55,4 +55,34 @@ public class WordUtil {
         bos.close();
         out.close();
     }
+
+    @SneakyThrows
+    public static void createScoreBookWord(HttpServletResponse response) {
+
+
+        LoopRowTableRenderPolicy policy = new LoopRowTableRenderPolicy();
+        Configure config = Configure.builder()
+                .bind("archivePlanItemVoList", policy).build();
+        String path= WORD_TEMPLATE_PATH+ File.separator +"TeachingTemplate.docx";
+        XWPFTemplate template = XWPFTemplate.compile(path,config).render(
+                new HashMap<String, Object>() {{
+
+                }}
+        );
+
+        System.out.println(path);
+        response.setContentType("application/octet-stream");
+        String name = URLEncoder.encode("教学日历.docx", "UTF-8");
+        response.setHeader("access-control-expose-headers", "content-disposition");
+        response.setHeader("content-disposition", "attachment;filename=" + name + ".docx");
+        OutputStream out = response.getOutputStream();
+        BufferedOutputStream bos = new BufferedOutputStream(out);
+        template.write(bos);
+        bos.flush();
+        out.flush();
+        PoitlIOUtils.closeQuietlyMulti(template, bos, out);
+        template.close();
+        bos.close();
+        out.close();
+    }
 }

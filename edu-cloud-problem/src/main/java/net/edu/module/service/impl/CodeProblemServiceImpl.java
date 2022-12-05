@@ -62,8 +62,8 @@ public class CodeProblemServiceImpl extends BaseServiceImpl<CodeProblemDao, Code
 
     @Override
     public void save(CodeProblemVO vo) {
+        if(vo.getMemoryLimit()<2048) vo.setMemoryLimit(2048);
         CodeProblemEntity entity = CodeProblemConvert.INSTANCE.convert(vo);
-
         baseMapper.insert(entity);
     }
 

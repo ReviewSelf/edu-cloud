@@ -16,6 +16,7 @@ import net.edu.module.entity.ArchiveGoalScoreEntity;
 import net.edu.module.query.ArchiveScoreBookQuery;
 import net.edu.module.service.ArchiveScoreBookService;
 import net.edu.module.utils.CalculateProportionUtil;
+import net.edu.module.utils.WordUtil;
 import net.edu.module.vo.*;
 import net.maku.entity.ArchiveScoreBookEntity;
 
@@ -23,6 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +56,9 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
 
     @Autowired
     private ArchiveTestScoreDao archiveTestScoreDao;
+
+    @Autowired
+    private ArchiveCourseSummaryDao archiveCourseSummaryDao;
 
 
     @Override
@@ -130,6 +137,7 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
     public List<ArchiveScoreInBookVO> getScoreListInBook(JSONObject classInfo, String id){
         List<ArchiveScoreInBookVO> list=new ArrayList<>();
         String courseId= String.valueOf(classInfo.get("courseId"));
+        String summaryId=String.valueOf(classInfo.get("summaryId"));
         List<ArchiveSignVO> archiveSignVO= archiveSignDao.getSignByBookId(id);
         int i=0;
         for(ArchiveSignVO archiveSignVO1:archiveSignVO) {
@@ -137,12 +145,30 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
             archiveScoreInBookVO.setId(i);
             archiveScoreInBookVO.setStuId(archiveSignVO1.getStuId());
             archiveScoreInBookVO.setStuName(archiveSignVO1.getStuName());
-            archiveScoreInBookVO.setAssessList(archiveAssessScoreDao.selectAssessByIds(courseId, archiveSignVO1.getStuId()));
+            archiveScoreInBookVO.setFinalScoreList(archiveCourseSummaryDao.selectFinalScore(archiveSignVO1.getStuId(), summaryId));
+            archiveScoreInBookVO.setPeaceScoreList(archiveCourseSummaryDao.selectPeaceScore(archiveSignVO1.getStuId() , summaryId));
+            if(archiveScoreInBookVO.getPeaceScoreList()==null){
+                archiveScoreInBookVO.setPeaceScore(null);
+            }else{
+                BigDecimal score = archiveScoreInBookVO.getPeaceScoreList().get(0).getWeight().multiply(archiveScoreInBookVO.getPeaceScoreList().get(0).getAssessScore());
+                archiveScoreInBookVO.setPeaceScore(score.toString());
+            }
+            if(archiveScoreInBookVO.getFinalScoreList()==null){
+                archiveScoreInBookVO.setFinalScore(null);
+            }else{
+                    BigDecimal score1 = archiveScoreInBookVO.getFinalScoreList().get(0).getWeight().multiply(archiveScoreInBookVO.getFinalScoreList().get(0).getAssessScore());
+                    archiveScoreInBookVO.setFinalScore(score1.toString());
+            }
+
+
+            archiveScoreInBookVO.setTotalScore(archiveGoalScoreDao.selectScoreByStudentId(summaryId,courseId,archiveSignVO1.getStuId()));
+//            archiveScoreInBookVO.setAssessList(archiveAssessScoreDao.selectAssessByIds(courseId, archiveSignVO1.getStuId()));
             archiveScoreInBookVO.setTestList(archiveTestScoreDao.selectTestInfoByIds(courseId, archiveSignVO1.getStuId()));
             //评测点权重得出期末等分数写法（暂不使用）
 //            archiveScoreInBookVO.setAssessList(archiveTestScoreDao.selectAssessInfoByIds(courseId, archiveSignVO1.getStuId()));
 
             i++;
+            System.out.println(archiveScoreInBookVO);
             list.add(archiveScoreInBookVO);
         }
 
@@ -159,5 +185,16 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
     public void addAnswerNotes(String dataForm,String bookId){
 
         archiveScoreBookDao.updateAnswerNotes(dataForm,bookId);
+    }
+
+    @Override
+    public void createScoreBookWord(Long bookId, HttpServletResponse response) throws IOException {
+        System.out.println(bookId);
+        WordUtil.createScoreBookWord(response);
+    }
+
+    @Override
+    public ArchiveScoreBookVO selectScoreBookById(Long id) {
+        return archiveScoreBookDao.selectScoreBookById(id);
     }
 }

@@ -33,5 +33,20 @@
     </update>
 
 
+    <select id="selectScoreBookById" resultType="net.edu.module.vo.ArchiveScoreBookVO">
+        SELECT
+            id,
+            teaching_notes as teachingNotes,
+            class_name as className,
+            teacher_name as teacherName,
+            major_name as majorName,
+            class_schedule as classSchedule,
+            answer_notes as answerNotes
+        FROM
+            archive_score_book
+        WHERE
+            id=#{id}
+            and deleted=0
+    </select>
 
 </mapper>

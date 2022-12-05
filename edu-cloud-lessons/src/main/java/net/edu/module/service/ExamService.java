@@ -48,7 +48,9 @@ public interface ExamService extends BaseService<ExamEntity> {
     void promulgateGrade(Long examId, Long abilityId, Integer score);
 
 
-    void downloadZip(HttpServletResponse response, Long problemId,
+    void downloadZip(HttpServletResponse response,
+                     String problemName,
+                     Long problemId,
                      Integer problemType,
                      Integer source,
                      Long sourceId) throws IOException;

@@ -123,12 +123,15 @@ public class ZipUtils {
         FileOutputStream fileOutputStream = null;
         ZipOutputStream zipOutputStream = null;
         BufferedInputStream bufferedInputStream = null;
-        fileOutputStream = new FileOutputStream(new File("D:/zip/" + zipFileName));
+        fileOutputStream = new FileOutputStream(new File("D:/zip/" + zipFileName+".zip"));
         zipOutputStream = new ZipOutputStream(new BufferedOutputStream(fileOutputStream));
         //创建读写缓冲区
         byte[] bufs = new byte[1024 * 10];
 
         for (File file : fileList) {
+            if (null == file || 0 == file.length() || !file.exists()){
+                return;
+            }
             //创建zip实体，并添加进压缩包
             ZipEntry zipEntry = new ZipEntry(file.getName());
             zipOutputStream.putNextEntry(zipEntry);
@@ -160,9 +163,9 @@ public class ZipUtils {
      */
 
     public static void downloadZip(HttpServletResponse response,String zipFileName) throws IOException {
-        File zipFile = new File("D:/zip/"+zipFileName);
+        File zipFile = new File("D:/zip/"+zipFileName+".zip");
         response.setContentType("APPLICATION/OCTET-STREAM");
-        response.setHeader("Content-Disposition", "attachment; filename=" + zipFileName);
+        response.setHeader("Content-Disposition", "attachment; filename=" + zipFileName+".zip");
 
         FileInputStream fileInputStream = null;
         OutputStream outputStream = null;

@@ -17,7 +17,9 @@ import net.maku.entity.ArchiveScoreBookEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,8 +143,12 @@ public class ArchiveScoreBookController {
 
 
 
-
-
-
+    @PostMapping("exportScoreBookWord")
+    @Operation(summary = "导出记分册")
+    public void exportScoreBookWord(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
+        System.out.println(object);
+        Long bookId= Long.valueOf(object.get("bookId").toString());
+        archiveScoreBookService.createScoreBookWord(bookId,response);
+    }
 
 }

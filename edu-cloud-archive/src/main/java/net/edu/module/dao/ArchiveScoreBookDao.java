@@ -26,7 +26,7 @@ public interface ArchiveScoreBookDao extends BaseDao<ArchiveScoreBookEntity> {
 
    void updateAnswerNotes(String dataForm,String bookId);
 
-
+   ArchiveScoreBookVO selectScoreBookById(Long id);
 
 
 }

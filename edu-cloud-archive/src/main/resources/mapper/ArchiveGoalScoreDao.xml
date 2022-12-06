@@ -18,7 +18,7 @@
         <foreach collection="archiveSignVOS" index="index" item="item" open="(" separator="," close=")">
             #{item.stuId}
         </foreach>
-        and course_id=#{courseId}
+        and course_id=#{courseId} and summary_id=#{summaryId}
     </select>
     <select id="selectGoalScore" resultType="net.edu.module.entity.ArchiveGoalScoreEntity">
         select score,total,stu_id,stu_name

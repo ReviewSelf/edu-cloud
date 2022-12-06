@@ -188,11 +188,19 @@ public class ArchiveAssessController {
     }
 
     @GetMapping("getArchiveAssess")
-    @Operation(summary = "获取考核点权重")
+    @Operation(summary = "获取考核点权重-旧")
     public Result<List<ArchiveAssessVO>> getArchiveAssess(@RequestParam("id")String  id){
         List<ArchiveAssessVO> archiveAssessVO=archiveAssessService.selectWeightById(id);
         return Result.ok(archiveAssessVO);
 
     }
+    @GetMapping("getArchiveAssessList")
+    @Operation(summary = "获取考核点权重-新")
+    public Result<List<ArchiveAssessScoreBookWeightList>> getArchiveAssessList(@RequestParam("id")String  id){
+        List<ArchiveAssessScoreBookWeightList> list=archiveAssessService.selectWeightByIdNew(id);
+        return Result.ok(list);
+
+    }
+
 
 }

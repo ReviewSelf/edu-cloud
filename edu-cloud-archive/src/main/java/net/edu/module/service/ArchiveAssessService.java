@@ -50,6 +50,8 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
 
     List<ArchiveAssessVO> selectWeightById(String id);
 
+    List<ArchiveAssessScoreBookWeightList> selectWeightByIdNew(String id);
+
     List<ArchiveAssessVO> selectAssessByCourseId(Long courseId);
 
     void save1(ArchiveAssessVO vo);

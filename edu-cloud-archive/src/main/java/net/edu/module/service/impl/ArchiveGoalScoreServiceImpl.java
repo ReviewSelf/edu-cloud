@@ -155,13 +155,14 @@ public class ArchiveGoalScoreServiceImpl extends BaseServiceImpl<ArchiveGoalScor
         ArchiveGoalScoreInBooKVO archiveGoalScoreInBooKVO =new ArchiveGoalScoreInBooKVO();
         archiveGoalScoreInBooKVO.setMajorName(String.valueOf(classInfo.get("majorName")));
         archiveGoalScoreInBooKVO.setClassName(String.valueOf(classInfo.get("className")));
+        String summaryId=String.valueOf(classInfo.get("summaryId"));
         List<ArchiveSignVO> archiveSignVO= archiveSignDao.getSignByBookId(id);
         int TargetNum=archiveSignVO.size();
         int actualNUm=0;
         int absentNum=0;
         String courseId= String.valueOf(classInfo.get("courseId"));
         archiveGoalScoreInBooKVO.setTargetNum(String.valueOf(TargetNum));
-        List<ArchiveGoalScoreEntity> List= goalScoreDao.selectByStuId(archiveSignVO,courseId);
+        List<ArchiveGoalScoreEntity> List= goalScoreDao.selectByStuId(archiveSignVO,courseId,summaryId);
         actualNUm=List.size();
         absentNum=TargetNum-actualNUm;
         archiveGoalScoreInBooKVO.setAbsentNum(String.valueOf(absentNum));

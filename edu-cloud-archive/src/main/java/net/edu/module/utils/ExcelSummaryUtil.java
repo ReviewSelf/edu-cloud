@@ -131,14 +131,14 @@ public class ExcelSummaryUtil {
 
     @Async
     public void test(ExcelWriter excelWriter){
-//        summary1(excelWriter);
+        summary1(excelWriter);
         summary2(excelWriter);
-//        summary3(excelWriter);
-//        summary4(excelWriter);
-//        summary5(excelWriter);
-//        summary6(excelWriter);
-//        summary7(excelWriter);
-//        summary8(excelWriter);
+        summary3(excelWriter);
+        summary4(excelWriter);
+        summary5(excelWriter);
+        summary6(excelWriter);
+        summary7(excelWriter);
+        summary8(excelWriter);
     }
 
     public static void summary1(ExcelWriter excelWriter){

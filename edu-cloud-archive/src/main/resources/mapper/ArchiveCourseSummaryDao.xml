@@ -108,7 +108,7 @@
     </select>
     <select id="selectMannerPq" resultType="java.math.BigDecimal">
         SELECT
-            SUM(weight)
+            SUM(weight) *100
         FROM archive_assess_manner
         WHERE deleted = 0
         GROUP BY manner_kind

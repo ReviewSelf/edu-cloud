@@ -8,7 +8,9 @@
     </select>
 
     <select id="selectGoalByCourseId" resultType="net.edu.module.entity.ArchiveWeightGoalEntity">
-        select weight,target_id from archive_weight_goal
-        where deleted = 0 and course_id = #{courseId}
+        select weight,target_id,manner_id
+        from archive_weight_goal
+        where deleted = 0 and course_id = #{courseId} and
+              (select manner_kind from archive_assess_manner where manner_id = id and deleted = 0) =2
     </select>
 </mapper>

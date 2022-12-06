@@ -22,7 +22,7 @@ public interface ArchiveGoalScoreDao extends BaseDao<ArchiveGoalScoreEntity> {
 
 
     void insertGoalScore(List<ArchiveGoalScoreEntity> vo);
-    List<ArchiveGoalScoreEntity> selectByStuId(List<ArchiveSignVO> archiveSignVOS,String courseId);
+    List<ArchiveGoalScoreEntity> selectByStuId(List<ArchiveSignVO> archiveSignVOS,String courseId,String summaryId);
 
     List<ArchiveGoalScoreEntity> selectGoalScore(Long summaryId);
 

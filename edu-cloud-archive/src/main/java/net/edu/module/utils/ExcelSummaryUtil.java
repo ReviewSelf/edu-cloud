@@ -31,10 +31,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -134,14 +131,14 @@ public class ExcelSummaryUtil {
 
     @Async
     public void test(ExcelWriter excelWriter){
-        summary1(excelWriter);
+//        summary1(excelWriter);
         summary2(excelWriter);
-        summary3(excelWriter);
-        summary4(excelWriter);
-        summary5(excelWriter);
-        summary6(excelWriter);
-        summary7(excelWriter);
-        summary8(excelWriter);
+//        summary3(excelWriter);
+//        summary4(excelWriter);
+//        summary5(excelWriter);
+//        summary6(excelWriter);
+//        summary7(excelWriter);
+//        summary8(excelWriter);
     }
 
     public static void summary1(ExcelWriter excelWriter){
@@ -230,20 +227,15 @@ public class ExcelSummaryUtil {
         List<String> list;
         ArchiveAssessByCourseIdVo assess = new ArchiveAssessByCourseIdVo();
         assess.setCourseId(Math.toIntExact(excelSummaryUtil.courseIdUntil));
-        List<ArchivePointAndTargetVO> archivePointAndTargetVOS= excelSummaryUtil.archiveWeightTargetCourseService.selectPointAndTarget(courseIdUntil);
         ArchiveAssessTableVo archiveAssessTableVo = excelSummaryUtil.archiveAssessService.getWeightTable(assess);
-        System.out.println(archiveAssessTableVo);
+        List<BigDecimal> bigDecimals = excelSummaryUtil.archiveCourseSummaryService.selectMannerPq(String.valueOf(courseIdUntil));
         //设置表头
-        //写入表头
-        WriteSheet writeSheet = EasyExcel.writerSheet("考试比例设置")
-                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(25))
-                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
-                .build();
+
         //设置内容
 
         //第一行内容
         list= new ArrayList<>();
-        list.add("教学编号");
+        list.add("课程代码");
         list.add(String.valueOf(archivePointAndTargetVOS.get(0).getSysId()));
         list.add("课程名称");
         list.add(String.valueOf(archivePointAndTargetVOS.get(0).getName()));
@@ -275,23 +267,88 @@ public class ExcelSummaryUtil {
         list.add("");
         dataList.add(list);
 
-        //第四行
         list= new ArrayList<>();
-        list.add("考核点占比");
+        for (int i = 0; i < 3; i++) {
+            list.add("考核方式占比");
+        }
+        dataList.add(list);
+
+        list= new ArrayList<>();
+        list.add("");
+        list.add("平时比例");
+        list.add("期末比例");
+        dataList.add(list);
+
+        list= new ArrayList<>();
+        list.add("总评");
+        for (int i = 0; i < bigDecimals.size(); i++) {
+            list.add(bigDecimals.get(i).toString() + '%');
+        }
+        dataList.add(list);
+
+        //空行
+        list= new ArrayList<>();
+        list.add("");
         dataList.add(list);
 
         //考核点和教学目标占比
-        String RouCome[][]=archiveAssessTableVo.getRouCome();
-        System.out.println(RouCome.length);
-        for(int i =0;i<RouCome.length;i++){
-            list= new ArrayList<>();
-            System.out.println(RouCome[i].length);
-            for(int j=0;j<RouCome[i].length;j++){
-                list.add(RouCome[i][j]);
-            }
-            dataList.add(list);
-            System.out.println(dataList);
+        String[][] RouCome =archiveAssessTableVo.getRouCome();
+        list= new ArrayList<>();
+        for (int i = 0; i < RouCome[0].length; i++) {
+            list.add("期末考核点占比");
         }
+        dataList.add(list);
+
+        for (String[] strings : RouCome) {
+            list = new ArrayList<>(Arrays.asList(strings));
+            dataList.add(list);
+        }
+
+        list= new ArrayList<>();
+        list.add("总计(100)");
+        for (int i = 0; i < RouCome[0].length-1; i++) {
+            list.add("");
+        }
+        dataList.add(list);
+
+        //空行
+        list= new ArrayList<>();
+        list.add("");
+        dataList.add(list);
+        //空行
+        list= new ArrayList<>();
+        list.add("");
+        dataList.add(list);
+        list= new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            list.add("平时占比");
+        }
+        dataList.add(list);
+
+        List<String> strings = excelSummaryUtil.archiveCourseSummaryService.selectPeaceData(Math.toIntExact(courseIdUntil));
+
+        for (int i = 0; i < strings.size(); i++) {
+            list= new ArrayList<>();
+            list.add(strings.get(i).substring(0,5));
+            list.add(strings.get(i).substring(6,strings.get(i).length()-1));
+            dataList.add(list);
+        }
+
+
+        list= new ArrayList<>();
+        list.add("总计");
+        list.add("100");
+        dataList.add(list);
+        //写入表头
+        List<Integer> col = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            col.add(i);
+        }
+        WriteSheet writeSheet = EasyExcel.writerSheet("考试比例设置")
+                .registerWriteHandler(new WidthStyle(3328,col))
+                .registerWriteHandler(HeadContentCellStyle.myHorizontalCellStyleStrategy())
+                .registerWriteHandler(new CustomMergeStrategy(dataList,0,0,false,true))
+                .build();
         excelWriter.write(dataList,writeSheet);
     }
 

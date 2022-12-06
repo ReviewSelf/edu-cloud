@@ -134,7 +134,7 @@ public class ExamController {
 
     @GetMapping("/downloadZip")
     @Operation(summary = "下载题目附件")
-    public Result<String> downloadZip(HttpServletResponse response,
+    public void downloadZip(HttpServletResponse response,
                                       @RequestParam("problemName") String problemName,
                                       @RequestParam("problemId") Long problemId,
                             @RequestParam("problemType") Integer problemType,
@@ -142,7 +142,7 @@ public class ExamController {
                             @RequestParam("sourceId") Long sourceId) throws IOException {
 
         examService.downloadZip(response,problemName,problemId,problemType,source,sourceId);
-        return Result.ok();
+
 
 
     }

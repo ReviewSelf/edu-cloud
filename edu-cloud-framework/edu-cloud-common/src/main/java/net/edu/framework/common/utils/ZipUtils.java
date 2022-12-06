@@ -2,10 +2,13 @@ package net.edu.framework.common.utils;
 
 
 import net.edu.framework.common.exception.ServerException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -20,6 +23,8 @@ import java.util.zip.ZipOutputStream;
  * @date 2022/11/25 15:53:08
  * @description
  */
+
+@Component
 public class ZipUtils {
 
     // UTF-8 字符集
@@ -34,6 +39,13 @@ public class ZipUtils {
     // 文件类型 <application/x-zip-compressed>
     private static final String CONTENT_TYPE_ZIP_COMPRESSED = "application/x-zip-compressed";
 
+
+    private static String ZIP_PATH;
+
+    @Value("${storage.local.zipPath}")
+    public void setZipPath(String zipPath) {
+        ZIP_PATH = zipPath;
+    }
 
     public static void checkZipFileParam(MultipartFile zipFile) {
         if (Objects.isNull(zipFile)) {
@@ -123,7 +135,11 @@ public class ZipUtils {
         FileOutputStream fileOutputStream = null;
         ZipOutputStream zipOutputStream = null;
         BufferedInputStream bufferedInputStream = null;
-        fileOutputStream = new FileOutputStream(new File("D:/zip/" + zipFileName+".zip"));
+        File tempFile = new File(ZIP_PATH);
+        if (!tempFile.exists() && !tempFile.isDirectory()){
+            tempFile.mkdirs();
+        }
+        fileOutputStream = new FileOutputStream(new File(ZIP_PATH+"/"+ zipFileName+".zip"));
         zipOutputStream = new ZipOutputStream(new BufferedOutputStream(fileOutputStream));
         //创建读写缓冲区
         byte[] bufs = new byte[1024 * 10];
@@ -163,9 +179,10 @@ public class ZipUtils {
      */
 
     public static void downloadZip(HttpServletResponse response,String zipFileName) throws IOException {
-        File zipFile = new File("D:/zip/"+zipFileName+".zip");
+        File zipFile = new File(ZIP_PATH+"/"+zipFileName+".zip");
         response.setContentType("APPLICATION/OCTET-STREAM");
-        response.setHeader("Content-Disposition", "attachment; filename=" + zipFileName+".zip");
+        response.setHeader("Content-Disposition", "attachment; filename=" +  URLEncoder.encode(zipFileName+".zip", "UTF-8"));
+        response.setCharacterEncoding("utf-8");
 
         FileInputStream fileInputStream = null;
         OutputStream outputStream = null;
@@ -181,7 +198,7 @@ public class ZipUtils {
         fileInputStream.close();
         outputStream.close();
 
-        File file = new File("D:/zip/"+zipFileName);
+        File file = new File(ZIP_PATH+"/"+zipFileName+".zip");
         file.delete();
 
         if (fileInputStream != null){

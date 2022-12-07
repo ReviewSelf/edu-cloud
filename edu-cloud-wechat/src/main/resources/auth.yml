@@ -9,3 +9,5 @@ auth:
     - /wx/post
     - /wx/getAccessToken
     - /wx/send
+    - /wx/info
+    - /wx/account

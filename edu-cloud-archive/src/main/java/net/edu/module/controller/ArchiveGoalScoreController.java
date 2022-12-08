@@ -71,6 +71,7 @@ public class ArchiveGoalScoreController {
     public Result<ArchiveGoalScoreInBooKVO> getGradeInfo(@RequestBody JSONObject jsonObject){
         JSONObject classInfo=JSONUtil.parseObj(jsonObject.get("classInfo"))  ;
         String id= String.valueOf(jsonObject.get("id"));
+        System.out.println(classInfo);
         ArchiveGoalScoreInBooKVO archiveGoalScoreInBooKVO =archiveGoalScoreService.getGradeInfo(classInfo,id);
         return Result.ok(archiveGoalScoreInBooKVO);
     }

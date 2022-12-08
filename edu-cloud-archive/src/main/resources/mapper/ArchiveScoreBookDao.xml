@@ -41,7 +41,8 @@
             teacher_name as teacherName,
             major_name as majorName,
             class_schedule as classSchedule,
-            answer_notes as answerNotes
+            answer_notes as answerNotes,
+            course_id as courseId
         FROM
             archive_score_book
         WHERE

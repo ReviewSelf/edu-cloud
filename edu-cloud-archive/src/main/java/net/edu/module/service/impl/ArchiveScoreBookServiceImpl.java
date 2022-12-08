@@ -14,6 +14,7 @@ import net.edu.module.convert.ArchiveScoreBookConvert;
 import net.edu.module.dao.*;
 import net.edu.module.entity.ArchiveGoalScoreEntity;
 import net.edu.module.query.ArchiveScoreBookQuery;
+import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.service.ArchiveScoreBookService;
 import net.edu.module.utils.CalculateProportionUtil;
 import net.edu.module.utils.WordUtil;
@@ -39,6 +40,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBookDao, ArchiveScoreBookEntity> implements ArchiveScoreBookService {
+
+    @Autowired
+    private ArchiveAssessService archiveAssessService;
 
     @Autowired
     private ArchiveScoreBookDao archiveScoreBookDao;
@@ -187,9 +191,14 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
     }
 
     @Override
-    public void createScoreBookWord(Long bookId, HttpServletResponse response) throws IOException {
+    public void createScoreBookWord(Long bookId, HttpServletResponse response) {
         System.out.println(bookId);
-        WordUtil.createScoreBookWord(response);
+        ArchiveScoreBookVO archiveScoreBookVO = archiveScoreBookDao.selectScoreBookById(bookId);
+        Long courseId=archiveScoreBookVO.getCourseId();
+        System.out.println(courseId);
+        List<ArchiveAssessScoreBookWeightList> archiveAssessScoreBookWeightLists=archiveAssessService.selectWeightByIdNew(String.valueOf(courseId));
+        System.out.println(archiveAssessScoreBookWeightLists);
+        WordUtil.createScoreBookWord(archiveAssessScoreBookWeightLists,archiveScoreBookVO,response);
     }
 
     @Override

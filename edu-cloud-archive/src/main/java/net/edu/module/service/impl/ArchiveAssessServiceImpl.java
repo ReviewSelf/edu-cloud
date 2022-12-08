@@ -327,6 +327,7 @@ public class ArchiveAssessServiceImpl extends BaseServiceImpl<ArchiveAssessDao, 
     public List<ArchiveAssessScoreBookWeightList> selectWeightByIdNew(String id){
 
         List<ArchiveAssessScoreBookWeightList> list=archiveAssessDao.selectWeightByIdNew(id);
+
         if(list.size()==2){
             list.get(0).setName("平时成绩");
             list.get(1).setName("期末成绩");

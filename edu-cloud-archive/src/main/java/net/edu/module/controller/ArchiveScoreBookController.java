@@ -151,4 +151,12 @@ public class ArchiveScoreBookController {
         archiveScoreBookService.createScoreBookWord(bookId,response);
     }
 
+
+    @PostMapping("exportExcelScore")
+    @Operation(summary = "导出平时成绩")
+    public void exportExcelScore(@RequestBody JSONObject object, HttpServletResponse response) throws IOException {
+        System.out.println(object);
+        Long bookId= Long.valueOf(object.get("bookId").toString());
+        archiveScoreBookService.exportExcelScore(response);
+    }
 }

@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.AllArgsConstructor;
 
 import net.edu.framework.common.page.PageResult;
+import net.edu.framework.common.utils.ExcelUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveScoreBookConvert;
 import net.edu.module.dao.*;
@@ -17,6 +18,8 @@ import net.edu.module.query.ArchiveScoreBookQuery;
 import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.service.ArchiveScoreBookService;
 import net.edu.module.utils.CalculateProportionUtil;
+import net.edu.module.utils.ExamExcelUtil;
+import net.edu.module.utils.ExcelScoreUntil;
 import net.edu.module.utils.WordUtil;
 import net.edu.module.vo.*;
 import net.maku.entity.ArchiveScoreBookEntity;
@@ -202,7 +205,15 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
     }
 
     @Override
+    public void exportExcelScore(HttpServletResponse response) throws IOException {
+        ExcelScoreUntil.excelScoreUntil(response);
+    }
+
+    @Override
     public ArchiveScoreBookVO selectScoreBookById(Long id) {
         return archiveScoreBookDao.selectScoreBookById(id);
     }
+
+
+
 }

@@ -49,6 +49,8 @@ public interface ArchiveScoreBookService extends BaseService<net.maku.entity.Arc
 
     void createScoreBookWord(Long bookId, HttpServletResponse response) throws IOException;
 
+    void exportExcelScore(HttpServletResponse response) throws IOException;
+
     ArchiveScoreBookVO selectScoreBookById(Long id);
 
 }

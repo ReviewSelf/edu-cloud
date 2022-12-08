@@ -2,6 +2,7 @@ package net.edu.module.service.impl;
 
 
 import com.alibaba.nacos.common.utils.CollectionUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -19,7 +20,9 @@ import net.edu.module.api.EduJudgeApi;
 import net.edu.module.api.EduWxApi;
 import net.edu.module.convert.ExamConvert;
 import net.edu.module.dao.ExamDao;
+import net.edu.module.entity.ExamAttendLogEntity;
 import net.edu.module.entity.ExamEntity;
+import net.edu.module.entity.ExamProblemEntity;
 import net.edu.module.query.ExamQuery;
 import net.edu.module.service.ExamAttendLogService;
 import net.edu.module.service.ExamProblemService;
@@ -133,6 +136,11 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+        for (int i = 0;i<idList.size();i++){
+            examAttendLogService.remove(new QueryWrapper<ExamAttendLogEntity>().eq("exam_id",idList.get(i)));
+            examProblemService.remove(new QueryWrapper<ExamProblemEntity>().eq("exam_id",idList.get(i)));
+        }
+
     }
 
 

@@ -96,7 +96,8 @@ public class StudentLessonServiceImpl implements StudentLessonService {
             //领取新试卷开始考试
             //需要优化
             List<ExamProblemEntity> list = examProblemService.list(examId);
-            Collections.shuffle(list);
+            //打乱顺序
+//            Collections.shuffle(list);
             vo.setPaperProblem(list);
             vo.setProblemIndex(1);
             //考试结束时间

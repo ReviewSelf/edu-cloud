@@ -188,12 +188,13 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
         return list;
     }
 
+
     @Override
     public List<ArchiveAssessTestGradesVo> selectArchiveStep3(String courseId, String summaryId) {
 
         List<ArchiveAssessTestGradesVo> list = archiveCourseSummaryDao.selectStudentIdAndName(courseId);
         System.out.println("学生姓名和id获取：");
-        System.out.println(list.get(1).getStudentId());
+        System.out.println(list);
         for(int i = 0 ; i < list.size() ; i++) {
             list.get(i).setFinalScoreList(archiveCourseSummaryDao.selectFinalScore(list.get(i).getStudentId(), summaryId));
         }

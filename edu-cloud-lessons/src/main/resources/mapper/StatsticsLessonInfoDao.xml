@@ -6,7 +6,7 @@
     <select id="selectStudentHomeworkStatisticsInfo" resultType="java.util.HashMap">
         SELECT ifnull(homeworkCompleteProblemNum,0) as homeworkCompleteProblemNum,
                date_format(homeworkEndTime,'%Y-%m-%d %H:%i:%s') as homeworkEndTime,
-               ifnull(homeworkEndTime,0) as homeworkNum,
+               ifnull(homeworkNum,0) as homeworkNum,
                ifnull(homeworkProblemNum,0) as homeworkProblemNum
         FROM (
                  SELECT homework_end_time AS homeworkEndTime

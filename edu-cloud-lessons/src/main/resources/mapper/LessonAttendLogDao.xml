@@ -43,17 +43,30 @@
     </delete>
 
     <select id="selectStudentsList" resultType="net.edu.module.vo.LessonAttendLogVO">
-        select a.id,
-               stu_id       as stuId,
-               b.real_name  as name,
-               lesson_id    as lessonId,
-               checkin_time as checkinTime,
-               roll_call    as rollCall,
-               a.status
-        from lesson_attend_log a
-                 left join sys_user b on a.stu_id = b.id
-        where lesson_id = #{query.lessonId}
-        order by roll_call
+        SELECT id,stuId,NAME,lessonId,checkinTime,rollCall,STATUS,
+               ability,
+               ( SELECT NAME FROM ability WHERE id = ability_id ) as abilityItem,
+               submitTimes,correctTimes
+        FROM
+            (SELECT
+                 a.id,
+                 stu_id AS stuId,
+                 b.real_name AS NAME,
+                 lesson_id AS lessonId,
+                 checkin_time AS checkinTime,
+                 roll_call AS rollCall,
+                 a.STATUS,
+                 ( SELECT NAME FROM ability WHERE id = b.ability_id ) AS ability,
+                 (select ability_id FROM user_ability where user_id=b.id ORDER BY id desc  limit 1 ) as ability_id,
+            b.submit_times AS submitTimes,
+            b.correct_times AS correctTimes
+            FROM
+	lesson_attend_log a
+	LEFT JOIN sys_user b ON a.stu_id = b.id
+        WHERE
+            lesson_id = #{query.lessonId}
+        ORDER BY
+            roll_call)t
     </select>
 
     <update id="updateStudents">

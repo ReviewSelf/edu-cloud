@@ -49,6 +49,7 @@ public class RedisKeys {
 
     }
 
+
     public static String getExamAttendLog(Long examId) {
         if (examId != null) {
             return "exam:log:" + examId;

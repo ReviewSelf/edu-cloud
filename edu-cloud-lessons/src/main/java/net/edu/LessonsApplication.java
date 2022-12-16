@@ -1,5 +1,9 @@
 package net.edu;
 
+import net.edu.lessonsocket.config.LessonNettyConfig;
+import net.edu.lessonsocket.service.LessonWebSocketServer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -17,10 +21,23 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableFeignClients
 @EnableAsync
-public class LessonsApplication {
+public class LessonsApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(LessonsApplication.class, args);
+    }
+
+    @Autowired
+    private LessonWebSocketServer lessonWebSocketServer;
+
+    @Override
+    public void run(String... args) throws Exception {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                lessonWebSocketServer.start(LessonNettyConfig.PORT);
+            }
+        }).start();
     }
 }
 

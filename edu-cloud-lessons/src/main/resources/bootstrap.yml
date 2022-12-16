@@ -1,6 +1,13 @@
 server:
   port: 7005
 
+
+#  netty服务端口和webSocket path
+netty:
+  lesson:
+    port: 8090
+    path: /lesson
+
 spring:
   application:
     name: edu-cloud-lessons

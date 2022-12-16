@@ -139,7 +139,6 @@ public class JudgeService {
                 //判题机报错，抛异常结束判题
                 throw new RuntimeException("判题错误：" + result.toString());
             }
-
         });
         //更新运行结果
         JudgeSampleResultVO resultVO = judgeRecordDao.selectUpdateRecord(recordId);

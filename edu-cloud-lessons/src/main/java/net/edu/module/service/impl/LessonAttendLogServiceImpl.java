@@ -10,6 +10,7 @@ import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.lessonsocket.vo.LessonUserVO;
 import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.LessonAttendLogConvert;
 import net.edu.module.dao.LessonAttendLogDao;
@@ -39,7 +40,7 @@ import static java.lang.Math.abs;
  */
 @Service
 @AllArgsConstructor
- public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogDao, LessonAttendLogEntity> implements LessonAttendLogService {
+public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogDao, LessonAttendLogEntity> implements LessonAttendLogService {
 
     private final RedisUtils redisUtils;
     private final LessonAttendLogDao lessonAttendLogDao;
@@ -55,6 +56,8 @@ import static java.lang.Math.abs;
         }
         return list;
     }
+
+
 
 
     //名单校验加签到

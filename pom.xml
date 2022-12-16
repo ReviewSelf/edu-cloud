@@ -49,12 +49,15 @@
         <hutool.version>5.7.22</hutool.version>
         <dameng.version>8.1.2.79</dameng.version>
         <easyexcel.version>3.1.1</easyexcel.version>
-        <deepoove.version>1.10.0</deepoove.version>
-        <shardingsphere.version>5.0.0</shardingsphere.version>
-        <alibaba.version>1.1.23</alibaba.version>
+        <netty.version>4.1.79.Final</netty.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -79,21 +82,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>com.deepoove</groupId>
-                <artifactId>poi-tl</artifactId>
-                <version>${deepoove.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>shardingsphere-sql-parser-spi</artifactId>
-                <version>${shardingsphere.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>${alibaba.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>easyexcel</artifactId>
@@ -233,52 +221,33 @@
         <!-- 开发 -->
         <profile>
             <id>dev</id>
-<!--            <properties>-->
-<!--                &lt;!&ndash;当前环境,生产环境为空&ndash;&gt;-->
-<!--                <profile.name>dev</profile.name>-->
-<!--                &lt;!&ndash;Nacos配置中心地址&ndash;&gt;-->
-<!--                <config.server-addr>124.70.217.106:8848</config.server-addr>-->
-<!--                &lt;!&ndash;Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空&ndash;&gt;-->
-<!--                <config.namespace>8e8bf1a9-c5aa-47e3-865f-28411e433b25</config.namespace>-->
-<!--                &lt;!&ndash;Nacos用户名&ndash;&gt;-->
-<!--                <config.username>nacos</config.username>-->
-<!--                &lt;!&ndash;Nacos密码&ndash;&gt;-->
-<!--                <config.password>nacos</config.password>-->
-<!--                &lt;!&ndash;Nacos配置分组名称&ndash;&gt;-->
-<!--                <config.group>DEFAULT_GROUP</config.group>-->
-<!--                &lt;!&ndash;Nacos服务发现地址&ndash;&gt;-->
-<!--                <discovery.server-addr>124.70.217.106:8848</discovery.server-addr>-->
-<!--            </properties>-->
-            <properties>
-                <!--当前环境,生产环境为空-->
-                <profile.name>dev</profile.name>
-                <!--Nacos配置中心地址-->
-                <config.server-addr>127.0.0.1:8848</config.server-addr>
-                <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
-                <config.namespace></config.namespace>
-                <!--Nacos用户名-->
-                <config.username>nacos</config.username>
-                <!--Nacos密码-->
-                <config.password>nacos</config.password>
-                <!--Nacos配置分组名称-->
-                <config.group>DEFAULT_GROUP</config.group>
-                <!--Nacos服务发现地址-->
-                <discovery.server-addr>127.0.0.1:8848</discovery.server-addr>
-            </properties>
-        </profile>
-        <profile>
-            <id>dev2</id>
             <activation>
                 <!--默认激活配置-->
                 <activeByDefault>true</activeByDefault>
             </activation>
+<!--                                    <properties>-->
+<!--                                        &lt;!&ndash;当前环境,生产环境为空&ndash;&gt;-->
+<!--                                        <profile.name>dev</profile.name>-->
+<!--                                        &lt;!&ndash;Nacos配置中心地址&ndash;&gt;-->
+<!--                                        <config.server-addr>127.0.0.1:8848</config.server-addr>-->
+<!--                                        &lt;!&ndash;Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空&ndash;&gt;-->
+<!--                                        <config.namespace></config.namespace>-->
+<!--                                        &lt;!&ndash;Nacos用户名&ndash;&gt;-->
+<!--                                        <config.username>nacos</config.username>-->
+<!--                                        &lt;!&ndash;Nacos密码&ndash;&gt;-->
+<!--                                        <config.password>nacos</config.password>-->
+<!--                                        &lt;!&ndash;Nacos配置分组名称&ndash;&gt;-->
+<!--                                        <config.group>DEFAULT_GROUP</config.group>-->
+<!--                                        &lt;!&ndash;Nacos服务发现地址&ndash;&gt;-->
+<!--                                        <discovery.server-addr>127.0.0.1:8848</discovery.server-addr>-->
+<!--                                    </properties>-->
             <properties>
                 <!--当前环境,生产环境为空-->
-                <profile.name>dev-my</profile.name>
+                <profile.name>dev</profile.name>
                 <!--Nacos配置中心地址-->
-                <config.server-addr>127.0.0.1:8848</config.server-addr>
+                <config.server-addr>124.70.217.106:8848</config.server-addr>
                 <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
-                <config.namespace></config.namespace>
+                <config.namespace>8e8bf1a9-c5aa-47e3-865f-28411e433b25</config.namespace>
                 <!--Nacos用户名-->
                 <config.username>nacos</config.username>
                 <!--Nacos密码-->
@@ -286,7 +255,7 @@
                 <!--Nacos配置分组名称-->
                 <config.group>DEFAULT_GROUP</config.group>
                 <!--Nacos服务发现地址-->
-                <discovery.server-addr>127.0.0.1:8848</discovery.server-addr>
+                <discovery.server-addr>124.70.217.106:8848</discovery.server-addr>
             </properties>
         </profile>
         <!-- 生产 -->

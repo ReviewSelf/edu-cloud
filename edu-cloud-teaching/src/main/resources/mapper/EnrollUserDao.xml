@@ -59,7 +59,7 @@
     <update id="save">
         UPDATE enroll_user
         set
-        phone = #{phone} ,status = 1
+        phone = #{phone}
         <if test="name!=null and name!=''">
             ,name = #{name}
         </if>
@@ -92,8 +92,8 @@
     <insert id="insertEnrollUser" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO
             enroll_user
-            (phone,name,area,grade,status)
-        VALUES(#{phone},#{name},#{area},#{grade},1)
+            (phone,name,area,grade)
+        VALUES(#{phone},#{name},#{area},#{grade})
     </insert>
 
     <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.EnrollUserVO">

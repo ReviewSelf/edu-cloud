@@ -20,6 +20,9 @@ public class ArchiveScoreBookClassInfoVO implements Serializable {
     @Schema(description = "课程编号")
     private Integer courseId;
 
+    @Schema(description = "课程总结编号")
+    private Integer summaryId;
+
     @Schema(description = "教研系")
     private String majorName;
 

@@ -38,6 +38,7 @@ public class ArchiveSignController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<ArchiveSignVO>> page(@Valid ArchiveSignQuery query){
+
         PageResult<ArchiveSignVO> page = archiveSignService.page(query);
 
         return Result.ok(page);

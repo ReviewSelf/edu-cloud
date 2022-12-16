@@ -60,6 +60,9 @@ public class ArchiveScoreBookVO implements Serializable {
 	@Schema(description = "课程id")
 	private Long courseId;
 
+	@Schema(description = "课程总结Id")
+	private Long summaryId;
+
 	@Schema(description = "辅导答疑")
 	private String answerNotes;
 

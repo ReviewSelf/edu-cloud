@@ -42,7 +42,8 @@
             major_name as majorName,
             class_schedule as classSchedule,
             answer_notes as answerNotes,
-            course_id as courseId
+            course_id as courseId,
+            summary_id as summaryId
         FROM
             archive_score_book
         WHERE

@@ -15,8 +15,10 @@ import net.edu.module.convert.ArchiveScoreBookConvert;
 import net.edu.module.dao.*;
 import net.edu.module.entity.ArchiveGoalScoreEntity;
 import net.edu.module.query.ArchiveScoreBookQuery;
+import net.edu.module.query.ArchiveSignQuery;
 import net.edu.module.service.ArchiveAssessService;
 import net.edu.module.service.ArchiveScoreBookService;
+import net.edu.module.service.ArchiveSignService;
 import net.edu.module.utils.CalculateProportionUtil;
 import net.edu.module.utils.ExamExcelUtil;
 import net.edu.module.utils.ExcelScoreUntil;
@@ -44,6 +46,10 @@ import java.util.List;
 @AllArgsConstructor
 public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBookDao, ArchiveScoreBookEntity> implements ArchiveScoreBookService {
 
+
+    @Autowired
+    private ArchiveSignService archiveSignService;
+
     @Autowired
     private ArchiveAssessService archiveAssessService;
 
@@ -66,6 +72,10 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
 
     @Autowired
     private ArchiveCourseSummaryDao archiveCourseSummaryDao;
+
+    public ArchiveScoreBookServiceImpl() {
+
+    }
 
 
     @Override
@@ -142,9 +152,12 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
 
     @Override
     public List<ArchiveScoreInBookVO> getScoreListInBook(JSONObject classInfo, String id){
+        System.out.println(classInfo);
         List<ArchiveScoreInBookVO> list=new ArrayList<>();
         String courseId= String.valueOf(classInfo.get("courseId"));
         String summaryId=String.valueOf(classInfo.get("summaryId"));
+
+        System.out.println(id);
         List<ArchiveSignVO> archiveSignVO= archiveSignDao.getSignByBookId(id);
         int i=0;
         for(ArchiveSignVO archiveSignVO1:archiveSignVO) {
@@ -198,10 +211,52 @@ public class ArchiveScoreBookServiceImpl extends BaseServiceImpl<ArchiveScoreBoo
         System.out.println(bookId);
         ArchiveScoreBookVO archiveScoreBookVO = archiveScoreBookDao.selectScoreBookById(bookId);
         Long courseId=archiveScoreBookVO.getCourseId();
+        Long summaryId=archiveScoreBookVO.getSummaryId();
         System.out.println(courseId);
         List<ArchiveAssessScoreBookWeightList> archiveAssessScoreBookWeightLists=archiveAssessService.selectWeightByIdNew(String.valueOf(courseId));
         System.out.println(archiveAssessScoreBookWeightLists);
-        WordUtil.createScoreBookWord(archiveAssessScoreBookWeightLists,archiveScoreBookVO,response);
+
+        List<ArchiveScoreInBookVO> archiveScoreInBookVOList=new ArrayList<>();
+        List<ArchiveSignVO> archiveSignVO= archiveSignDao.getSignByBookId(String.valueOf(bookId));
+        int i=0;
+        for(ArchiveSignVO archiveSignVO1:archiveSignVO) {
+            ArchiveScoreInBookVO archiveScoreInBookVO = new ArchiveScoreInBookVO();
+            archiveScoreInBookVO.setId(i);
+            archiveScoreInBookVO.setStuId(archiveSignVO1.getStuId());
+            archiveScoreInBookVO.setStuName(archiveSignVO1.getStuName());
+            archiveScoreInBookVO.setFinalScoreList(archiveCourseSummaryDao.selectFinalScore(archiveSignVO1.getStuId(), String.valueOf(summaryId)));
+            archiveScoreInBookVO.setPeaceScoreList(archiveCourseSummaryDao.selectPeaceScore(archiveSignVO1.getStuId() , String.valueOf(summaryId)));
+            if(archiveScoreInBookVO.getPeaceScoreList()==null){
+                archiveScoreInBookVO.setPeaceScore(null);
+            }else{
+                BigDecimal score = archiveScoreInBookVO.getPeaceScoreList().get(0).getWeight().multiply(archiveScoreInBookVO.getPeaceScoreList().get(0).getAssessScore());
+                archiveScoreInBookVO.setPeaceScore(score.toString());
+            }
+            if(archiveScoreInBookVO.getFinalScoreList()==null){
+                archiveScoreInBookVO.setFinalScore(null);
+            }else{
+                BigDecimal score1 = archiveScoreInBookVO.getFinalScoreList().get(0).getWeight().multiply(archiveScoreInBookVO.getFinalScoreList().get(0).getAssessScore());
+                archiveScoreInBookVO.setFinalScore(score1.toString());
+            }
+
+
+            archiveScoreInBookVO.setTotalScore(archiveGoalScoreDao.selectScoreByStudentId(String.valueOf(summaryId), String.valueOf(courseId),archiveSignVO1.getStuId()));
+//            archiveScoreInBookVO.setAssessList(archiveAssessScoreDao.selectAssessByIds(courseId, archiveSignVO1.getStuId()));
+            archiveScoreInBookVO.setTestList(archiveTestScoreDao.selectTestInfoByIds(String.valueOf(courseId), archiveSignVO1.getStuId()));
+            //评测点权重得出期末等分数写法（暂不使用）
+//            archiveScoreInBookVO.setAssessList(archiveTestScoreDao.selectAssessInfoByIds(courseId, archiveSignVO1.getStuId()));
+
+            i++;
+            archiveScoreInBookVOList.add(archiveScoreInBookVO);
+        }
+
+        ArchiveSignQuery archiveSignQuery=new ArchiveSignQuery();
+        archiveSignQuery.setBookId(bookId);
+        archiveSignQuery.setLimit(100);
+        archiveSignQuery.setPage(1);
+        PageResult<ArchiveSignVO> page= archiveSignService.page(archiveSignQuery);
+        System.out.println(page.getList());
+        WordUtil.createScoreBookWord(archiveScoreInBookVOList,page.getList(),archiveAssessScoreBookWeightLists,archiveScoreBookVO,response);
     }
 
     @Override

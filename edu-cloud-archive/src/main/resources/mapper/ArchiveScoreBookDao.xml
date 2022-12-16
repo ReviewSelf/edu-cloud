@@ -4,8 +4,8 @@
 <mapper namespace="net.edu.module.dao.ArchiveScoreBookDao">
 
     <insert id="InsertClassInfo" useGeneratedKeys="true" keyProperty="id"  keyColumn="id">
-        insert into archive_score_book(class_name,course_id,teacher_name,major_name)
-        values(#{className},#{courseId},#{teacherName},#{majorName})
+        insert into archive_score_book(class_name,course_id,teacher_name,major_name,summary_id)
+        values(#{className},#{courseId},#{teacherName},#{majorName},#{summaryId})
     </insert>
 
     <select id="selectList" resultType="net.edu.module.vo.ArchiveScoreBookVO">

@@ -80,6 +80,7 @@ public class ArchiveScoreBookController {
     @Operation(summary = "生成课程信息")
     public Result<String> InsertClassInfo(@RequestBody ArchiveScoreBookClassInfoVO vo){
 
+        System.out.println(vo);
         archiveScoreBookService.InsertClassInfo(vo);
 
         return Result.ok(String.valueOf(vo.getId()));

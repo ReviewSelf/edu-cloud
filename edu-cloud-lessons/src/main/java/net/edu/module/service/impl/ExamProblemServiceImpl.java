@@ -46,11 +46,11 @@ public class ExamProblemServiceImpl extends BaseServiceImpl<ExamProblemDao, Exam
     @Override
     public List<ExamProblemEntity> list(Long examId) {
         List<ExamProblemEntity> list = null;
-//        list = (List<ExamProblemEntity>) redisUtils.get(RedisKeys.getExamProblem(examId));
+        list = (List<ExamProblemEntity>) redisUtils.get(RedisKeys.getExamProblem(examId));
         if (list == null) {
             list = new LambdaQueryChainWrapper<>(baseMapper)
                     .eq(ExamProblemEntity::getExamId, examId).orderByAsc(ExamProblemEntity::getSort).list();
-//            redisUtils.set(RedisKeys.getExamProblem(examId), list, RedisUtils.HOUR_ONE_EXPIRE);
+            redisUtils.set(RedisKeys.getExamProblem(examId), list, RedisUtils.HOUR_ONE_EXPIRE);
         }
         return list;
     }

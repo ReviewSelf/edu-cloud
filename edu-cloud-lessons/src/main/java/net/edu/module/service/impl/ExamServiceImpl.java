@@ -104,7 +104,7 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(ExamVO vo) {
-
+        System.out.println(vo);
         baseMapper.insertExam(vo);
         for (int i = 0; i < vo.getClassIdList().size(); i++) {
             baseMapper.insertExamClass(vo.getId(), vo.getClassIdList().get(i));

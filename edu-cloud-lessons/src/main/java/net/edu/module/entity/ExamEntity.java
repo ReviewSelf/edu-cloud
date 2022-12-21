@@ -75,4 +75,14 @@ public class ExamEntity extends BaseEntity {
 	 */
 	private Integer timeLimit;
 
+	/**
+	 * 是否乱序
+	 */
+	private Integer problemOrder;
+
+	/**
+	 * 是否可以返回上一题
+	 */
+	private Integer problemBack;
+
 }

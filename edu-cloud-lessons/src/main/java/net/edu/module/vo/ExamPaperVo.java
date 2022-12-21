@@ -23,5 +23,7 @@ public class ExamPaperVo implements Serializable {
     //答题位置
     Integer problemIndex;
 
+    Integer back;
+
     ExamAttendLogVO attendLogVO;
 }

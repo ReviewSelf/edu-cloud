@@ -29,6 +29,9 @@ public class LessonAttendLogVO implements Serializable {
     @Schema(description = "学生姓名")
     private String name;
 
+    @Schema(description = "学号")
+    private String studentNumber;
+
     @Schema(description = "课堂id")
     private Long lessonId;
 

@@ -24,9 +24,9 @@ public enum LessonMsgResultTypeEnum {
      */
     CHAT_DATA(2),
     /**
-     * 用户进入课堂后，获取课堂在线用户列表，历史记录
+     *获取课堂在线用户列表
      */
-    DEFAULT_DATA(3);
+    USER_DATA(3);
 
 
     private final int type;

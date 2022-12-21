@@ -52,7 +52,7 @@ public class LoginObserver implements ApplicationListener<LessonMsgEvent> {
             users.get(i).setOnlineFlag(flag);
         }
         HashMap<String, Object> data = new HashMap(8);
-        data.put("users", users);
+        data.put("userIdList", LessonProperties.LESSON_USERS.get(message.getLessonId()));
         data.put("msg",   object.getStr("username") + "进来了");
 
         LessonMsgResult result = new LessonMsgResult(data, LessonMsgResultTypeEnum.LOGIN_DATA.getType());

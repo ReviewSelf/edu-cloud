@@ -10,6 +10,7 @@ import net.edu.framework.common.utils.IpUtils;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
+import net.edu.module.entity.ExamEntity;
 import net.edu.module.entity.ExamProblemEntity;
 import net.edu.module.entity.LessonEntity;
 import net.edu.module.service.*;
@@ -31,6 +32,9 @@ import java.util.Map;
 @Service
 @AllArgsConstructor
 public class StudentLessonServiceImpl implements StudentLessonService {
+
+    private final ExamService examService;
+
 
     private final LessonIPService lessonIPService;
     private final LessonAttendLogService lessonAttendLogService;
@@ -96,8 +100,18 @@ public class StudentLessonServiceImpl implements StudentLessonService {
             //领取新试卷开始考试
             //需要优化
             List<ExamProblemEntity> list = examProblemService.list(examId);
-            //打乱顺序
-//            Collections.shuffle(list);
+
+            Integer isBack = examService.getById(examId).getProblemBack();
+
+            Integer isOrder =  examService.getById(examId).getProblemOrder();
+
+
+            if (isOrder==1){
+                //打乱顺序
+                Collections.shuffle(list);
+            }
+
+            vo.setBack(isBack);
             vo.setPaperProblem(list);
             vo.setProblemIndex(1);
             //考试结束时间

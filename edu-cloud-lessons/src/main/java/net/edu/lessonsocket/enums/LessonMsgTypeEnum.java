@@ -17,7 +17,12 @@ public enum LessonMsgTypeEnum {
     /**
      * 发送消息
      */
-    SEND_MSG(2);
+    SEND_MSG(2),
+
+    /**
+     *获取课堂在线用户列表
+     */
+    GET_USER(3);
 
     private final int type;
 

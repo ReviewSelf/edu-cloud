@@ -43,30 +43,35 @@
     </delete>
 
     <select id="selectStudentsList" resultType="net.edu.module.vo.LessonAttendLogVO">
-        SELECT id,stuId,NAME,lessonId,checkinTime,rollCall,STATUS,
+        SELECT id,
+               stuId,
+               NAME,
+               lessonId,
+               checkinTime,
+               rollCall,
+               status,
+               checkinTime,
                ability,
-               ( SELECT NAME FROM ability WHERE id = ability_id ) as abilityItem,
-               submitTimes,correctTimes
-        FROM
-            (SELECT
-                 a.id,
-                 stu_id AS stuId,
-                 b.real_name AS NAME,
-                 lesson_id AS lessonId,
-                 checkin_time AS checkinTime,
-                 roll_call AS rollCall,
-                 a.STATUS,
-                 ( SELECT NAME FROM ability WHERE id = b.ability_id ) AS ability,
-                 (select ability_id FROM user_ability where user_id=b.id ORDER BY id desc  limit 1 ) as ability_id,
-            b.submit_times AS submitTimes,
-            b.correct_times AS correctTimes
-            FROM
-	lesson_attend_log a
-	LEFT JOIN sys_user b ON a.stu_id = b.id
-        WHERE
-            lesson_id = #{query.lessonId}
-        ORDER BY
-            roll_call)t
+               (SELECT NAME FROM ability WHERE id = ability_id) as abilityItem,
+               submitTimes,
+               correctTimes,
+               studentNumber
+        FROM (SELECT a.id,
+                     stu_id                                                                              AS stuId,
+                     a.status,
+                     a.roll_call                                                                         as rollCall,
+                     a.checkin_time                                                                      as checkinTime,
+                     b.real_name                                                                         AS NAME,
+                     lesson_id                                                                           AS lessonId,
+                     (SELECT NAME FROM ability WHERE id = b.ability_id)                                  AS ability,
+                     (select ability_id FROM user_ability where user_id = b.id ORDER BY id desc limit 1) as ability_id,
+                     b.submit_times                                                                      AS submitTimes,
+                     b.correct_times                                                                     AS correctTimes,
+                     b.username                                                                          as studentNumber
+              FROM lesson_attend_log a
+                       LEFT JOIN sys_user b ON a.stu_id = b.id
+              WHERE lesson_id = #{query.lessonId}
+              ORDER BY roll_call) t
     </select>
 
     <update id="updateStudents">

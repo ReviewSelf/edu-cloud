@@ -2,6 +2,7 @@ package net.edu.module.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.Data;
 import java.io.Serializable;
 
@@ -100,5 +101,11 @@ public class ExamVO implements Serializable {
 
 	@Schema(description = "获取能力等级名称")
 	private String gainAbilityName;
+
+	@Schema(description = "考试题目是否乱序")
+	private Integer problemOrder;
+
+	@Schema(description = "考试过程中是否可以返回上一题")
+	private Integer problemBack;
 
 }

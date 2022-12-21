@@ -74,7 +74,7 @@
 
     <insert id="insertExam" useGeneratedKeys="true" keyProperty="id">
         insert into exam(paper_id, description, begin_time, end_time, score, teacher_id, kp_code, deleted, name, place,
-                         time_limit, problem_num, type, require_ability, gain_ability_id)
+                         time_limit, problem_num, type, require_ability, gain_ability_id,problem_order,problem_back)
         values (#{vo.paperId},
                 #{vo.description},
                 #{vo.beginTime},
@@ -89,7 +89,9 @@
                 #{vo.problemNum},
                 #{vo.type},
                 #{vo.requireAbility},
-                #{vo.gainAbilityId})
+                #{vo.gainAbilityId},
+                #{vo.problemOrder},
+                #{vo.problemBack})
     </insert>
 
     <insert id="insertExamClass">

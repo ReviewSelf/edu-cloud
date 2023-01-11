@@ -77,6 +77,13 @@ spring:
             - Path=/archive/**
           filters:
             - StripPrefix=1
+        - id: edu-cloud-sale
+          uri: lb://edu-cloud-sale
+          order: 110
+          predicates:
+            - Path=/sale/**
+          filters:
+            - StripPrefix=1
         - id: openapi
           uri: http://localhost:${server.port}
           predicates:

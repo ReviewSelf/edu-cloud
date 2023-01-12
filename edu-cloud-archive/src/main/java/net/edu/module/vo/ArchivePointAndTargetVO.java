@@ -71,7 +71,7 @@ public class ArchivePointAndTargetVO implements Serializable {
     @Schema(description = "年份")
     private String grade;
 
-    @Schema(description = "指标点编号")
+    @Schema(description = "指标点序号")
     private Long pointId;
 
 //    @Schema(description = "指标点名称")
@@ -80,8 +80,8 @@ public class ArchivePointAndTargetVO implements Serializable {
 //    @Schema(description = "指标点描述")
 //    private String content;
 
-//    @Schema(description = "毕业要求id")
-//    private Long graduateId;
+    @Schema(description = "毕业要求序号")
+    private Long graduateId;
 //
 //    @Schema(description = "毕业要求标题")
 //    private String title;

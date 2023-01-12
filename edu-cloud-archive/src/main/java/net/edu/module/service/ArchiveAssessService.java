@@ -58,7 +58,7 @@ public interface ArchiveAssessService extends BaseService<ArchiveAssessEntity> {
 
     void update1(ArchiveAssessVO vo);
 
-    void deleteAssess(Long courseId, Long targetId,Long assessId);
+    void deleteAssess(Long id);
 
     BigDecimal getMannerWeight(String courseId);
 

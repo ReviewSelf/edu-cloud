@@ -58,5 +58,6 @@ public class ArchiveTestScoreVO implements Serializable {
 	@Schema(description = "评测id")
 	private Long testId;
 
-
+	@Schema(description = "课程id")
+	private Long courseId;
 }

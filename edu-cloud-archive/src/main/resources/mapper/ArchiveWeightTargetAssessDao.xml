@@ -48,7 +48,7 @@
 
     <update id="insertAssessWeight" parameterType="java.util.List">
         <foreach collection="list" item="item"  separator=";">
-            update archive_weight_target_assess
+            update archive_weight_assess_test
             <set>
                 weight = #{item.weight}
             </set>

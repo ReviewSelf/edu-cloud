@@ -67,4 +67,11 @@ public class ArchiveGoalScoreVO implements Serializable {
     @Schema(description = "权重")
     private List<Double> weights;
 
+    private Double teachScore1;
+    private Double teachScore2;
+    private Double teachScore3;
+    private Double teachScore4;
+    private Double teachScore5;
+    private Double teachScore6;
+
 }

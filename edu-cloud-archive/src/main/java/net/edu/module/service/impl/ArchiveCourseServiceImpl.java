@@ -78,17 +78,7 @@ public class ArchiveCourseServiceImpl extends BaseServiceImpl<ArchiveCourseDao, 
     public void delete(List<Long> idList) {
         //删除课程
         removeByIds(idList);
-        for (Long id:idList
-             ) {
-            List<ArchiveWeightTargetAssessVO> archiveWeightTargetAssessVOS = archiveWeightTargetAssessDao.selectAssessByCourseId(id);
-            for (ArchiveWeightTargetAssessVO vos: archiveWeightTargetAssessVOS
-                 ) {
-                //删除考核点
-                archiveAssessDao.deleteById(vos.getAssessId());
-            }
-            //删除关联表
-            archiveWeightTargetAssessDao.deleteByCourseId(id);
-        }
+
     }
 
     @Override

@@ -38,4 +38,10 @@ public class ArchiveTestScoreEntity extends BaseEntity {
 	*/
 	private Long testId;
 
+
+	/**
+	 * 课程id
+	 */
+	private Long courseId;
+
 }

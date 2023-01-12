@@ -12,6 +12,7 @@ import net.edu.module.query.ArchiveCourseSummaryQuery;
 import net.edu.module.service.ArchiveCourseService;
 import net.edu.module.service.ArchiveWeightTargetCourseService;
 import net.edu.module.utils.ExcelSummaryUtil;
+import net.edu.module.utils.TemplateUpdateExcelUtil;
 import net.edu.module.utils.WordUtil;
 import net.edu.module.vo.*;
 import net.edu.module.vo.ArchiveAssessTestGradesVo;
@@ -136,8 +137,8 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                         vo.setScore(res);
                         vo.setSummaryId(summaryId);
                         archiveCourseSummaryDao.insertAssessScore(vo);
-//                        System.out.println("结果");
-//                        System.out.println(res);
+                        System.out.println(vo);
+                        System.out.println("我尼玛");
                         sum = 0;
                     }
                 } else {
@@ -149,8 +150,8 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
                     vo.setScore(res);
                     vo.setSummaryId(summaryId);
                     archiveCourseSummaryDao.insertAssessScore(vo);
-//                    System.out.println("结果");
-//                    System.out.println(res);
+                    System.out.println(vo);
+                    System.out.println("我尼玛");
                     sum = 0;
                 }
                 for(int k = 0 ; k < idAndWeight.size() ; k++) {
@@ -183,9 +184,9 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
     @Override
-    public List<BigDecimal> selectMannerPq(String courseId) {
-        List<BigDecimal> list = archiveCourseSummaryDao.selectMannerPq(courseId);
-        return list;
+    public List<BigDecimal> selectMannerPq(Long courseId) {
+        System.out.println("课程"+courseId);
+        return archiveCourseSummaryDao.selectMannerPq(courseId);
     }
 
 
@@ -207,7 +208,7 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     }
 
     @Override
-    public List<String> selectPeaceData(Integer courseId) {
+    public List<String> selectPeaceData(Long courseId) {
         Integer TargetNum = archiveCourseSummaryDao.selectTargetByCourseId(courseId);
         Integer AssessNum = archiveCourseSummaryDao.selectPeaceAssessNum(courseId);
         List<String> AssessName = archiveCourseSummaryDao.selectPeaceAssessName(courseId);
@@ -215,6 +216,7 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
         BigDecimal[][] AssessWeightArr = new BigDecimal[TargetNum][AssessNum];
         BigDecimal[] TargetArr = new BigDecimal[TargetNum];
         BigDecimal m = new BigDecimal(100);
+
         for(int i = 0 ; i < TargetWeightArr.size() ; i++) {
             TargetArr[i] = TargetWeightArr.get(i).multiply(m);
         }
@@ -319,7 +321,7 @@ public class ArchiveCourseSummaryServiceImpl extends BaseServiceImpl<ArchiveCour
     public void exportExcelSummary(Long courseId,Long summaryId, HttpServletResponse response) throws IOException {
 //        List<ArchivePointAndTargetVO>  archivePointAndTargetVOS=archiveWeightTargetCourseService.selectPointAndTarget(courseId);
 //        System.out.println(archivePointAndTargetVOS);
-        ExcelSummaryUtil.excelSummaryUtil(courseId,summaryId,response);
+        TemplateUpdateExcelUtil.excelSummaryUtil(courseId,summaryId,response);
     }
 
 

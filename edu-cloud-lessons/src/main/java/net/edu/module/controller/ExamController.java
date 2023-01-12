@@ -147,5 +147,11 @@ public class ExamController {
 
     }
 
+    @GetMapping("/getExamListByClassId")
+    @Operation(summary = "查找班级对应的考试")
+    public Result<List<ExamVO>> getExamListByClassId(@RequestParam("classId") Long classId){
+        return Result.ok(examService.getExamListByClassId(classId));
+    }
+
 
 }

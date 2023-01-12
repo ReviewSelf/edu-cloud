@@ -43,5 +43,6 @@ public interface ExamDao extends BaseDao<ExamEntity> {
 
     void updateUserAbilityId(Long examId,Long abilityId,Integer score);
 
+    List<ExamVO> selectExamListByClassId(Long classId);
 
 }

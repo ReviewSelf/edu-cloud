@@ -55,4 +55,6 @@ public interface ExamService extends BaseService<ExamEntity> {
                      Integer source,
                      Long sourceId) throws IOException;
 
+    List<ExamVO> getExamListByClassId(Long classId);
+
 }

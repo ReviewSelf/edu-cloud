@@ -131,6 +131,9 @@ public class UserVO implements Serializable {
     @Schema(description = "销售人员id")
     private Long saleId;
 
+    @Schema(description = "销售人员姓名")
+    private String saleName;
+
     @Schema(description = "新老学员")
     private int cadets;
 }

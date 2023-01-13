@@ -28,7 +28,7 @@ public class EnrollUserEntity extends BaseEntity {
 	/**
 	* 真实姓名
 	*/
-	private String name;
+	private String realName;
 
 	/**
 	* 手机号码

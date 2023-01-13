@@ -36,9 +36,7 @@ public class EnrollUserController {
     @GetMapping("page")
     @Operation(summary = "分页")
     public Result<PageResult<EnrollUserVO>> page(@Valid EnrollUserQuery query){
-        System.out.println(query);
         PageResult<EnrollUserVO> page = enrollUserService.page(query);
-        System.out.println(page);
         return Result.ok(page);
     }
 

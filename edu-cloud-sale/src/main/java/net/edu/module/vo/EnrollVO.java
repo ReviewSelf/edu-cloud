@@ -16,7 +16,7 @@ import java.util.Date;
 */
 @Data
 @Schema(description = "XinXiHeShi")
-public class EnrollUserVO implements Serializable {
+public class EnrollVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(description = "用户id")
@@ -87,4 +87,10 @@ public class EnrollUserVO implements Serializable {
 
 	@Schema(description = "学生反馈")
 	private String parentOpinion;
+
+	@Schema(description = "销售人员id")
+	private Long saleId;
+
+	@Schema(description = "新老学员")
+	private int cadets;
 }

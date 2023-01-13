@@ -7,5 +7,7 @@
         select role_id from sys_user_role where user_id = #{userId} and deleted = 0
     </select>
 
-
+    <insert id="insertStudentRole">
+        insert into sys_user_role(role_id,user_id) values (2,#{id})
+    </insert>
 </mapper>

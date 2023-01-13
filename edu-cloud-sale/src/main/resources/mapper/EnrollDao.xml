@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.edu.module.dao.EnrollUserDao">
+<mapper namespace="net.edu.module.dao.EnrollDao">
 
 
-    <select id="selectEnrollUserByPage" resultType="net.edu.module.vo.EnrollUserVO">
-        select t1.id,t1.wx_name,t1.real_name,t1.phone,t1.union_id,t1.open_id,t1.area,t1.address,t1.age,t1.grade,t1.purpose,t1.status,t1.create_time,
-        t1.update_time,t1.login_time,t1.start_number,t1.end_number,t1.remark,t1.integral,t1.balance,t1.deleted,t1.creator,t1.updater,t1.version,
-        t2.teacher_opinion,
-        t2.parent_opinion
+    <select id="selectEnrollByPage" resultType="net.edu.module.vo.EnrollVO">
+        select t1.id,t1.wx_name,t1.real_name,t1.phone,t1.union_id,t1.open_id,
+               t1.area,t1.address,t1.age,t1.grade,t1.purpose,t1.status,
+               t1.create_time,t1.update_time,t1.login_time,t1.start_number,
+               t1.end_number,t1.remark,t1.integral,t1.balance,t1.deleted,
+               t1.creator,t1.updater,t1.version,t1.sale_id,t1.cadets,
+            t2.teacher_opinion,
+            t2.parent_opinion
         from enroll_user t1
         left join enroll_evaluate t2 on t1.id = t2.student_id
         where t1.deleted = 0
@@ -38,23 +41,8 @@
         <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
             and t1.create_time &gt;=#{query.beginTime}  and create_time &lt;=#{query.endTime}
         </if>
-        order by t1.status,t1.update_time desc
+        order by t1.status,t1.create_time desc
     </select>
-
-    <update id="updateConfirmEnrollUser">
-        update enroll_user set status=status+1
-        where id=#{id}
-    </update>
-
-
-    <update id="updateStatus3">
-        update enroll_user set status=3
-        where id=#{id}
-    </update>
-
-    <insert id="insertId">
-        INSERT INTO enroll_user (open_id,union_id) values (#{openId},#{unionId})
-    </insert>
 
     <update id="save">
         UPDATE enroll_user
@@ -85,24 +73,10 @@
         id = #{id}
     </update>
 
-    <insert id="insertClassUser">
-        insert into enroll_class_user (enroll_class_id,user_id,create_time) values (#{classId},#{userId},now())
-    </insert>
+    <update id="updateStatus">
+        update enroll_user set status = 3 where id = #{id}
+    </update>
 
-    <insert id="insertEnrollUser" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO
-            enroll_user
-            (phone,real_name,area,grade)
-        VALUES(#{phone},#{realName},#{area},#{grade})
-    </insert>
 
-    <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.EnrollUserVO">
-        select
-            id,
-            real_name,
-            status
-        from enroll_user
-        where
-            open_id = #{openId}
-    </select>
+
 </mapper>

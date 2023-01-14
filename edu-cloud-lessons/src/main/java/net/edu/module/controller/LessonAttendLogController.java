@@ -47,4 +47,14 @@ public class LessonAttendLogController {
         lessonAttendLogService.deleteLessonList(vo);
         return Result.ok();
     }
+
+    @GetMapping("giveLike")
+    @Operation(summary = "点赞或重置点赞")
+    public Result giveOrResetLikes(@RequestParam Long lessonId,@RequestParam Long stuId,@RequestParam Integer type){
+        lessonAttendLogService.giveOrResetLikes(lessonId, stuId, type);
+        return Result.ok();
+    }
+
+
+
 }

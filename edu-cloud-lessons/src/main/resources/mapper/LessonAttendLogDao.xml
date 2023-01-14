@@ -55,7 +55,10 @@
                (SELECT NAME FROM ability WHERE id = ability_id) as abilityItem,
                submitTimes,
                correctTimes,
-               studentNumber
+               studentNumber,
+               likesNum,
+               sysEvaluation,
+               teaEvaluation
         FROM (SELECT a.id,
                      stu_id                                                                              AS stuId,
                      a.status,
@@ -67,7 +70,11 @@
                      (select ability_id FROM user_ability where user_id = b.id ORDER BY id desc limit 1) as ability_id,
                      b.submit_times                                                                      AS submitTimes,
                      b.correct_times                                                                     AS correctTimes,
-                     b.username                                                                          as studentNumber
+                     b.username                                                                          as studentNumber,
+                     a.likes_num                                                                         as likesNum,
+                     a.sys_evaluation as sysEvaluation,
+                     a.tea_evaluation as teaEvaluation
+
               FROM lesson_attend_log a
                        LEFT JOIN sys_user b ON a.stu_id = b.id
               WHERE lesson_id = #{query.lessonId}
@@ -75,7 +82,11 @@
     </select>
 
     <update id="updateStudents">
-        update lesson_attend_log set stu_id = #{vo.stuId}
+        update lesson_attend_log
+        set stu_id = #{vo.stuId},
+            likes_num=#{vo.likesNum},
+            sys_evaluation = #{vo.sysEvaluation},
+            tea_evaluation= #{vo.teaEvaluation}
         <if test="vo.getId()!=null">
             ,id = #{vo.id}
         </if>
@@ -93,6 +104,20 @@
         </if>
         where stu_id = #{vo.stuId} and lesson_id = #{vo.lessonId}
 
+    </update>
+
+    <update id="giveLikes">
+        update sys_user
+        set likes_num = likes_num + 1
+        where id = #{stuId}
+    </update>
+    <update id="resetLikes">
+        update sys_user a
+        set a.likes_num = a.likes_num - (select b.likes_num
+                                         from lesson_attend_log b
+                                         where b.lesson_id = #{lessonId}
+                                           and b.stu_id = #{stuId})
+        where a.id = #{stuId}
     </update>
 
 

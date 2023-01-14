@@ -7,7 +7,7 @@ import net.edu.module.entity.LessonEntity;
 import net.edu.module.query.LessonAttendLogQuery;
 import net.edu.module.vo.LessonAttendLogVO;
 import net.edu.module.vo.LessonStudentVO;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.List;
@@ -38,4 +38,6 @@ public interface LessonAttendLogService extends BaseService<LessonAttendLogEntit
     void insertLessonList(LessonStudentVO vo);
 
     void deleteLessonList(LessonStudentVO vo);
+
+    void giveOrResetLikes(Long lessonId,Long stuId,Integer type);
 }

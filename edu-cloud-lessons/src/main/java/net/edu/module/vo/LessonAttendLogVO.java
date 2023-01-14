@@ -59,5 +59,11 @@ public class LessonAttendLogVO implements Serializable {
 
     private Boolean onlineFlag;
 
+    private Integer likesNum;
+
+    private String sysEvaluation;
+
+    private String teaEvaluation;
+
 
 }

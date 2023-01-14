@@ -145,6 +145,12 @@ public class LessonAttendLogServiceImpl extends BaseServiceImpl<LessonAttendLogD
         redisUtils.delByPre(RedisKeys.getLessonAttendLog(null));
     }
 
-
-
+    @Override
+    public void giveOrResetLikes(Long lessonId, Long stuId, Integer type) {
+        if (type==1){
+            lessonAttendLogDao.giveLikes(lessonId,stuId);
+        }else {
+            lessonAttendLogDao.resetLikes(lessonId,stuId);
+        }
+    }
 }

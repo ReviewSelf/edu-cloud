@@ -40,4 +40,8 @@ public interface LessonAttendLogDao extends BaseDao<LessonAttendLogEntity> {
 
     int updateStudents(@Param("vo") LessonAttendLogVO vo);
 
+    int giveLikes(Long lessonId, Long stuId);
+
+    int resetLikes(Long lessonId, Long stuId);
+
 }

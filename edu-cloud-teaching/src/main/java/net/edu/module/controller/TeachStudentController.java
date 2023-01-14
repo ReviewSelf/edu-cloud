@@ -131,4 +131,13 @@ public class TeachStudentController {
         userService.updateSubmitCorrectTimes(userId,correct);
         return Result.ok();
     }
+
+    //    教务老师对学生进行续费
+
+    @GetMapping("/renewAmountSubmit")
+    @Operation(summary = "教务老师续费")
+    public Result<String> renewAmountSubmit(@RequestParam("userId") Long userId,@RequestParam("num") Integer num){
+        userService.renewAmountSubmit(userId,num);
+        return Result.ok();
+    }
 }

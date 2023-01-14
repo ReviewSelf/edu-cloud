@@ -36,4 +36,10 @@ public class ArchiveAssessTestGradesVo {
 
     private String summaryId;
 
+    private Double first;
+    private Double second;
+    private Double third;
+    private Double fourth;
+    private Double fifth;
+    private Double peace;
 }

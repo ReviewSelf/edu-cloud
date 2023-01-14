@@ -215,4 +215,10 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         return new PageResult<>(list.getRecords() , page.getTotal());
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void renewAmountSubmit(Long userId, Integer num) {
+        userDao.renewAmountSubmit(userId,num);
+    }
+
 }

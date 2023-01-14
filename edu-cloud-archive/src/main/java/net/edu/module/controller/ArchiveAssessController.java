@@ -76,8 +76,8 @@ public class ArchiveAssessController {
 
     @GetMapping("deleteById")
     @Operation(summary = "删除考核点")
-    public Result<String> deleteAssess(@RequestParam("courseId")Long courseId,@RequestParam("targetId")Long targetId,@RequestParam("assessId")Long assessId){
-        archiveAssessService.deleteAssess(courseId,targetId,assessId);
+    public Result<String> deleteAssess(@RequestParam("id")Long id){
+        archiveAssessService.deleteAssess(id);
         return Result.ok();
     }
 

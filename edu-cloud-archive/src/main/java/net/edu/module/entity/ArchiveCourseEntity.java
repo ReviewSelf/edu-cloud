@@ -62,6 +62,11 @@ public class ArchiveCourseEntity {
 	private String semester;
 
 	/**
+	 * 上课时间
+	 */
+	private String classCycle;
+
+	/**
 	* 年级
 	*/
 	private String grade;
@@ -74,7 +79,7 @@ public class ArchiveCourseEntity {
 	/**
 	 * 教学班级
 	 */
-	private String teach_class;
+	private String teachClass;
 
 	/**
 	 * 任课老师

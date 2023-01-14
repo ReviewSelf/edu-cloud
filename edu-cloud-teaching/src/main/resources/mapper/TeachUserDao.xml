@@ -58,8 +58,13 @@
 		t1.integral,
 		t1.balance,
 		t1.area,
+		t1.urgent_phone as urgentPhone,
+		t1.reading_school as readingSchool,
+		t1.total_amount as totalAmount,
+		t1.likes_num as likesNum,
 		t3.name as orgName,
-		t2.role_id
+		t2.role_id,
+		(select sum(1) from teach_class_user where  user_id = t1.id and deleted=0 and status=1) as readingClassNum
 		FROM
 		sys_user t1
 		LEFT JOIN sys_user_role t2 ON t1.id=t2.user_id
@@ -83,6 +88,7 @@
 			#{item}
 		</foreach>
 		</if>
+		order by t1.balance
 	</select>
 
 	<select id="getById" resultType="net.edu.module.entity.UserEntity">
@@ -212,4 +218,8 @@
 			and t1.gender = #{gender}
 		</if>
 	</select>
+
+	<update id="renewAmountSubmit" >
+		update sys_user set total_amount = total_amount + #{num} and balance = balance +#{num} where id = #{userId}
+	</update>
 </mapper>

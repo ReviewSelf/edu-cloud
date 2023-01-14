@@ -75,5 +75,22 @@ public class UserEntity extends BaseEntity {
 
     private String balance;
 
+    private String totalAmount;
+
     private String openId;
+
+    private Integer urgentPhone;
+
+    private String readingSchool;
+
+    private Integer likesNum;
+
+    @TableField(exist=false)
+    private Integer readingClassNum;
+
+    @TableField(exist=false)
+    private Integer payingClassNum;
+
+
+
 }

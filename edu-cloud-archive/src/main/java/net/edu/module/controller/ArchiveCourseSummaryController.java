@@ -140,15 +140,18 @@ public class ArchiveCourseSummaryController {
 
     @GetMapping("/getMannerPq")
     @Operation(summary = "获取考核方式总占比")
-    public Result<List<BigDecimal>> getMannerPq(@RequestParam String courseId) {
+    public Result<List<BigDecimal>> getMannerPq(@RequestParam Long courseId) {
         List<BigDecimal> list = archiveCourseSummaryService.selectMannerPq(courseId);
-        System.out.println(list);
+        System.out.println("123456");
+        for (BigDecimal bigDecimal : list) {
+            System.out.println(bigDecimal);
+        }
         return Result.ok(list);
     }
 
     @GetMapping("/getPeaceData")
     @Operation(summary = "获取第二步平时考核方式下教学目标占比")
-    public Result<List<String>> getPeaceData(@RequestParam Integer courseId) {
+    public Result<List<String>> getPeaceData(@RequestParam Long courseId) {
         List<String> list = archiveCourseSummaryService.selectPeaceData(courseId);
         return Result.ok(list);
     }

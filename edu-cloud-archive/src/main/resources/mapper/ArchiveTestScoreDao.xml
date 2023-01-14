@@ -33,9 +33,9 @@
 
     <insert id="insertArchiveTestScore" parameterType="net.edu.module.entity.ArchiveTestScoreEntity">
         insert into archive_test_score
-        (stu_id,stu_name,score,test_id) values
+        (stu_id,stu_name,score,test_id,course_id) values
         <foreach collection="list" item="item"  separator=",">
-            (#{stuId},#{stuName},#{item.score},#{item.testId})
+            (#{stuId},#{stuName},#{item.score},#{item.testId},#{item.courseId})
         </foreach>
     </insert>
 

@@ -26,6 +26,9 @@ public class ArchiveCourseSummaryVO implements Serializable {
 	@Schema(description = "课程编号")
 	private Long courseId;
 
+	@Schema(description = "课程")
+	private String courseName;
+
 	@Schema(description = "问题分析（考核得分情况分析）")
 	private String problemAnalysis;
 

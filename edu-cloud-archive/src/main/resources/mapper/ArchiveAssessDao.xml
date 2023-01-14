@@ -56,7 +56,7 @@
     <update id="deleteAssess">
         update archive_assess
         set deleted = 1
-        where course_id = #{courseId} and target_id = #{targetId} and id=#{assessId}
+        where id=#{id}
     </update>
     <update id="updateAssessManner">
         UPDATE archive_assess_manner
@@ -90,9 +90,7 @@
         t1.version,
         t1.updater
         FROM
-        archive_assess t1
-        LEFT JOIN archive_weight_target_assess t3
-        ON t1.id = t3.assess_id
+        archive_assess
         WHERE
         t1.deleted = 0
         <if test="query.getName()!=null and query.getName()!=''">
@@ -123,25 +121,18 @@
     </select>
     <select id="selectArchiveAssessById" resultType="net.edu.module.vo.ArchiveAssessVO">
         SELECT
-        t1.id AS id,
-        t1.name AS name ,
-        t3.target_id AS targetId,
-        t3.course_id AS courseId,
-        t3.weight AS weight,
-        t3.assess_id as assessId,
-        ( SELECT name FROM archive_target t2 WHERE t3.target_id = t2.id ) AS targetName,
-        ( SELECT name FROM archive_course t4 WHERE t3.course_id = t4.id ) AS courseName,
-        ( SELECT grade FROM archive_target t2 WHERE t3.target_id = t2.id ) AS grade,
-        t3.weight_explain AS weightExplain,
-        t1.creator,
-        t1.version,
-        t1.updater
+        id,
+        name ,
+        weight,
+        target_id,
+        course_id,
+        creator,
+        version,
+        updater
         FROM
-        archive_assess t1
-        LEFT JOIN archive_weight_target_assess t3
-        ON t1.id = t3.assess_id
+        archive_assess
         WHERE
-        t1.id=#{id}
+        id=#{id} and deleted = 0
     </select>
     <select id="selectSummaryStep2" resultType="net.edu.module.vo.ArchiveAssessVO">
 

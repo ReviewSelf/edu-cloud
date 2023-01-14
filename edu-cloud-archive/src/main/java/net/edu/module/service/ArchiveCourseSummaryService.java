@@ -45,11 +45,11 @@ public interface ArchiveCourseSummaryService extends BaseService<ArchiveCourseSu
 
     List<Integer> getScoreEveRage(String courseId, String summaryId);
 
-    List<BigDecimal> selectMannerPq(String courseId);
+    List<BigDecimal> selectMannerPq(Long courseId);
 
     List<ArchiveAssessTestGradesVo> selectArchiveStep3(String courseId , String summaryId);
 
-    List<String> selectPeaceData(Integer courseId);
+    List<String> selectPeaceData(Long courseId);
 
     List<ArchiveAssessGradesDtVo> selectArchiveGradesDt(String courseId, String summaryId);
 

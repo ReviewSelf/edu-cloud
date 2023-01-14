@@ -2,218 +2,248 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.ArchiveCourseSummaryDao">
-    <insert id="insertSummaryTable" useGeneratedKeys="true" keyProperty="id" parameterType="net.edu.module.vo.ArchiveCourseSummaryVO">
+    <insert id="insertSummaryTable" useGeneratedKeys="true" keyProperty="id"
+            parameterType="net.edu.module.vo.ArchiveCourseSummaryVO">
         insert into archive_course_summary(course_id)
         values (#{courseId})
     </insert>
     <insert id="insertAssessScore">
-        INSERT INTO archive_assess_score(stu_id , stu_name , score , course_id , assess_id , summary_id)
-        VALUES (#{stuId} , #{stuName} , #{score} , #{courseId} , #{assessId} , #{summaryId})
+        INSERT INTO archive_assess_score(stu_id, stu_name, score, course_id, assess_id, summary_id)
+        VALUES (#{stuId}, #{stuName}, #{score}, #{courseId}, #{assessId}, #{summaryId})
     </insert>
     <update id="insertProblem">
-        update archive_course_summary set problem_analysis = #{problemAnalysis}
+        update archive_course_summary
+        set problem_analysis = #{problemAnalysis}
         where id = #{id}
     </update>
 
     <update id="insertMeasures">
-        update archive_course_summary set improvement = #{improvement}
+        update archive_course_summary
+        set improvement = #{improvement}
         where id = #{id}
     </update>
 
     <update id="insertAnalysis">
-        update archive_course_summary set analysis_description = #{analysisDescription}
+        update archive_course_summary
+        set analysis_description = #{analysisDescription}
         where id = #{id}
     </update>
 
     <update id="insertFinal">
-        update archive_course_summary set problem = #{problem},
-                                          measures = #{measures},
-                                          resources = #{resources},
-                                          deleted = 0
+        update archive_course_summary
+        set problem   = #{problem},
+            measures  = #{measures},
+            resources = #{resources},
+            deleted   = 0
         where id = #{id}
     </update>
 
     <select id="selectSummaryByPage" resultType="net.edu.module.vo.ArchiveCourseSummaryVO">
-        select id,course_id as courseId,create_time as createTime
+        select id,
+               course_id                                                   as courseId,
+               (select name from archive_course t1 where course_id = t1.id) as courseName,
+               create_time                                                 as createTime
         from archive_course_summary
         where deleted = 0
         order by create_time desc
     </select>
     <select id="selectStudent" resultType="java.lang.Integer">
-        SELECT
-            COUNT(*)
+        SELECT COUNT(*)
         FROM archive_test_score
         GROUP BY test_id limit 1
     </select>
     <select id="selectStudentId" resultType="java.lang.String">
-        SELECT
-            stu_id
+        SELECT stu_id
         FROM archive_test_score
         group by stu_id
     </select>
     <select id="selectStudentIdAndWeight" resultType="net.edu.module.vo.ArchiveAssessTestGradesVo">
-        SELECT
-            id,
-            weight,
-            assess_id
+        SELECT id,
+               weight,
+               assess_id
         FROM archive_weight_assess_test
-        WHERE course_id = #{courseId} and deleted = 0
+        WHERE course_id = #{courseId}
+          and deleted = 0
     </select>
     <select id="selectStudentTestScore" resultType="net.edu.module.vo.ArchiveAssessTestGradesVo">
-        SELECT
-            t1.score,
-            t1.test_id as id,
-            t1.stu_id as stuId,
-            t1.stu_name as stuName
+        SELECT t1.score,
+               t1.test_id  as id,
+               t1.stu_id   as stuId,
+               t1.stu_name as stuName
         FROM archive_test_score t1
                  LEFT JOIN archive_weight_assess_test t2 ON t1.test_id = t2.id
-        WHERE t2.assess_id = #{assessId} and t2.course_id = #{courseId}
+        WHERE t2.assess_id = #{assessId}
+          and t2.course_id = #{courseId}
     </select>
     <select id="selectAssessNum" resultType="java.lang.Integer">
-        SELECT
-            count(*)
+        SELECT count(*)
         FROM archive_assess
-        WHERE course_id = #{courseId} and deleted = 0
+        WHERE course_id = #{courseId}
+          and deleted = 0
     </select>
     <select id="selectAssessId" resultType="java.lang.Integer">
-        SELECT
-            id
+        SELECT id
         FROM archive_assess
-        WHERE course_id = #{courseId} and deleted = 0
-    </select><select id="selectStudentName" resultType="java.lang.String">
-       SELECT
-            stu_name
+        WHERE course_id = #{courseId}
+          and deleted = 0
+    </select>
+    <select id="selectStudentName" resultType="java.lang.String">
+        SELECT stu_name
         FROM archive_test_score
         WHERE deleted = 0
         GROUP BY stu_id
-   </select>
+    </select>
     <select id="selectAssessName" resultType="java.lang.String">
-       SELECT
-        name
-       FROM archive_assess
-       WHERE course_id = #{courseId} and deleted = 0
+        SELECT name
+        FROM archive_assess
+        WHERE course_id = #{courseId}
+          and deleted = 0
     </select>
     <select id="selectStudentAssessScore" resultType="java.lang.String">
-       SELECT
-       score
-       FROM archive_assess_score
-       WHERE assess_id = #{assessId} and stu_id = #{stuId} and deleted = 0 and summary_id = #{summaryId}
-      </select>
-    <select id="selectAssessScore" resultType="java.lang.Integer">
-        SELECT
-            SUM(SCORE)
+        SELECT score
         FROM archive_assess_score
-        WHERE summary_id = #{summaryId} and course_id = #{courseId}
+        WHERE assess_id = #{assessId}
+          and stu_id = #{stuId}
+          and deleted = 0
+          and summary_id = #{summaryId}
+    </select>
+    <select id="selectAssessScore" resultType="java.lang.Integer">
+        SELECT SUM(SCORE)
+        FROM archive_assess_score
+        WHERE summary_id = #{summaryId}
+          and course_id = #{courseId}
         GROUP BY assess_id
     </select>
     <select id="selectMannerPq" resultType="java.math.BigDecimal">
-        SELECT
-            SUM(weight) *100
+        SELECT SUM(weight) * 100
         FROM archive_assess_manner
-        WHERE deleted = 0
+        WHERE deleted = 0 and course_id = #{courseId}
         GROUP BY manner_kind
     </select>
     <select id="selectStudentIdAndName" resultType="net.edu.module.vo.ArchiveAssessTestGradesVo">
-         select
-    stu_id as studentId,
-    stu_name as studentName
-from archive_test_score
-where course_id = #{courseId}
-group by stu_id, stu_name
+        select stu_id   as studentId,
+               stu_name as studentName
+        from archive_test_score
+        where course_id = #{courseId}
+        group by stu_id, stu_name
     </select>
     <select id="selectFinalScore" resultType="net.edu.module.vo.ArchiveAssessTestScoreVo">
-        select
-            score as assessScore , weight from archive_assess_score t1
-                                                   left join archive_assess t2 on t1.assess_id = t2.id
-        where (select manner_kind from archive_assess_manner where t1.assess_id = assess_id limit 1) = 2 and t1.stu_id = #{stuId} and t1.summary_id = #{summaryId}
+        select score as assessScore,
+               weight
+        from archive_assess_score t1
+                 left join archive_assess t2 on t1.assess_id = t2.id
+        where (select manner_kind from archive_assess_manner where t1.assess_id = assess_id and manner_kind = 2)
+          and t1.stu_id = #{stuId}
+          and t1.summary_id = #{summaryId}
         order by assess_id
     </select>
     <select id="selectPeaceScore" resultType="net.edu.module.vo.ArchiveAssessTestScoreVo">
-    select
-    t1.score as assessScore,
-       t2.weight
+        select t1.score as assessScore,
+               t2.weight
         from archive_assess_score t1
-    left join archive_assess t2 on t2.id = t1.assess_id
-    where (select manner_kind from archive_assess_manner where t1.assess_id = assess_id limit 1) = 1 and t1.stu_id = #{studentId} and t1.summary_id = #{summaryId}
-   </select>
+                 left join archive_assess t2 on t2.id = t1.assess_id
+        where (select manner_kind from archive_assess_manner where t1.assess_id = assess_id and manner_kind = 1)
+          and t1.stu_id = #{studentId}
+          and t1.summary_id = #{summaryId}
+    </select>
     <select id="selectPeaceAssessNum" resultType="java.lang.Integer">
-        SELECT
-            COUNT(*) FROM archive_assess t1
-        WHERE course_id = #{courseId} and deleted = 0 and  (select manner_kind from archive_assess_manner where t1.id = assess_id limit 1) = 1
+        SELECT COUNT(*)
+        FROM archive_assess t1
+        WHERE course_id = #{courseId}
+          and deleted = 0
+          and (select manner_kind from archive_assess_manner where t1.id = assess_id and manner_kind = 1)
     </select>
     <select id="selectPeaceAssessName" resultType="java.lang.String">
-        SELECT
-            name
+        SELECT name
         FROM archive_assess t1
-        WHERE deleted = 0 and course_id = #{courseId} and  (select manner_kind from archive_assess_manner where t1.id = assess_id limit 1) = 1
+        WHERE deleted = 0
+          and course_id = #{courseId}
+          and (select manner_kind from archive_assess_manner where t1.id = assess_id and manner_kind = 1)
     </select>
     <select id="selectPeaceTargetWeightArr" resultType="java.math.BigDecimal">
-        SELECT
-            SUM(weight)
+        SELECT SUM(weight)
         FROM archive_weight_goal t1
-        WHERE deleted = 0 AND course_id = #{courseId} and (select manner_kind from archive_assess_manner where t1.assess_id = assess_id limit 1) = 1
+        WHERE deleted = 0
+          AND course_id = #{courseId}
+          and (select manner_kind from archive_assess_manner where t1.assess_id = assess_id and manner_kind = 1)
         GROUP BY target_id
         ORDER BY target_id
     </select>
     <select id="selectTargetId" resultType="java.lang.Integer">
-        SELECT
-            id FROM archive_weight_target_course
-        WHERE course_id = #{courseId} and deleted = 0
+        SELECT id
+        FROM archive_weight_target_course
+        WHERE course_id = #{courseId}
+          and deleted = 0
     </select>
     <select id="selectPeaceAssessId" resultType="java.lang.Integer">
-        SELECT
-            id FROM archive_assess t1
-        WHERE course_id = #{courseId} and deleted = 0 and  (select manner_kind from archive_assess_manner where t1.id = assess_id limit 1) = 1
+        SELECT id
+        FROM archive_assess t1
+        WHERE course_id = #{courseId}
+          and deleted = 0
+          and (select manner_kind from archive_assess_manner where t1.id = assess_id and manner_kind = 1)
     </select>
     <select id="selectTargetByCourseId" resultType="java.lang.Integer">
-        SELECT
-            COUNT(*) FROM archive_weight_target_course t1
-        WHERE course_id = #{courseId} and deleted = 0 and (select manner_kind from archive_assess_manner where t1.id = target_id limit 1) = 1
+        SELECT COUNT(*)
+        FROM archive_weight_target_course t1
+        WHERE course_id = #{courseId}
+          and deleted = 0
+          and (select manner_kind from archive_assess_manner where t1.id = target_id and manner_kind = 1)
     </select>
     <select id="selectTargetName" resultType="java.lang.String">
-        SELECT
-            goal_name
+        SELECT goal_name
         FROM archive_weight_target_course t1
-        WHERE deleted = 0 and course_id = #{courseId} and (select manner_kind from archive_assess_manner where t1.id = target_id limit 1) = 1
+        WHERE deleted = 0
+          and course_id = #{courseId}
+          and (select manner_kind from archive_assess_manner where t1.id = target_id and manner_kind = 1)
     </select>
 
     <select id="selectCourseIdBySummaryId" resultType="java.lang.Long">
-        select course_id from archive_course_summary where id = #{summaryId}
+        select course_id
+        from archive_course_summary
+        where id = #{summaryId}
     </select>
     <select id="selectOutstanding" resultType="java.lang.Integer">
-        select
-            count(score)
+        select count(score)
         from archive_assess_score
-        where score >= 90 and summary_id = #{summaryId} and assess_id = #{assessId}
+        where score >= 90
+          and summary_id = #{summaryId}
+          and assess_id = #{assessId}
     </select>
     <select id="selectGood" resultType="java.lang.Integer">
-        select
-            count(score)
+        select count(score)
         from archive_assess_score
-        where score >= 80 and score &lt; 90 and summary_id = #{summaryId} and assess_id = #{assessId}
+        where score >= 80
+          and score &lt; 90
+          and summary_id = #{summaryId}
+          and assess_id = #{assessId}
     </select>
     <select id="selectMid" resultType="java.lang.Integer">
-        select
-            count(score)
+        select count(score)
         from archive_assess_score
-        where score >= 70 and score &lt; 80 and summary_id = #{summaryId} and assess_id = #{assessId}
+        where score >= 70
+          and score &lt; 80
+          and summary_id = #{summaryId}
+          and assess_id = #{assessId}
     </select>
     <select id="selectPass" resultType="java.lang.Integer">
-        select
-            count(score)
+        select count(score)
         from archive_assess_score
-        where score >= 60 and score &lt; 70 and summary_id = #{summaryId} and assess_id = #{assessId}
+        where score >= 60
+          and score &lt; 70
+          and summary_id = #{summaryId}
+          and assess_id = #{assessId}
     </select>
     <select id="selectNotPass" resultType="java.lang.Integer">
-        select
-            count(score)
+        select count(score)
         from archive_assess_score
-        where score &lt; 60 and summary_id = #{summaryId} and assess_id = #{assessId}
+        where score &lt; 60
+          and summary_id = #{summaryId}
+          and assess_id = #{assessId}
     </select>
 
     <select id="selectAllSummary" resultType="net.edu.module.vo.ArchiveCourseSummaryVO">
-        select id,course_id
+        select id, course_id
         from archive_course_summary
-        where deleted=0
+        where deleted = 0
     </select>
 </mapper>

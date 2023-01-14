@@ -7,4 +7,5 @@
         select role_id from sys_user_role where user_id = #{userId} and deleted = 0
     </select>
 
+
 </mapper>

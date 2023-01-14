@@ -45,4 +45,6 @@ public class StudentController {
         System.out.println("orglist"+orglist);
         return Result.ok(orglist);
     }
+
+
 }

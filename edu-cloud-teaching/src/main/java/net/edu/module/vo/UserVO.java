@@ -2,6 +2,7 @@ package net.edu.module.vo;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -126,5 +127,24 @@ public class UserVO implements Serializable {
     private String balance;
 
     @ExcelIgnore
+    private String totalAmount;
+
+    @ExcelIgnore
     private String openId;
+
+    @ExcelIgnore
+    private Integer urgentPhone;
+
+    @ExcelIgnore
+    private String readingSchool;
+
+    @ExcelIgnore
+    private Integer likesNum;
+
+    @ExcelIgnore
+    private Integer readingClassNum;
+
+    @ExcelIgnore
+    private Integer payingClassNum;
+
 }

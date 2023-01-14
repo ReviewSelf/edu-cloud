@@ -51,4 +51,6 @@ public interface UserDao extends BaseDao<UserEntity> {
 	List<AffairTeacherVO> getAffairTeacherList(Map<String, Object> params);
 
 	IPage<TeachStudentVO> selectStudents(Page<TeachStudentVO> page, StudentsVO vo);
+
+	void renewAmountSubmit(Long userId, Integer num);
 }

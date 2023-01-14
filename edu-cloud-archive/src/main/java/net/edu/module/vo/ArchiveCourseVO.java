@@ -31,6 +31,9 @@ public class ArchiveCourseVO implements Serializable {
 	@Schema(description = "名称")
 	private String name;
 
+	@Schema(description = "上课时间")
+	private String classCycle;
+
 	@Schema(description = "学时")
 	private Integer creditHours;
 
@@ -55,7 +58,7 @@ public class ArchiveCourseVO implements Serializable {
 
 
 	@Schema(description = "教学班级")
-	private String teach_class;
+	private String teachClass;
 
 
 	@Schema(description = "任课老师")

@@ -218,5 +218,27 @@
             )
     </update>
 
+    <select id="selectExamListByClassId" resultType="net.edu.module.vo.ExamVO">
+        select a.id,
+               a.description,
+               a.begin_time,
+               a.end_time,
+               a.score,
+               a.time_limit,
+               a.paper_id ,
+               a.teacher_id ,
+               a.kp_code ,
+               a.name,
+               a.place,
+               a.type,
+               a.require_ability,
+               a.gain_ability_id,
+               (select name from ability t where a.require_ability=t.id) as requireAbilityName,
+               (select name from ability t where a.gain_ability_id=t.id) as gainAbilityName
+        from exam a
+        where a.deleted=0
+          and a.id in (select exam_id from exam_class t where class_id=#{classId} and a.id=t.exam_id)
+    </select>
+
 
 </mapper>

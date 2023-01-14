@@ -54,7 +54,7 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
 
     List<Integer> selectAssessScore(String courseId, String summaryId);
 
-    List<BigDecimal> selectMannerPq(String courseId);
+    List<BigDecimal> selectMannerPq(Long courseId);
 
     List<ArchiveAssessTestGradesVo> selectStudentIdAndName(String courseId);
 
@@ -62,19 +62,19 @@ public interface ArchiveCourseSummaryDao extends BaseDao<ArchiveCourseSummaryEnt
 
     List<ArchiveAssessTestScoreVo> selectPeaceScore(String studentId, String summaryId);
 
-    Integer selectPeaceAssessNum(Integer courseId);
+    Integer selectPeaceAssessNum(Long courseId);
 
-    List<String> selectPeaceAssessName(Integer courseId);
+    List<String> selectPeaceAssessName(Long courseId);
 
-    List<BigDecimal> selectPeaceTargetWeightArr(Integer courseId);
+    List<BigDecimal> selectPeaceTargetWeightArr(Long courseId);
 
-    List<Integer> selectTargetId(Integer courseId);
+    List<Integer> selectTargetId(Long courseId);
 
-    List<Integer> selectPeaceAssessId(Integer courseId);
+    List<Integer> selectPeaceAssessId(Long courseId);
 
-    Integer selectTargetByCourseId(Integer courseId);
+    Integer selectTargetByCourseId(Long courseId);
 
-    List<String> selectTargetName(Integer courseId);
+    List<String> selectTargetName(Long courseId);
 
     Long selectCourseIdBySummaryId(Long summaryId);
 

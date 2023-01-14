@@ -100,8 +100,10 @@ public class ArchiveTestScoreServiceImpl extends BaseServiceImpl<ArchiveTestScor
                 ArchiveTestScoreEntity archiveTestScoreEntity=new ArchiveTestScoreEntity();
                 archiveTestScoreEntity.setScore(list.get(i).get(j));
                 archiveTestScoreEntity.setTestId(assessTestList.get(j-2));
+                archiveTestScoreEntity.setCourseId(courseId);
                 testScoreList.add(archiveTestScoreEntity);
             }
+
             System.out.println(testScoreList);
             archiveTestScoreDao.insertArchiveTestScore(stuId,stuName,testScoreList);
         }

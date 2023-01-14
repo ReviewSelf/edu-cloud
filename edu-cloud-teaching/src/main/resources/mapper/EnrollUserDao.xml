@@ -5,7 +5,7 @@
 
 
     <select id="selectEnrollUserByPage" resultType="net.edu.module.vo.EnrollUserVO">
-        select t1.id,t1.wx_name,t1.name,t1.phone,t1.union_id,t1.open_id,t1.area,t1.address,t1.age,t1.grade,t1.purpose,t1.status,t1.create_time,
+        select t1.id,t1.wx_name,t1.real_name,t1.phone,t1.union_id,t1.open_id,t1.area,t1.address,t1.age,t1.grade,t1.purpose,t1.status,t1.create_time,
         t1.update_time,t1.login_time,t1.start_number,t1.end_number,t1.remark,t1.integral,t1.balance,t1.deleted,t1.creator,t1.updater,t1.version,
         t2.teacher_opinion,
         t2.parent_opinion
@@ -13,7 +13,7 @@
         left join enroll_evaluate t2 on t1.id = t2.student_id
         where t1.deleted = 0
         <if test="query.getName() !=null and query.getName()!=''">
-            and t1.name like concat('%',#{query.name},'%')
+            and t1.real_name like concat('%',#{query.name},'%')
         </if>
         <if test="query.getGrade() !=null and query.getGrade()!=''">
             and t1.grade = #{query.grade}
@@ -61,7 +61,7 @@
         set
         phone = #{phone}
         <if test="name!=null and name!=''">
-            ,name = #{name}
+            ,real_name = #{name}
         </if>
         <if test="area!=null and area!=''">
             ,area = #{area}
@@ -92,14 +92,14 @@
     <insert id="insertEnrollUser" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO
             enroll_user
-            (phone,name,area,grade)
-        VALUES(#{phone},#{name},#{area},#{grade})
+            (phone,real_name,area,grade)
+        VALUES(#{phone},#{realName},#{area},#{grade})
     </insert>
 
     <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.EnrollUserVO">
         select
             id,
-            name,
+            real_name,
             status
         from enroll_user
         where

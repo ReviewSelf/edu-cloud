@@ -242,4 +242,9 @@ public class ExamServiceImpl extends BaseServiceImpl<ExamDao, ExamEntity> implem
 
 
     }
+
+    @Override
+    public List<ExamVO> getExamListByClassId(Long classId) {
+        return baseMapper.selectExamListByClassId(classId);
+    }
 }

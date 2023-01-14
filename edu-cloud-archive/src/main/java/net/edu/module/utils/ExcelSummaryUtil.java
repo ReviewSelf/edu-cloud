@@ -228,7 +228,7 @@ public class ExcelSummaryUtil {
         ArchiveAssessByCourseIdVo assess = new ArchiveAssessByCourseIdVo();
         assess.setCourseId(Math.toIntExact(excelSummaryUtil.courseIdUntil));
         ArchiveAssessTableVo archiveAssessTableVo = excelSummaryUtil.archiveAssessService.getWeightTable(assess);
-        List<BigDecimal> bigDecimals = excelSummaryUtil.archiveCourseSummaryService.selectMannerPq(String.valueOf(courseIdUntil));
+        List<BigDecimal> bigDecimals = excelSummaryUtil.archiveCourseSummaryService.selectMannerPq((courseIdUntil));
         //设置表头
 
         //设置内容
@@ -325,7 +325,7 @@ public class ExcelSummaryUtil {
         }
         dataList.add(list);
 
-        List<String> strings = excelSummaryUtil.archiveCourseSummaryService.selectPeaceData(Math.toIntExact(courseIdUntil));
+        List<String> strings = excelSummaryUtil.archiveCourseSummaryService.selectPeaceData(courseIdUntil);
 
         for (int i = 0; i < strings.size(); i++) {
             list= new ArrayList<>();

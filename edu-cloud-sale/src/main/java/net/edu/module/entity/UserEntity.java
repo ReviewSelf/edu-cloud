@@ -1,7 +1,6 @@
 package net.edu.module.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
@@ -64,10 +63,7 @@ public class UserEntity extends BaseEntity {
      */
     private Integer grade;
 
-    /**
-     * 意向说明
-     */
-    private String purpose;
+
 
     /**
      * 0为未报名状态，1为报名信息状态，2为未试听状态，3位试听完成状态，4为已缴费状态
@@ -113,5 +109,18 @@ public class UserEntity extends BaseEntity {
      * 新老学员
      */
     private int cadets;
+
+    private Date communicateTime;//上次沟通时间
+
+    private Integer communicate;//沟通次数
+
+    private Integer purposeLevel;//意向等级
+
+    private Integer communication;//沟通方式
+
+    private String explanation;//沟通说明
+
+    private String purpose;//意向说明
+
 
 }

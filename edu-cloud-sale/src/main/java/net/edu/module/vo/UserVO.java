@@ -136,4 +136,22 @@ public class UserVO implements Serializable {
 
     @Schema(description = "新老学员")
     private int cadets;
+
+    @Schema(description = "上次沟通时间")
+    private Date communicateTime;
+
+    @Schema(description = "沟通次数")
+    private Integer communicate;
+
+    @Schema(description = "意向等级")
+    private Integer purposeLevel;
+
+    @Schema(description = "沟通方式")
+    private Integer communication;
+
+    @Schema(description = "沟通说明")
+    private String explanation;
+
+    @Schema(description = "意向说明")
+    private String purpose;
 }

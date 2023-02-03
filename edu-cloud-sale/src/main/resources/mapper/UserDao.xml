@@ -23,6 +23,12 @@
 		t1.area,
 		t2.role_id,
 		t1.sale_id,
+		t1.communicate_time,
+		t1.communicate,
+		t1.purpose_level,
+		t1.communication,
+		t1.explanation,
+		t1.purpose,
 		(select real_name from sys_user t3 where t3.id = t1.sale_id) as saleName
 		FROM
 		sys_user t1

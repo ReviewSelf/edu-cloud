@@ -79,11 +79,15 @@ public class UserEntity extends BaseEntity {
 
     private String openId;
 
-    private Integer urgentPhone;
+    private String urgentPhone;
+
+    private String urgentIdentity;
 
     private String readingSchool;
 
     private Integer likesNum;
+
+    private Integer purposeLevel;
 
     @TableField(exist=false)
     private Integer readingClassNum;

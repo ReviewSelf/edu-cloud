@@ -76,5 +76,12 @@ public class LessonProblemController {
         return Result.ok(lessonProblemService.unfinishedPage(page,limit));
     }
 
+    @GetMapping("studentsForId/page")
+    @Operation(summary = "获取课堂就题目信息")
+    public Result<PageResult<LessonProblemVO>> unfinishedPageForId(@RequestParam Long userId,
+            @RequestParam(value = "page",defaultValue = "1") Integer page,
+            @RequestParam(value = "limit",defaultValue = "10") Integer limit) {
+        return Result.ok(lessonProblemService.unfinishedPageForId(userId,page,limit));
+    }
 
 }

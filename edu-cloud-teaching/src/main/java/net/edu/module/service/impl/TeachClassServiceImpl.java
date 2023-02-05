@@ -100,6 +100,11 @@ public class TeachClassServiceImpl extends BaseServiceImpl<TeachClassDao, TeachC
     }
 
     @Override
+    public List<TeachClassVO> studentClassListForId(Long id,Integer status) {
+        return teachClassDao.selectClassForStudent(id, status);
+    }
+
+    @Override
     public List<TeachClassVO> getClassForTeacher(Integer status) {
         Long userId = SecurityUser.getUserId();
         return teachClassDao.selectClassForTeacher(userId, status);

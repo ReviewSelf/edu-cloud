@@ -86,6 +86,11 @@ public class LessonController {
         return Result.ok(lessonService.homeworkPage(query));
     }
 
+    @GetMapping("homeworkForStudentId/page")
+    @Operation(summary = "课程列表根据学生id")
+    public Result<PageResult<LessonVO>> homeworkForStudentIdPage(@Valid LessonQuery query) {
+        return Result.ok(lessonService.homeworkForStudentIdPage(query));
+    }
 
     @GetMapping("/homework/deadline")
     @Operation(summary = "回家作业超时截止操作")

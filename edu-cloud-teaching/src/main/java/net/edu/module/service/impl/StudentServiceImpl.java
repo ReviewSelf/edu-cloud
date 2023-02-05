@@ -218,6 +218,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void renewAmountSubmit(Long userId, Integer num) {
+        System.out.println(userId+" 2 "+num);
         userDao.renewAmountSubmit(userId,num);
     }
 

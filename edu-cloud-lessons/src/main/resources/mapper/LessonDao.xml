@@ -95,7 +95,6 @@
         where t.homework_status > 0 and (exists (select 1 from teach_class a where a.deleted =0 and (a.teacher1_id=#{query.userId} or a.teacher2_id=#{query.userId} )
         and a.id=t.class_id) or t.teacher_id=#{query.userId})
         and t.deleted=0
-
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
         </if>

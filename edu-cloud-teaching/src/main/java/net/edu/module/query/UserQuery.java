@@ -43,5 +43,8 @@ public class UserQuery extends Query {
     @Schema(description = "机构ID")
     private List<Integer> orgArr;
 
+    @Schema(description = "剩余金额")
+    private Integer balance;
+
 
 }

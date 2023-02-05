@@ -34,4 +34,6 @@ public interface LessonProblemService extends BaseService<LessonProblemEntity> {
     void insertProblemListByTeacher(List<ProblemPaperItemEntity> list, Long lessonId);
 
     PageResult<LessonProblemVO> unfinishedPage(Integer page,Integer limit);
+
+    PageResult<LessonProblemVO> unfinishedPageForId(Long userId,Integer page,Integer limit);
 }

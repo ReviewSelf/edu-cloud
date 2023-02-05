@@ -221,6 +221,12 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
+    @Override
+    public PageResult<LessonVO> homeworkForStudentIdPage(LessonQuery query) {
+        Page<LessonVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<LessonVO> list = baseMapper.selectStudentHomeworkPage(page, query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

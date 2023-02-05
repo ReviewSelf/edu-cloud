@@ -8,9 +8,11 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachClassUserConvert;
 import net.edu.module.dao.TeachClassUserDao;
+import net.edu.module.dao.TeacherClassRecordDao;
 import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
+import net.edu.module.vo.ClassUserRecordVO;
 import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +33,8 @@ import java.util.List;
 public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao, TeachClassUserEntity> implements TeachClassUserService {
 
     private final TeachClassUserDao teachClassUserDao;
+
+    private final TeacherClassRecordDao teacherClassRecordDao;
 
     @Override
     public PageResult<TeachClassUserVO> page(TeachClassUserQuery query) {
@@ -83,6 +87,11 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
     @Override
     public void updateHomeworkTimes(Long userId, Long classId, Integer num) {
         teachClassUserDao.updateHomeworkTimes(userId,classId,num);
+    }
+
+    @Override
+    public void insertClassUserRecord(ClassUserRecordVO vo) {
+        teacherClassRecordDao.insertClassUserRecord(vo);
     }
 
 }

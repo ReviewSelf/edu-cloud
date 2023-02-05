@@ -50,6 +50,13 @@ public class ExamController {
         return Result.ok(page);
     }
 
+    @GetMapping("studentForId")
+    @Operation(summary = "根据学生id查询考试")
+    public Result<PageResult<ExamVO>> studentForId(@Valid ExamQuery query) {
+        PageResult<ExamVO> page = examService.studentPage(query);
+        return Result.ok(page);
+    }
+
     @GetMapping("Examing")
     @Operation(summary = "正在进行的考试")
     public Result<List<ExamVO>> list() {

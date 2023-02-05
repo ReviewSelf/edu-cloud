@@ -37,6 +37,8 @@ public interface LessonService extends BaseService<LessonEntity> {
 
     PageResult<LessonVO> homeworkPage(LessonQuery query);
 
+    PageResult<LessonVO> homeworkForStudentIdPage(LessonQuery query);
+
     List<LessonVO> getClassNotStartLesson(Long classId);
 
     List<LessonVO> getClassAllLesson(Long classId);

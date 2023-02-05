@@ -64,31 +64,14 @@ public class UserVO implements Serializable {
     @NotBlank(message = "手机号不能为空")
     private String mobile;
 
-    @ExcelProperty(index = 5)
-    @Schema(description = "机构ID", required = true)
-    @NotNull(message = "机构ID不能为空")
-    private Long orgId;
+
 
     @ExcelIgnore
     @Schema(description = "状态 0：停用    1：正常", required = true)
     @Range(min = 0, max = 1, message = "用户状态不正确")
     private Integer status;
 
-    @ExcelIgnore
-    @Schema(description = "角色ID列表")
-    private List<Long> roleIdList;
 
-    @ExcelIgnore
-    @Schema(description = "岗位ID列表")
-    private List<Long> postIdList;
-
-    @ExcelIgnore
-    @Schema(description = "超级管理员   0：否   1：是")
-    private Integer superAdmin;
-
-    @ExcelIgnore
-    @Schema(description = "机构名称")
-    private String orgName;
 
     @ExcelIgnore
     @Schema(description = "创建时间")
@@ -127,6 +110,15 @@ public class UserVO implements Serializable {
 
     @ExcelIgnore
     private String openId;
+
+    @Schema(description = "就读学校")
+    private String readingSchool;
+
+    @Schema(description = "联系人身份")
+    private String urgentIdentity;
+
+    @Schema(description = "联系人电话")
+    private String urgentPhone;
 
     @Schema(description = "销售人员id")
     private Long saleId;

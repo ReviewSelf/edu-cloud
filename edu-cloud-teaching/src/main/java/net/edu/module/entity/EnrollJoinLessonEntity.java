@@ -11,5 +11,6 @@ public class EnrollJoinLessonEntity {
 
     private Integer id;
     private Integer tryLesson;
+    private Long teacherId;
 
 }

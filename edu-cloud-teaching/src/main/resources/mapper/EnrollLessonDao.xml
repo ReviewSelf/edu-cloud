@@ -12,7 +12,7 @@
         sys_user(username , real_name , mobile , union_id , open_id , area , age , grade , version , integral , balance , password)
         values(#{phone} , #{name} , #{phone} , #{unionId} , #{openId} , #{area} , #{age} , #{grade} , #{version} , #{integral} , #{balance} , '123456')
     </insert>
-    <insert id="joinLessonEvalute">
+    <insert id="joinLessonEvaluate">
     insert into
         enroll_evaluate(student_id , lesson_id)
         values(#{studentId} , #{tryLesson})
@@ -74,7 +74,7 @@
         where t1.id = #{id}
     </select>
     <select id="selectUserById" resultType="net.edu.module.entity.EnrollUserEntity">
-        select t1.id,t1.wx_name,t1.name,t1.phone,t1.union_id,t1.open_id,t1.area,t1.address,t1.age,t1.grade,t1.purpose,t1.status,t1.create_time,
+        select t1.id,t1.wx_name,t1.real_name,t1.phone,t1.union_id,t1.open_id,t1.area,t1.address,t1.age,t1.grade,t1.purpose,t1.status,t1.create_time,
         t1.update_time,t1.login_time,t1.start_number,t1.end_number,t1.remark,t1.integral,t1.balance,t1.deleted,t1.creator,t1.updater,t1.version,
         t2.teacher_opinion
         from enroll_user t1

@@ -50,6 +50,25 @@
         order by endTime &lt;= now() ,if(endTime &lt;= now(),0,endTime) ,endTime desc
     </select>
 
+    <select id="selectAllLessonPage" resultType="net.edu.module.vo.LessonVO">
+        select t.id,t.teacher_id ,name,status,(select real_name from sys_user where id=t.teacher_id) as teacherName,
+        t.class_id ,(select name from teach_class where id=t.class_id) as className,t.place,
+        t.begin_time as beginTime,t.end_time as endTime   from lesson t
+        where (exists (select 1 from teach_class a where a.deleted =0 and a.id=t.class_id) )
+        and t.deleted=0
+
+        <if test="query.getName()!=null and query.getName()!=''">
+            and name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getClassId()!=null">
+            and t.class_id=#{query.classId}
+        </if>
+        <if test="query.date!=null">
+            and t.end_time &lt; #{query.date}
+        </if>
+        order by endTime desc
+    </select>
+
     <update id="updateHomework">
         UPDATE lesson SET homework_begin_time = #{vo.homeworkBeginTime},homework_end_time = #{vo.homeworkEndTime},homework_status = #{vo.homeworkStatus}
         WHERE id=#{vo.id} AND deleted=0

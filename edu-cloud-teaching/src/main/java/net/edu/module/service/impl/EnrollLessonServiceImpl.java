@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.dao.EnrollLessonDao;
 import net.edu.module.dao.EnrollUserDao;
 import net.edu.module.entity.*;
@@ -67,6 +68,7 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
 
     @Override
     public void joinLesson(EnrollJoinLessonEntity entity) {
+        entity.setTeacherId(SecurityUser.getUserId());
         enrollLessonDao.joinLesson(entity);
         EnrollUserEntity user = enrollLessonDao.selectUserById(entity.getId());
         Integer studentId = entity.getId();
@@ -98,7 +100,8 @@ public class EnrollLessonServiceImpl extends BaseServiceImpl<EnrollLessonDao, En
         // 保存
         Long userId=userService.save(vo);
 //        enrollLessonDao.joinLessonSys(user);
-        enrollLessonDao.joinLessonEvalute(user,studentId , tryLesson);
+
+        enrollLessonDao.joinLessonEvaluate(studentId , tryLesson);
         enrollLessonDao.joinLessonLog(userId , tryLesson);
     }
 

@@ -43,6 +43,12 @@ public class LessonController {
         return Result.ok(lessonService.page(query));
     }
 
+    @GetMapping("page/allLesson")
+    @Operation(summary = "所有课程列表")
+    public Result<PageResult<LessonVO>> pageAllLesson(@Valid LessonQuery query) {
+        return Result.ok(lessonService.pageAllLesson(query));
+    }
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<LessonVO> get(@PathVariable("id") Long id){

@@ -39,7 +39,7 @@ public class SysAuthController {
 
 
     @PostMapping("login")
-    @Operation(summary = "账号密码登录")
+    @Operation(summary = "账号/手机号  密码登录")
     public Result<SysTokenVO> login(@RequestBody SysAccountLoginVO login) {
         SysTokenVO token = sysAuthService.loginByAccount(login);
         return Result.ok(token);

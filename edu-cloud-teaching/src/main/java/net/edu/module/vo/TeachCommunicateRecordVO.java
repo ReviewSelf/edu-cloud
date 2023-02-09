@@ -26,8 +26,14 @@ public class TeachCommunicateRecordVO implements Serializable {
 	@Schema(description = "教务老师id")
 	private Long teacherId;
 
+	@Schema(description = "教务老师姓名")
+	private String teacherName;
+
 	@Schema(description = "学生id")
 	private Long studentId;
+
+	@Schema(description = "学生姓名")
+	private String studentName;
 
 	@Schema(description = "沟通对象")
 	private String target;

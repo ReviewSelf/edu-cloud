@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="net.edu.module.dao.TeachPlanItemResourceDao">
+<mapper namespace="net.edu.module.dao.TeachCommunicateRecordDao">
 
     <resultMap type="net.edu.module.entity.TeachCommunicateRecordEntity" id="teachCommunicateRecordMap">
         <result property="id" column="id"/>
@@ -18,5 +18,22 @@
         <result property="deleted" column="deleted"/>
         <result property="version" column="version"/>
     </resultMap>
+
+    <select id="selectCommunicateRecordPage" resultType="net.edu.module.entity.TeachCommunicateRecordEntity">
+        select t1.teacher_id,(select real_name from sys_user where id = t1.teacher_id) as teacherName,t1.student_id,(select real_name from sys_user where id = t1.student_id) as studentName,
+               t1.target,t1.time,t1.theme,t1.content,t1.create_time,t1.update_time,t1.creator,t1.updater,t1.deleted,t1.version
+        from teach_communicate_record t1
+        where deleted = 0
+            <if test="query.getStudentId!=null">
+              and  t1.student_id = #{query.studentId}
+            </if>
+            <if test="query.getStudentName!=null and query.getStudentName !=''">
+                and  studentName like concat('%',#{query.studentName},'%')
+            </if>
+            <if test="query.getTime!=null and query.getTime !=''">
+                and  t1.time &lt;= #{query.time}
+            </if>
+        order by t1.time desc
+    </select>
 
 </mapper>

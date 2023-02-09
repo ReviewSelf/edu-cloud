@@ -29,7 +29,7 @@ public class TeachCommunicateRecordServiceImpl extends BaseServiceImpl<TeachComm
 
     @Override
     public PageResult<TeachCommunicateRecordVO> page(TeachCommunicateRecordQuery query) {
-        IPage<TeachCommunicateRecordEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
+        IPage<TeachCommunicateRecordEntity> page = baseMapper.selectCommunicateRecordPage(getPage(query), query);
 
         return new PageResult<>(TeachCommunicateRecordConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
     }

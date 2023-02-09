@@ -28,13 +28,13 @@ import java.util.List;
 public class TeachCommunicateRecordController {
     private final TeachCommunicateRecordService teachCommunicateRecordService;
 
-//    @GetMapping("page")
-//    @Operation(summary = "分页")
-//    public Result<PageResult<TeachCommunicateRecordVO>> page(@Valid TeachCommunicateRecordQuery query){
-//        PageResult<TeachCommunicateRecordVO> page = teachCommunicateRecordService.page(query);
-//
-//        return Result.ok(page);
-//    }
+    @GetMapping("page")
+    @Operation(summary = "分页")
+    public Result<PageResult<TeachCommunicateRecordVO>> page(@Valid TeachCommunicateRecordQuery query){
+        PageResult<TeachCommunicateRecordVO> page = teachCommunicateRecordService.page(query);
+
+        return Result.ok(page);
+    }
 
 //    @GetMapping("{id}")
 //    @Operation(summary = "信息")

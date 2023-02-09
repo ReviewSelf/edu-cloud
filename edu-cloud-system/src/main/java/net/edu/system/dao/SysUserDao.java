@@ -24,7 +24,7 @@ public interface SysUserDao extends BaseDao<SysUserEntity> {
 	List<SysUserEntity> getRoleUserList(Map<String, Object> params);
 
 	default SysUserEntity getByUsername(String username){
-		return this.selectOne(new QueryWrapper<SysUserEntity>().eq("username", username));
+		return this.selectOne(new QueryWrapper<SysUserEntity>().eq("username", username).or().eq("mobile",username));
 	}
 
 	default SysUserEntity getByMobile(String mobile){

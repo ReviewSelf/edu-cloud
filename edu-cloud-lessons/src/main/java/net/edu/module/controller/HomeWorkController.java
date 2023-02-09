@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("homeWork")
-@Tag(name="消息推送")
+@Tag(name="回家作业")
 @AllArgsConstructor
 @Slf4j
 public class HomeWorkController {

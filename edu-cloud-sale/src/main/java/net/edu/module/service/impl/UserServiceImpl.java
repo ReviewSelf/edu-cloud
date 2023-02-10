@@ -46,9 +46,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
-
-
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long save(UserVO vo) {
@@ -80,24 +77,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     public void update(UserVO vo) {
         UserEntity entity = UserConvert.INSTANCE.convert(vo);
 
-        // 判断用户名是否存在
-        UserEntity user = baseMapper.getByUsername(entity.getUsername());
-        if (user != null && !user.getId().equals(entity.getId())) {
-            throw new ServerException("用户名已经存在");
-        }
-
-        // 判断手机号是否存在
-        user = baseMapper.getByMobile(entity.getMobile());
-        if (user != null && !user.getId().equals(entity.getId())) {
-            throw new ServerException("手机号已经存在");
-        }
-
         // 更新用户
         updateById(entity);
-
-        // 更新用户角色关系
-//        userRoleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
-
     }
 
     @Override

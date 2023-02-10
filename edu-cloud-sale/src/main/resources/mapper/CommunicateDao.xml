@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.CommunicateDao">
+
+
+    <select id="page" resultType="net.edu.module.vo.CommunicateVO">
+        select
+            t1.id,
+            t1.stu_id,
+            (select real_name from sys_user t2 where t1.stu_id = t2.id) as realName,
+            (select mobile from sys_user t2 where t1.stu_id = t2.id) as mobile,
+            (select username from sys_user t2 where t2.id = t1.stu_id ) as username,
+            t1.sale_id,
+            (select real_name from sys_user t2 where t1.sale_id = t2.id) as saleName,
+            t1.communicate_time,
+            t1.communication,
+            t1.explanation
+        from communicate t1
+        where deleted = 0
+        <if test="query.getStuId() != null and query.getStuId() != ''">
+            and t1.stu_id = #{query.stuId}
+        </if>
+        <if test="query.getUsername() != null and query.getUsername() != ''">
+            and (select username from sys_user t2 where t2.id = t1.stu_id ) like concat(#{query.username},'%')
+        </if>
+        <if test="query.getMobile() != null and query.getMobile() != ''">
+            and (select mobile from sys_user t2 where t1.stu_id = t2.id) like concat(#{query.mobile},'%')
+        </if>
+        <if test="query.getRealName() != null and query.getRealName() != ''">
+            and (select real_name from sys_user t2 where t1.stu_id = t2.id) like concat(#{query.realName},'%')
+        </if>
+        order by t1.communicate_time desc
+    </select>
+
+
+
+
+
+</mapper>

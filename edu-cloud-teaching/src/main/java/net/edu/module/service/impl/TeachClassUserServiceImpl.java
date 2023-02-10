@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachClassUserConvert;
 import net.edu.module.dao.TeachClassUserDao;
-import net.edu.module.dao.TeacherClassRecordDao;
+import net.edu.module.dao.TeachClassRecordDao;
 import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
@@ -34,7 +34,7 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
 
     private final TeachClassUserDao teachClassUserDao;
 
-    private final TeacherClassRecordDao teacherClassRecordDao;
+    private final TeachClassRecordDao teachClassRecordDao;
 
     @Override
     public PageResult<TeachClassUserVO> page(TeachClassUserQuery query) {
@@ -91,7 +91,7 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
 
     @Override
     public void insertClassUserRecord(ClassUserRecordVO vo) {
-        teacherClassRecordDao.insertClassUserRecord(vo);
+        teachClassRecordDao.insertClassUserRecord(vo);
     }
 
 }

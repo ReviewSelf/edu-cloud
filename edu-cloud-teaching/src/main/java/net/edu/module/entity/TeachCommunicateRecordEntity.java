@@ -23,9 +23,19 @@ public class TeachCommunicateRecordEntity extends BaseEntity {
 	private Long teacherId;
 
 	/**
+	 * 教务老师姓名
+	 */
+	private String teacherName;
+
+	/**
 	* 学生id
 	*/
 	private Long studentId;
+
+	/**
+	 * 学生姓名
+	 */
+	private String studentName;
 
 	/**
 	* 沟通对象

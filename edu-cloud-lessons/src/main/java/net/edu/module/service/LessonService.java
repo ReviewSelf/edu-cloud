@@ -54,4 +54,8 @@ public interface LessonService extends BaseService<LessonEntity> {
     void exportLesson(Long lessonId, HttpServletResponse response) throws IOException;
 
     PageResult<LessonVO> pageAllLesson(LessonQuery query);
+
+    PageResult<LessonVO> selectLessonPage(LessonQuery query);
+
+    void createAuditionLessons(LessonVO vo);
 }

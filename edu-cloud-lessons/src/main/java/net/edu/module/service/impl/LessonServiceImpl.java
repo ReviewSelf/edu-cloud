@@ -97,12 +97,17 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
 
     @Override
     public List<LessonVO> list(LessonQuery query) {
-        LambdaQueryWrapper<LessonEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(true, LessonEntity::getClassId, query.getClassId());
-        wrapper.orderByAsc(LessonEntity::getSort);
-        List<LessonEntity> list = baseMapper.selectList(wrapper);
-        return LessonConvert.INSTANCE.convertList(list);
+        List<LessonVO> list = baseMapper.selectLessonList(query);
+        return list;
     }
+
+    @Override
+    public PageResult<LessonVO> selectLessonPage(LessonQuery query) {
+        Page<LessonVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<LessonVO> list= baseMapper.selectLessonPage(page,query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
 
     @Override
     public void update(LessonVO vo) {
@@ -132,6 +137,17 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         }
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void createAuditionLessons(LessonVO vo) {
+        //插入课程
+        LessonEntity entity = LessonConvert.INSTANCE.convert(vo);
+        baseMapper.insert(entity);
+        //拷贝教学题目，生成课堂题目
+        lessonProblemService.copyFromPlanItem(vo.getPlanItemId(), entity.getId());
+        //拷贝教学资源，生成课堂资源
+        lessonResourceService.copyFromPlanItem(vo.getPlanItemId(), entity.getId());
+    }
 
     @Override
     public List<LessonVO> getClassNotStartLesson(Long classId) {
@@ -325,6 +341,8 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         IPage<LessonVO> list = baseMapper.selectAllLessonPage(page, query);
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
+
+
 
 
 }

@@ -15,21 +15,16 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Schema(description = "用户查询")
-public class UserQuery extends Query {
+public class CommunicateQuery extends Query {
     @Schema(description = "用户名")
     private String username;
 
     @Schema(description = "手机号")
     private String mobile;
 
-    @Schema(description = "姓名")
+    @Schema(description = "真实姓名")
     private String realName;
 
-    @Schema(description = "开始时间")
-    private String beginTime;
-
-    @Schema(description = "结束时间")
-    private String endTime;
-
-
+    @Schema(description = "学生id")
+    private Long stuId;
 }

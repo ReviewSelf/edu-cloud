@@ -64,14 +64,31 @@ public class UserVO implements Serializable {
     @NotBlank(message = "手机号不能为空")
     private String mobile;
 
-
+    @ExcelProperty(index = 5)
+    @Schema(description = "机构ID", required = true)
+    @NotNull(message = "机构ID不能为空")
+    private Long orgId;
 
     @ExcelIgnore
     @Schema(description = "状态 0：停用    1：正常", required = true)
     @Range(min = 0, max = 1, message = "用户状态不正确")
     private Integer status;
 
+    @ExcelIgnore
+    @Schema(description = "角色ID列表")
+    private List<Long> roleIdList;
 
+    @ExcelIgnore
+    @Schema(description = "岗位ID列表")
+    private List<Long> postIdList;
+
+    @ExcelIgnore
+    @Schema(description = "超级管理员   0：否   1：是")
+    private Integer superAdmin;
+
+    @ExcelIgnore
+    @Schema(description = "机构名称")
+    private String orgName;
 
     @ExcelIgnore
     @Schema(description = "创建时间")
@@ -109,41 +126,41 @@ public class UserVO implements Serializable {
     private String balance;
 
     @ExcelIgnore
+    private String totalAmount;
+
+    @ExcelIgnore
     private String openId;
 
-    @Schema(description = "就读学校")
-    private String readingSchool;
-
-    @Schema(description = "联系人身份")
-    private String urgentIdentity;
-
-    @Schema(description = "联系人电话")
+    @ExcelIgnore
     private String urgentPhone;
 
-    @Schema(description = "销售人员id")
-    private Long saleId;
+    @ExcelIgnore
+    private String urgentIdentity;
 
-    @Schema(description = "销售人员姓名")
-    private String saleName;
+    @ExcelIgnore
+    private String readingSchool;
 
-    @Schema(description = "新老学员")
-    private int cadets;
+    @ExcelIgnore
+    private Integer likesNum;
 
-    @Schema(description = "上次沟通时间")
-    private Date communicateTime;
-
-    @Schema(description = "沟通次数")
-    private Integer communicate;
-
-    @Schema(description = "意向等级")
+    @ExcelIgnore
     private Integer purposeLevel;
 
-    @Schema(description = "沟通方式")
-    private Integer communication;
+    @ExcelIgnore
+    private Integer readingClassNum;
 
-    @Schema(description = "沟通说明")
-    private String explanation;
+    @ExcelIgnore
+    private Integer payingClassNum;
 
-    @Schema(description = "意向说明")
+    private String saleName;
+
+    private Date communicateTime;
+
+    private Integer communicate;
+
     private String purpose;
+
+    private Long saleId;
+
+    private Integer saleStatus;
 }

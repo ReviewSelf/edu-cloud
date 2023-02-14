@@ -342,6 +342,19 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
+    @Override
+    public PageResult<LessonVO> pageAfootLesson(LessonQuery query) {
+        UserDetail user = SecurityUser.getUser();
+        if (!CollUtil.isEmpty(user.getRoleIdList())) {
+            query.setRole(user.getRoleIdList().get(0));
+        } else {
+            //管理员
+            query.setRole(0L);
+        }
+        Page<LessonVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<LessonVO> list = baseMapper.selectLessonAfootPage(page, query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
 
 
 

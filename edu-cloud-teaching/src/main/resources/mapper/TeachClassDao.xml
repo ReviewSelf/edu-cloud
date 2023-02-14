@@ -136,7 +136,7 @@
         c.place as lessonPlace,
         frequency
         from teach_class a
-        JOIN teach_class_user b on a.id = b.class_id and b.user_id = #{userId}
+        JOIN teach_class_user b on a.id = b.class_id and b.user_id = #{userId} and b.status = 1
         left join lesson c on a.next_lesson=c.id
         where a.deleted=0
         <if test="status!=null">

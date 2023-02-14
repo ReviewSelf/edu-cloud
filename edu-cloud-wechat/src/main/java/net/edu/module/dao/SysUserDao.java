@@ -14,7 +14,7 @@ public interface SysUserDao {
      * @param username
      * @return
      */
-    int updateOpenIdByUsername(String username,String openId);
+    int updateOpenIdByUsername(String username,String openId,String unionId);
 
     UserVO selectUserInfoByOpenId(String openId);
 

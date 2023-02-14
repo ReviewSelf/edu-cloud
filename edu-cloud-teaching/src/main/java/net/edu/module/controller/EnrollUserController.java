@@ -8,12 +8,9 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.EnrollUserConvert;
 import net.edu.module.entity.EnrollUserEntity;
-import net.edu.module.entity.UserEntity;
 import net.edu.module.query.EnrollUserQuery;
 import net.edu.module.service.EnrollUserService;
-import net.edu.module.vo.EnrollClassVO;
 import net.edu.module.vo.EnrollUserVO;
-import net.edu.module.vo.UserVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -106,8 +103,6 @@ public class EnrollUserController {
     @PostMapping("insertEnrollUser")
     @Operation(summary = "新增班级学生")
     public Result<Integer> insertEnrollUser(@RequestBody  EnrollUserVO enrollUserVO){
-        System.out.println("11111111111111");
-        System.out.println(enrollUserVO);
         int userId= enrollUserService.insertEnrollUser(enrollUserVO);
         return Result.ok(userId);
     }

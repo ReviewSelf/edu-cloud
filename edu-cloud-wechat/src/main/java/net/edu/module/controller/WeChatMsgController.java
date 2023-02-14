@@ -36,8 +36,6 @@ public class WeChatMsgController {
     private WeChatMsgService weChatMsgService;
 
     @Autowired
-    private WeChatService weChatService;
-    @Autowired
     private SysUserService sysUserService;
 
 
@@ -65,17 +63,12 @@ public class WeChatMsgController {
     @PostMapping("post")
     @Operation(summary = "报名")
     public Result<String> post(@RequestBody EnrollUserVO enrollUserVO){
-        System.out.println(enrollUserVO);
         Integer userId = enrollUserVO.getId();
         if(userId==null){
-            System.out.println("新增操作");
-            userId=eduTeachApi.insertEnrollUser(enrollUserVO).getData();
+            eduTeachApi.insertEnrollUser(enrollUserVO).getData();
         }else{
             eduTeachApi.post(enrollUserVO);
         }
-        System.out.println(userId);
-        Integer classId = enrollUserVO.getClassId();
-        eduTeachApi.insertClassUser(classId,userId);
         return Result.ok();
     }
 
@@ -146,18 +139,7 @@ public class WeChatMsgController {
     }
 
 
-    /**
-     * 账号绑定
-     * @param username
-     * @param password
-     * @return
-     */
-    @PutMapping("account")
-    public Result<Integer> updateOpenIdByUsername(@RequestParam("username") String username,
-                                                  @RequestParam("password") String password,
-                                                  @RequestParam("openId") String openId){
-        return Result.ok(sysUserService.updateOpenIdByUsername(username,password,openId));
-    }
+
 
 }
 

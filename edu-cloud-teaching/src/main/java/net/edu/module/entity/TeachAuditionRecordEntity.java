@@ -1,6 +1,7 @@
 package net.edu.module.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
@@ -42,6 +43,11 @@ public class TeachAuditionRecordEntity extends BaseEntity {
 	* 安排时间
 	*/
 	private Date dateTime;
+
+	/**
+	 * 试听备注
+	 */
+	private String remarks;
 
 	/**
 	* 是否已安排试听,0未安排，1安排

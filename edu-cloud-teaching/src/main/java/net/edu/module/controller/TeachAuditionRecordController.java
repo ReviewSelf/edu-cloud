@@ -36,6 +36,14 @@ public class TeachAuditionRecordController {
         return Result.ok(page);
     }
 
+    @GetMapping("page/newStudent")
+    @Operation(summary = "分页")
+    public Result<PageResult<TeachAuditionRecordVO>> newStudentAuditionRecordPage(@Valid TeachAuditionRecordQuery query){
+        PageResult<TeachAuditionRecordVO> page = teachAuditionRecordService.newStudentAuditionRecordPage(query);
+
+        return Result.ok(page);
+    }
+
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<TeachAuditionRecordVO> get(@PathVariable("id") Long id){
@@ -51,6 +59,14 @@ public class TeachAuditionRecordController {
 
         return Result.ok();
     }
+
+//    @PostMapping("notLesson")
+//    @Operation(summary = "保存未安排试听的记录")
+//    public Result<String> saveNotLesson(@RequestBody TeachAuditionRecordVO vo){
+//        teachAuditionRecordService.saveNotLesson(vo);
+//
+//        return Result.ok();
+//    }
 
     @PutMapping
     @Operation(summary = "修改")

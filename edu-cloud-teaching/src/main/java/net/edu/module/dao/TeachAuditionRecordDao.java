@@ -19,5 +19,9 @@ public interface TeachAuditionRecordDao extends BaseDao<TeachAuditionRecordEntit
 
     IPage<TeachAuditionRecordEntity> selectAuditionRecordPage(IPage<TeachAuditionRecordEntity> page, @Param("query") TeachAuditionRecordQuery query);
 
+    IPage<TeachAuditionRecordVO> selectNewStudentAuditionRecordPage(IPage<TeachAuditionRecordEntity> page, @Param("query") TeachAuditionRecordQuery query);
+
     void insertLessonAttendLog(@Param("vo") TeachAuditionRecordVO vo);
+
+//    void insertNotLessonRecord(@Param("vo") TeachAuditionRecordVO vo);
 }

@@ -35,6 +35,15 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
         return new PageResult<>(TeachAuditionRecordConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
     }
 
+
+
+    @Override
+    public PageResult<TeachAuditionRecordVO> newStudentAuditionRecordPage(TeachAuditionRecordQuery query) {
+        IPage<TeachAuditionRecordVO> page = baseMapper.selectNewStudentAuditionRecordPage(getPage(query), query);
+
+        return new PageResult<>(page.getRecords(), page.getTotal());
+    }
+
     private LambdaQueryWrapper<TeachAuditionRecordEntity> getWrapper(TeachAuditionRecordQuery query){
         LambdaQueryWrapper<TeachAuditionRecordEntity> wrapper = Wrappers.lambdaQuery();
 
@@ -66,8 +75,20 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
     public void joinAuditionLesson(TeachAuditionRecordVO vo) {
         //加入课堂签到表
         baseMapper.insertLessonAttendLog(vo);
-        //保存试听记录
-        save(vo);
+        //判断是否已有试听记录
+        if(vo.getId()!=null){
+            //更新试听记录
+            update(vo);
+        }else{
+            //保存试听记录
+            save(vo);
+        }
+
     }
+
+//    @Override
+//    public void saveNotLesson(TeachAuditionRecordVO vo) {
+//        baseMapper.insertNotLessonRecord(vo);
+//    }
 
 }

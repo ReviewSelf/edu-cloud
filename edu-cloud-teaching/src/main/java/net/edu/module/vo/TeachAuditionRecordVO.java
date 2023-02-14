@@ -9,13 +9,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-* 教学试听安排
+* 教学试听记录
 *
 * @author sqw 
 * @since 1.0.0 2023-02-13
 */
 @Data
-@Schema(description = "教学试听安排")
+@Schema(description = "教学试听记录")
 public class TeachAuditionRecordVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -24,6 +24,9 @@ public class TeachAuditionRecordVO implements Serializable {
 
 	@Schema(description = "学生id")
 	private Long studentId;
+
+	@Schema(description = "学生账户")
+	private String studentUserName;
 
 	@Schema(description = "学生姓名")
 	private String studentName;
@@ -37,6 +40,15 @@ public class TeachAuditionRecordVO implements Serializable {
 	@Schema(description = "安排时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date dateTime;
+
+	@Schema(description = "销售老师名称")
+	private String saleTeachName;
+
+	@Schema(description = "学生情况")
+	private String purpose;
+
+	@Schema(description = "试听备注")
+	private String remarks;
 
 	@Schema(description = "是否已安排试听,0未安排，1安排")
 	private Integer status;

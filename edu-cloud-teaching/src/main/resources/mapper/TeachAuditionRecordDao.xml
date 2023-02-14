@@ -20,8 +20,7 @@
 
     <select id="selectAuditionRecordPage" resultType="net.edu.module.entity.TeachAuditionRecordEntity">
         select t.student_id as studentId,a.real_name as studentName,t.lesson_id as lessonId,
-               b.name as lessonName,
-               t.date_time as dateTime,t.status
+               b.name as lessonName,t.remarks,t.date_time as dateTime,t.status
         from teach_audition_record t left join sys_user a on t.student_id = a.id left join lesson b on  t.lesson_id = b.id
         where t.deleted = 0
                 <if test="query.getStudentName!=null and query.getStudentName!=''">
@@ -31,14 +30,32 @@
                    and b.name like concat('%',#{query.lessonName},'%')
                 </if>
                 <if test="query.getStatus!=null ">
-                   and status = #{query.status}
+                   and t.status = #{query.status}
                 </if>
-                order by status , dateTime desc
+                order by t.status , dateTime desc
     </select>
 
-    <insert id="insertLessonAttendLog">
-        insert into lesson_attend_log(stu_id,lesson_id) values(#{vo.studentId},#{vo.lessonId})
-    </insert>
+    <select id="selectNewStudentAuditionRecordPage" resultType="net.edu.module.vo.TeachAuditionRecordVO">
+        select t.student_id as studentId,a.username as studentUserName,a.real_name as studentName,t.lesson_id as lessonId,
+        b.name as lessonName,t.remarks,t.date_time as dateTime,t.status,a.purpose as purpose,
+        (select real_name from sys_user where id = a.sale_id) as saleTeachName
+        from teach_audition_record t left join sys_user a on t.student_id = a.id left join lesson b on  t.lesson_id = b.id
+        where t.deleted = 0 and a.cadets = 0
+        <if test="query.getStudentName!=null and query.getStudentName!=''">
+            and a.real_name like concat('%',#{query.studentName},'%')
+        </if>
+        <if test="query.getLessonName!=null and query.getLessonName!=''">
+            and b.name like concat('%',#{query.lessonName},'%')
+        </if>
+        <if test="query.getStatus!=null ">
+            and t.status = #{query.status}
+        </if>
+        order by t.status , dateTime desc
+    </select>
+
+<!--    <insert id="insertLessonAttendLog">-->
+<!--        insert into lesson_attend_log(stu_id,lesson_id) values(#{vo.studentId},#{vo.lessonId})-->
+<!--    </insert>-->
 
 
 </mapper>

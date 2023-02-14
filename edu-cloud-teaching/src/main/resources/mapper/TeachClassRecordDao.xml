@@ -4,7 +4,7 @@
 <mapper namespace="net.edu.module.dao.TeachClassRecordDao">
 
     <insert id="insertClassUserRecord" >
-        insert into teach_class_record(type,record_time,students_id,teacher_id,old_class_id,old_lesson_id,new_class_id,new_lesson_id)
+        insert into teach_class_record(type,record_time,student_id,teacher_id,old_class_id,old_lesson_id,new_class_id,new_lesson_id)
             values(#{vo.type},#{vo.time},#{vo.studentId},#{vo.teacherId},#{vo.oldClassId},#{vo.oldLessonId},#{vo.newClassId},#{vo.newLessonId})
     </insert>
 

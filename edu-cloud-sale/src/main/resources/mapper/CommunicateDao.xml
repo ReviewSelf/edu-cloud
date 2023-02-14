@@ -11,6 +11,7 @@
             (select real_name from sys_user t2 where t1.stu_id = t2.id) as realName,
             (select mobile from sys_user t2 where t1.stu_id = t2.id) as mobile,
             (select username from sys_user t2 where t2.id = t1.stu_id ) as username,
+            (select stu_number from sys_user t2 where t2.id = t1.stu_id ) as stuNumber,
             t1.sale_id,
             (select real_name from sys_user t2 where t1.sale_id = t2.id) as saleName,
             t1.communicate_time,

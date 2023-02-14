@@ -1,5 +1,6 @@
 package net.edu.module.controller;
 
+import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
@@ -10,6 +11,7 @@ import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;
 import net.edu.module.vo.EnrollUserVO;
 import net.edu.module.vo.EnrollVO;
+import net.edu.module.vo.UserStatusVO;
 import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,11 +53,26 @@ public class UserController {
         return Result.ok();
     }
 
+    @PostMapping
+    @Operation(summary = "保存")
+    public Result<String> save(@RequestBody @Valid UserVO vo){
+        userService.save(vo);
+        return Result.ok();
+    }
+
+
     @GetMapping("/{id}")
     @Operation(summary = "信息")
     public Result<UserVO> getStudent(@PathVariable("id") Long id){
         UserEntity entity = userService.getById(id);
         UserVO vo = UserConvert.INSTANCE.convert(entity);
         return Result.ok(vo);
+    }
+
+    @GetMapping("status")
+    @Operation(summary = "漏斗统计")
+    public Result<List<Integer>> getFunnelData(){
+        List<Integer> integers = userService.selectUserStatus();
+        return Result.ok(integers);
     }
 }

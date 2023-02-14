@@ -35,6 +35,9 @@ public class UserVO implements Serializable {
     @ExcelProperty(index = 0)
     private String username;
 
+    @Schema(description = "学号")
+    private String stuNumber;
+
     @ExcelIgnore
     @Schema(description = "密码")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

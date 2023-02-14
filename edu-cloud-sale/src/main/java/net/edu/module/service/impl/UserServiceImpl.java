@@ -13,6 +13,7 @@ import net.edu.module.dao.UserRoleDao;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;
+import net.edu.module.vo.UserStatusVO;
 import net.edu.module.vo.UserVO;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,8 +51,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long save(UserVO vo) {
+    public void save(UserVO vo) {
         UserEntity entity = UserConvert.INSTANCE.convert(vo);
+
 
         // 判断用户名是否存在
         UserEntity user = baseMapper.getByUsername(entity.getUsername());
@@ -64,12 +68,12 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         }
 
         // 保存用户
-        baseMapper.insert(entity);
+        vo.setId(null);
+        vo.setPassword(passwordEncoder.encode("123456"));
+        setStuNumber(vo);
+        userDao.insertCadet(vo);
 
-        // 保存用户角色关系
-//        userRoleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
-
-        return entity.getId();
+        userRoleDao.insertStudentRole(vo.getId());
 
     }
 
@@ -102,9 +106,34 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Transactional
     public void insertCadet(UserVO vo) {
         enrollDao.updateStatus(vo.getId());
+
+        setStuNumber(vo);
         vo.setId(null);
         vo.setPassword(passwordEncoder.encode("123456"));
         userDao.insertCadet(vo);
         userRoleDao.insertStudentRole(vo.getId());
+    }
+
+    private void setStuNumber(UserVO vo) {
+        String stuNumber = selectStuNumber();
+        if(stuNumber!=null){
+            vo.setStuNumber(String.valueOf((Long.parseLong(stuNumber)+1)));
+        }
+        else {
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);
+            System.out.println(year);
+            vo.setStuNumber(year+"001");
+        }
+    }
+
+    @Override
+    public List<Integer> selectUserStatus() {
+        return userDao.selectUserStatus();
+    }
+
+    @Override
+    public String selectStuNumber() {
+        return userDao.selectStuNumber();
     }
 }

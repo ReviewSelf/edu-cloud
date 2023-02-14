@@ -12,6 +12,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.module.query.TeachAuditionRecordQuery;
 import net.edu.module.service.TeachAuditionRecordService;
 import net.edu.module.vo.TeachAuditionRecordVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,9 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditionRecordDao, TeachAuditionRecordEntity> implements TeachAuditionRecordService {
+
+    @Autowired
+    private TeachAuditionRecordDao teachAuditionRecordDao;
 
     @Override
     public PageResult<TeachAuditionRecordVO> page(TeachAuditionRecordQuery query) {
@@ -55,6 +59,8 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
         TeachAuditionRecordEntity entity = TeachAuditionRecordConvert.INSTANCE.convert(vo);
 
         baseMapper.insert(entity);
+        System.out.println("学生id"+vo.getStudentId());
+        teachAuditionRecordDao.updateUserAuditionStatus(vo.getStudentId());
     }
 
     @Override
@@ -82,6 +88,7 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
         }else{
             //保存试听记录
             save(vo);
+
         }
 
     }

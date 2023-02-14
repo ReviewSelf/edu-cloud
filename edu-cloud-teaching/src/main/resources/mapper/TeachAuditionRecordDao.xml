@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.TeachAuditionRecordDao">
+
+    <resultMap type="net.edu.module.entity.TeachAuditionRecordEntity" id="teachAuditionRecordMap">
+        <result property="id" column="id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="classId" column="class_id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="dateTime" column="date_time"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="version" column="version"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="creator" column="creator"/>
+        <result property="updater" column="updater"/>
+        <result property="deleted" column="deleted"/>
+    </resultMap>
+
+    <select id="selectAuditionRecordPage" resultType="net.edu.module.entity.TeachAuditionRecordEntity">
+        select t.student_id as studentId,a.real_name as studentName,t.lesson_id as lessonId,
+               b.name as lessonName,
+               t.date_time as dateTime,t.status
+        from teach_audition_record t left join sys_user a on t.student_id = a.id left join lesson b on  t.lesson_id = b.id
+        where t.deleted = 0
+                <if test="query.getStudentName!=null and query.getStudentName!=''">
+                   and a.real_name like concat('%',#{query.studentName},'%')
+                </if>
+                <if test="query.getLessonName!=null and query.getLessonName!=''">
+                   and b.name like concat('%',#{query.lessonName},'%')
+                </if>
+                <if test="query.getStatus!=null ">
+                   and status = #{query.status}
+                </if>
+                order by status , dateTime desc
+    </select>
+
+    <insert id="insertLessonAttendLog">
+        insert into lesson_attend_log(stu_id,lesson_id) values(#{vo.studentId},#{vo.lessonId})
+    </insert>
+
+
+</mapper>

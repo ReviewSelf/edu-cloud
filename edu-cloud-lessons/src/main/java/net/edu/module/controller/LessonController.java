@@ -36,9 +36,15 @@ public class LessonController {
         return Result.ok(lessonService.list(query));
     }
 
+    @GetMapping("page/info")
+    @Operation(summary = "课程列表(无需验证身份)")
+    public Result<PageResult<LessonVO>> selectLessonPage(@Valid LessonQuery query){
+        return Result.ok(lessonService.selectLessonPage(query));
+    }
+
 
     @GetMapping("page")
-    @Operation(summary = "课程列表")
+    @Operation(summary = "课程列表(验证身份)")
     public Result<PageResult<LessonVO>> page(@Valid LessonQuery query) {
         return Result.ok(lessonService.page(query));
     }
@@ -47,6 +53,12 @@ public class LessonController {
     @Operation(summary = "所有课程列表")
     public Result<PageResult<LessonVO>> pageAllLesson(@Valid LessonQuery query) {
         return Result.ok(lessonService.pageAllLesson(query));
+    }
+
+    @GetMapping("page/afootLesson")
+    @Operation(summary = "所有进行中的课程列表")
+    public Result<PageResult<LessonVO>> pageAfootLesson(@Valid LessonQuery query) {
+        return Result.ok(lessonService.pageAfootLesson(query));
     }
 
     @GetMapping("{id}")
@@ -61,6 +73,13 @@ public class LessonController {
     @Operation(summary = "创建课堂")
     public Result<String> createLessons(@RequestBody List<LessonVO> voList){
         lessonService.createLessons(voList);
+        return Result.ok();
+    }
+
+    @PostMapping("/create/audition")
+    @Operation(summary = "创建试听课堂")
+    public Result<String> createAuditionLessons(@RequestBody LessonVO vo){
+        lessonService.createAuditionLessons(vo);
         return Result.ok();
     }
 

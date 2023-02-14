@@ -99,12 +99,12 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     }
 
     @Override
+    @Transactional
     public void insertCadet(UserVO vo) {
         enrollDao.updateStatus(vo.getId());
         vo.setId(null);
         vo.setPassword(passwordEncoder.encode("123456"));
         userDao.insertCadet(vo);
-        System.out.println(vo.getId());
         userRoleDao.insertStudentRole(vo.getId());
     }
 }

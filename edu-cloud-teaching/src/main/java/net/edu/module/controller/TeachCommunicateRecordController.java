@@ -65,6 +65,8 @@ public class TeachCommunicateRecordController {
 //    public Result<String> delete(@RequestBody List<Long> idList){
 //        teachCommunicateRecordService.delete(idList);
 //
+
+
 //        return Result.ok();
 //    }
 }

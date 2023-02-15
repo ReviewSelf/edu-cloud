@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.CommunicateDao">
+
+
+    <select id="page" resultType="net.edu.module.vo.CommunicateVO">
+        select
+            t1.id,
+            t1.stu_id,
+            (select real_name from sys_user t2 where t1.stu_id = t2.id) as realName,
+            (select mobile from sys_user t2 where t1.stu_id = t2.id) as mobile,
+            (select username from sys_user t2 where t2.id = t1.stu_id ) as username,
+            (select stu_number from sys_user t2 where t2.id = t1.stu_id ) as stuNumber,
+            t1.sale_id,
+            (select real_name from sys_user t2 where t1.sale_id = t2.id) as saleName,
+            t1.communicate_time,
+            t1.communication,
+            t1.explanation
+        from communicate t1
+        where deleted = 0
+        <if test="query.getStuId() != null and query.getStuId() != ''">
+            and t1.stu_id = #{query.stuId}
+        </if>
+        <if test="query.getStuNumber() != null and query.getStuNumber() != ''">
+            and (select stu_number from sys_user t2 where t2.id = t1.stu_id ) like concat('%',#{query.stuNumber},'%')
+        </if>
+        <if test="query.getMobile() != null and query.getMobile() != ''">
+            and (select mobile from sys_user t2 where t1.stu_id = t2.id) like concat(#{query.mobile},'%')
+        </if>
+        <if test="query.getRealName() != null and query.getRealName() != ''">
+            and (select real_name from sys_user t2 where t1.stu_id = t2.id) like concat(#{query.realName},'%')
+        </if>
+        order by t1.communicate_time desc
+    </select>
+
+    <select id="getCommunicateInfo" resultType="net.edu.module.vo.CommunicateVO">
+        select
+            c.id,
+            c.stu_id,
+            (select real_name from sys_user s where s.id = c.stu_id) as realName,
+            (select mobile from sys_user s where c.stu_id = s.id) as mobile,
+            (select urgent_identity from sys_user s where c.stu_id = s.id) as urgentIdentity,
+            (select stu_number from sys_user s where s.id = c.stu_id) as stuNumber,
+            c.sale_id,
+            (select real_name from sys_user s where s.id = c.sale_id) as saleName,
+            c.communicate_time,
+            c.communication,
+            c.explanation
+        from communicate c
+        where c.id = #{id}
+    </select>
+
+
+</mapper>

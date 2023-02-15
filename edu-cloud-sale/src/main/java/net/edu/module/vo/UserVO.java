@@ -35,6 +35,9 @@ public class UserVO implements Serializable {
     @ExcelProperty(index = 0)
     private String username;
 
+    @Schema(description = "学号")
+    private String stuNumber;
+
     @ExcelIgnore
     @Schema(description = "密码")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
@@ -126,14 +129,41 @@ public class UserVO implements Serializable {
     private String balance;
 
     @ExcelIgnore
+    private String totalAmount;
+
+    @ExcelIgnore
     private String openId;
 
-    @Schema(description = "销售人员id")
-    private Long saleId;
+    @ExcelIgnore
+    private String urgentPhone;
 
-    @Schema(description = "销售人员姓名")
+    @ExcelIgnore
+    private String urgentIdentity;
+
+    @ExcelIgnore
+    private String readingSchool;
+
+    @ExcelIgnore
+    private Integer likesNum;
+
+    @ExcelIgnore
+    private Integer purposeLevel;
+
+    @ExcelIgnore
+    private Integer readingClassNum;
+
+    @ExcelIgnore
+    private Integer payingClassNum;
+
     private String saleName;
 
-    @Schema(description = "新老学员")
-    private int cadets;
+    private Date communicateTime;
+
+    private Integer communicate;
+
+    private String purpose;
+
+    private Long saleId;
+
+    private Integer saleStatus;
 }

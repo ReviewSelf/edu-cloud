@@ -71,38 +71,9 @@ public class EnrollUserEntity extends BaseEntity {
 	private String purpose;
 
 	/**
-	* 0为未报名状态，1为报名信息状态，2为未试听状态，3位试听完成状态，4为已缴费状态
+	* 1为报名信息状态，3成为学员
 	*/
 	private Integer status;
 
-	/**
-	* 登录时间
-	*/
-	private Date loginTime;
-
-	/**
-	* 开始课次
-	*/
-	private Integer startNumber;
-
-	/**
-	* 结束课次
-	*/
-	private Integer endNumber;
-
-	/**
-	* 备注
-	*/
-	private String remark;
-
-	/**
-	* 积分
-	*/
-	private String integral;
-
-	/**
-	* 余额
-	*/
-	private String balance;
 
 }

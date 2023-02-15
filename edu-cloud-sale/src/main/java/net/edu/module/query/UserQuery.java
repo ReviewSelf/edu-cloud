@@ -22,23 +22,17 @@ public class UserQuery extends Query {
     @Schema(description = "手机号")
     private String mobile;
 
-    @Schema(description = "性别")
-    private Integer gender;
-
-    @Schema(description = "角色")
-    private Long roleId;
-
-    @Schema(description = "机构名称")
-    private Long orgName;
+    @Schema(description = "学号")
+    private String stuNumber;
 
     @Schema(description = "姓名")
     private String realName;
 
-    @Schema(description = "机构ID")
-    private Long orgId;
+    @Schema(description = "开始时间")
+    private String beginTime;
 
-    @Schema(description = "机构ID")
-    private List<Integer> orgArr;
+    @Schema(description = "结束时间")
+    private String endTime;
 
 
 }

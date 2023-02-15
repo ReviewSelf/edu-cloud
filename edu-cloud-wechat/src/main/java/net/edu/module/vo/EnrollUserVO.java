@@ -26,7 +26,7 @@ public class EnrollUserVO implements Serializable {
 	private String wxName;
 
 	@Schema(description = "真实姓名")
-	private String name;
+	private String realName;
 
 	@Schema(description = "手机号码")
 	private String phone;
@@ -52,7 +52,7 @@ public class EnrollUserVO implements Serializable {
 	@Schema(description = "意向说明")
 	private String purpose;
 
-	@Schema(description = "0为未报名状态，1为报名信息状态，2为未试听状态，3位试听完成状态，4为已缴费状态")
+	@Schema(description = "1为报名状态，3成为学员")
 	private Integer status;
 
 	@Schema(description = "注册时间")
@@ -63,25 +63,6 @@ public class EnrollUserVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date updateTime;
 
-	@Schema(description = "登录时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date loginTime;
 
-	@Schema(description = "开始课次")
-	private Integer startNumber;
-
-	@Schema(description = "结束课次")
-	private Integer endNumber;
-
-	@Schema(description = "备注")
-	private String remark;
-
-	@Schema(description = "积分")
-	private String integral;
-
-	@Schema(description = "余额")
-	private String balance;
-
-	private Integer classId;
 
 }

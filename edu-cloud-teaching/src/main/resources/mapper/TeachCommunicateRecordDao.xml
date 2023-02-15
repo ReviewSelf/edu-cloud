@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.TeachCommunicateRecordDao">
+
+    <resultMap type="net.edu.module.entity.TeachCommunicateRecordEntity" id="teachCommunicateRecordMap">
+        <result property="id" column="id"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="target" column="target"/>
+        <result property="time" column="time"/>
+        <result property="theme" column="theme"/>
+        <result property="content" column="content"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="creator" column="creator"/>
+        <result property="updater" column="updater"/>
+        <result property="deleted" column="deleted"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+    <select id="selectCommunicateRecordPage" resultType="net.edu.module.entity.TeachCommunicateRecordEntity">
+        select t1.teacher_id,(select real_name from sys_user where id = t1.teacher_id) as teacherName,t1.student_id,a.real_name as studentName,
+               t1.target,t1.time,t1.theme,t1.content,t1.create_time,t1.update_time,t1.creator,t1.updater,t1.deleted,t1.version
+        from teach_communicate_record t1 left join  sys_user a on t1.student_id = a.id
+        where t1.deleted = 0
+            <if test="query.getStudentId!=null">
+              and  t1.student_id = #{query.studentId}
+            </if>
+            <if test="query.getStudentName!=null and query.getStudentName !=''">
+                and  a.real_name like concat('%',#{query.studentName},'%')
+            </if>
+            <if test="query.getTime!=null and query.getTime !=''">
+                and  t1.time &lt;= #{query.time}
+            </if>
+        order by t1.time desc
+    </select>
+
+</mapper>

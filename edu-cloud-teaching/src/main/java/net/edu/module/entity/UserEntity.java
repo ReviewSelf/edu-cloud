@@ -73,17 +73,21 @@ public class UserEntity extends BaseEntity {
 
     private String integral;
 
-    private String balance;
+    private Float balance;
 
-    private String totalAmount;
+    private Float totalAmount;
 
     private String openId;
 
-    private Integer urgentPhone;
+    private String urgentPhone;
+
+    private String urgentIdentity;
 
     private String readingSchool;
 
     private Integer likesNum;
+
+    private Integer purposeLevel;
 
     @TableField(exist=false)
     private Integer readingClassNum;

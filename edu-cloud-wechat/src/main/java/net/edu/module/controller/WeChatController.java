@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.entity.InMessage;
+import net.edu.module.service.SysUserService;
 import net.edu.module.service.WeChatService;
 import net.edu.module.untils.WeChatProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,8 @@ public class WeChatController {
     @Autowired
     private WeChatService weChatService;
 
-
+    @Autowired
+    private SysUserService sysUserService;
 
     /**
      * Token验证
@@ -143,6 +145,19 @@ public class WeChatController {
 //        System.out.println(object);
         return object;
 
+    }
+
+    /**
+     * 账号绑定
+     * @param username
+     * @param password
+     * @return
+     */
+    @PutMapping("account")
+    public Result<Integer> updateOpenIdByUsername(@RequestParam("username") String username,
+                                                  @RequestParam("password") String password,
+                                                  @RequestParam("openId") String openId){
+        return Result.ok(sysUserService.updateOpenIdByUsername(username,password,openId));
     }
 
 }

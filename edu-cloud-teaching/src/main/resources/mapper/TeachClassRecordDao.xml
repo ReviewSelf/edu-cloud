@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.TeachClassRecordDao">
+
+    <insert id="insertClassUserRecord" >
+        insert into teach_class_record(type,record_time,student_id,teacher_id,old_class_id,old_lesson_id,new_class_id,new_lesson_id)
+            values(#{vo.type},#{vo.time},#{vo.studentId},#{vo.teacherId},#{vo.oldClassId},#{vo.oldLessonId},#{vo.newClassId},#{vo.newLessonId})
+    </insert>
+
+    <select id="selectClassRecordPage" resultType="net.edu.module.entity.TeachClassRecordEntity" >
+        select t1.type,t1.record_time,t1.student_id,a.real_name as studentName,t1.teacher_id ,
+               (select real_name from sys_user where id = t1.teacher_id) as teacherName,t1.old_class_id,(select name from teach_class where id = t1.old_class_id) as oldClassName,
+               t1.new_class_id,(select name from teach_class where id = t1.new_class_id ) as newClassName
+        from teach_class_record t1 left join sys_user a on t1.student_id = a.id
+        where  t1.deleted = 0
+            <if test="query.getType!=null">
+                and t1.type = #{query.type}
+            </if>
+            <if test="query.getStudentName!=null and query.getStudentName !=''">
+                and  a.real_name like concat('%',#{query.studentName},'%')
+            </if>
+        order  by t1.record_time desc
+    </select>
+
+</mapper>

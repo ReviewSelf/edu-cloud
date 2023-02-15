@@ -11,6 +11,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.RedisUtils;
 import net.edu.framework.common.utils.TreeUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.module.api.EduSaleApi;
 import net.edu.module.convert.UserConvert;
 import net.edu.module.dao.UserDao;
 import net.edu.module.entity.UserEntity;
@@ -18,10 +19,7 @@ import net.edu.module.query.RoleUserQuery;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
 import net.edu.module.service.StudentService;
-import net.edu.module.vo.OrgVo;
-import net.edu.module.vo.StudentsVO;
-import net.edu.module.vo.TeachStudentVO;
-import net.edu.module.vo.UserVO;
+import net.edu.module.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -45,6 +43,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
     private final RedisUtils redisUtils;
+    private final EduSaleApi eduSaleApi;
     @Autowired
     private UserDao userDao;
 
@@ -217,8 +216,50 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void renewAmountSubmit(Long userId, Integer num) {
+    public void renewAmountSubmit(Long userId, Float num,String remarks) {
+        //将充值课时数加入用户表中
+        System.out.println(userId+" 2 "+num);
         userDao.renewAmountSubmit(userId,num);
+
+        //生成记录
+        ClassHoursFlowRecordVO vo = new ClassHoursFlowRecordVO();
+        vo.setUserId(userId);
+        vo.setRemarks(remarks);
+        vo.setScene(2);
+        vo.setStatus(1);
+        eduSaleApi.saveFlowRecord(vo);
+    }
+
+    @Override
+    public void outClassSubmit(Long userId, Long classId, Float num, String remarks) {
+        //将充值课时数加入用户表中
+        userDao.increaseAmountSubmit(userId,num);
+
+        //生成记录
+        ClassHoursFlowRecordVO vo = new ClassHoursFlowRecordVO();
+        vo.setUserId(userId);
+        vo.setRemarks(remarks);
+        vo.setClassId(classId);
+        vo.setClassHours(num);
+        vo.setScene(0);
+        vo.setStatus(1);
+        eduSaleApi.saveFlowRecord(vo);
+    }
+
+    @Override
+    public void joinClassSubmit(Long userId, Long classId, Float num, String remarks) {
+        //将扣除课时更新到用户表中
+        userDao.deductionAmountSubmit(userId,num);
+
+        //生成记录
+        ClassHoursFlowRecordVO vo = new ClassHoursFlowRecordVO();
+        vo.setUserId(userId);
+        vo.setRemarks(remarks);
+        vo.setClassId(classId);
+        vo.setClassHours(num);
+        vo.setScene(1);
+        vo.setStatus(2);
+        eduSaleApi.saveFlowRecord(vo);
     }
 
 }

@@ -113,7 +113,7 @@ public class EnrollUserServiceImpl extends BaseServiceImpl<EnrollUserDao, Enroll
         vo.setPassword("123456");
         vo.setStatus(1);
         vo.setGender(0);
-        vo.setRealName(user.getName());
+        vo.setRealName(user.getRealName());
         vo.setUsername(user.getPhone());
         vo.setMobile(user.getPhone());
         vo.setGrade(user.getGrade());

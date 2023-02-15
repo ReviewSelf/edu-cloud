@@ -83,6 +83,9 @@
 		<if test="query.getRealName() != null and query.getRealName() != ''">
 			and t1.real_name like concat(#{query.realName},'%')
 		</if>
+		<if test="query.getBalance() != null ">
+			and t1.balance &lt;= #{query.balance}
+		</if>
 		<if test="query.getOrgArr() != null and query.getOrgArr().size() > 0">
 		<foreach collection="query.getOrgArr()" item="item" open="and t1.org_id in(" close=")" separator=",">
 			#{item}
@@ -220,6 +223,14 @@
 	</select>
 
 	<update id="renewAmountSubmit" >
-		update sys_user set total_amount = total_amount + #{num} and balance = balance +#{num} where id = #{userId}
+		update sys_user set total_amount = total_amount + #{num} , balance = balance +#{num} where id = #{userId}
+	</update>
+
+	<update id="deductionAmountSubmit" >
+		update sys_user set  balance = balance -#{num} where id = #{userId}
+	</update>
+
+	<update id="increaseAmountSubmit" >
+		update sys_user set  balance = balance +#{num} where id = #{userId}
 	</update>
 </mapper>

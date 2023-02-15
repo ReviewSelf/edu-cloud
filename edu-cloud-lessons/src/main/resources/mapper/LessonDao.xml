@@ -18,6 +18,44 @@
         <result property="homeworkStatus" column="homework_status"/>
     </resultMap>
 
+    <select id="selectLessonList" resultType="net.edu.module.vo.LessonVO">
+        SELECT b.id,b.teacher_id as teacherId,b.name,b.status,b.plan_item_id as planItemId
+        ,(select name from teach_plan_item where id = b.plan_item_id) as planItemName
+        ,(select real_name from sys_user where id=b.teacher_id) as teacherName
+        ,b.class_id as classId ,(select name from teach_class where id=b.class_id) as className
+        ,b.place,b.begin_time as beginTime,b.end_time as endTime
+        FROM  lesson b  where b.deleted = 0
+        <if test="query.getName()!=null and query.getName()!=''">
+            and b.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getClassId()!=null">
+            and b.class_id=#{query.classId}
+        </if>
+        <if test="query.getDate()!=null and query.getDate()!=''">
+            and b.end_time &gt; #{query.date}
+        </if>
+        order by b.sort
+    </select>
+
+    <select id="selectLessonPage" resultType="net.edu.module.vo.LessonVO">
+        SELECT b.id,b.teacher_id as teacherId,b.name,b.status,b.plan_item_id as planItemId
+        ,(select name from teach_plan_item where id = b.plan_item_id) as planItemName
+        ,(select real_name from sys_user where id=b.teacher_id) as teacherName
+        ,b.class_id as classId ,(select name from teach_class where id=b.class_id) as className
+        ,b.place,b.begin_time as beginTime,b.end_time as endTime
+        FROM  lesson b  where b.deleted = 0
+        <if test="query.getName()!=null and query.getName()!=''">
+            and b.name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getClassId()!=null">
+            and b.class_id=#{query.classId}
+        </if>
+        <if test="query.getDate()!=null and query.getDate()!=''">
+            and b.end_time &gt; #{query.date}
+        </if>
+        order by b.sort
+    </select>
+
     <select id="selectStudentPage" resultType="net.edu.module.vo.LessonVO">
         SELECT b.id,b.teacher_id as teacherId,b.name,b.status
         ,(select real_name from sys_user where id=b.teacher_id) as teacherName
@@ -48,6 +86,44 @@
             and t.class_id=#{query.classId}
         </if>
         order by endTime &lt;= now() ,if(endTime &lt;= now(),0,endTime) ,endTime desc
+    </select>
+
+    <select id="selectAllLessonPage" resultType="net.edu.module.vo.LessonVO">
+        select t.id,t.teacher_id ,name,status,(select real_name from sys_user where id=t.teacher_id) as teacherName,
+        t.class_id ,(select name from teach_class where id=t.class_id) as className,t.place,
+        t.begin_time as beginTime,t.end_time as endTime   from lesson t
+        where (exists (select 1 from teach_class a where a.deleted =0 and a.id=t.class_id) )
+        and t.deleted=0
+        <if test="query.getName()!=null and query.getName()!=''">
+            and name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getClassId()!=null">
+            and t.class_id=#{query.classId}
+        </if>
+        <if test="query.date!=null and query.date!=''">
+            and t.end_time &lt; #{query.date}
+        </if>
+        order by endTime desc
+    </select>
+
+    <select id="selectLessonAfootPage" resultType="net.edu.module.vo.LessonVO">
+        select t.id,t.teacher_id ,name,status,t.plan_item_id as planItemId,
+        (select name from teach_plan_item where id = t.plan_item_id) as planItemName,
+        (select real_name from sys_user where id=t.teacher_id) as teacherName,
+        t.class_id ,(select name from teach_class where id=t.class_id) as className,t.place,
+        t.begin_time as beginTime,t.end_time as endTime   from lesson t
+        where (exists (select 1 from teach_class a where a.deleted =0 and a.id=t.class_id) )
+        and t.deleted=0
+        <if test="query.getName()!=null and query.getName()!=''">
+            and name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getClassId()!=null">
+            and t.class_id=#{query.classId}
+        </if>
+        <if test="query.date!=null and query.date!=''">
+            and t.end_time &gt;= #{query.date}
+        </if>
+        order by endTime desc
     </select>
 
     <update id="updateHomework">
@@ -95,7 +171,6 @@
         where t.homework_status > 0 and (exists (select 1 from teach_class a where a.deleted =0 and (a.teacher1_id=#{query.userId} or a.teacher2_id=#{query.userId} )
         and a.id=t.class_id) or t.teacher_id=#{query.userId})
         and t.deleted=0
-
         <if test="query.getName()!=null and query.getName()!=''">
             and name like concat('%',#{query.name},'%')
         </if>

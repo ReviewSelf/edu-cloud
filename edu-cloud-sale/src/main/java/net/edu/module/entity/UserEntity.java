@@ -1,7 +1,7 @@
 package net.edu.module.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
@@ -16,102 +16,91 @@ import java.util.Date;
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
-@TableName("enroll_user")
+@TableName("sys_user")
 public class UserEntity extends BaseEntity {
-    private Long id;
-
     /**
      * 用户名
      */
     private String username;
 
     /**
-     * 手机号码
+     * 学号
      */
+    private String stuNumber;
+
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 姓名
+     */
+    private String realName;
+
+    /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
+     * 性别   0：男   1：女   2：未知
+     */
+    private Integer gender;
+
+    private String email;
+
     private String mobile;
 
-    private String password;
-    private String avatar;
-    private String realName;
-    private Integer gender;
-    /**
-     * unionId
-     */
-    private String unionId;
+    private Long orgId;
 
-    /**
-     * openId(用户对微信公众号唯一标识)
-     */
-    private String openId;
-
-    /**
-     * 所在区域
-     */
-    private String area;
-
-    /**
-     * 详细地址
-     */
-    private String address;
-
-    /**
-     * 年龄
-     */
-    private Integer age;
-
-    /**
-     * 年级
-     */
-    private Integer grade;
-
-    /**
-     * 意向说明
-     */
-    private String purpose;
-
-    /**
-     * 0为未报名状态，1为报名信息状态，2为未试听状态，3位试听完成状态，4为已缴费状态
-     */
     private Integer status;
 
-    /**
-     * 登录时间
-     */
-    private Date loginTime;
+    private String unionId;
 
-    /**
-     * 开始课次
-     */
-    private Integer startNumber;
+    private String province;
 
-    /**
-     * 结束课次
-     */
-    private Integer endNumber;
+    private String city;
 
-    /**
-     * 备注
-     */
-    private String remark;
+    private String district;
 
-    /**
-     * 积分
-     */
+    private String area;
+
+    private String address;
+
+    private Integer age;
+
+    private Integer grade;
+
     private String integral;
 
-    /**
-     * 余额
-     */
     private String balance;
 
-    /**
-     * 销售id
-     */
+    private String totalAmount;
+
+    private String openId;
+
+    private String urgentPhone;
+
+    private String urgentIdentity;
+
+    private String readingSchool;
+
+    private Integer likesNum;
+
+    private String purpose;
+
+    private Integer purposeLevel;
+
     private Long saleId;
 
-    /**
-     * 新老学员
-     */
-    private int cadets;
+    private Integer saleStatus;
+
+    @TableField(exist=false)
+    private Integer readingClassNum;
+
+    @TableField(exist=false)
+    private Integer payingClassNum;
+
 
 }

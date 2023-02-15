@@ -37,6 +37,8 @@ public interface LessonService extends BaseService<LessonEntity> {
 
     PageResult<LessonVO> homeworkPage(LessonQuery query);
 
+    PageResult<LessonVO> homeworkForStudentIdPage(LessonQuery query);
+
     List<LessonVO> getClassNotStartLesson(Long classId);
 
     List<LessonVO> getClassAllLesson(Long classId);
@@ -50,4 +52,12 @@ public interface LessonService extends BaseService<LessonEntity> {
     void updateList(List<LessonVO> list);
 
     void exportLesson(Long lessonId, HttpServletResponse response) throws IOException;
+
+    PageResult<LessonVO> pageAllLesson(LessonQuery query);
+
+    PageResult<LessonVO> pageAfootLesson(LessonQuery query);
+
+    PageResult<LessonVO> selectLessonPage(LessonQuery query);
+
+    void createAuditionLessons(LessonVO vo);
 }

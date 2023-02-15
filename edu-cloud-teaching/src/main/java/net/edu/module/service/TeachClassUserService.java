@@ -4,6 +4,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.query.TeachClassUserQuery;
+import net.edu.module.vo.ClassUserRecordVO;
 import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.stereotype.Service;
 
@@ -35,4 +36,6 @@ public interface TeachClassUserService extends BaseService<TeachClassUserEntity>
     void quitClass(Long classId,Long userId, Date quitTime);
 
     void updateHomeworkTimes(Long userId, Long classId, Integer num);
+
+    void insertClassUserRecord(ClassUserRecordVO vo);
 }

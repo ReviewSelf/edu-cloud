@@ -124,22 +124,28 @@ public class UserVO implements Serializable {
     private String integral;
 
     @ExcelIgnore
-    private String balance;
+    private Float balance;
 
     @ExcelIgnore
-    private String totalAmount;
+    private Float totalAmount;
 
     @ExcelIgnore
     private String openId;
 
     @ExcelIgnore
-    private Integer urgentPhone;
+    private String urgentPhone;
+
+    @ExcelIgnore
+    private String urgentIdentity;
 
     @ExcelIgnore
     private String readingSchool;
 
     @ExcelIgnore
     private Integer likesNum;
+
+    @ExcelIgnore
+    private Integer purposeLevel;
 
     @ExcelIgnore
     private Integer readingClassNum;

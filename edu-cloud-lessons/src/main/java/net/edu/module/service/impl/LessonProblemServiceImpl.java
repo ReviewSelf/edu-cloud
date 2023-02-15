@@ -107,6 +107,13 @@ public class LessonProblemServiceImpl extends BaseServiceImpl<LessonProblemDao, 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
+    @Override
+    public PageResult<LessonProblemVO> unfinishedPageForId(Long userId,Integer page, Integer limit) {
+        Page<LessonProblemVO> ipage = new Page<>(page,limit);
+        IPage<LessonProblemVO> list = baseMapper.selectUnfinishedPage(ipage,userId);
+        return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
 
     /**
      * 开班时启用

@@ -4,7 +4,7 @@
 <mapper namespace="net.edu.module.dao.SysUserDao">
 
     <update id="updateOpenIdByUsername">
-        update  sys_user set open_id = #{openId}
+        update  sys_user set open_id = #{openId},union_id=#{unionId}
         where username = #{username}
     </update>
 

@@ -5,10 +5,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
+import net.edu.framework.security.user.SecurityUser;
 import net.edu.module.convert.TeachClassUserConvert;
 import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
+import net.edu.module.vo.ClassUserRecordVO;
 import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,7 +64,7 @@ public class TeachClassUserController {
     }
 
     @PostMapping("/insertClassUserOne")
-    @Operation(summary = "保存")
+    @Operation(summary = "插班")
     public Result<String> insertClassUserOne(@RequestBody TeachClassUserVO vo){
         System.out.println(vo);
         teachClassUserService.insertClassUserOne(vo);
@@ -89,6 +91,14 @@ public class TeachClassUserController {
     @Operation(summary = "退班")
     public Result<String> quitClass(@RequestBody @Valid TeachClassUserVO vo){
         teachClassUserService.quitClass(vo.getClassId(),vo.getUserId(), vo.getQuitTime());
+        return Result.ok();
+    }
+
+    @PostMapping("/classRecord")
+    @Operation(summary = "保存记录")
+    public Result<String> insertClassUserRecord(@RequestBody ClassUserRecordVO vo){
+        vo.setTeacherId(SecurityUser.getUserId());
+        teachClassUserService.insertClassUserRecord(vo);
         return Result.ok();
     }
 

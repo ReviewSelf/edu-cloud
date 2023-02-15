@@ -1,11 +1,14 @@
 package net.edu.module.query;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.common.query.Query;
 
 import java.util.Date;
+
 
 /**
 * 课程表查询
@@ -20,6 +23,7 @@ public class LessonQuery  extends  Query{
     private Long classId;
     private String name;
     private Long userId;
+    private String date;
     //1老师=，2=学生
     private Long role;
 

@@ -97,6 +97,10 @@ public class TeachClassController {
         return Result.ok(teachClassService.getClassForStudent( status));
     }
 
+    @GetMapping("studentClass")
+    public Result<List<TeachClassVO>> studentClassListForId(@RequestParam Long id,@RequestParam Integer status){
+        return Result.ok(teachClassService.studentClassListForId( id,status));
+    }
 
     @GetMapping("teacher/{status}")
     public Result<List<TeachClassVO>> teacherClassList( @PathVariable Integer status){

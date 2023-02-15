@@ -22,6 +22,9 @@ public class UserQuery extends Query {
     @Schema(description = "手机号")
     private String mobile;
 
+    @Schema(description = "学号")
+    private String stuNumber;
+
     @Schema(description = "姓名")
     private String realName;
 

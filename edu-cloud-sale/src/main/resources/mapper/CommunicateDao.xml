@@ -22,8 +22,8 @@
         <if test="query.getStuId() != null and query.getStuId() != ''">
             and t1.stu_id = #{query.stuId}
         </if>
-        <if test="query.getUsername() != null and query.getUsername() != ''">
-            and (select username from sys_user t2 where t2.id = t1.stu_id ) like concat(#{query.username},'%')
+        <if test="query.getStuNumber() != null and query.getStuNumber() != ''">
+            and (select stu_number from sys_user t2 where t2.id = t1.stu_id ) like concat('%',#{query.stuNumber},'%')
         </if>
         <if test="query.getMobile() != null and query.getMobile() != ''">
             and (select mobile from sys_user t2 where t1.stu_id = t2.id) like concat(#{query.mobile},'%')
@@ -34,8 +34,22 @@
         order by t1.communicate_time desc
     </select>
 
-
-
+    <select id="getCommunicateInfo" resultType="net.edu.module.vo.CommunicateVO">
+        select
+            c.id,
+            c.stu_id,
+            (select real_name from sys_user s where s.id = c.stu_id) as realName,
+            (select mobile from sys_user s where c.stu_id = s.id) as mobile,
+            (select urgent_identity from sys_user s where c.stu_id = s.id) as urgentIdentity,
+            (select stu_number from sys_user s where s.id = c.stu_id) as stuNumber,
+            c.sale_id,
+            (select real_name from sys_user s where s.id = c.sale_id) as saleName,
+            c.communicate_time,
+            c.communication,
+            c.explanation
+        from communicate c
+        where c.id = #{id}
+    </select>
 
 
 </mapper>

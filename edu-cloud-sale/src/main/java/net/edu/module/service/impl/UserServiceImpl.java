@@ -136,4 +136,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     public String selectStuNumber() {
         return userDao.selectStuNumber();
     }
+
+    @Override
+    public void updatePayment(Long id) {
+        userDao.updatePayment(id);
+    }
 }

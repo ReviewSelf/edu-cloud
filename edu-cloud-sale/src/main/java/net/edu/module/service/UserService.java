@@ -31,4 +31,6 @@ public interface UserService extends IService<UserEntity> {
     List<Integer> selectUserStatus();
 
     String selectStuNumber();
+
+    void updatePayment(Long id);
 }

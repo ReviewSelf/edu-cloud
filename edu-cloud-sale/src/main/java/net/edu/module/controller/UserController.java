@@ -13,6 +13,7 @@ import net.edu.module.vo.EnrollUserVO;
 import net.edu.module.vo.EnrollVO;
 import net.edu.module.vo.UserStatusVO;
 import net.edu.module.vo.UserVO;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,4 +76,12 @@ public class UserController {
         List<Integer> integers = userService.selectUserStatus();
         return Result.ok(integers);
     }
+
+    @PutMapping("pay/{id}")
+    @Operation(summary = "缴费")
+    public Result<String> payment(@PathVariable("id") Long id){
+        userService.updatePayment(id);
+        return Result.ok();
+    }
+
 }

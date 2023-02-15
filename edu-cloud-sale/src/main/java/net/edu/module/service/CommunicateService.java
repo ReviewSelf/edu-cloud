@@ -16,4 +16,6 @@ public interface CommunicateService extends IService<CommunicateEntity> {
     void update(CommunicateVO vo);
 
     PageResult<CommunicateVO> page(CommunicateQuery query);
+
+    CommunicateVO getCommunicateInfo(Long id);
 }

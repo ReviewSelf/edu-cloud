@@ -19,6 +19,9 @@ public class CommunicateQuery extends Query {
     @Schema(description = "用户名")
     private String username;
 
+    @Schema(description = "学号")
+    private String stuNumber;
+
     @Schema(description = "手机号")
     private String mobile;
 

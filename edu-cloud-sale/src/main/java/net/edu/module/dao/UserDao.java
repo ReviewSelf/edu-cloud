@@ -38,4 +38,6 @@ public interface UserDao extends BaseDao<UserEntity> {
     List<Integer> selectUserStatus();
 
     String selectStuNumber();
+
+    void updatePayment(Long id);
 }

@@ -18,16 +18,15 @@ import java.util.Date;
 @Schema(description = "教学评价查询")
 public class TeachEvaluateQuery extends Query {
 
-    @Schema(description = "评价人名字")
-    private String evaluateUserName;
+    @Schema(description = "学生姓名")
+    private String name;
 
-    @Schema(description = "被评价人名字")
-    private String evaluatedUserName;
+    @Schema(description = "课堂名称")
+    private String lessonName;
 
-    @Schema(description = "班级名字")
+    @Schema(description = "班级名称")
     private String className;
 
-    @Schema(description = "评价来源")
-    private Integer type;
+
 
 }

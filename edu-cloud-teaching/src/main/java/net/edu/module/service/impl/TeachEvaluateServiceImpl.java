@@ -38,31 +38,4 @@ public class TeachEvaluateServiceImpl extends BaseServiceImpl<TeachEvaluateDao, 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
-    private LambdaQueryWrapper<TeachEvaluateEntity> getWrapper(TeachEvaluateQuery query){
-        LambdaQueryWrapper<TeachEvaluateEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
-    }
-
-    @Override
-    public void save(TeachEvaluateVO vo) {
-        TeachEvaluateEntity entity = TeachEvaluateConvert.INSTANCE.convert(vo);
-
-        baseMapper.insert(entity);
-    }
-
-    @Override
-    public void update(TeachEvaluateVO vo) {
-        TeachEvaluateEntity entity = TeachEvaluateConvert.INSTANCE.convert(vo);
-
-        updateById(entity);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(List<Long> idList) {
-        removeByIds(idList);
-    }
-
-
 }

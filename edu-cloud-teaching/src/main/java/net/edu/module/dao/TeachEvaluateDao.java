@@ -18,4 +18,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface TeachEvaluateDao extends BaseDao<TeachEvaluateEntity> {
     IPage<TeachEvaluateVO> page(Page<TeachEvaluateVO> page, @Param("query") TeachEvaluateQuery query);
+
 }

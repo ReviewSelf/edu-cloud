@@ -38,35 +38,4 @@ public class TeachEvaluateController {
         return Result.ok(page);
     }
 
-    @GetMapping("{id}")
-    @Operation(summary = "信息")
-    public Result<TeachEvaluateVO> get(@PathVariable("id") Long id){
-        TeachEvaluateEntity entity = teachEvaluateService.getById(id);
-        return Result.ok(TeachEvaluateConvert.INSTANCE.convert(entity));
-    }
-
-
-    @PostMapping
-    @Operation(summary = "保存")
-    public Result<String> save(@RequestBody TeachEvaluateVO vo){
-        vo.setEvaluateUserId(SecurityUser.getUserId());
-        teachEvaluateService.save(vo);
-        return Result.ok();
-    }
-
-    @PutMapping
-    @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid TeachEvaluateVO vo){
-        teachEvaluateService.update(vo);
-
-        return Result.ok();
-    }
-
-    @DeleteMapping
-    @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
-        teachEvaluateService.delete(idList);
-
-        return Result.ok();
-    }
 }

@@ -15,45 +15,30 @@ import java.util.Date;
 */
 @Data
 @Schema(description = "教学评价")
-public class TeachEvaluateVO implements Serializable {
+public class TeachEvaluateVO{
 	private static final long serialVersionUID = 1L;
 
-	@Schema(description = "评价数据id")
+	@Schema(description = "id")
 	private Long id;
 
-	@Schema(description = "评价人id")
-	private Long evaluateUserId;
+	@Schema(description = "评价数据id")
+	private Long stuId;
 
-	@Schema(description = "评价人名字")
-	private String evaluateUserName;
-
-	@Schema(description = "被评价人id")
-	private Integer evaluatedUserId;
-
-	@Schema(description = "被评价人名字")
-	private String evaluatedUserName;
-
-	@Schema(description = "评价得分")
-	private Integer score;
-
-	@Schema(description = "班级id")
-	private Integer classId;
-
-	@Schema(description = "班级名字")
+	@Schema(description = "班级名称")
 	private String className;
 
-	@Schema(description = "创建时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
-	private Date createTime;
 
-	@Schema(description = "是否被删除")
-	private String deleted;
+	@Schema(description = "学生姓名")
+	private String name;
 
-	@Schema(description = "类型1：老师评价学生，2：学生评价老师")
-	private Integer type;
+	@Schema(description = "课堂名称")
+	private String lessonName;
 
-	@Schema(description = "评价内容")
-	private String content;
+	@Schema(description = "评价至系统")
+	private String sysEvaluation ;
+
+	@Schema(description = "评价至老师")
+	private Long teaEvaluation;
 
 
 }

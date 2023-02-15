@@ -18,11 +18,6 @@ public interface TeachEvaluateService extends BaseService<TeachEvaluateEntity> {
 
     PageResult<TeachEvaluateVO> page(TeachEvaluateQuery query);
 
-    void save(TeachEvaluateVO vo);
-
-    void update(TeachEvaluateVO vo);
-
-    void delete(List<Long> idList);
 
 
 }

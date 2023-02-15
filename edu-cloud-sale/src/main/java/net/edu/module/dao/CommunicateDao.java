@@ -22,4 +22,5 @@ public interface CommunicateDao extends BaseDao<CommunicateEntity> {
 
     IPage<CommunicateVO> page(Page<CommunicateVO> page, CommunicateQuery query);
 
+    CommunicateVO getCommunicateInfo(Long id);
 }

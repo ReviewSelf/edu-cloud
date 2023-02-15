@@ -7,6 +7,7 @@
 		SELECT
 		t1.id,
 		t1.username,
+		t1.stu_number,
 		t1.real_name,
 		t1.gender,
 		t1.email,
@@ -36,8 +37,8 @@
 		and t1.cadets = 0
 		and t2.role_id = 2
 		and t2.deleted = 0
-		<if test="query.getUsername() != null and query.getUsername() != ''">
-			and t1.username like concat(#{query.username},'%')
+		<if test="query.getStuNumber() != null and query.getStuNumber() != ''">
+			and t1.stu_number like concat('%',#{query.stuNumber},'%')
 		</if>
 		<if test="query.getBeginTime() != null and query.getBeginTime() != ''">
 			and (select communicate_time from communicate t4 where t1.id = t4.stu_id
@@ -46,13 +47,14 @@
 		<if test="query.getRealName() != null and query.getRealName() != ''">
 			and t1.real_name like concat(#{query.realName},'%')
 		</if>
-
+		order by t1.stu_number
 	</select>
 
 	<insert id="insertCadet" useGeneratedKeys="true" keyProperty="id">
 		insert into sys_user
 		(id,
 		 username,
+		 stu_number,
 		 password,
 		 real_name,
 		 avatar,
@@ -72,11 +74,30 @@
 		 union_id,
 		 open_id,
 		 create_time)
-		values (  #{id}, #{username}, #{password},#{realName}, #{avatar}, #{gender},
+		values (  #{id}, #{username},#{stuNumber}, #{password},#{realName}, #{avatar}, #{gender},
 		        #{email}, #{mobile}, #{orgId}, #{status} , #{address} ,
 		        #{age}, #{grade}, #{integral}, #{balance}, #{area}, 0, #{saleId},
 		        #{unionId},#{openId},now()
 		        )
 
 	</insert>
+
+	<select id="selectUserStatus" resultType="java.lang.Integer">
+		select count(*)  from sys_user where cadets=0
+		UNION ALL
+		select count(*)  from
+			(select s.id from sys_user s right join communicate c on s.id=c.stu_id where s.cadets=0 GROUP BY s.id ) as t1
+		UNION ALL
+		SELECT count(*) from sys_user WHERE sale_status=1
+		UNION ALL
+		SELECT count(*)  from sys_user WHERE sale_status=2
+	</select>
+
+	<select id="selectStuNumber" resultType="java.lang.String">
+		select stu_number from sys_user order by stu_number desc limit 1
+	</select>
+
+	<update id="updatePayment">
+		update sys_user set sale_status = 2 where id = #{id}
+	</update>
 </mapper>

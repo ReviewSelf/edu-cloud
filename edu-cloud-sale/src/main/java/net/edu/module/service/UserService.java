@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import net.edu.framework.common.page.PageResult;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
+import net.edu.module.vo.UserStatusVO;
 import net.edu.module.vo.UserVO;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public interface UserService extends IService<UserEntity> {
 
     PageResult<UserVO> page(UserQuery query);
 
-    Long save(UserVO vo);
+    void save(UserVO vo);
 
     void update(UserVO vo);
 
@@ -26,4 +27,10 @@ public interface UserService extends IService<UserEntity> {
     UserVO getByMobile(String mobile);
 
     void insertCadet(UserVO vo);
+
+    List<Integer> selectUserStatus();
+
+    String selectStuNumber();
+
+    void updatePayment(Long id);
 }

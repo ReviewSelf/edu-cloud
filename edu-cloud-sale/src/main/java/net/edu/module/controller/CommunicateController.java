@@ -34,9 +34,7 @@ public class CommunicateController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<CommunicateVO> get(@PathVariable("id") Long id){
-        CommunicateEntity entity = communicateService.getById(id);
-
-        return Result.ok(CommunicateConvert.INSTANCE.convert(entity));
+        return Result.ok(communicateService.getCommunicateInfo(id));
     }
 
     @PutMapping

@@ -23,6 +23,10 @@ public class CommunicateVO extends BaseEntity {
 
     private String realName;
 
+    private String stuNumber;
+
+    private String urgentIdentity;
+
     private String username;
 
     private Long saleId;

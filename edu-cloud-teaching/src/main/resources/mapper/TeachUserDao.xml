@@ -225,4 +225,12 @@
 	<update id="renewAmountSubmit" >
 		update sys_user set total_amount = total_amount + #{num} , balance = balance +#{num} where id = #{userId}
 	</update>
+
+	<update id="deductionAmountSubmit" >
+		update sys_user set  balance = balance -#{num} where id = #{userId}
+	</update>
+
+	<update id="increaseAmountSubmit" >
+		update sys_user set  balance = balance +#{num} where id = #{userId}
+	</update>
 </mapper>

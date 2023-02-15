@@ -73,9 +73,9 @@ public class UserEntity extends BaseEntity {
 
     private String integral;
 
-    private Integer balance;
+    private Float balance;
 
-    private Integer totalAmount;
+    private Float totalAmount;
 
     private String openId;
 

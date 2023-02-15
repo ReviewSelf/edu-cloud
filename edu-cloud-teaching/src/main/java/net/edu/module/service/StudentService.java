@@ -58,5 +58,9 @@ public interface StudentService extends BaseService<UserEntity> {
 
     PageResult<TeachStudentVO> getStudents(StudentsVO vo);
 
-    void  renewAmountSubmit( Long userId, Integer num);
+    void  renewAmountSubmit( Long userId, Float num ,String remarks);
+
+    void outClassSubmit(Long userId, Long classId, Float num, String remarks);
+
+    void joinClassSubmit(Long userId, Long classId, Float num, String remarks);
 }

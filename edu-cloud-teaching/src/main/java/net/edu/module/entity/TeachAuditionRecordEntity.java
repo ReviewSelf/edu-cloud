@@ -18,6 +18,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper=false)
 @TableName("teach_audition_record")
 public class TeachAuditionRecordEntity extends BaseEntity {
+	private Long id;
 	/**
 	* 学生id
 	*/

@@ -1,19 +1,13 @@
 package net.edu.module.controller;
 
-import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.UserConvert;
 import net.edu.module.entity.UserEntity;
-import net.edu.module.query.EnrollQuery;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;
-import net.edu.module.vo.EnrollUserVO;
-import net.edu.module.vo.EnrollVO;
-import net.edu.module.vo.UserStatusVO;
 import net.edu.module.vo.UserVO;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

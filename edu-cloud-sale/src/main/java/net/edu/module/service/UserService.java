@@ -4,9 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import net.edu.framework.common.page.PageResult;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
-import net.edu.module.vo.UserStatusVO;
 import net.edu.module.vo.UserVO;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

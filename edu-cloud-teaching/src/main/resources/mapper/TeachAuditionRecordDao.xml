@@ -36,7 +36,7 @@
     </select>
 
     <select id="selectNewStudentAuditionRecordPage" resultType="net.edu.module.vo.TeachAuditionRecordVO">
-        select t.student_id as studentId,a.username as studentUserName,a.real_name as studentName,t.lesson_id as lessonId,
+        select t.id,t.student_id as studentId,a.username as studentUserName,a.real_name as studentName,t.lesson_id as lessonId,
         b.name as lessonName,t.remarks,t.date_time as dateTime,t.status,a.purpose as purpose,
         (select real_name from sys_user where id = a.sale_id) as saleTeachName
         from teach_audition_record t left join sys_user a on t.student_id = a.id left join lesson b on  t.lesson_id = b.id
@@ -60,4 +60,28 @@
     <update id="updateUserAuditionStatus">
         update sys_user set sale_status=1 where id = #{stuId}
     </update>
+
+    <select id="getAuditionRecordDetail" resultType="net.edu.module.vo.TeachAuditionRecordVO">
+        select
+            t.student_id as studentId,
+            s.real_name as studentName,
+            s.stu_number as stuNumber,
+            t.remarks,
+            t.status,
+            l.plan_item_id,
+            s.purpose as purpose,
+            s.mobile,
+            s.urgent_identity as urgent,
+            (select real_name from sys_user where id = s.sale_id) as saleTeachName,
+            (select name from teach_plan_item x where l.plan_item_id = x.id) as planName,
+            l.name as lessonName,
+            l.place as lessonPlace,
+            l.teacher_id,
+            (select real_name from sys_user s where l.teacher_id = s.id) as lessonTeacher,
+            l.begin_time as beginTime,
+            l.end_time as endTime
+        from teach_audition_record t inner join lesson l on t.lesson_id=l.id
+                                     left join sys_user s on t.student_id = s.id
+        where t.id = #{id}
+    </select>
 </mapper>

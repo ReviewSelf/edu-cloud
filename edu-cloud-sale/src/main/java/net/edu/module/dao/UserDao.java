@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
-import net.edu.module.vo.UserStatusVO;
 import net.edu.module.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 

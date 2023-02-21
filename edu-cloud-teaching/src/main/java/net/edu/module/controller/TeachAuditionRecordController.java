@@ -91,4 +91,12 @@ public class TeachAuditionRecordController {
 
         return Result.ok();
     }
+
+    @GetMapping("/detail/{id}")
+    @Operation(summary = "信息")
+    public Result<TeachAuditionRecordVO> getDetail(@PathVariable("id") Long id){
+        TeachAuditionRecordVO vo = teachAuditionRecordService.getAuditionRecord(id);
+
+        return Result.ok(vo);
+    }
 }

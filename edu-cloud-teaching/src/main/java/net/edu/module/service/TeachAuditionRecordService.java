@@ -28,5 +28,7 @@ public interface TeachAuditionRecordService extends BaseService<TeachAuditionRec
 
     void joinAuditionLesson(TeachAuditionRecordVO vo);
 
+    TeachAuditionRecordVO getAuditionRecord(Long id);
+
 //    void saveNotLesson(TeachAuditionRecordVO vo);
 }

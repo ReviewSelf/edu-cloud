@@ -6,6 +6,7 @@ import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -29,7 +30,7 @@ public class ClassHoursFlowRecordVO implements Serializable {
 	private Long classId;
 
 	@Schema(description = "课时数")
-	private Float classHours;
+	private Integer classTimes;
 
 	@Schema(description = "备注")
 	private String remarks;

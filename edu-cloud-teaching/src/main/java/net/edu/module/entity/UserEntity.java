@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
 
+import java.math.BigDecimal;
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("sys_user")
@@ -73,9 +75,11 @@ public class UserEntity extends BaseEntity {
 
     private String integral;
 
-    private Float balance;
+    private Integer balance;
 
-    private Float totalAmount;
+    private Integer totalAmount;
+
+    private BigDecimal totalMoney;
 
     private String openId;
 

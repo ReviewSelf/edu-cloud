@@ -49,8 +49,8 @@ public class TeachPayController {
     }
 
     @PostMapping
-    @Operation(summary = "保存")
-
+    @Operation(summary = "缴费成功")
+    //此时需要添加缴费记录，修改学生表记录
     public Result<String> save(@RequestBody TeachPayVO vo){
         teachPayService.save(vo);
 

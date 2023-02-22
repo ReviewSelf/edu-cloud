@@ -1,8 +1,11 @@
 package net.edu.module.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.baomidou.mybatisplus.annotation.*;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -22,33 +25,43 @@ public class TeachPayEntity {
 	private Integer id;
 
 	/**
-	* 缴费金额
-	*/
-	private String payment;
+	 * 缴费金额
+	 */
+	private BigDecimal payment;
 
 	/**
-	* 实际金额
-	*/
-	private String paymentTrue;
+	 * 购买课次
+	 */
+	private Integer balance;
 
 	/**
-	* 用户id
-	*/
+	 * 用户id
+	 */
 	private Integer userId;
 
 	/**
 	* 缴费时间
-	*/
+	 */
 	private Date time;
 
 	/**
-	* 操作类型
-	*/
+	 * 操作类型
+	 */
 	private Integer type;
 
 	/**
-	* 备注
-	*/
+	 * 备注
+	 */
 	private String bz;
+
+	/**
+	 * 经手人
+	 */
+	private String handler;
+
+	/**
+	 * 状态
+	 */
+	private Integer status;
 
 }

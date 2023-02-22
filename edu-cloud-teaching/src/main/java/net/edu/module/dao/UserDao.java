@@ -11,6 +11,7 @@ import net.edu.module.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -57,4 +58,6 @@ public interface UserDao extends BaseDao<UserEntity> {
 	void deductionAmountSubmit(Long userId, Float num);
 
 	void increaseAmountSubmit(Long userId, Float num);
+
+    void updateUserAfterPay(Long userId, BigDecimal payment, Integer balance);
 }

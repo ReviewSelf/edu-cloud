@@ -233,4 +233,12 @@
 	<update id="increaseAmountSubmit" >
 		update sys_user set  balance = balance +#{num} where id = #{userId}
 	</update>
+
+	<update id="updateUserAfterPay">
+		update sys_user set  balance = balance + #{balance},
+		                     sale_status = 2,
+		                     total_amount = total_amount + #{balance},
+		                     total_money = total_money + cast(#{payment} as decimal(8,2))
+		                where id = #{userId}
+	</update>
 </mapper>

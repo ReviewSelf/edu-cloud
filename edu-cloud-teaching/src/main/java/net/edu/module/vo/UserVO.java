@@ -14,6 +14,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -124,10 +125,13 @@ public class UserVO implements Serializable {
     private String integral;
 
     @ExcelIgnore
-    private Float balance;
+    private Integer balance;
 
     @ExcelIgnore
-    private Float totalAmount;
+    private Integer totalAmount;
+
+    @ExcelIgnore
+    private BigDecimal totalMoney;
 
     @ExcelIgnore
     private String openId;
@@ -152,5 +156,6 @@ public class UserVO implements Serializable {
 
     @ExcelIgnore
     private Integer payingClassNum;
+
 
 }

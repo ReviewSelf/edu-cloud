@@ -6,6 +6,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 import net.edu.framework.common.utils.DateUtils;
+
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -23,16 +25,15 @@ public class TeachPayVO implements Serializable {
 	private Integer id;
 
 	@Schema(description = "缴费金额")
-	private String payment;
+	private BigDecimal payment;
 
-	@Schema(description = "实际金额")
-	private String paymentTrue;
+	@Schema(description = "购买课次")
+	private Integer balance;
 
 	@Schema(description = "用户id")
-	private Integer userId;
+	private Long userId;
 
 	@Schema(description = "缴费时间")
-	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date time;
 
 	@Schema(description = "操作类型")
@@ -41,5 +42,9 @@ public class TeachPayVO implements Serializable {
 	@Schema(description = "备注")
 	private String bz;
 
+	@Schema(description = "经手人")
+	private String handler;
 
+	@Schema(description = "状态")
+	private Integer status;
 }

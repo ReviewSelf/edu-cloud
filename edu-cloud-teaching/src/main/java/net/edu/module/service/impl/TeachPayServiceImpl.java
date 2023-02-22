@@ -7,11 +7,13 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachPayConvert;
+import net.edu.module.dao.UserDao;
 import net.edu.module.entity.TeachPayEntity;
 import net.edu.module.query.TeachPayQuery;
 import net.edu.module.vo.TeachPayVO;
 import net.edu.module.dao.TeachPayDao;
 import net.edu.module.service.TeachPayService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +28,8 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEntity> implements TeachPayService {
-
+    @Autowired
+    private UserDao userDao;
     @Override
     public PageResult<TeachPayVO> page(TeachPayQuery query) {
         IPage<TeachPayEntity> page = baseMapper.selectPage(getPage(query), getWrapper(query));
@@ -45,6 +48,8 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
         TeachPayEntity entity = TeachPayConvert.INSTANCE.convert(vo);
 
         baseMapper.insert(entity);
+        //修改用户表销售状态为2，余课次增加，累计课次增加，累计金额增加
+        userDao.updateUserAfterPay(vo.getUserId(),vo.getPayment(),vo.getBalance());
     }
 
     @Override

@@ -30,7 +30,7 @@ public class ClassHoursFlowRecordEntity extends BaseEntity {
 	/**
 	* 课时数
 	*/
-	private Float classHours;
+	private Integer classTimes;
 
 	/**
 	* 备注

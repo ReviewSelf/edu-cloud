@@ -53,11 +53,11 @@ public interface UserDao extends BaseDao<UserEntity> {
 
 	IPage<TeachStudentVO> selectStudents(Page<TeachStudentVO> page, StudentsVO vo);
 
-	void renewAmountSubmit(Long userId, Float num);
+	void renewAmountSubmit(Long userId, Integer num);
 
-	void deductionAmountSubmit(Long userId, Float num);
-
-	void increaseAmountSubmit(Long userId, Float num);
+	void deductionAmountSubmit(Long userId, Integer num);
 
     void updateUserAfterPay(Long userId, BigDecimal payment, Integer balance);
+
+	void increaseAmountSubmit(Long userId, Integer num);
 }

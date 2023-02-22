@@ -6,7 +6,7 @@
     <resultMap type="net.edu.module.entity.ClassHoursFlowRecordEntity" id="saleFlowRecordMap">
         <result property="id" column="id"/>
         <result property="classId" column="class_id"/>
-        <result property="classHours" column="class_hours"/>
+        <result property="classTimes" column="class_times"/>
         <result property="remarks" column="remarks"/>
         <result property="scene" column="scene"/>
         <result property="status" column="status"/>

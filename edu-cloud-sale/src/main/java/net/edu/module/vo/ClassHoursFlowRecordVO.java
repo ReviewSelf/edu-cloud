@@ -29,7 +29,7 @@ public class ClassHoursFlowRecordVO implements Serializable {
 	private Long userId;
 
 	@Schema(description = "课时数")
-	private Float classHours;
+	private Integer classTimes;
 
 	@Schema(description = "备注")
 	private String remarks;

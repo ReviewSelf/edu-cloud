@@ -13,6 +13,7 @@ import net.edu.module.vo.UserVO;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -58,9 +59,9 @@ public interface StudentService extends BaseService<UserEntity> {
 
     PageResult<TeachStudentVO> getStudents(StudentsVO vo);
 
-    void  renewAmountSubmit( Long userId, Float num ,String remarks);
+    void  renewAmountSubmit( Long userId, Integer num ,String remarks);
 
-    void outClassSubmit(Long userId, Long classId, Float num, String remarks);
+    void outClassSubmit(Long userId, Long classId, Integer num, String remarks);
 
-    void joinClassSubmit(Long userId, Long classId, Float num, String remarks);
+    void joinClassSubmit(Long userId, Long classId, Integer num, String remarks);
 }

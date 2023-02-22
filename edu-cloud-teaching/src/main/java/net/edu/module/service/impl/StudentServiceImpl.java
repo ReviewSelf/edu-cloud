@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -216,7 +217,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void renewAmountSubmit(Long userId, Float num,String remarks) {
+    public void renewAmountSubmit(Long userId, Integer num, String remarks) {
         //将充值课时数加入用户表中
         System.out.println(userId+" 2 "+num);
         userDao.renewAmountSubmit(userId,num);
@@ -231,7 +232,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     }
 
     @Override
-    public void outClassSubmit(Long userId, Long classId, Float num, String remarks) {
+    public void outClassSubmit(Long userId, Long classId, Integer num, String remarks) {
         //将充值课时数加入用户表中
         userDao.increaseAmountSubmit(userId,num);
 
@@ -240,14 +241,14 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         vo.setUserId(userId);
         vo.setRemarks(remarks);
         vo.setClassId(classId);
-        vo.setClassHours(num);
+        vo.setClassTimes(num);
         vo.setScene(0);
         vo.setStatus(1);
         eduSaleApi.saveFlowRecord(vo);
     }
 
     @Override
-    public void joinClassSubmit(Long userId, Long classId, Float num, String remarks) {
+    public void joinClassSubmit(Long userId, Long classId, Integer num, String remarks) {
         //将扣除课时更新到用户表中
         userDao.deductionAmountSubmit(userId,num);
 
@@ -256,7 +257,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         vo.setUserId(userId);
         vo.setRemarks(remarks);
         vo.setClassId(classId);
-        vo.setClassHours(num);
+        vo.setClassTimes(num);
         vo.setScene(1);
         vo.setStatus(2);
         eduSaleApi.saveFlowRecord(vo);

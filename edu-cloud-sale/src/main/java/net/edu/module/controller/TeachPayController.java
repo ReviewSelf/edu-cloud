@@ -69,4 +69,12 @@ public class TeachPayController {
 
         return Result.ok();
     }
+
+    @PutMapping("return")
+    @Operation(summary = "退费")
+    public Result<String> returnBack(@RequestBody @Valid TeachPayVO vo){
+        teachPayService.returnBack(vo);
+
+        return Result.ok();
+    }
 }

@@ -1,5 +1,6 @@
 package net.edu.module.vo;
 
+import cn.hutool.core.date.DateTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -46,7 +47,7 @@ public class TeachPayVO implements Serializable {
 	private String saleName;
 
 	@Schema(description = "缴费时间")
-	private Date time;
+	private DateTime time;
 
 	@Schema(description = "试听情况")
 	private Integer type;

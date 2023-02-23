@@ -1,5 +1,6 @@
 package net.edu.module.entity;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class TeachPayEntity {
 	/**
 	* 缴费时间
 	*/
-	private Date time;
+	private DateTime time;
 
 
 	/**

@@ -60,8 +60,8 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
         flowRecordEntity.setUserId(vo.getUserId());
         flowRecordEntity.setClassTimes(vo.getBalance());
         flowRecordEntity.setRemarks(vo.getBz());
-        flowRecordEntity.setScene(4);
-        flowRecordEntity.setStatus(2);
+        flowRecordEntity.setScene(2);
+        flowRecordEntity.setStatus(1);
         classHoursFlowRecordDao.insert(flowRecordEntity);
     }
 
@@ -81,6 +81,19 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
     @Override
     public TeachPayVO getPaymentDetail(Long id) {
         return baseMapper.getPaymentDetail(id);
+    }
+
+    @Override
+    public void returnBack(TeachPayVO vo) {
+        userDao.returnBack(vo.getUserId(),vo.getPayment(),vo.getBalance());
+        //修改课次记录表
+        ClassHoursFlowRecordEntity flowRecordEntity = new ClassHoursFlowRecordEntity();
+        flowRecordEntity.setUserId(vo.getUserId());
+        flowRecordEntity.setClassTimes(vo.getBalance());
+        flowRecordEntity.setRemarks(vo.getBz());
+        flowRecordEntity.setScene(3);
+        flowRecordEntity.setStatus(0);
+        classHoursFlowRecordDao.insert(flowRecordEntity);
     }
 
 }

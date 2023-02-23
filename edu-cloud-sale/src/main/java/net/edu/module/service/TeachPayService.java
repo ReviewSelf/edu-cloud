@@ -26,4 +26,6 @@ public interface TeachPayService extends BaseService<TeachPayEntity> {
     void delete(List<Long> idList);
 
     TeachPayVO getPaymentDetail(Long id);
+
+    void returnBack(TeachPayVO vo);
 }

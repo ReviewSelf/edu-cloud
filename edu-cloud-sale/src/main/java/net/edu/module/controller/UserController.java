@@ -71,11 +71,4 @@ public class UserController {
         return Result.ok(integers);
     }
 
-    @PutMapping("pay/{id}")
-    @Operation(summary = "缴费")
-    public Result<String> payment(@PathVariable("id") Long id){
-        userService.updatePayment(id);
-        return Result.ok();
-    }
-
 }

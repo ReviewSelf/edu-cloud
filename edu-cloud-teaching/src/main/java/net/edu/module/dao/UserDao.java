@@ -57,5 +57,7 @@ public interface UserDao extends BaseDao<UserEntity> {
 
 	void deductionAmountSubmit(Long userId, Integer num);
 
+    void updateUserAfterPay(Long userId, BigDecimal payment, Integer balance);
+
 	void increaseAmountSubmit(Long userId, Integer num);
 }

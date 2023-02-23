@@ -97,7 +97,13 @@
 		select stu_number from sys_user order by stu_number desc limit 1
 	</select>
 
-	<update id="updatePayment">
-		update sys_user set sale_status = 2 where id = #{id}
+
+
+	<update id="updateUserAfterPay">
+		update sys_user set  balance = balance + #{balance},
+							 sale_status = 2,
+							 total_amount = total_amount + #{balance},
+							 total_money = total_money + cast(#{payment} as decimal(8,2))
+		where id = #{userId}
 	</update>
 </mapper>

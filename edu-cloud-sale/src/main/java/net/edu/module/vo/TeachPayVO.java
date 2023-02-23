@@ -1,12 +1,9 @@
 package net.edu.module.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
 import java.io.Serializable;
-
-import net.edu.framework.common.utils.DateUtils;
-
 import java.math.BigDecimal;
 import java.util.Date;
 

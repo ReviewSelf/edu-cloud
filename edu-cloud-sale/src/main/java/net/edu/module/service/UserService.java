@@ -30,5 +30,5 @@ public interface UserService extends IService<UserEntity> {
 
     String selectStuNumber();
 
-    void updatePayment(Long id);
+
 }

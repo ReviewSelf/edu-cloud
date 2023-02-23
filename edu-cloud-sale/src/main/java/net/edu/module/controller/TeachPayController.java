@@ -3,15 +3,11 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.convert.TeachPayConvert;
-import net.edu.module.entity.TeachPayEntity;
-import net.edu.module.service.TeachPayService;
 import net.edu.module.query.TeachPayQuery;
+import net.edu.module.service.TeachPayService;
 import net.edu.module.vo.TeachPayVO;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,7 +20,7 @@ import java.util.List;
 * @since 1.0.0 2022-09-16
 */
 @RestController
-@RequestMapping("teachpay")
+@RequestMapping("pay")
 @Tag(name="流水账管理")
 @AllArgsConstructor
 public class TeachPayController {

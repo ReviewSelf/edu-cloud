@@ -22,7 +22,7 @@
             t.handler,
             t.bz,
             (select status from teach_audition_record q
-                                    where q.student_id = t.user_id order by q.create_time desc limit 1) as type,
+                           where q.student_id = t.user_id order by q.create_time desc limit 1) as type,
             t.status,
             (select real_name from sys_user p where s.sale_id = p.id) as saleName
         from teach_pay t

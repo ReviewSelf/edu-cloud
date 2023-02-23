@@ -42,7 +42,7 @@ public class TeachPayEntity {
 	/**
 	* 缴费时间
 	*/
-	private DateTime time;
+	private Date time;
 
 
 	/**

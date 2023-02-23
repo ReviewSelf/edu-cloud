@@ -32,7 +32,7 @@
                 <if test="query.getStatus!=null ">
                    and t.status = #{query.status}
                 </if>
-                order by t.status , dateTime desc
+                order by t.status , t.create_time desc
     </select>
 
     <select id="selectNewStudentAuditionRecordPage" resultType="net.edu.module.vo.TeachAuditionRecordVO">

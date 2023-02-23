@@ -8,8 +8,8 @@ nohup java -Xms128m -Xmx256m -jar edu-cloud-teaching.jar >/dev/null 2>&1 &
 nohup java -Xms128m -Xmx256m -jar edu-cloud-judge.jar >/dev/null 2>&1 &
 
 
-
-
+nohup java -Xms128m -Xmx256m -jar edu-cloud-archive.jar >/dev/null 2>&1 &
+nohup java -Xms128m -Xmx256m -jar edu-cloud-sale.jar >/dev/null 2>&1 &
 nohup java -Xms128m -Xmx256m -jar edu-cloud-quartz.jar >/dev/null 2>&1 &
 nohup java -Xms128m -Xmx256m -jar edu-cloud-gateway.jar >/dev/null 2>&1 &
 nohup java -Xms128m -Xmx256m -jar edu-cloud-system.jar >/dev/null 2>&1 &

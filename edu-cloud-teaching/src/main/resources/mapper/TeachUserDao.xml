@@ -61,6 +61,7 @@
 		t1.urgent_phone as urgentPhone,
 		t1.reading_school as readingSchool,
 		t1.total_amount as totalAmount,
+		t1.total_money as totalMoney,
 		t1.likes_num as likesNum,
 		t3.name as orgName,
 		t2.role_id,

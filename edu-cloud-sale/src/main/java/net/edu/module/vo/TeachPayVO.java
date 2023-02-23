@@ -1,7 +1,9 @@
 package net.edu.module.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -46,6 +48,7 @@ public class TeachPayVO implements Serializable {
 	private String saleName;
 
 	@Schema(description = "缴费时间")
+	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date time;
 
 	@Schema(description = "试听情况")

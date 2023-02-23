@@ -60,8 +60,8 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
         flowRecordEntity.setUserId(vo.getUserId());
         flowRecordEntity.setClassTimes(vo.getBalance());
         flowRecordEntity.setRemarks(vo.getBz());
-        flowRecordEntity.setScene(4);
-        flowRecordEntity.setStatus(2);
+        flowRecordEntity.setScene(2);
+        flowRecordEntity.setStatus(1);
         classHoursFlowRecordDao.insert(flowRecordEntity);
     }
 

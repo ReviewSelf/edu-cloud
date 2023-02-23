@@ -34,9 +34,9 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
 
     @Override
     public PageResult<TeachAuditionRecordVO> page(TeachAuditionRecordQuery query) {
-        IPage<TeachAuditionRecordEntity> page = baseMapper.selectAuditionRecordPage(getPage(query), query);
+        IPage<TeachAuditionRecordVO> page = baseMapper.selectAuditionRecordPage(getPage(query), query);
 
-        return new PageResult<>(TeachAuditionRecordConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        return new PageResult<>(page.getRecords(), page.getTotal());
     }
 
 

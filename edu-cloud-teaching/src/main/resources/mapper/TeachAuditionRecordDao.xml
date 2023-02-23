@@ -18,8 +18,8 @@
         <result property="deleted" column="deleted"/>
     </resultMap>
 
-    <select id="selectAuditionRecordPage" resultType="net.edu.module.entity.TeachAuditionRecordEntity">
-        select t.student_id as studentId,a.real_name as studentName,t.lesson_id as lessonId,
+    <select id="selectAuditionRecordPage" resultType="net.edu.module.vo.TeachAuditionRecordVO">
+        select t.id ,t.student_id as studentId,a.real_name as studentName,t.lesson_id as lessonId,
                b.name as lessonName,t.remarks,t.date_time as dateTime,t.status
         from teach_audition_record t left join sys_user a on t.student_id = a.id left join lesson b on  t.lesson_id = b.id
         where t.deleted = 0
@@ -53,9 +53,9 @@
         order by t.status , dateTime desc
     </select>
 
-<!--    <insert id="insertLessonAttendLog">-->
-<!--        insert into lesson_attend_log(stu_id,lesson_id) values(#{vo.studentId},#{vo.lessonId})-->
-<!--    </insert>-->
+    <insert id="insertLessonAttendLog">
+        insert into lesson_attend_log(stu_id,lesson_id) values(#{vo.studentId},#{vo.lessonId})
+    </insert>
 
     <update id="updateUserAuditionStatus">
         update sys_user set sale_status=1 where id = #{stuId}

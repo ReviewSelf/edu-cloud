@@ -24,20 +24,11 @@ public class TeachAuditionRecordEntity extends BaseEntity {
 	*/
 	private Long studentId;
 
-	/**
-	 * 学生姓名
-	 */
-	private String studentName;
 
 	/**
 	* 班级id
 	*/
 	private Long lessonId;
-
-	/**
-	 * 试听课堂名称
-	 */
-	private String lessonName;
 
 
 	/**

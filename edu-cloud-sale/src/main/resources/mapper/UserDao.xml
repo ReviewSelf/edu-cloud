@@ -76,7 +76,7 @@
 		 create_time)
 		values (  #{id}, #{username},#{stuNumber}, #{password},#{realName}, #{avatar}, #{gender},
 		        #{email}, #{mobile}, #{orgId}, #{status} , #{address} ,
-		        #{age}, #{grade}, #{integral}, #{balance}, #{area}, 0, #{saleId},
+		        #{age}, #{grade}, #{integral}, 0, #{area}, 0, #{saleId},
 		        #{unionId},#{openId},now()
 		        )
 

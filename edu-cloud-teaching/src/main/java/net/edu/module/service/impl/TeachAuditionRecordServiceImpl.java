@@ -54,13 +54,18 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
     }
 
     @Override
-    public void save(TeachAuditionRecordVO vo) {
+    public void saveSaleAudition(TeachAuditionRecordVO vo) {
         TeachAuditionRecordEntity entity = new TeachAuditionRecordEntity();
         entity.setStudentId(vo.getStudentId());
         entity.setRemarks(vo.getRemarks());
         baseMapper.insert(entity);
-        System.out.println("学生id" + vo.getStudentId());
         teachAuditionRecordDao.updateUserAuditionStatus(vo.getStudentId(), vo.getPurpose(), vo.getPurposeLevel());
+    }
+
+    @Override
+    public void save(TeachAuditionRecordVO vo) {
+        TeachAuditionRecordEntity entity = TeachAuditionRecordConvert.INSTANCE.convert(vo);
+        baseMapper.insert(entity);
     }
 
     @Override

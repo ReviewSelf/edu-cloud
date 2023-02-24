@@ -50,7 +50,7 @@
 		<if test="query.getRealName() != null and query.getRealName() != ''">
 			and t1.real_name like concat(#{query.realName},'%')
 		</if>
-		order by t1.sale_status,communicate,t1.stu_number
+		order by t1.sale_status,communicate,t1.stu_number,t1.update_time desc
 	</select>
 
 	<insert id="insertCadet" useGeneratedKeys="true" keyProperty="id">

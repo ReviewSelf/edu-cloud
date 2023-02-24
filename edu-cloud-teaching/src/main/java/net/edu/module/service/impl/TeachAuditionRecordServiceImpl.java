@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachAuditionRecordConvert;
@@ -84,6 +85,10 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void joinAuditionLesson(TeachAuditionRecordVO vo) {
+        //试听课校验
+        if (baseMapper.checkAuditionLesson(vo) != 0) {
+            throw new ServerException("学员已参加该课程！");
+        }
         //加入课堂签到表
         baseMapper.insertLessonAttendLog(vo);
         //判断是否已有试听记录
@@ -93,7 +98,6 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
         }else{
             //保存试听记录
             save(vo);
-
         }
 
     }

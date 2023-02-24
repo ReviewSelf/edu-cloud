@@ -27,5 +27,7 @@ public interface TeachAuditionRecordDao extends BaseDao<TeachAuditionRecordEntit
 
     void updateUserAuditionStatus(Long stuId,String purpose,Integer purposeLevel);
 
+    Integer checkAuditionLesson(@Param("vo") TeachAuditionRecordVO vo);
+
     TeachAuditionRecordVO getAuditionRecordDetail(Long id);
 }

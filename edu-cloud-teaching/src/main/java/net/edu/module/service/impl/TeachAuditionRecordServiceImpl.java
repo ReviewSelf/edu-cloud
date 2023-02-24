@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachAuditionRecordConvert;
 import net.edu.module.dao.TeachAuditionRecordDao;
 import net.edu.module.entity.TeachAuditionRecordEntity;
-import net.edu.framework.common.page.PageResult;
 import net.edu.module.query.TeachAuditionRecordQuery;
 import net.edu.module.service.TeachAuditionRecordService;
 import net.edu.module.vo.TeachAuditionRecordVO;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,11 +55,12 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
 
     @Override
     public void save(TeachAuditionRecordVO vo) {
-        TeachAuditionRecordEntity entity = TeachAuditionRecordConvert.INSTANCE.convert(vo);
-
+        TeachAuditionRecordEntity entity = new TeachAuditionRecordEntity();
+        entity.setStudentId(vo.getStudentId());
+        entity.setRemarks(vo.getRemarks());
         baseMapper.insert(entity);
-        System.out.println("学生id"+vo.getStudentId());
-        teachAuditionRecordDao.updateUserAuditionStatus(vo.getStudentId());
+        System.out.println("学生id" + vo.getStudentId());
+        teachAuditionRecordDao.updateUserAuditionStatus(vo.getStudentId(), vo.getPurpose(), vo.getPurposeLevel());
     }
 
     @Override

@@ -40,7 +40,7 @@
         <if test="query.getStatus()!=null and query.getStatus()!=''">
             and  t.status = #{query.status}
         </if>
-        order by status , id desc
+        order by time desc
     </select>
 
     <select id="getPaymentDetail" resultType="net.edu.module.vo.TeachPayVO">

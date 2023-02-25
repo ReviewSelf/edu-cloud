@@ -59,6 +59,10 @@
         update sys_user set sale_status=1 , purpose = #{purpose},purpose_level = #{purposeLevel} where id = #{stuId}
     </update>
 
+    <select id="checkAuditionLesson" resultType="java.lang.Integer">
+        select count(*) from teach_audition_record where student_id = #{vo.studentId} and lesson_id = #{vo.lessonId}
+    </select>
+
     <select id="getAuditionRecordDetail" resultType="net.edu.module.vo.TeachAuditionRecordVO">
         select
             t.student_id as studentId,

@@ -68,6 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         vo.setId(null);
         vo.setPassword(passwordEncoder.encode("123456"));
         setStuNumber(vo);
+        vo.setUsername(vo.getStuNumber());
         userDao.insertCadet(vo);
 
         userRoleDao.insertStudentRole(vo.getId());

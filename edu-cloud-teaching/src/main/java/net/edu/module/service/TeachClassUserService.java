@@ -5,6 +5,7 @@ import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.vo.ClassUserRecordVO;
+import net.edu.module.vo.TeachClassUserDataVO;
 import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.stereotype.Service;
 
@@ -27,15 +28,17 @@ public interface TeachClassUserService extends BaseService<TeachClassUserEntity>
 
     void save(TeachClassUserVO vo);
 
-    void insertClassUserOne(TeachClassUserVO vo);
+    void insertClassUserOne(TeachClassUserDataVO vo);
 
     void update(TeachClassUserVO vo);
 
     void delete(List<Long> idList);
 
-    void quitClass(Long classId,Long userId, Date quitTime);
+    void quitClass(TeachClassUserDataVO vo);
 
     void updateHomeworkTimes(Long userId, Long classId, Integer num);
 
     void insertClassUserRecord(ClassUserRecordVO vo);
+
+    void changeClassUser(TeachClassUserDataVO vo);
 }

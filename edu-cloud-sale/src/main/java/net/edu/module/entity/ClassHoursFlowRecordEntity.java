@@ -38,7 +38,7 @@ public class ClassHoursFlowRecordEntity extends BaseEntity {
 	private String remarks;
 
 	/**
-	* 场景：0是退班、1是插班、3是教务续费、4是销售充值
+	* 场景：0是退班、1是插班、2是充值、3是退费
 	*/
 	private Integer scene;
 

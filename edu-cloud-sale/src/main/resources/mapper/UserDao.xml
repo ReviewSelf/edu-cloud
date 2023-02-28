@@ -16,6 +16,9 @@
 		t1.address,
 		t1.age,
 		t1.grade,
+		t1.total_amount,
+		t1.balance,
+		t1.total_money,
 		t1.area,
 		t2.role_id,
 		t1.sale_id,
@@ -47,7 +50,7 @@
 		<if test="query.getRealName() != null and query.getRealName() != ''">
 			and t1.real_name like concat(#{query.realName},'%')
 		</if>
-		order by t1.stu_number
+		order by t1.sale_status,communicate,t1.stu_number,t1.update_time desc
 	</select>
 
 	<insert id="insertCadet" useGeneratedKeys="true" keyProperty="id">
@@ -68,15 +71,17 @@
 		 grade,
 		 integral,
 		 balance,
+		 total_amount,
+		 total_money,
 		 area,
 		 cadets,
 		 sale_id,
 		 union_id,
 		 open_id,
 		 create_time)
-		values (  #{id}, #{username},#{stuNumber}, #{password},#{realName}, #{avatar}, #{gender},
+		values (  #{id}, #{stuNumber},#{stuNumber}, #{password},#{realName}, #{avatar}, #{gender},
 		        #{email}, #{mobile}, #{orgId}, #{status} , #{address} ,
-		        #{age}, #{grade}, #{integral}, #{balance}, #{area}, 0, #{saleId},
+		        #{age}, #{grade}, #{integral}, 0 , 0 , 0.00 ,#{area}, 0, #{saleId},
 		        #{unionId},#{openId},now()
 		        )
 
@@ -104,6 +109,13 @@
 							 sale_status = 2,
 							 total_amount = total_amount + #{balance},
 							 total_money = total_money + cast(#{payment} as decimal(8,2))
+		where id = #{userId}
+	</update>
+
+	<update id="returnBack" >
+		update sys_user set  balance = balance - #{balance},
+							 total_amount = total_amount - #{balance},
+							 total_money = total_money - cast(#{payment} as decimal(8,2))
 		where id = #{userId}
 	</update>
 </mapper>

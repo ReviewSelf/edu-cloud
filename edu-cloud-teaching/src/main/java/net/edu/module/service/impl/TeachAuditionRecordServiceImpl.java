@@ -4,11 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.exception.ServerException;
+import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachAuditionRecordConvert;
 import net.edu.module.dao.TeachAuditionRecordDao;
 import net.edu.module.entity.TeachAuditionRecordEntity;
-import net.edu.framework.common.page.PageResult;
 import net.edu.module.query.TeachAuditionRecordQuery;
 import net.edu.module.service.TeachAuditionRecordService;
 import net.edu.module.vo.TeachAuditionRecordVO;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,9 +34,9 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
 
     @Override
     public PageResult<TeachAuditionRecordVO> page(TeachAuditionRecordQuery query) {
-        IPage<TeachAuditionRecordEntity> page = baseMapper.selectAuditionRecordPage(getPage(query), query);
+        IPage<TeachAuditionRecordVO> page = baseMapper.selectAuditionRecordPage(getPage(query), query);
 
-        return new PageResult<>(TeachAuditionRecordConvert.INSTANCE.convertList(page.getRecords()), page.getTotal());
+        return new PageResult<>(page.getRecords(), page.getTotal());
     }
 
 
@@ -55,12 +55,18 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
     }
 
     @Override
+    public void saveSaleAudition(TeachAuditionRecordVO vo) {
+        TeachAuditionRecordEntity entity = new TeachAuditionRecordEntity();
+        entity.setStudentId(vo.getStudentId());
+        entity.setRemarks(vo.getRemarks());
+        baseMapper.insert(entity);
+        teachAuditionRecordDao.updateUserAuditionStatus(vo.getStudentId(), vo.getPurpose(), vo.getPurposeLevel());
+    }
+
+    @Override
     public void save(TeachAuditionRecordVO vo) {
         TeachAuditionRecordEntity entity = TeachAuditionRecordConvert.INSTANCE.convert(vo);
-
         baseMapper.insert(entity);
-        System.out.println("学生id"+vo.getStudentId());
-        teachAuditionRecordDao.updateUserAuditionStatus(vo.getStudentId());
     }
 
     @Override
@@ -79,6 +85,10 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void joinAuditionLesson(TeachAuditionRecordVO vo) {
+        //试听课校验
+        if (baseMapper.checkAuditionLesson(vo) != 0) {
+            throw new ServerException("学员已参加该课程！");
+        }
         //加入课堂签到表
         baseMapper.insertLessonAttendLog(vo);
         //判断是否已有试听记录
@@ -88,7 +98,6 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
         }else{
             //保存试听记录
             save(vo);
-
         }
 
     }

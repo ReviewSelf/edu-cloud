@@ -56,7 +56,13 @@ public class TeachAuditionRecordController {
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody TeachAuditionRecordVO vo){
         teachAuditionRecordService.save(vo);
+        return Result.ok();
+    }
 
+    @PostMapping("sale")
+    @Operation(summary = "销售推荐试听")
+    public Result<String> saveSaleAudition(@RequestBody TeachAuditionRecordVO vo){
+        teachAuditionRecordService.saveSaleAudition(vo);
         return Result.ok();
     }
 

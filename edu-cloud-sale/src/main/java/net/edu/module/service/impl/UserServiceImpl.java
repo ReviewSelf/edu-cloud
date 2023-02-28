@@ -48,9 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(UserVO vo) {
+    public synchronized void save(UserVO vo) {
         UserEntity entity = UserConvert.INSTANCE.convert(vo);
-
 
         // 判断用户名是否存在
         UserEntity user = baseMapper.getByUsername(entity.getUsername());

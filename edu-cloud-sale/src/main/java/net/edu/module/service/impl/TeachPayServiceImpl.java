@@ -49,6 +49,7 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(TeachPayVO vo) {
         TeachPayEntity entity = TeachPayConvert.INSTANCE.convert(vo);
 
@@ -73,7 +74,6 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
     }
@@ -84,6 +84,7 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void returnBack(TeachPayVO vo) {
         userDao.returnBack(vo.getUserId(),vo.getPayment(),vo.getBalance());
         //修改课次记录表

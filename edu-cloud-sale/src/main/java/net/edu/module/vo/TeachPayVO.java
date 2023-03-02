@@ -28,7 +28,13 @@ public class TeachPayVO implements Serializable {
 	private BigDecimal payment;
 
 	@Schema(description = "购买课次")
-	private Integer balance;
+	private BigDecimal classHours;
+
+	@Schema(description = "课程类型 0为常规，1为集训")
+	private Integer type;
+
+	@Schema(description = "赠送课次")
+	private BigDecimal presentHours;
 
 	@Schema(description = "用户id")
 	private Long userId;
@@ -53,7 +59,7 @@ public class TeachPayVO implements Serializable {
 	private Date time;
 
 	@Schema(description = "试听情况")
-	private Integer type;
+	private Integer auditionType;
 
 	@Schema(description = "备注")
 	private String bz;

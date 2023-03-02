@@ -55,15 +55,15 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
 
         baseMapper.insert(entity);
         //修改用户表销售状态为2，余课次增加，累计课次增加，累计金额增加
-        userDao.updateUserAfterPay(vo.getUserId(),vo.getPayment(),vo.getBalance());
+        userDao.updateUserAfterPay(vo);
         //修改课次记录表
-        ClassHoursFlowRecordEntity flowRecordEntity = new ClassHoursFlowRecordEntity();
-        flowRecordEntity.setUserId(vo.getUserId());
-        flowRecordEntity.setClassTimes(vo.getBalance());
-        flowRecordEntity.setRemarks(vo.getBz());
-        flowRecordEntity.setScene(2);
-        flowRecordEntity.setStatus(1);
-        classHoursFlowRecordDao.insert(flowRecordEntity);
+//        ClassHoursFlowRecordEntity flowRecordEntity = new ClassHoursFlowRecordEntity();
+//        flowRecordEntity.setUserId(vo.getUserId());
+//        flowRecordEntity.setClassTimes(vo.getBalance());
+//        flowRecordEntity.setRemarks(vo.getBz());
+//        flowRecordEntity.setScene(2);
+//        flowRecordEntity.setStatus(1);
+//        classHoursFlowRecordDao.insert(flowRecordEntity);
     }
 
     @Override
@@ -86,15 +86,15 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void returnBack(TeachPayVO vo) {
-        userDao.returnBack(vo.getUserId(),vo.getPayment(),vo.getBalance());
-        //修改课次记录表
-        ClassHoursFlowRecordEntity flowRecordEntity = new ClassHoursFlowRecordEntity();
-        flowRecordEntity.setUserId(vo.getUserId());
-        flowRecordEntity.setClassTimes(vo.getBalance());
-        flowRecordEntity.setRemarks(vo.getBz());
-        flowRecordEntity.setScene(3);
-        flowRecordEntity.setStatus(0);
-        classHoursFlowRecordDao.insert(flowRecordEntity);
+//        userDao.returnBack(vo.getUserId(),vo.getPayment(),vo.getBalance());
+//        //修改课次记录表
+//        ClassHoursFlowRecordEntity flowRecordEntity = new ClassHoursFlowRecordEntity();
+//        flowRecordEntity.setUserId(vo.getUserId());
+//        flowRecordEntity.setClassTimes(vo.getBalance());
+//        flowRecordEntity.setRemarks(vo.getBz());
+//        flowRecordEntity.setScene(3);
+//        flowRecordEntity.setStatus(0);
+//        classHoursFlowRecordDao.insert(flowRecordEntity);
     }
 
 }

@@ -33,7 +33,13 @@ public class TeachPayEntity {
 	/**
 	 * 购买课次
 	 */
-	private Integer balance;
+	private BigDecimal classHours;
+
+	/**
+	 * 赠送课次
+	 */
+	private BigDecimal presentHours;
+
 	/**
 	* 用户id
 	*/
@@ -43,7 +49,6 @@ public class TeachPayEntity {
 	* 缴费时间
 	*/
 	private Date time;
-
 
 	/**
 	* 备注
@@ -59,5 +64,10 @@ public class TeachPayEntity {
 	 * 状态
 	 */
 	private Integer status;
+
+	/**
+	 * 课程类型
+	 */
+	private Integer type;
 
 }

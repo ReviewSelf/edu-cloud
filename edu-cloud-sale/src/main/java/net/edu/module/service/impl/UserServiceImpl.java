@@ -11,6 +11,7 @@ import net.edu.module.dao.EnrollDao;
 import net.edu.module.dao.TeachClassHoursDao;
 import net.edu.module.dao.UserDao;
 import net.edu.module.dao.UserRoleDao;
+import net.edu.module.entity.TeachClassHoursEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;
@@ -53,29 +54,17 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized void save(UserVO vo) {
-        UserEntity entity = UserConvert.INSTANCE.convert(vo);
-
-        // 判断用户名是否存在
-        UserEntity user = baseMapper.getByUsername(entity.getUsername());
-        if (user != null) {
-            throw new ServerException("用户名已经存在");
-        }
-
-        // 判断手机号是否存在
-        user = baseMapper.getByMobile(entity.getMobile());
-        if (user != null) {
-            throw new ServerException("手机号已经存在");
-        }
-
+        check(vo);
         // 保存用户
         vo.setId(null);
         vo.setPassword(passwordEncoder.encode("123456"));
         setStuNumber(vo);
         vo.setUsername(vo.getStuNumber());
         userDao.insertCadet(vo);
-
+        TeachClassHoursEntity teachClassHoursEntity = new TeachClassHoursEntity();
+        teachClassHoursEntity.setUserId(vo.getId());
+        teachClassHoursDao.insert(teachClassHoursEntity);
         userRoleDao.insertStudentRole(vo.getId());
-
     }
 
     @Override
@@ -103,15 +92,35 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         return UserConvert.INSTANCE.convert(user);
     }
 
+    private void check(UserVO vo) {
+        UserEntity entity = UserConvert.INSTANCE.convert(vo);
+
+        // 判断用户名是否存在
+        UserEntity user = baseMapper.getByUsername(entity.getUsername());
+        if (user != null) {
+            throw new ServerException("用户名已经存在");
+        }
+
+        // 判断手机号是否存在
+        user = baseMapper.getByMobile(entity.getMobile());
+        if (user != null) {
+            throw new ServerException("手机号已经存在");
+        }
+    }
+
     @Override
     @Transactional
     public void insertCadet(UserVO vo) {
+        check(vo);
         enrollDao.updateStatus(vo.getId());
-
         setStuNumber(vo);
+        vo.setUsername(vo.getStuNumber());
         vo.setId(null);
         vo.setPassword(passwordEncoder.encode("123456"));
         userDao.insertCadet(vo);
+        TeachClassHoursEntity teachClassHoursEntity = new TeachClassHoursEntity();
+        teachClassHoursEntity.setUserId(vo.getId());
+        teachClassHoursDao.insert(teachClassHoursEntity);
         userRoleDao.insertStudentRole(vo.getId());
     }
 
@@ -141,6 +150,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Override
     public TeachClassHoursVO getStudentPay(Long id) {
         return teachClassHoursDao.getStudentPay(id);
+    }
+
+    @Override
+    public List<UserVO> selectSaleName() {
+        return userDao.selectSaleName();
     }
 
 

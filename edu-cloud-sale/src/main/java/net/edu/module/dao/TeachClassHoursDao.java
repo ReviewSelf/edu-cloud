@@ -16,4 +16,5 @@ import org.apache.ibatis.annotations.Mapper;
 public interface TeachClassHoursDao extends BaseDao<TeachClassHoursEntity> {
 
     TeachClassHoursVO getStudentPay(Long id);
+
 }

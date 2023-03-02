@@ -50,7 +50,7 @@
 		<if test="query.getRealName() != null and query.getRealName() != ''">
 			and t1.real_name like concat(#{query.realName},'%')
 		</if>
-		order by t1.sale_status,communicate,t1.stu_number,t1.update_time desc
+		order by t1.sale_status,communicate,t1.create_time desc,t1.update_time desc
 	</select>
 
 	<insert id="insertCadet" useGeneratedKeys="true" keyProperty="id">
@@ -105,11 +105,18 @@
 
 
 	<update id="updateUserAfterPay">
-		update sys_user set  balance = balance + #{balance},
-							 sale_status = 2,
-							 total_amount = total_amount + #{balance},
-							 total_money = total_money + cast(#{payment} as decimal(8,2))
-		where id = #{userId}
+		update sys_user s ,teach_class_hours t set
+							 s.sale_status = 2,
+							 t.total_money = t.total_money + cast(#{payment} as decimal(8,2)),
+		<if test="type == 0">
+			t.normal = t.normal + cast(#{classHours} as decimal(5,1)),
+		    t.normal_present =  t.normal_present  + cast(#{presentHours} as decimal(5,1))
+		</if>
+		<if test="type == 1">
+			t.training = t.training + cast(#{classHours} as decimal(5,1)),
+			t.training_present =  t.training_present  + cast(#{presentHours} as decimal(5,1))
+		</if>
+		where s.id = #{userId} and t.user_id = #{userId}
 	</update>
 
 	<update id="returnBack" >
@@ -119,4 +126,8 @@
 		where id = #{userId}
 	</update>
 
+	<select id="selectSaleName" resultType="net.edu.module.vo.UserVO">
+		select s.id,real_name from sys_user s left join sys_user_role r on s.id = r.user_id
+		                      where r.deleted = 0 and role_id = 4
+	</select>
 </mapper>

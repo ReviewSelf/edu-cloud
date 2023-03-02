@@ -48,9 +48,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(UserVO vo) {
+    public synchronized void save(UserVO vo) {
         UserEntity entity = UserConvert.INSTANCE.convert(vo);
-
 
         // 判断用户名是否存在
         UserEntity user = baseMapper.getByUsername(entity.getUsername());
@@ -68,6 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         vo.setId(null);
         vo.setPassword(passwordEncoder.encode("123456"));
         setStuNumber(vo);
+        vo.setUsername(vo.getStuNumber());
         userDao.insertCadet(vo);
 
         userRoleDao.insertStudentRole(vo.getId());
@@ -134,8 +134,5 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         return userDao.selectStuNumber();
     }
 
-    @Override
-    public void updatePayment(Long id) {
-        userDao.updatePayment(id);
-    }
+
 }

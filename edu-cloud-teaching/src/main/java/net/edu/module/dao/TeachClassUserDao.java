@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.query.TeachClassUserQuery;
+import net.edu.module.vo.TeachClassUserDataVO;
 import net.edu.module.vo.TeachClassUserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,5 +32,5 @@ public interface TeachClassUserDao extends BaseDao<TeachClassUserEntity> {
 
     int updateHomeworkTimes(Long userId, Long classId, Integer num);
 
-    void insertClassUserOne(TeachClassUserVO vo);
+    void insertClassUserOne(Long classId, Long userId, Date joinTime);
 }

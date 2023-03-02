@@ -13,6 +13,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +32,6 @@ public class UserVO implements Serializable {
     private Long id;
 
     @Schema(description = "用户名", required = true)
-    @NotBlank(message = "用户名不能为空")
     @ExcelProperty(index = 0)
     private String username;
 
@@ -126,10 +126,13 @@ public class UserVO implements Serializable {
     private String integral;
 
     @ExcelIgnore
-    private String balance;
+    private Integer balance;
 
     @ExcelIgnore
-    private String totalAmount;
+    private Integer totalAmount;
+
+    @ExcelIgnore
+    private BigDecimal totalMoney;
 
     @ExcelIgnore
     private String openId;

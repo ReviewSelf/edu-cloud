@@ -22,7 +22,7 @@
             t.handler,
             t.bz,
             (select status from teach_audition_record q
-                                    where q.student_id = t.user_id order by q.create_time desc limit 1) as type,
+                           where q.student_id = t.user_id order by q.create_time desc limit 1) as type,
             t.status,
             (select real_name from sys_user p where s.sale_id = p.id) as saleName
         from teach_pay t
@@ -40,7 +40,7 @@
         <if test="query.getStatus()!=null and query.getStatus()!=''">
             and  t.status = #{query.status}
         </if>
-        order by status , id desc
+        order by time desc
     </select>
 
     <select id="getPaymentDetail" resultType="net.edu.module.vo.TeachPayVO">
@@ -61,4 +61,7 @@
         left join sys_user s on t.user_id = s.id
         where t.id = #{id}
     </select>
+
+
+
 </mapper>

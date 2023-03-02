@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
+import net.edu.module.vo.TeachPayVO;
 import net.edu.module.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -38,5 +40,6 @@ public interface UserDao extends BaseDao<UserEntity> {
 
     String selectStuNumber();
 
-    void updatePayment(Long id);
+    void returnBack(Long userId, BigDecimal payment, Integer balance);
+    void updateUserAfterPay(Long userId, BigDecimal payment, Integer balance);
 }

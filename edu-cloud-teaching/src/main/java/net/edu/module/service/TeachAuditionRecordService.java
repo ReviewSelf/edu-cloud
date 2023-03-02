@@ -20,6 +20,8 @@ public interface TeachAuditionRecordService extends BaseService<TeachAuditionRec
 
     PageResult<TeachAuditionRecordVO> newStudentAuditionRecordPage(TeachAuditionRecordQuery query);
 
+    void saveSaleAudition(TeachAuditionRecordVO vo);
+
     void save(TeachAuditionRecordVO vo);
 
     void update(TeachAuditionRecordVO vo);
@@ -29,6 +31,8 @@ public interface TeachAuditionRecordService extends BaseService<TeachAuditionRec
     void joinAuditionLesson(TeachAuditionRecordVO vo);
 
     TeachAuditionRecordVO getAuditionRecord(Long id);
+
+    void updateRecordStatus();
 
 //    void saveNotLesson(TeachAuditionRecordVO vo);
 }

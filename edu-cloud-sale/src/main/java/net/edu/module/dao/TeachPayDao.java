@@ -21,4 +21,6 @@ public interface TeachPayDao extends BaseDao<TeachPayEntity> {
     IPage<TeachPayVO> page(Page<TeachPayVO> page, TeachPayQuery query);
 
     TeachPayVO getPaymentDetail(Long id);
+
+
 }

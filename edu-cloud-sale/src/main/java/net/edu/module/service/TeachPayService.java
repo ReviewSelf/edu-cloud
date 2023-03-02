@@ -3,9 +3,9 @@ package net.edu.module.service;
 
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
-import net.edu.module.vo.TeachPayVO;
-import net.edu.module.query.TeachPayQuery;
 import net.edu.module.entity.TeachPayEntity;
+import net.edu.module.query.TeachPayQuery;
+import net.edu.module.vo.TeachPayVO;
 
 import java.util.List;
 
@@ -26,4 +26,6 @@ public interface TeachPayService extends BaseService<TeachPayEntity> {
     void delete(List<Long> idList);
 
     TeachPayVO getPaymentDetail(Long id);
+
+    void returnBack(TeachPayVO vo);
 }

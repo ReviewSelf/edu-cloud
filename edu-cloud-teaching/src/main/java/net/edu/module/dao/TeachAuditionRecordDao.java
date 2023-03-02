@@ -17,7 +17,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface TeachAuditionRecordDao extends BaseDao<TeachAuditionRecordEntity> {
 
-    IPage<TeachAuditionRecordEntity> selectAuditionRecordPage(IPage<TeachAuditionRecordEntity> page, @Param("query") TeachAuditionRecordQuery query);
+    IPage<TeachAuditionRecordVO> selectAuditionRecordPage(IPage<TeachAuditionRecordEntity> page, @Param("query") TeachAuditionRecordQuery query);
 
     IPage<TeachAuditionRecordVO> selectNewStudentAuditionRecordPage(IPage<TeachAuditionRecordEntity> page, @Param("query") TeachAuditionRecordQuery query);
 
@@ -25,7 +25,11 @@ public interface TeachAuditionRecordDao extends BaseDao<TeachAuditionRecordEntit
 
 //    void insertNotLessonRecord(@Param("vo") TeachAuditionRecordVO vo);
 
-    void updateUserAuditionStatus(Long stuId);
+    void updateUserAuditionStatus(Long stuId,String purpose,Integer purposeLevel);
+
+    Integer checkAuditionLesson(@Param("vo") TeachAuditionRecordVO vo);
 
     TeachAuditionRecordVO getAuditionRecordDetail(Long id);
+
+    void updateRecordStatus();
 }

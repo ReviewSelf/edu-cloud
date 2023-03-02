@@ -24,6 +24,11 @@ public interface EduLessonApi {
     @DeleteMapping("/lesson")
     Result<String> delete(@RequestBody Long classId);
 
+    @PostMapping("/attend/lesson")
+    Result insertLessonList(@RequestBody LessonStudentVO vo);
+
+    @DeleteMapping("/attend/lesson")
+    Result deleteLessonList(@RequestBody LessonStudentVO vo);
 
     /****************************WxMini调用******************************************/
     @GetMapping("/homeWork/homeWorkPage")

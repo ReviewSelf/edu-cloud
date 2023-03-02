@@ -32,7 +32,6 @@ public class ClassHoursFlowRecordController {
     @Operation(summary = "分页")
     public Result<PageResult<ClassHoursFlowRecordVO>> page(@Valid ClassHoursFlowRecordQuery query){
         PageResult<ClassHoursFlowRecordVO> page = classHoursFlowRecordService.page(query);
-
         return Result.ok(page);
     }
 

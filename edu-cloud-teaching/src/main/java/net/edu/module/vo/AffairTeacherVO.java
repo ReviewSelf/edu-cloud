@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -76,6 +77,9 @@ public class AffairTeacherVO implements Serializable {
 
     @Schema(description = "机构名称")
     private String orgName;
+
+    @Schema(description = "累计金额")
+    private BigDecimal totalMoney;
 
     @Schema(description = "创建时间")
     @JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

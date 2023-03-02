@@ -47,6 +47,10 @@ public interface EduTeachApi {
     @Operation(summary = "统计信息用于定时器")
     Result<String> statisticsHomeInfo();
 
+    @PutMapping("/audition/record/audition/status")
+    @Operation(summary = "修改试听状态用于定时器")
+    Result<String> auditionRecordStatusInfo();
+
     /****************************Wechat调用******************************************/
 
     @GetMapping("enrollUser/insertClassUser")
@@ -70,5 +74,6 @@ public interface EduTeachApi {
      Result<PageResult<EnrollClassVO>> page(@RequestParam(value = "limit") Integer limit,
                                             @RequestParam(value = "page") Integer page,
                                             @RequestParam(value = "className")String className);
+
 
 }

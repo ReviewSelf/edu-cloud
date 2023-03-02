@@ -86,4 +86,9 @@
                                      left join sys_user s on t.student_id = s.id
         where t.id = #{id}
     </select>
+
+    <update id="updateRecordStatus">
+        update teach_audition_record t set t.status = 2 where t.status=1 and  (select end_time from lesson where id = t.lesson_id) &gt;= now()
+    </update>
+
 </mapper>

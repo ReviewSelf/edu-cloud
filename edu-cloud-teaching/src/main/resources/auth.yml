@@ -17,4 +17,5 @@ auth:
     - /statistics/info
     - /enrollLesson/teacherOpinion
     - /enrollUser/info
+    - /audition/record/audition/status
 

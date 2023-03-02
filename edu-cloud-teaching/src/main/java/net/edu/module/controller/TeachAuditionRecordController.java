@@ -105,4 +105,13 @@ public class TeachAuditionRecordController {
 
         return Result.ok(vo);
     }
+
+    @PutMapping("audition/status")
+    @Operation(summary = "修改试听状态用于定时器")
+    Result<String> auditionRecordStatusInfo(){
+        System.out.println(123);
+        teachAuditionRecordService.updateRecordStatus();
+        return Result.ok();
+    }
+
 }

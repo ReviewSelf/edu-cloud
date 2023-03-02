@@ -107,6 +107,11 @@ public class TeachAuditionRecordServiceImpl extends BaseServiceImpl<TeachAuditio
         return teachAuditionRecordDao.getAuditionRecordDetail(id);
     }
 
+    @Override
+    public void updateRecordStatus() {
+        teachAuditionRecordDao.updateRecordStatus();
+    }
+
 //    @Override
 //    public void saveNotLesson(TeachAuditionRecordVO vo) {
 //        baseMapper.insertNotLessonRecord(vo);

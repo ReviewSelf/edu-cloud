@@ -7,6 +7,7 @@ import net.edu.module.convert.UserConvert;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;
+import net.edu.module.vo.TeachClassHoursVO;
 import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -71,4 +72,17 @@ public class UserController {
         return Result.ok(integers);
     }
 
+    @GetMapping("pay/{id}")
+    @Operation(summary = "课时信息")
+    public Result<TeachClassHoursVO> getStudentPay(@PathVariable("id") Long id){
+
+        TeachClassHoursVO vo = userService.getStudentPay(id);
+        return Result.ok(vo);
+    }
+
+    @GetMapping("sale")
+    @Operation(summary = "销售名单")
+    public Result<List<UserVO>> selectSaleName(){
+        return Result.ok(userService.selectSaleName());
+    }
 }

@@ -42,4 +42,6 @@ public interface UserDao extends BaseDao<UserEntity> {
 
     void returnBack(Long userId, BigDecimal payment, Integer balance);
     void updateUserAfterPay(Long userId, BigDecimal payment, Integer balance);
+
+
 }

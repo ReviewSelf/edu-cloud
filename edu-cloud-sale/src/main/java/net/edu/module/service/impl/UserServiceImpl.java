@@ -8,11 +8,13 @@ import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.module.convert.UserConvert;
 import net.edu.module.dao.EnrollDao;
+import net.edu.module.dao.TeachClassHoursDao;
 import net.edu.module.dao.UserDao;
 import net.edu.module.dao.UserRoleDao;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;
+import net.edu.module.vo.TeachClassHoursVO;
 import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +35,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     private UserDao userDao;
     @Autowired
     private EnrollDao enrollDao;
+    @Autowired
+    private TeachClassHoursDao teachClassHoursDao;
 
     @Autowired
     private UserRoleDao userRoleDao;
@@ -132,6 +136,11 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Override
     public String selectStuNumber() {
         return userDao.selectStuNumber();
+    }
+
+    @Override
+    public TeachClassHoursVO getStudentPay(Long id) {
+        return teachClassHoursDao.getStudentPay(id);
     }
 
 

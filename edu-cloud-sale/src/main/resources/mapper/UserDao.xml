@@ -88,14 +88,14 @@
 	</insert>
 
 	<select id="selectUserStatus" resultType="java.lang.Integer">
-		select count(*)  from sys_user where cadets=0
+		select count(1)  from sys_user where cadets=0 and deleted = 0
 		UNION ALL
-		select count(*)  from
-			(select s.id from sys_user s right join communicate c on s.id=c.stu_id where s.cadets=0 GROUP BY s.id ) as t1
+		select count(1)  from
+			(select s.id from sys_user s right join communicate c on s.id=c.stu_id where s.cadets=0 and s.deleted = 0 GROUP BY s.id ) as t1
 		UNION ALL
-		SELECT count(*) from sys_user WHERE sale_status=1
+		SELECT count(1) from sys_user WHERE sale_status=1 and cadets=0 and deleted = 0
 		UNION ALL
-		SELECT count(*)  from sys_user WHERE sale_status=2
+		SELECT count(1)  from sys_user WHERE sale_status=2 and cadets=0 and deleted = 0
 	</select>
 
 	<select id="selectStuNumber" resultType="java.lang.String">
@@ -118,4 +118,5 @@
 							 total_money = total_money - cast(#{payment} as decimal(8,2))
 		where id = #{userId}
 	</update>
+
 </mapper>

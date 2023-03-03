@@ -17,17 +17,17 @@
             t.user_id,
             s.real_name as realName,
             t.time,
-            t.balance,
+            t.class_hours,
+            t.present_hours,
             t.payment,
             t.handler,
             t.bz,
-            (select status from teach_audition_record q
-                           where q.student_id = t.user_id order by q.create_time desc limit 1) as type,
             t.status,
+            t.type,
             (select real_name from sys_user p where s.sale_id = p.id) as saleName
         from teach_pay t
         left join sys_user s on t.user_id = s.id
-        where 1=1
+        where s.deleted = 0
         <if test="query.getRealName()!=null and query.getRealName()!=''">
             and  s.real_name like concat('%',#{query.realName},'%')
         </if>
@@ -38,7 +38,12 @@
             and  (select real_name from sys_user p where s.sale_id = p.id) like concat('%',#{query.saleName},'%')
         </if>
         <if test="query.getStatus()!=null and query.getStatus()!=''">
-            and  t.status = #{query.status}
+            <if test="query.getStatus() == 1">
+               and t.payment &gt;= #{query.status}
+            </if>
+            <if test="query.getStatus() == -1">
+               and t.payment &lt; #{query.status}
+            </if>
         </if>
         order by time desc
     </select>
@@ -51,8 +56,10 @@
             s.mobile,
             s.urgent_identity,
             t.time,
-            t.balance,
+            t.class_hours,
+            t.present_hours,
             t.payment,
+            t.type,
             t.handler,
             t.bz,
             t.status,

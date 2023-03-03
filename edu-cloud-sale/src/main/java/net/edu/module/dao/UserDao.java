@@ -40,7 +40,7 @@ public interface UserDao extends BaseDao<UserEntity> {
 
     String selectStuNumber();
 
-    void returnBack(Long userId, BigDecimal payment, Integer balance);
+    void returnBack(TeachPayVO vo);
     void updateUserAfterPay(TeachPayVO vo);
 
 

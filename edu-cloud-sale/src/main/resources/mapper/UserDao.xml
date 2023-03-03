@@ -120,10 +120,14 @@
 	</update>
 
 	<update id="returnBack" >
-		update sys_user set  balance = balance - #{balance},
-							 total_amount = total_amount - #{balance},
-							 total_money = total_money - cast(#{payment} as decimal(8,2))
-		where id = #{userId}
+		update teach_class_hours t set
+		<if test="type == 0">
+			t.normal = t.normal - cast(#{classHours} as decimal(5,1))
+		</if>
+		<if test="type == 1">
+			t.training = t.training - cast(#{classHours} as decimal(5,1))
+		</if>
+		where t.user_id = #{userId}
 	</update>
 
 	<select id="selectSaleName" resultType="net.edu.module.vo.UserVO">

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -39,6 +40,11 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
     public PageResult<TeachPayVO> page(TeachPayQuery query) {
         Page<TeachPayVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<TeachPayVO> list = baseMapper.page(page, query);
+        for (TeachPayVO record : list.getRecords()) {
+            if (record.getPayment().compareTo(new BigDecimal(0)) > 0) record.setIsPay(1);
+            else  record.setIsPay(0);
+            record.setPayment(record.getPayment().abs());
+        }
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
@@ -80,13 +86,19 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
 
     @Override
     public TeachPayVO getPaymentDetail(Long id) {
-        return baseMapper.getPaymentDetail(id);
+        TeachPayVO paymentDetail = baseMapper.getPaymentDetail(id);
+        paymentDetail.setPayment(paymentDetail.getPayment().abs());
+        return paymentDetail;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void returnBack(TeachPayVO vo) {
-//        userDao.returnBack(vo.getUserId(),vo.getPayment(),vo.getBalance());
+        vo.setPayment(vo.getPayment().negate());
+        TeachPayEntity entity = TeachPayConvert.INSTANCE.convert(vo);
+
+        baseMapper.insert(entity);
+        userDao.returnBack(vo);
 //        //修改课次记录表
 //        ClassHoursFlowRecordEntity flowRecordEntity = new ClassHoursFlowRecordEntity();
 //        flowRecordEntity.setUserId(vo.getUserId());

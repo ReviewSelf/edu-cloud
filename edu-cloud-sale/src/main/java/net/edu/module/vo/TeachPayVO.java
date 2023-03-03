@@ -58,8 +58,8 @@ public class TeachPayVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date time;
 
-	@Schema(description = "试听情况")
-	private Integer auditionType;
+	@Schema(description = "缴费 或 退费标志")
+	private Integer isPay;
 
 	@Schema(description = "备注")
 	private String bz;

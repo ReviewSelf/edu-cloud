@@ -78,11 +78,13 @@
 		 sale_id,
 		 union_id,
 		 open_id,
-		 create_time)
+		 create_time,
+		 purpose,
+		 purpose_level)
 		values (  #{id}, #{stuNumber},#{stuNumber}, #{password},#{realName}, #{avatar}, #{gender},
 		        #{email}, #{mobile}, #{orgId}, #{status} , #{address} ,
 		        #{age}, #{grade}, #{integral}, 0 , 0 , 0.00 ,#{area}, 0, #{saleId},
-		        #{unionId},#{openId},now()
+		        #{unionId},#{openId},now(),#{purpose},#{purposeLevel}
 		        )
 
 	</insert>
@@ -125,6 +127,7 @@
 
 	<update id="returnBack" >
 		update teach_class_hours t set
+		t.total_money = t.total_money - cast(#{payment} as decimal(8,2)),
 		<if test="classType == 0">
 			t.normal = t.normal - cast(#{classHours} as decimal(5,1))
 		</if>

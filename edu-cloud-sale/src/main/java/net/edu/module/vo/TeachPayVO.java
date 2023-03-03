@@ -30,8 +30,11 @@ public class TeachPayVO implements Serializable {
 	@Schema(description = "购买课次")
 	private BigDecimal classHours;
 
-	@Schema(description = "课程类型 0为常规，1为集训")
-	private Integer type;
+	@Schema(description = "充值课程类型 0为常规，1为集训")
+	private Integer classType;
+
+	@Schema(description = "赠送课程类型 0为常规，1为集训")
+	private Integer presentType;
 
 	@Schema(description = "赠送课次")
 	private BigDecimal presentHours;

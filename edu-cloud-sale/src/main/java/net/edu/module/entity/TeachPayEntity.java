@@ -66,8 +66,13 @@ public class TeachPayEntity {
 	private Integer status;
 
 	/**
-	 * 课程类型
+	 * 购买课程类型
 	 */
-	private Integer type;
+	private Integer classType;
+
+	/**
+	 * 赠送课程类型
+	 */
+	private Integer presentType;
 
 }

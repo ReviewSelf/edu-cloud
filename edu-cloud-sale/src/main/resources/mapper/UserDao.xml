@@ -108,12 +108,16 @@
 		update sys_user s ,teach_class_hours t set
 							 s.sale_status = 2,
 							 t.total_money = t.total_money + cast(#{payment} as decimal(8,2)),
-		<if test="type == 0">
+		<if test="classType == 0">
 			t.normal = t.normal + cast(#{classHours} as decimal(5,1)),
-		    t.normal_present =  t.normal_present  + cast(#{presentHours} as decimal(5,1))
 		</if>
-		<if test="type == 1">
+		<if test="classType == 1">
 			t.training = t.training + cast(#{classHours} as decimal(5,1)),
+		</if>
+		<if test="presentType == 0">
+			t.normal_present =  t.normal_present  + cast(#{presentHours} as decimal(5,1))
+		</if>
+		<if test="presentType == 1">
 			t.training_present =  t.training_present  + cast(#{presentHours} as decimal(5,1))
 		</if>
 		where s.id = #{userId} and t.user_id = #{userId}
@@ -121,10 +125,10 @@
 
 	<update id="returnBack" >
 		update teach_class_hours t set
-		<if test="type == 0">
+		<if test="classType == 0">
 			t.normal = t.normal - cast(#{classHours} as decimal(5,1))
 		</if>
-		<if test="type == 1">
+		<if test="classType == 1">
 			t.training = t.training - cast(#{classHours} as decimal(5,1))
 		</if>
 		where t.user_id = #{userId}

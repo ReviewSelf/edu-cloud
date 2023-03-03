@@ -23,7 +23,8 @@
             t.handler,
             t.bz,
             t.status,
-            t.type,
+            t.class_type,
+            t.present_type,
             (select real_name from sys_user p where s.sale_id = p.id) as saleName
         from teach_pay t
         left join sys_user s on t.user_id = s.id
@@ -59,7 +60,8 @@
             t.class_hours,
             t.present_hours,
             t.payment,
-            t.type,
+            t.class_type,
+            t.present_type,
             t.handler,
             t.bz,
             t.status,

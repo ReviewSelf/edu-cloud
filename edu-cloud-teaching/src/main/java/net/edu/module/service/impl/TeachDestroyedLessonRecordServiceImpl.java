@@ -29,7 +29,7 @@ public class TeachDestroyedLessonRecordServiceImpl extends BaseServiceImpl<Teach
 
     @Override
     public PageResult<TeachDestroyedLessonRecordVO> page(TeachDestroyedLessonRecordQuery query) {
-        IPage<TeachDestroyedLessonRecordVO> page = baseMapper.page(getPage(query), query);
+        IPage<TeachDestroyedLessonRecordVO> page = baseMapper.selectDestroyedLessonRecordPage(getPage(query), query);
 
         return new PageResult<>(page.getRecords(), page.getTotal());
     }

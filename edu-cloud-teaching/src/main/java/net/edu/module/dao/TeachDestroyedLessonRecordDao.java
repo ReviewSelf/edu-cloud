@@ -17,5 +17,5 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface TeachDestroyedLessonRecordDao extends BaseDao<TeachDestroyedLessonRecordEntity> {
 
-    IPage<TeachDestroyedLessonRecordVO> page(IPage<TeachDestroyedLessonRecordEntity> page,@Param("query") TeachDestroyedLessonRecordQuery query);
+    IPage<TeachDestroyedLessonRecordVO> selectDestroyedLessonRecordPage(IPage<TeachDestroyedLessonRecordEntity> page,@Param("query") TeachDestroyedLessonRecordQuery query);
 }

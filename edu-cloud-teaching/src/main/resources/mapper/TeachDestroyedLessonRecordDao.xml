@@ -3,29 +3,13 @@
 
 <mapper namespace="net.edu.module.dao.TeachDestroyedLessonRecordDao">
 
-    <resultMap type="net.edu.module.entity.TeachDestroyedLessonRecordEntity" id="teachDestroyedLessonRecordMap">
-        <result property="id" column="id"/>
-        <result property="stuId" column="stu_id"/>
-        <result property="classId" column="class_id"/>
-        <result property="lessonId" column="lesson_id"/>
-        <result property="status" column="status"/>
-        <result property="duration" column="duration"/>
-        <result property="actualDeduction" column="actual_deduction"/>
-        <result property="type" column="type"/>
-        <result property="version" column="version"/>
-        <result property="deleted" column="deleted"/>
-        <result property="creator" column="creator"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updater" column="updater"/>
-        <result property="updateTime" column="update_time"/>
-    </resultMap>
 
-    <select id="page"  resultType="net.edu.module.vo.TeachDestroyedLessonRecordVO">
-        select t.id,t.stu_id,t1.real_name as studentName,t.class_id,t2.name as className,t.lesson_id,t3.name as lessonName,
+    <select id="selectDestroyedLessonRecordPage"  resultType="net.edu.module.vo.TeachDestroyedLessonRecordVO">
+        select t.id,t.stu_id,t1.real_name as studentName,t1.username as studentNumber,t.class_id,t2.name as className,t.lesson_id,t3.name as lessonName,
                t.direction,(select status from lesson_attend_log where stu_id = t.stu_id and lesson_id = t.lesson_id) as studentLessonStatus,
                t.status,t.duration,t.actual_deduction,t.type,t.create_time
         from teach_destroyed_lesson_record as t left join sys_user as t1 on t.stu_id = t1.id left join teach_class t2 on t.class_id = t2.id left join lesson t3 on t.lesson_id = t3.id
-        where deleted = 0
+        where t.deleted = 0
               <if test="query.getStudentName() !=null and query.getStudentName() !=''">
                   and t1.real_name like concat('%',#{query.studentName},'%')
               </if>

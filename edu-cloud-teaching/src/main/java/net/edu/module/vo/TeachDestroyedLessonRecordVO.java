@@ -29,6 +29,9 @@ public class TeachDestroyedLessonRecordVO implements Serializable {
 	@Schema(description = "学生姓名")
 	private String studentName;
 
+	@Schema(description = "学生学号")
+	private String studentNumber;
+
 	@Schema(description = "班级id")
 	private Integer classId;
 

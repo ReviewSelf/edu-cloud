@@ -82,8 +82,7 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
             vo1.setClassId(vo.getJoinLessonList());
             eduLessonApi.insertLessonList(vo1);
         }
-        //扣除课时
-        studentService.joinClassSubmit(vo.getUserId(),vo.getJoinClassId(),vo.getJoinClassHours(),vo.getRemarks());
+
         //保存插班记录
         ClassUserRecordVO vo2 = new ClassUserRecordVO();
         vo2.setType(vo.getType());
@@ -120,8 +119,7 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
         }
         //退出班级表
         teachClassUserDao.updateQuitClass(vo.getQuiteClassId(),vo.getUserId(),vo.getQuitTime());
-        //退还课时
-        studentService.outClassSubmit(vo.getUserId(),vo.getQuiteClassId(),vo.getQuiteClassHours(),vo.getRemarks());
+
         //保存退班记录
         ClassUserRecordVO vo2 = new ClassUserRecordVO();
         vo2.setTeacherId(SecurityUser.getUserId());
@@ -155,8 +153,6 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
         }
         //退出班级表
         teachClassUserDao.updateQuitClass(vo.getQuiteClassId(),vo.getUserId(),vo.getQuitTime());
-        //退还课时
-        studentService.outClassSubmit(vo.getUserId(),vo.getQuiteClassId(),vo.getQuiteClassHours(),vo.getRemarks());
 
         //插入班级
         teachClassUserDao.insertClassUserOne(vo.getJoinClassId(),vo.getUserId(),vo.getJoinTime());
@@ -167,8 +163,6 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
             vo2.setClassId(vo.getJoinLessonList());
             eduLessonApi.insertLessonList(vo2);
         }
-        //扣除课时
-        studentService.joinClassSubmit(vo.getUserId(),vo.getJoinClassId(),vo.getJoinClassHours(),vo.getRemarks());
         //保存记录
         ClassUserRecordVO vo3 = new ClassUserRecordVO();
         vo3.setTeacherId(SecurityUser.getUserId());

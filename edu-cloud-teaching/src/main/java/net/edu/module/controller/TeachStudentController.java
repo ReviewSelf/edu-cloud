@@ -134,24 +134,6 @@ public class TeachStudentController {
     }
 
 
-    @GetMapping("/renewAmountSubmit")
-    @Operation(summary = "教务老师续费")
-    public Result<String> renewAmountSubmit(@RequestParam("userId") Long userId,@RequestParam("num") Integer num,@RequestParam("remarks") String remarks){
-        userService.renewAmountSubmit(userId,num,remarks);
-        return Result.ok();
-    }
 
-    @GetMapping("/outClassSubmit")
-    @Operation(summary = "退班增加课时")
-    public Result<String> outClassSubmit(@RequestParam("userId") Long userId,@RequestParam("classId") Long classId,@RequestParam("num") Integer num,@RequestParam("remarks") String remarks){
-        userService.outClassSubmit(userId,classId,num,remarks);
-        return Result.ok();
-    }
 
-    @GetMapping("/joinClassSubmit")
-    @Operation(summary = "插班减少课时")
-    public Result<String> joinClassSubmit(@RequestParam("userId") Long userId, @RequestParam("classId") Long classId, @RequestParam("num") Integer num, @RequestParam("remarks") String remarks){
-        userService.joinClassSubmit(userId,classId,num,remarks);
-        return Result.ok();
-    }
 }

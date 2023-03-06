@@ -11,6 +11,7 @@ import net.edu.module.dao.TeachDestroyedLessonRecordDao;
 import net.edu.module.entity.TeachDestroyedLessonRecordEntity;
 import net.edu.module.query.TeachDestroyedLessonRecordQuery;
 import net.edu.module.service.TeachDestroyedLessonRecordService;
+import net.edu.module.vo.TeachDestroyedLessonRecordListVO;
 import net.edu.module.vo.TeachDestroyedLessonRecordVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,6 +53,16 @@ public class TeachDestroyedLessonRecordServiceImpl extends BaseServiceImpl<Teach
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<Long> idList) {
         removeByIds(idList);
+    }
+
+    @Override
+    public void saveList(TeachDestroyedLessonRecordListVO vo) {
+        if(vo.getStuIdList()!=null && !vo.getStuIdList().isEmpty()){
+            for(int i = 0;i<vo.getStuIdList().size();i++){
+                vo.getVo().setStuId(vo.getStuIdList().get(i));
+                save(vo.getVo());
+            }
+        }
     }
 
 }

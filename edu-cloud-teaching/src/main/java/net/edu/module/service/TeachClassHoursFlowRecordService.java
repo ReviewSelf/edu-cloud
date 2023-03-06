@@ -23,4 +23,6 @@ public interface TeachClassHoursFlowRecordService extends BaseService<TeachClass
     void update(TeachClassHoursFlowRecordVO vo);
 
     void delete(List<Long> idList);
+
+    TeachClassHoursFlowRecordEntity getByLessonIdAndStudId(Long lessonId, Long stuId);
 }

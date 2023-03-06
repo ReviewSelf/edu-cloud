@@ -54,4 +54,9 @@ public class TeachClassHoursFlowRecordServiceImpl extends BaseServiceImpl<TeachC
         removeByIds(idList);
     }
 
+    @Override
+    public TeachClassHoursFlowRecordEntity getByLessonIdAndStudId(Long lessonId, Long stuId) {
+        return baseMapper.getByLessonIdAndStudId(lessonId,stuId);
+    }
+
 }

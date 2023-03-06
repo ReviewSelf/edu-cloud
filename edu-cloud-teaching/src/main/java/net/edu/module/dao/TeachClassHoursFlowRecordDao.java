@@ -18,4 +18,6 @@ import org.apache.ibatis.annotations.Param;
 public interface TeachClassHoursFlowRecordDao extends BaseDao<TeachClassHoursFlowRecordEntity> {
 
     IPage<TeachClassHoursFlowRecordVO> selectFlowRecordPage(IPage<TeachClassHoursFlowRecordEntity> page,@Param("query") TeachClassHoursFlowRecordQuery query);
+
+    TeachClassHoursFlowRecordEntity getByLessonIdAndStudId(Long lessonId, Long stuId);
 }

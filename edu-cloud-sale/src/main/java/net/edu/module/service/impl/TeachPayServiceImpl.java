@@ -7,12 +7,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
+import net.edu.module.api.EduTeachApi;
 import net.edu.module.convert.TeachPayConvert;
 import net.edu.module.dao.TeachPayDao;
 import net.edu.module.dao.UserDao;
 import net.edu.module.entity.TeachPayEntity;
 import net.edu.module.query.TeachPayQuery;
 import net.edu.module.service.TeachPayService;
+import net.edu.module.vo.TeachClassHoursFlowRecordVO;
 import net.edu.module.vo.TeachPayVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,9 @@ import java.util.List;
 public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEntity> implements TeachPayService {
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private EduTeachApi eduTeachApi;
     @Override
     public PageResult<TeachPayVO> page(TeachPayQuery query) {
         Page<TeachPayVO> page = new Page<>(query.getPage(), query.getLimit());
@@ -59,13 +64,24 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
         //修改用户表销售状态为2，余课次增加，累计课次增加，累计金额增加
         userDao.updateUserAfterPay(vo);
         //修改课次记录表
-//        ClassHoursFlowRecordEntity flowRecordEntity = new ClassHoursFlowRecordEntity();
-//        flowRecordEntity.setUserId(vo.getUserId());
-//        flowRecordEntity.setClassTimes(vo.getBalance());
-//        flowRecordEntity.setRemarks(vo.getBz());
-//        flowRecordEntity.setScene(2);
-//        flowRecordEntity.setStatus(1);
-//        classHoursFlowRecordDao.insert(flowRecordEntity);
+        TeachClassHoursFlowRecordVO recordVO = new TeachClassHoursFlowRecordVO();
+        recordVO.setUserId(vo.getUserId());
+        if(vo.getClassType() == 0){
+            recordVO.setNormal(vo.getClassHours());
+        }
+        else {
+            recordVO.setTraining(vo.getClassHours());
+        }
+        if(vo.getPresentType() == 0){
+            recordVO.setNormalPresent(vo.getPresentHours());
+        }
+        else {
+            recordVO.setTrainingPresent(vo.getPresentHours());
+        }
+        recordVO.setType(1);
+        recordVO.setDirection(vo.getBz());
+        eduTeachApi.insertClassHoursFlowRecord(recordVO);
+
     }
 
     @Override
@@ -95,14 +111,17 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
 
         baseMapper.insert(entity);
         userDao.returnBack(vo);
-//        //修改课次记录表
-//        ClassHoursFlowRecordEntity flowRecordEntity = new ClassHoursFlowRecordEntity();
-//        flowRecordEntity.setUserId(vo.getUserId());
-//        flowRecordEntity.setClassTimes(vo.getBalance());
-//        flowRecordEntity.setRemarks(vo.getBz());
-//        flowRecordEntity.setScene(3);
-//        flowRecordEntity.setStatus(0);
-//        classHoursFlowRecordDao.insert(flowRecordEntity);
+        TeachClassHoursFlowRecordVO recordVO = new TeachClassHoursFlowRecordVO();
+        recordVO.setUserId(vo.getUserId());
+        if(vo.getClassType() == 0){
+            recordVO.setNormal(vo.getClassHours());
+        }
+        else {
+            recordVO.setTraining(vo.getClassHours());
+        }
+        recordVO.setType(0);
+        recordVO.setDirection(vo.getBz());
+        eduTeachApi.insertClassHoursFlowRecord(recordVO);
     }
 
 }

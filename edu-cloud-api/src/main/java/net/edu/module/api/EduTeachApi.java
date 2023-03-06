@@ -5,7 +5,6 @@ package net.edu.module.api;
 import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.fallback.EduProblemFallBack;
 import net.edu.module.fallback.EduTeachApiFallBack;
 import net.edu.module.vo.*;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -76,4 +75,8 @@ public interface EduTeachApi {
                                             @RequestParam(value = "className")String className);
 
 
+    /****************************Sale调用******************************************/
+    @PostMapping("class/hours/flow/record")
+    @Operation(summary = "保存课时流水记录")
+    Result<String> insertClassHoursFlowRecord(TeachClassHoursFlowRecordVO vo);
 }

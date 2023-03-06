@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @FeignClient(value = "edu-cloud-sale", fallbackFactory = EduArchiveApiFallBack.class)
 public interface EduSaleApi {
     /****************************teach调用******************************************/
-    @PostMapping("flow/record")
-    Result<Integer> saveFlowRecord(ClassHoursFlowRecordVO vo);
+
 }
 

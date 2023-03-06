@@ -6,39 +6,52 @@ import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
-* 课时流水表
+* 课时流水管理
 *
 * @author sqw 
-* @since 1.0.0 2023-02-15
+* @since  2023-03-06
 */
 @Data
-@Schema(description = "课时流水表")
-public class ClassHoursFlowRecordVO implements Serializable {
+@Schema(description = "课时流水管理")
+public class TeachClassHoursFlowRecordVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Schema(description = "自增id")
 	private Long id;
 
-	@Schema(description = "班级id")
-	private Long classId;
-
 	@Schema(description = "用户id")
 	private Long userId;
 
-	@Schema(description = "课时数")
-	private Integer classTimes;
+	@Schema(description = "用户名称")
+	private String userName;
 
-	@Schema(description = "备注")
-	private String remarks;
+	@Schema(description = "课堂id")
+	private Long lessonId;
 
-	@Schema(description = "场景：0是退班、1是插班、3是教务续费、4是销售充值")
-	private Integer scene;
+	@Schema(description = "课堂名称")
+	private String lessonName;
 
-	@Schema(description = "状态：0是退费、1是充值、2是扣费")
-	private Integer status;
+	@Schema(description = "说明")
+	private String direction;
+
+	@Schema(description = "常规课时")
+	private BigDecimal normal;
+
+	@Schema(description = "常规赠送课时")
+	private BigDecimal normalPresent;
+
+	@Schema(description = "集训课时")
+	private BigDecimal training;
+
+	@Schema(description = "集训赠送课时")
+	private BigDecimal trainingPresent;
+
+	@Schema(description = "类型：0是退课时、1是加课时、2是扣课时")
+	private Integer type;
 
 	@Schema(description = "创建时间")
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)

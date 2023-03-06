@@ -43,7 +43,6 @@ public class TeachClassUserServiceImpl extends BaseServiceImpl<TeachClassUserDao
 
     private final TeachClassRecordDao teachClassRecordDao;
 
-    private final StudentService studentService;
 
     @Override
     public PageResult<TeachClassUserVO> page(TeachClassUserQuery query) {

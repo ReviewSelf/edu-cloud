@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.TeachClassHoursFlowRecordDao">
+
+    <select id="selectFlowRecordPage" resultType="net.edu.module.vo.TeachClassHoursFlowRecordVO">
+        select t.id,t.user_id,t1.real_name,t1.lesson_id,(select name from lesson where id = t.lesson_id) as lessonName,
+               t.direction,t.normal,t.normal_present,t.training,t.training_present,t.type,t.create_time,t.creator
+        from teach_class_hours_flow_record as t left join sys_user t1 on t.user_id = t1.id
+        where t.deleted = 0
+              <if test="query.getUserName()!=null and query.getUserName()!=''">
+                  and t1.real_name like concat('%',#{query.userName},'%')
+              </if>
+              <if test="query.getType()!=null">
+                  and t.type = #{query.type}
+              </if>
+        order by t.create_time desc
+    </select>
+
+</mapper>

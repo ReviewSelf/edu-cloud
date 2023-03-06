@@ -8,10 +8,8 @@ import lombok.AllArgsConstructor;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.TeachPayConvert;
-import net.edu.module.dao.ClassHoursFlowRecordDao;
 import net.edu.module.dao.TeachPayDao;
 import net.edu.module.dao.UserDao;
-import net.edu.module.entity.ClassHoursFlowRecordEntity;
 import net.edu.module.entity.TeachPayEntity;
 import net.edu.module.query.TeachPayQuery;
 import net.edu.module.service.TeachPayService;
@@ -34,8 +32,6 @@ import java.util.List;
 public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEntity> implements TeachPayService {
     @Autowired
     private UserDao userDao;
-    @Autowired
-    private ClassHoursFlowRecordDao classHoursFlowRecordDao;
     @Override
     public PageResult<TeachPayVO> page(TeachPayQuery query) {
         Page<TeachPayVO> page = new Page<>(query.getPage(), query.getLimit());

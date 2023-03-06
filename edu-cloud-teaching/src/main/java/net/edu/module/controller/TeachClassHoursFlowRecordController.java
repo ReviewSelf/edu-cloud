@@ -36,10 +36,10 @@ public class TeachClassHoursFlowRecordController {
         return Result.ok(page);
     }
 
-    @GetMapping("{id}")
+    @GetMapping
     @Operation(summary = "信息")
-    public Result<TeachClassHoursFlowRecordVO> get(@PathVariable("id") Long id){
-        TeachClassHoursFlowRecordEntity entity = teachClassHoursFlowRecordService.getById(id);
+    public Result<TeachClassHoursFlowRecordVO> get(@PathVariable("lessonId") Long lessonId,@PathVariable("stuId") Long stuId){
+        TeachClassHoursFlowRecordEntity entity = teachClassHoursFlowRecordService.getByLessonIdAndStudId(lessonId,stuId);
 
         return Result.ok(TeachClassHoursFlowRecordConvert.INSTANCE.convert(entity));
     }

@@ -17,4 +17,10 @@
         order by t.create_time desc
     </select>
 
+
+    <select id="getByLessonIdAndStudId" resultType="net.edu.module.entity.TeachClassHoursFlowRecordEntity">
+        select id,user_id,lesson_id,direction,normal,normal_present,training,training_present,type,create_time,creator
+        from teach_class_hours_flow_record
+        where deleted = 0 and lesson_id = #{lessonId} and user_id = #{userId}
+    </select>
 </mapper>

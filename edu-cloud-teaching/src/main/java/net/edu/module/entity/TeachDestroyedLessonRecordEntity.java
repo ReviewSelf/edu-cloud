@@ -19,17 +19,17 @@ public class TeachDestroyedLessonRecordEntity extends BaseEntity {
 	/**
 	* 学生id
 	*/
-	private Integer stuId;
+	private Long stuId;
 
 	/**
 	* 班级id
 	*/
-	private Integer classId;
+	private Long classId;
 
 	/**
 	* 课堂id
 	*/
-	private Integer lessonId;
+	private Long lessonId;
 
 	/**
 	* 状态1=已扣费0=未扣费

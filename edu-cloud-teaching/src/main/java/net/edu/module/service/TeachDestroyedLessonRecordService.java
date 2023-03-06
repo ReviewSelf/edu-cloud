@@ -4,6 +4,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.TeachDestroyedLessonRecordEntity;
 import net.edu.module.query.TeachDestroyedLessonRecordQuery;
+import net.edu.module.vo.TeachDestroyedLessonRecordListVO;
 import net.edu.module.vo.TeachDestroyedLessonRecordVO;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface TeachDestroyedLessonRecordService extends BaseService<TeachDest
     void update(TeachDestroyedLessonRecordVO vo);
 
     void delete(List<Long> idList);
+
+    void saveList(TeachDestroyedLessonRecordListVO vo);
 }

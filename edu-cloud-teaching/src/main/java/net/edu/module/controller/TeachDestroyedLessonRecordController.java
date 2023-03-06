@@ -9,6 +9,7 @@ import net.edu.module.convert.TeachDestroyedLessonRecordConvert;
 import net.edu.module.entity.TeachDestroyedLessonRecordEntity;
 import net.edu.module.query.TeachDestroyedLessonRecordQuery;
 import net.edu.module.service.TeachDestroyedLessonRecordService;
+import net.edu.module.vo.TeachDestroyedLessonRecordListVO;
 import net.edu.module.vo.TeachDestroyedLessonRecordVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,8 +47,8 @@ public class TeachDestroyedLessonRecordController {
 
     @PostMapping
     @Operation(summary = "保存")
-    public Result<String> save(@RequestBody TeachDestroyedLessonRecordVO vo){
-        teachDestroyedLessonRecordService.save(vo);
+    public Result<String> save(@RequestBody TeachDestroyedLessonRecordListVO vo){
+        teachDestroyedLessonRecordService.saveList(vo);
 
         return Result.ok();
     }

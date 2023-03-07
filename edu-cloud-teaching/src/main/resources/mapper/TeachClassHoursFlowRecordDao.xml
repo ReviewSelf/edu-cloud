@@ -4,7 +4,7 @@
 <mapper namespace="net.edu.module.dao.TeachClassHoursFlowRecordDao">
 
     <select id="selectFlowRecordPage" resultType="net.edu.module.vo.TeachClassHoursFlowRecordVO">
-        select t.id,t.user_id,t1.real_name,t1.lesson_id,(select name from lesson where id = t.lesson_id) as lessonName,
+        select t.id,t.user_id,t1.real_name as userName,t.lesson_id,(select name from lesson where id = t.lesson_id) as lessonName,
                t.direction,t.normal,t.normal_present,t.training,t.training_present,t.type,t.create_time,t.creator
         from teach_class_hours_flow_record as t left join sys_user t1 on t.user_id = t1.id
         where t.deleted = 0
@@ -21,6 +21,6 @@
     <select id="getByLessonIdAndStudId" resultType="net.edu.module.entity.TeachClassHoursFlowRecordEntity">
         select id,user_id,lesson_id,direction,normal,normal_present,training,training_present,type,create_time,creator
         from teach_class_hours_flow_record
-        where deleted = 0 and lesson_id = #{lessonId} and user_id = #{userId}
+        where deleted = 0 and lesson_id = #{lessonId} and user_id = #{stuId}
     </select>
 </mapper>

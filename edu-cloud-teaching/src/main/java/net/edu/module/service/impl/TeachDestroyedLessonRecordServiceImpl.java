@@ -21,6 +21,7 @@ import net.edu.module.vo.TeachClassHoursFlowRecordVO;
 import net.edu.module.vo.TeachClassHoursVO;
 import net.edu.module.vo.TeachDestroyedLessonRecordListVO;
 import net.edu.module.vo.TeachDestroyedLessonRecordVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,6 +67,8 @@ public class TeachDestroyedLessonRecordServiceImpl extends BaseServiceImpl<Teach
         //计算扣费情况
         Result<TeachClassHoursVO> res = eduSaleApi.getStudentPay(vo.getStuId()); //获取用户余额
         TeachClassHoursVO vo1 = res.getData();
+        TeachClassHoursVO vo3 = new TeachClassHoursVO();
+        BeanUtils.copyProperties(vo1,vo3);
         if(vo1 == null){
             throw new ServerException("该用户没有课时信息！");
         }
@@ -110,15 +113,17 @@ public class TeachDestroyedLessonRecordServiceImpl extends BaseServiceImpl<Teach
         //扣费
         userDao.updateUserClassHours(vo1, SecurityUser.getUserId());
         //记录扣费流水
+        System.out.println(vo1);
+        System.out.println(res.getData());
         TeachClassHoursFlowRecordVO vo2 = new TeachClassHoursFlowRecordVO();
         vo2.setUserId(vo.getStuId());
         vo2.setLessonId(vo.getLessonId());
         vo2.setDirection(vo.getDirection());
         vo2.setType(2);
-        vo2.setNormal(res.getData().getNormal().subtract(vo1.getNormal()));
-        vo2.setNormalPresent(res.getData().getNormalPresent().subtract(vo1.getNormalPresent()));
-        vo2.setTraining(res.getData().getTraining().subtract(vo1.getTraining()));
-        vo2.setTrainingPresent(res.getData().getTrainingPresent().subtract(vo1.getTrainingPresent()));
+        vo2.setNormal(vo3.getNormal().subtract(vo1.getNormal()));
+        vo2.setNormalPresent(vo3.getNormalPresent().subtract(vo1.getNormalPresent()));
+        vo2.setTraining(vo3.getTraining().subtract(vo1.getTraining()));
+        vo2.setTrainingPresent(vo3.getTrainingPresent().subtract(vo1.getTrainingPresent()));
         teachClassHoursFlowRecordService.save(vo2);
     }
 

@@ -4,6 +4,7 @@
 <mapper namespace="net.edu.module.dao.TeachClassHoursDao">
     <select id="getStudentPay" resultType="net.edu.module.vo.TeachClassHoursVO">
         select
+            t.id ,
             s.id as userId,
             s.real_name,
             s.stu_number,

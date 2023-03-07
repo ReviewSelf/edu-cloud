@@ -64,9 +64,9 @@ public class LessonController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<LessonVO> get(@PathVariable("id") Long id){
-        LessonEntity entity = lessonService.getById(id);
+        LessonVO vo = lessonService.getLessonById(id);
 
-        return Result.ok(LessonConvert.INSTANCE.convert(entity));
+        return Result.ok(vo);
     }
 
     @PostMapping("/create")

@@ -43,7 +43,7 @@ public class TeachDestroyedLessonRecordVO implements Serializable {
 	private Long lessonId;
 
 	@Schema(description = "课堂名称")
-	private Integer lessonName;
+	private String lessonName;
 
 	@Schema(description = "学生课堂签到情况")
 	private Integer studentLessonStatus;

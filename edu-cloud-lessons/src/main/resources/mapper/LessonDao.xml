@@ -218,4 +218,13 @@
         update lesson set begin_time=#{beginTime},end_time=#{endTime} where id = #{id}
     </update>
 
+    <select id="selectLessonById" resultType="net.edu.module.vo.LessonVO">
+        select t.id,t.plan_item_id,(select name from teach_plan where id = t.plan_item_id) as planItemName,
+               t.teacher_id,(select real_name from sys_user where id = t.teacher_id) as teacherName,t.class_id,
+               (select name from teach_class where id = t.class_id) as className,t.name,t.place,t.begin_time,t.end_time,
+               t.homework_begin_time,t.homework_end_time,t.homework_status,t.create_time,t.update_time,t.status,t.creator,
+               t.updater,t.deleted,t.sort,t.description,t.version
+        from lesson as t where t.deleted = 0 and id = #{id}
+    </select>
+
 </mapper>

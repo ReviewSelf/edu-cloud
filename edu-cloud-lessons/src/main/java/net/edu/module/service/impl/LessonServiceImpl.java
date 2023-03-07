@@ -150,6 +150,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     }
 
     @Override
+    public LessonVO getLessonById(Long id) {
+        return baseMapper.selectLessonById(id);
+    }
+
+    @Override
     public List<LessonVO> getClassNotStartLesson(Long classId) {
         return baseMapper.getListById(classId);
     }

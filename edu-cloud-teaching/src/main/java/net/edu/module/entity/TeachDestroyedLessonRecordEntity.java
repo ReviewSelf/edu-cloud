@@ -6,6 +6,8 @@ import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
 import org.apache.poi.hpsf.Decimal;
 
+import java.math.BigDecimal;
+
 /**
  * 消课管理
  *
@@ -39,12 +41,12 @@ public class TeachDestroyedLessonRecordEntity extends BaseEntity {
 	/**
 	* 时长
 	*/
-	private Decimal duration;
+	private BigDecimal duration;
 
 	/**
 	* 实际扣时
 	*/
-	private Decimal actualDeduction;
+	private BigDecimal actualDeduction;
 
 	/**
 	 * 说明

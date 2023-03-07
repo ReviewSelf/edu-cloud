@@ -7,6 +7,7 @@ import net.edu.framework.common.utils.DateUtils;
 import org.apache.poi.hpsf.Decimal;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -51,10 +52,10 @@ public class TeachDestroyedLessonRecordVO implements Serializable {
 	private Integer status;
 
 	@Schema(description = "时长")
-	private Decimal duration;
+	private BigDecimal duration;
 
 	@Schema(description = "实际扣时")
-	private Decimal actualDeduction;
+	private BigDecimal actualDeduction;
 
 	@Schema(description = "说明")
 	private String direction;

@@ -60,4 +60,6 @@ public interface UserDao extends BaseDao<UserEntity> {
     void updateUserAfterPay(Long userId, BigDecimal payment, Integer balance);
 
 	void increaseAmountSubmit(Long userId, Integer num);
+
+	void updateUserClassHours(TeachClassHoursVO vo,Long userId);
 }

@@ -242,4 +242,11 @@
 		                     total_money = total_money + cast(#{payment} as decimal(8,2))
 		                where id = #{userId}
 	</update>
+
+	<update id="updateUserClassHours" >
+		update teach_class_hours set normal = #{vo.normal} ,normal_present = #{vo.normalPresent},
+									 training = #{vo.training},training_present = #{vo.trainingPresent},
+		                             update_time = now(),updater = #{userId}
+								where id = #{vo.id}
+	</update>
 </mapper>

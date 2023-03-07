@@ -127,7 +127,7 @@
 
 	<update id="returnBack" >
 		update teach_class_hours t set
-		t.total_money = t.total_money - cast(#{payment} as decimal(8,2)),
+		t.total_money = t.total_money + cast(#{payment} as decimal(8,2)),
 		<if test="classType == 0">
 			t.normal = t.normal - cast(#{classHours} as decimal(5,1))
 		</if>

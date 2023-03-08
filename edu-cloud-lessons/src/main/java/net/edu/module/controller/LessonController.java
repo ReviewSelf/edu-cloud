@@ -153,6 +153,10 @@ public class LessonController {
         return Result.ok();
     }
 
-
+    @GetMapping("historyHomework/page")
+    @Operation(summary = "课程列表")
+    public Result<PageResult<LessonVO>> historyHomeworkPage(@Valid LessonQuery query) {
+        return Result.ok(lessonService.historyHomeworkPage(query));
+    }
 
 }

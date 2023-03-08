@@ -101,9 +101,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         userRoleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
 
         //建立用户课时记录
-        TeachClassHoursEntity entity1 = new TeachClassHoursEntity();
-        entity1.setUserId(entity.getId());
-        eduSaleApi.insertTeachClassHours(entity1);
+        eduSaleApi.insertTeachClassHours(entity.getId());
 
         return entity.getId();
 

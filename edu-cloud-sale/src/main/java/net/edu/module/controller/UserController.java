@@ -87,9 +87,9 @@ public class UserController {
         return Result.ok(userService.selectSaleName());
     }
 
-    @PostMapping("teach/class")
+    @GetMapping("teach/class")
     @Operation(summary = "新建用户课时记录")
-    public void insertTeachClassHours(TeachClassHoursEntity entity){
-        userService.insertTeachClassHours(entity);
+    public void insertTeachClassHours(@RequestParam("userId") Long userId){
+        userService.insertTeachClassHours(userId);
     }
 }

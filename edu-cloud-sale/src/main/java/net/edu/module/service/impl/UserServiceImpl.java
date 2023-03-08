@@ -159,7 +159,12 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
 
 
     @Override
-    public void insertTeachClassHours(TeachClassHoursEntity entity){ teachClassHoursDao.insert(entity);}
+    public void insertTeachClassHours(Long userId){
+        TeachClassHoursEntity entity = new TeachClassHoursEntity();
+        entity.setUserId(userId);
+        System.out.println(entity);
+        teachClassHoursDao.insert(entity);
+    }
 
 
 }

@@ -37,5 +37,5 @@ public interface UserService extends IService<UserEntity> {
 
     List<UserVO> selectSaleName();
 
-    void insertTeachClassHours(TeachClassHoursEntity entity);
+    void insertTeachClassHours(Long userId);
 }

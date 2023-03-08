@@ -62,4 +62,5 @@ public interface LessonService extends BaseService<LessonEntity> {
     void createAuditionLessons(LessonVO vo);
 
     LessonVO getLessonById(Long id);
+
 }

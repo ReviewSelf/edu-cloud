@@ -23,7 +23,7 @@ import java.util.List;
  */
 public interface StudentService extends BaseService<UserEntity> {
 
-    PageResult<UserVO> SelectStudentList(UserQuery query);
+    PageResult<UserVO> selectStudentList(UserQuery query);
 
     Long save(UserVO vo);
 

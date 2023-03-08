@@ -158,4 +158,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     }
 
 
+    @Override
+    public void insertTeachClassHours(TeachClassHoursEntity entity){ teachClassHoursDao.insert(entity);}
+
+
 }

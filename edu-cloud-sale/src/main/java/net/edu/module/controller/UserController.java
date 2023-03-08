@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.UserConvert;
+import net.edu.module.entity.TeachClassHoursEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;
@@ -84,5 +85,11 @@ public class UserController {
     @Operation(summary = "销售名单")
     public Result<List<UserVO>> selectSaleName(){
         return Result.ok(userService.selectSaleName());
+    }
+
+    @PostMapping("teach/class")
+    @Operation(summary = "新建用户课时记录")
+    public void insertTeachClassHours(TeachClassHoursEntity entity){
+        userService.insertTeachClassHours(entity);
     }
 }

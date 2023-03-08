@@ -2,6 +2,7 @@ package net.edu.module.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import net.edu.framework.common.page.PageResult;
+import net.edu.module.entity.TeachClassHoursEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.vo.TeachClassHoursVO;
@@ -35,4 +36,6 @@ public interface UserService extends IService<UserEntity> {
     TeachClassHoursVO getStudentPay(Long id);
 
     List<UserVO> selectSaleName();
+
+    void insertTeachClassHours(TeachClassHoursEntity entity);
 }

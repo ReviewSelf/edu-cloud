@@ -44,19 +44,21 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
     private final RedisUtils redisUtils;
+    private final EduSaleApi eduSaleApi;
     @Autowired
     private UserDao userDao;
 
     @Override
-    public PageResult<UserVO> SelectStudentList(UserQuery query) {
-        try {
-            query.setRealName(java.net.URLDecoder.decode
-                    (query.getRealName(),"utf-8"));
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public PageResult<UserVO> selectStudentList(UserQuery query) {
+//        try {
+//            query.setRealName(java.net.URLDecoder.decode
+//                    (query.getRealName(),"utf-8"));
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
         Page<UserVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<UserVO> list = userDao.selectStudentList(page,query);
+
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
@@ -97,6 +99,11 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
 
         // 保存用户角色关系
         userRoleService.saveOrUpdate(entity.getId(), vo.getRoleIdList());
+
+        //建立用户课时记录
+        TeachClassHoursEntity entity1 = new TeachClassHoursEntity();
+        entity1.setUserId(entity.getId());
+        eduSaleApi.insertTeachClassHours(entity1);
 
         return entity.getId();
 

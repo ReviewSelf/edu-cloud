@@ -157,5 +157,17 @@ public class UserVO implements Serializable {
     @ExcelIgnore
     private Integer payingClassNum;
 
+    @ExcelIgnore
+    private BigDecimal normal;
+
+    @ExcelIgnore
+    private BigDecimal normalPresent;
+
+    @ExcelIgnore
+    private BigDecimal trainingPresent;
+
+    @ExcelIgnore
+    private BigDecimal training;
+
 
 }

@@ -30,21 +30,19 @@ public class UserQuery extends Query {
 
     @Schema(description = "角色")
     private Long roleId;
-
-    @Schema(description = "机构名称")
-    private Long orgName;
+//
+//    @Schema(description = "机构名称")
+//    private Long orgName;
 
     @Schema(description = "姓名")
     private String realName;
 
-    @Schema(description = "机构ID")
-    private Long orgId;
-
-    @Schema(description = "机构ID")
-    private List<Integer> orgArr;
-
-    @Schema(description = "剩余金额")
-    private Integer balance;
+//    @Schema(description = "机构ID")
+//    private Long orgId;
+//
+//    @Schema(description = "机构ID")
+//    private List<Integer> orgArr;
+//
 
 
 }

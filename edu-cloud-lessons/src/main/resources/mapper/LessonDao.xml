@@ -227,4 +227,34 @@
         from lesson as t where t.deleted = 0 and id = #{id}
     </select>
 
+    <select id="selectTeacherHistoryHomeworkPage" resultType="net.edu.module.vo.LessonVO">
+        select t.id,
+        t.teacher_id ,
+        name,
+        status,
+        (select real_name from sys_user where id=t.teacher_id) as teacherName,
+        t.class_id ,
+        (select name from teach_class where id=t.class_id) as className,
+        t.place,
+        t.begin_time as beginTime,
+        t.end_time as endTime,
+        t.homework_begin_time,
+        t.homework_end_time,
+        t.homework_status
+        from
+        lesson t
+        where t.homework_status > 0
+        and (exists (select 1 from teach_class a where a.deleted =0
+        and a.id=t.class_id))
+        and t.deleted=0
+        <if test="query.getName()!=null and query.getName()!=''">
+            and name like concat('%',#{query.name},'%')
+        </if>
+        <if test="query.getClassId()!=null">
+            and t.class_id=#{query.classId}
+        </if>
+        order by t.homework_end_time &lt;= now() ,if(t.homework_end_time &lt;=
+        now(),0,t.homework_end_time) ,t.homework_end_time desc
+    </select>
+
 </mapper>

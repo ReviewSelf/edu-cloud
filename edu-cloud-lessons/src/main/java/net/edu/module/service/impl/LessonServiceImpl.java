@@ -150,6 +150,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     }
 
     @Override
+    public PageResult<LessonVO> historyHomeworkPage(LessonQuery query) {
+        return null;
+    }
+
+    @Override
     public LessonVO getLessonById(Long id) {
         return baseMapper.selectLessonById(id);
     }

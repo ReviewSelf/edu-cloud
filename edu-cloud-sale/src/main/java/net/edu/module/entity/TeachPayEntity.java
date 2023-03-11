@@ -26,9 +26,19 @@ public class TeachPayEntity {
 	private Integer id;
 
 	/**
-	* 缴费金额
+	* 应付金额
 	*/
 	private BigDecimal payment;
+
+	/**
+	 * 实付金额
+	 */
+	private BigDecimal payable;
+
+	/**
+	 * 优惠金额
+	 */
+	private BigDecimal discount;
 
 	/**
 	 * 购买课次

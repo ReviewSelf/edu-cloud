@@ -42,9 +42,9 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
         Page<TeachPayVO> page = new Page<>(query.getPage(), query.getLimit());
         IPage<TeachPayVO> list = baseMapper.page(page, query);
         for (TeachPayVO record : list.getRecords()) {
-            if (record.getPayment().compareTo(new BigDecimal(0)) > 0) record.setIsPay(1);
+            if (record.getPayable().compareTo(new BigDecimal(0)) > 0) record.setIsPay(1);
             else  record.setIsPay(0);
-            record.setPayment(record.getPayment().abs());
+            record.setPayable(record.getPayable().abs());
         }
         return new PageResult<>(list.getRecords(), list.getTotal());
     }

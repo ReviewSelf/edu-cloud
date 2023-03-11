@@ -24,8 +24,14 @@ public class TeachPayVO implements Serializable {
 	@Schema(description = "缴费记录id")
 	private Integer id;
 
-	@Schema(description = "缴费金额")
+	@Schema(description = "应付金额")
 	private BigDecimal payment;
+
+	@Schema(description = "实付金额")
+	private BigDecimal payable;
+
+	@Schema(description = "优惠金额")
+	private BigDecimal discount;
 
 	@Schema(description = "购买课次")
 	private BigDecimal classHours;

@@ -29,7 +29,6 @@ public class TeachPayController {
 
     @GetMapping("page")
     @Operation(summary = "分页")
-
     public Result<PageResult<TeachPayVO>> page(@Valid TeachPayQuery query){
         PageResult<TeachPayVO> page = teachPayService.page(query);
 
@@ -55,7 +54,6 @@ public class TeachPayController {
 
     @PutMapping
     @Operation(summary = "修改")
-
     public Result<String> update(@RequestBody @Valid TeachPayVO vo){
         teachPayService.update(vo);
 
@@ -64,7 +62,6 @@ public class TeachPayController {
 
     @DeleteMapping
     @Operation(summary = "删除")
-
     public Result<String> delete(@RequestBody List<Long> idList){
         teachPayService.delete(idList);
 

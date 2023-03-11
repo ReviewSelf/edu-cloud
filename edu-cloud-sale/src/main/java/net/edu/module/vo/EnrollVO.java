@@ -22,6 +22,9 @@ public class EnrollVO implements Serializable {
 	@Schema(description = "用户id")
 	private Integer id;
 
+	@Schema(description = "系统表id")
+	private Long sysId;
+
 	@Schema(description = "微信昵称")
 	private String wxName;
 

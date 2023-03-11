@@ -19,5 +19,5 @@ public interface EnrollDao extends BaseDao<EnrollEntity> {
 
     IPage<EnrollVO> selectEnrollByPage(Page<EnrollVO> page, EnrollQuery query);
 
-    void updateStatus(Long id);
+    void updateStatus(Long oldId,Long newId);
 }

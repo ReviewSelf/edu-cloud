@@ -15,7 +15,7 @@
             t.total_money
         from teach_class_hours t
                  right join sys_user s on t.user_id = s.id
-        where s.id = #{id}
+        where s.id = #{id} and s.deleted = 0
     </select>
 
 

@@ -9,6 +9,9 @@ import net.edu.module.query.TeachPayQuery;
 import net.edu.module.vo.TeachPayVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
 * 流水账管理
 *
@@ -22,5 +25,7 @@ public interface TeachPayDao extends BaseDao<TeachPayEntity> {
 
     TeachPayVO getPaymentDetail(Long id);
 
+    List<HashMap<String, String>> statisticsAmount();
 
+    List<HashMap<String, String>> statisticsPeople();
 }

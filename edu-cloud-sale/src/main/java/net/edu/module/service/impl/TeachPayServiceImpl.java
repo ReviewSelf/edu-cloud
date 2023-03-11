@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -122,6 +123,16 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
         recordVO.setType(0);
         recordVO.setDirection(vo.getBz());
         eduTeachApi.insertClassHoursFlowRecord(recordVO);
+    }
+
+    @Override
+    public List<HashMap<String, String>> statisticsAmount() {
+        return baseMapper.statisticsAmount();
+    }
+
+    @Override
+    public List<HashMap<String, String>> statisticsPeople() {
+        return baseMapper.statisticsPeople();
     }
 
 }

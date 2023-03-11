@@ -66,10 +66,10 @@ public class UserController {
         return Result.ok(vo);
     }
 
-    @GetMapping("status")
+    @GetMapping("status/{id}")
     @Operation(summary = "漏斗统计")
-    public Result<List<Integer>> getFunnelData(){
-        List<Integer> integers = userService.selectUserStatus();
+    public Result<List<Integer>> getFunnelData(@PathVariable("id") Long id){
+        List<Integer> integers = userService.selectUserStatus(id);
         return Result.ok(integers);
     }
 

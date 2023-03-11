@@ -49,5 +49,11 @@ public class EnrollController {
         return Result.ok();
     }
 
+    @PutMapping("/{id}")
+    @Operation(summary = "放弃学员")
+    public Result<String> abandon(@PathVariable("id") Long id){
+        enrollService.abandon(id);
 
+        return Result.ok();
+    }
 }

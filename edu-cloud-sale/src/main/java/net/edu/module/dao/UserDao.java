@@ -36,7 +36,7 @@ public interface UserDao extends BaseDao<UserEntity> {
 
     void insertCadet(UserVO vo);
 
-    List<Integer> selectUserStatus();
+    List<Integer> selectUserStatus(Long id);
 
     String selectStuNumber();
 

@@ -71,6 +71,21 @@
         where t.id = #{id}
     </select>
 
+    <select id="statisticsAmount" resultType="hashmap">
+        select
+            SUM(payment) as amount ,handler
+        from teach_pay
+        WHERE DATE_FORMAT(time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+        group by handler
+    </select>
 
+    <select id="statisticsPeople" resultType="hashmap">
+        select count(user_id) as num,handler from
+            (select user_id,handler from teach_pay
+             WHERE DATE_FORMAT(time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') and payment>0
+             group by user_id,handler) as t
+        group by handler
+        ORDER BY `handler`
+    </select>
 
 </mapper>

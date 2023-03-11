@@ -7,6 +7,7 @@ import net.edu.module.entity.TeachPayEntity;
 import net.edu.module.query.TeachPayQuery;
 import net.edu.module.vo.TeachPayVO;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,4 +29,8 @@ public interface TeachPayService extends BaseService<TeachPayEntity> {
     TeachPayVO getPaymentDetail(Long id);
 
     void returnBack(TeachPayVO vo);
+
+    List<HashMap<String, String>> statisticsAmount();
+
+    List<HashMap<String, String>> statisticsPeople();
 }

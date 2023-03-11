@@ -1,12 +1,9 @@
 package net.edu.module.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
-
-import java.util.Date;
 
 /**
  * XinXiHeShi
@@ -15,11 +12,11 @@ import java.util.Date;
  * @since 1.0.0 2022-09-05
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @TableName("enroll_user")
 public class EnrollEntity extends BaseEntity {
 
-
+    private Long sysId;
     /**
      * 微信昵称
      */

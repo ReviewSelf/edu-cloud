@@ -1,5 +1,6 @@
 package net.edu.module.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -112,7 +113,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     @Transactional
     public void insertCadet(UserVO vo) {
         check(vo);
-        enrollDao.updateStatus(vo.getId());
+        Long oldId = vo.getId();
+
         setStuNumber(vo);
         vo.setUsername(vo.getStuNumber());
         vo.setId(null);
@@ -122,6 +124,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         teachClassHoursEntity.setUserId(vo.getId());
         teachClassHoursDao.insert(teachClassHoursEntity);
         userRoleDao.insertStudentRole(vo.getId());
+        enrollDao.updateStatus(oldId,vo.getId());
     }
 
     private void setStuNumber(UserVO vo) {
@@ -138,8 +141,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     }
 
     @Override
-    public List<Integer> selectUserStatus() {
-        return userDao.selectUserStatus();
+    public List<Integer> selectUserStatus(Long id) {
+        return userDao.selectUserStatus(id);
     }
 
     @Override
@@ -165,6 +168,8 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         System.out.println(entity);
         teachClassHoursDao.insert(entity);
     }
+
+
 
 
 }

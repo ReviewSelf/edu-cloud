@@ -28,7 +28,7 @@ public interface UserService extends IService<UserEntity> {
 
     void insertCadet(UserVO vo);
 
-    List<Integer> selectUserStatus();
+    List<Integer> selectUserStatus(Long id);
 
     String selectStuNumber();
 

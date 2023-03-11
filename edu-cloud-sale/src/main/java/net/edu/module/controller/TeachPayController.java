@@ -11,6 +11,7 @@ import net.edu.module.vo.TeachPayVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -76,5 +77,23 @@ public class TeachPayController {
         teachPayService.returnBack(vo);
 
         return Result.ok();
+    }
+
+    @GetMapping("month/amount")
+    @Operation(summary = "每月统计")
+    public Result<List<HashMap<String,String>>> monthAmount(){
+
+        List<HashMap<String, String>> statistics = teachPayService.statisticsAmount();
+
+        return Result.ok(statistics);
+    }
+
+    @GetMapping("month/people")
+    @Operation(summary = "每月统计")
+    public Result<List<HashMap<String,String>>> monthPeople(){
+
+        List<HashMap<String, String>> statistics = teachPayService.statisticsPeople();
+
+        return Result.ok(statistics);
     }
 }

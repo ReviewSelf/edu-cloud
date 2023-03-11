@@ -25,5 +25,5 @@ public interface EnrollService extends IService<EnrollEntity> {
     void update(EnrollVO vo);
 
 
-
+    void abandon(Long id);
 }

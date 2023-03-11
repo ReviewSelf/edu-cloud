@@ -34,5 +34,6 @@ public class UserQuery extends Query {
     @Schema(description = "结束时间")
     private String endTime;
 
-
+    @Schema(description = "销售人员")
+    private Long saleId;
 }

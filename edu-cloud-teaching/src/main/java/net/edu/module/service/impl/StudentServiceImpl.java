@@ -27,10 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static net.edu.framework.common.utils.RedisUtils.MIN_EXPIRE;
 
 /**
  * 用户管理
@@ -184,7 +183,11 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         List<Long> list1=new ArrayList<>();
         list1.add(2L);
         List<UserVO> list= EasyExcel.read(file.getInputStream()).head(UserVO.class).sheet().headRowNumber(3).doReadSync();
+        setRedisNumber();//循环前将当前最大学号加入redis
         for (UserVO vo:list){
+            String stuNumber = getStuNumber();
+            vo.setStuNumber(stuNumber);
+            vo.setUsername(stuNumber);
             vo.setRoleIdList(list1);
             vo.setStatus(1);
             vo.setPassword("123456");
@@ -219,5 +222,25 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         return new PageResult<>(list.getRecords() , page.getTotal());
     }
 
+    private String getStuNumber(){
+        String stuNumber = (String) redisUtils.get("number");
+        System.out.println("get方法"+stuNumber);
+        if(stuNumber!=null){
+            stuNumber = String.valueOf((Long.parseLong(stuNumber)+1));
+        }
+        else {
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);
+            System.out.println(year);
+            stuNumber = (year+"001");
+        }
+        return stuNumber;
+    }
 
+    private void setRedisNumber(){
+        if(redisUtils.get("number") == null){
+            String stuNumber = userDao.selectStuNumber();
+            redisUtils.set("number",stuNumber,MIN_EXPIRE);
+        }
+    }
 }

@@ -62,4 +62,6 @@ public interface UserDao extends BaseDao<UserEntity> {
 	void increaseAmountSubmit(Long userId, Integer num);
 
 	void updateUserClassHours(TeachClassHoursVO vo,Long userId);
+
+    String selectStuNumber();
 }

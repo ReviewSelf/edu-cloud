@@ -252,4 +252,11 @@
 		                             update_time = now(),updater = #{userId}
 								where id = #{vo.id}
 	</update>
+
+	<select id="selectStuNumber" resultType="java.lang.String">
+		select stu_number
+		from sys_user
+		where deleted = 0
+		order by stu_number desc limit 1
+	</select>
 </mapper>

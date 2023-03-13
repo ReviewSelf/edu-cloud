@@ -61,5 +61,7 @@
     </update>
 
 
-
+    <select id="selectEnroll" resultType="long">
+        select id from enroll_user where sys_id = #{id}
+    </select>
 </mapper>

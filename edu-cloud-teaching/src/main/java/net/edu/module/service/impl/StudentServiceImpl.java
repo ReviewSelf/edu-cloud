@@ -1,6 +1,7 @@
 package net.edu.module.service.impl;
 
 import com.alibaba.excel.EasyExcel;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,9 @@ import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.api.EduSaleApi;
 import net.edu.module.convert.UserConvert;
 import net.edu.module.dao.UserDao;
+import net.edu.module.dao.UserRoleDao;
 import net.edu.module.entity.UserEntity;
+import net.edu.module.entity.UserRoleEntity;
 import net.edu.module.query.RoleUserQuery;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserRoleService;
@@ -46,6 +49,8 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     private final EduSaleApi eduSaleApi;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private UserRoleDao userRoleDao;
 
     @Override
     public PageResult<UserVO> selectStudentList(UserQuery query) {
@@ -183,7 +188,10 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         List<Long> list1=new ArrayList<>();
         list1.add(2L);
         List<UserVO> list= EasyExcel.read(file.getInputStream()).head(UserVO.class).sheet().headRowNumber(3).doReadSync();
-        setRedisNumber();//循环前将当前最大学号加入redis
+        String number = userDao.selectStuNumber();
+        setRedisNumber(number);//循环前将当前最大学号加入redis
+
+        Long saleId = userRoleDao.selectSaleId();
         for (UserVO vo:list){
             String stuNumber = getStuNumber();
             vo.setStuNumber(stuNumber);
@@ -191,6 +199,7 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
             vo.setRoleIdList(list1);
             vo.setStatus(1);
             vo.setPassword("123456");
+            vo.setSaleId(saleId);
             vo.setPassword(passwordEncoder.encode(vo.getPassword()));
             save(vo);
         }
@@ -225,8 +234,10 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     private String getStuNumber(){
         String stuNumber = (String) redisUtils.get("number");
         System.out.println("get方法"+stuNumber);
-        if(stuNumber!=null){
-            stuNumber = String.valueOf((Long.parseLong(stuNumber)+1));
+        long l = Long.parseLong(stuNumber) + 1;
+        setRedisNumber(String.valueOf(l));
+        if(stuNumber!=null ||stuNumber!=""){
+            stuNumber = String.valueOf(l);
         }
         else {
             Calendar cal = Calendar.getInstance();
@@ -234,13 +245,11 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
             System.out.println(year);
             stuNumber = (year+"001");
         }
+
         return stuNumber;
     }
 
-    private void setRedisNumber(){
-        if(redisUtils.get("number") == null){
-            String stuNumber = userDao.selectStuNumber();
-            redisUtils.set("number",stuNumber,MIN_EXPIRE);
-        }
+    private void setRedisNumber(String stuNumber){
+        redisUtils.set("number",stuNumber,MIN_EXPIRE);
     }
 }

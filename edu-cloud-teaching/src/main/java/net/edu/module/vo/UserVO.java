@@ -170,5 +170,7 @@ public class UserVO implements Serializable {
     @ExcelIgnore
     private BigDecimal training;
 
+    private Long saleId;
+
 
 }

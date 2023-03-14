@@ -14,8 +14,10 @@ import net.edu.module.dao.UserDao;
 import net.edu.module.dao.UserRoleDao;
 import net.edu.module.entity.TeachClassHoursEntity;
 import net.edu.module.entity.UserEntity;
+import net.edu.module.entity.UserRoleEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;
+import net.edu.module.vo.EnrollUserVO;
 import net.edu.module.vo.TeachClassHoursVO;
 import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,39 +35,66 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements UserService {
-    @Autowired
-    private UserDao userDao;
+
     @Autowired
     private EnrollDao enrollDao;
     @Autowired
     private TeachClassHoursDao teachClassHoursDao;
-
     @Autowired
     private UserRoleDao userRoleDao;
-
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public PageResult<UserVO> page(UserQuery query) {
         Page<UserVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<UserVO> list = userDao.selectStudentByPage(page,query);
+        IPage<UserVO> list = baseMapper.selectStudentByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
+    /**
+     * 用户管理界面新增
+     * @param vo
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
     public synchronized void save(UserVO vo) {
+        //校验数据
         check(vo);
         // 保存用户
+        insertUser(vo);
+    }
+
+    /**
+     * 保存用户
+     * @param vo
+     */
+    private void insertUser(UserVO vo) {
         vo.setId(null);
         vo.setPassword(passwordEncoder.encode("123456"));
         setStuNumber(vo);
         vo.setUsername(vo.getStuNumber());
-        userDao.insertCadet(vo);
+        baseMapper.insertCadet(vo);
         TeachClassHoursEntity teachClassHoursEntity = new TeachClassHoursEntity();
         teachClassHoursEntity.setUserId(vo.getId());
         teachClassHoursDao.insert(teachClassHoursEntity);
-        userRoleDao.insertStudentRole(vo.getId());
+        UserRoleEntity userRoleEntity = new UserRoleEntity();
+        userRoleEntity.setRoleId(2L);
+        userRoleEntity.setUserId(vo.getId());
+        userRoleDao.insert(userRoleEntity);
+    }
+
+    /**
+     * 分配学员、成为学员
+     * @param vo
+     */
+    @Override
+    @Transactional
+    public void insertCadet(UserVO vo) {
+        check(vo);
+        //获取enroll表的Id
+        Long oldId = vo.getId();
+        insertUser(vo);
+        enrollDao.updateStatus(oldId,vo.getId());
     }
 
     @Override
@@ -82,7 +111,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         removeByIds(idList);
 
         // 删除用户角色关系
-//        userRoleService.deleteByUserIdList(idList);
+        userRoleDao.deleteBatchIds(idList);
 
     }
 
@@ -109,23 +138,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         }
     }
 
-    @Override
-    @Transactional
-    public void insertCadet(UserVO vo) {
-        check(vo);
-        Long oldId = vo.getId();
 
-        setStuNumber(vo);
-        vo.setUsername(vo.getStuNumber());
-        vo.setId(null);
-        vo.setPassword(passwordEncoder.encode("123456"));
-        userDao.insertCadet(vo);
-        TeachClassHoursEntity teachClassHoursEntity = new TeachClassHoursEntity();
-        teachClassHoursEntity.setUserId(vo.getId());
-        teachClassHoursDao.insert(teachClassHoursEntity);
-        userRoleDao.insertStudentRole(vo.getId());
-        enrollDao.updateStatus(oldId,vo.getId());
-    }
 
     private void setStuNumber(UserVO vo) {
         String stuNumber = selectStuNumber();
@@ -140,14 +153,19 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         }
     }
 
+    /**
+     * 获取漏斗
+     * @param id
+     * @return
+     */
     @Override
     public List<Integer> selectUserStatus(Long id) {
-        return userDao.selectUserStatus(id);
+        return baseMapper.selectUserStatus(id);
     }
 
     @Override
     public String selectStuNumber() {
-        return userDao.selectStuNumber();
+        return baseMapper.selectStuNumber();
     }
 
     @Override
@@ -155,9 +173,13 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         return teachClassHoursDao.getStudentPay(id);
     }
 
+    /**
+     * 获取所有销售姓名和id
+     * @return
+     */
     @Override
     public List<UserVO> selectSaleName() {
-        return userDao.selectSaleName();
+        return baseMapper.selectSaleName();
     }
 
 
@@ -165,7 +187,6 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     public void insertTeachClassHours(Long userId){
         TeachClassHoursEntity entity = new TeachClassHoursEntity();
         entity.setUserId(userId);
-        System.out.println(entity);
         teachClassHoursDao.insert(entity);
     }
 

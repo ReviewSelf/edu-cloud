@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.UserConvert;
-import net.edu.module.entity.TeachClassHoursEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;

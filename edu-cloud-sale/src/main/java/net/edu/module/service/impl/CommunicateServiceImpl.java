@@ -21,22 +21,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class CommunicateServiceImpl extends ServiceImpl<CommunicateDao,CommunicateEntity> implements CommunicateService {
 
-    @Autowired
-    private CommunicateDao communicateDao;
-    @Override
-    public void update(CommunicateVO vo) {
-
-    }
-
     @Override
     public PageResult<CommunicateVO> page(CommunicateQuery query) {
         Page<CommunicateVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<CommunicateVO> list = communicateDao.page(page,query);
+        IPage<CommunicateVO> list = baseMapper.page(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
     @Override
     public CommunicateVO getCommunicateInfo(Long id) {
-        return communicateDao.getCommunicateInfo(id);
+        return baseMapper.getCommunicateInfo(id);
     }
 }

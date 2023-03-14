@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public interface CommunicateService extends IService<CommunicateEntity> {
-    void update(CommunicateVO vo);
 
     PageResult<CommunicateVO> page(CommunicateQuery query);
 

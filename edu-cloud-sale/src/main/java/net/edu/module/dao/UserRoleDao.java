@@ -23,5 +23,5 @@ public interface UserRoleDao extends BaseDao<UserRoleEntity> {
      */
     List<Long> selectRoleIdList(@Param("userId") Long userId);
 
-    void insertStudentRole(Long id);
+
 }

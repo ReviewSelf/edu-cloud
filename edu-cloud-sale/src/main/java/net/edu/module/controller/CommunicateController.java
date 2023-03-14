@@ -32,17 +32,11 @@ public class CommunicateController {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "信息")
+    @Operation(summary = "详情")
     public Result<CommunicateVO> get(@PathVariable("id") Long id){
         return Result.ok(communicateService.getCommunicateInfo(id));
     }
 
-    @PutMapping
-    @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid CommunicateVO vo){
-        communicateService.update(vo);
-        return Result.ok();
-    }
 
     @PostMapping
     @Operation(summary = "新增沟通记录")

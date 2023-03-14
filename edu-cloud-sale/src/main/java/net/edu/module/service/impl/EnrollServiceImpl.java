@@ -29,17 +29,15 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class EnrollServiceImpl extends ServiceImpl<EnrollDao, EnrollEntity> implements EnrollService {
-    @Autowired
-    private EnrollDao enrollDao;
+
     @Autowired
     private UserService userService;
     @Override
     public PageResult<EnrollVO> page(EnrollQuery query) {
         Page<EnrollVO> page = new Page<>(query.getPage(), query.getLimit());
-        IPage<EnrollVO> list = enrollDao.selectEnrollByPage(page,query);
+        IPage<EnrollVO> list = baseMapper.selectEnrollByPage(page,query);
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
-
 
 
     @Override
@@ -58,7 +56,6 @@ public class EnrollServiceImpl extends ServiceImpl<EnrollDao, EnrollEntity> impl
         idList.add(id);
         //如果这个学员在enroll表中，直接修改状态为2，并删除系统表学员
         if(baseMapper.selectEnroll(id) != null){
-
             this.update(lambdaUpdateWrapper);
         }
         //如果不在enroll表中，需要在enroll中新增一条记录

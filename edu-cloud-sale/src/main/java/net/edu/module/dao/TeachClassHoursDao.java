@@ -3,7 +3,6 @@ package net.edu.module.dao;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.TeachClassHoursEntity;
 import net.edu.module.vo.TeachClassHoursVO;
-import net.edu.module.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -50,12 +50,6 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
-    private LambdaQueryWrapper<TeachPayEntity> getWrapper(TeachPayQuery query){
-        LambdaQueryWrapper<TeachPayEntity> wrapper = Wrappers.lambdaQuery();
-
-        return wrapper;
-    }
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(TeachPayVO vo) {

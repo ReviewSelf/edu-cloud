@@ -52,22 +52,6 @@ public class TeachPayController {
         return Result.ok();
     }
 
-    @PutMapping
-    @Operation(summary = "修改")
-    public Result<String> update(@RequestBody @Valid TeachPayVO vo){
-        teachPayService.update(vo);
-
-        return Result.ok();
-    }
-
-    @DeleteMapping
-    @Operation(summary = "删除")
-    public Result<String> delete(@RequestBody List<Long> idList){
-        teachPayService.delete(idList);
-
-        return Result.ok();
-    }
-
     @PutMapping("return")
     @Operation(summary = "退费")
     public Result<String> returnBack(@RequestBody @Valid TeachPayVO vo){

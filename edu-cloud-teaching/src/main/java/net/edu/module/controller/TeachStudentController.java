@@ -131,8 +131,12 @@ public class TeachStudentController {
         userService.updateSubmitCorrectTimes(userId,correct);
         return Result.ok();
     }
-
-
-
+    @GetMapping("/stuList/{id}")
+    @Operation(summary = "根据课程id获取学生名单")
+    public Result<List<TeachStudentVO>> getStuByLessonId(@PathVariable("id") Long id){
+        List<TeachStudentVO> list = userService.getStuByLessonId(id);
+        System.out.println(list);
+        return Result.ok(list);
+    }
 
 }

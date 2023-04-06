@@ -179,14 +179,11 @@
 	</select>
 
     <select id="selectStudents" resultType="net.edu.module.vo.TeachStudentVO">
-		select
-		t1.user_id as userId,
-		t2.username,
-		t2.real_name,
-		t2.mobile
+		select t2.username,t2.real_name,t2.mobile,normal,normal_present,training,training_present
 		from teach_class_user t1
-		left join sys_user t2 on t1.user_id = t2.id
-		where t1.class_id = #{vo.classId}
+				 left join sys_user t2 on t1.user_id = t2.id
+				 left join teach_class_hours t4 on  t4.user_id = t1.user_id
+		where t1.class_id = #{vo.classId} AND t1.deleted = 0 ANd t2.deleted = 0 AND t4.deleted = 0
 	</select>
 
 	<select id="getAffairTeacherList" resultType="net.edu.module.vo.AffairTeacherVO">
@@ -259,4 +256,12 @@
 		where deleted = 0
 		order by stu_number desc limit 1
 	</select>
+	<select id="selectStudentsByLessonId" resultType="net.edu.module.vo.TeachStudentVO">
+		SELECT t3.id as userId,t3.username,t3.real_name,t1.normal,t1.normal_present,t1.training,t1.training_present
+		FROM teach_class_hours as t1
+				 LEFT JOIN lesson_attend_log as t2 ON (t1.user_id = t2.stu_id)
+				 LEFT JOIN sys_user as t3 ON (t2.stu_id = t3.id)
+		WHERE t2.lesson_id = #{id} AND t1.deleted = 0 AND t3.deleted = 0
+	</select>
+
 </mapper>

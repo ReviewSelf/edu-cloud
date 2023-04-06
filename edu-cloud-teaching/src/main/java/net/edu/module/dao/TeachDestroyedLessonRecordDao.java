@@ -18,4 +18,6 @@ import org.apache.ibatis.annotations.Param;
 public interface TeachDestroyedLessonRecordDao extends BaseDao<TeachDestroyedLessonRecordEntity> {
 
     IPage<TeachDestroyedLessonRecordVO> selectDestroyedLessonRecordPage(IPage<TeachDestroyedLessonRecordEntity> page,@Param("query") TeachDestroyedLessonRecordQuery query);
+
+    void addRecord(@Param("vo") TeachDestroyedLessonRecordVO vo);
 }

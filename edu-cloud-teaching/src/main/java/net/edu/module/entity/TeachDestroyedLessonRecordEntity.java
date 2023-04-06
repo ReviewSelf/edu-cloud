@@ -57,5 +57,4 @@ public class TeachDestroyedLessonRecordEntity extends BaseEntity {
 	* 类型0=常规课1=集训课
 	*/
 	private Integer type;
-
 }

@@ -49,10 +49,15 @@ public class TeachDestroyedLessonRecordController {
     @Operation(summary = "保存")
     public Result<String> save(@RequestBody TeachDestroyedLessonRecordListVO vo){
         teachDestroyedLessonRecordService.saveList(vo);
-
         return Result.ok();
     }
-
+    @PostMapping("list")
+    @Operation(summary = "保存")
+    public Result<String> addRecord(@RequestBody List<TeachDestroyedLessonRecordVO> list){
+        System.out.println(list);
+        teachDestroyedLessonRecordService.addRecord(list);
+        return Result.ok();
+    }
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid TeachDestroyedLessonRecordVO vo){

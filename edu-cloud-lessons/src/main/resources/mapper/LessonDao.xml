@@ -256,5 +256,11 @@
         order by t.homework_end_time &lt;= now() ,if(t.homework_end_time &lt;=
         now(),0,t.homework_end_time) ,t.homework_end_time desc
     </select>
+    <select id="getLessonHour" resultType="java.lang.String">
+            SELECT
+                TIMESTAMPDIFF(MINUTE,begin_time,end_time)
+            FROM lesson
+            WHERE id = #{id}
+    </select>
 
 </mapper>

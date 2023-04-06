@@ -63,7 +63,7 @@ public interface LessonService extends BaseService<LessonEntity> {
 
     PageResult<LessonVO> historyHomeworkPage(LessonQuery query);
     LessonVO getLessonById(Long id);
-
+    String getLessonHour(Long id);
 
 
 }

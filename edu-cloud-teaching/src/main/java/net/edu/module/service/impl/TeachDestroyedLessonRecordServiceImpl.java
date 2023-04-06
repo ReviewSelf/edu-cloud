@@ -41,6 +41,7 @@ public class TeachDestroyedLessonRecordServiceImpl extends BaseServiceImpl<Teach
 
     private final UserDao userDao;
 
+    private final TeachDestroyedLessonRecordDao teachDestroyedLessonRecordDao;
     private final TeachClassHoursFlowRecordService teachClassHoursFlowRecordService;
 
     @Override
@@ -56,7 +57,14 @@ public class TeachDestroyedLessonRecordServiceImpl extends BaseServiceImpl<Teach
 
         baseMapper.insert(entity);
     }
-
+    @Override
+    public void addRecord(List<TeachDestroyedLessonRecordVO> list) {
+        System.out.println("asd");
+        for(TeachDestroyedLessonRecordVO item : list){
+            TeachDestroyedLessonRecordEntity entity = TeachDestroyedLessonRecordConvert.INSTANCE.convert(item);
+            baseMapper.insert(entity);
+        }
+    }
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(TeachDestroyedLessonRecordVO vo) {

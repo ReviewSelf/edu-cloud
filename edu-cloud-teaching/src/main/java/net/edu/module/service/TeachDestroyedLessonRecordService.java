@@ -26,4 +26,6 @@ public interface TeachDestroyedLessonRecordService extends BaseService<TeachDest
     void delete(List<Long> idList);
 
     void saveList(TeachDestroyedLessonRecordListVO vo);
+
+    void addRecord(List<TeachDestroyedLessonRecordVO> list);
 }

@@ -85,7 +85,12 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     @Transactional(rollbackFor = Exception.class)
     public Long save(UserVO vo) {
         UserEntity entity = UserConvert.INSTANCE.convert(vo);
-
+        if (entity.getMobile()==null){
+            throw new ServerException("请填写手机号");
+        }
+        if (entity.getOrgId()==null){
+            throw new ServerException("请填写机构id");
+        }
         // 判断用户名是否存在
         UserEntity user = baseMapper.getByUsername(entity.getUsername());
         if (user != null) {
@@ -108,7 +113,6 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
         eduSaleApi.insertTeachClassHours(entity.getId());
 
         return entity.getId();
-
     }
 
     @Override
@@ -139,7 +143,6 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     public void delete(List<Long> idList) {
         // 删除用户
         removeByIds(idList);
-
         // 删除用户角色关系
         userRoleService.deleteByUserIdList(idList);
 
@@ -185,12 +188,11 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     @SneakyThrows
     @Override
     public void studentFromExcel(MultipartFile file) {
-        List<Long> list1=new ArrayList<>();
+        List<Long> list1 = new ArrayList<>();
         list1.add(2L);
         List<UserVO> list= EasyExcel.read(file.getInputStream()).head(UserVO.class).sheet().headRowNumber(3).doReadSync();
         String number = userDao.selectStuNumber();
         setRedisNumber(number);//循环前将当前最大学号加入redis
-
         Long saleId = userRoleDao.selectSaleId();
         for (UserVO vo:list){
             String stuNumber = getStuNumber();
@@ -252,4 +254,11 @@ public class StudentServiceImpl extends BaseServiceImpl<UserDao, UserEntity> imp
     private void setRedisNumber(String stuNumber){
         redisUtils.set("number",stuNumber,MIN_EXPIRE);
     }
+
+    @Override
+    public List<TeachStudentVO> getStuByLessonId(Long id) {
+        return userDao.selectStudentsByLessonId(id);
+    }
+
+
 }

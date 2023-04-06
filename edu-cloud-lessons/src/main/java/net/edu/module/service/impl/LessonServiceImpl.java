@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -153,6 +154,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     @Override
     public LessonVO getLessonById(Long id) {
         return baseMapper.selectLessonById(id);
+    }
+
+    @Override
+    public String getLessonHour(Long id) {
+        return baseMapper.getLessonHour(id);
     }
 
     @Override

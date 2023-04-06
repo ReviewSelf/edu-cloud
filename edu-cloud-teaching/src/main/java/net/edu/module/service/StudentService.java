@@ -59,4 +59,6 @@ public interface StudentService extends BaseService<UserEntity> {
 
     PageResult<TeachStudentVO> getStudents(StudentsVO vo);
 
+    List<TeachStudentVO> getStuByLessonId(Long id);
+
 }

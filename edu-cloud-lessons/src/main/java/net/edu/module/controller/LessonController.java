@@ -159,4 +159,12 @@ public class LessonController {
         return Result.ok(lessonService.historyHomeworkPage(query));
     }
 
+    @GetMapping("getLessonHour/{id}")
+    @Operation(summary = "根据课程id获取课时")
+    public Result<String> getLessonHour(@PathVariable("id") Long id){
+        System.out.println("123123123123");
+        String res = lessonService.getLessonHour(id);
+        return Result.ok(res);
+    }
+
 }

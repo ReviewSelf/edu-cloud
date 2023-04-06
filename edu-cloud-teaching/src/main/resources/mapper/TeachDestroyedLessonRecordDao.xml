@@ -2,7 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="net.edu.module.dao.TeachDestroyedLessonRecordDao">
-
+    <insert id="addRecord">
+        INSERT INTO
+            teach_destroyed_lesson_record
+        (stu_id,class_id,lesson_id,status,duration,actual_deduction,direction,deleted,creator,create_time,updater,update_time,type)
+        VALUES(#{vo.stuId},#{vo.classId},#{vo.lessonId},#{vo.status},#{vo.duration},#{vo.actualDeduction},#{vo.direction},#{vo.deleted},#{vo.creator},#{vo.createTime},#{vo.updater},#{vo.updateTime},#{vo.type})
+    </insert>
 
     <select id="selectDestroyedLessonRecordPage"  resultType="net.edu.module.vo.TeachDestroyedLessonRecordVO">
         select t.id,t.stu_id,t1.real_name as studentName,t1.username as studentNumber,t.class_id,t2.name as className,t.lesson_id,t3.name as lessonName,
@@ -14,10 +19,9 @@
                   and t1.real_name like concat('%',#{query.studentName},'%')
               </if>
               <if test="query.getType() != null">
-                  and t.type = #{query.type}
+                  and t.status = #{query.type}
               </if>
         order by t.type,t.update_time desc,t.create_time desc
     </select>
-
 
 </mapper>

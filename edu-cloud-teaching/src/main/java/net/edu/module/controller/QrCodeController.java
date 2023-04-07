@@ -1,7 +1,9 @@
 package net.edu.module.controller;
 
+import com.google.zxing.WriterException;
 import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.utils.QrCodeUtil;
+import net.edu.framework.common.utils.Result;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -27,7 +29,7 @@ public class QrCodeController {
     private String url;
 
     /**
-     * 方法二：响应文件流
+     * 响应文件流
      *
      * @param response response原生响应文件流
      */
@@ -45,4 +47,18 @@ public class QrCodeController {
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         response.getOutputStream().write(Objects.requireNonNull(qrCode));
     }
+
+    /**
+     * 下载到本地
+     *
+     */
+    @GetMapping("downloadQR")
+    public Result<String> downloadQR(@RequestParam("id")Long id,@RequestParam("name")String name) throws IOException, WriterException {
+        //下载路径及文件名
+        String filePath = "D:\\"+name+"邀请码.png";
+        String newUrl = url+"?id=" + id;
+        QrCodeUtil.generateQrCodeImage(newUrl, 350, 350, filePath);
+        return Result.ok("下载成功！请前往D盘查看");
+    }
+
 }

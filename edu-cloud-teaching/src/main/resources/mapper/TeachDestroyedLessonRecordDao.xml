@@ -21,7 +21,7 @@
               <if test="query.getType() != null">
                   and t.status = #{query.type}
               </if>
-        order by t.type,t.update_time desc,t.create_time desc
+        order by t.status,t.create_time desc,t.update_time desc
     </select>
 
 </mapper>

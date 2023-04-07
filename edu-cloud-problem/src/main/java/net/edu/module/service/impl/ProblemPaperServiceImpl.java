@@ -71,8 +71,6 @@ public class ProblemPaperServiceImpl extends BaseServiceImpl<ProblemPaperDao, Pr
             totalScore += problemPaperItemEntity.getScore();
         }
         baseMapper.updateNumAndScore(paperItemList.get(0).getPaperId(),paperItemList.size(),totalScore);
-
-
     }
 
 

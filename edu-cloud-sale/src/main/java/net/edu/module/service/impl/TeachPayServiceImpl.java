@@ -14,6 +14,7 @@ import net.edu.module.dao.UserDao;
 import net.edu.module.entity.TeachPayEntity;
 import net.edu.module.query.TeachPayQuery;
 import net.edu.module.service.TeachPayService;
+import net.edu.module.vo.StatisticsTeacherVO;
 import net.edu.module.vo.TeachClassHoursFlowRecordVO;
 import net.edu.module.vo.TeachPayVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,6 +50,12 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
             record.setPayable(record.getPayable().abs());
         }
         return new PageResult<>(list.getRecords(), list.getTotal());
+    }
+
+    private LambdaQueryWrapper<TeachPayEntity> getWrapper(TeachPayQuery query){
+        LambdaQueryWrapper<TeachPayEntity> wrapper = Wrappers.lambdaQuery();
+
+        return wrapper;
     }
 
     @Override
@@ -129,4 +137,38 @@ public class TeachPayServiceImpl extends BaseServiceImpl<TeachPayDao, TeachPayEn
         return baseMapper.statisticsPeople();
     }
 
+    @Override
+    public List<Long> statisticsMonth(){
+        List<Long> list = new ArrayList<>();
+        list.add(baseMapper.statisticsNewPeopleThisMonth());
+        list.add(baseMapper.statisticsNewCommunicateThisMonth());
+        list.add(baseMapper.statisticsNewAuditionThisMonth());
+        list.add(baseMapper.statisticsNewDealThisMonth());
+        list.add(baseMapper.statisticsTotalThisMonth());
+        Long res = (baseMapper.statisticsTotalThisMonth()-baseMapper.statisticsTotalLastMonth())*100/baseMapper.statisticsTotalLastMonth();
+        list.add(res);
+        return list;
+    }
+    @Override
+    public StatisticsTeacherVO statisticsTeacher(Long id,int season){
+        String month1 = null,month2 = null,month3 = null;
+        if (season==1){
+            month1 = "1";
+            month2 = "2";
+            month3 = "3";
+        }else if (season==2){
+            month1 = "4";
+            month2 = "5";
+            month3 = "6";
+        }else if (season==3){
+            month1 = "7";
+            month2 = "8";
+            month3 = "9";
+        }else if(season==4){
+            month1 = "10";
+            month2 = "11";
+            month3 = "12";
+        }
+        return baseMapper.statisticsTeacher(id,month1,month2,month3);
+    }
 }

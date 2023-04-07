@@ -1,12 +1,17 @@
 package net.edu.module.service.impl;
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.SneakyThrows;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.module.convert.EnrollConvert;
+import net.edu.module.convert.UserConvert;
 import net.edu.module.dao.EnrollDao;
 import net.edu.module.entity.EnrollEntity;
 import net.edu.module.entity.UserEntity;
@@ -18,8 +23,12 @@ import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,11 +48,9 @@ public class EnrollServiceImpl extends ServiceImpl<EnrollDao, EnrollEntity> impl
         return new PageResult<>(list.getRecords(), page.getTotal());
     }
 
-
     @Override
     public void update(EnrollVO vo) {
         EnrollEntity entity = EnrollConvert.INSTANCE.convert(vo);
-
         updateById(entity);
     }
 
@@ -75,5 +82,22 @@ public class EnrollServiceImpl extends ServiceImpl<EnrollDao, EnrollEntity> impl
         userService.delete(idList);//从系统表删除该学员
     }
 
+    @SneakyThrows
+    @Override
+    public void studentFromExcel(MultipartFile file) {
+        List<EnrollVO> list= EasyExcel.read(file.getInputStream()).head(EnrollVO.class).sheet().headRowNumber(3).doReadSync();
+        for (EnrollVO vo:list){
+            vo.setStatus(1);
+            EnrollEntity entity = EnrollConvert.INSTANCE.convert(vo);
+            if (entity.getPhone()==null){
+                throw new ServerException("请填写手机号");
+            }
+            EnrollEntity user = baseMapper.getByMobile(entity.getPhone());
+            if (user != null) {
+                throw new ServerException("手机号已经存在");
+            }
+            baseMapper.insert(entity);
+        }
+    }
 
 }

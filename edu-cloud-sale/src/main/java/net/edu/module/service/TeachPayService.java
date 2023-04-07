@@ -5,6 +5,7 @@ import net.edu.framework.common.page.PageResult;
 import net.edu.framework.mybatis.service.BaseService;
 import net.edu.module.entity.TeachPayEntity;
 import net.edu.module.query.TeachPayQuery;
+import net.edu.module.vo.StatisticsTeacherVO;
 import net.edu.module.vo.TeachPayVO;
 
 import java.util.HashMap;
@@ -33,4 +34,10 @@ public interface TeachPayService extends BaseService<TeachPayEntity> {
     List<HashMap<String, String>> statisticsAmount();
 
     List<HashMap<String, String>> statisticsPeople();
+
+
+    List<Long> statisticsMonth();
+
+    StatisticsTeacherVO statisticsTeacher(Long id,int season);
+
 }

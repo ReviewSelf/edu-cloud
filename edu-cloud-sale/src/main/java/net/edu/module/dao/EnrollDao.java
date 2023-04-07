@@ -7,6 +7,7 @@ import net.edu.module.entity.EnrollEntity;
 import net.edu.module.query.EnrollQuery;
 import net.edu.module.vo.EnrollVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author weng
@@ -21,4 +22,6 @@ public interface EnrollDao extends BaseDao<EnrollEntity> {
     void updateStatus(Long oldId,Long newId);
 
     Long selectEnroll(Long id);
+
+    EnrollEntity getByMobile(@Param("phone") String phone);
 }

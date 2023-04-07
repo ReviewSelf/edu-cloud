@@ -6,6 +6,8 @@ import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 import org.apache.poi.hpsf.Decimal;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;

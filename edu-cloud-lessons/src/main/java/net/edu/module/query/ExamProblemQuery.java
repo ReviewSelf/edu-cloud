@@ -22,5 +22,4 @@ public class ExamProblemQuery extends Query {
     @Schema(description = "练习类型")
     private Integer type;
 
-
 }

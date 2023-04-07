@@ -33,6 +33,10 @@ public class TemplateController {
     public void  downloadStudentImportExcel(HttpServletResponse response){
         templateService.downloadStudentImportExcel(response);
     }
+    @GetMapping("/studentInfoConfirmExcel")
+    public void  downloadStudentInfoConfirmExcel(HttpServletResponse response){
+        templateService.downloadStudentInfoConfirmExcel(response);
+    }
 
     @GetMapping("/archiveExcel")
     public void  downloadArchiveImportExcel(HttpServletResponse response){

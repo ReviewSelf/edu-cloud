@@ -9,6 +9,7 @@ import net.edu.module.query.UserQuery;
 import net.edu.module.vo.EnrollVO;
 import net.edu.module.vo.UserVO;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface EnrollService extends IService<EnrollEntity> {
 
 
     void abandon(Long id);
+
+    void studentFromExcel(MultipartFile file);
 }

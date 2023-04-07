@@ -11,6 +11,7 @@ import net.edu.module.vo.EnrollUserVO;
 import net.edu.module.vo.EnrollVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -56,4 +57,11 @@ public class EnrollController {
 
         return Result.ok();
     }
+    @PostMapping("import")
+    public Result<String> studentFromExcel(@RequestParam("file") MultipartFile file) {
+        System.out.println("go");
+        enrollService.studentFromExcel(file);
+        return Result.ok();
+    }
+
 }

@@ -177,7 +177,6 @@ public class JudgeService {
         } else {
             eduTeachApi.updateSubmitCorrectTimes(vo.getUserId(), 0);
         }
-
     }
 
 

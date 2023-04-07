@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
 import org.apache.poi.hpsf.Decimal;
 
+import javax.validation.constraints.NotEmpty;
 import java.math.BigDecimal;
 
 /**

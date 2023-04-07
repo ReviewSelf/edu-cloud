@@ -64,4 +64,8 @@
     <select id="selectEnroll" resultType="long">
         select id from enroll_user where sys_id = #{id}
     </select>
+    <select id="getByMobile" resultType="net.edu.module.entity.EnrollEntity">
+        select * from enroll_user where phone = #{phone}
+    </select>
+
 </mapper>

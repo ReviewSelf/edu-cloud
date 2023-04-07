@@ -3,6 +3,7 @@ package net.edu.module.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import net.edu.framework.common.exception.ServerException;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.module.convert.TeachDestroyedLessonRecordConvert;
@@ -54,14 +55,13 @@ public class TeachDestroyedLessonRecordController {
     @PostMapping("list")
     @Operation(summary = "保存")
     public Result<String> addRecord(@RequestBody List<TeachDestroyedLessonRecordVO> list){
-        System.out.println(list);
         teachDestroyedLessonRecordService.addRecord(list);
         return Result.ok();
     }
     @PutMapping
     @Operation(summary = "修改")
     public Result<String> update(@RequestBody @Valid TeachDestroyedLessonRecordVO vo){
-        teachDestroyedLessonRecordService.update(vo);
+        teachDestroyedLessonRecordService.updateNew(vo);
 
         return Result.ok();
     }

@@ -106,4 +106,10 @@ public class EnrollVO implements Serializable {
 
 	@Schema(description = "新老学员")
 	private int cadets;
+
+	@Schema(description = "推荐人id")
+	private Long reference;
+
+	@Schema(description = "推荐人姓名")
+	private String referenceName;
 }

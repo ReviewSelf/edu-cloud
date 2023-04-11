@@ -1,6 +1,7 @@
 package net.edu.module.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import net.edu.framework.mybatis.entity.BaseEntity;
@@ -72,7 +73,10 @@ public class EnrollEntity extends BaseEntity {
      */
     private Integer status;
 
-
+    /**
+     * 推荐人id
+     */
+    private Long reference;
 
     /**
      * 备注

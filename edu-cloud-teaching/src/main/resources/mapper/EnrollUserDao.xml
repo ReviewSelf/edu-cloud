@@ -92,8 +92,8 @@
     <insert id="insertEnrollUser" keyProperty="id" useGeneratedKeys="true">
         INSERT INTO
             enroll_user
-            (phone,real_name,area,grade)
-        VALUES(#{phone},#{realName},#{area},#{grade})
+            (phone,real_name,area,grade,reference)
+        VALUES(#{phone},#{realName},#{area},#{grade},#{reference})
     </insert>
 
     <select id="selectUserInfoByOpenId" resultType="net.edu.module.vo.EnrollUserVO">

@@ -169,4 +169,8 @@ public class UserVO implements Serializable {
     private Long saleId;
 
     private Integer saleStatus;
+
+    private Long reference;
+
+    private String referenceName;
 }

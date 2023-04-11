@@ -63,7 +63,8 @@ public class EnrollUserVO implements Serializable {
 	@JsonFormat(pattern = DateUtils.DATE_TIME_PATTERN)
 	private Date updateTime;
 
-
+	@Schema(description = "推荐人")
+	private Long reference;
 
 
 }

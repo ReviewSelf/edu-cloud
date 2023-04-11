@@ -74,6 +74,9 @@ public class EnrollUserEntity extends BaseEntity {
 	* 1为报名信息状态，3成为学员
 	*/
 	private Integer status;
-
+	/**
+	 * 推荐人ID
+	 */
+	private Long reference;
 
 }

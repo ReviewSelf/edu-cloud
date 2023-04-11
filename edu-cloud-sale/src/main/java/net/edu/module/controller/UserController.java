@@ -62,6 +62,8 @@ public class UserController {
     public Result<UserVO> getStudent(@PathVariable("id") Long id){
         UserEntity entity = userService.getById(id);
         UserVO vo = UserConvert.INSTANCE.convert(entity);
+        vo.setReferenceName(userService.getReferenceName(id));
+        System.out.println(vo);
         return Result.ok(vo);
     }
 

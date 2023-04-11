@@ -38,4 +38,6 @@ public interface UserService extends IService<UserEntity> {
     List<UserVO> selectSaleName();
 
     void insertTeachClassHours(Long userId);
+
+    String getReferenceName(Long reference);
 }

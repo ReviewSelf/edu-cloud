@@ -42,7 +42,7 @@ public interface UserDao extends BaseDao<UserEntity> {
 
     void returnBack(TeachPayVO vo);
     void updateUserAfterPay(TeachPayVO vo);
-
-
     List<UserVO> selectSaleName();
+
+    String getReference(Long reference);
 }

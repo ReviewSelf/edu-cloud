@@ -42,6 +42,9 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
     private TeachClassHoursDao teachClassHoursDao;
     @Autowired
     private UserRoleDao userRoleDao;
+    @Autowired
+    private UserDao userDao;
+
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -73,6 +76,7 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         vo.setPassword(passwordEncoder.encode("123456"));
         setStuNumber(vo);
         vo.setUsername(vo.getStuNumber());
+        System.out.println(vo);
         baseMapper.insertCadet(vo);
         TeachClassHoursEntity teachClassHoursEntity = new TeachClassHoursEntity();
         teachClassHoursEntity.setUserId(vo.getId());
@@ -190,7 +194,10 @@ public class UserServiceImpl extends ServiceImpl<UserDao, UserEntity> implements
         teachClassHoursDao.insert(entity);
     }
 
-
+    @Override
+    public String getReferenceName(Long reference) {
+        return userDao.getReference(reference);
+    }
 
 
 }

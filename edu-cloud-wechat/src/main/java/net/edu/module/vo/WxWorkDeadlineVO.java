@@ -7,13 +7,12 @@ import lombok.Data;
  * @date 2022/10/10 - 15:36
  **/
 @Data
-public class WxWorkDeadlineVO {
+public class WxWorkDeadlineVO extends TemplateBaseVo{
 
     /**
      * 截止时间
      */
     private String deadline;
-
 
     /**
      * 提交方式
@@ -22,19 +21,9 @@ public class WxWorkDeadlineVO {
 
 
     /**
-     * 发送时间
-     */
-    private String sendTime;
-
-    /**
      * 备注
      */
     private String remark;
-
-    /**
-     * 发送用户的id
-     */
-    private Long userId;
 
 
     public String toJsonString() {

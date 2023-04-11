@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/10/19 - 12:01
  **/
 @Data
-public class WxLessonEvaluationVO {
+public class WxLessonEvaluationVO extends TemplateBaseVo{
 
     private String studentName;//学生姓名
 
@@ -27,21 +27,16 @@ public class WxLessonEvaluationVO {
 
     private Integer errorNum; //错题量
 
-
     private Integer unansweredNum; //未答题
-
-    private String sendTime;
 
     private Integer lessonId;
 
-    private Long userId;
 
     //名次加正确率为模板中的评价内容
     public String toJsonString() {
-        return "{\"lessonName\":\""+className
-                +"\",\"lessonId\":\""+lessonId
+        return "{\"studentName\":\""+studentName
+                +"\",\"lessonName\":\""+lessonName
                 +"\",\"evaluationContent\":\""+content
-                +"\",\"userId\":\""+userId
                 +"\"}";
     }
 }

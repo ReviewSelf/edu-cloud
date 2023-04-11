@@ -66,7 +66,7 @@ public class TeachDestroyedLessonRecordServiceImpl extends BaseServiceImpl<Teach
     @Override
     @Transactional()
     public void addRecord(List<TeachDestroyedLessonRecordVO> list) {
-        if (list.get(0).getStuId() == null) throw new ServerException("至少选择一位学生");
+        if (list.size() == 0) throw new ServerException("至少选择一位学生");
         for (TeachDestroyedLessonRecordVO item : list) {
             TeachDestroyedLessonRecordEntity entity = TeachDestroyedLessonRecordConvert.INSTANCE.convert(item);
             try {

@@ -1,4 +1,4 @@
-package net.edu.framework.common.mq;
+package net.edu.framework.common.page.mq;
 
 /**
  * &#064;Author:  马佳浩

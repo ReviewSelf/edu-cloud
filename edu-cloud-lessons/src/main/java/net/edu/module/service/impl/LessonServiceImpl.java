@@ -157,8 +157,10 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
     }
 
     @Override
-    public String getLessonHour(Long id) {
-        return baseMapper.getLessonHour(id);
+    public double getLessonHour(Long id) {
+        String lessonMin = baseMapper.getLessonHour(id);
+        double hour = Integer.parseInt(lessonMin)*1.0/ 60;
+        return hour;
     }
 
     @Override

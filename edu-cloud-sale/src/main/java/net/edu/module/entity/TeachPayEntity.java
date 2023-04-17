@@ -1,5 +1,6 @@
 package net.edu.module.entity;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -25,14 +26,30 @@ public class TeachPayEntity {
 	private Integer id;
 
 	/**
-	* 缴费金额
+	* 应付金额
 	*/
 	private BigDecimal payment;
 
 	/**
+	 * 实付金额
+	 */
+	private BigDecimal payable;
+
+	/**
+	 * 优惠金额
+	 */
+	private BigDecimal discount;
+
+	/**
 	 * 购买课次
 	 */
-	private Integer balance;
+	private BigDecimal classHours;
+
+	/**
+	 * 赠送课次
+	 */
+	private BigDecimal presentHours;
+
 	/**
 	* 用户id
 	*/
@@ -42,7 +59,6 @@ public class TeachPayEntity {
 	* 缴费时间
 	*/
 	private Date time;
-
 
 	/**
 	* 备注
@@ -58,5 +74,15 @@ public class TeachPayEntity {
 	 * 状态
 	 */
 	private Integer status;
+
+	/**
+	 * 购买课程类型
+	 */
+	private Integer classType;
+
+	/**
+	 * 赠送课程类型
+	 */
+	private Integer presentType;
 
 }

@@ -64,9 +64,9 @@ public class LessonController {
     @GetMapping("{id}")
     @Operation(summary = "信息")
     public Result<LessonVO> get(@PathVariable("id") Long id){
-        LessonEntity entity = lessonService.getById(id);
+        LessonVO vo = lessonService.getLessonById(id);
 
-        return Result.ok(LessonConvert.INSTANCE.convert(entity));
+        return Result.ok(vo);
     }
 
     @PostMapping("/create")
@@ -153,6 +153,18 @@ public class LessonController {
         return Result.ok();
     }
 
+    @GetMapping("historyHomework/page")
+    @Operation(summary = "课程列表")
+    public Result<PageResult<LessonVO>> historyHomeworkPage(@Valid LessonQuery query) {
+        return Result.ok(lessonService.historyHomeworkPage(query));
+    }
 
+    @GetMapping("getLessonHour/{id}")
+    @Operation(summary = "根据课程id获取课时")
+    public Result<Double> getLessonHour(@PathVariable("id") Long id){
+        System.out.println("123123123123");
+        double res = lessonService.getLessonHour(id);
+        return Result.ok(res);
+    }
 
 }

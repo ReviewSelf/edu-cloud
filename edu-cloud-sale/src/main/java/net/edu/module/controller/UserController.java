@@ -7,6 +7,7 @@ import net.edu.module.convert.UserConvert;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
 import net.edu.module.service.UserService;
+import net.edu.module.vo.TeachClassHoursVO;
 import net.edu.module.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -61,14 +62,35 @@ public class UserController {
     public Result<UserVO> getStudent(@PathVariable("id") Long id){
         UserEntity entity = userService.getById(id);
         UserVO vo = UserConvert.INSTANCE.convert(entity);
+        vo.setReferenceName(userService.getReferenceName(id));
+        System.out.println(vo);
         return Result.ok(vo);
     }
 
-    @GetMapping("status")
+    @GetMapping("status/{id}")
     @Operation(summary = "漏斗统计")
-    public Result<List<Integer>> getFunnelData(){
-        List<Integer> integers = userService.selectUserStatus();
+    public Result<List<Integer>> getFunnelData(@PathVariable("id") Long id){
+        List<Integer> integers = userService.selectUserStatus(id);
         return Result.ok(integers);
     }
 
+    @GetMapping("pay/{id}")
+    @Operation(summary = "课时信息")
+    public Result<TeachClassHoursVO> getStudentPay(@PathVariable("id") Long id){
+
+        TeachClassHoursVO vo = userService.getStudentPay(id);
+        return Result.ok(vo);
+    }
+
+    @GetMapping("sale")
+    @Operation(summary = "销售名单")
+    public Result<List<UserVO>> selectSaleName(){
+        return Result.ok(userService.selectSaleName());
+    }
+
+    @GetMapping("teach/class")
+    @Operation(summary = "新建用户课时记录")
+    public void insertTeachClassHours(@RequestParam("userId") Long userId){
+        userService.insertTeachClassHours(userId);
+    }
 }

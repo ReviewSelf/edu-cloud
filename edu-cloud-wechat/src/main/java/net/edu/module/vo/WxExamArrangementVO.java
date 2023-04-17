@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/11/3 - 14:53
  **/
 @Data
-public class WxExamArrangementVO {
+public class WxExamArrangementVO extends TemplateBaseVo{
 
     private String examName;//考试名称
 
@@ -17,9 +17,6 @@ public class WxExamArrangementVO {
 
     private String teacher;//监考老师
 
-    private String sendTime;
-
-    private Long userId;
 
     public String toJsonString() {
         return "{\"examName\":\""+examName

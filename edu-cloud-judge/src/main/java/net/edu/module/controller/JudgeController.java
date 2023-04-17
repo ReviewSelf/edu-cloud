@@ -83,6 +83,4 @@ public class JudgeController {
         return Result.ok(judgeService.getFilePath(problemId, problemType, source, sourceId));
     }
 
-
-
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.edu.module.dao.PublicityDao">
+
+
+    <select id="page" resultType="net.edu.module.vo.ReferenceVO">
+        SELECT
+            u.reference,
+            ref.username as username,
+            ref.stu_number AS stuNum,
+            ref.real_name AS name,
+            COUNT(u.id) AS total ,
+            ref.mobile as mobile
+        FROM sys_user AS u
+                 LEFT JOIN sys_user AS ref ON u.reference = ref.id
+        WHERE u.reference IS NOT NULL
+        <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
+            and u.create_time &gt;=#{query.beginTime}  and u.create_time &lt;=#{query.endTime}
+        </if>
+        GROUP BY u.reference
+        ORDER BY total DESC
+    </select>
+
+    <select id="detail" resultType="net.edu.module.vo.UserVO">
+        SELECT t1.real_name,t1.stu_number,t1.create_time,t2.total_money
+        FROM sys_user t1  left join teach_class_hours t2 on t2.user_id = t1.id
+        WHERE t1.reference = #{query.id}
+        <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
+            and t1.create_time &gt;=#{query.beginTime}  and t1.create_time &lt;=#{query.endTime}
+        </if>
+    </select>
+</mapper>

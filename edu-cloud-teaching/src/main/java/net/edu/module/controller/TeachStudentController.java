@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.user.SecurityUser;
@@ -33,6 +34,7 @@ import java.util.List;
 @RequestMapping("student")
 @AllArgsConstructor
 @Tag(name="用户管理")
+@Slf4j
 public class TeachStudentController {
     private final StudentService userService;
     private final UserRoleService userRoleService;
@@ -48,8 +50,8 @@ public class TeachStudentController {
     @GetMapping("/page")
     @Operation(summary = "分页")
     public Result<PageResult<UserVO>> StudentPage( @Valid UserQuery query){
-        System.out.println(query);
-        PageResult<UserVO> page = userService.SelectStudentList(query);
+        log.debug("dd");
+        PageResult<UserVO> page = userService.selectStudentList(query);
         return Result.ok(page);
     }
 
@@ -57,10 +59,7 @@ public class TeachStudentController {
     @Operation(summary = "学生列表")
 
     public Object getStudents(@RequestBody StudentsVO vo){
-
-        System.out.println(vo);
         PageResult<TeachStudentVO> page = userService.getStudents(vo);
-
         return Result.ok(page);
     }
 
@@ -132,26 +131,12 @@ public class TeachStudentController {
         userService.updateSubmitCorrectTimes(userId,correct);
         return Result.ok();
     }
-
-
-    @GetMapping("/renewAmountSubmit")
-    @Operation(summary = "教务老师续费")
-    public Result<String> renewAmountSubmit(@RequestParam("userId") Long userId,@RequestParam("num") Integer num,@RequestParam("remarks") String remarks){
-        userService.renewAmountSubmit(userId,num,remarks);
-        return Result.ok();
+    @GetMapping("/stuList/{id}")
+    @Operation(summary = "根据课程id获取学生名单")
+    public Result<List<TeachStudentVO>> getStuByLessonId(@PathVariable("id") Long id){
+        List<TeachStudentVO> list = userService.getStuByLessonId(id);
+        System.out.println(list);
+        return Result.ok(list);
     }
 
-    @GetMapping("/outClassSubmit")
-    @Operation(summary = "退班增加课时")
-    public Result<String> outClassSubmit(@RequestParam("userId") Long userId,@RequestParam("classId") Long classId,@RequestParam("num") Integer num,@RequestParam("remarks") String remarks){
-        userService.outClassSubmit(userId,classId,num,remarks);
-        return Result.ok();
-    }
-
-    @GetMapping("/joinClassSubmit")
-    @Operation(summary = "插班减少课时")
-    public Result<String> joinClassSubmit(@RequestParam("userId") Long userId, @RequestParam("classId") Long classId, @RequestParam("num") Integer num, @RequestParam("remarks") String remarks){
-        userService.joinClassSubmit(userId,classId,num,remarks);
-        return Result.ok();
-    }
 }

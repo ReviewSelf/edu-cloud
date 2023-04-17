@@ -48,4 +48,11 @@ public interface LessonDao extends BaseDao<LessonEntity> {
     IPage<LessonVO> selectLessonPage(Page<LessonVO> page,@Param("query") LessonQuery query);
 
     List<LessonVO> selectLessonList(@Param("query") LessonQuery query);
+
+    LessonVO selectLessonById(Long id);
+
+    IPage<LessonVO>  selectTeacherHistoryHomeworkPage(Page<LessonVO> page, @Param("query")LessonQuery query);
+
+    String getLessonHour(Long id);
+
 }

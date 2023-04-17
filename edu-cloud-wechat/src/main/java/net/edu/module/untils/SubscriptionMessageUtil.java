@@ -6,12 +6,40 @@ import cn.hutool.json.JSONUtil;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplate;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 import java.util.*;
 
 public class SubscriptionMessageUtil {
+
+    /**
+     * 观察者模式使用
+     * @param userOpenid
+     * @param tempId
+     * @param wxMpTemplateList
+     */
+    public static void sent(String userOpenid, String tempId, List<WxMpTemplateData> wxMpTemplateList){
+        WxMpInMemoryConfigStorage wxStorage = new WxMpInMemoryConfigStorage();
+
+        wxStorage.setAppId(WeChatProperties.APP_ID);
+        wxStorage.setSecret(WeChatProperties.APP_SECRET);
+
+        WxMpService wxMpService = new WxMpServiceImpl();
+        wxMpService.setWxMpConfigStorage(wxStorage);
+        WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
+                .toUser(userOpenid)
+                .templateId(tempId)
+                .data(wxMpTemplateList)
+                .build();
+
+        try {
+            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+        } catch (Exception e) {
+            System.out.println("推送失败：" + e.getMessage());
+        }
+    }
 
 
     public static void chooseMsgTemplate(int type, String userOpenid, String tempId, String... content) {
@@ -40,6 +68,7 @@ public class SubscriptionMessageUtil {
                 break;
         }
     }
+
 
     //考试安排提醒
     public static void sendExamArrangementMsg(String userOpenid, String tempId, String content) {
@@ -399,10 +428,10 @@ public class SubscriptionMessageUtil {
             System.out.println("推送失败：" + e.getMessage());
         }
     }
-
-    /**
-     * 消息群发
-     */
+//
+//    /**
+//     * 消息群发
+//     */
     public static String GroupMessage(String token, String content, String person) {
         System.out.println(content);
         // 接口地址

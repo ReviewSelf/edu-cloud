@@ -6,6 +6,8 @@
     <resultMap type="net.edu.module.entity.TeachPayEntity" id="teachPayMap">
         <result property="id" column="id"/>
         <result property="payment" column="payment"/>
+        <result property="payable" column="payable"/>
+        <result property="discount" column="discount"/>
         <result property="userId" column="user_id"/>
         <result property="time" column="time"/>
         <result property="bz" column="bz"/>
@@ -17,17 +19,18 @@
             t.user_id,
             s.real_name as realName,
             t.time,
-            t.balance,
-            t.payment,
+            t.class_hours,
+            t.present_hours,
+            t.payable,
             t.handler,
             t.bz,
-            (select status from teach_audition_record q
-                           where q.student_id = t.user_id order by q.create_time desc limit 1) as type,
             t.status,
+            t.class_type,
+            t.present_type,
             (select real_name from sys_user p where s.sale_id = p.id) as saleName
         from teach_pay t
         left join sys_user s on t.user_id = s.id
-        where 1=1
+        where s.deleted = 0
         <if test="query.getRealName()!=null and query.getRealName()!=''">
             and  s.real_name like concat('%',#{query.realName},'%')
         </if>
@@ -38,9 +41,14 @@
             and  (select real_name from sys_user p where s.sale_id = p.id) like concat('%',#{query.saleName},'%')
         </if>
         <if test="query.getStatus()!=null and query.getStatus()!=''">
-            and  t.status = #{query.status}
+            <if test="query.getStatus() == 1">
+               and t.payment &gt;= #{query.status}
+            </if>
+            <if test="query.getStatus() == -1">
+               and t.payment &lt; #{query.status}
+            </if>
         </if>
-        order by status , id desc
+        order by time desc
     </select>
 
     <select id="getPaymentDetail" resultType="net.edu.module.vo.TeachPayVO">
@@ -51,8 +59,13 @@
             s.mobile,
             s.urgent_identity,
             t.time,
-            t.balance,
+            t.class_hours,
+            t.present_hours,
             t.payment,
+            t.discount,
+            t.payable,
+            t.class_type,
+            t.present_type,
             t.handler,
             t.bz,
             t.status,
@@ -61,4 +74,79 @@
         left join sys_user s on t.user_id = s.id
         where t.id = #{id}
     </select>
+
+    <select id="statisticsAmount" resultType="hashmap">
+        select
+            SUM(payment) as amount ,handler
+        from teach_pay
+        WHERE DATE_FORMAT(time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+        group by handler
+    </select>
+
+    <select id="statisticsPeople" resultType="hashmap">
+        select count(user_id) as num,handler from
+            (select user_id,handler from teach_pay
+             WHERE DATE_FORMAT(time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') and payment>0
+             group by user_id,handler) as t
+        group by handler
+        ORDER BY `handler`
+    </select>
+
+
+    <select id="statisticsNewPeopleThisMonth" resultType="java.lang.Long">
+        SELECT COUNT(*) as new FROM sys_user WHERE DATE_FORMAT(create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') AND deleted=0
+    </select>
+
+    <select id="statisticsNewDealThisMonth" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT user_id) as deal FROM teach_pay WHERE DATE_FORMAT(time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') AND payable>0
+    </select>
+
+    <select id="statisticsNewCommunicateThisMonth" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT stu_id) as communicate FROM communicate WHERE DATE_FORMAT(create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+    </select>
+
+    <select id="statisticsNewAuditionThisMonth" resultType="java.lang.Long">
+        SELECT COUNT(DISTINCT student_id) as audition FROM teach_audition_record WHERE DATE_FORMAT(create_time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m') AND deleted=0
+    </select>
+
+    <select id="statisticsTotalThisMonth" resultType="java.lang.Long">
+        SELECT if( ISNULL(SUM(payable)),0,sum(payable)) as total FROM teach_pay WHERE DATE_FORMAT(time,'%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+    </select>
+    <select id="statisticsTotalLastMonth" resultType="java.lang.Long">
+        SELECT SUM(payable) as total FROM teach_pay WHERE date_format( time, '%Y %m' ) = date_format( DATE_SUB( curdate(), INTERVAL 1 MONTH ),'%Y %m')
+    </select>
+
+    <select id="statisticsTeacher" resultType="net.edu.module.vo.StatisticsTeacherVO">
+        select  t1.intention,t2.communication,t3.audition,t4.deal,t5.amount
+        from (SELECT COUNT(su.create_time) as intention
+              FROM sys_user su
+              WHERE (MONTH(su.create_time)=#{month1} OR MONTH(su.create_time)=#{month2} OR MONTH(su.create_time)=#{month3})
+                AND su.sale_id = #{id}
+                AND DATE_FORMAT(su.create_time,'%Y') = DATE_FORMAT(CURDATE(),'%Y')) t1
+                 JOIN (SELECT COUNT(c.communicate_time) as communication
+                       FROM communicate c
+                       WHERE (MONTH(c.communicate_time)=#{month1} OR MONTH(c.communicate_time)=#{month2} OR MONTH(c.communicate_time)=#{month3})
+                         AND c.sale_id = #{id}
+                         AND DATE_FORMAT(c.communicate_time,'%Y') = DATE_FORMAT(CURDATE(),'%Y')) t2
+                 JOIN (SELECT COUNT(tar.create_time) as audition
+                       FROM teach_audition_record as tar LEFT JOIN sys_user su ON (su.id = tar.student_id)
+                       WHERE(MONTH(tar.create_time)=#{month1} OR MONTH(tar.create_time)=#{month2} OR MONTH(tar.create_time)=#{month3})
+                         AND tar.status != 0
+                         AND DATE_FORMAT(tar.create_time,'%Y') = DATE_FORMAT(CURDATE(),'%Y')
+                         AND su.sale_id = #{id}) t3
+                 JOIN (SELECT COUNT(tp.payable) as deal
+                       FROM sys_user su LEFT JOIN teach_pay tp ON (tp.`handler`=su.real_name)
+                       WHERE (MONTH(tp.time)=#{month1} OR MONTH(tp.time)=#{month2} OR MONTH(tp.time)=#{month3})
+                         AND DATE_FORMAT(tp.time,'%Y') = DATE_FORMAT(CURDATE(),'%Y')
+                         AND tp.payable>0
+                         AND su.id = #{id}) t4
+                 JOIN (SELECT IFNULL(SUM(tp.payable),0) as amount
+                       FROM sys_user su LEFT JOIN teach_pay tp ON (tp.`handler`=su.real_name)
+                       WHERE (MONTH(tp.time)=#{month1} OR MONTH(tp.time)=#{month2} OR MONTH(tp.time)=#{month3})
+                         AND DATE_FORMAT(tp.time,'%Y') = DATE_FORMAT(CURDATE(),'%Y')
+                         AND tp.payable>0
+                         AND su.id = #{id}) t5
+    </select>
+
+
 </mapper>

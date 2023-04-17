@@ -20,7 +20,6 @@ public class LessonChatLogVO {
 
     private Long id;
 
-
     private Long userId;
 
     private String username;

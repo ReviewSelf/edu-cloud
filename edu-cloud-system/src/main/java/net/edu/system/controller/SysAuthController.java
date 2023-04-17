@@ -1,6 +1,5 @@
 package net.edu.system.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -9,8 +8,10 @@ import net.edu.framework.common.utils.Result;
 import net.edu.framework.security.utils.TokenUtils;
 import net.edu.system.service.SysAuthService;
 import net.edu.system.service.SysCaptchaService;
-import net.edu.system.vo.*;
-import org.apache.ibatis.annotations.Param;
+import net.edu.system.vo.SysAccountLoginVO;
+import net.edu.system.vo.SysCaptchaVO;
+import net.edu.system.vo.SysTokenVO;
+import net.edu.system.vo.SysWeChatLoginVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

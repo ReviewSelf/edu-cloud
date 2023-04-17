@@ -2,8 +2,10 @@ package net.edu.module.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import net.edu.framework.common.page.PageResult;
+import net.edu.module.entity.TeachClassHoursEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
+import net.edu.module.vo.TeachClassHoursVO;
 import net.edu.module.vo.UserVO;
 
 import java.util.List;
@@ -26,9 +28,16 @@ public interface UserService extends IService<UserEntity> {
 
     void insertCadet(UserVO vo);
 
-    List<Integer> selectUserStatus();
+    List<Integer> selectUserStatus(Long id);
 
     String selectStuNumber();
 
 
+    TeachClassHoursVO getStudentPay(Long id);
+
+    List<UserVO> selectSaleName();
+
+    void insertTeachClassHours(Long userId);
+
+    String getReferenceName(Long reference);
 }

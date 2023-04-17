@@ -5,7 +5,6 @@ package net.edu.module.api;
 import io.swagger.v3.oas.annotations.Operation;
 import net.edu.framework.common.page.PageResult;
 import net.edu.framework.common.utils.Result;
-import net.edu.module.fallback.EduProblemFallBack;
 import net.edu.module.fallback.EduTeachApiFallBack;
 import net.edu.module.vo.*;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -47,6 +46,10 @@ public interface EduTeachApi {
     @Operation(summary = "统计信息用于定时器")
     Result<String> statisticsHomeInfo();
 
+    @PutMapping("/audition/record/audition/status")
+    @Operation(summary = "修改试听状态用于定时器")
+    Result<String> auditionRecordStatusInfo();
+
     /****************************Wechat调用******************************************/
 
     @GetMapping("enrollUser/insertClassUser")
@@ -71,4 +74,9 @@ public interface EduTeachApi {
                                             @RequestParam(value = "page") Integer page,
                                             @RequestParam(value = "className")String className);
 
+
+    /****************************Sale调用******************************************/
+    @PostMapping("class/hours/flow/record")
+    @Operation(summary = "保存课时流水记录")
+    Result<String> insertClassHoursFlowRecord(TeachClassHoursFlowRecordVO vo);
 }

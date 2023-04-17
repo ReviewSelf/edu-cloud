@@ -1,10 +1,13 @@
 package net.edu.module.vo;
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import net.edu.framework.common.utils.DateUtils;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,13 +25,19 @@ public class EnrollVO implements Serializable {
 	@Schema(description = "用户id")
 	private Integer id;
 
+	@Schema(description = "系统表id")
+	private Long sysId;
+
 	@Schema(description = "微信昵称")
 	private String wxName;
 
+	@ExcelProperty(index = 0)
 	@Schema(description = "真实姓名")
 	private String realName;
 
+	@ExcelProperty(index = 1)
 	@Schema(description = "手机号码")
+	@NotNull(message = "手机号码必填")
 	private String phone;
 
 	@Schema(description = "unionId")
@@ -37,15 +46,19 @@ public class EnrollVO implements Serializable {
 	@Schema(description = "openId(用户对微信公众号唯一标识)")
 	private String openId;
 
+	@ExcelProperty(index = 2)
 	@Schema(description = "所在区域")
 	private String area;
 
+	@ExcelProperty(index = 5)
 	@Schema(description = "详细地址")
 	private String address;
 
+	@ExcelProperty(index = 4)
 	@Schema(description = "年龄")
 	private Integer age;
 
+	@ExcelProperty(index = 3)
 	@Schema(description = "年级")
 	private Integer grade;
 
@@ -93,4 +106,10 @@ public class EnrollVO implements Serializable {
 
 	@Schema(description = "新老学员")
 	private int cadets;
+
+	@Schema(description = "推荐人id")
+	private Long reference;
+
+	@Schema(description = "推荐人姓名")
+	private String referenceName;
 }

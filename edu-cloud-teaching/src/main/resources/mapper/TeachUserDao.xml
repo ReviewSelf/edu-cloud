@@ -40,7 +40,7 @@
 			and t1.real_name like concat(#{query.realName},'%')
 		</if>
 	</select>
-	<select id="selectStudentList" resultType="net.edu.module.entity.UserEntity">
+	<select id="selectStudentList" resultType="net.edu.module.vo.UserVO">
 		SELECT
 		t1.id,
 		t1.username,
@@ -61,6 +61,11 @@
 		t1.urgent_phone as urgentPhone,
 		t1.reading_school as readingSchool,
 		t1.total_amount as totalAmount,
+		t4.normal,
+		t4.normal_present as normalPresent,
+		t4.training,
+		t4.training_present as trainingPresent,
+		t4.total_money as totalMoney,
 		t1.likes_num as likesNum,
 		t3.name as orgName,
 		t2.role_id,
@@ -69,29 +74,28 @@
 		sys_user t1
 		LEFT JOIN sys_user_role t2 ON t1.id=t2.user_id
 		left join sys_org t3 on t1.org_id=t3.id
+		left join teach_class_hours t4 on t1.id = t4.user_id
 		WHERE
 		 t1.deleted = 0
 		and t2.role_id = 2
 		and t2.deleted = 0
 		and t3.deleted = 0
+		and t4.deleted = 0
 		<if test="query.getUsername() != null and query.getUsername() != ''">
-			and t1.username like concat(#{query.username},'%')
+			and t1.username like concat('%',#{query.username},'%')
 		</if>
 		<if test="query.getMobile() != null and query.getMobile() != ''">
-			and t1.mobile like concat(#{query.mobile},'%')
+			and t1.mobile like concat('%',#{query.mobile},'%')
 		</if>
 		<if test="query.getRealName() != null and query.getRealName() != ''">
-			and t1.real_name like concat(#{query.realName},'%')
+			and t1.real_name like concat('%',#{query.realName},'%')
 		</if>
-		<if test="query.getBalance() != null ">
-			and t1.balance &lt;= #{query.balance}
-		</if>
-		<if test="query.getOrgArr() != null and query.getOrgArr().size() > 0">
-		<foreach collection="query.getOrgArr()" item="item" open="and t1.org_id in(" close=")" separator=",">
-			#{item}
-		</foreach>
-		</if>
-		order by t1.balance
+<!--		<if test="query.getOrgArr() != null and query.getOrgArr().size() > 0">-->
+<!--		<foreach collection="query.getOrgArr()" item="item" open="and t1.org_id in(" close=")" separator=",">-->
+<!--			#{item}-->
+<!--		</foreach>-->
+<!--		</if>-->
+		order by t1.create_time desc
 	</select>
 
 	<select id="getById" resultType="net.edu.module.entity.UserEntity">
@@ -175,14 +179,11 @@
 	</select>
 
     <select id="selectStudents" resultType="net.edu.module.vo.TeachStudentVO">
-		select
-		t1.user_id as userId,
-		t2.username,
-		t2.real_name,
-		t2.mobile
+		select t2.username,t2.real_name,t2.mobile,normal,normal_present,training,training_present
 		from teach_class_user t1
-		left join sys_user t2 on t1.user_id = t2.id
-		where t1.class_id = #{vo.classId}
+				 left join sys_user t2 on t1.user_id = t2.id
+				 left join teach_class_hours t4 on  t4.user_id = t1.user_id
+		where t1.class_id = #{vo.classId} AND t1.deleted = 0 ANd t2.deleted = 0 AND t4.deleted = 0
 	</select>
 
 	<select id="getAffairTeacherList" resultType="net.edu.module.vo.AffairTeacherVO">
@@ -210,7 +211,7 @@
 		LEFT JOIN sys_user_role t2 ON t1.id=t2.user_id
 		WHERE
 		t1.super_admin = 0
-		AND t1.deleted = 0 AND t2.role_id = 3
+		AND t1.deleted = 0 AND t2.role_id in (3,4)
 		<if test="username != null and username.trim() != ''">
 			and t1.username like concat('%',#{username},'%')
 		</if>
@@ -241,4 +242,26 @@
 		                     total_money = total_money + cast(#{payment} as decimal(8,2))
 		                where id = #{userId}
 	</update>
+
+	<update id="updateUserClassHours" >
+		update teach_class_hours set normal = #{vo.normal} ,normal_present = #{vo.normalPresent},
+									 training = #{vo.training},training_present = #{vo.trainingPresent},
+		                             update_time = now(),updater = #{userId}
+								where id = #{vo.id}
+	</update>
+
+	<select id="selectStuNumber" resultType="java.lang.String">
+		select stu_number
+		from sys_user
+		where deleted = 0
+		order by stu_number desc limit 1
+	</select>
+	<select id="selectStudentsByLessonId" resultType="net.edu.module.vo.TeachStudentVO">
+		SELECT t3.id as userId,t3.username,t3.real_name,t1.normal,t1.normal_present,t1.training,t1.training_present
+		FROM teach_class_hours as t1
+				 LEFT JOIN lesson_attend_log as t2 ON (t1.user_id = t2.stu_id)
+				 LEFT JOIN sys_user as t3 ON (t2.stu_id = t3.id)
+		WHERE t2.lesson_id = #{id} AND t1.deleted = 0 AND t3.deleted = 0
+	</select>
+
 </mapper>

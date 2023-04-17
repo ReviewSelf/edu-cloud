@@ -1,9 +1,5 @@
 package net.edu.module.service.impl;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-import com.alibaba.nacos.shaded.com.google.gson.Gson;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -15,19 +11,16 @@ import net.edu.framework.common.utils.ExcelUtils;
 import net.edu.framework.mybatis.service.impl.BaseServiceImpl;
 import net.edu.module.convert.ArchiveSignConvert;
 import net.edu.module.dao.ArchiveSignDao;
-import net.edu.module.dao.ArchiveTestScoreDao;
 import net.edu.module.entity.ArchiveSignEntity;
 import net.edu.module.query.ArchiveSignQuery;
 import net.edu.module.service.ArchiveSignService;
 import net.edu.module.vo.ArchiveSignVO;
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

@@ -1,6 +1,7 @@
 package net.edu.module.service;
 
 import cn.hutool.json.JSONObject;
+import net.edu.module.dto.MessageDTO;
 import net.edu.module.entity.MsgLogEntity;
 import net.edu.module.vo.*;
 import org.springframework.stereotype.Service;
@@ -45,4 +46,19 @@ public interface WeChatMsgService {
      * @return
      */
     String sentBatchMessage(JSONObject obj);
+
+
+//    void sentHomeworkMsg(MessageDTO messageDTO);
+//
+//    void sentClassOpenMsg(MessageDTO messageDTO);
+//
+//    void sentLessonOpenMsg(MessageDTO messageDTO);
+//
+//    void sentSignSuccessMsg(MessageDTO messageDTO);
+//
+//    void sentWorkDeadlineMsg(MessageDTO messageDTO);
+//
+//    void sentLessonEvaluationMsg(MessageDTO messageDTO);
+//
+//    void sentExamArrangementMsg(MessageDTO messageDTO);
 }

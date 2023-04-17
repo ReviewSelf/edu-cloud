@@ -8,37 +8,24 @@
         select t1.id,t1.wx_name,t1.real_name,t1.phone,t1.union_id,t1.open_id,
                t1.area,t1.address,t1.age,t1.grade,t1.purpose,t1.status,
                t1.create_time,t1.update_time,t1.remark,t1.deleted,
-               t1.creator,t1.updater,t1.version
+               t1.creator,t1.updater,t1.version,t1.reference,t3.real_name as referenceName
         from enroll_user t1
         left join enroll_evaluate t2 on t1.id = t2.student_id
-        where t1.deleted = 0
+        left join sys_user t3 on t1.reference = t3.id
+        where t1.deleted = 0 and t1.status != 3
         <if test="query.getName() !=null and query.getName()!=''">
             and t1.real_name like concat('%',#{query.name},'%')
         </if>
         <if test="query.getGrade() !=null and query.getGrade()!=''">
             and t1.grade = #{query.grade}
         </if>
-        <if test="query.getStatus() !=null ">
-            <if test="query.getStatus() == 2">
-                and (t1.status = 2 or t1.status = 3)
-            </if>
-            <if test="query.getStatus() == 1">
-                and t1.status = 1
-            </if>
-            <if test="query.getStatus() == 4">
-                and t1.status = 4
-            </if>
-        </if>
         <if test="query.getArea() !=null and query.getArea()!=''">
             and t1.area =#{query.area}
-        </if>
-        <if test="query.getPurpose() !=null and query.getPurpose()!=''">
-            and t1.purpose like concat('%',#{query.purpose},'%')
         </if>
         <if test="query.getBeginTime() !=null and query.getBeginTime()!='' and query.getEndTime() !=null and query.getEndTime()!=''">
             and t1.create_time &gt;=#{query.beginTime}  and create_time &lt;=#{query.endTime}
         </if>
-        order by t1.status,t1.create_time desc
+        order by t1.status,t1.update_time desc
     </select>
 
     <update id="save">
@@ -71,9 +58,15 @@
     </update>
 
     <update id="updateStatus">
-        update enroll_user set status = 3 where id = #{id}
+        update enroll_user set status = 3,sys_id = #{newId} where id = #{oldId}
     </update>
 
 
+    <select id="selectEnroll" resultType="long">
+        select id from enroll_user where sys_id = #{id}
+    </select>
+    <select id="getByMobile" resultType="net.edu.module.entity.EnrollEntity">
+        select * from enroll_user where phone = #{phone}
+    </select>
 
 </mapper>

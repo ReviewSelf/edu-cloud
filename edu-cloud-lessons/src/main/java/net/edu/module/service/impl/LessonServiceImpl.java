@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -147,6 +148,19 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         lessonProblemService.copyFromPlanItem(vo.getPlanItemId(), entity.getId());
         //拷贝教学资源，生成课堂资源
         lessonResourceService.copyFromPlanItem(vo.getPlanItemId(), entity.getId());
+    }
+
+
+    @Override
+    public LessonVO getLessonById(Long id) {
+        return baseMapper.selectLessonById(id);
+    }
+
+    @Override
+    public double getLessonHour(Long id) {
+        String lessonMin = baseMapper.getLessonHour(id);
+        double hour = Integer.parseInt(lessonMin)*1.0/ 60;
+        return hour;
     }
 
     @Override
@@ -356,6 +370,11 @@ public class LessonServiceImpl extends BaseServiceImpl<LessonDao, LessonEntity> 
         return new PageResult<>(list.getRecords(), list.getTotal());
     }
 
+    @Override
+    public PageResult<LessonVO> historyHomeworkPage(LessonQuery query) {
+        Page<LessonVO> page = new Page<>(query.getPage(), query.getLimit());
+        IPage<LessonVO> list = baseMapper.selectTeacherHistoryHomeworkPage(page, query);
+        return new PageResult<>(list.getRecords(), list.getTotal());
 
-
+    }
 }

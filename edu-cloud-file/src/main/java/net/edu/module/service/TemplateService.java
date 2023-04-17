@@ -51,6 +51,14 @@ public class TemplateService {
     }
 
     @SneakyThrows
+    public void downloadStudentInfoConfirmExcel(HttpServletResponse response){
+        String path=templatePath+ File.separator+"studentInfoConfirmExcel.xlsx";
+        String name="学生信息核实导入模板文件.xlsx";
+        ResponseHeadUtils.responseEXCELHead(response, name);
+        outputFile(response,path);
+    }
+
+    @SneakyThrows
     public void downloadProblemImportExcel(Integer type, HttpServletResponse response){
         String path=templatePath+ File.separator;
         String name="";

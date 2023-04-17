@@ -11,6 +11,7 @@ import net.edu.module.entity.TeachClassUserEntity;
 import net.edu.module.query.TeachClassUserQuery;
 import net.edu.module.service.TeachClassUserService;
 import net.edu.module.vo.ClassUserRecordVO;
+import net.edu.module.vo.TeachClassUserDataVO;
 import net.edu.module.vo.TeachClassUserVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,9 +66,15 @@ public class TeachClassUserController {
 
     @PostMapping("/insertClassUserOne")
     @Operation(summary = "插班")
-    public Result<String> insertClassUserOne(@RequestBody TeachClassUserVO vo){
-        System.out.println(vo);
+    public Result<String> insertClassUserOne(@RequestBody TeachClassUserDataVO vo){
         teachClassUserService.insertClassUserOne(vo);
+        return Result.ok();
+    }
+
+    @PutMapping("/changeClassUser")
+    @Operation(summary = "换班")
+    public Result<String> changeClassUser(@RequestBody TeachClassUserDataVO vo){
+        teachClassUserService.changeClassUser(vo);
         return Result.ok();
     }
 
@@ -89,8 +96,8 @@ public class TeachClassUserController {
 
     @PutMapping("/quit")
     @Operation(summary = "退班")
-    public Result<String> quitClass(@RequestBody @Valid TeachClassUserVO vo){
-        teachClassUserService.quitClass(vo.getClassId(),vo.getUserId(), vo.getQuitTime());
+    public Result<String> quitClass(@RequestBody @Valid TeachClassUserDataVO vo){
+        teachClassUserService.quitClass(vo);
         return Result.ok();
     }
 

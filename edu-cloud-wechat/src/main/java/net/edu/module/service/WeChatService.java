@@ -16,4 +16,6 @@ public interface WeChatService {
     Object handleMessage(InMessage inMessage);
 
     Object miniLogin(String code);
+
+
 }

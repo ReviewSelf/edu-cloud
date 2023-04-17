@@ -105,5 +105,5 @@ public class UserEntity extends BaseEntity {
     @TableField(exist=false)
     private Integer payingClassNum;
 
-
+    private Long reference;
 }

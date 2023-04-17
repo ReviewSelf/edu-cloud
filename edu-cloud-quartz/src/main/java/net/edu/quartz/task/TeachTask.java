@@ -16,4 +16,9 @@ public class TeachTask {
         eduTeachApi.statisticsHomeInfo();
         log.debug("每日统计操作执行了");
     }
+
+    public void auditionRecordStatusInfo(String str){
+        eduTeachApi.auditionRecordStatusInfo();
+        log.debug("每日统计操作执行了");
+    }
 }

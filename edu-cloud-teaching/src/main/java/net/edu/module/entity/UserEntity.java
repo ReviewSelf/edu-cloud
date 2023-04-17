@@ -17,6 +17,10 @@ public class UserEntity extends BaseEntity {
      */
     private String username;
     /**
+     * 学号
+     */
+    private String stuNumber;
+    /**
      * 密码
      */
     private String password;
@@ -99,6 +103,6 @@ public class UserEntity extends BaseEntity {
     @TableField(exist=false)
     private Integer payingClassNum;
 
-
+    private Long saleId;
 
 }

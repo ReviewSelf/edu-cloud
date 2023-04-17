@@ -7,9 +7,7 @@ import lombok.Data;
  * @date 2022/10/10 - 15:30
  **/
 @Data
-public class WxSignSuccessVO {
-
-
+public class WxSignSuccessVO extends TemplateBaseVo{
 
     /**
      * 学生姓名
@@ -36,15 +34,7 @@ public class WxSignSuccessVO {
      */
     private String lessonLocation;
 
-    /**
-     * 发送时间
-     */
-    private String sendTime;
 
-    /**
-     * 发送用户的id
-     */
-    private Long userId;
 
 
     public String toJsonString() {

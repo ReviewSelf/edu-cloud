@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.UserQuery;
+import net.edu.module.vo.TeachPayVO;
 import net.edu.module.vo.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -35,10 +36,13 @@ public interface UserDao extends BaseDao<UserEntity> {
 
     void insertCadet(UserVO vo);
 
-    List<Integer> selectUserStatus();
+    List<Integer> selectUserStatus(Long id);
 
     String selectStuNumber();
 
+    void returnBack(TeachPayVO vo);
+    void updateUserAfterPay(TeachPayVO vo);
+    List<UserVO> selectSaleName();
 
-    void updateUserAfterPay(Long userId, BigDecimal payment, Integer balance);
+    String getReference(Long reference);
 }

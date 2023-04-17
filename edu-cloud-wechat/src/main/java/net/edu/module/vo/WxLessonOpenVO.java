@@ -7,7 +7,7 @@ import lombok.Data;
  * @date 2022/10/10 - 15:26
  **/
 @Data
-public class WxLessonOpenVO {
+public class WxLessonOpenVO extends TemplateBaseVo{
 
     /**
      * 课程名称
@@ -23,18 +23,6 @@ public class WxLessonOpenVO {
      * 上课地点
      */
     private String lessonLocation;
-
-    /**
-     * 发送时间
-     */
-    private String sendTime;
-
-    /**
-     * 发送用户的id
-     */
-    private Long userId;
-
-
 
 
     public String toJsonString() {

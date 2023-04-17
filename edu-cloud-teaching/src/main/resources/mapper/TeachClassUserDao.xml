@@ -41,11 +41,11 @@
         select user_id from teach_class_user where  class_id = #{classId} and deleted=0 and status=1
     </select>
 
-    <insert id="insertClassUserOne" parameterType="net.edu.module.vo.TeachClassUserVO">
+    <insert id="insertClassUserOne" >
         replace teach_class_user
         (user_id,class_id,join_time)
         VALUES
-        (#{userId},#{classId},now())
+        (#{userId},#{classId},#{joinTime})
     </insert>
 
     <select id="page" resultType="net.edu.module.vo.TeachClassUserVO">

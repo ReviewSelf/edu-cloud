@@ -1,8 +1,8 @@
 package net.edu.framework.common.config;
 
-import net.edu.framework.common.mq.BindingName;
-import net.edu.framework.common.mq.ExchangeName;
-import net.edu.framework.common.mq.QueueName;
+import net.edu.framework.common.page.mq.BindingName;
+import net.edu.framework.common.page.mq.ExchangeName;
+import net.edu.framework.common.page.mq.QueueName;
 import org.springframework.amqp.core.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

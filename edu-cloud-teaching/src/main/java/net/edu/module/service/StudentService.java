@@ -23,7 +23,7 @@ import java.util.List;
  */
 public interface StudentService extends BaseService<UserEntity> {
 
-    PageResult<UserVO> SelectStudentList(UserQuery query);
+    PageResult<UserVO> selectStudentList(UserQuery query);
 
     Long save(UserVO vo);
 
@@ -59,9 +59,6 @@ public interface StudentService extends BaseService<UserEntity> {
 
     PageResult<TeachStudentVO> getStudents(StudentsVO vo);
 
-    void  renewAmountSubmit( Long userId, Integer num ,String remarks);
+    List<TeachStudentVO> getStuByLessonId(Long id);
 
-    void outClassSubmit(Long userId, Long classId, Integer num, String remarks);
-
-    void joinClassSubmit(Long userId, Long classId, Integer num, String remarks);
 }

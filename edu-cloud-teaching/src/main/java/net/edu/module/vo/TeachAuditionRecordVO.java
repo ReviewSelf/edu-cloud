@@ -71,6 +71,9 @@ public class TeachAuditionRecordVO implements Serializable {
 	@Schema(description = "学生情况")
 	private String purpose;
 
+	@Schema(description = "意向等级")
+	private Integer purposeLevel;
+
 	@Schema(description = "试听备注")
 	private String remarks;
 

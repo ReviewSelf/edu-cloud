@@ -7,6 +7,7 @@ import net.edu.framework.common.utils.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
 * 班级用户表
@@ -86,5 +87,8 @@ public class TeachClassUserVO implements Serializable {
 	@Schema(description = "版本")
 	private Integer version;
 
+	private String remarks;
+
+	private List<Long> lessonIdList;
 
 }

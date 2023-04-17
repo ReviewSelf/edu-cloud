@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import net.edu.framework.mybatis.dao.BaseDao;
+import net.edu.module.entity.TeachDestroyedLessonRecordEntity;
 import net.edu.module.entity.UserEntity;
 import net.edu.module.query.TeacherQuery;
 import net.edu.module.query.UserQuery;
@@ -60,4 +61,12 @@ public interface UserDao extends BaseDao<UserEntity> {
     void updateUserAfterPay(Long userId, BigDecimal payment, Integer balance);
 
 	void increaseAmountSubmit(Long userId, Integer num);
+
+	void updateUserClassHours(TeachClassHoursVO vo,Long userId);
+
+    String selectStuNumber();
+
+	List<TeachStudentVO> selectStudentsByLessonId(Long id);
+
+
 }

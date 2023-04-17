@@ -60,4 +60,10 @@ public interface LessonService extends BaseService<LessonEntity> {
     PageResult<LessonVO> selectLessonPage(LessonQuery query);
 
     void createAuditionLessons(LessonVO vo);
+
+    PageResult<LessonVO> historyHomeworkPage(LessonQuery query);
+    LessonVO getLessonById(Long id);
+    double getLessonHour(Long id);
+
+
 }

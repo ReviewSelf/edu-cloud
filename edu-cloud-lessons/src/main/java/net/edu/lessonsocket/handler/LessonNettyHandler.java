@@ -80,11 +80,11 @@ public class LessonNettyHandler extends SimpleChannelInboundHandler<TextWebSocke
         String token = ctx.channel().attr(attributeKey).get();
         //校验token逻辑
         boolean flag = false;
-        System.out.println(token);
+//        System.out.println(token);
         if (StringUtils.isNotBlank(token)) {
             // 获取登录用户信息
             UserDetail user = tokenStoreCache.getUser(token);
-            System.out.println(user);
+//            System.out.println(user);
             if (user != null) {
                 flag = true;
                 //将Token放入当前线程上下文中

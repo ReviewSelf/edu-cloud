@@ -32,7 +32,7 @@ public class UserObserver implements ApplicationListener<LessonMsgEvent> {
         LessonMsg message = JSONUtil.toBean(event.getTextWebSocketFrame().text(), LessonMsg.class);
         ChannelHandlerContext handlerContext = LessonProperties.USER_CHANNEL.get(message.getUserId());
         LessonMsgResult result = new LessonMsgResult<>(LessonProperties.LESSON_USERS.get(message.getLessonId()), LessonMsgResultTypeEnum.USER_DATA.getType());
-        System.out.println(LessonProperties.LESSON_USERS.get(message.getLessonId()));
+       // System.out.println(LessonProperties.LESSON_USERS.get(message.getLessonId()));
         handlerContext.writeAndFlush(new TextWebSocketFrame(JSONUtil.toJsonStr(result)));
     }
 }

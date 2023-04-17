@@ -1,13 +1,13 @@
 spring:
   redis:
     database: 2
-    host: 101.34.86.238
+    host: *.*.*.*
     port: 6379
     password: pwd@123
   rabbitmq:
-    addresses: 101.34.86.238:5672
+    addresses: *.*.*.*:5672
     username: guest
-    password: guest
+    password: 
     publisher-returns: true
     publisher-confirm-type: correlated
     virtual-host: /
@@ -28,7 +28,7 @@ spring:
           initial-interval: 3000
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://101.34.86.238:3306/edu_cloud?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
+    url: jdbc:mysql://*.*.*.*:3306/edu_cloud?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&nullCatalogMeansCurrent=true
     username: root
     password: pwd@123
     hikari:
